@@ -685,7 +685,7 @@ class  Template {
             //支持加载变量文件名
             $templateName = $this->get(substr($templateName,1));
         $array  =   explode(',',$templateName);
-        $parseStr   =   ''; 
+        $parseStr   =   '';
         foreach ($array as $templateName){
             if(empty($templateName)) continue;
             if(false === strpos($templateName,$this->config['template_suffix'])) {
@@ -696,5 +696,5 @@ class  Template {
             $parseStr .= file_get_contents($templateName);
         }
         return $parseStr;
-    }    
+    }
 }
