@@ -4119,7 +4119,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .dropdown-toggle-avatar {
   padding-left: 10px !important;
   padding-right: 10px !important;
-  color: #f00 !important;
+}
+.dropdown-toggle-avatar:hover {
+  color: #48b87a !important;
 }
 .dropdown-toggle-avatar:hover {
   background-color: #f2efef !important;

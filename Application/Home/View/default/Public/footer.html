@@ -1,16 +1,30 @@
 
-    <!-- 底部
-    ================================================== -->
-    <footer class="footer">
-      <div class="container">
-          <p> 本站由 <strong><a href="http://www.onethink.cn" target="_blank">OneThink</a></strong> 强力驱动</p>
-      </div>
-    </footer>
+<!-- 底部
+================================================== -->
+<p style="height: 10em;">&nbsp;</p>
+<div class="footer-jumbotron text-center">
+    <div class="row">
+        <div class="col-md-4">
+            <p>&nbsp;</p>
+            <p>
+                <a href="http://www.ourstu.com/" class="link-reverse">想天软件</a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <p>本站由想天工作室强力驱动</p>
+            <p>@2014 xiangtian Inc. All Rights Reserved</p>
+        </div>
+        <div class="col-md-4">
+            <p>&nbsp;</p>
+            <p>特别鸣谢：<a href="http://www.onethink.cn/" class="link-reverse">OneThink</a></p>
+        </div>
+    </div>
+</div>
 
 <include file="Public/var"/>
 <block name="script"></block> <!-- 用于加载js代码 -->
 <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
 {:hook('pageFooter', 'widget')}
 <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
-	<block name="hidden"></block>
+    <block name="hidden"></block>
 </div>

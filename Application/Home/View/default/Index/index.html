@@ -1,48 +1,198 @@
-<extend name="Base/common"/>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/head"/>
+</head>
+<body>
+<!-- 头部 -->
+<include file="Public/header"/>
+<!-- /头部 -->
 
-<block name="header">
-    <header class="jumbotron subhead" id="overview">
-        <div class="container">
-            <h2>源自相同起点，演绎不同精彩！</h2>
-            <p class="lead"></p>
+<!-- 主体 -->
+<!--顶部Banner-->
+<div class="jumbotron" style="margin-top: -20px;">
+    <div class="container">
+        <p>&nbsp;</p>
+        <div class="row">
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-4">
+                <p>&nbsp;</p>
+                <h2>OnePlus是一种精神</h2>
+                <p class="text-muted" style="font-size: 18px; line-height: 1.75em;">基于OneThink，同步更新，<br/>让Web开发更快速！</p>
+                <p>
+                    <a class="btn btn-primary btn-lg" style="font-size: 1.5em;">
+                        敬请期待
+                        <!--<span class="glyphicon glyphicon-download" style="top: 5px;"></span>-->
+                    </a>
+                </p>
+                <p style="font-size: 14px;">最新版本v0.1</p>
+            </div>
+            <div class="col-md-6">
+                <img src="__PUBLIC__/Home/images/thinksky/index-computer.png" style="width: 100%;"/>
+            </div>
+            <div class="col-md-1">&nbsp;</div>
         </div>
-    </header>
-</block>
 
-<block name="side">
-<!-- 左侧 nav
-================================================== -->
-    <div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
-            {:W('Category/lists', array(1, true))}
-        </ul>
+        <p>&nbsp;</p>
     </div>
-</block>
+</div>
 
-<block name="body">
-    <div class="span9">
-        <!-- Contents
-        ================================================== -->
-        <section id="contents">
-            <article:list name="article" category="1" child="true">
-                <div class="">
-                    <h3><a href="{:U('Article/detail?id='.$article['id'])}">{$article.title}</a></h3>
-                </div>
-                <div>
-                    <p class="lead">{$article.description}</p>
-                </div>
-                <div>
-                    <span><a href="{:U('Article/detail?id='.$article['id'])}">查看全文</a></span>
-                    <span class="pull-right">
-                        <span class="author">{$article.uid|get_username}</span>
-                        <span>于 {$article.create_time|date='Y-m-d H:i',###}</span> 发表在 <span>
-                        <a href="{:U('Article/lists?category='.get_category_name($article['category_id']))}">{$article.category_id|get_category_title}</a></span> ( 阅读：{$article.view} )
-                    </span>
-                </div>
-                <hr/>
-            </article:list>
-
-        </section>
-    </div>
+<!--特性介绍-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p>&nbsp;</p>
+            <h2 class="text-center">什么是OnePlus？</h2>
+            <p>&nbsp;</p>
         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="index-feature-div">
+                    <img src="__PUBLIC__/Home/images/thinksky/index-icon-hand.png"/>
+                </div>
+            </div>
+            <h3 class="index-feature-title">强化的用户中心</h3>
+            <h4 class="index-feature-text">
+                基于OneThink的强力扩展，<br/>
+                不断丰富的用户中心，<br/>
+                同步合并，紧跟OT脚步。
+            </h4>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="index-feature-div">
+                    <img src="__PUBLIC__/Home/images/thinksky/index-icon-cloud.png"/>
+                </div>
+            </div>
+            <h3 class="index-feature-title">云端部署</h3>
+            <h4 class="index-feature-text">
+                通过驱动的方式可以轻松支持云<br/>
+                平台的部署，让你的网站无缝迁移，
+                内置已经支持SAE。
+            </h4>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <div class="index-feature-div">
+                    <img src="__PUBLIC__/Home/images/thinksky/index-icon-shield.png"/>
+                </div>
+            </div>
+            <h3 class="index-feature-title">安全可靠</h3>
+            <h4 class="index-feature-text">
+                提供的稳健的安全策略，包括备份恢复，容错，防止恶意攻击登陆，网页防篡改等多项安全管理功能，保证系统安全，可靠，稳定的运行。
+            </h4>
+        </div>
+    </div>
+</div>
+
+<!--翻屏按钮-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p style="height: 8em;">&nbsp;</p>
+            <hr class="index-screen-hr"/>
+            <div class="text-center">
+                <div class="index-screen-button" id="turn-screen">&#x25BC;</div>
+            </div>
+            <p style="height: 8em;">&nbsp;</p>
+        </div>
+    </div>
+</div>
+
+<!--特性介绍-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table style="width: 100%;" class="index-feature-table">
+                <tbody>
+                <tr>
+                    <td rowspan="2" style="width: 33.3333333333%">
+                        <ul><li>
+                            <div class="index-feature-text2">
+                                <span>头像插件<br/>允许用户上传自己的头像</span>
+                            </div>
+                            <img class="index-feature-img" src="__PUBLIC__/Home/images/thinksky/index-feature-avatar.png"/>
+                        </li></ul>
+                    </td>
+                    <td style="width: 16.666666666666%">
+                        <ul><li>
+                            <div class="index-feature-text2">
+                                <span>升级至最新<br/>Bootstrap</span>
+                            </div>
+                            <img class="index-feature-img" src="__PUBLIC__/Home/images/thinksky/index-feature-bootstrap.png"/>
+                        </li></ul>
+                    </td>
+                    <td rowspan="3">
+                        <ul><li>
+                            <div class="index-feature-text2">
+                                <span>前台个人中心</span>
+                            </div>
+                            <img class="index-feature-img" src="__PUBLIC__/Home/images/thinksky/index-feature-oneuser.png"/>
+                        </li></ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul><li>
+                            <div class="index-feature-text2">
+                                <span>讨论区</span>
+                            </div>
+                            <img class="index-feature-img" style="" src="__PUBLIC__/Home/images/thinksky/index-feature-forum.png"/>
+                        </li></ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <ul><li>
+                            <div class="index-feature-text2">
+                                <span>本地评论功能</span>
+                            </div>
+                            <img class="index-feature-img" src="__PUBLIC__/Home/images/thinksky/index-feature-comment.png"/>
+                        </li></ul>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- /主体 -->
+
+<!-- 底部 -->
+<include file="Public/footer"/>
+<!-- /底部 -->
+</body>
+</html>
+
+<block name="script">
+    <script>
+        //实现翻屏按钮
+        $(function(){
+            $('#turn-screen').click(function(){
+                var screen = $('html,body');
+                screen.animate({scrollTop: $(this).offset().top + $(this).parent().height() + 20})
+            })
+        })
+
+        //鼠标移动到特性介绍图片的时候显示文字
+        $('.index-feature-table ul li').mouseenter(function(){
+            var image= $(this).find('img');
+            var caption = $(this).find('div');
+
+            caption.width(image.width());
+            caption.height(image.height());
+            caption.animate({opacity: 1});
+        }).mouseleave(function(){
+            var image= $(this).find('img');
+            var caption = $(this).find('div');
+
+            caption.width(image.width());
+            caption.height(image.height());
+            caption.animate({opacity: 0});
+        });
+    </script>
 </block>
