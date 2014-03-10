@@ -35,15 +35,15 @@
                         <ul class="dropdown-menu">
                             <li><a href="{:U('Home/OneUser/index')}">个人中心</a></li>
                             <li><a href="{:U('Home/OneUser/changepassword')}">修改密码</a></li>
-                            <li><a href="{:U('User/logout')}">退出</a></li>
+                            <li><a href="{:U('Home/User/logout')}">退出</a></li>
                         </ul>
                     </li>
                     <else/>
                     <li>
-                        <a href="{:U('User/login')}">登录</a>
+                        <a href="{:U('Home/User/login')}">登录</a>
                     </li>
                     <li>
-                        <a href="{:U('User/register')}">注册</a>
+                        <a href="{:U('Home/User/register')}">注册</a>
                     </li>
                 </if>
             </ul>

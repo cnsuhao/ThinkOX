@@ -4198,7 +4198,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus {
-  color: #428bca;
+  color: #48b87a;
   background-color: #eeeeee;
   border-color: #dddddd;
 }
@@ -4210,8 +4210,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination > .active > span:focus {
   z-index: 2;
   color: #ffffff;
-  background-color: #428bca;
-  border-color: #428bca;
+  background-color: #48b87a;
+  border-color: #48b87a;
   cursor: default;
 }
 .pagination > .disabled > span,

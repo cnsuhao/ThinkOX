@@ -1,0 +1,116 @@
+<extend name="Public/forum"/>
+
+<block name="body">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>
+                <if condition="$post">
+                    编辑帖子
+                    <else/>
+                    发表新帖
+                </if>
+            </h4>
+            <hr/>
+            <section id="contents">
+                <form action="{:U('Forum/Index/doEdit')}" method="post" id="edit-article-form">
+                    <input type="hidden" name="post_id" value="{$post.id}"/>
+                    <div class="row">
+                        <!-- 帖子分类 -->
+                        <div class="col-md-2">
+                            <p>
+                                <select class="form-control" name="forum_id">
+                                    <option value="1" selected="selected">默认分类</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="col-md-10">
+                            <p>
+                                <input type="text" name="title" placeholder="标题" value="{$post.title}" class="form-control"/>
+                            </p>
+                        </div>
+                    </div>
+                    <p>
+                        <textarea name="content" class="form-control" placeholder="说点什么吧～" style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>
+                        {:hook('documentEditFormContent',array('name'=>'content','value'=>htmlspecialchars($post['content'])))}
+                    </p>
+                    <p>&nbsp;</p>
+                    <p class="pull-right">
+                        <button type="submit" class="btn btn-large btn-primary" id="submit-button">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            <if condition="$post">
+                                编辑
+                                <else/>
+                                发表
+                            </if>
+                        </button>
+                    </p>
+                    <p>
+                        <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>1))}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            返回帖子列表
+                        </a>
+                    </p>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+        </div>
+        <div class="col-md-3">
+
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        //点击编辑或发表按钮之后
+        $(function(){
+            var submitCount = 0;
+            $('#edit-article-form').submit(function(e){
+                //为了得到编辑器中的内容，触发两次提交事件
+                if(submitCount == 0) {
+                    submitCount = 1;
+                    $('#edit-article-form').trigger('submit');
+                    e.preventDefault();
+                    return false;
+                } else {
+                    submitCount = 0;
+                }
+                //显示正在提交
+                showSubmitting();
+                //获取用户输入的内容
+                var postData = $(this).serialize();
+                var action = $(this).attr('action');
+                $.post(action, postData, function(e){
+                    if(e.status) {
+                        showSubmitSuccess(e.info, e.url);
+                    } else {
+                        showSubmitError(e.info);
+                    }
+                });
+                //停止提交
+                e.preventDefault();
+                return false;
+            });
+
+            function showSubmitError(message) {
+                $('#submit-button').removeClass('disabled');
+                $('#submit-button').text(message).addClass('btn-danger').removeClass('btn-primary');
+            }
+
+            function showSubmitSuccess(message, url) {
+                $('#submit-button').text(message);
+                setTimeout(function(){
+                    location.href = url;
+                },500);
+            }
+
+            function showSubmitting() {
+                $('#submit-button').attr('class','btn btn-primary disabled').text('正在提交');
+            }
+        })
+    </script>
+</block>

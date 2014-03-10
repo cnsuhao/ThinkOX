@@ -22,11 +22,11 @@ const ONETHINK_ADDON_PATH = './Addons/';
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function is_login(){
-    $user = session('user_auth');
+    $user = $_SESSION['onethink_home']['user_auth'];
     if (empty($user)) {
         return 0;
     } else {
-        return session('user_auth_sign') == data_auth_sign($user) ? $user['uid'] : 0;
+        return $_SESSION['onethink_home']['user_auth_sign'] == data_auth_sign($user) ? $user['uid'] : 0;
     }
 }
 
@@ -385,7 +385,7 @@ function time_format($time = NULL,$format='Y-m-d H:i'){
 function get_username($uid = 0){
     static $list;
     if(!($uid && is_numeric($uid))){ //获取当前登录用户名
-        return session('user_auth.username');
+        return $_SESSION['onethink_home']['user_auth']['username'];
     }
 
     /* 获取缓存数据 */
@@ -950,3 +950,39 @@ function get_stemma($pids,Model &$model, $field='id'){
     }
     return $collection;
 }
+
+/**
+ * 获取导航URL
+ * @param  string $url 导航URL
+ * @return string      解析或的url
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function get_nav_url($url){
+    switch ($url) {
+        case 'http://' === substr($url, 0, 7):
+        case '#' === substr($url, 0, 1):
+            break;
+        default:
+            $url = U($url);
+            break;
+    }
+    return $url;
+}
+
+/**
+ * 获取列表总行数
+ * @param  string  $category 分类ID
+ * @param  integer $status   数据状态
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function get_list_count($category, $status = 1){
+    static $count;
+    if(!isset($count[$category])){
+        $count[$category] = D('Document')->listCount($category, $status);
+    }
+    return $count[$category];
+}
+
+require_once('pagination.php');
+require_once('query_user.php');
+require_once('thumb.php');

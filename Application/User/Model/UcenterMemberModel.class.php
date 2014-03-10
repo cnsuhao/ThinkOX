@@ -8,6 +8,9 @@
 // +----------------------------------------------------------------------
 namespace User\Model;
 use Think\Model;
+
+require_once('./Application/User/Conf/config.php');
+
 /**
  * 会员模型
  */

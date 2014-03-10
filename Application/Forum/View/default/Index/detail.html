@@ -1,0 +1,141 @@
+<extend name="Public/forum"/>
+
+<block name="body">
+    <php>
+        $user = query_user(array('avatar128','uid','username'));
+    </php>
+    <div class="row">
+        <div class="col-md-9">
+            <h4>{$post.title|htmlspecialchars}</h4>
+        </div>
+        <div class="col-md-3">
+            <p class="pull-right">
+                <if condition="$post['uid']==$user['uid']">
+                    <p class="pull-right">
+                        <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
+                        <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
+                    </p>
+                </if>
+            </p>
+        </div>
+    </div>
+
+    <hr/>
+
+    <if condition="$showMainPost">
+        <div class="row">
+            <div class="col-md-2">
+                <p>
+                    <img src="{$user.avatar128}" class="avatar-img"/>
+                </p>
+                <p class="text-center">
+                    <a href="#">{$user.username|htmlspecialchars}</a>
+                </p>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-9">
+                <div style="min-height: 10em;">
+                    {$post.content}
+                    <br/>
+                    <if condition="$post['create_time'] != $post['update_time']">
+                        <p class="text-muted">
+                            [ 于 {$post['update_time']|time_format} 编辑 ]
+                        </p>
+                    </if>
+                </div>
+                <p class="pull-right text-muted">
+                    发表于 {$post.create_time|time_format}
+                </p>
+            </div>
+        </div>
+
+        <hr/>
+    </if>
+
+    <volist name="replyList" id="reply">
+        <php>
+            $user = query_user(array('avatar128','username'), $reply['uid']);
+        </php>
+        <div class="row">
+            <div class="col-md-2">
+                <p class="text-center">
+                    <img src="{$user.avatar128}" class="avatar-img"/>
+                </p>
+                <p class="text-center">
+                    <a href="#">{$user.username}</a>
+                </p>
+            </div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-9">
+                <div style="min-height: 10em;">
+                    {$reply.content}
+                    <br/>
+                </div>
+                <p class="pull-right text-muted">
+                    发表于 {$reply.create_time|time_format}
+                </p>
+            </div>
+        </div>
+        <hr/>
+    </volist>
+
+    <div class="row">
+        <div class="col-md-12">
+            <pull class="pull-right">
+                {:getPagination($replyTotalCount)}
+            </pull>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="row">
+        <div class="col-md-3">
+            &nbsp;
+        </div>
+        <div class="col-md-9">
+            <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}">
+                <h4>发表回复</h4>
+                <p>
+                    <textarea name="reply_content" placeholder="说点什么吧～" class="form-control" style="height: 6em;"></textarea>
+                    {:hook('documentEditFormContent',array('name'=>'reply_content'))}
+                </p>
+                <p class="pull-right">
+                    <input type="submit" id="reply_button" class="btn btn-primary" value="发表"/>
+                </p>
+            </form>
+        </div>
+    </div>
+
+</block>
+
+<block name="script">
+    <script>
+        $(function(){
+            $('#reply_form').submit(function(e){
+                //获取评论内容
+                var content = $('[name=reply_content]').val();
+                var action = $('#reply_form').attr('action');
+
+                //提交到服务器
+                var replyButton = $('#reply_button');
+                replyButton.attr('class','btn btn-primary disabled');
+                replyButton.val('正在发表...');
+                $.post(action, {content: content}, function(a){
+                    if(a.status) {
+                        location.href = location.href;
+                    } else {
+                        replyButton.val(a.info);
+                        replyButton.attr('class', 'btn btn-danger');
+                    }
+                });
+
+                //取消默认操作
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+</block>
