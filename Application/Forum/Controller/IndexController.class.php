@@ -49,7 +49,11 @@ class IndexController extends Controller {
             $showMainPost = false;
         }
 
+        //判断是否已经收藏
+        $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
+
         //显示页面
+        $this->assign('isBookmark', $isBookmark);
         $this->assign('forum_id', $post['forum_id']);
         $this->assign('post', $post);
         $this->assign('replyList', $replyList);
@@ -132,6 +136,31 @@ class IndexController extends Controller {
         }
         //显示成功消息
         $this->success('回复成功');
+    }
+
+    public function doBookmark($post_id, $add=true) {
+        //确认用户已经登录
+        $this->requireLogin();
+
+        //写入数据库
+        if($add) {
+            $result = D('ForumBookmark')->addBookmark(is_login(), $post_id);
+            if(!$result) {
+                $this->error('收藏失败');
+            }
+        } else {
+            $result = D('ForumBookmark')->removeBookmark(is_login(), $post_id);
+            if(!$result) {
+                $this->error('取消失败');
+            }
+        }
+
+        //返回成功消息
+        if($add) {
+            $this->success('收藏成功');
+        } else {
+            $this->success('取消成功');
+        }
     }
 
     private function requireLogin() {

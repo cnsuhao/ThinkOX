@@ -1,4 +1,4 @@
-<extend name="Base/oneuser"/>
+<extend name="Public/usercenter"/>
 
 <block name="body">
     <div class="row">
@@ -16,19 +16,16 @@
         </div>
     </div>
 
-    <volist name="list" id="bookmark">
-        <php>
-            $document = $bookmark['document'];
-        </php>
+    <volist name="list" id="document">
         <div class="row">
             <div class="col-md-12">
                 <p class="pull-right">
-                    <a class="link-danger" href="{:U('Home/OneUser/unbookmark',array('favorite_id'=>$bookmark['favorite_id']))}">取消收藏</a>
+                    <a class="link-danger" href="{:U('Forum/Index/doBookmark?add=0',array('post_id'=>$document['id']))}">取消收藏</a>
                 </p>
                 <p>
-                    <a class="link-black" href="{:U('Home/Article/detail',array('id'=>$document['document_id']))}">{$document.title|htmlspecialchars}</a>
+                    <a class="link-black" href="{:U('Forum/Index/detail',array('id'=>$document['id']))}">{$document.title|htmlspecialchars}</a>
                 </p>
-                <p class="pull-right text-muted">阅读（{$document.view_count}）<span style="display: inline-block; width: 2em;">&nbsp;</span>回复（{$document.comment_count}）</p>
+                <p class="pull-right text-muted">阅读（{$document.view_count}）<span style="display: inline-block; width: 2em;">&nbsp;</span>回复（{$document.reply_count}）</p>
                 <p class="text-muted">{$document.create_time|time_format}</p>
             </div>
         </div>
@@ -41,38 +38,5 @@
                 {:getPagination($totalCount)}
             </div>
         </div>
-    </div>
-</block>
-
-<block name="bod2y">
-    <div class="row row-offcanvas row-offcanvas-right ">
-        <div class="span9 main-block" >
-            <div id="my_collect_list" class="table-responsive" style="border-top:5px solid #41b6d3">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-
-                        <th class="th-col-2">标题</th>
-                        <th class="th-col-4">阅读/回复</th>
-                        <th class="th-col-6">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <volist name="list" id="bookmark">
-                        <tr>
-                            <td>
-                                <a href="{:U('Home/Article/detail',array('id'=>$bookmark['document']['document_id']))}" >{$bookmark.document.content|htmlspecialchars}</a>
-                                <span class="ot_pith_item"></span>
-                            </td>
-                            <td class="th-col-4">{$bookmark.document.view_count}/{$bookmark.document.comment_count} </td>
-                            <td class="ot-bookmark"><a href="{:U('Home/OneUser/unbookmark',array('favorite_id'=>$bookmark['favorite_id']))}">取消收藏</a></td>
-                        </tr>
-                    </volist>
-                    </tbody>
-                </table>
-                {:getPagination($totalCount)}
-            </div>
-        </div>
-
     </div>
 </block>

@@ -41,8 +41,9 @@
                 array('账户安全'),
                 array('修改密码','lock',U('UserCenter/Index/changepassword'),'change-password'),
                 array('讨论区'),
-                array($call.'的主题','book',U('UserCenter/Forum/myTopic'),'my-topic'),
-                array($call.'的参与','comment',U('UserCenter/Forum/myTakePartIn'),'my-take-part-in'),
+                array('我的主题','book',U('UserCenter/Forum/myTopic'),'my-topic'),
+                array('我的参与','comment',U('UserCenter/Forum/myTakePartIn'),'my-take-part-in'),
+                array('我的收藏','star',U('UserCenter/Forum/myBookmark'),'my-bookmark'),
                 );
                 } else {
                 $oneuser_navbar_items = array(

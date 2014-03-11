@@ -63,4 +63,30 @@ class ForumController extends BaseController {
         $this->assign('call', $call);
         $this->display();
     }
+
+    public function myBookmark($page=1) {
+        //要求已经登录
+        $this->requireLogin();
+
+        //获取自己的UID
+        $uid = is_login();
+
+        //读取数据库获取已经收藏的帖子
+        $map = array('uid'=>$uid);
+        $model = D('ForumBookmark');
+        $list = $model->where($map)->order('create_time desc')->page($page)->select();
+        $totalCount = $model->where($map)->count();
+
+        //读取帖子的详情
+        foreach($list as &$e) {
+            $e = D('ForumPost')->where(array('id'=>$e['post_id']))->find();
+        }
+
+        //显示页面
+        $this->defaultTabHash('my-bookmark');
+        $this->assign('totalCount', $totalCount);
+        $this->assign('list', $list);
+        $this->assign('call', $this->getCall($uid));
+        $this->display();
+    }
 }

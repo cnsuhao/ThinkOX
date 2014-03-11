@@ -5,18 +5,28 @@
         $user = query_user(array('avatar128','uid','username'));
     </php>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <h4>{$post.title|htmlspecialchars}</h4>
         </div>
-        <div class="col-md-3">
-            <p class="pull-right">
-                <if condition="$post['uid']==$user['uid']">
-                    <p class="pull-right">
-                        <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
-                        <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
-                    </p>
-                </if>
-            </p>
+        <div class="col-md-4">
+            <if condition="$post['uid']==$user['uid']">
+                <p class="pull-right text-right">
+                    <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
+                    <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
+
+                    <php>
+                        $hideStyle = 'display: none;';
+                        $bookmarkStyle = $isBookmark ? $hideStyle : '';
+                        $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
+                    </php>
+                    <span style="{$unbookmarkStyle}" id="unbookmark_button">
+                        <a class="btn btn-default" href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">取消收藏</a>&nbsp;
+                    </span>
+                    <span style="{$bookmarkStyle}" id="bookmark_button">
+                        <a class="btn btn-default" href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}">收藏</a>&nbsp;
+                    </span>
+                </p>
+            </if>
         </div>
     </div>
 
@@ -137,5 +147,40 @@
                 return false;
             });
         });
+
+        //点击收藏/取消收藏按钮
+        $(function(){
+            $('#bookmark_button a, #unbookmark_button a').click(function(e){
+                //发送AJAX请求
+                var button = $(this);
+                var href = button.attr('href');
+                var originalClass = $(this).attr('class');
+                button.attr('class', 'btn btn-default disabled');
+                $.post(href, {}, function(a){
+                    button.attr('class', originalClass);
+                    if(a.status) {
+                        switchButtonVisibility();
+                    }
+                });
+
+                //取消默认操作
+                e.preventDefault();
+                return false;
+            });
+
+            function switchButtonVisibility() {
+                switchVisibility('#bookmark_button');
+                switchVisibility('#unbookmark_button');
+            }
+
+            function switchVisibility(css) {
+                var element = $(css);
+                if(element.is(':visible')) {
+                    element.hide();
+                } else {
+                    element.show();
+                }
+            }
+        })
     </script>
 </block>
