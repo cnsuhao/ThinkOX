@@ -11,7 +11,7 @@ use Think\Controller;
 
 class IndexController extends Controller {
     public function index($page=1) {
-        redirect(U('forum?id=1',array('page'=>$paeg)));
+        redirect(U('forum?id=1',array('page'=>$page)));
     }
 
     public function forum($id, $page=1) {
@@ -50,6 +50,7 @@ class IndexController extends Controller {
         }
 
         //显示页面
+        $this->assign('forum_id', $post['forum_id']);
         $this->assign('post', $post);
         $this->assign('replyList', $replyList);
         $this->assign('replyTotalCount', $replyTotalCount);
@@ -77,8 +78,14 @@ class IndexController extends Controller {
         if($forum_id) {
             $this->requireForumAllowPublish($forum_id);
         }
+
+        //获取贴吧编号
+        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
+
         //显示页面
+        $this->assign('forum_id', $forum_id);
         $this->assign('post', $post);
+        $this->assign('isEdit', $isEdit);
         $this->display();
     }
 

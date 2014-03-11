@@ -17,6 +17,6 @@ class ForumModel extends Model {
     protected $_auto = array(
         array('post_count', '0', self::MODEL_INSERT),
         array('create_time', NOW_TIME, self::MODEL_INSERT),
-        array('status', 'getStatus', self::MODEL_INSERT, 'callback'),
+        array('status', '1', self::MODEL_INSERT),
     );
 }

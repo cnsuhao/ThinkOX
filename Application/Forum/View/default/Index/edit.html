@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <h4>
-                <if condition="$post">
+                <if condition="$isEdit">
                     编辑帖子
                     <else/>
                     发表新帖
@@ -37,7 +37,7 @@
                     <p class="pull-right">
                         <button type="submit" class="btn btn-large btn-primary" id="submit-button">
                             <span class="glyphicon glyphicon-edit"></span>
-                            <if condition="$post">
+                            <if condition="$isEdit">
                                 编辑
                                 <else/>
                                 发表

@@ -257,7 +257,7 @@ class UcenterMemberModel extends Model{
 	 * @return true 验证成功，false 验证失败
 	 * @author huajie <banhuajie@163.com>
 	 */
-	protected function verifyUser($uid, $password_in){
+	public function verifyUser($uid, $password_in){
 		$password = $this->getFieldById($uid, 'password');
 		if(think_ucenter_md5($password_in, UC_AUTH_KEY) === $password){
 			return true;

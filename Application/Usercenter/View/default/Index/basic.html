@@ -1,0 +1,36 @@
+<extend name="Public/usercenter"/>
+
+<block name="body">
+    <div class="row">
+        <div class="col-md-12">
+            <p>&nbsp;</p>
+            <h4>基本资料</h4>
+            <hr class="oneuser-title-hr"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 text-muted">
+            <p><span class="text-muted">用户名：</span> {$user.username|htmlspecialchars}</p>
+            <p><span class="text-muted">邮箱：</span> {$user.email|htmlspecialchars}</p>
+            <p><span class="text-muted">最近登录：</span> {$user.last_login_time|time_format}</p>
+            <p><span class="text-muted">最近登录IP：</span> {$user.last_login_ip|long2ip}</p>
+            <p><span class="text-muted">注册时间：</span> {$user.reg_time|time_format}</p>
+            <p><span class="text-muted">手机：</span> {$user.mobile|htmlspecialchars}
+                <if condition="$user['mobile']">
+                    <a href="{:U('UserCenter/Index/unbindMobile')}">解除绑定</a>
+                    <else/>
+                    <a href="{:U('UserCenter/Index/bindMobile')}">立即绑定</a>
+                </if>
+            </p>
+            <p><span class="text-muted">积分：</span> {$user.score}</p>
+            <p><span class="text-muted">头衔：</span> {$user.title|htmlspecialchars}</p>
+        </div>
+        <div class="col-md-4">
+            <img class="avatar-img" src="{$user.avatar256}"/>
+        </div>
+        <div class="col-md-2">
+            &nbsp;
+        </div>
+    </div>
+</block>

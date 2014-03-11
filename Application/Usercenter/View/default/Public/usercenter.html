@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/head"/>
+</head>
+<body>
+<!-- 头部 -->
+<include file="Public/header"/>
+<!-- /头部 -->
+
+<!-- 主体 -->
+<block name="header">
+<div id="main-container" class="container">
+    <table style="width: 100%;">
+        <tbody>
+        <tr>
+            <td style="width: 20%; vertical-align: top; background-color: #ededed;">
+                <include file="Public/sidebar"/>
+            </td>
+            <td style="width: 80%; background-color: #fff; vertical-align: top; padding-left: 50px; padding-right: 50px;">
+                <div class="container-fluid">
+                    <block name="body"></block>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $(window).resize(function(){
+            $("#main-container").css("min-height", $(window).height() - 343);
+        }).resize();
+    })
+</script>
+</block>
+<!-- /主体 -->
+
+<!-- 底部 -->
+<include file="Public/footer"/>
+<!-- /底部 -->
+</body>
+</html>

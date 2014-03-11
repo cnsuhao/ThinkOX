@@ -22,6 +22,8 @@ function query_user($fields, $uid=null) {
     //分析每个表格分别要读取哪些字段
     $avatarFields = array('avatar32','avatar64','avatar128','avatar256','avatar512');
     $avatarFields = array_intersect($avatarFields, $fields);
+    $titleFields = array('title');
+    $titleFields = array_intersect($titleFields, $fields);
     $homeFields = array_intersect($homeFields, $fields);
     $ucenterFields = array_intersect($ucenterFields, $fields);
 
@@ -46,6 +48,14 @@ function query_user($fields, $uid=null) {
         $avatarResult[$e] = $avatarUrl;
     }
 
+    //读取头衔数据
+    $titleResult = array();
+    if($titleFields) {
+        $titleModel = D('UserCenter/Title');
+        $title = $titleModel->getTitle();
+        $titleResult['title'] = $title;
+    }
+
     //返回合并的结果
-    return array_merge($ucenterResult, $homeResult, $avatarResult);
+    return array_merge($ucenterResult, $homeResult, $avatarResult, $titleResult);
 }

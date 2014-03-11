@@ -1,0 +1,76 @@
+<php>
+    $sideBarUser = query_user(array('username', 'uid', 'title', 'score', 'avatar128'), $uid);
+    $call = $call ? $call : '我';
+</php>
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <p>&nbsp;</p>
+            <!--头像-->
+            <p class="text-center">
+            <if condition="$uid == is_login()">
+                <a href="{:U('UserCenter/Index/changeAvatar')}">
+                    <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
+                </a>
+                <else/>
+                <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
+            </if>
+            </p>
+            <!--用户名-->
+            <p class="text-center">
+                {$sideBarUser.username|htmlspecialchars}
+            </p>
+            <!--积分 头衔-->
+            <p class="text-center text-muted">
+                积分：{$sideBarUser.score}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                头衔：{$sideBarUser.title}
+            </p>
+            <p>&nbsp;</p>
+            <!--导航栏-->
+            <php>
+                //各列字段的含义分别是：标签名称，图标，链接，tabHash
+                if($uid==is_login()) {
+                $oneuser_navbar_items = array(
+                array('个人设置'),
+                array('基本资料','list-alt',U('UserCenter/Index/index'),'index'),
+                array('修改头像','user',U('UserCenter/Index/changeavatar'),'change-avatar'),
+                array('修改邮箱','envelope',U('UserCenter/Index/changeemail'),'change-email'),
+                array('修改个性签名','edit',U('UserCenter/Index/changesignature'),'change-signature'),
+                array('账户安全'),
+                array('修改密码','lock',U('UserCenter/Index/changepassword'),'change-password'),
+                array('讨论区'),
+                array($call.'的主题','book',U('UserCenter/Forum/myTopic'),'my-topic'),
+                array($call.'的参与','comment',U('UserCenter/Forum/myTakePartIn'),'my-take-part-in'),
+                );
+                } else {
+                $oneuser_navbar_items = array(
+                array('讨论区'),
+                array($call.'的主题','book',U('UserCenter/Forum/myTopic',array('uid'=>$uid)),'my-topic'),
+                array($call.'的参与','comment',U('/UserCenter/Forum/myTakePartIn',array('uid'=>$uid)),'my-take-part-in'),
+                );
+                }
+            </php>
+            <ul class="nav nav-pills nav-stacked">
+                <volist name="oneuser_navbar_items" id="item">
+                    <if condition="!$item[2]">
+                        <li class="nav-title">
+                            <a>{$item[0]}</a>
+                        </li>
+                        <else/>
+                        <php>
+                            $activeClass = $tabHash == $item[3] ? 'active' : '';
+                        </php>
+                        <li class="{$activeClass}">
+                            <a href="{$item[2]}">
+                                {$item[0]}
+                                <span class="glyphicon glyphicon-{$item[1]} pull-right"></span>
+                            </a>
+                        </li>
+                    </if>
+                </volist>
+            </ul>
+        </div>
+    </div>
+</div>

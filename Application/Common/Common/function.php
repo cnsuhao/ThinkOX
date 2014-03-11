@@ -986,3 +986,4 @@ function get_list_count($category, $status = 1){
 require_once('pagination.php');
 require_once('query_user.php');
 require_once('thumb.php');
+require_once('api.php');
