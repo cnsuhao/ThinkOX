@@ -1,0 +1,206 @@
+<extend name="Base/common"/>
+
+<block name="side">
+
+</block>
+
+<block name="body">
+    <php>
+        $user = query_user(array('avatar128','username','uid'));
+    </php>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-8" style="background-color: #fff;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br/>
+                        <p>记录，就是一种态度！</p>
+                        <p><textarea class="form-control" id="weibo_content" style="height: 6em;" placeholder="写点什么吧～～"></textarea></p>
+                        <p class="pull-right"><input type="submit" value="发表" id="send_weibo_button" class="btn btn-primary" data-url="{:U('doSend')}"/></p>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div id="weibo_list">
+                    <include file="loadWeibo"/>
+                </div>
+                <div id="load_more" class="text-center text-muted">
+                    <p id="load_more_text">载入更多</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        $(function(){
+            var noMoreNextPage = false;
+            var isLoadingWeibo = false;
+            var currentPage = 1;
+
+            //点击发表微博按钮之后
+            $('#send_weibo_button').click(function(){
+                //获取参数
+                var url = $(this).attr('data-url');
+                var content = $('#weibo_content').val();
+                var button = $(this);
+
+                //发送到服务器
+                button.attr('class','btn btn-primary disabled');
+                button.val('正在发表...');
+                $.post(url, {content: content}, function(a){
+                    if(a.status) {
+                        button.attr('class','btn btn-primary');
+                        button.val('发表');
+                        reloadWeiboList();
+                        clearWeibo();
+                    } else {
+                        button.attr('class','btn btn-danger');
+                        button.val(a.info);
+                    }
+                });
+            });
+
+            //当屏幕滚动到底部时
+            $(window).scroll(function(){
+                if(noMoreNextPage) {
+                    return;
+                }
+                if(isLoadingWeibo) {
+                    return;
+                }
+                if(isLoadMoreVisible()) {
+                    loadNextPage();
+                }
+            });
+            $(window).trigger('scroll');
+
+            //点击评论之后载入评论
+            $(document).on('click','.weibo-comment-link',function(e){
+                var weibo_id = $(this).attr('data-weibo-id');
+                var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
+                if(weiboCommentList.is(':visible')) {
+                    hideWeiboCommentList(weiboCommentList);
+                } else {
+                    showWeiboCommentList(weiboCommentList);
+                }
+
+                //取消默认动作
+                e.preventDefault();
+                return false;
+            });
+
+            //点击评论按钮后提交评论
+            $(document).on('click', '.weibo-comment-commit', function(){
+                var weiboId = $(this).attr('data-weibo-id');
+                var weibo = $('#weibo_'+weiboId);
+                var content = $('.weibo-comment-content', weibo).val();
+                var url = "{:U('doComment')}";
+                var commitButton = $('.weibo-comment-commit', weibo);
+                var weiboCommentList = $('.weibo-comment-list', weibo);
+                commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
+                $.post(url, {weibo_id:weiboId,content:content}, function(a){
+                    if(a.status) {
+                        reloadWeiboCommentList(weiboCommentList);
+                    } else {
+                        commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
+                    }
+                });
+            });
+
+            function isLoadMoreVisible() {
+                var visibleHeight = $(window.top).height();
+                var loadMoreOffset = $('#load_more').offset();
+                return visibleHeight + window.scrollY > loadMoreOffset.top;
+            }
+
+            function loadNextPage() {
+                currentPage = currentPage + 1;
+                loadWeiboList(currentPage);
+            }
+
+            function reloadWeiboList() {
+                loadWeiboList(1, function(){
+                    clearWeiboList();
+                    currentPage = 1;
+                });
+            }
+
+            function clearWeibo() {
+                $('#weibo_content').val('');
+            }
+
+            function loadWeiboList(page,onBeforePrepend) {
+                //默认载入第1页
+                if(page == undefined) {
+                    page = 1;
+                }
+
+                //通过服务器载入微博列表
+                var url = "{:U('loadWeibo')}";
+                isLoadingWeibo = true;
+                $('#load_more_text').text('正在载入...');
+                $.post(url, {page:page}, function(a){
+                    if(a.status == 0) {
+                        noMoreNextPage = true;
+                        $('#load_more_text').text('没有了');
+                    }
+                    if(onBeforePrepend != undefined) {
+                        onBeforePrepend();
+                    }
+                    $('#weibo_list').append(a);
+                    isLoadingWeibo = false;
+                });
+            }
+
+            function clearWeiboList() {
+                currentPage = 0;
+                $('#weibo_list').html('');
+            }
+
+            function showWeiboCommentList(weiboCommentList) {
+                //判断是否已经载入
+                var weiboContainer = $('.weibo-comment-container', weiboCommentList);
+                var loaded = weiboCommentList.attr('data-weibo-comment-loaded');
+
+                //如果已经载入，只要显示即可
+                if(loaded) {
+                    weiboCommentList.show();
+                    return;
+                }
+
+                //显示“正在加载评论”
+                weiboContainer.html('<span class="text-muted">正在加载...</span>');
+                weiboCommentList.show();
+
+                //通过服务器载入评论列表
+                reloadWeiboCommentList(weiboCommentList);
+            }
+
+            function hideWeiboCommentList(weiboCommentList) {
+                weiboCommentList.hide();
+            }
+
+            function reloadWeiboCommentList(weiboCommentList) {
+                //标记为已经载入
+                weiboCommentList.attr('data-weibo-comment-loaded', '1');
+
+                var weiboId = weiboCommentList.attr('data-weibo-id');
+                var weibo = $('#weibo_' + weiboId);
+                var weiboContainer = $('.weibo-comment-container', weiboCommentList);
+                var url = "{:U('loadComment')}";
+                $.post(url, {weibo_id:weiboId}, function(a){
+                    weiboContainer.html(a);
+
+                    //更新评论数量
+                    var commentLinkText = $('.weibo-comment-link-text', weiboContainer).text();
+                    $('.weibo-comment-link', weibo).text(commentLinkText);
+                });
+            }
+        })
+    </script>
+</block>

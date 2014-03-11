@@ -1,0 +1,36 @@
+<volist name="list" id="weibo">
+    <php>
+        $user = query_user(array('avatar64','username','uid'), $weibo['uid']);
+    </php>
+    <div class="row" id="weibo_{$weibo.id}">
+        <div class="col-md-12">
+            <div class="pull-left">
+                <img src="{$user.avatar64}" class="avatar-img" style="width: 64px;"/>
+            </div>
+
+            <div style="padding-left: 16px; overflow: hidden;">
+                <p><a href="#">{$user.username|htmlspecialchars}</a></p>
+                <p>{$weibo.content|htmlspecialchars}</p>
+                <p>
+                    <span class="text-primary">{$weibo.create_time|time_format}</span>
+                    <a class="pull-right text-primary weibo-comment-link" href="#" data-weibo-id="{$weibo.id}">
+                        <php>
+                            $weiboCommentTotalCount = $weibo['comment_count'];
+                        </php>
+                        <include file="commentText"/>
+                    </a>
+                </p>
+                <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
+                    <div class="col-md-12">
+                        <div class="light-jumbotron" style="padding: 1em 2em;">
+                            <div class="weibo-comment-container">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+</volist>

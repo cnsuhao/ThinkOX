@@ -1,0 +1,37 @@
+<!--回复框-->
+<div class="row">
+    <div class="col-md-12">
+        <!--输入框-->
+        <p>
+            <textarea placeholder="说点什么吧～" class="form-control weibo-comment-content"></textarea>
+        </p>
+
+        <!--评论按钮-->
+        <p class="pull-right">
+            <button class="btn btn-primary weibo-comment-commit" data-weibo-id="{$weiboId}">评论</button>
+        </p>
+    </div>
+</div>
+
+<!--评论列表-->
+<volist name="list" id="comment">
+    <php>
+        $user = query_user(array('avatar32','username','uid'), $comment['uid']);
+    </php>
+    <hr style="margin: 5px 0px;"/>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-left" style="width: 32px;">
+                <img src="{$user.avatar32}" class="avatar-img"/>
+            </div>
+            <div class="" style="overflow: hidden; padding-left: 15px; padding-top: 5px;">
+                <span class="text-muted pull-right">{$comment.create_time|time_format}</span>
+                <a href="#">{$user.username|htmlspecialchars}</a>：{$comment.content|htmlspecialchars}
+            </div>
+        </div>
+    </div>
+</volist>
+
+<div class="weibo-comment-link-text" style="display: none;">
+    <include file="commentText"/>
+</div>

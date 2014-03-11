@@ -4434,6 +4434,42 @@ a.list-group-item.active > .badge,
     font-size: 63px;
   }
 }
+.light-jumbotron {
+  padding: 30px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #eeeeee;
+  background-color: #f6f6f6;
+}
+.light-jumbotron h1,
+.light-jumbotron .h1 {
+  color: inherit;
+}
+.light-jumbotron p {
+  margin-bottom: 15px;
+  font-size: 21px;
+  font-weight: 200;
+}
+.container .light-jumbotron {
+  border-radius: 6px;
+}
+.light-jumbotron .container {
+  max-width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .light-jumbotron {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .container .light-jumbotron {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  .light-jumbotron h1,
+  .light-jumbotron .h1 {
+    font-size: 63px;
+  }
+}
 .footer-jumbotron {
   padding: 30px;
   color: #fff;
