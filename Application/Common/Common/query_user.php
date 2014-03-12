@@ -57,5 +57,6 @@ function query_user($fields, $uid=null) {
     }
 
     //返回合并的结果
-    return array_merge($ucenterResult, $homeResult, $avatarResult, $titleResult);
+    $result = array_merge($ucenterResult, $homeResult, $avatarResult, $titleResult);
+    return $result;
 }
