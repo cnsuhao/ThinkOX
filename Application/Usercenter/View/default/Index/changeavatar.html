@@ -111,8 +111,8 @@
                 showAvatarTip('');
                 //提交到服务器
                 var url = $(this).attr('data-url');
-                var imageWidth = $('#uploaded_image').width();
-                var imageHeight = $('#uploaded_image').height();
+                var imageWidth = $('.jcrop-holder img').width();
+                var imageHeight = $('.jcrop-holder img').height();
                 var crop2 = crop.x/imageWidth + ',' + crop.y/imageHeight + ',' + crop.w/imageWidth + ',' + crop.h/imageHeight;
                 $.post(url, {crop:crop2}, function(a){
                     if(a.status) {
