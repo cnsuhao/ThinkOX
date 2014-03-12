@@ -22,16 +22,16 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left" style="width: 32px;">
-                <a href="{$user.space_url}"><img src="{$user.avatar32}" class="avatar-img"/></a>
+                <a href="{$user.space_url}"  ucard="{$user.uid}" ><img src="{$user.avatar32}" class="avatar-img"/></a>
             </div>
             <div class="" style="overflow: hidden; padding-left: 15px; padding-top: 5px;">
                 <span class="text-muted pull-right">{$comment.create_time|time_format}</span>
-                <a href="{$user.space_url}">{$user.username|htmlspecialchars}</a>：{$comment.content|htmlspecialchars}
+                <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>：{$comment.content|htmlspecialchars}
             </div>
         </div>
     </div>
 </volist>
-
+<script>ucard();</script>
 <div class="weibo-comment-link-text" style="display: none;">
     <include file="commentText"/>
 </div>
