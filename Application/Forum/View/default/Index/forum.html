@@ -3,6 +3,7 @@
 <block name="body">
     <if condition="$list_top">
         <div class="row fourm-top">
+            <h2>置顶推荐</h2>
             <div class="col-md-12">
                 <section id="top">
                     <volist name="list_top" id="document">
@@ -19,6 +20,7 @@
                                 </p>
                             </div>
                             <div class="col-md-11">
+
                                 <p>
                                     <a class="forum-list-title-link"
                                        href="{:U('Index/detail',array('id'=>$document['id']))}">
@@ -55,6 +57,7 @@
     </if>
 
     <div class="row fourm-posts">
+        <h2>本版帖子</h2>
         <div class="col-md-12">
             <section id="contents">
                 <if condition="!$list">

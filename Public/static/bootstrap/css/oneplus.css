@@ -101,6 +101,14 @@ body {
   padding-top: 15px;
   background-color: #ffffff;
   margin-bottom: 2em;
+  border-radius: 0.2em;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
+.fourm-top h2,
+.fourm-posts h2 {
+  margin: 0 10px 10px 10px;
 }
 .fourm-top .author,
 .fourm-posts .author {
@@ -133,7 +141,6 @@ body {
 }
 .post_top,
 .post_top_forum {
-  font-family: "Microsoft YaHei";
   height: 2em;
   margin-left: 1em;
   display: inline-block;
@@ -145,9 +152,23 @@ body {
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .post_top_forum {
   background: dodgerblue;
+}
+.post_content img {
+  max-width: 100%;
+}
+h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0;
+  margin-bottom: .5em;
+  border-bottom: solid 2px #ccc;
+  padding-bottom: .5em;
 }
 .forum-detail-content-text {
   font-size: 1.5em;
@@ -165,14 +186,6 @@ body {
 }
 .hot_post dt:last-child {
   border: none;
-}
-.hot_post h2 {
-  font-size: 1.2em;
-  margin: 0;
-  padding: 0;
-  margin-bottom: .5em;
-  border-bottom: solid 2px #ccc;
-  padding-bottom: .5em;
 }
 .hot_post dt {
   font-weight: 1em;
@@ -242,4 +255,11 @@ body {
 }
 .ribbion-green a:hover {
   text-decoration: none;
+}
+.weibo_main {
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+  background: white;
+  border-radius: 0.2em;
 }

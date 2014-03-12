@@ -120,7 +120,11 @@ body {
   padding-top: 15px;
   background-color: @forum-block-bg;
   margin-bottom: 2em;
-
+  border-radius: 0.2em;
+  .boxShadow;
+  h2{
+    margin:0 10px 10px 10px;
+  }
   .author {
     margin-bottom: 0;
   }
@@ -160,7 +164,6 @@ body {
 }
 
 .post_top, .post_top_forum {
-  font-family: "Microsoft YaHei";
   height: 2em;
   margin-left: 1em;
   display: inline-block;
@@ -172,12 +175,26 @@ body {
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
+  .boxShadow;
 }
 
 .post_top_forum {
   background: dodgerblue;
 }
+.post_content{
+  img{
+    max-width: 100%;
+  }
+}
 
+h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0;
+  margin-bottom: .5em;
+  border-bottom: solid 2px #ccc;
+  padding-bottom: .5em;
+}
 .forum-detail-content-text {
   font-size: 1.5em;
   line-height: 1.75em;
@@ -194,14 +211,7 @@ body {
 
   }
 
-  h2 {
-    font-size: 1.2em;
-    margin: 0;
-    padding: 0;
-    margin-bottom: .5em;
-    border-bottom: solid 2px #ccc;
-    padding-bottom: .5em;
-  }
+
   .boxShadow;
 
   dt {
@@ -284,4 +294,13 @@ body {
   a:hover {
     text-decoration: none;
   }
+}
+
+
+
+
+.weibo_main{
+  .boxShadow;
+  background: white;
+  border-radius: 0.2em;
 }
