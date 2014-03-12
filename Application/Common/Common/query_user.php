@@ -65,7 +65,7 @@ function query_user($fields, $uid=null) {
     $titleResult = array();
     if($titleFields) {
         $titleModel = D('Usercenter/Title');
-        $title = $titleModel->getTitle();
+        $title = $titleModel->getTitle($uid);
         $titleResult['title'] = $title;
     }
 
