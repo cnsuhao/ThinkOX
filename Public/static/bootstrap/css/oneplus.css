@@ -15,6 +15,13 @@ body {
   border-radius: 100%;
   width: 100%;
 }
+.navbar-avatar-img {
+  border-radius: 100%;
+  width: 100%;
+  margin-top: -15px;
+  margin-bottom: -15px;
+  width: 30px;
+}
 .index-feature-div {
   border-radius: 100%;
   background-color: #d3d3d3;

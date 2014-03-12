@@ -24,11 +24,14 @@
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <php>
-                    </php>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="{:U('Index/forum?id=1')}">默认分类</a></li>
+                            <volist name="forum_list" id="each_forum">
+                                <php>
+                                    $forum_class = $each_forum['id'] == $forum_id ? 'active' : '';
+                                </php>
+                                <li class="{$forum_class}"><a href="{:U('Index/forum',array('id'=>$each_forum['id']))}">{$each_forum.title|htmlspecialchars}</a></li>
+                            </volist>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->

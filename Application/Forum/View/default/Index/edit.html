@@ -19,7 +19,12 @@
                         <div class="col-md-2">
                             <p>
                                 <select class="form-control" name="forum_id">
-                                    <option value="1" selected="selected">默认分类</option>
+                                    <volist name="forum_list" id="each_forum">
+                                        <php>
+                                            $selected = $each_forum['id'] == $forum_id ? 'selected' : '';
+                                        </php>
+                                        <option value="{$each_forum.id}" {$selected}>{$each_forum.title|htmlspecialchars}</option>
+                                    </volist>
                                 </select>
                             </p>
                         </div>
@@ -45,7 +50,7 @@
                         </button>
                     </p>
                     <p>
-                        <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>1))}">
+                        <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>$forum_id))}">
                             <span class="glyphicon glyphicon-home"></span>
                             返回帖子列表
                         </a>
