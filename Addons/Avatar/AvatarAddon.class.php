@@ -163,25 +163,31 @@ use PHPImageWorkshop\ImageWorkshop;
                 $this->error = '必须裁剪';
                 return false;
             }
+
             //获取头像的文件路径
             $fullPath = $this->getFullPath($path);
+
             //生成文件名后缀
-            $postfix = md5($crop);
+            $postfix = substr(md5($crop), 0, 8);
             $savePath = preg_replace('/\.[a-zA-Z0-9]*$/','-'.$postfix.'$0',$fullPath);
             $returnPath = preg_replace('/\.[a-zA-Z0-9]*$/','-'.$postfix.'$0',$path);
+
             //解析crop参数
             $crop = explode(',',$crop);
             $x = $crop[0];
             $y = $crop[1];
             $width = $crop[2];
             $height = $crop[3];
+
             //载入临时头像
             $image = ImageWorkshop::initFromPath($fullPath);
+
             //生成将单位换算成为像素
             $x = $x * $image->getWidth();
             $y = $y * $image->getHeight();
             $width = $width * $image->getWidth();
             $height = $height * $image->getHeight();
+
             //如果宽度和高度近似相等，则令宽和高一样
             if(abs($height - $width) < $height * 0.01 ) {
                 $height = min($height, $width);
@@ -190,15 +196,18 @@ use PHPImageWorkshop\ImageWorkshop;
                 $this->error = '图像必须为正方形';
                 return false;
             }
+
             //确认头像足够大
             if($height < 128) {
                 $this->error = '头像太小';
                 return false;
             }
+
             //调用组件裁剪头像
             $image = ImageWorkshop::initFromPath($fullPath);
             $image->crop(ImageWorkshopLayer::UNIT_PIXEL,$width,$height,$x,$y);
             $image->save(dirname($savePath), basename($savePath));
+
             //返回新文件的路径
             return $returnPath;
         }

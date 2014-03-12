@@ -1,0 +1,96 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>{$title}</h2>
+    </div>
+    <form action="{$savePostUrl}" method="post" class="form-horizontal">
+        <volist name="keyList" id="field">
+            <label class="item-label">{$field.title|htmlspecialchars}
+                <if condition="$field['subtitle']">
+                    <span>（{$field.subtitle|htmlspecialchars}）</span>
+                </if>
+            </label>
+            <div class="controls">
+                <switch name="field.type">
+                    <case value="text">
+                        <input type="text" name="{$field.name}" value="{$field.value}" class="text input-large"/>
+                    </case>
+                    <case value="hidden">
+                        <input type="hidden" name="{$field.name}" value="{$field.value}" class="text input-large"/>
+                    </case>
+                    <case value="readonly">
+                        <input type="text" name="{$field.name}" value="{$field.value}" class="text input-large" placeholder="无需填写" readonly/>
+                    </case>
+                    <case value="integer">
+                        <input type="text" name="{$field.name}" value="{$field.value}" class="text input-large"/>
+                    </case>
+                    <case value="uid">
+                        <input type="text" name="{$field.name}" value="{$field.value}" class="text input-large"/>
+                    </case>
+                    <case value="select">
+                        <select name="{$field.name}">
+                            <volist name="field.opt" id="option">
+                                <php>
+                                    $selected = $field['value']==$key ? 'selected' : '';
+                                </php>
+                                <option value="{$key}" {$selected}>{$option|htmlspecialchars}</option>
+                            </volist>
+                        </select>
+                    </case>
+                    <case value="radio">
+                        没有实现
+                    </case>
+                    <case value="checkbox">
+                        没有实现
+                    </case>
+                    <case value="editor">
+                        没有实现
+                    </case>
+                    <case value="time">
+                        <php>
+                            $importDatetimePicker = true;
+                        </php>
+                        <input type="text" name="{$field.name}" class="text input-large time" value="{$field.value|time_format}" placeholder="请选择时间" />
+                    </case>
+                    <default/>
+                    <span style="color: #f00;">错误：未知字段类型 {$field.type}</span>
+                    <input type="hidden" name="{$field.name}" value="{$field.value|htmlspecialchars}"/>
+                </switch>
+            </div>
+        </volist>
+
+        <br/>
+        <div class="form-item">
+            <volist name="buttonList" id="button">
+                <button {$button.attr}>{$button.title}</button>
+            </volist>
+        </div>
+    </form>
+</block>
+
+<block name="script">
+    <if condition="$importDatetimePicker">
+        <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
+        <php>if(C('COLOR_STYLE')=='blue_color') echo '<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css" rel="stylesheet" type="text/css">';</php>
+        <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+        <script>
+            $('.time').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                language:"zh-CN",
+                minView:2,
+                autoclose:true
+            });
+        </script>
+    </if>
+
+    <script type="text/javascript">
+        Think.setValue("type", {$info.type|default=0});
+        Think.setValue("group", {$info.group|default=0});
+        //导航高亮
+        highlight_subnav('{:U('Config/index')}');
+    </script>
+</block>
