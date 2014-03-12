@@ -171,6 +171,7 @@ class IndexController extends Controller {
 
     private function requireForumAllowPublish($forum_id) {
         $this->requireForumExists($forum_id);
+        $this->requireLogin();
     }
 
     private function requireAllowEditPost($post_id) {
