@@ -1,6 +1,11 @@
 body {
   font-family: "Microsoft YaHei";
 }
+.boxShadow {
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -89,9 +94,6 @@ body {
   padding-top: 15px;
   background-color: #ffffff;
   margin-bottom: 2em;
-  box-shadow: 0 0 5px #cccccc;
-  -moz-box-shadow: 0 0 5px #CCCCCC;
-  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .fourm-top .author,
 .fourm-posts .author {
@@ -143,6 +145,54 @@ body {
 .forum-detail-content-text {
   font-size: 1.5em;
   line-height: 1.75em;
+}
+.hot_post {
+  background: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 15px;
+  padding-bottom: 0;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
+.hot_post dt:last-child {
+  border: none;
+}
+.hot_post h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0;
+  margin-bottom: .5em;
+  border-bottom: solid 2px #ccc;
+  padding-bottom: .5em;
+}
+.hot_post dt {
+  font-weight: 1em;
+  line-height: 1.7em;
+  margin-bottom: .8em;
+  padding-bottom: .8em;
+  border-bottom: 1px dashed #ccc;
+}
+.hot_post dt .hot_num {
+  background: #4eb87a;
+  padding: 0 0.5em;
+  font-style: normal;
+  color: white;
+  border-radius: 0.3em;
+  font-size: .9em;
+  display: inline-block;
+}
+.hot_post dt a {
+  color: #333;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 200px;
 }
 .link-black {
   color: #333333;

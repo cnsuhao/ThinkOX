@@ -4,6 +4,12 @@ body {
   font-family: "Microsoft YaHei";
 }
 
+.boxShadow {
+  box-shadow: 0 0 5px rgb(204, 204, 204);
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
+
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -107,13 +113,10 @@ body {
   background-color: @forum-block-bg;
   margin-bottom: 2em;
 
-  box-shadow: 0 0 5px rgb(204, 204, 204);
-  -moz-box-shadow: 0 0 5px #CCCCCC;
-  -khtml-box-shadow: 0 0 5px #CCCCCC;
-  .author{
+  .author {
     margin-bottom: 0;
   }
-  hr{
+  hr {
     margin-top: 10px;
     margin-bottom: 10px;
   }
@@ -148,7 +151,6 @@ body {
   padding: 10px;
 }
 
-
 .post_top, .post_top_forum {
   font-family: "Microsoft YaHei";
   height: 2em;
@@ -171,6 +173,57 @@ body {
 .forum-detail-content-text {
   font-size: 1.5em;
   line-height: 1.75em;
+}
+
+.hot_post {
+  background: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 15px;
+  padding-bottom: 0;
+  dt:last-child {
+    border: none;
+
+  }
+
+  h2 {
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0;
+    margin-bottom: .5em;
+    border-bottom: solid 2px #ccc;
+    padding-bottom: .5em;
+  }
+  .boxShadow;
+
+  dt {
+    font-weight: 1em;
+    line-height: 1.7em;
+    margin-bottom: .8em;
+    padding-bottom: .8em;
+    border-bottom: 1px dashed #ccc;
+    .hot_num {
+      background: rgb(78, 184, 122);
+      padding: 0 0.5em;
+      font-style: normal;
+      color: white;
+      border-radius: 0.3em;
+      font-size: .9em;
+      display: inline-block;
+    }
+    a {
+      color: #333;
+      font-weight: normal;
+      font-size: 14px;
+      line-height:1em;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      overflow:hidden;
+      display: inline-block;
+      width: 200px;
+    }
+
+  }
 }
 
 .link-black {
@@ -220,7 +273,7 @@ body {
     padding-left: 20px
 
   }
-  a:hover{
+  a:hover {
     text-decoration: none;
   }
 }
