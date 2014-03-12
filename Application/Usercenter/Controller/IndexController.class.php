@@ -10,13 +10,14 @@ namespace Usercenter\Controller;
 use Think\Controller;
 
 class IndexController extends BaseController {
-    public function index($uid=0) {
+    public function index($uid=null) {
         //调用API获取基本信息
         $user = query_user(array('username','email','mobile','last_login_time','last_login_ip','score','reg_time','title','avatar256'), $uid);
 
         //显示页面
         $this->defaultTabHash('index');
         $this->assign('user', $user);
+        $this->assign('call', $this->getCall($uid));
         $this->display('basic');
     }
 
