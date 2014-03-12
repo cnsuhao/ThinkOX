@@ -44,7 +44,7 @@
                                 <span>回复（{$document.reply_count}）</span>
                             </p>
 
-                            <p class="text-muted">
+                            <p class="text-muted author" >
                                 <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
                                 {$document.create_time|time_format}
                                 发布
@@ -97,13 +97,13 @@
                                 </a>
                             </p>
 
-                            <p class="pull-right text-muted">
+                            <p class="pull-right text-muted ">
                                 <span>阅读（{$document.view_count}）</span>
                                 <span style="width: 1em; display: inline-block;">&nbsp;</span>
                                 <span>回复（{$document.reply_count}）</span>
                             </p>
 
-                            <p class="text-muted">
+                            <p class="text-muted author">
                                 <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
                                 {$document.create_time|time_format}
                                 发布

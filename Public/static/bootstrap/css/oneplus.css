@@ -93,6 +93,15 @@ body {
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
+.fourm-top .author,
+.fourm-posts .author {
+  margin-bottom: 0;
+}
+.fourm-top hr,
+.fourm-posts hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .form-first-block {
   margin-left: -15px;
 }
