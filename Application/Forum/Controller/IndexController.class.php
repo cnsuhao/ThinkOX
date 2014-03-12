@@ -12,6 +12,12 @@ use Think\Controller;
 
 class IndexController extends Controller
 {
+    public function _initialize() {
+        //读取板块列表
+        $forum_list = D('Forum/Forum')->where(array('status'=>1))->select();
+        $this->assign('forum_list', $forum_list);
+    }
+
     public function index($page = 1)
     {
         redirect(U('forum?id=1', array('page' => $page)));
@@ -24,10 +30,9 @@ class IndexController extends Controller
         $map = array('forum_id' => $id, 'status' => 1);
         $list = D('ForumPost')->where($map)->order('last_reply_time desc')->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
+
         //读取置顶列表
-
-        $list_top = D('ForumPost')->where('is_top=1 OR is_forum_top=1')->order('is_top desc,is_forum_top desc,last_reply_time desc')->select();
-
+        $list_top = D('ForumPost')->where('is_top=1 OR is_forum_top=1 AND forum_id='.intval($id))->order('is_top desc,is_forum_top desc,last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);
