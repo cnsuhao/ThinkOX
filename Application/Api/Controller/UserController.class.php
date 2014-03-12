@@ -114,7 +114,7 @@ class UserController extends ApiController {
         $avatar128_url = getRootUrl().$avatar128_path;
 
         //获取头衔
-        $title = D('Api/Title')->getTitle($user1['score']);
+        $title = D('Usercenter/Title')->getTitle($user1['score']);
 
         //只返回必要的详细资料
         $this->apiSuccess("获取成功", null, array(

@@ -1,0 +1,65 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <!-- 标题 -->
+    <div class="main-title">
+        <h2>
+            {$title|htmlspecialchars}
+        </h2>
+    </div>
+
+    <!-- 按钮工具栏 -->
+    <div class="cf">
+        <div class="fl">
+            <volist name="buttonList" id="button">
+                <{$button.tag} {$button.attr}>{$button.title|htmlspecialchars}</{$button.tag}>
+            </volist>
+
+            <!--<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>1))}">启 用</button>-->
+            <!--<button class="btn ajax-post" target-form="ids" url="{:U("Article/setStatus",array("status"=>0))}">禁 用</button>-->
+            <!--<button class="btn ajax-post" target-form="ids" url="{:U("Article/move")}">移 动</button>-->
+            <!--<button class="btn ajax-post" target-form="ids" url="{:U("Article/copy")}">复 制</button>-->
+            <!--<button class="btn ajax-post" target-form="ids" hide-data="true" url="{:U("Article/paste")}">粘 贴</button>-->
+            <!--<input type="hidden" class="hide-data" name="cate_id" value="{$cate_id}"/>-->
+            <!--<input type="hidden" class="hide-data" name="pid" value="{$pid}"/>-->
+            <!--<button class="btn ajax-post confirm" target-form="ids" url="{:U("Article/setStatus",array("status"=>-1))}">删 除</button>-->
+            <!--&lt;!&ndash; <button class="btn document_add" url="{:U('article/batchOperate',array('cate_id'=>$cate_id,'pid'=>I('pid',0)))}">导入</button> &ndash;&gt;-->
+            <!--<button class="btn list_sort" url="{:U('sort',array('cate_id'=>$cate_id,'pid'=>I('pid',0)),'')}">排序</button>-->
+        </div>
+    </div>
+
+    <!-- 数据表格 -->
+    <div class="data-table">
+        <table>
+            <!-- 表头 -->
+            <thead>
+            <tr>
+                <th class="row-selected row-selected">
+                    <input class="check-all" type="checkbox"/>
+                </th>
+                <volist name="keyList" id="field">
+                    <th>{$field.title|htmlspecialchars}</th>
+                </volist>
+            </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+            <volist name="list" id="e">
+                <tr>
+                    <td><input class="ids" type="checkbox" value="{$e['id']}" name="ids[]"></td>
+                    <volist name="keyList" id="field">
+                        <td>{$e[$field['name']]}</td>
+                    </volist>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </div>
+    <!-- 分页 -->
+    <div class="page">
+        {$_page}
+    </div>
+    </div>
+
+</block>

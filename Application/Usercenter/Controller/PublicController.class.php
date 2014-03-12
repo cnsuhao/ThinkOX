@@ -22,4 +22,4 @@ class PublicController extends Controller
 
         echo json_encode($userProfile);
     }
-} 
+}
