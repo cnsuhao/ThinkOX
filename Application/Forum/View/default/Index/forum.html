@@ -1,66 +1,57 @@
 <extend name="Public/forum"/>
 
 <block name="body">
+    <if condition="$list_top">
+        <div class="row fourm-top">
+            <div class="col-md-12">
+                <section id="top">
+                    <volist name="list_top" id="document">
+                        <php>
+                            $user = query_user(array('avatar128','username','uid','space_url'), $document['uid']);
+                        </php>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <p>
+                                    <a href="{$user.space_url}">
+                                        <img src="{$user.avatar128}" ucard="{$user.uid}" class="avatar-img"
+                                             style="width:100%;"/>
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="col-md-11">
+                                <p>
+                                    <a class="forum-list-title-link"
+                                       href="{:U('Index/detail',array('id'=>$document['id']))}">
+                                        {$document.title|htmlspecialchars}
+                                        <eq name="document.is_top" value="1"><i class="post_top">全局</i>
+                                        </eq>
+                                        <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本类</i></eq>
+                                    </a>
+                                </p>
 
-    <div class="row fourm-top">
-        <div class="col-md-12">
-            <section id="top">
-                <if condition="!$list">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="text-muted" style="text-align: center; font-size: 3em; padding-top: 3em;">
-                                暂时没有帖子～
-                            </p>
-                        </div>
-                    </div>
-                </if>
-                <volist name="list_top" id="document">
-                    <php>
-                        $user = query_user(array('avatar128','username','uid','space_url'), $document['uid']);
-                    </php>
-                    <div class="row">
-                        <div class="col-md-1">
-                            <p>
-                                <a href="{$user.space_url}">
-                                    <img src="{$user.avatar128}" ucard="{$user.uid}" class="avatar-img"
-                                         style="width:100%;"/>
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-md-11">
-                            <p>
-                                <a class="forum-list-title-link"
-                                   href="{:U('Index/detail',array('id'=>$document['id']))}">
-                                    {$document.title|htmlspecialchars}
-                                    <eq name="document.is_top" value="1"><i class="post_top">全局</i>
-                                    </eq>
-                                    <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本类</i></eq>
-                                </a>
-                            </p>
+                                <p class="pull-right text-muted">
+                                    <span>阅读（{$document.view_count}）</span>
+                                    <span style="width: 1em; display: inline-block;">&nbsp;</span>
+                                    <span>回复（{$document.reply_count}）</span>
+                                </p>
 
-                            <p class="pull-right text-muted">
-                                <span>阅读（{$document.view_count}）</span>
-                                <span style="width: 1em; display: inline-block;">&nbsp;</span>
-                                <span>回复（{$document.reply_count}）</span>
-                            </p>
-
-                            <p class="text-muted">
-                                <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
-                                {$document.create_time|time_format}
-                                发布
-                            </p>
+                                <p class="text-muted author">
+                                    <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
+                                    {$document.create_time|time_format}
+                                    发布
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <if condition="$i neq count($list_top)">
-                        <hr class="forum-list-hr"/>
-                        <else/>
-                        <div class="forum-list-no-hr"></div>
-                    </if>
-                </volist>
-            </section>
+                        <if condition="$i neq count($list_top)">
+                            <hr class="forum-list-hr"/>
+                            <else/>
+                            <div class="forum-list-no-hr"></div>
+                        </if>
+                    </volist>
+                </section>
+            </div>
         </div>
-    </div>
-
+    </if>
 
     <div class="row fourm-posts">
         <div class="col-md-12">
@@ -91,19 +82,19 @@
                             <p>
                                 <a class="forum-list-title-link"
                                    href="{:U('Index/detail',array('id'=>$document['id']))}">{$document.title|htmlspecialchars}
-                                    <eq name="document.is_top" value="1"><i class="post_top" >全局</i>
+                                    <eq name="document.is_top" value="1"><i class="post_top">全局</i>
                                     </eq>
                                     <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本类</i></eq>
                                 </a>
                             </p>
 
-                            <p class="pull-right text-muted">
+                            <p class="pull-right text-muted ">
                                 <span>阅读（{$document.view_count}）</span>
                                 <span style="width: 1em; display: inline-block;">&nbsp;</span>
                                 <span>回复（{$document.reply_count}）</span>
                             </p>
 
-                            <p class="text-muted">
+                            <p class="text-muted author">
                                 <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
                                 {$document.create_time|time_format}
                                 发布
