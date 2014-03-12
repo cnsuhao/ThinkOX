@@ -5,11 +5,11 @@
     <div class="row" id="weibo_{$weibo.id}">
         <div class="col-md-12">
             <div class="pull-left">
-                <a href="{$user.space_url}"><img src="{$user.avatar64}" class="avatar-img" style="width: 64px;"/></a>
+                <a href="{$user.space_url}" ucard="{$user.uid}" ><img src="{$user.avatar64}" class="avatar-img" style="width: 64px;"/></a>
             </div>
 
             <div style="padding-left: 16px; overflow: hidden;">
-                <p><a href="{$user.space_url}">{$user.username|htmlspecialchars}</a></p>
+                <p><a ucard="{$user.uid}"  href="{$user.space_url}">{$user.username|htmlspecialchars}</a></p>
                 <p>{$weibo.content|htmlspecialchars}</p>
                 <p>
                     <span class="text-primary">{$weibo.create_time|time_format}</span>

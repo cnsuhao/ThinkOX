@@ -78,9 +78,17 @@
 .forum-first-block,
 .forum-last-block,
 .forum-middle-block {
-  background-color: #ffffff;
   padding: 30px 15px;
   margin-left: -15px;
+}
+.fourm-top,
+.fourm-posts {
+  padding-top: 15px;
+  background-color: #ffffff;
+  margin-bottom: 2em;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .form-first-block {
   margin-left: -15px;
@@ -98,6 +106,27 @@
 .forum-list-hr {
   margin-left: -15px;
   margin-right: -15px;
+}
+.forum-list-no-hr {
+  padding: 10px;
+}
+.post_top,
+.post_top_forum {
+  font-family: "Microsoft YaHei";
+  height: 2em;
+  margin-left: 1em;
+  display: inline-block;
+  text-decoration: none;
+  font-style: normal;
+  font-size: 0.5em;
+  color: white;
+  background: #ff9304;
+  padding: 0.25em 0.5em;
+  border-radius: 0.3em;
+  vertical-align: middle;
+}
+.post_top_forum {
+  background: dodgerblue;
 }
 .forum-detail-content-text {
   font-size: 1.5em;

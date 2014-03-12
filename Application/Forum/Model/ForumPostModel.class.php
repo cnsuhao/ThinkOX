@@ -33,4 +33,5 @@ class ForumPostModel extends Model {
         if(!$data) return false;
         return $this->add($data);
     }
+
 }

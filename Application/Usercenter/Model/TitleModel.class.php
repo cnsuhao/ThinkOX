@@ -7,34 +7,51 @@
  */
 
 namespace Usercenter\Model;
+
 use Think\Model;
 
-class TitleModel extends Model {
-    public function getTitle($uid) {
+class TitleModel extends Model
+{
+    public function getTitle($uid)
+    {
         $score = query_user('score');
         return $this->getTitleByScore($score);
     }
 
-    public function getTitleByScore($score) {
+    public function getTitleByScore($score)
+    {
         //根据积分查询对应头衔
         $config = $this->getTitleConfig();
-        foreach($config as $min=>$title) {
-            if($score >= $min) {
+        foreach ($config as $min => $title) {
+            if ($score >= $min) {
                 return $title;
             }
         }
         //查询无结果，返回最高头衔
         $keys = array_keys($config);
-        $max_key = $keys[count($config)-1];
+        $max_key = $keys[count($config) - 1];
         return $config[$max_key];
     }
 
-    public function getTitleConfig() {
+    public function getTitleConfig()
+    {
         return array(
             0 => '新手',
             10 => '入门',
             100 => '初级',
             1000 => '高级',
         );
+    }
+
+    public function getScoreTotal($userScore)
+    {
+        $titles = $this->getTitleConfig();
+        array_reverse($titles);
+        foreach ($titles as $score => $title) {
+            if ($userScore < $score) {
+                return $score;
+            }
+        }
+
     }
 }
