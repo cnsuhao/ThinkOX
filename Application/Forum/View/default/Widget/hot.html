@@ -1,6 +1,11 @@
-<h2>热门讨论</h2>
-<dl>
-    <volist name="posts" id="post">
-        <dt><i class="hot_num">{$i}</i>&nbsp;<a href="{:U('Index/detail',array('id'=>$post['id']))}" title="{$post.title}">{$post.title}</a></dt>
-    </volist>
-</dl>
+<neq name="posts" value="">
+    <div class="hot_post">
+    <h2>热门讨论</h2>
+    <dl>
+        <volist name="posts" id="post">
+            <dt><i class="hot_num">{$i}</i>&nbsp;<a href="{:U('Index/detail',array('id'=>$post['id']))}"
+                                                    title="{$post.title}">{$post.title}</a></dt>
+        </volist>
+    </dl>
+    </div>
+</neq>
