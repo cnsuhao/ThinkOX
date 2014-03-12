@@ -1,15 +1,15 @@
 <volist name="list" id="weibo">
     <php>
-        $user = query_user(array('avatar64','username','uid'), $weibo['uid']);
+        $user = query_user(array('avatar64','username','uid','space_url'), $weibo['uid']);
     </php>
     <div class="row" id="weibo_{$weibo.id}">
         <div class="col-md-12">
             <div class="pull-left">
-                <img src="{$user.avatar64}" class="avatar-img" style="width: 64px;"/>
+                <a href="{$user.space_url}"><img src="{$user.avatar64}" class="avatar-img" style="width: 64px;"/></a>
             </div>
 
             <div style="padding-left: 16px; overflow: hidden;">
-                <p><a href="#">{$user.username|htmlspecialchars}</a></p>
+                <p><a href="{$user.space_url}">{$user.username|htmlspecialchars}</a></p>
                 <p>{$weibo.content|htmlspecialchars}</p>
                 <p>
                     <span class="text-primary">{$weibo.create_time|time_format}</span>

@@ -6,6 +6,17 @@
  * Time: PM7:40
  */
 
+/**
+ * 支持的字段有
+ * member表中的所有字段，ucenter_member表中的所有字段
+ * 头衔：title
+ * 头像：avatar32 avatar64 avatar128 avatar256 avatar512
+ * 个人中心地址：space_url
+ *
+ * @param $fields
+ * @param null $uid
+ * @return array|null
+ */
 function query_user($fields, $uid=null) {
     //默认获取自己的资料
     $uid = $uid ? $uid : is_login();
@@ -24,6 +35,8 @@ function query_user($fields, $uid=null) {
     $avatarFields = array_intersect($avatarFields, $fields);
     $titleFields = array('title');
     $titleFields = array_intersect($titleFields, $fields);
+    $spaceUrlFields = array('space_url');
+    $spaceUrlFields = array_intersect($spaceUrlFields, $fields);
     $homeFields = array_intersect($homeFields, $fields);
     $ucenterFields = array_intersect($ucenterFields, $fields);
 
@@ -56,7 +69,13 @@ function query_user($fields, $uid=null) {
         $titleResult['title'] = $title;
     }
 
+    //获取个人中心地址
+    $spaceUrlResult = array();
+    if($spaceUrlFields) {
+        $spaceUrlResult['space_url'] = U('UserCenter/Index/index',array('uid'=>$uid));
+    }
+
     //返回合并的结果
-    $result = array_merge($ucenterResult, $homeResult, $avatarResult, $titleResult);
+    $result = array_merge($ucenterResult, $homeResult, $avatarResult, $titleResult, $spaceUrlResult);
     return $result;
 }

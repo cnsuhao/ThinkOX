@@ -15,12 +15,12 @@
                 </if>
                 <volist name="list" id="document">
                     <php>
-                        $user = query_user(array('avatar128','username','uid'), $document['uid']);
+                        $user = query_user(array('avatar128','username','uid','space_url'), $document['uid']);
                     </php>
                     <div class="row">
                         <div class="col-md-1">
                             <p>
-                                <a href="{:U('Home/OneUser/index',array('uid'=>$user['uid']))}">
+                                <a href="{$user.space_url}">
                                     <img src="{$user.avatar128}" class="avatar-img" style="width:100%;"/>
                                 </a>
                             </p>
@@ -35,7 +35,7 @@
                                 <span>回复（{$document.reply_count}）</span>
                             </p>
                             <p class="text-muted">
-                                {$user.username} 于 {$document.create_time|time_format} 发布
+                                <a href="{$user.space_url}">{$user.username}</a> 于 {$document.create_time|time_format} 发布
                             </p>
                         </div>
                     </div>
