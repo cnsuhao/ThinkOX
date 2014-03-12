@@ -29,9 +29,18 @@ class ForumPostModel extends Model {
     }
 
     public function createPost($data) {
+        //新增帖子
         $data = $this->create($data);
         if(!$data) return false;
-        return $this->add($data);
-    }
+        $result = $this->add($data);
+        if(!$result) {
+            return false;
+        }
 
+        //增加板块的帖子数量
+        D('Forum')->where(array('id'=>$data['forum_id']))->setInc('post_count');
+
+        //返回帖子编号
+        return $result;
+    }
 }
