@@ -31,7 +31,12 @@
                 <!--登录注册-->
                 <if condition="is_login()">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">{:get_username()}<b class="caret"></b></a>
+                        <php>
+                            $common_header_user = query_user(array('avatar32'));
+                        </php>
+                        <a href="#" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
+                            <img src="{$common_header_user['avatar32']}" class="navbar-avatar-img" style=""/>
+                        </b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{:U('UserCenter/Index/index')}">个人中心</a></li>
                             <li><a href="{:U('UserCenter/Index/changepassword')}">修改密码</a></li>
