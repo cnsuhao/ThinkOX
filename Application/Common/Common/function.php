@@ -22,11 +22,11 @@ const ONETHINK_ADDON_PATH = './Addons/';
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function is_login(){
-    $user = $_SESSION['onethink_home']['user_auth'];
+    $user = session('user_auth');
     if (empty($user)) {
         return 0;
     } else {
-        return $_SESSION['onethink_home']['user_auth_sign'] == data_auth_sign($user) ? $user['uid'] : 0;
+        return session('user_auth_sign') == data_auth_sign($user) ? $user['uid'] : 0;
     }
 }
 

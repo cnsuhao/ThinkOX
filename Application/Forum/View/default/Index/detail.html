@@ -2,31 +2,30 @@
 
 <block name="body">
     <php>
-        $user = query_user(array('avatar128','uid','username'));
+        $user = query_user(array('avatar128','uid','username'), $post['uid']);
     </php>
     <div class="row">
         <div class="col-md-8">
             <h4>{$post.title|htmlspecialchars}</h4>
         </div>
         <div class="col-md-4">
-            <if condition="$post['uid']==$user['uid']">
-                <p class="pull-right text-right">
+            <p class="pull-right text-right">
+                <if condition="$post['uid']==is_login()">
                     <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
-                    <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
-
-                    <php>
-                        $hideStyle = 'display: none;';
-                        $bookmarkStyle = $isBookmark ? $hideStyle : '';
-                        $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
-                    </php>
-                    <span style="{$unbookmarkStyle}" id="unbookmark_button">
-                        <a class="btn btn-default" href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">取消收藏</a>&nbsp;
-                    </span>
-                    <span style="{$bookmarkStyle}" id="bookmark_button">
-                        <a class="btn btn-default" href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}">收藏</a>&nbsp;
-                    </span>
-                </p>
-            </if>
+                </if>
+                <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
+                <php>
+                    $hideStyle = 'display: none;';
+                    $bookmarkStyle = $isBookmark ? $hideStyle : '';
+                    $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
+                </php>
+                <span style="{$unbookmarkStyle}" id="unbookmark_button">
+                    <a class="btn btn-default" href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">取消收藏</a>&nbsp;
+                </span>
+                <span style="{$bookmarkStyle}" id="bookmark_button">
+                    <a class="btn btn-default" href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}">收藏</a>&nbsp;
+                </span>
+            </p>
         </div>
     </div>
 

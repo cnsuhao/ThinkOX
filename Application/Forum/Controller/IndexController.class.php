@@ -174,9 +174,13 @@ class IndexController extends Controller {
     }
 
     private function requireAllowEditPost($post_id) {
-        $post = D('ForumPost')->where(array('id'=>$post_id,'status'=>1,'uid'=>is_login()))->find();
-        if(!$post) {
-            $this->error('不允许编辑帖子');
+        $this->requirePostExists($post_id);
+        $this->requireLogin();
+
+        //确认帖子时自己的
+        $post = D('ForumPost')->where(array('id'=>$post_id,'status'=>1))->find();
+        if($post['uid'] != is_login()) {
+            $this->error('没有权限编辑帖子');
         }
     }
 
@@ -193,6 +197,7 @@ class IndexController extends Controller {
 
     private function requireAllowReply($post_id) {
         $this->requirePostExists($post_id);
+        $this->requireLogin();
     }
 
     private function requirePostExists($post_id) {
