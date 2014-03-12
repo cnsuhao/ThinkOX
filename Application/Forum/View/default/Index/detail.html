@@ -8,6 +8,7 @@
             $user = query_user(array('avatar128','uid','username','space_url'), $post['uid']);
         </php>
         <div class="row">
+
             <div class="col-md-8">
                 <h4>{$post.title|htmlspecialchars}</h4>
             </div>
@@ -35,15 +36,19 @@
 
         <hr/>
 
-        <if condition="$showMainPost">
-            <div class="row">
+        <if condition="$showMainPost" style="position: relative">
+            <div class="row" style="position: relative">
+
+                <div class="ribbion-green">
+                    <a>楼主</a></div>
                 <div class="col-md-2">
                     <p>
-                        <a href="{$user.space_url}"><img src="{$user.avatar128}" class="avatar-img"/></a>
+                        <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
+                                                                             class="avatar-img"/></a>
                     </p>
 
                     <p class="text-center">
-                        <a href="{$user.space_url}">{$user.username|htmlspecialchars}</a>
+                        <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username|htmlspecialchars}</a>
                     </p>
                 </div>
                 <div class="col-md-1">
@@ -72,14 +77,21 @@
             <php>
                 $user = query_user(array('avatar128','username','space_url'), $reply['uid']);
             </php>
-            <div class="row">
+            <div class="row" style="position: relative">
+
+                <eq name="reply.uid" value="$post['uid']">
+                    <div class="ribbion-green">
+                        <a>楼主</a></div>
+                </eq>
+
                 <div class="col-md-2">
                     <p class="text-center">
-                        <a href="{$user.space_url}"><img src="{$user.avatar128}" class="avatar-img"/></a>
+                        <a ucard="{$user.uid}" href="{$user.space_url}"><img src="{$user.avatar128}"
+                                                                             class="avatar-img"/></a>
                     </p>
 
                     <p class="text-center">
-                        <a href="{$user.space_url}">{$user.username}</a>
+                        <a ucard="{$user.uid}" href="{$user.space_url}">{$user.username}</a>
                     </p>
                 </div>
                 <div class="col-md-1">&nbsp;</div>
@@ -107,8 +119,12 @@
         <br/>
 
         <div class="row">
-            <div class="col-md-3">
-                &nbsp;
+            <div class="col-md-2">
+
+                <p>
+                    <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
+                                                                         class="avatar-img"/></a>
+                </p>
             </div>
             <div class="col-md-9">
                 <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}">

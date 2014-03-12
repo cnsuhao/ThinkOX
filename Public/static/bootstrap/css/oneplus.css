@@ -1,3 +1,6 @@
+body {
+  font-family: "Microsoft YaHei";
+}
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -78,7 +81,7 @@
 .forum-first-block,
 .forum-last-block,
 .forum-middle-block {
-  padding: 30px 15px;
+  padding: 15px 15px;
   margin-left: -15px;
 }
 .fourm-top,
@@ -97,7 +100,7 @@
   margin-right: -15px;
 }
 .forum-list-title-link {
-  font-size: 1.5em;
+  font-size: 1.2em;
   color: #333333;
 }
 .forum-list-title-link:hover {
@@ -155,4 +158,22 @@
 }
 .link-reverse:hover {
   color: #f2efef;
+}
+.ribbion-green {
+  z-index: 99;
+  position: absolute;
+  right: -9px;
+  top: -30px;
+  background: url(../../../../Public/Forum/images/ribbion.png);
+  width: 75px;
+  height: 35px;
+  text-align: center;
+}
+.ribbion-green a {
+  color: white;
+  line-height: 35px;
+  padding-left: 20px;
+}
+.ribbion-green a:hover {
+  text-decoration: none;
 }

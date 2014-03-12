@@ -1,5 +1,9 @@
 @import "variables.less";
 
+body {
+  font-family: "Microsoft YaHei";
+}
+
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -93,12 +97,12 @@
 }
 
 .forum-first-block, .forum-last-block, .forum-middle-block {
-  padding: @grid-gutter-width @grid-gutter-width/2;
+  padding: @grid-gutter-width/2 @grid-gutter-width/2;
   margin-left: -@grid-gutter-width/2;
 
 }
 
-.fourm-top,.fourm-posts {
+.fourm-top, .fourm-posts {
   padding-top: 15px;
   background-color: @forum-block-bg;
   margin-bottom: 2em;
@@ -107,7 +111,6 @@
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
-
 
 .form-first-block {
   margin-left: -@grid-gutter-width/2;
@@ -121,7 +124,7 @@
 }
 
 .forum-list-title-link {
-  font-size: 1.5em;
+  font-size: 1.2em;
   color: @text-color;
 }
 
@@ -133,10 +136,12 @@
   margin-left: -@grid-gutter-width/2;
   margin-right: -@grid-gutter-width/2;
 }
-.forum-list-no-hr{
+
+.forum-list-no-hr {
   padding: 10px;
 }
-.post_top,.post_top_forum{
+
+.post_top, .post_top_forum {
   font-family: "Microsoft YaHei";
   height: 2em;
   margin-left: 1em;
@@ -150,10 +155,10 @@
   border-radius: 0.3em;
   vertical-align: middle;
 }
-.post_top_forum{
+
+.post_top_forum {
   background: dodgerblue;
 }
-
 
 .forum-detail-content-text {
   font-size: 1.5em;
@@ -189,5 +194,25 @@
 
   &:hover {
     color: @cp-base-text;
+  }
+}
+
+.ribbion-green {
+  z-index: 99;
+  position: absolute;
+  right: -9px;
+  top: -30px;
+  background: url(../../../../Public/Forum/images/ribbion.png);
+  width: 75px;
+  height: 35px;
+  text-align: center;
+  a {
+    color: white;
+    line-height: 35px;
+    padding-left: 20px
+
+  }
+  a:hover{
+    text-decoration: none;
   }
 }
