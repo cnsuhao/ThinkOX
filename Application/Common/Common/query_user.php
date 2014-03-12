@@ -64,7 +64,7 @@ function query_user($fields, $uid=null) {
     //读取头衔数据
     $titleResult = array();
     if($titleFields) {
-        $titleModel = D('UserCenter/Title');
+        $titleModel = D('Usercenter/Title');
         $title = $titleModel->getTitle();
         $titleResult['title'] = $title;
     }
