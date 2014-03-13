@@ -3,6 +3,9 @@
 body {
   font-family: "Microsoft YaHei";
 }
+a:hover{
+  text-decoration: none;
+}
 
 .boxShadow {
   box-shadow: 0 0 5px rgb(204, 204, 204);
@@ -21,10 +24,15 @@ body {
   width: 100%;
 }
 
+.navbar-nav > li > a {
+  line-height: 28px;
+}
+
+
 .navbar-avatar-img {
   .avatar-img();
   border: solid 2px #fff;
-  margin-top: -15px;
+  margin-top: -20px;
   margin-bottom: -15px;
   width: 54px;
   box-shadow: 0 1px 3px rgb(102, 102, 102);
@@ -371,46 +379,6 @@ h2 {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* extended dropdowns */
 .dropdown-menu .extended:before {
   position: absolute;
@@ -423,24 +391,24 @@ h2 {
   border-bottom-color: rgba(0, 0, 0, 0.2);
   content: '';
 }
-.dropdown-menu .extended{
+
+.dropdown-menu .extended {
 
 }
 
-.dropdown-menu i{
-   background: #4c9bc4;
-    border-radius: 0.2em;
+.dropdown-menu i {
+  background: #4c9bc4;
+  border-radius: 0.2em;
   color: white;
   text-align: center;
   line-height: 24px;
   font-size: 16px;
-  }
+}
 
 .dropdown-menu.extended {
   min-width: 160px !important;
   max-width: 300px !important;
   width: 233px !important;
-
   background-color: #ffffff !important;
 }
 
@@ -448,10 +416,12 @@ h2 {
 .dropdown-menu.extended:after {
   border-bottom-color: #ddd !important;
 }
-.dropdown-menu.extended li{
+
+.dropdown-menu.extended li {
   text-align: left;
 }
-.dropdown-menu.extended li a{
+
+.dropdown-menu.extended li a {
   display: block;
   padding: 5px 10px !important;
   clear: both;
@@ -460,11 +430,11 @@ h2 {
   white-space: normal !important;
 }
 
-.dropdown-menu.extended li i{
+.dropdown-menu.extended li i {
   margin-right: 3px;
 }
 
-.dropdown-menu.extended li a{
+.dropdown-menu.extended li a {
   font-size: 13px;
   padding: 10px !important;
   background-color: #ffffff;
@@ -474,10 +444,10 @@ h2 {
   background-image: none;
   background-color: #f5f5f5;
   color: #000;
-  filter:none;
+  filter: none;
 }
 
-.dropdown-menu.extended li p{
+.dropdown-menu.extended li p {
   padding: 10px;
   background-color: #fdfdfd;
   margin: 0px;
@@ -486,7 +456,7 @@ h2 {
   color: #000;
 }
 
-.dropdown-menu.extended li a{
+.dropdown-menu.extended li a {
   padding: 7px 0 5px 0px;
   list-style: none;
   border-bottom: 1px solid #f4f4f4 !important;
@@ -509,7 +479,7 @@ h2 {
   font-weight: 400;
 }
 
-.dropdown-menu.extended li.external > a > i{
+.dropdown-menu.extended li.external > a > i {
   margin-top: 3px;
   float: right;
 }
@@ -521,14 +491,16 @@ h2 {
   list-style: none;
 }
 
-.dropdown-menu.notification li > a .time {
+.dropdown-menu.notification  .time {
   font-size: 12px;
   font-weight: 600;
   text-align: right;
-  font-style: italic;
+  display: block;
+  color: darkred;
 }
 
 /* header inbox dropdowns */
+
 .dropdown-menu.inbox li > a .photo {
   float: left;
   padding-right: 6px;

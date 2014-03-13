@@ -1,177 +1,118 @@
 <nav class="navbar navbar-default" role="navigation">
-<div class="container">
-<!-- Brand and toggle get grouped for better mobile display -->
-<div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse"
-            data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-logo" href="{:U('Home/Index/index')}">
-        <img src="__PUBLIC__/Home/images/oneplus/oneplus-logo.png" style="width: 100px;"/>
-    </a>
-</div>
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-logo" href="{:U('Home/Index/index')}">
+                <img src="__PUBLIC__/Home/images/oneplus/oneplus-logo.png" style="width: 100px;"/>
+            </a>
+        </div>
 
-<!-- Collect the nav links, forms, and other content for toggling -->
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
 
-        <!--导航栏菜单项-->
-        <think:nav name="nav">
-            <eq name="nav.pid" value="0">
-                <li>
-                    <a href="{$nav.url|get_nav_url}"
-                       target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
-                </li>
-            </eq>
-        </think:nav>
+                <!--导航栏菜单项-->
+                <think:nav name="nav">
+                    <eq name="nav.pid" value="0">
+                        <li>
+                            <a href="{$nav.url|get_nav_url}"
+                               target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
+                        </li>
+                    </eq>
+                </think:nav>
 
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        <!--登录注册-->
-        <if condition="is_login()">
-            <li class="dropdown op_nav_ico ">
-                <ul class="dropdown-menu extended notification">
-                    <li>
-                        <p>
-                            共有 <span id="nav_hint_count">0</span> 条未读消息
-                        </p>
-                    </li>
-                    <li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!--登录注册-->
+                <php>$unreadMessage=D('Message')->getHaventReadMeassageAndToasted(is_login());</php>
+                <if condition="is_login()">
+                    <li class="dropdown op_nav_ico ">
+                        <ul class="dropdown-menu extended notification">
+                            <li>
+                                <p>
+                                    共有 <span id="nav_hint_count">{:count($unreadMessage)}</span> 条未读消息
+                                </p>
+                            </li>
+                            <li>
+                                <div style="position: relative;width: auto;overflow: hidden; ">
+                                    <ul id="nav_message" class="dropdown-menu-list scroller "
+                                        style=" width: auto;max-height: 250px">
+                                        <volist name="unreadMessage" id="message">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="glyphicon glyphicon-bell"></i>
+                                                    {$message.title}
+                                            <span class="time">
+                                            {$message.ctime}
+                                            </span>
+                                                </a>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
 
-                        <div
-                             style="position: relative;width: auto;overflow: hidden; ">
-                            <ul class="dropdown-menu-list scroller "
-                                style=" width: auto;">
-                                <li>
-                                    <a href="#">
-
-                                        <i class="glyphicon glyphicon-bell"></i>
-
-                                        New user registered.
-									<span class="time">
-										 Just now
-									</span>
-                                    </a>
-                                </li><li>
+                            </li>
+                            <li class="external">
                                 <a href="#">
-
-                                    <i class="glyphicon glyphicon-bell"></i>
-
-                                    New user registered.
-									<span class="time">
-										 Just now
-									</span>
-                                </a>
-                            </li><li>
-                                <a href="#">
-
-                                    <i class="glyphicon glyphicon-bell"></i>
-
-                                    New user registered.
-									<span class="time">
-										 Just now
-									</span>
-                                </a>
-                            </li><li>
-                                <a href="#">
-
-                                    <i class="glyphicon glyphicon-bell"></i>
-
-                                    New user registered.
-									<span class="time">
-										 Just now
-									</span>
-                                </a>
-                            </li><li>
-                                <a href="#">
-
-                                    <i class="glyphicon glyphicon-bell"></i>
-
-                                    New user registered.
-									<span class="time">
-										 Just now
-									</span>
-                                </a>
-                            </li><li>
-                                <a href="#">
-
-                                    <i class="glyphicon glyphicon-bell"></i>
-
-                                    New user registered.
-									<span class="time">
-										 Just now
-									</span>
-                                </a>
-                            </li><li>
-                                <a href="#">
-
-                                    <i class="glyphicon glyphicon-bell"></i>
-
-                                    New user registered.
-									<span class="time">
-										 Just now
-									</span>
+                                    查看全部 <i class="glyphicon glyphicon-circle-arrow-right"
+                                            style="background: none;color: rgb(72,184,122)"></i>
                                 </a>
                             </li>
-                            </ul>
-                        </div>
+                        </ul>
+                            <script>
+                                $(function () {
+                                    $('.scroller').slimScroll({
+                                        height: '150px'
+                                    });
+                                });
+                            </script>
+                        <a id="nav_info dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown"><i
+                                class="glyphicon glyphicon-bullhorn"></i>
+                            <span id="nav_bandage_count"
+                            <if condition="count($unreadMessage) eq 0"> style="display: none"</if>
+                            class="badge pull-right">{:count($unreadMessage)}</span>
+                            &nbsp;
+                        </a></li>
 
+
+                    <!--<li class="op_nav_ico"><a href="#"><i class="glyphicon glyphicon-envelope"></i>
+                        <span class="badge pull-right">1</span>
+                        &nbsp;
+                    </a></li>-->
+                    <li class="dropdown">
+
+
+                        <php>
+                            $common_header_user = query_user(array('avatar64'));
+                        </php>
+                        <a href="#" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
+                            <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img" style=""/>
+                            </b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{:U('UserCenter/Index/index')}">个人中心</a></li>
+                            <li><a href="{:U('UserCenter/Index/changepassword')}">修改密码</a></li>
+                            <li><a href="{:U('UserCenter/Index/logout')}">退出</a></li>
+                        </ul>
                     </li>
-                    <li class="external">
-                        <a href="#">
-                            查看全部 <i class="glyphicon glyphicon-circle-arrow-right" style="background: none;color: rgb(72,184,122)"></i>
-                        </a>
+                    <else/>
+                    <li>
+                        <a href="{:U('Home/User/login')}">登录</a>
                     </li>
-                </ul>
-                <script>
-                    $(function(){
-                        $('.scroller').slimScroll({
-                            height: '200px'
-                        });
-                    });
-                </script>
-                <a id="nav_info dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown"><i
-                        class="glyphicon glyphicon-bullhorn"></i>
-                    <span id="nav_bandage_count" style="display: none" class="badge pull-right">0</span>
-                    &nbsp;
-
-                </a></li>
-
-
-            <!--<li class="op_nav_ico"><a href="#"><i class="glyphicon glyphicon-envelope"></i>
-                <span class="badge pull-right">1</span>
-                &nbsp;
-            </a></li>-->
-            <li class="dropdown">
-
-
-                <php>
-                    $common_header_user = query_user(array('avatar64'));
-                </php>
-                <a href="#" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
-                    <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img" style=""/>
-                    </b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{:U('UserCenter/Index/index')}">个人中心</a></li>
-                    <li><a href="{:U('UserCenter/Index/changepassword')}">修改密码</a></li>
-                    <li><a href="{:U('UserCenter/Index/logout')}">退出</a></li>
-                </ul>
-            </li>
-            <else/>
-            <li>
-                <a href="{:U('Home/User/login')}">登录</a>
-            </li>
-            <li>
-                <a href="{:U('Home/User/register')}">注册</a>
-            </li>
-        </if>
-    </ul>
-</div>
-<!-- /.navbar-collapse -->
-</div>
-<!-- /.container-fluid -->
+                    <li>
+                        <a href="{:U('Home/User/register')}">注册</a>
+                    </li>
+                </if>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
 </nav>
 <a id="goTopBtn"></a>

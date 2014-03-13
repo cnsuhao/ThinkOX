@@ -1,6 +1,9 @@
 body {
   font-family: "Microsoft YaHei";
 }
+a:hover {
+  text-decoration: none;
+}
 .boxShadow {
   box-shadow: 0 0 5px #cccccc;
   -moz-box-shadow: 0 0 5px #CCCCCC;
@@ -15,11 +18,14 @@ body {
   border-radius: 100%;
   width: 100%;
 }
+.navbar-nav > li > a {
+  line-height: 28px;
+}
 .navbar-avatar-img {
   border-radius: 100%;
   width: 100%;
   border: solid 2px #fff;
-  margin-top: -15px;
+  margin-top: -20px;
   margin-bottom: -15px;
   width: 54px;
   box-shadow: 0 1px 3px #666666;
@@ -416,11 +422,12 @@ h2 {
   padding-left: 0;
   list-style: none;
 }
-.dropdown-menu.notification li > a .time {
+.dropdown-menu.notification .time {
   font-size: 12px;
   font-weight: 600;
   text-align: right;
-  font-style: italic;
+  display: block;
+  color: darkred;
 }
 /* header inbox dropdowns */
 .dropdown-menu.inbox li > a .photo {

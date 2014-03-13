@@ -146,22 +146,29 @@ function op_warning(text, title) {
 
 function bindMessageChecker() {
     $hint_count = $('#nav_hint_count');
-    $nav_bandage_count=$('#nav_bandage_count');
+    $nav_bandage_count = $('#nav_bandage_count');
+
     setInterval(function () {
-        $.get(U('Usercenter/Public/getMessage'),{}, function (msg) {
-            if (msg.messages!=0) {
+        $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
+            if (msg) {
                 playsound('Public/static/plusjs/tip.mp3');
+                for (var index in msg) {
+                    tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
 
-                for (var index in msg['messages']) {
-                    tip_message(msg['messages'][index]['content'], msg['messages'][index]['title']);
+
+                    var new_html = $('<span><li><a href="#"><i class="glyphicon glyphicon-bell"></i>' +
+                        msg[index]['title'] + '<br/><span class="time">' + msg[index]['ctime'] +
+                        '</span> </a></li></span>');
+                    $('#nav_message').prepend(new_html.html());
+
+
                 }
-
+                var count = parseInt($hint_count.text());
+                $hint_count.text(count + msg.length);
+                $nav_bandage_count.show();
+                $nav_bandage_count.text(count + msg.length);
             }
-            $hint_count.text(msg.count);
-            $nav_bandage_count.show();
-            $nav_bandage_count.text(msg.count);
         }, 'json');
-
     }, 3000);
 
     function tip_message(text, title) {
