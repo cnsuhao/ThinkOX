@@ -194,7 +194,8 @@ class IndexController extends Controller
         }
     }
 
-    private function assignAllowPublish() {
+    private function assignAllowPublish()
+    {
         $forum_id = $this->get('forum_id');
         $allow_publish = $this->isForumAllowPublish($forum_id);
         $this->assign('allow_publish', $allow_publish);
@@ -207,7 +208,8 @@ class IndexController extends Controller
         }
     }
 
-    private function isLogin() {
+    private function isLogin()
+    {
         return is_login() ? true : false;
     }
 
@@ -256,7 +258,8 @@ class IndexController extends Controller
         }
     }
 
-    private function isForumExists($forum_id) {
+    private function isForumExists($forum_id)
+    {
         $forum = D('Forum')->where(array('id' => $forum_id, 'status' => 1));
         return $forum ? true : false;
     }
@@ -275,25 +278,27 @@ class IndexController extends Controller
         }
     }
 
-    private function requireForumAllowCurrentUserGroup($forum_id) {
-        if(!$this->isForumAllowCurrentUserGroup($forum_id)){
+    private function requireForumAllowCurrentUserGroup($forum_id)
+    {
+        if (!$this->isForumAllowCurrentUserGroup($forum_id)) {
             $this->error('您所在的用户组不允许发帖');
         }
     }
 
-    private function isForumAllowCurrentUserGroup($forum_id) {
+    private function isForumAllowCurrentUserGroup($forum_id)
+    {
         //如果是超级管理员，直接允许
-        if(is_login() == 1) {
+        if (is_login() == 1) {
             return true;
         }
 
         //读取贴吧的基本信息
-        $forum = D('Forum')->where(array('id'=>$forum_id))->find();
+        $forum = D('Forum')->where(array('id' => $forum_id))->find();
         $userGroups = explode(',', $forum['allow_user_group']);
 
         //读取用户所在的用户组
-        $list = M('AuthGroupAccess')->where(array('uid'=>is_login()))->select();
-        foreach($list as &$e) {
+        $list = M('AuthGroupAccess')->where(array('uid' => is_login()))->select();
+        foreach ($list as &$e) {
             $e = $e['group_id'];
         }
 

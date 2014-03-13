@@ -16,7 +16,7 @@
 <!--评论列表-->
 <volist name="list" id="comment">
     <php>
-        $user = query_user(array('avatar32','username','uid','space_url'), $comment['uid']);
+        $user = query_user(array('avatar32','username','uid','space_url','icons_html'), $comment['uid']);
     </php>
     <hr style="margin: 5px 0px;"/>
     <div class="row">
@@ -26,7 +26,7 @@
             </div>
             <div class="" style="overflow: hidden; padding-left: 15px; padding-top: 5px;">
                 <span class="text-muted pull-right">{$comment.create_time|time_format}</span>
-                <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>：{$comment.content|htmlspecialchars}
+                <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>{$user.icons_html}：{$comment.content|htmlspecialchars}
             </div>
         </div>
     </div>

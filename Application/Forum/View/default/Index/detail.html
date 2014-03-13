@@ -5,7 +5,7 @@
 
 
         <php>
-            $user = query_user(array('avatar128','uid','username','space_url'), $post['uid']);
+            $user = query_user(array('avatar128','uid','username','space_url','icons_html'), $post['uid']);
         </php>
         <div class="row">
 
@@ -49,6 +49,7 @@
 
                     <p class="text-center">
                         <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username|htmlspecialchars}</a>
+                        {$user.icons_html}
                     </p>
                 </div>
                 <div class="col-md-1">
@@ -89,6 +90,7 @@
 
                     <p class="text-center">
                         <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.username}</a>
+                        {$user.icons_html}
                     </p>
                 </div>
                 <div class="col-md-1">&nbsp;</div>
