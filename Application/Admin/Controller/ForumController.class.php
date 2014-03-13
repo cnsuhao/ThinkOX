@@ -26,6 +26,11 @@ class ForumController extends AdminController {
 
         //添加操作
         foreach($list as &$e) {
+            //标题
+            $forumUrl = U('Forum/post', array('forum_id'=>$e['id']));
+            $e['title'] = "<a href=\"{$forumUrl}\">{$e[title]}</a>";
+
+            //添加操作
             $editUrl = U('Forum/editForum', array('id'=>$e['id']));
             $e['DOACTIONS'] = "<a href=\"{$editUrl}\">编辑</a>";
         }
@@ -35,12 +40,7 @@ class ForumController extends AdminController {
         $builder
             ->title('贴吧管理')
             ->buttonNew(U('Forum/editForum'))
-            ->keyId()
-            ->keyTitle()
-            ->keyCreateTime()
-            ->keyText('post_count', '帖子数量')
-            ->keyStatus()
-            ->keyHtml('DOACTIONS', '操作')
+            ->keyId()->keyHtml('title', '标题')->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyHtml('DOACTIONS', '操作')
             ->data($list)
             ->pagination($totalCount)
             ->display();
@@ -61,14 +61,9 @@ class ForumController extends AdminController {
         $builder = new AdminConfigBuilder();
         $builder
             ->title($isEdit ? '编辑贴吧' : '新增贴吧')
-            ->keyId()
-            ->keyTitle()
-            ->keyCreateTime()
-            ->keyInteger('post_count', '帖子数量')
-            ->keyStatus()
+            ->keyId()->keyTitle()->keyCreateTime()->keyInteger('post_count', '帖子数量')->keyStatus()
             ->data($forum)
-            ->buttonSubmit(U('doEditForum'))
-            ->buttonBack()
+            ->buttonSubmit(U('doEditForum'))->buttonBack()
             ->display();
     }
 
@@ -99,5 +94,40 @@ class ForumController extends AdminController {
 
         //返回成功信息
         $this->success($isEdit ? '编辑成功' : '保存成功');
+    }
+
+    public function post($page=1, $forum_id=null) {
+        //读取帖子数据
+        $map = array('status'=>array('EGT', 0));
+        if($forum_id) $map['forum_id'] = $forum_id;
+        $model = M('ForumPost');
+        $list = $model->where($map)->order('last_reply_time desc')->page($page,20)->select();
+
+        //添加操作选项
+        foreach($list as &$e) {
+            $editUrl = U('editPost', array('id'=>$e['id']));
+            $e['DOACTIONS'] = "<a href=\"{$editUrl}\">编辑</a>";
+        }
+
+        //读取板块基本信息
+        if($forum_id) {
+            $forum = M('Forum')->where(array('id'=>$forum_id))->find();
+            $forumTitle = ' - ' . $forum['title'];
+        } else {
+            $forumTitle = '';
+        }
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->title('帖子管理' . $forumTitle)
+            ->buttonNew(U('editPost'))
+            ->keyId()->keyTitle()->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyStatus()->keyHtml('DOACTIONS', '操作')
+            ->data($list)
+            ->pagination($list, 20)
+            ->display();
+    }
+
+    public function editPost($id=null) {
+
     }
 }
