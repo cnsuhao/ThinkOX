@@ -49,20 +49,95 @@ function ucard() {
         }
     })
 }
-function bindGoTop(){
-    $(window).scroll(function(){
-        var sc=$(window).scrollTop();
+function bindGoTop() {
+    $(window).scroll(function () {
+        var sc = $(window).scrollTop();
         //var rwidth=$(window).width()
-        if(sc>0){
-            $("#goTopBtn").css("display","block");
-            $("#goTopBtn").css("right","50px")
-        }else{
-            $("#goTopBtn").css("display","none");
+        if (sc > 0) {
+            $("#goTopBtn").css("display", "block");
+            $("#goTopBtn").css("right", "50px")
+        } else {
+            $("#goTopBtn").css("display", "none");
         }
     })
 
-    $("#goTopBtn").click(function(){
-        var sc=$(window).scrollTop();
-        $('body,html').animate({scrollTop:0},500);
+    $("#goTopBtn").click(function () {
+        var sc = $(window).scrollTop();
+        $('body,html').animate({scrollTop: 0}, 500);
     });
+}
+function playsound(file) {
+    $('embed').remove();
+    $('body').append('<embed src="'+file+'" autostart="true" hidden="true" loop="false">');
+    var div = document.getElementById('music');
+    div.src=file;
+}
+
+function op_success(text,title){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "positionClass": "toast-center",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.success(text,title);
+}
+function op_error(text,title){
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-center",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.error(text,title);
+}
+function op_info(text,title){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "positionClass": "toast-center",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.info(text,title);
+}
+function op_warning(text,title){
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "positionClass": "toast-center",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    toastr.warning(text,title);
 }
