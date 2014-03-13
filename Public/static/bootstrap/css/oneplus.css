@@ -277,3 +277,18 @@ h2 {
 #goTopBtn:hover {
   background-position: 48px 0;
 }
+.userList {
+  padding-left: 15px;
+  text-align: center;
+}
+.userList li {
+  text-align: left;
+  list-style: none;
+  float: left;
+  margin-bottom: 15px;
+  margin-right: 14px;
+}
+.userList li img {
+  width: 64px;
+  height: 64px;
+}
