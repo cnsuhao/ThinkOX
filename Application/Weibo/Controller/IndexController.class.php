@@ -7,65 +7,78 @@
  */
 
 namespace Weibo\Controller;
+
 use Think\Controller;
 
-class IndexController extends Controller {
-    public function index() {
+class IndexController extends Controller
+{
+    public function index()
+    {
         //载入第一页微博
         $list = $this->loadWeiboList();
-
+        foreach ($list as &$li) {
+            $li['user'] =  query_user(array('avatar64','username','uid','space_url'), $li['uid']);
+        }
         //显示页面
         $this->assign('list', $list);
         $this->display();
     }
 
-    public function loadWeibo($page=1) {
+    public function loadWeibo($page = 1)
+    {
         //载入全站微博
         $list = $this->loadWeiboList($page);
 
+        foreach ($list as &$li) {
+            $li['user'] =  query_user(array('avatar64','username','uid','space_url'), $li['uid']);
+        }
+        unset($li);
         //如果没有微博，则返回错误
-        if(!$list) {
+        if (!$list) {
             $this->error('没有更多了');
         }
 
         //返回html代码用于ajax显示
-        $this->assign('list',$list);
+        $this->assign('list', $list);
         $this->display();
     }
 
-    public function doSend($content) {
+    public function doSend($content)
+    {
         //确认用户已经登录
         $this->requireLogin();
 
         //写入数据库
         $model = D('Weibo');
         $result = $model->addWeibo(is_login(), $content);
-        if(!$result) {
-            $this->error('发布失败：'.$model->getError());
+        if (!$result) {
+            $this->error('发布失败：' . $model->getError());
         }
 
         //显示成功页面
         $this->success('发表成功');
     }
 
-    public function doComment($weibo_id, $content) {
+    public function doComment($weibo_id, $content)
+    {
         //确认用户已经登录
         $this->requireLogin();
 
         //写入数据库
         $model = D('WeiboComment');
         $result = $model->addComment(is_login(), $weibo_id, $content);
-        if(!$result) {
-            $this->error('评论失败：'.$model->getError());
+        if (!$result) {
+            $this->error('评论失败：' . $model->getError());
         }
 
         //显示成功页面
         $this->success('评论成功');
     }
 
-    public function loadComment($weibo_id) {
+    public function loadComment($weibo_id)
+    {
         //读取数据库中全部的评论列表
-        $list = D('WeiboComment')->where(array('weibo_id'=>$weibo_id))->order('create_time desc')->select();
+        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id))->order('create_time desc')->select();
         $weiboCommentTotalCount = count($list);
 
         //返回html代码用于ajax显示
@@ -75,15 +88,17 @@ class IndexController extends Controller {
         $this->display();
     }
 
-    private function requireLogin() {
-        if(!is_login()) {
+    private function requireLogin()
+    {
+        if (!is_login()) {
             $this->error('需要登录');
         }
     }
 
-    private function loadWeiboList($page=1) {
-        $map = array('status'=>1);
-        $list = D('Weibo')->where($map)->order('create_time desc')->page($page,10)->select();
+    private function loadWeiboList($page = 1)
+    {
+        $map = array('status' => 1);
+        $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
         return $list;
     }
 }
