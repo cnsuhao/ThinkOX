@@ -61,19 +61,19 @@ class ForumController extends AdminController {
         $builder = new AdminConfigBuilder();
         $builder
             ->title($isEdit ? '编辑贴吧' : '新增贴吧')
-            ->keyId()->keyTitle()->keyCreateTime()->keyInteger('post_count', '帖子数量')->keyStatus()
+            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()
             ->data($forum)
             ->buttonSubmit(U('doEditForum'))->buttonBack()
             ->display();
     }
 
-    public function doEditForum($id=null, $title, $post_count, $create_time, $status) {
+    public function doEditForum($id=null, $title, $create_time, $status, $allow_user_group) {
         //判断是否为编辑模式
         $isEdit = $id ? true : false;
 
         //生成数据
         $create_time = strtotime($create_time);
-        $data = array('title'=>$title, 'post_count'=>$post_count, 'create_time'=>$create_time, 'status'=>$status);
+        $data = array('title'=>$title, 'create_time'=>$create_time, 'status'=>$status, 'allow_user_group'=>$allow_user_group);
 
         //写入数据库
         $model = M('Forum');
@@ -102,6 +102,7 @@ class ForumController extends AdminController {
         if($forum_id) $map['forum_id'] = $forum_id;
         $model = M('ForumPost');
         $list = $model->where($map)->order('last_reply_time desc')->page($page,20)->select();
+        $totalCount = $model->where($map)->count();
 
         //添加操作选项
         foreach($list as &$e) {
@@ -123,7 +124,7 @@ class ForumController extends AdminController {
             ->buttonNew(U('editPost'))
             ->keyId()->keyTitle()->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyStatus()->keyHtml('DOACTIONS', '操作')
             ->data($list)
-            ->pagination($list, 20)
+            ->pagination($totalCount, 20)
             ->display();
     }
 
