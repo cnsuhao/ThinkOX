@@ -87,6 +87,16 @@ class AdminConfigBuilder extends AdminBuilder {
         return $this->keyReadOnly($name, $title, $subtitle);
     }
 
+    public function keyMultiUserGroup($name, $title, $subtitle=null) {
+        $options = $this->readUserGroups();
+        return $this->keyCheckBox($name, $title, $subtitle, $options);
+    }
+
+    public function keySingleUserGroup($name, $title, $subtitle=null) {
+        $options = $this->readUserGroups();
+        return $this->keySelect($name, $title, $subtitle, $options);
+    }
+
     public function button($title, $attr=array()) {
         $this->_buttonList[] = array('title'=>$title, 'attr'=>$attr);
         return $this;
@@ -138,5 +148,14 @@ class AdminConfigBuilder extends AdminBuilder {
         $this->assign('buttonList', $this->_buttonList);
         $this->assign('savePostUrl', $this->_savePostUrl);
         parent::display('admin_config');
+    }
+
+    private function readUserGroups() {
+        $list = M('AuthGroup')->where(array('status'=>1))->order('id asc')->select();
+        $result = array();
+        foreach($list as $group) {
+            $result[$group['id']] = $group['title'];
+        }
+        return $result;
     }
 }

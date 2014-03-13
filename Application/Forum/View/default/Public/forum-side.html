@@ -1,9 +1,11 @@
-<div>
-    <a type="button" class="btn btn-large btn-primary btn-block" href="{:U('Index/edit',array('forum_id'=>$forum_id))}">
-        <span class="glyphicon glyphicon-edit"></span>
-        发表新帖
-    </a>
-</div>
+<if condition="$allow_publish">
+    <div>
+        <a type="button" class="btn btn-large btn-primary btn-block" href="{:U('Index/edit',array('forum_id'=>$forum_id))}">
+            <span class="glyphicon glyphicon-edit"></span>
+            发表新帖
+        </a>
+    </div>
+</if>
 
 
     {:W('HotPost/lists',array('forum_id'=>$forum_id))}

@@ -142,6 +142,11 @@ body {
 .forum-list-no-hr {
   padding: 10px;
 }
+.usercenter-verify-icon-list img {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
 .post_top,
 .post_top_forum {
   height: 2em;

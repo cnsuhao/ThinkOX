@@ -7,7 +7,6 @@
  */
 
 namespace Admin\Builder;
-use Think\View;
 
 class AdminListBuilder extends AdminBuilder {
     private $_title;
@@ -27,6 +26,11 @@ class AdminListBuilder extends AdminBuilder {
     }
 
     public function buttonNew($href, $title='新增', $attr=array()) {
+        $attr['href'] = $href;
+        return $this->button($title, $attr);
+    }
+
+    public function buttonSort($href, $title='排序', $attr=array()) {
         $attr['href'] = $href;
         return $this->button($title, $attr);
     }

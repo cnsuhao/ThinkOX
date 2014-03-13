@@ -39,13 +39,37 @@
                         </select>
                     </case>
                     <case value="radio">
-                        没有实现
+                        <volist name="field.opt" id="option">
+                            <php>
+                                $checked = $field['value']==$key ? 'checked' : '';
+                                $inputId = "id_$field[name]_$key";
+                            </php>
+                            <input id="{$inputId}" name="{$field.name}" value="{$key}" type="radio" {$checked}/>
+                            <label for="{$inputId}">{$option|htmlspecialchars}</label>
+                        </volist>
                     </case>
                     <case value="checkbox">
-                        没有实现
+                        <php>
+                            $importCheckBox = true;
+                        </php>
+                        <php>
+                            $field['value_array'] = explode(',', $field['value']);
+                        </php>
+                        <volist name="field.opt" id="option">
+                            <php>
+                                $checked = in_array($key,$field['value_array']) ? 'checked' : '';
+                                $inputId = "id_$field[name]_$key";
+                            </php>
+                            <input type="checkbox" value="{$key}" id="{$inputId}" class="oneplus-checkbox" data-field-name="{$field.name}" {$checked}/>
+                            <label for="{$inputId}">{$option|htmlspecialchars}</label>
+                            <input type="hidden" name="{$field.name}" class="oneplus-checkbox-hidden" data-field-name="{$field.name}" value="{$field.value}"/>
+                        </volist>
                     </case>
                     <case value="editor">
-                        没有实现
+                        <label class="textarea">
+                            <textarea name="{$field.name}">{$field.value|htmlspecialchars}</textarea>
+                            {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>$field['value']))}
+                        </label>
                     </case>
                     <case value="time">
                         <php>
@@ -84,6 +108,36 @@
                 minView:2,
                 autoclose:true
             });
+        </script>
+    </if>
+
+    <if condition="$importCheckBox">
+        <script>
+            $(function(){
+                function implode(x, list) {
+                    var result = "";
+                    for(var i=0;i<list.length;i++){
+                        if(result == "") {
+                            result += list[i];
+                        } else {
+                            result += ',' + list[i];
+                        }
+                    }
+                    return result;
+                }
+
+                $('.oneplus-checkbox').change(function(e){
+                    var fieldName = $(this).attr('data-field-name');
+                    var checked = $('.oneplus-checkbox[data-field-name='+fieldName+']:checked');
+                    var result = [];
+                    for(var i=0;i<checked.length;i++) {
+                        var checkbox = $(checked.get(i));
+                        result.push(checkbox.attr('value'));
+                    }
+                    result = implode(',', result);
+                    $('.oneplus-checkbox-hidden[data-field-name='+fieldName+']').val(result);
+                });
+            })
         </script>
     </if>
 

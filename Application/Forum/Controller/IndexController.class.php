@@ -18,7 +18,15 @@ class IndexController extends Controller
     public function _initialize()
     {
         //读取板块列表
-        $forum_list = D('Forum/Forum')->where(array('status' => 1))->select();
+        $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
+
+        //判断板块能否发帖
+        foreach($forum_list as &$e) {
+            $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
+        }
+        unset($e);
+
+        //
         $this->assign('forum_list', $forum_list);
     }
 
@@ -36,10 +44,11 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('(is_top='.TOP_ALL.') OR (is_top='.TOP_FORUM.' AND forum_id=' . intval($id).')')->order('last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('(is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ')')->order('last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);
+        $this->assignAllowPublish();
         $this->assign('list', $list);
         $this->assign('list_top', $list_top);
         $this->assign('totalCount', $totalCount);
@@ -77,8 +86,9 @@ class IndexController extends Controller
         $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
 
         //显示页面
-        $this->assign('isBookmark', $isBookmark);
         $this->assign('forum_id', $post['forum_id']);
+        $this->assignAllowPublish();
+        $this->assign('isBookmark', $isBookmark);
         $this->assign('post', $post);
         $this->assign('replyList', $replyList);
         $this->assign('replyTotalCount', $replyTotalCount);
@@ -92,27 +102,30 @@ class IndexController extends Controller
         if (!$forum_id && !$post_id) {
             $this->error('参数错误，两个参数不能同时为空');
         }
-        //确认用户已经登录
-        $this->requireLogin();
         //判断是不是为编辑模式
         $isEdit = $post_id ? true : false;
-        //如果是编辑模式的话，读取帖子，并判断帖子是否为自己的
+        //如果是编辑模式的话，读取帖子，并判断是否有权限编辑
         if ($isEdit) {
             $post = D('ForumPost')->where(array('id' => $post_id, 'status' => 1))->find();
             $this->requireAllowEditPost($post_id);
         } else {
             $post = array('forum_id' => $forum_id);
         }
+
+        //获取贴吧编号
+        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
+
+        //确认当前贴吧能发帖
+        $this->requireForumAllowPublish($forum_id);
+
         //确认贴吧能发帖
         if ($forum_id) {
             $this->requireForumAllowPublish($forum_id);
         }
 
-        //获取贴吧编号
-        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
-
         //显示页面
         $this->assign('forum_id', $forum_id);
+        $this->assignAllowPublish();
         $this->assign('post', $post);
         $this->assign('isEdit', $isEdit);
         $this->display();
@@ -120,8 +133,6 @@ class IndexController extends Controller
 
     public function doEdit($post_id = null, $forum_id, $title, $content)
     {
-        //确认用户已经登录
-        $this->requireLogin();
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
         //如果是编辑模式，确认当前用户能编辑帖子
@@ -191,17 +202,44 @@ class IndexController extends Controller
         }
     }
 
+    private function assignAllowPublish()
+    {
+        $forum_id = $this->get('forum_id');
+        $allow_publish = $this->isForumAllowPublish($forum_id);
+        $this->assign('allow_publish', $allow_publish);
+    }
+
     private function requireLogin()
     {
-        if (!is_login()) {
+        if (!$this->isLogin()) {
             $this->error('需要登录才能操作');
         }
+    }
+
+    private function isLogin()
+    {
+        return is_login() ? true : false;
     }
 
     private function requireForumAllowPublish($forum_id)
     {
         $this->requireForumExists($forum_id);
         $this->requireLogin();
+        $this->requireForumAllowCurrentUserGroup($forum_id);
+    }
+
+    private function isForumAllowPublish($forum_id)
+    {
+        if (!$this->isLogin()) {
+            return false;
+        }
+        if (!$this->isForumExists($forum_id)) {
+            return false;
+        }
+        if (!$this->isForumAllowCurrentUserGroup($forum_id)) {
+            return false;
+        }
+        return true;
     }
 
     private function requireAllowEditPost($post_id)
@@ -223,10 +261,15 @@ class IndexController extends Controller
 
     private function requireForumExists($forum_id)
     {
-        $forum = D('Forum')->where(array('id' => $forum_id, 'status' => 1));
-        if (!$forum) {
+        if (!$this->isForumExists($forum_id)) {
             $this->error('贴吧不存在');
         }
+    }
+
+    private function isForumExists($forum_id)
+    {
+        $forum = D('Forum')->where(array('id' => $forum_id, 'status' => 1));
+        return $forum ? true : false;
     }
 
     private function requireAllowReply($post_id)
@@ -241,5 +284,37 @@ class IndexController extends Controller
         if (!$post) {
             $this->error('帖子不存在');
         }
+    }
+
+    private function requireForumAllowCurrentUserGroup($forum_id)
+    {
+        if (!$this->isForumAllowCurrentUserGroup($forum_id)) {
+            $this->error('该板块不允许发帖');
+        }
+    }
+
+    private function isForumAllowCurrentUserGroup($forum_id)
+    {
+        //如果是超级管理员，直接允许
+        if (is_login() == 1) {
+            return true;
+        }
+
+        //读取贴吧的基本信息
+        $forum = D('Forum')->where(array('id' => $forum_id))->find();
+        $userGroups = explode(',', $forum['allow_user_group']);
+
+        //读取用户所在的用户组
+        $list = M('AuthGroupAccess')->where(array('uid' => is_login()))->select();
+        foreach ($list as &$e) {
+            $e = $e['group_id'];
+        }
+
+        //每个用户都有一个默认用户组
+        $list[] = '1';
+
+        //判断用户组是否有权限
+        $list = array_intersect($list, $userGroups);
+        return $list ? true : false;
     }
 }

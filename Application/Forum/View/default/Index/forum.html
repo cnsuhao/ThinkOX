@@ -8,7 +8,7 @@
                 <section id="top">
                     <volist name="list_top" id="document">
                         <php>
-                            $user = query_user(array('avatar128','username','uid','space_url'), $document['uid']);
+                            $user = query_user(array('avatar128','username','uid','space_url','icons_html'), $document['uid']);
                         </php>
                         <div class="row">
                             <div class="col-md-1">
@@ -39,7 +39,7 @@
                                 </p>
 
                                 <p class="text-muted author">
-                                    <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
+                                    <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a>{$user.icons_html} 于
                                     {$document.create_time|time_format}
                                     发布
                                 </p>
@@ -73,7 +73,7 @@
                 </if>
                 <volist name="list" id="document">
                     <php>
-                        $user = query_user(array('avatar128','username','uid','space_url'), $document['uid']);
+                        $user = query_user(array('avatar128','username','uid','space_url','icons_html'), $document['uid']);
                     </php>
                     <div class="row">
                         <div class="col-md-1">
@@ -101,7 +101,7 @@
                             </p>
 
                             <p class="text-muted author">
-                                <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a> 于
+                                <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a>{$user.icons_html} 于
                                 {$document.create_time|time_format}
                                 发布
                             </p>

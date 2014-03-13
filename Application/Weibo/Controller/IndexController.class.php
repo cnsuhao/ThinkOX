@@ -17,8 +17,9 @@ class IndexController extends Controller
         //载入第一页微博
         $list = $this->loadWeiboList();
         foreach ($list as &$li) {
-            $li['user'] =  query_user(array('avatar64','username','uid','space_url'), $li['uid']);
+            $li['user'] =  query_user(array('avatar64','username','uid','space_url','icons_html'), $li['uid']);
         }
+
         //显示页面
         $this->assign('list', $list);
         $this->display();
@@ -28,11 +29,11 @@ class IndexController extends Controller
     {
         //载入全站微博
         $list = $this->loadWeiboList($page);
-
         foreach ($list as &$li) {
-            $li['user'] =  query_user(array('avatar64','username','uid','space_url'), $li['uid']);
+            $li['user'] =  query_user(array('avatar64','username','uid','space_url','icons_html'), $li['uid']);
         }
         unset($li);
+
         //如果没有微博，则返回错误
         if (!$list) {
             $this->error('没有更多了');

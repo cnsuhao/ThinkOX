@@ -9,7 +9,7 @@
 namespace Admin\Controller;
 use Admin\Builder\AdminListBuilder;
 use Admin\Builder\AdminConfigBuilder;
-use Admin\Model\AuthGroupModel;
+use Admin\Builder\AdminSortBuilder;
 
 class ForumController extends AdminController {
 
@@ -21,7 +21,7 @@ class ForumController extends AdminController {
         //读取数据
         $map = array('status'=>array('GT',-1));
         $model = M('Forum');
-        $list = $model->where($map)->page($page, 10)->select();
+        $list = $model->where($map)->page($page, 10)->order('sort asc')->select();
         $totalCount = $model->where($map)->count();
 
         //添加操作
@@ -39,11 +39,28 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder
             ->title('贴吧管理')
-            ->buttonNew(U('Forum/editForum'))
+            ->buttonNew(U('Forum/editForum'))->buttonSort(U('Forum/sortForum'))
             ->keyId()->keyHtml('title', '标题')->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyHtml('DOACTIONS', '操作')
             ->data($list)
             ->pagination($totalCount)
             ->display();
+    }
+
+    public function sortForum() {
+        //读取贴吧列表
+        $list = M('Forum')->where(array('status'=>array('EGT',0)))->order('sort asc')->select();
+
+        //显示页面
+        $builder = new AdminSortBuilder();
+        $builder->title('贴吧排序')
+            ->data($list)
+            ->buttonSubmit(U('doSortForum'))->buttonBack()
+            ->display();
+    }
+
+    public function doSortForum($ids) {
+        $builder = new AdminSortBuilder();
+        $builder->doSort('Forum', $ids);
     }
 
     public function editForum($id=null) {
@@ -61,19 +78,19 @@ class ForumController extends AdminController {
         $builder = new AdminConfigBuilder();
         $builder
             ->title($isEdit ? '编辑贴吧' : '新增贴吧')
-            ->keyId()->keyTitle()->keyCreateTime()->keyInteger('post_count', '帖子数量')->keyStatus()
+            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()
             ->data($forum)
             ->buttonSubmit(U('doEditForum'))->buttonBack()
             ->display();
     }
 
-    public function doEditForum($id=null, $title, $post_count, $create_time, $status) {
+    public function doEditForum($id=null, $title, $create_time, $status, $allow_user_group) {
         //判断是否为编辑模式
         $isEdit = $id ? true : false;
 
         //生成数据
         $create_time = strtotime($create_time);
-        $data = array('title'=>$title, 'post_count'=>$post_count, 'create_time'=>$create_time, 'status'=>$status);
+        $data = array('title'=>$title, 'create_time'=>$create_time, 'status'=>$status, 'allow_user_group'=>$allow_user_group);
 
         //写入数据库
         $model = M('Forum');
@@ -102,6 +119,7 @@ class ForumController extends AdminController {
         if($forum_id) $map['forum_id'] = $forum_id;
         $model = M('ForumPost');
         $list = $model->where($map)->order('last_reply_time desc')->page($page,20)->select();
+        $totalCount = $model->where($map)->count();
 
         //添加操作选项
         foreach($list as &$e) {
@@ -121,13 +139,58 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder->title('帖子管理' . $forumTitle)
             ->buttonNew(U('editPost'))
-            ->keyId()->keyTitle()->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyStatus()->keyHtml('DOACTIONS', '操作')
+            ->keyId()->keyTitle()->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyHtml('DOACTIONS', '操作')
             ->data($list)
-            ->pagination($list, 20)
+            ->pagination($totalCount, 20)
             ->display();
     }
 
     public function editPost($id=null) {
+        //判断是否在编辑模式
+        $isEdit = $id ? true : false;
 
+        //读取帖子内容
+        if($isEdit) {
+            $post = M('ForumPost')->where(array('id'=>$id))->find();
+        } else {
+            $post = array();
+        }
+
+        //读取贴吧列表
+        $forumList = M('Forum')->where(array('status'=>1))->order('id asc')->select();
+        $forums = array();
+        foreach($forumList as &$e) {
+            $forums[$e['id']] = $e['title'];
+        }
+
+        //显示页面
+        $builder = new AdminConfigBuilder();
+        $builder->title($isEdit ? '编辑帖子' : '新建帖子')
+            ->keyId()->keyTitle()->keyEditor('content','内容')->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keySelect('forum_id','所属贴吧',null,$forums)
+            ->buttonSubmit(U('doEditPost'))->buttonBack()
+            ->data($post)
+            ->display();
+    }
+
+    public function doEditPost($id=null,$title,$content,$create_time,$update_time,$last_reply_time) {
+        //判断是否为编辑模式
+        $isEdit = $id ? true : false;
+
+        //写入数据库
+        $model = M('ForumPost');
+        $data = array('title'=>$title,'content'=>$content,'create_time'=>$create_time,'update_time'=>$update_time,'last_reply_time'=>$last_reply_time);
+        if($isEdit) {
+            $result = $model->where(array('id'=>$id))->save($data);
+        } else {
+            $result = $model->add($data);
+        }
+
+        //如果写入不成功，则报错
+        if(!$result) {
+            $this->error($isEdit ? '编辑失败' : '创建成功');
+        }
+
+        //返回成功信息
+        $this->success($isEdit ? '编辑成功' : '创建成功');
     }
 }

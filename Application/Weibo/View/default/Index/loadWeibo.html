@@ -10,7 +10,7 @@
 
             <div style="padding-left: 16px; overflow: hidden;">
                 <p><a ucard="{$weibo.user.uid}"
-                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a></p>
+                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}</p>
 
                 <p>{$weibo.content|htmlspecialchars}</p>
 
@@ -20,7 +20,7 @@
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
-                        <include file="commenttext"/>
+                        <include file="commentText"/>
                     </a>
                 </p>
                 <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">

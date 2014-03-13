@@ -20,10 +20,12 @@
                             <p>
                                 <select class="form-control" name="forum_id">
                                     <volist name="forum_list" id="each_forum">
-                                        <php>
-                                            $selected = $each_forum['id'] == $forum_id ? 'selected' : '';
-                                        </php>
-                                        <option value="{$each_forum.id}" {$selected}>{$each_forum.title|htmlspecialchars}</option>
+                                        <if condition="$each_forum['allow_publish']">
+                                            <php>
+                                                $selected = $each_forum['id'] == $forum_id ? 'selected' : '';
+                                            </php>
+                                            <option value="{$each_forum.id}" {$selected}>{$each_forum.title|htmlspecialchars}</option>
+                                        </if>
                                     </volist>
                                 </select>
                             </p>

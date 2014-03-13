@@ -12,6 +12,7 @@
  * 头衔：title
  * 头像：avatar32 avatar64 avatar128 avatar256 avatar512
  * 个人中心地址：space_url
+ * 认证图标：icons_html
  *
  * @param $fields
  * @param null $uid
@@ -33,10 +34,6 @@ function query_user($fields, $uid=null) {
     //分析每个表格分别要读取哪些字段
     $avatarFields = array('avatar32','avatar64','avatar128','avatar256','avatar512');
     $avatarFields = array_intersect($avatarFields, $fields);
-    $titleFields = array('title');
-    $titleFields = array_intersect($titleFields, $fields);
-    $spaceUrlFields = array('space_url');
-    $spaceUrlFields = array_intersect($spaceUrlFields, $fields);
     $homeFields = array_intersect($homeFields, $fields);
     $ucenterFields = array_intersect($ucenterFields, $fields);
 
@@ -52,30 +49,47 @@ function query_user($fields, $uid=null) {
     }
 
     //读取头像数据
-    $avatarResult = array();
+    $result = array();
     $avatarAddon = new \Addons\Avatar\AvatarAddon();
     foreach($avatarFields as $e) {
         $avatarSize = intval(substr($e, 6));
         $avatarPath = $avatarAddon->getAvatarPath($uid);
         $avatarUrl = getImageUrlByPath('.' . $avatarPath, $avatarSize);
-        $avatarResult[$e] = $avatarUrl;
+        $result[$e] = $avatarUrl;
     }
 
     //读取头衔数据
-    $titleResult = array();
-    if($titleFields) {
+    if(in_array('title', $fields)) {
         $titleModel = D('Usercenter/Title');
         $title = $titleModel->getTitle($uid);
-        $titleResult['title'] = $title;
+        $result['title'] = $title;
     }
 
     //获取个人中心地址
     $spaceUrlResult = array();
-    if($spaceUrlFields) {
-        $spaceUrlResult['space_url'] = U('UserCenter/Index/index',array('uid'=>$uid));
+    if(in_array('space_url', $fields)) {
+        $result['space_url'] = U('UserCenter/Index/index',array('uid'=>$uid));
+    }
+
+    //获取用户认证图标
+    if(in_array('icons_html', $fields)) {
+        //判断是否有手机图标
+        $static = C('TMPL_PARSE_STRING.__STATIC__');
+        $iconUrls = array();
+        $user = query_user(array('mobile'), $uid);
+        if($user['mobile']) {
+            $iconUrls[] = "$static/oneplus/images/mobile-bind.png";
+        }
+
+        //生成结果
+        $result['icons_html'] = '<span class="usercenter-verify-icon-list">';
+        foreach($iconUrls as $e) {
+            $result['icons_html'] .= "<img src=\"{$e}\" title=\"对方已绑定手机\"/>";
+        }
+        $result['icons_html'] .= '</span>';
     }
 
     //返回合并的结果
-    $result = array_merge($ucenterResult, $homeResult, $avatarResult, $titleResult, $spaceUrlResult);
+    $result = array_merge($ucenterResult, $homeResult, $spaceUrlResult, $result);
     return $result;
 }
