@@ -21,7 +21,7 @@ class HotPostWidget extends Action{
 	public function lists($forum_id){
 		$field = 'id,name,pid,title,link_id';
 		if($forum_id){
-           $posts= D('ForumPost')->where('forum_id='.$forum_id)->order('reply_count desc')->limit(10)->select();
+           $posts= D('ForumPost')->where('forum_id='.$forum_id)->order('reply_count desc')->limit(9)->select();
 		}
 		$this->assign('posts', $posts);
 		$this->display('Widget/hot');
