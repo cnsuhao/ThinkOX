@@ -94,24 +94,26 @@ class IndexController extends Controller
         if (!$forum_id && !$post_id) {
             $this->error('参数错误，两个参数不能同时为空');
         }
-        //确认用户已经登录
-        $this->requireForumAllowPublish($forum_id);
         //判断是不是为编辑模式
         $isEdit = $post_id ? true : false;
-        //如果是编辑模式的话，读取帖子，并判断帖子是否为自己的
+        //如果是编辑模式的话，读取帖子，并判断是否有权限编辑
         if ($isEdit) {
             $post = D('ForumPost')->where(array('id' => $post_id, 'status' => 1))->find();
             $this->requireAllowEditPost($post_id);
         } else {
             $post = array('forum_id' => $forum_id);
         }
+
+        //获取贴吧编号
+        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
+
+        //确认当前贴吧能发帖
+        $this->requireForumAllowPublish($forum_id);
+
         //确认贴吧能发帖
         if ($forum_id) {
             $this->requireForumAllowPublish($forum_id);
         }
-
-        //获取贴吧编号
-        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
 
         //显示页面
         $this->assign('forum_id', $forum_id);
@@ -280,6 +282,11 @@ class IndexController extends Controller
     }
 
     private function isForumAllowCurrentUserGroup($forum_id) {
+        //如果是超级管理员，直接允许
+        if(is_login() == 1) {
+            return true;
+        }
+
         //读取贴吧的基本信息
         $forum = D('Forum')->where(array('id'=>$forum_id))->find();
         $userGroups = explode(',', $forum['allow_user_group']);
