@@ -74,9 +74,6 @@
         </if>
 
         <volist name="replyList" id="reply">
-            <php>
-                $user = query_user(array('avatar128','username','space_url'), $reply['uid']);
-            </php>
             <div class="row" style="position: relative">
 
                 <eq name="reply.uid" value="$post['uid']">
@@ -86,12 +83,12 @@
 
                 <div class="col-md-2">
                     <p class="text-center">
-                        <a ucard="{$user.uid}" href="{$user.space_url}"><img src="{$user.avatar128}"
+                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}"><img src="{$reply.user.avatar128}"
                                                                              class="avatar-img"/></a>
                     </p>
 
                     <p class="text-center">
-                        <a ucard="{$user.uid}" href="{$user.space_url}">{$user.username}</a>
+                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.username}</a>
                     </p>
                 </div>
                 <div class="col-md-1">&nbsp;</div>

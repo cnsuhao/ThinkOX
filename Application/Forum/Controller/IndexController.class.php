@@ -12,9 +12,10 @@ use Think\Controller;
 
 class IndexController extends Controller
 {
-    public function _initialize() {
+    public function _initialize()
+    {
         //读取板块列表
-        $forum_list = D('Forum/Forum')->where(array('status'=>1))->select();
+        $forum_list = D('Forum/Forum')->where(array('status' => 1))->select();
         $this->assign('forum_list', $forum_list);
     }
 
@@ -32,7 +33,7 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('is_top=1 OR is_forum_top=1 AND forum_id='.intval($id))->order('is_top desc,is_forum_top desc,last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('is_top=1 OR is_forum_top=1 AND forum_id=' . intval($id))->order('is_top desc,is_forum_top desc,last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);
@@ -56,6 +57,10 @@ class IndexController extends Controller
         //读取回复列表
         $map = array('post_id' => $id, 'status' => 1);
         $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, 10)->select();
+        foreach ($replyList as &$reply) {
+            $reply['user'] = query_user(array('avatar128', 'username', 'space_url'), $reply['uid']);
+        }
+        unset($reply);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
 
         //判断是否需要显示1楼
