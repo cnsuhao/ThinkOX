@@ -59,8 +59,8 @@
                 var button = $(this);
 
                 //发送到服务器
-                button.attr('class','btn btn-primary disabled');
-                button.val('正在发表...');
+          /*      button.attr('class','btn btn-primary disabled');
+                button.val('正在发表...');*/
                 $.post(url, {content: content}, function(a){
                     if(a.status) {
                         button.attr('class','btn btn-primary');
@@ -68,10 +68,12 @@
                         reloadWeiboList();
                         clearWeibo();
                     } else {
-                        button.attr('class','btn btn-danger');
-                        button.val(a.info);
+                        op_error('请登陆后再发表。','温馨提示');
+                        //button.attr('class','btn btn-danger');
+                       // button.val(a.info);
                     }
                 });
+
             });
 
             //当屏幕滚动到底部时

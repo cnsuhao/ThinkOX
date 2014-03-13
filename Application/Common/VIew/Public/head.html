@@ -25,25 +25,7 @@
 <script>
     var _ROOT_ = "__ROOT__";
 </script>
-<script>
-    $(function(){
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "positionClass": "toast-top-right",
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        toastr.error("Gnome & Growl type non-blocking notifications", "Toastr Notifications");
-    })
-</script>
+<audio id="music" src="" autoplay="autoplay"></audio>
 <script type="text/javascript" src="__STATIC__/plusjs/toastr.min.js"></script>
 <!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
 {:hook('pageHeader')}
