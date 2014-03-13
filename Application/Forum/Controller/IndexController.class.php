@@ -10,6 +10,9 @@ namespace Forum\Controller;
 
 use Think\Controller;
 
+define('TOP_ALL', 1);
+define('TOP_FORUM', 2);
+
 class IndexController extends Controller
 {
     public function _initialize()
@@ -33,7 +36,7 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('is_top=1 OR is_forum_top=1 AND forum_id=' . intval($id))->order('is_top desc,is_forum_top desc,last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('(is_top='.TOP_ALL.') OR (is_top='.TOP_FORUM.' AND forum_id=' . intval($id).')')->order('last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);

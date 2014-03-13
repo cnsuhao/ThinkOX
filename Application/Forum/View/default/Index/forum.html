@@ -26,7 +26,7 @@
                                        href="{:U('Index/detail',array('id'=>$document['id']))}">
                                         {$document.title|htmlspecialchars}
                                         <eq name="document.is_top" value="1"><i class="post_top">全局</i><else/>
-                                            <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本版</i></eq>
+                                            <eq name="document.is_top" value="2"><i class="post_top_forum">本版</i></eq>
                                         </eq>
 
                                     </a>
@@ -89,7 +89,7 @@
                                 <a class="forum-list-title-link"
                                    href="{:U('Index/detail',array('id'=>$document['id']))}">{$document.title|htmlspecialchars}
                                     <eq name="document.is_top" value="1"><i class="post_top">全局</i><else/>
-                                        <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本版</i></eq>
+                                        <eq name="document.is_top" value="2"><i class="post_top_forum">本版</i></eq>
                                     </eq>
                                 </a>
                             </p>
