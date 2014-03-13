@@ -169,7 +169,7 @@ function bindMessageChecker() {
                 $nav_bandage_count.text(count + msg.length);
             }
         }, 'json');
-    }, 3000);
+    }, 10000);
 
     function tip_message(text, title) {
         toastr.options = {
