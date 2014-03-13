@@ -22,4 +22,24 @@ class PublicController extends Controller
 
         echo json_encode($userProfile);
     }
+
+    public function getMessage()
+    {
+        $now = time();
+        $count = D('message')->where('to_uid=' . is_login() . ' and is_read=0 and last_toast=0')->count();
+
+        if ($count) {
+            $messages = D('message')->where('to_uid=' . is_login() . ' and  is_read=0  and last_toast=0')->order('id desc')->limit(99)->select();
+
+            $result['count'] = D('message')->where('to_uid=' . is_login() . ' and is_read=0 ')->count();
+            $result['last_id'] = $messages[0]['id'];
+            $result['messages'] = $messages;
+            D('message')->where('to_uid=' . is_login() . ' and  is_read=0 and last_toast=0')->setField('last_toast', $now); //设为已经推荐过的
+            exit(json_encode($result));
+        } else {
+            $result['count'] =  D('message')->where('to_uid=' . is_login() . ' and is_read=0 ')->count();
+            $result['messages']=0;
+            exit(json_encode($result));
+        }
+    }
 }

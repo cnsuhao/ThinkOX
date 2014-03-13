@@ -24,6 +24,7 @@ function U(url, params) {
 $(function () {
     ucard();
     bindGoTop();
+    bindMessageChecker();
 });
 function ucard() {
     $('[ucard]').qtip({ // Grab some elements to apply the tooltip to
@@ -68,12 +69,12 @@ function bindGoTop() {
 }
 function playsound(file) {
     $('embed').remove();
-    $('body').append('<embed src="'+file+'" autostart="true" hidden="true" loop="false">');
+    $('body').append('<embed src="' + file + '" autostart="true" hidden="true" loop="false">');
     var div = document.getElementById('music');
-    div.src=file;
+    div.src = file;
 }
 
-function op_success(text,title){
+function op_success(text, title) {
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -88,9 +89,9 @@ function op_success(text,title){
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.success(text,title);
+    toastr.success(text, title);
 }
-function op_error(text,title){
+function op_error(text, title) {
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -105,9 +106,9 @@ function op_error(text,title){
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.error(text,title);
+    toastr.error(text, title);
 }
-function op_info(text,title){
+function op_info(text, title) {
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -122,9 +123,9 @@ function op_info(text,title){
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.info(text,title);
+    toastr.info(text, title);
 }
-function op_warning(text,title){
+function op_warning(text, title) {
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -139,5 +140,47 @@ function op_warning(text,title){
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     }
-    toastr.warning(text,title);
+    toastr.warning(text, title);
+}
+
+
+function bindMessageChecker() {
+    $hint_count = $('#nav_hint_count');
+    $nav_bandage_count=$('#nav_bandage_count');
+    setInterval(function () {
+        $.get(U('Usercenter/Public/getMessage'),{}, function (msg) {
+            if (msg.messages!=0) {
+                playsound('Public/static/plusjs/tip.mp3');
+
+                for (var index in msg['messages']) {
+                    tip_message(msg['messages'][index]['content'], msg['messages'][index]['title']);
+                }
+
+            }
+            $hint_count.text(msg.count);
+            $nav_bandage_count.show();
+            $nav_bandage_count.text(msg.count);
+        }, 'json');
+
+    }, 3000);
+
+    function tip_message(text, title) {
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "1000",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr.info(text, title);
+
+
+    }
 }
