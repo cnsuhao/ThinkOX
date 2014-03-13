@@ -18,9 +18,12 @@ body {
 .navbar-avatar-img {
   border-radius: 100%;
   width: 100%;
+  border: solid 2px #fff;
   margin-top: -15px;
   margin-bottom: -15px;
-  width: 30px;
+  width: 32px;
+  box-shadow: 0 1px 3px #666666;
+  -moz-box-shadow: 0 1px 3px #666666;
 }
 .index-feature-div {
   border-radius: 100%;
