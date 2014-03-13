@@ -30,6 +30,9 @@ class ForumPostReplyModel extends Model {
         //增加帖子的回复数
         D('ForumPost')->where(array('id'=>$post_id))->setInc('reply_count');
 
+        //更新最后回复时间
+        D("ForumPost")->where(array('id'=>$post_id))->setField('last_reply_time', time());
+
         //返回结果
         return $result;
     }
