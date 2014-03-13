@@ -19,6 +19,14 @@ class IndexController extends Controller
     {
         //读取板块列表
         $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
+
+        //判断板块能否发帖
+        foreach($forum_list as &$e) {
+            $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
+        }
+        unset($e);
+
+        //
         $this->assign('forum_list', $forum_list);
     }
 
@@ -281,7 +289,7 @@ class IndexController extends Controller
     private function requireForumAllowCurrentUserGroup($forum_id)
     {
         if (!$this->isForumAllowCurrentUserGroup($forum_id)) {
-            $this->error('您所在的用户组不允许发帖');
+            $this->error('该板块不允许发帖');
         }
     }
 
