@@ -110,7 +110,7 @@ class IndexController extends BaseController {
         $this->ensureApiSuccess($result);
 
         //显示成功消息
-        $this->ajaxReturn($result);
+        $this->success($result['message']);
     }
 
     public function doBindMobile2($verify) {
