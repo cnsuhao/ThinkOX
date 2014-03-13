@@ -6,11 +6,11 @@
 
 <block name="body">
     <php>
-        $user = query_user(array('avatar128','username','uid'));
+        query_user(array('avatar128','username','uid'));
     </php>
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-8" style="background-color: #fff;">
+            <div class="col-md-8 weibo_main" >
                 <div class="row">
                     <div class="col-md-12">
                         <br/>
@@ -31,13 +31,14 @@
                 <hr/>
 
                 <div id="weibo_list">
-                    <include file="loadWeibo"/>
+                    <include file="loadweibo"/>
                 </div>
                 <div id="load_more" class="text-center text-muted">
                     <p id="load_more_text">载入更多</p>
                 </div>
             </div>
             <div class="col-md-4">
+                {:W('UserList/lists',array('forum_id'=>$forum_id))}
             </div>
         </div>
     </div>
@@ -149,7 +150,7 @@
                 }
 
                 //通过服务器载入微博列表
-                var url = "{:U('loadWeibo')}";
+                var url = "{:U('loadweibo')}";
                 isLoadingWeibo = true;
                 $('#load_more_text').text('正在载入...');
                 $.post(url, {page:page}, function(a){

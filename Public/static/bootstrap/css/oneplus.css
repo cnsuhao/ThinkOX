@@ -1,6 +1,11 @@
 body {
   font-family: "Microsoft YaHei";
 }
+.boxShadow {
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -96,9 +101,14 @@ body {
   padding-top: 15px;
   background-color: #ffffff;
   margin-bottom: 2em;
+  border-radius: 0.2em;
   box-shadow: 0 0 5px #cccccc;
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
+.fourm-top h2,
+.fourm-posts h2 {
+  margin: 0 10px 10px 10px;
 }
 .fourm-top .author,
 .fourm-posts .author {
@@ -131,7 +141,6 @@ body {
 }
 .post_top,
 .post_top_forum {
-  font-family: "Microsoft YaHei";
   height: 2em;
   margin-left: 1em;
   display: inline-block;
@@ -143,13 +152,67 @@ body {
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .post_top_forum {
   background: dodgerblue;
 }
+.post_content img {
+  max-width: 100%;
+}
+h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0;
+  margin-bottom: .5em;
+  border-bottom: solid 2px #ccc;
+  padding-bottom: .5em;
+}
 .forum-detail-content-text {
   font-size: 1.5em;
   line-height: 1.75em;
+}
+.hot_post {
+  background: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 15px;
+  padding-bottom: 0;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
+.hot_post dt:last-child {
+  border: none;
+}
+.hot_post dt {
+  font-weight: 1em;
+  line-height: 1.7em;
+  margin-bottom: .8em;
+  padding-bottom: .8em;
+  border-bottom: 1px dashed #ccc;
+}
+.hot_post dt .hot_num {
+  background: #4eb87a;
+  padding: 0 0.5em;
+  font-style: normal;
+  color: white;
+  border-radius: 0.3em;
+  font-size: .9em;
+  display: inline-block;
+}
+.hot_post dt a {
+  color: #333;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 200px;
 }
 .link-black {
   color: #333333;
@@ -192,4 +255,40 @@ body {
 }
 .ribbion-green a:hover {
   text-decoration: none;
+}
+.weibo_main {
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+  background: white;
+  border-radius: 0.2em;
+}
+#goTopBtn {
+  z-index: 999;
+  position: fixed;
+  line-height: 36px;
+  width: 48px;
+  bottom: 35px;
+  height: 49px;
+  cursor: pointer;
+  display: none;
+  background: url(../../../../Public/Home/images/oneplus/gotop.png);
+}
+#goTopBtn:hover {
+  background-position: 48px 0;
+}
+.userList {
+  padding-left: 15px;
+  text-align: center;
+}
+.userList li {
+  text-align: left;
+  list-style: none;
+  float: left;
+  margin-bottom: 15px;
+  margin-right: 14px;
+}
+.userList li img {
+  width: 64px;
+  height: 64px;
 }

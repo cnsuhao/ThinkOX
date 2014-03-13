@@ -3,6 +3,7 @@
 <block name="body">
     <if condition="$list_top">
         <div class="row fourm-top">
+            <h2>置顶推荐</h2>
             <div class="col-md-12">
                 <section id="top">
                     <volist name="list_top" id="document">
@@ -19,13 +20,15 @@
                                 </p>
                             </div>
                             <div class="col-md-11">
+
                                 <p>
                                     <a class="forum-list-title-link"
                                        href="{:U('Index/detail',array('id'=>$document['id']))}">
                                         {$document.title|htmlspecialchars}
-                                        <eq name="document.is_top" value="1"><i class="post_top">全局</i>
+                                        <eq name="document.is_top" value="1"><i class="post_top">全局</i><else/>
+                                            <eq name="document.is_top" value="2"><i class="post_top_forum">本版</i></eq>
                                         </eq>
-                                        <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本类</i></eq>
+
                                     </a>
                                 </p>
 
@@ -54,6 +57,7 @@
     </if>
 
     <div class="row fourm-posts">
+        <h2>本版帖子</h2>
         <div class="col-md-12">
             <section id="contents">
                 <if condition="!$list">
@@ -84,9 +88,9 @@
                             <p>
                                 <a class="forum-list-title-link"
                                    href="{:U('Index/detail',array('id'=>$document['id']))}">{$document.title|htmlspecialchars}
-                                    <eq name="document.is_top" value="1"><i class="post_top">全局</i>
+                                    <eq name="document.is_top" value="1"><i class="post_top">全局</i><else/>
+                                        <eq name="document.is_top" value="2"><i class="post_top_forum">本版</i></eq>
                                     </eq>
-                                    <eq name="document.is_forum_top" value="1"><i class="post_top_forum">本类</i></eq>
                                 </a>
                             </p>
 

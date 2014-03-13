@@ -1,23 +1,26 @@
 <volist name="list" id="weibo">
-    <php>
-        $user = query_user(array('avatar64','username','uid','space_url'), $weibo['uid']);
-    </php>
+
     <div class="row" id="weibo_{$weibo.id}">
         <div class="col-md-12">
             <div class="pull-left">
-                <a href="{$user.space_url}" ucard="{$user.uid}" ><img src="{$user.avatar64}" class="avatar-img" style="width: 64px;"/></a>
+                <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}"><img src="{$weibo.user.avatar64}"
+                                                                                 class="avatar-img"
+                                                                                 style="width: 64px;"/></a>
             </div>
 
             <div style="padding-left: 16px; overflow: hidden;">
-                <p><a ucard="{$user.uid}"  href="{$user.space_url}">{$user.username|htmlspecialchars}</a></p>
+                <p><a ucard="{$weibo.user.uid}"
+                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a></p>
+
                 <p>{$weibo.content|htmlspecialchars}</p>
+
                 <p>
                     <span class="text-primary">{$weibo.create_time|time_format}</span>
                     <a class="pull-right text-primary weibo-comment-link" href="#" data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
-                        <include file="commentText"/>
+                        <include file="commenttext"/>
                     </a>
                 </p>
                 <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
@@ -34,3 +37,6 @@
 
     <hr/>
 </volist>
+<script>
+    ucard();
+</script>
