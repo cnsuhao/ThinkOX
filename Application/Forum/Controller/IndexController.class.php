@@ -18,7 +18,7 @@ class IndexController extends Controller
     public function _initialize()
     {
         //读取板块列表
-        $forum_list = D('Forum/Forum')->where(array('status' => 1))->select();
+        $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
         $this->assign('forum_list', $forum_list);
     }
 

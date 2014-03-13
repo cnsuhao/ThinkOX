@@ -9,7 +9,7 @@
 namespace Admin\Controller;
 use Admin\Builder\AdminListBuilder;
 use Admin\Builder\AdminConfigBuilder;
-use Admin\Model\AuthGroupModel;
+use Admin\Builder\AdminSortBuilder;
 
 class ForumController extends AdminController {
 
@@ -21,7 +21,7 @@ class ForumController extends AdminController {
         //读取数据
         $map = array('status'=>array('GT',-1));
         $model = M('Forum');
-        $list = $model->where($map)->page($page, 10)->select();
+        $list = $model->where($map)->page($page, 10)->order('sort asc')->select();
         $totalCount = $model->where($map)->count();
 
         //添加操作
@@ -39,11 +39,28 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder
             ->title('贴吧管理')
-            ->buttonNew(U('Forum/editForum'))
+            ->buttonNew(U('Forum/editForum'))->buttonSort(U('Forum/sortForum'))
             ->keyId()->keyHtml('title', '标题')->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyHtml('DOACTIONS', '操作')
             ->data($list)
             ->pagination($totalCount)
             ->display();
+    }
+
+    public function sortForum() {
+        //读取贴吧列表
+        $list = M('Forum')->where(array('status'=>array('EGT',0)))->order('sort asc')->select();
+
+        //显示页面
+        $builder = new AdminSortBuilder();
+        $builder->title('贴吧排序')
+            ->data($list)
+            ->buttonSubmit(U('doSortForum'))->buttonBack()
+            ->display();
+    }
+
+    public function doSortForum($ids) {
+        $builder = new AdminSortBuilder();
+        $builder->doSort('Forum', $ids);
     }
 
     public function editForum($id=null) {
