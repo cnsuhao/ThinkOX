@@ -293,7 +293,8 @@ class UserController extends ApiController {
     public function bindMobile($verify) {
         $this->requireLogin();
         //确认用户未绑定手机
-        $user = D('User/UcenterMember')->where(array('uid'=>$this->getUid()))->find();
+        $uid = $this->getuid();
+        $user = D('User/UcenterMember')->where(array('id'=>$uid))->find();
         if($user['mobile']) {
             $this->apiError(1801,"您已经绑定手机，需要先解绑");
         }

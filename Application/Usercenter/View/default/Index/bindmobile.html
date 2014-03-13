@@ -61,10 +61,10 @@
                 var mobile = $('#inputMobile').val();
                 $.post(url, {mobile:mobile}, function(a){
                     console.log(a);
-                    if(a.success) {
-                        $('#successTip').text(a.message);
+                    if(a.status) {
+                        $('#successTip').text(a.info);
                     } else {
-                        $('#errorTip').text(a.message);
+                        $('#errorTip').text(a.info);
                         $button.removeClass('disabled');
                     }
                 });
