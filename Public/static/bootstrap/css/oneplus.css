@@ -263,3 +263,17 @@ h2 {
   background: white;
   border-radius: 0.2em;
 }
+#goTopBtn {
+  z-index: 999;
+  position: fixed;
+  line-height: 36px;
+  width: 48px;
+  bottom: 35px;
+  height: 49px;
+  cursor: pointer;
+  display: none;
+  background: url(../../../../Public/Home/images/oneplus/gotop.png);
+}
+#goTopBtn:hover {
+  background-position: 48px 0;
+}

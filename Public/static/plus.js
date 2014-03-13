@@ -23,6 +23,7 @@ function U(url, params) {
 }
 $(function () {
     ucard();
+    bindGoTop();
 });
 function ucard() {
     $('[ucard]').qtip({ // Grab some elements to apply the tooltip to
@@ -47,4 +48,21 @@ function ucard() {
             classes: 'qtip-shadow qtip-bootstrap'
         }
     })
+}
+function bindGoTop(){
+    $(window).scroll(function(){
+        var sc=$(window).scrollTop();
+        //var rwidth=$(window).width()
+        if(sc>0){
+            $("#goTopBtn").css("display","block");
+            $("#goTopBtn").css("right","50px")
+        }else{
+            $("#goTopBtn").css("display","none");
+        }
+    })
+
+    $("#goTopBtn").click(function(){
+        var sc=$(window).scrollTop();
+        $('body,html').animate({scrollTop:0},500);
+    });
 }

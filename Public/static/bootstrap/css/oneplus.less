@@ -122,8 +122,8 @@ body {
   margin-bottom: 2em;
   border-radius: 0.2em;
   .boxShadow;
-  h2{
-    margin:0 10px 10px 10px;
+  h2 {
+    margin: 0 10px 10px 10px;
   }
   .author {
     margin-bottom: 0;
@@ -181,8 +181,9 @@ body {
 .post_top_forum {
   background: dodgerblue;
 }
-.post_content{
-  img{
+
+.post_content {
+  img {
     max-width: 100%;
   }
 }
@@ -195,6 +196,7 @@ h2 {
   border-bottom: solid 2px #ccc;
   padding-bottom: .5em;
 }
+
 .forum-detail-content-text {
   font-size: 1.5em;
   line-height: 1.75em;
@@ -210,7 +212,6 @@ h2 {
     border: none;
 
   }
-
 
   .boxShadow;
 
@@ -233,10 +234,10 @@ h2 {
       color: #333;
       font-weight: normal;
       font-size: 14px;
-      line-height:1em;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      overflow:hidden;
+      line-height: 1em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
       display: inline-block;
       width: 200px;
     }
@@ -296,11 +297,23 @@ h2 {
   }
 }
 
-
-
-
-.weibo_main{
+.weibo_main {
   .boxShadow;
   background: white;
   border-radius: 0.2em;
+}
+
+#goTopBtn {
+  z-index: 999;
+  position: fixed;
+  line-height: 36px;
+  width: 48px;
+  bottom: 35px;
+  height: 49px;
+  cursor: pointer;
+  display: none;
+  background: url(../../../../Public/Home/images/oneplus/gotop.png);
+  &:hover {
+    background-position: 48px 0;
+  }
 }
