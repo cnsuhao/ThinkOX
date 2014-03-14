@@ -17,7 +17,9 @@ class PublicController extends Controller
     public function getProfile()
     {
         $uid = $_REQUEST['uid'];
-        $userProfile = callApi('User/getProfile', array('uid' => $uid));
+        $userProfile = query_user(array('username', 'score', 'signature', 'last_login_time', 'reg_time','title'),$uid);
+
+        //callApi('User/getProfile', array('uid' => $uid));
         $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
 
         echo json_encode($userProfile);

@@ -51,8 +51,7 @@ function ucard() {
                     var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
                     var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
-                        + '<p>个性签名：' + signature + ' </p></div>');
-
+                        + '<p>个性签名：' + signature + ' </p><p>最后登录：'+friendlyDate(userProfile.last_login_time) + '</p><p>注册时间：'+friendlyDate(userProfile.reg_time) + '</p></div>');
                     api.set('content.text', tpl.html());
                     api.set('content.title', '<b>' + userProfile.username + '</b>的小名片');
 
@@ -244,8 +243,47 @@ function tip_message(text, title) {
         "hideMethod": "fadeOut"
     }
     toastr.info(text, title);
+<<<<<<< .mine
 }
 
+
+=======
+}
+
+
+>>>>>>> .theirs
+function friendlyDate(sTime, cTime) {
+    var formatTime = function (num) {
+        return (num < 10) ? '0' + num : num;
+    };
+
+    if (!sTime) {
+        return '';
+    }
+
+    var cDate = new Date(cTime * 1000);
+    var sDate = new Date(sTime * 1000);
+    var dTime = cTime - sTime;
+    var dDay = parseInt(cDate.getDate()) - parseInt(sDate.getDate());
+    var dMonth = parseInt(cDate.getMonth() + 1) - parseInt(sDate.getMonth() + 1);
+    var dYear = parseInt(cDate.getFullYear()) - parseInt(sDate.getFullYear());
+
+    if (dTime < 60) {
+        if (dTime < 10) {
+            return '刚刚';
+        } else {
+            return parseInt(Math.floor(dTime / 10) * 10) + '秒前';
+        }
+    } else if (dTime < 3600) {
+        return parseInt(Math.floor(dTime / 60)) + '分钟前';
+    } else if (dYear === 0 && dMonth === 0 && dDay === 0) {
+        return '今天' + formatTime(sDate.getHours()) + ':' + formatTime(sDate.getMinutes());
+    } else if (dYear === 0) {
+        return formatTime(sDate.getMonth() + 1) + '月' + formatTime(sDate.getDate()) + '日 ' + formatTime(sDate.getHours()) + ':' + formatTime(sDate.getMinutes());
+    } else {
+        return sDate.getFullYear() + '-' + formatTime(sDate.getMonth() + 1) + '-' + formatTime(sDate.getDate()) + ' ' + formatTime(sDate.getHours()) + ':' + formatTime(sDate.getMinutes());
+    }
+}
 
 /**
  * Ajax系列
@@ -313,4 +351,62 @@ $(function(){
         //返回
         return false;
     });
+})<<<<<<< .mine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+        //获取提交地址，方式
+        var action = $(this).attr('action');
+        var method = $(this).attr('method');
+
+        //检测提交地址
+        if(!action) {
+            return false;
+        }
+
+        //默认提交方式为get
+        if(!method) {
+            method = 'get';
+        }
+
+        //获取表单内容
+        var formContent = $(this).serialize();
+
+        //发送提交请求
+        if(method == 'post') {
+            $.post(action, formContent, function(a){
+                handleAjax(a);
+            });
+        }
+
+        //返回
+        return false;
+    });
 })
+>>>>>>> .theirs
