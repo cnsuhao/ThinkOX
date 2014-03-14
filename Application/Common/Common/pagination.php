@@ -50,23 +50,11 @@ function getPagination($totalCount, $countPerPage=10) {
 
 
 function addUrlParam($url, $params) {
-    //添加一个前缀，然后进行URL解析
-    $parse = parse_url('http://localhost'.$url);
-    //合并URL参数
-    $query = $parse['query'];
-    if(!$query) $query = array();
-    $query2 = array();
-    parse_str($query, $query2);
-    $query = $query2;
-    $query = array_merge($query,$params);
-    //重建QUERY参数
-    $query = http_build_query($query);
-    //重建URL
-    if($query) $query = '?'.$query;
-    $fragment = $parse['fragment'] ? '#'.$parse['fragment'] : '';
-    $url = $parse['path'].$query.$fragment;
-    //返回结果
-    return $url;
+    $app = MODULE_NAME;
+    $controller = CONTROLLER_NAME;
+    $action = ACTION_NAME;
+    $get = array_merge($_GET, $params);
+    return U("$app/$controller/$action", $get);
 }
 
 function getCurrentUrl() {
