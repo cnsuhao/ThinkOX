@@ -429,6 +429,20 @@ h2 {
   display: block;
   color: darkred;
 }
+.dropdown-menu.notification .set_read {
+  cursor: pointer;
+  background: none;
+  margin-left: 24px;
+  color: #48b87a;
+}
+.dropdown .nav_align_left {
+  margin-left: -12px;
+}
+.dropdown-menu.notification .nav_info_center {
+  border-bottom: 1px solid #f4f4f4 !important;
+  padding: 10px !important;
+  background-color: #ffffff;
+}
 /* header inbox dropdowns */
 .dropdown-menu.inbox li > a .photo {
   float: left;

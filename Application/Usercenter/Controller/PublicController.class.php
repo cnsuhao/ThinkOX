@@ -17,7 +17,7 @@ class PublicController extends Controller
     public function getProfile()
     {
         $uid = $_REQUEST['uid'];
-        $userProfile = query_user(array('username', 'score', 'signature', 'last_login_time', 'reg_time','title'),$uid);
+        $userProfile = query_user(array('username', 'score', 'signature', 'last_login_time', 'reg_time', 'title'), $uid);
 
         //callApi('User/getProfile', array('uid' => $uid));
         $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
@@ -33,5 +33,10 @@ class PublicController extends Controller
         $haventToastMessages = $message->getHaventToastMessage(is_login());
         $message->setAllToasted(is_login());
         exit(json_encode($haventToastMessages));
+    }
+
+    public function setAllMessageReaded()
+    {
+        D('Message')->setAllReaded(is_login());
     }
 }
