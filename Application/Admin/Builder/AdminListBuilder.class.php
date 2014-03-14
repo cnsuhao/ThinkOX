@@ -115,6 +115,14 @@ class AdminListBuilder extends AdminBuilder {
             return htmlspecialchars($value);
         });
 
+        //如果html为空
+        $this->convertKey('html', 'html', function($key, $value){
+            if($value === '') {
+                return '<span style="color:#bbb;">（空）</span>';
+            }
+            return $value;
+        });
+
         //编译buttonList中的属性
         foreach($this->_buttonList as &$button) {
             $button['tag'] = isset($button['attr']['href']) ? 'a' : 'button';

@@ -8,9 +8,12 @@
         <volist name="keyList" id="field">
             <label class="item-label">{$field.title|htmlspecialchars}
                 <if condition="$field['subtitle']">
-                    <span>（{$field.subtitle|htmlspecialchars}）</span>
+                    <span class="check-tips">（{$field.subtitle|htmlspecialchars}）</span>
                 </if>
             </label>
+            <if condition="$field['name'] == 'action'">
+                <p style="color: #f00;">开发人员注意：你使用了一个名称为action的字段，由于这个字段名称会与form[action]冲突，导致无法提交表单，请换用另外一个名字。</p>
+            </if>
             <div class="controls">
                 <switch name="field.type">
                     <case value="text">
@@ -70,6 +73,9 @@
                             <textarea name="{$field.name}">{$field.value|htmlspecialchars}</textarea>
                             {:hook('adminArticleEdit', array('name'=>$field['name'],'value'=>$field['value']))}
                         </label>
+                    </case>
+                    <case value="textarea">
+                        <textarea name="{$field.name}" class="text input-large" style="height: 8em;">{$field.value|htmlspecialchars}</textarea>
                     </case>
                     <case value="time">
                         <php>

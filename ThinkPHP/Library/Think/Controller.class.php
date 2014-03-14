@@ -33,6 +33,12 @@ abstract class Controller {
      * @access public
      */
     public function __construct() {
+        //读取SEO规则
+        $meta = D('SeoRule')->getMetaOfCurrentPage();
+        define('ONEPLUS_SEO_TITLE', $meta['title']);
+        define('ONEPLUS_SEO_KEYWORDS', $meta['keywords']);
+        define('ONEPLUS_SEO_DESCRIPTION', $meta['description']);
+
         Hook::listen('action_begin',$this->config);
         //实例化视图类
         $this->view     = Think::instance('Think\View');
