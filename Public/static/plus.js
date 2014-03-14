@@ -317,6 +317,10 @@ $(function(){
         //取消默认动作，防止表单两次提交
         e.preventDefault();
 
+        //禁用提交按钮，防止重复提交
+        var form = $(this);
+        $('[type=submit]', form).addClass('disabled');
+
         //获取提交地址，方式
         var action = $(this).attr('action');
         var method = $(this).attr('method');
@@ -338,6 +342,7 @@ $(function(){
         if(method == 'post') {
             $.post(action, formContent, function(a){
                 handleAjax(a);
+                $('[type=submit]', form).removeClass('disabled');
             });
         }
 
