@@ -17,6 +17,9 @@ a:hover {
 .avatar-img {
   border-radius: 100%;
   width: 100%;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .navbar-nav > li > a {
   line-height: 28px;
@@ -24,12 +27,33 @@ a:hover {
 .navbar-avatar-img {
   border-radius: 100%;
   width: 100%;
+  box-shadow: 0 0 5px #cccccc;
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
   border: solid 2px #fff;
   margin-top: -20px;
   margin-bottom: -15px;
   width: 54px;
   box-shadow: 0 1px 3px #666666;
   -moz-box-shadow: 0 1px 3px #666666;
+}
+.message-body {
+  border-bottom: 1px solid #e3e3e3;
+  padding-bottom: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.message-body div {
+  font-style: normal;
+}
+.message-body .message-ctime {
+  font-weight: normal;
+}
+.message-body .message_icon {
+  text-align: center;
+}
+.message-body .message_icon img {
+  margin-bottom: 0.5em;
 }
 .index-feature-div {
   border-radius: 100%;
@@ -153,8 +177,32 @@ a:hover {
   height: 18px;
   vertical-align: middle;
 }
+.ucenter-tab li {
+  float: left;
+}
+.ucenter-tab li a {
+  background: none;
+  padding: 0.4em 0.5em;
+  font-size: 16px;
+  border-radius: 0.4em;
+  margin-right: 1em;
+  background: #eeeeee;
+}
+.ucenter-tab li a:hover {
+  background-color: #7080a4 !important;
+  color: white !important;
+}
+.ucenter-tab .active a {
+  background-color: #7080a4 !important;
+  color: white !important;
+}
+.message-body {
+  margin-top: 2em;
+  margin-bottom: 10px;
+}
 .post_top,
-.post_top_forum {
+.post_top_forum,
+.op_rectangle {
   height: 2em;
   margin-left: 1em;
   display: inline-block;
@@ -162,7 +210,7 @@ a:hover {
   font-style: normal;
   font-size: 0.5em;
   color: white;
-  background: #ff9304;
+  background: #48b87a;
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;

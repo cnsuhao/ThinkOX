@@ -45,9 +45,9 @@
                                 </div>
                             </li>
                             <li>
-                                <div style="position: relative;width: auto;overflow: hidden; ">
+                                <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
                                     <ul id="nav_message" class="dropdown-menu-list scroller "
-                                        style=" width: auto;max-height: 250px">
+                                        style=" width: auto;">
                                         <volist name="unreadMessage" id="message">
                                             <li>
                                                 <a href="{$message.url}">
@@ -64,7 +64,7 @@
 
                             </li>
                             <li class="external">
-                                <a href="#">
+                                <a href="{:U('Usercenter/Index/message')}">
                                     查看全部 <i class="glyphicon glyphicon-circle-arrow-right"
                                             style="background: none;color: rgb(72,184,122)"></i>
                                 </a>
@@ -97,7 +97,7 @@
                             $common_header_user = query_user(array('avatar64'));
                         </php>
                         <a href="#" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
-                            <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img" style=""/>
+                            <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img"/>
                             </b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{:U('UserCenter/Index/index')}">个人中心</a></li>
