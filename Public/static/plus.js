@@ -243,15 +243,8 @@ function tip_message(text, title) {
         "hideMethod": "fadeOut"
     }
     toastr.info(text, title);
-<<<<<<< .mine
 }
 
-
-=======
-}
-
-
->>>>>>> .theirs
 function friendlyDate(sTime, cTime) {
     var formatTime = function (num) {
         return (num < 10) ? '0' + num : num;
@@ -351,7 +344,8 @@ $(function(){
         //返回
         return false;
     });
-})<<<<<<< .mine
+})
+
 
 
 
@@ -409,4 +403,3 @@ $(function(){
         return false;
     });
 })
->>>>>>> .theirs
