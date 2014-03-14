@@ -24,7 +24,7 @@ class UserListWidget extends Action
         $users = S('weibo_latest_user');
         if (empty($users)) {
             $fields = 'id';
-            $user = D('ucenter_member')->where($map)->field($fields)->order($order)->limit(8)->select();
+            $user = D('ucenter_member')->where($map)->field($fields)->order($order)->limit(9)->select();
             foreach ($user as &$uid) {
                 $uid['user'] = query_user(array('avatar64', 'username', 'space_url', 'space_link'), $uid['id']);
             }
