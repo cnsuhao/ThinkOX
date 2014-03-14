@@ -225,11 +225,11 @@ a:hover {
   max-width: 100%;
 }
 h2 {
-  font-size: 1.2em;
+  font-size: 1.4em;
   margin: 0;
   padding: 0;
   margin-bottom: .5em;
-  border-bottom: solid 2px #ccc;
+  /*border-bottom: solid 2px #ccc;*/
   padding-bottom: .5em;
 }
 .forum-detail-content-text {
