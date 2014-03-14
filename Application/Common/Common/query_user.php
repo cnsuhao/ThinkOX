@@ -20,6 +20,10 @@
  */
 function query_user($fields, $uid = null)
 {
+    $uid = $uid ? $uid : is_login();
+    if (!$uid) {
+        return null;
+    }
 
     $tag=implode('_',$fields);
     $tag='query_user_'.$uid.$tag;
@@ -27,10 +31,6 @@ function query_user($fields, $uid = null)
     if(empty($result))
     {
         //默认获取自己的资料
-        $uid = $uid ? $uid : is_login();
-        if (!$uid) {
-            return null;
-        }
 
         //获取两张用户表格中的所有字段
         $homeModel = M('Member');
