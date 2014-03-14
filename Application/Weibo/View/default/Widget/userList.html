@@ -4,6 +4,7 @@
         <volist name="user" id="u">
             <li>
                 <a href="{$u.user.space_url}"><img ucard="{$u.id}"  class="avatar-img" src="{$u.user.avatar64}"/></a>
+                <br/>{$u.user.space_link}
             </li>
         </volist>
     </ul>

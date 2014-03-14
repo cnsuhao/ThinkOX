@@ -19,16 +19,20 @@ class UserListWidget extends Action
 {
 
     /* 显示指定分类的同级分类或子分类列表 */
-    public function lists($map='',$order='reg_time desc')
+    public function lists($map = '', $order = 'reg_time desc')
     {
-        $fields='id';
-        $user = D('ucenter_member')->where($map)->field($fields)->order($order)->limit(8)->select();
-        foreach($user as &$uid)
-        {
-            $uid['user']=query_user(array('avatar64', 'username', 'space_url'), $uid['id']);
+        $users = S('weibo_latest_user');
+        if (empty($users)) {
+            $fields = 'id';
+            $user = D('ucenter_member')->where($map)->field($fields)->order($order)->limit(8)->select();
+            foreach ($user as &$uid) {
+                $uid['user'] = query_user(array('avatar64', 'username', 'space_url', 'space_link'), $uid['id']);
+            }
+            unset($uid);
+            $users = $user;
+            S('weibo_latest_user', $users, 300);
         }
-        unset($uid);
-        $this->assign('user', $user);
+        $this->assign('user', $users);
         $this->display('Widget/userList');
     }
 
