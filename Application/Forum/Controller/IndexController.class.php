@@ -32,7 +32,9 @@ class IndexController extends Controller
 
     public function index($page = 1)
     {
-        redirect(U('forum?id=1', array('page' => $page)));
+        //默认进入到后台配置的第一个板块
+        $forum = D('Forum')->order('sort asc')->find();
+        redirect(U('forum', array('id'=>$forum['id'], 'page' => $page)));
     }
 
     public function forum($id, $page = 1)
@@ -70,7 +72,7 @@ class IndexController extends Controller
         $map = array('post_id' => $id, 'status' => 1);
         $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, 10)->select();
         foreach ($replyList as &$reply) {
-            $reply['user'] = query_user(array('avatar128', 'username', 'space_url'), $reply['uid']);
+            $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
         }
         unset($reply);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();

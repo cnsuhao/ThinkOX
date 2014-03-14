@@ -39,9 +39,16 @@ class AdminSortBuilder extends AdminBuilder {
         return $this->button($title, $attr);
     }
 
-    public function buttonBack($title='返回') {
+    public function buttonBack($url=null, $title='返回') {
+        //默认返回当前页面
+        if(!$url) {
+            $url = $_SERVER['HTTP_REFERER'];
+        }
+
+        //添加按钮
         $attr = array();
-        $attr['onclick'] = 'javascript:history.back(-1);return false;';
+        $attr['href'] = $url;
+        $attr['onclick'] = 'javascript: location.href=$(this).attr("href");';
         $attr['class'] = 'sort_cancel btn btn-return';
         return $this->button($title, $attr);
     }
@@ -67,14 +74,14 @@ class AdminSortBuilder extends AdminBuilder {
 
     public function doSort($table, $ids) {
         $ids = explode(',', $ids);
-        $res = true;
+        $res = 0;
         foreach ($ids as $key=>$value){
-            $res = M($table)->where(array('id'=>$value))->setField('sort', $key+1);
+            $res += M($table)->where(array('id'=>$value))->setField('sort', $key+1);
         }
         if(!$res) {
-            $this->error('排序错误');
+            $this->error('排序出错');
         } else {
-            $this->success('排序成功');
+            $this->success('排序成功', $backUrl);
         }
     }
 }
