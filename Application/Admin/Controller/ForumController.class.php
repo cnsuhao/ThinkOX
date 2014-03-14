@@ -109,12 +109,12 @@ class ForumController extends AdminController {
         $this->success($isEdit ? '编辑成功' : '保存成功');
     }
 
-    public function post($page=1, $forum_id=null) {
+    public function post($page=1, $forum_id=null, $r=20) {
         //读取帖子数据
         $map = array('status'=>array('EGT', 0));
         if($forum_id) $map['forum_id'] = $forum_id;
         $model = M('ForumPost');
-        $list = $model->where($map)->order('last_reply_time desc')->page($page,20)->select();
+        $list = $model->where($map)->order('last_reply_time desc')->page($page,$r)->select();
         $totalCount = $model->where($map)->count();
 
         //添加操作选项
@@ -134,11 +134,10 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('帖子管理' . $forumTitle)
-            ->buttonNew(U('editPost'))
             ->keyId()->keyLink('title','标题','Forum/reply')
             ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyHtml('DOACTIONS', '操作')
             ->data($list)
-            ->pagination($totalCount, 20)
+            ->pagination($totalCount, $r)
             ->display();
     }
 
@@ -153,17 +152,11 @@ class ForumController extends AdminController {
             $post = array();
         }
 
-        //读取贴吧列表
-        $forumList = M('Forum')->where(array('status'=>1))->order('id asc')->select();
-        $forums = array();
-        foreach($forumList as &$e) {
-            $forums[$e['id']] = $e['title'];
-        }
-
         //显示页面
         $builder = new AdminConfigBuilder();
         $builder->title($isEdit ? '编辑帖子' : '新建帖子')
-            ->keyId()->keyTitle()->keyEditor('content','内容')->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keySelect('forum_id','所属贴吧',null,$forums)
+            ->keyId()->keyTitle()->keyEditor('content','内容')->keyCreateTime()->keyUpdateTime()
+            ->keyTime('last_reply_time','最后回复时间')
             ->buttonSubmit(U('doEditPost'))->buttonBack()
             ->data($post)
             ->display();
@@ -197,6 +190,7 @@ class ForumController extends AdminController {
         if($post_id) $map['post_id'] = $post_id;
         $model = M('ForumPostReply');
         $list = $model->where($map)->order('create_time asc')->page($page,$r)->select();
+        $totalCount = $model->where($map)->count();
 
         //添加操作链接
         foreach($list as &$e) {
@@ -213,9 +207,9 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('回复管理')
-            ->buttonNew(U('editReply'))
             ->keyId()->keyText('content', '内容')->keyCreateTime()->keyUpdateTime()->keyStatus()->keyHtml('DOACTIONS', '操作')
             ->data($list)
+            ->pagination($totalCount,$r)
             ->display();
     }
 
