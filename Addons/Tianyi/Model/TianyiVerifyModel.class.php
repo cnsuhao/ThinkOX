@@ -29,6 +29,8 @@ class TianyiVerifyModel extends Model {
         //TODO：定时更新ACCESS_TOKEN
 
         //测试模式
+        //只有特定号码段的手机才支持
+        //在测试模式下，不会真正发送短信，而且每次都假定验证码为123456
         $test = true;
 
         //确认确实是测试手机

@@ -30,9 +30,9 @@ function array_gets($array, $fields) {
 
 function saveMobileInSession($mobile) {
     session_start();
-    $_SESSION['api']['send_sms']['mobile'] = $mobile;
+    session('send_sms', array('mobile'=>$mobile));
 }
 
 function getMobileFromSession() {
-    return $_SESSION['api']['send_sms']['mobile'];
+    return session('send_sms.mobile');
 }

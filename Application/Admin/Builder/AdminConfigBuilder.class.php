@@ -38,6 +38,10 @@ class AdminConfigBuilder extends AdminBuilder {
         return $this->key($name, $title, $subtitle, 'text');
     }
 
+    public function keyTextArea($name, $title, $subtitle=null) {
+        return $this->key($name, $title, $subtitle, 'textarea');
+    }
+
     public function keyInteger($name, $title, $subtitle=null) {
         return $this->key($name, $title, $subtitle, 'integer');
     }

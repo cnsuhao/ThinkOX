@@ -320,7 +320,7 @@ class UserController extends ApiController {
         $this->requireLogin();
         //确认用户已经绑定手机
         $model = D('User/UcenterMember');
-        $user = $model->where(array('uid'=>$this->getUid()))->find();
+        $user = $model->where(array('id'=>$this->getUid()))->find();
         if(!$user['mobile']) {
             $this->apiError(1901,"您尚未绑定手机");
         }
