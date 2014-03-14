@@ -146,31 +146,6 @@
 
 <block name="script">
     <script>
-//        $(function () {
-//            $('#reply_form').submit(function (e) {
-//                //获取评论内容
-//                var content = $('[name=reply_content]').val();
-//                var action = $('#reply_form').attr('action');
-//
-//                //提交到服务器
-//                var replyButton = $('#reply_button');
-//                replyButton.attr('class', 'btn btn-primary disabled');
-//                replyButton.val('正在发表...');
-//                $.post(action, {content: content}, function (a) {
-//                    if (a.status) {
-//                        location.href = location.href;
-//                    } else {
-//                        replyButton.val(a.info);
-//                        replyButton.attr('class', 'btn btn-danger');
-//                    }
-//                });
-//
-//                //取消默认操作
-//                e.preventDefault();
-//                return false;
-//            });
-//        });
-
         //点击收藏/取消收藏按钮
         $(function () {
             $('#bookmark_button a, #unbookmark_button a').click(function (e) {
