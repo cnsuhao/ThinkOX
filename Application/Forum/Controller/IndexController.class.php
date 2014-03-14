@@ -32,7 +32,9 @@ class IndexController extends Controller
 
     public function index($page = 1)
     {
-        redirect(U('forum?id=1', array('page' => $page)));
+        //默认进入到后台配置的第一个板块
+        $forum = D('Forum')->order('sort asc')->find();
+        redirect(U('forum', array('id'=>$forum['id'], 'page' => $page)));
     }
 
     public function forum($id, $page = 1)
