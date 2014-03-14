@@ -24,6 +24,7 @@ function U(url, params) {
 $(function () {
     ucard();
     bindGoTop();
+    checkMessage();
     bindMessageChecker();
 });
 function ucard() {
@@ -144,50 +145,55 @@ function op_warning(text, title) {
 }
 
 
+function checkMessage() {
+    $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
+        if (msg) {
+            playsound('Public/static/plusjs/tip.mp3');
+            for (var index in msg) {
+                tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
+                //  var url=msg[index]['url']===''?U('') //设置默认跳转到消息中心
+
+
+                var new_html = $('<span><li><a href="' + msg[index]['url'] + '"><i class="glyphicon glyphicon-bell"></i>' +
+                    msg[index]['title'] + '<br/><span class="time">' + msg[index]['ctime'] +
+                    '</span> </a></li></span>');
+                $('#nav_message').prepend(new_html.html());
+
+
+            }
+            var count = parseInt($hint_count.text());
+            $hint_count.text(count + msg.length);
+            $nav_bandage_count.show();
+            $nav_bandage_count.text(count + msg.length);
+        }
+    }, 'json');
+}
 function bindMessageChecker() {
     $hint_count = $('#nav_hint_count');
     $nav_bandage_count = $('#nav_bandage_count');
 
     setInterval(function () {
-        $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
-            if (msg) {
-                playsound('Public/static/plusjs/tip.mp3');
-                for (var index in msg) {
-                    tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
-
-
-                    var new_html = $('<span><li><a href="#"><i class="glyphicon glyphicon-bell"></i>' +
-                        msg[index]['title'] + '<br/><span class="time">' + msg[index]['ctime'] +
-                        '</span> </a></li></span>');
-                    $('#nav_message').prepend(new_html.html());
-
-
-                }
-                var count = parseInt($hint_count.text());
-                $hint_count.text(count + msg.length);
-                $nav_bandage_count.show();
-                $nav_bandage_count.text(count + msg.length);
-            }
-        }, 'json');
+        checkMessage();
     }, 10000);
 
-    function tip_message(text, title) {
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "positionClass": "toast-top-right",
-            "onclick": null,
-            "showDuration": "1000",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        toastr.info(text, title);
 
-
+}
+function tip_message(text, title) {
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-top-right",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
     }
+    toastr.info(text, title);
+
+
 }
