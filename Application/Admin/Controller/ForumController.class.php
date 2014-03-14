@@ -26,10 +26,6 @@ class ForumController extends AdminController {
 
         //添加操作
         foreach($list as &$e) {
-            //标题
-            $forumUrl = U('Forum/post', array('forum_id'=>$e['id']));
-            $e['title'] = "<a href=\"{$forumUrl}\">{$e[title]}</a>";
-
             //添加操作
             $editUrl = U('Forum/editForum', array('id'=>$e['id']));
             $e['DOACTIONS'] = "<a href=\"{$editUrl}\">编辑</a>";
@@ -40,7 +36,8 @@ class ForumController extends AdminController {
         $builder
             ->title('贴吧管理')
             ->buttonNew(U('Forum/editForum'))->buttonSort(U('Forum/sortForum'))
-            ->keyId()->keyHtml('title', '标题')->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyHtml('DOACTIONS', '操作')
+            ->keyId()->keyLink('title', '标题', 'Forum/post')
+            ->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyHtml('DOACTIONS', '操作')
             ->data($list)
             ->pagination($totalCount)
             ->display();
@@ -138,7 +135,7 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder->title('帖子管理' . $forumTitle)
             ->buttonNew(U('editPost'))
-            ->keyId()->keyLink('title','标题',function($post){return U('reply',array('post_id'=>$post['id']));})
+            ->keyId()->keyLink('title','标题','Forum/reply')
             ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyHtml('DOACTIONS', '操作')
             ->data($list)
             ->pagination($totalCount, 20)

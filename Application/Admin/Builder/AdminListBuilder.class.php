@@ -57,7 +57,23 @@ class AdminListBuilder extends AdminBuilder {
         return $this->keyText($name, $title);
     }
 
+    /**
+     * @param $name
+     * @param $title
+     * @param $getUrl Closure|string
+     * 可以是函数或U函数解析的字符串。如果是字符串，该函数将附带一个id参数
+     *
+     * @return $this
+     */
     public function keyLink($name, $title, $getUrl) {
+        //如果getUrl是一个字符串，则表示getUrl是一个U函数解析的字符串
+        if(is_string($getUrl)) {
+            $getUrl = function($item) use($getUrl){
+                return U($getUrl, array('id'=>$item['id']));
+            };
+        }
+
+        //添加key
         return $this->key($name, $title, 'link', $getUrl);
     }
 
