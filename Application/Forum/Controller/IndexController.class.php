@@ -175,7 +175,7 @@ class IndexController extends Controller
             $this->error('回复失败：' . $model->getError());
         }
         //显示成功消息
-        $this->success('回复成功');
+        $this->success('回复成功', 'refresh');
     }
 
     public function doBookmark($post_id, $add = true)

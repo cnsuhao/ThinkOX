@@ -263,10 +263,16 @@ function handleAjax(a) {
     }
 
     //需要跳转的话就跳转
-    if(a.url) {
+    var interval = 1500;
+    if(a.url == "refresh") {
         setTimeout(function(){
             location.href = a.url;
-        }, 1500);
+            location.reload();
+        }, interval);
+    } else if(a.url) {
+        setTimeout(function(){
+            location.href = a.url;
+        }, interval);
     }
 }
 

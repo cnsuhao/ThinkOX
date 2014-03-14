@@ -122,18 +122,17 @@
         <div class="row">
             <div class="col-md-2">
                 <p>
-                    <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
-                                                                         class="avatar-img"/></a>
+                    <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}" class="avatar-img"/></a>
                 </p>
             </div>
             <div class="col-md-9">
-                <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}">
+                <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post" class="ajax-form">
                     <h4>发表回复</h4>
 
                     <p>
-                        <textarea name="reply_content" placeholder="说点什么吧～" class="form-control"
+                        <textarea name="content" placeholder="说点什么吧～" class="form-control"
                                   style="height: 6em;"></textarea>
-                        {:hook('documentEditFormContent',array('name'=>'reply_content'))}
+                        {:hook('documentEditFormContent',array('name'=>'content'))}
                     </p>
 
                     <p class="pull-right">
@@ -147,30 +146,30 @@
 
 <block name="script">
     <script>
-        $(function () {
-            $('#reply_form').submit(function (e) {
-                //获取评论内容
-                var content = $('[name=reply_content]').val();
-                var action = $('#reply_form').attr('action');
-
-                //提交到服务器
-                var replyButton = $('#reply_button');
-                replyButton.attr('class', 'btn btn-primary disabled');
-                replyButton.val('正在发表...');
-                $.post(action, {content: content}, function (a) {
-                    if (a.status) {
-                        location.href = location.href;
-                    } else {
-                        replyButton.val(a.info);
-                        replyButton.attr('class', 'btn btn-danger');
-                    }
-                });
-
-                //取消默认操作
-                e.preventDefault();
-                return false;
-            });
-        });
+//        $(function () {
+//            $('#reply_form').submit(function (e) {
+//                //获取评论内容
+//                var content = $('[name=reply_content]').val();
+//                var action = $('#reply_form').attr('action');
+//
+//                //提交到服务器
+//                var replyButton = $('#reply_button');
+//                replyButton.attr('class', 'btn btn-primary disabled');
+//                replyButton.val('正在发表...');
+//                $.post(action, {content: content}, function (a) {
+//                    if (a.status) {
+//                        location.href = location.href;
+//                    } else {
+//                        replyButton.val(a.info);
+//                        replyButton.attr('class', 'btn btn-danger');
+//                    }
+//                });
+//
+//                //取消默认操作
+//                e.preventDefault();
+//                return false;
+//            });
+//        });
 
         //点击收藏/取消收藏按钮
         $(function () {
