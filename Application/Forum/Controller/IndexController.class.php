@@ -70,7 +70,7 @@ class IndexController extends Controller
         $map = array('post_id' => $id, 'status' => 1);
         $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, 10)->select();
         foreach ($replyList as &$reply) {
-            $reply['user'] = query_user(array('avatar128', 'username', 'space_url'), $reply['uid']);
+            $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
         }
         unset($reply);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
