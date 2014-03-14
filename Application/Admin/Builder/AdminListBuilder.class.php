@@ -158,11 +158,17 @@ class AdminListBuilder extends AdminBuilder {
             $button['attr'] = $this->compileHtmlAttr($button['attr']);
         }
 
+        //生成翻页HTML代码
+        C('VAR_PAGE','page');
+        $pager = new \Think\Page($this->_pagination['totalCount'], $this->_pagination['listRows'], $_REQUEST);
+        $pager->setConfig('theme','%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%');
+        $paginationHtml =$pager->show();
+
         //显示页面
         $this->assign('title', $this->_title);
         $this->assign('keyList', $this->_keyList);
         $this->assign('buttonList', $this->_buttonList);
-        $this->assign('pagination', $this->_pagination);
+        $this->assign('pagination', $paginationHtml);
         $this->assign('list', $this->_data);
         parent::display('admin_list');
     }
