@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <form action="{:U('UserCenter/Index/doBindMobile2')}" method="post">
+    <form action="{:U('UserCenter/Index/doBindMobile2')}" method="post" class="ajax-form">
         <div class="row">
             <div class="col-md-3">
                 <p class="pull-right">手机号码：</p>
@@ -56,17 +56,10 @@
             var $button = $('#sendSms');
             $button.click(function(){
                 $button.addClass('disabled',true);
-                $('#errorTip,#successTip').text();
                 var url = $button.attr('data-url');
                 var mobile = $('#inputMobile').val();
                 $.post(url, {mobile:mobile}, function(a){
-                    console.log(a);
-                    if(a.status) {
-                        $('#successTip').text(a.info);
-                    } else {
-                        $('#errorTip').text(a.info);
-                        $button.removeClass('disabled');
-                    }
+                    handleAjax(a);
                 });
             });
         });

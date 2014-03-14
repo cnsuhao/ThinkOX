@@ -62,7 +62,7 @@ class PublicController extends ApiController {
         $this->apiSuccess("注册成功", null, $extra);
     }
 
-    public function sendSms($mobile=null,$test=false) {
+    public function sendSms($mobile=null) {
         //如果没有填写手机号码，则默认使用已经绑定的手机号码
         $uid = $this->getUid();
         $user = $this->getCombinedUser($uid);
@@ -75,7 +75,7 @@ class PublicController extends ApiController {
         }
         //调用短信插件发送短信
         $tianyi = new TianyiAddon;
-        $result = $tianyi->sendVerify($mobile,$test);
+        $result = $tianyi->sendVerify($mobile);
         if($result < 0) {
             $this->apiError(802, "天翼接口调用失败：".$tianyi->getError());
         }
