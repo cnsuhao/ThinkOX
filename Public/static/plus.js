@@ -2,8 +2,23 @@
  * Created by 95 on 3/12/14.
  */
 
+/**应用初始化
+ */
+$(function () {
+    ucard();//绑定用户小名片
+    bindGoTop();//回到顶部
+    checkMessage();//检查一次消息
+    bindMessageChecker();//绑定用户消息
+});
 
-//模拟ts U函数
+
+/**
+ * 模拟U函数
+ * @param url
+ * @param params
+ * @returns {string}
+ * @constructor
+ */
 function U(url, params) {
     var website = _ROOT_ + '/index.php';
     url = url.split('/');
@@ -21,11 +36,10 @@ function U(url, params) {
     website = website + '.html';
     return website;
 }
-$(function () {
-    ucard();
-    bindGoTop();
-    bindMessageChecker();
-});
+
+/**
+ * 绑定用户小名片
+ */
 function ucard() {
     $('[ucard]').qtip({ // Grab some elements to apply the tooltip to
 
@@ -50,6 +64,9 @@ function ucard() {
         }
     })
 }
+/**
+ * 绑定回到顶部
+ */
 function bindGoTop() {
     $(window).scroll(function () {
         var sc = $(window).scrollTop();
@@ -67,16 +84,24 @@ function bindGoTop() {
         $('body,html').animate({scrollTop: 0}, 500);
     });
 }
+/**播放背景音乐
+ *
+ * @param file 文件路径
+ */
 function playsound(file) {
     $('embed').remove();
     $('body').append('<embed src="' + file + '" autostart="true" hidden="true" loop="false">');
     var div = document.getElementById('music');
     div.src = file;
 }
-
+/**
+ * 成功提示
+ * @param text 内容
+ * @param title 标题
+ */
 function op_success(text, title) {
     toastr.options = {
-        "closeButton": false,
+        "closeButton": true,
         "debug": false,
         "positionClass": "toast-center",
         "onclick": null,
@@ -91,6 +116,11 @@ function op_success(text, title) {
     }
     toastr.success(text, title);
 }
+/**
+ * 失败提示
+ * @param text 内容
+ * @param title 标题
+ */
 function op_error(text, title) {
     toastr.options = {
         "closeButton": true,
@@ -108,6 +138,11 @@ function op_error(text, title) {
     }
     toastr.error(text, title);
 }
+/**
+ * 信息提示
+ * @param text 内容
+ * @param title 标题
+ */
 function op_info(text, title) {
     toastr.options = {
         "closeButton": false,
@@ -125,6 +160,11 @@ function op_info(text, title) {
     }
     toastr.info(text, title);
 }
+/**
+ * 警告提示
+ * @param text 内容
+ * @param title 标题
+ */
 function op_warning(text, title) {
     toastr.options = {
         "closeButton": false,
@@ -144,50 +184,64 @@ function op_warning(text, title) {
 }
 
 
+/**
+ * 绑定消息检查
+ */
 function bindMessageChecker() {
     $hint_count = $('#nav_hint_count');
     $nav_bandage_count = $('#nav_bandage_count');
 
     setInterval(function () {
-        $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
-            if (msg) {
-                playsound('Public/static/plusjs/tip.mp3');
-                for (var index in msg) {
-                    tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
-
-
-                    var new_html = $('<span><li><a href="#"><i class="glyphicon glyphicon-bell"></i>' +
-                        msg[index]['title'] + '<br/><span class="time">' + msg[index]['ctime'] +
-                        '</span> </a></li></span>');
-                    $('#nav_message').prepend(new_html.html());
-
-
-                }
-                var count = parseInt($hint_count.text());
-                $hint_count.text(count + msg.length);
-                $nav_bandage_count.show();
-                $nav_bandage_count.text(count + msg.length);
-            }
-        }, 'json');
+        checkMessage();
     }, 10000);
+}
 
-    function tip_message(text, title) {
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "positionClass": "toast-top-right",
-            "onclick": null,
-            "showDuration": "1000",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
+/**
+ * 检查是否有新的消息
+ */
+function checkMessage() {
+    $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
+        if (msg) {
+            playsound('Public/static/plusjs/tip.mp3');
+            for (var index in msg) {
+                tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
+                //  var url=msg[index]['url']===''?U('') //设置默认跳转到消息中心
+
+
+                var new_html = $('<span><li><a href="' + msg[index]['url'] + '"><i class="glyphicon glyphicon-bell"></i>' +
+                    msg[index]['title'] + '<br/><span class="time">' + msg[index]['ctime'] +
+                    '</span> </a></li></span>');
+                $('#nav_message').prepend(new_html.html());
+
+
+            }
+            var count = parseInt($hint_count.text());
+            $hint_count.text(count + msg.length);
+            $nav_bandage_count.show();
+            $nav_bandage_count.text(count + msg.length);
         }
-        toastr.info(text, title);
+    }, 'json');
+}
 
-
+/**
+ * 消息中心提示有新的消息
+ * @param text
+ * @param title
+ */
+function tip_message(text, title) {
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-top-right",
+        "onclick": null,
+        "showDuration": "1000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
     }
+    toastr.info(text, title);
 }
