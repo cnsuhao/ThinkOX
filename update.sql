@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: 127.0.0.1
--- 生成日期: 2014 年 03 月 13 日 13:05
+-- 生成日期: 2014 年 03 月 14 日 02:14
 -- 服务器版本: 5.5.24-log
 -- PHP 版本: 5.3.13
 
@@ -27,21 +27,26 @@ CREATE TABLE IF NOT EXISTS `onethink_message` (
   `title` varchar(100) NOT NULL,
   `content` text NOT NULL,
   `create_time` int(11) NOT NULL,
-  `type` tinyint(4) NOT NULL COMMENT '0系统消息,1用户消息,2应用消息',
+  `type` tinyint(4) NOT NULL COMMENT ''0系统消息,1用户消息,2应用消息'',
   `is_read` tinyint(4) NOT NULL,
   `last_toast` int(11) NOT NULL,
   `url` varchar(400) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='OnePlus新增消息表' AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT=''OnePlus新增消息表'' AUTO_INCREMENT=37 ;
 
 --
 -- 转存表中的数据 `onethink_message`
 --
 
 INSERT INTO `onethink_message` (`id`, `from_uid`, `to_uid`, `title`, `content`, `create_time`, `type`, `is_read`, `last_toast`, `url`) VALUES
-(1, 2, 1, '您的微博有人评论了', '李小冉说，I付出款啊啊啊啊 <img src="a"/>', 1394447649, 1, 1, 1394715268, ''),
-(2, 2, 1, '你的帖子有人回复了', '点对点', 1394447649, 1, 1, 1394714956, ''),
-(3, 2, 1, '你的帖子有人回复了', '点对点', 1394447649, 1, 1, 0, ''),
-(4, 2, 1, '你的帖子有人回复了', '点对点', 1394447649, 1, 1, 1394715486, ''),
-(5, 2, 1, '你的帖子有人回复了', '点对点', 1394447649, 2, 1, 1394715515, ''),
-(6, 2, 1, '你的帖子有人回复了', '点对点', 1394447649, 2, 0, 1394715628, '');
+(36, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：eeee'', 1394762346, 2, 0, 1394762347, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(35, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：323232'', 1394762341, 2, 0, 1394762342, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(34, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：ddd'', 1394762268, 2, 0, 1394762268, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(33, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：dd'', 1394762260, 2, 0, 1394762261, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(32, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：ddd'', 1394762236, 2, 0, 1394762236, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(31, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：dwawda'', 1394762231, 2, 0, 1394762231, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(30, 2, 2, ''yixiao2020回复了您的帖子。'', ''回复内容：awdwad'', 1394762222, 2, 0, 1394762223, ''/OnePlus/index.php?s=/Forum/Index/detail/id/7.html''),
+(29, 2, 1, ''yixiao2020评论了您的微博。'', ''评论内容：dwadwad'', 1394761164, 2, 0, 1394761168, ''/OnePlus/index.php?s=/Weibo/Index/index.html''),
+(28, 2, 1, ''yixiao2020评论了您的微博。'', ''评论内容：cz'', 1394761158, 2, 0, 1394761158, ''/OnePlus/index.php?s=/Weibo/Index/index.html''),
+(27, 2, 1, ''yixiao2020回复了您的帖子。'', ''回复内容：dwadaw'', 1394761131, 2, 0, 1394761132, ''/OnePlus/index.php?s=/Forum/Index/detail/id/5.html''),
+(26, 1, 1, ''admin回复了您的帖子。'', ''回复内容：大娃娃的'', 1394760991, 2, 0, 1394760991, ''/OnePlus/index.php?s=/Forum/Index/detail/id/5.html'');
