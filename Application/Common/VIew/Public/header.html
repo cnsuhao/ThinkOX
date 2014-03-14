@@ -35,10 +35,14 @@
                 <if condition="is_login()">
                     <li class="dropdown op_nav_ico ">
                         <ul class="dropdown-menu extended notification">
-                            <li>
-                                <p>
-                                    共有 <span id="nav_hint_count">{:count($unreadMessage)}</span> 条未读消息
-                                </p>
+                            <li style="padding-left: 15px;padding-right: 15px;">
+                                <div class="row nav_info_center">
+                                    <div class="col-md-9 nav_align_left"> 共有 <span
+                                            id="nav_hint_count">{:count($unreadMessage)}</span> 条未读消息
+                                    </div>
+                                    <div class="col-md-3"><i onclick="setAllReaded()"
+                                                             class="set_read glyphicon glyphicon-ok-circle "></i></div>
+                                </div>
                             </li>
                             <li>
                                 <div style="position: relative;width: auto;overflow: hidden; ">
@@ -66,13 +70,13 @@
                                 </a>
                             </li>
                         </ul>
-                            <script>
-                                $(function () {
-                                    $('.scroller').slimScroll({
-                                        height: '150px'
-                                    });
+                        <script>
+                            $(function () {
+                                $('.scroller').slimScroll({
+                                    height: '150px'
                                 });
-                            </script>
+                            });
+                        </script>
                         <a id="nav_info dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown"><i
                                 class="glyphicon glyphicon-bullhorn"></i>
                             <span id="nav_bandage_count"

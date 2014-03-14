@@ -33,8 +33,14 @@ class MessageModel extends Model
     public function setAllToasted($uid)
     {
         $now = time();
-        D('message')->where('to_uid=' . $uid . ' and  is_read=0 and last_toast=0')->setField('last_toast', $now); //设为已经推荐过的
+        D('message')->where('to_uid=' . $uid . ' and  is_read=0 and last_toast=0')->setField('last_toast', $now);
     }
+
+    public function setAllReaded($uid)
+    {
+        D('message')->where('to_uid=' . $uid . ' and  is_read=0')->setField('is_read', 1);
+    }
+
 
     /**取回全部未读信息
      * @param $uid
@@ -80,7 +86,7 @@ class MessageModel extends Model
         $message['url'] = $url;
         $message['from_uid'] = $from_uid;
         $message['type'] = $type;
-        $message['create_time']=time();
+        $message['create_time'] = time();
         return $this->add($message);
     }
 } 

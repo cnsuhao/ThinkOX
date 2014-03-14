@@ -51,7 +51,7 @@ function ucard() {
                     var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
                     var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
-                        + '<p>个性签名：' + signature + ' </p><p>最后登录：'+friendlyDate(userProfile.last_login_time) + '</p><p>注册时间：'+friendlyDate(userProfile.reg_time) + '</p></div>');
+                        + '<p>个性签名：' + signature + ' </p><p>最后登录：' + friendlyDate(userProfile.last_login_time) + '</p><p>注册时间：' + friendlyDate(userProfile.reg_time) + '</p></div>');
                     api.set('content.text', tpl.html());
                     api.set('content.title', '<b>' + userProfile.username + '</b>的小名片');
 
@@ -221,6 +221,16 @@ function checkMessage() {
         }
     }, 'json');
 }
+function setAllReaded() {
+    $.post(U('Usercenter/Public/setAllMessageReaded'), function () {
+        $hint_count.text(0);
+        $('#nav_message').html('');
+        $nav_bandage_count.hide();
+        $nav_bandage_count.text(0);
+
+    });
+}
+
 
 /**
  * 消息中心提示有新的消息
@@ -287,7 +297,7 @@ function friendlyDate(sTime, cTime) {
  */
 function handleAjax(a) {
     //弹出提示消息
-    if(a.status) {
+    if (a.status) {
         op_success(a.info);
     } else {
         op_error(a.info);
@@ -295,25 +305,25 @@ function handleAjax(a) {
 
     //需要跳转的话就跳转
     var interval = 1500;
-    if(a.url == "refresh") {
-        setTimeout(function(){
+    if (a.url == "refresh") {
+        setTimeout(function () {
             location.href = a.url;
             location.reload();
         }, interval);
-    } else if(a.url) {
-        setTimeout(function(){
+    } else if (a.url) {
+        setTimeout(function () {
             location.href = a.url;
         }, interval);
     }
 }
 
-$(function(){
+$(function () {
     /**
      * ajax-form
      * 通过ajax提交表单，通过oneplus提示消息
      * 示例：<form class="ajax-form" method="post" action="xxx">
      */
-    $(document).on('submit', 'form.ajax-form', function(e){
+    $(document).on('submit', 'form.ajax-form', function (e) {
         //取消默认动作，防止表单两次提交
         e.preventDefault();
 
@@ -322,12 +332,12 @@ $(function(){
         var method = $(this).attr('method');
 
         //检测提交地址
-        if(!action) {
+        if (!action) {
             return false;
         }
 
         //默认提交方式为get
-        if(!method) {
+        if (!method) {
             method = 'get';
         }
 
@@ -335,8 +345,8 @@ $(function(){
         var formContent = $(this).serialize();
 
         //发送提交请求
-        if(method == 'post') {
-            $.post(action, formContent, function(a){
+        if (method == 'post') {
+            $.post(action, formContent, function (a) {
                 handleAjax(a);
             });
         }
