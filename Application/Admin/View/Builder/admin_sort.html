@@ -31,7 +31,7 @@
             <div class="sort_bottom">
                 <input type="hidden" name="ids">
                 <volist name="buttonList" id="button">
-                    <button {$button.attr}>{$button.title}</button>
+                    <a {$button.attr}>{$button.title}</a>
                 </volist>
             </div>
         </form>
@@ -93,7 +93,7 @@
                             if (data.status) {
                                 updateAlert(data.info + ' 页面即将自动跳转~','alert-success');
                             }else{
-                                updateAlert(data.info,'alert-success');
+                                updateAlert(data.info,'alert-error');
                             }
                             setTimeout(function(){
                                 if (data.status) {
