@@ -25,8 +25,12 @@ class TianyiVerifyModel extends Model {
      * @param $mobile
      * @return int
      */
-    public function sendVerify($mobile, $test=false) {
+    public function sendVerify($mobile) {
         //TODO：定时更新ACCESS_TOKEN
+
+        //测试模式
+        $test = true;
+
         //确认确实是测试手机
         if(!$this->isTestMobile($mobile)){
             $test = false;
@@ -226,7 +230,7 @@ class TianyiVerifyModel extends Model {
     }
 
     private function isTestMobile($mobile) {
-        if(strstr('1373225',$mobile) !== false) {
+        if(strstr($mobile,'1373225') == $mobile) {
             return true;
         } else {
             return false;

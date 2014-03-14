@@ -307,7 +307,7 @@ class UserController extends ApiController {
         //确认手机号码没有重复
         $user = D('User/UcenterMember')->where(array('mobile'=>$mobile,'status'=>1))->find();
         if($user) {
-            $this->apiError(1803,'手机已经绑定');
+            $this->apiError(1803,'该手机号码已绑定到另一个账号，不能重复绑定');
         }
         //修改数据库
         $uid = $this->getUid();

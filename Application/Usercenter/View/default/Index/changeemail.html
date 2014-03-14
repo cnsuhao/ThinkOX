@@ -18,7 +18,7 @@
             <p class="pull-right">输入新邮箱：</p>
         </div>
         <div class="col-md-6">
-            <form action="{:U('UserCenter/Index/doChangeEmail')}" method="post">
+            <form action="{:U('UserCenter/Index/doChangeEmail')}" method="post" class="ajax-form">
                 <p>
                     <input type="text" name="email" class="form-control" placeholder="输入邮箱" value="{$user.email}"/>
                 </p>

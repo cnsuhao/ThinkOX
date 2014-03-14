@@ -52,9 +52,9 @@ use Common\Controller\Addon;
          * @param $mobile
          * @return mixed
          */
-        public function sendVerify($mobile, $test=false) {
+        public function sendVerify($mobile) {
             $model = $this->getTianyiVerifyModel();
-            $error_code = $model->sendVerify($mobile, $test);
+            $error_code = $model->sendVerify($mobile);
             $this->error = $model->getError();
             return $error_code;
         }

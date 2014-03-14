@@ -18,7 +18,7 @@
             <p class="pull-right">输入新的签名：</p>
         </div>
         <div class="col-md-6">
-            <form id="changePasswordForm" action="{:U('UserCenter/Index/doChangeSignature')}" method="post">
+            <form id="changePasswordForm" action="{:U('UserCenter/Index/doChangeSignature')}" method="post" class="ajax-form">
                 <p>
                     <textarea name="signature" class="form-control" style="width: 100%; height: 6em;">{$homeProfile.signature|htmlspecialchars}</textarea>
                 </p>

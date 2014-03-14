@@ -245,3 +245,66 @@ function tip_message(text, title) {
     }
     toastr.info(text, title);
 }
+
+
+/**
+ * Ajax系列
+ */
+
+/**
+ * 处理ajax返回结果
+ */
+function handleAjax(a) {
+    //弹出提示消息
+    if(a.status) {
+        op_success(a.info);
+    } else {
+        op_error(a.info);
+    }
+
+    //需要跳转的话就跳转
+    if(a.url) {
+        setTimeout(function(){
+            location.href = a.url;
+        }, 1500);
+    }
+}
+
+$(function(){
+    /**
+     * ajax-form
+     * 通过ajax提交表单，通过oneplus提示消息
+     * 示例：<form class="ajax-form" method="post" action="xxx">
+     */
+    $(document).on('submit', 'form.ajax-form', function(e){
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        //获取提交地址，方式
+        var action = $(this).attr('action');
+        var method = $(this).attr('method');
+
+        //检测提交地址
+        if(!action) {
+            return false;
+        }
+
+        //默认提交方式为get
+        if(!method) {
+            method = 'get';
+        }
+
+        //获取表单内容
+        var formContent = $(this).serialize();
+
+        //发送提交请求
+        if(method == 'post') {
+            $.post(action, formContent, function(a){
+                handleAjax(a);
+            });
+        }
+
+        //返回
+        return false;
+    });
+})
