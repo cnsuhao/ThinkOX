@@ -57,6 +57,10 @@ class AdminListBuilder extends AdminBuilder {
         return $this->keyText($name, $title);
     }
 
+    public function keyLink($name, $title, $getUrl) {
+        return $this->key($name, $title, 'link', $getUrl);
+    }
+
     public function keyStatus($name='status', $title='状态') {
         $map = array(-1=>'删除', 0=>'禁用', 1=>'启用', 2=>'未审核');
         return $this->key($name, $title, 'map', $map);
@@ -95,28 +99,36 @@ class AdminListBuilder extends AdminBuilder {
     public function display() {
         //key类型的等价转换
         //map转换成text
-        $this->convertKey('map', 'text', function($key, $value){
+        $this->convertKey('map', 'text', function($value, $key){
             return $key['opt'][$value];
         });
 
         //uid转换成text
-        $this->convertKey('uid', 'text', function($key, $value){
+        $this->convertKey('uid', 'text', function($value){
             $value = query_user(array('username','uid'), $value);
             return "[{$value[uid]}]".$value['username'];
         });
 
         //time转换成text
-        $this->convertKey('time', 'text', function($key, $value) {
+        $this->convertKey('time', 'text', function($value) {
             return time_format($value);
         });
 
         //text转换成html
-        $this->convertKey('text', 'html', function($key, $value){
+        $this->convertKey('text', 'html', function($value){
             return htmlspecialchars($value);
         });
 
+        //link转换为html
+        $this->convertKey('link','html', function($value, $key, $item){
+            $value = htmlspecialchars($value);
+            $getUrl = $key['opt'];
+            $url = $getUrl($item);
+            return "<a href=\"$url\">$value</a>";
+        });
+
         //如果html为空
-        $this->convertKey('html', 'html', function($key, $value){
+        $this->convertKey('html', 'html', function($value){
             if($value === '') {
                 return '<span style="color:#bbb;">（空）</span>';
             }
@@ -145,7 +157,7 @@ class AdminListBuilder extends AdminBuilder {
                 $key['type'] = $to;
                 foreach($this->_data as &$data) {
                     $value = &$data[$key['name']];
-                    $value = $convertFunction($key, $value);
+                    $value = $convertFunction($value, $key, $data);
                     unset($value);
                 }
                 unset($data);

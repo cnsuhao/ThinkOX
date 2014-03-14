@@ -80,8 +80,13 @@
                     <case value="time">
                         <php>
                             $importDatetimePicker = true;
+                            //默认为当前时间
+                            if(!$field['value']){
+                                $field['value'] = time();
+                            }
                         </php>
-                        <input type="text" name="{$field.name}" class="text input-large time" value="{$field.value|time_format}" placeholder="请选择时间" />
+                        <input type="hidden" name="{$field.name}" value="{$field.value}"/>
+                        <input type="text" data-field-name="{$field.name}" class="text input-large time" value="{$field.value|time_format}" placeholder="请选择时间" />
                     </case>
                     <default/>
                     <span style="color: #f00;">错误：未知字段类型 {$field.type}</span>
@@ -113,6 +118,14 @@
                 language:"zh-CN",
                 minView:2,
                 autoclose:true
+            });
+
+            $('.time').change(function(){
+                var fieldName = $(this).attr('data-field-name');
+                var dateString = $(this).val();
+                var date = new Date(dateString);
+                var timestamp = date.getTime();
+                $('[name='+fieldName+']').val(Math.floor(timestamp/1000));
             });
         </script>
     </if>
