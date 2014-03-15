@@ -7,12 +7,15 @@
  */
 
 namespace Usercenter\Controller;
+
 use Think\Controller;
 
-class IndexController extends BaseController {
-    public function index($uid=null) {
+class IndexController extends BaseController
+{
+    public function index($uid = null)
+    {
         //调用API获取基本信息
-        $user = query_user(array('username','email','mobile','last_login_time','last_login_ip','score','reg_time','title','avatar256'), $uid);
+        $user = query_user(array('username', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256'), $uid);
 
         //显示页面
         $this->defaultTabHash('index');
@@ -21,21 +24,24 @@ class IndexController extends BaseController {
         $this->display('basic');
     }
 
-    public function logout() {
+    public function logout()
+    {
         //调用退出登录的API
         $result = callApi('Public/logout');
         $this->ensureApiSuccess($result);
 
         //显示页面
-        $this->success($result['message'],U('Home/Index/index'));
+        $this->success($result['message'], U('Home/Index/index'));
     }
 
-    public function changePassword() {
+    public function changePassword()
+    {
         $this->defaultTabHash('change-password');
         $this->display();
     }
 
-    public function doChangePassword($old_password, $new_password) {
+    public function doChangePassword($old_password, $new_password)
+    {
         //调用接口
         $result = callApi('User/changePassword', array($old_password, $new_password));
         $this->ensureApiSuccess($result);
@@ -44,38 +50,43 @@ class IndexController extends BaseController {
         $this->success($result['message']);
     }
 
-    public function changeSignature() {
+    public function changeSignature()
+    {
         $this->defaultTabHash('change-signature');
         $this->display();
     }
 
-    public function doChangeSignature($signature) {
+    public function doChangeSignature($signature)
+    {
         //调用接口
-        $result = callApi('User/setProfile', array('signature'=>$signature));
+        $result = callApi('User/setProfile', array('signature' => $signature));
         $this->ensureApiSuccess($result);
 
         //显示成功信息
         $this->success($result['message']);
     }
 
-    public function changeEmail() {
+    public function changeEmail()
+    {
         $this->defaultTabHash('change-email');
         $this->display();
     }
 
-    public function doChangeEmail($email) {
+    public function doChangeEmail($email)
+    {
         //调用API
-        $result = callApi('User/setProfile', array(null,$email));
+        $result = callApi('User/setProfile', array(null, $email));
         $this->ensureApiSuccess($result);
 
         //显示成功信息
         $this->success($result['message']);
     }
 
-    public function unbindMobile() {
+    public function unbindMobile()
+    {
         //确认用户已经绑定手机
         $profile = callApi('User/getProfile');
-        if(!$profile['mobile']) {
+        if (!$profile['mobile']) {
             $this->error('您尚未绑定手机', U('UserCenter/Index/index'));
         }
 
@@ -88,23 +99,26 @@ class IndexController extends BaseController {
         $this->display();
     }
 
-    public function doUnbindMobile($verify) {
+    public function doUnbindMobile($verify)
+    {
         //调用解绑手机的API
         $result = callApi('User/unbindMobile', array($verify));
-        if(!$result['success']) {
+        if (!$result['success']) {
             $this->error($result['message']);
         }
         //显示成功消息
         $this->success($result['message'], U('UserCenter/Index/index'));
     }
 
-    public function bindMobile() {
+    public function bindMobile()
+    {
         //显示页面
         $this->defaultTabHash('index');
         $this->display();
     }
 
-    public function doBindMobile($mobile) {
+    public function doBindMobile($mobile)
+    {
         //调用API发送手机验证码
         $result = callApi('Public/sendSms', array($mobile));
         $this->ensureApiSuccess($result);
@@ -113,16 +127,18 @@ class IndexController extends BaseController {
         $this->success($result['message']);
     }
 
-    public function doBindMobile2($verify) {
+    public function doBindMobile2($verify)
+    {
         //调用API绑定手机
         $result = callApi('User/bindMobile', array($verify));
         $this->ensureApiSuccess($result);
 
         //显示成功消息
-        $this->success($result['message'],U('UserCenter/Index/index'));
+        $this->success($result['message'], U('UserCenter/Index/index'));
     }
 
-    public function unbookmark($favorite_id) {
+    public function unbookmark($favorite_id)
+    {
         //调用API取消收藏
         $result = callApi('User/deleteFavorite', array($favorite_id));
         $this->ensureApiSuccess($result);
@@ -131,12 +147,14 @@ class IndexController extends BaseController {
         $this->success($result['message']);
     }
 
-    public function changeAvatar() {
+    public function changeAvatar()
+    {
         $this->defaultTabHash('change-avatar');
         $this->display();
     }
 
-    public function doCropAvatar($crop) {
+    public function doCropAvatar($crop)
+    {
         //调用上传头像接口改变用户的头像
         $result = callApi('User/applyAvatar', array($crop));
         $this->ensureApiSuccess($result);
@@ -145,12 +163,49 @@ class IndexController extends BaseController {
         $this->success($result['message']);
     }
 
-    public function doUploadAvatar() {
+    public function doUploadAvatar()
+    {
         //调用上传头像接口
         $result = callApi('User/uploadTempAvatar');
         $this->ensureApiSuccess($result);
 
         //显示成功消息
         $this->ajaxReturn(apiToAjax($result));
+    }
+
+    public function message($page = 1, $tab = 'unread')
+    {
+
+        switch ($tab) {
+            case 'system':
+                $map['type'] = 0;
+                break;
+            case 'user':
+                $map['type'] = 1;
+                break;
+            case 'app':
+                $map['type'] = 2;
+                break;
+            case 'all':
+                break;
+            default:
+                $map['is_read'] =0;
+                break;
+        }
+
+        $map['to_uid'] = is_login();
+        $this->defaultTabHash('message');
+        $messages = D('Message')->where($map)->order('create_time desc')->page($page, 10)->select();
+        foreach ($messages as &$v) {
+            if ($v['from_uid'] != 0) {
+                $v['from_user'] = query_user(array('username', 'space_url', 'avatar64', 'space_link'), $v['from_uid']);
+            }
+
+        }
+        $totalCount = D('Message')->where($map)->order('create_time desc')->count();
+        $this->assign('totalCount', $totalCount);
+        $this->assign('messages', $messages);
+        $this->assign('tab', $tab);
+        $this->display();
     }
 }

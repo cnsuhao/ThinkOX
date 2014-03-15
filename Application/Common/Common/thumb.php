@@ -23,9 +23,9 @@ function getImageUrlByPath($path, $size) {
  *  @return  string
  */
 function getThumbImage($filename, $width=100, $height='auto', $cut=false, $replace=false) {
-    define('UPLOAD_URL',  '');
-    define('UPLOAD_PATH',  '');
-    $filename  =  str_ireplace(UPLOAD_URL,  '',  $filename);  //将URL转化为本地地址
+    $UPLOAD_URL='';
+    $UPLOAD_PATH='';
+    $filename  =  str_ireplace($UPLOAD_URL,  '',  $filename);  //将URL转化为本地地址
     $info  =  pathinfo($filename);
     $oldFile  =  $info['dirname']  .  DIRECTORY_SEPARATOR  .  $info['filename']  .  '.'  .  $info['extension'];
     $thumbFile  =  $info['dirname']  .  DIRECTORY_SEPARATOR  .  $info['filename']  .  '_'  .  $width  .  '_'  .  $height  .  '.'  .  $info['extension'];
@@ -38,15 +38,15 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
     $oldFile  =  ltrim($oldFile,  '/');
     $thumbFile  =  ltrim($thumbFile,  '/');
     //原图不存在直接返回
-    if  (!file_exists(UPLOAD_PATH  .  $oldFile))  {
-        @unlink(UPLOAD_PATH  .  $thumbFile);
+    if  (!file_exists($UPLOAD_PATH  .  $oldFile))  {
+        @unlink($UPLOAD_PATH  .  $thumbFile);
         $info['src']  =  $oldFile;
         $info['width']  =  intval($width);
         $info['height']  =  intval($height);
         return  $info;
         //缩图已存在并且  replace替换为false
-    }  elseif  (file_exists(UPLOAD_PATH  .  $thumbFile)  &&  !$replace)  {
-        $imageinfo  =  getimagesize(UPLOAD_PATH  .  $thumbFile);
+    }  elseif  (file_exists($UPLOAD_PATH  .  $thumbFile)  &&  !$replace)  {
+        $imageinfo  =  getimagesize($UPLOAD_PATH  .  $thumbFile);
         //dump($imageinfo);exit;
         $info['src']  =  $thumbFile;
         $info['width']  =  intval($imageinfo[0]);
@@ -54,12 +54,12 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
         return  $info;
         //执行缩图操作
     }  else  {
-        $oldimageinfo  =  getimagesize(UPLOAD_PATH  .  $oldFile);
+        $oldimageinfo  =  getimagesize($UPLOAD_PATH  .  $oldFile);
         $old_image_width  =  intval($oldimageinfo[0]);
         $old_image_height  =  intval($oldimageinfo[1]);
         if  ($old_image_width  <=  $width  &&  $old_image_height  <=  $height)  {
-            @unlink(UPLOAD_PATH  .  $thumbFile);
-            @copy(UPLOAD_PATH  .  $oldFile,  UPLOAD_PATH  .  $thumbFile);
+            @unlink($UPLOAD_PATH  .  $thumbFile);
+            @copy($UPLOAD_PATH  .  $oldFile,  $UPLOAD_PATH  .  $thumbFile);
             $info['src']  =  $thumbFile;
             $info['width']  =  $old_image_width;
             $info['height']  =  $old_image_height;
@@ -69,13 +69,13 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
             if  ($height  ==  "auto")  $height  =  0;
             //import('phpthumb.PhpThumbFactory');
             require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
-            $thumb  =  PhpThumbFactory::create(UPLOAD_PATH  .  $filename);
+            $thumb  =  PhpThumbFactory::create($UPLOAD_PATH  .  $filename);
             if  ($cut)  {
                 $thumb->adaptiveResize($width,  $height);
             }  else  {
                 $thumb->resize($width,  $height);
             }
-            $res  =  $thumb->save(UPLOAD_PATH  .  $thumbFile);
+            $res  =  $thumb->save($UPLOAD_PATH  .  $thumbFile);
             //缩图失败
             if  (!$res)  {
                 $thumbFile  =  $oldFile;

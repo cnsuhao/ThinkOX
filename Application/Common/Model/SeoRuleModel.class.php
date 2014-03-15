@@ -14,8 +14,11 @@ class SeoRuleModel extends Model
 {
     public function getMetaOfCurrentPage()
     {
-        $result = $this->getMeta(MODULE_NAME, CONTROLLER_NAME, ACTION_NAME);
-        return $result;
+        // G('begin');
+        //$result = $this->getMeta(MODULE_NAME, CONTROLLER_NAME, ACTION_NAME);
+        // G('end');
+        // dump(G('begin','end'));exit;
+        return null; // $result;
     }
 
     private function getMeta($module, $controller, $action)

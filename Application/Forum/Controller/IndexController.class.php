@@ -17,16 +17,20 @@ class IndexController extends Controller
 {
     public function _initialize()
     {
-        //读取板块列表
-        $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
 
-        //判断板块能否发帖
-        foreach($forum_list as &$e) {
-            $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
+        $forum_list = S('forum_forums');
+
+        if (empty($forum_list)) {
+            //读取板块列表
+            $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
+            //判断板块能否发帖
+            foreach ($forum_list as &$e) {
+                $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
+            }
+            unset($e);
+            S('forum_forums', $forum_list, 600);
         }
-        unset($e);
 
-        //
         $this->assign('forum_list', $forum_list);
     }
 
@@ -34,7 +38,7 @@ class IndexController extends Controller
     {
         //默认进入到后台配置的第一个板块
         $forum = D('Forum')->order('sort asc')->find();
-        redirect(U('forum', array('id'=>$forum['id'], 'page' => $page)));
+        redirect(U('forum', array('id' => $forum['id'], 'page' => $page)));
     }
 
     public function forum($id, $page = 1)
