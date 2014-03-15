@@ -207,7 +207,7 @@ class AdminListBuilder extends AdminBuilder {
             $value = htmlspecialchars($value);
             $getUrl = $key['opt'];
             $url = $getUrl($item);
-            return $this->generateLink($url, $value);
+            return "<a href=\"$url\">$value</a>";
         });
 
         //doaction转换为html
@@ -215,7 +215,7 @@ class AdminListBuilder extends AdminBuilder {
             $getUrl = $key['opt']['get_url'];
             $linkText = $key['opt']['text'];
             $url = $getUrl($item);
-            return $this->generateLink($url, $linkText);
+            return "<a href=\"$url\">$linkText</a>";
         });
 
         //status转换为html
@@ -314,9 +314,5 @@ class AdminListBuilder extends AdminBuilder {
         }
         $params = http_build_query($params);
         return $url . $seperator . $params;
-    }
-
-    private function generateLink($url, $text) {
-        return "<a href=\"$url\">$text</a>";
     }
 }
