@@ -25,6 +25,8 @@ class HotPostWidget extends Action
         if (empty($posts)) {
             if ($forum_id) {
                 $posts = D('ForumPost')->where(array('forum_id'=>$forum_id, 'status'=>1))->order('reply_count desc')->limit(9)->select();
+            } else {
+                $posts = D('ForumPost')->where(array('status'=>1))->order('reply_count desc')->limit(9)->select();
             }
             S('forum_hot_posts_' . $forum_id, $posts, 300);
         }

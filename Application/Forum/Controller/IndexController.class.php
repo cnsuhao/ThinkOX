@@ -320,4 +320,30 @@ class IndexController extends Controller
         $list = array_intersect($list, $userGroups);
         return $list ? true : false;
     }
+
+
+    public function search($page = 1)
+    {
+        //读取帖子列表
+        $map['title'] = array('like', "%{$_REQUEST['keywords']}%");
+        $map['content'] = array('like', "%{$_REQUEST['keywords']}%");
+        $map['_logic'] = 'OR';
+        $where['_complex'] = $map;
+        $where['status'] = 1;
+
+        $list = D('ForumPost')->where($where)->order('last_reply_time desc')->page($page, 10)->select();
+        $totalCount = D('ForumPost')->where($where)->count();
+
+        foreach ($list as &$post) {
+            $post['colored_title'] = str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', htmlspecialchars($post['title']));
+            $post['colored_content'] = str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t($post['content']));
+        }
+        unset($post);
+
+        $_GET['keywords']=$_REQUEST['keywords'];
+        //显示页面
+        $this->assign('list', $list);
+        $this->assign('totalCount', $totalCount);
+        $this->display();
+    }
 }

@@ -982,6 +982,24 @@ function get_list_count($category, $status = 1){
     return $count[$category];
 }
 
+
+/**
+ * t函数用于过滤标签，输出没有html的干净的文本
+ * @param string text 文本内容
+ * @return string 处理后内容
+ */
+function op_t($text){
+    $text = nl2br($text);
+    $text = real_strip_tags($text);
+    $text = addslashes($text);
+    $text = trim($text);
+    return $text;
+}
+function real_strip_tags($str, $allowable_tags="") {
+    $str = html_entity_decode($str,ENT_QUOTES,'UTF-8');
+    return strip_tags($str, $allowable_tags);
+}
+
 require_once('pagination.php');
 require_once('query_user.php');
 require_once('thumb.php');
