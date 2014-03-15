@@ -14,9 +14,15 @@ class AdminListBuilder extends AdminBuilder {
     private $_buttonList = array();
     private $_pagination = array();
     private $_data = array();
+    private $_setStatusUrl;
 
     public function title($title) {
         $this->_title = $title;
+        return $this;
+    }
+
+    public function setStatusUrl($url) {
+        $this->_setStatusUrl = $url;
         return $this;
     }
 
@@ -28,6 +34,28 @@ class AdminListBuilder extends AdminBuilder {
     public function buttonNew($href, $title='新增', $attr=array()) {
         $attr['href'] = $href;
         return $this->button($title, $attr);
+    }
+
+    public function buttonSetStatus($url, $status, $title, $attr) {
+        $attr['class'] = 'btn ajax-post';
+        $attr['url'] = $this->addUrlParam($url, array('status'=>$status));
+        $attr['target-form'] = 'ids';
+        return $this->button($title, $attr);
+    }
+
+    public function buttonDisable($url=null, $title='禁用', $attr=array()) {
+        if(!$url) $url = $this->_setStatusUrl;
+        return $this->buttonSetStatus($url, 0, $title, $attr);
+    }
+
+    public function buttonEnable($url=null, $title='启用', $attr=array()) {
+        if(!$url) $url = $this->_setStatusUrl;
+        return $this->buttonSetStatus($url, 1, $title, $attr);
+    }
+
+    public function buttonDelete($url=null, $title='删除', $attr=array()) {
+        if(!$url) $url = $this->_setStatusUrl;
+        return $this->buttonSetStatus($url, -1, $title, $attr);
     }
 
     public function buttonSort($href, $title='排序', $attr=array()) {
@@ -77,7 +105,7 @@ class AdminListBuilder extends AdminBuilder {
 
     public function keyStatus($name='status', $title='状态') {
         $map = array(-1=>'删除', 0=>'禁用', 1=>'启用', 2=>'未审核');
-        return $this->keyMap($name, $title, $map);
+        return $this->key($name, $title, 'status', $map);
     }
 
     public function keyYesNo($name, $title) {
@@ -175,7 +203,7 @@ class AdminListBuilder extends AdminBuilder {
             $value = htmlspecialchars($value);
             $getUrl = $key['opt'];
             $url = $getUrl($item);
-            return "<a href=\"$url\">$value</a>";
+            return $this->generateLink($url, $value);
         });
 
         //doaction转换为html
@@ -183,7 +211,16 @@ class AdminListBuilder extends AdminBuilder {
             $getUrl = $key['opt']['get_url'];
             $linkText = $key['opt']['text'];
             $url = $getUrl($item);
-            return "<a href=\"$url\">$linkText</a>";
+            return $this->generateLink($url, $linkText);
+        });
+
+        //status转换为html
+        $this->convertKey('status','html', function($value,$key,$item){
+            $map = $key['opt'];
+            $text = $map[$value];
+            $switchStatus = $value==1 ? 0 : 1;
+            $url = $this->addUrlParam($this->_setStatusUrl, array('status'=>$switchStatus,'ids'=>$item['id']));
+            return "<a href=\"$url\" class=\"ajax-get\">$text</a>";
         });
 
         //如果html为空
@@ -214,6 +251,12 @@ class AdminListBuilder extends AdminBuilder {
         $this->assign('pagination', $paginationHtml);
         $this->assign('list', $this->_data);
         parent::display('admin_list');
+    }
+
+    public function doSetStatus($model, $ids, $status) {
+        $ids = is_array($ids) ? $ids : explode(',', $ids);
+        M('Forum')->where(array('id'=>array('in', $ids)))->save(array('status'=>$status));
+        $this->success('设置成功', $_SERVER['HTTP_REFERER']);
     }
 
     private function convertKey($from, $to, $convertFunction) {
@@ -249,5 +292,19 @@ class AdminListBuilder extends AdminBuilder {
             $pattern = str_replace('###', $item['id'], $pattern);
             return U($pattern);
         };
+    }
+
+    private function addUrlParam($url, $params) {
+        if(strpos($url, '?') === false) {
+            $seperator = '?';
+        } else {
+            $seperator = '&';
+        }
+        $params = http_build_query($params);
+        return $url . $seperator . $params;
+    }
+
+    private function generateLink($url, $text) {
+        return "<a href=\"$url\">$text</a>";
     }
 }

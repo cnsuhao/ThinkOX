@@ -28,7 +28,9 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder
             ->title('贴吧管理')
-            ->buttonNew(U('Forum/editForum'))->buttonSort(U('Forum/sortForum'))
+            ->buttonNew(U('Forum/editForum'))
+            ->setStatusUrl(U('Forum/setForumStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
+            ->buttonSort(U('Forum/sortForum'))
             ->keyId()->keyLink('title', '标题', 'Forum/post?forum_id=###')
             ->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyDoActionEdit('editForum?id=###')
             ->data($list)
@@ -46,6 +48,11 @@ class ForumController extends AdminController {
             ->data($list)
             ->buttonSubmit(U('doSortForum'))->buttonBack()
             ->display();
+    }
+
+    public function setForumStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('Forum', $ids, $status);
     }
 
     public function doSortForum($ids) {

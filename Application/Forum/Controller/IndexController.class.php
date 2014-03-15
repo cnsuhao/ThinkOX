@@ -17,20 +17,16 @@ class IndexController extends Controller
 {
     public function _initialize()
     {
+        //读取板块列表
+        $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
 
-        $forum_list = S('forum_forums');
-
-        if (empty($forum_list)) {
-            //读取板块列表
-            $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
-            //判断板块能否发帖
-            foreach ($forum_list as &$e) {
-                $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
-            }
-            unset($e);
-            S('forum_forums', $forum_list, 600);
+        //判断板块能否发帖
+        foreach ($forum_list as &$e) {
+            $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
         }
+        unset($e);
 
+        //赋予贴吧列表
         $this->assign('forum_list', $forum_list);
     }
 
