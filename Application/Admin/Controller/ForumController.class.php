@@ -122,7 +122,7 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder->title('帖子管理' . $forumTitle)
             ->keyId()->keyLink('title','标题','Forum/reply?post_id=###')
-            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyDoActionEdit('editPost?id=###')
+            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyBool('is_top','是否置顶')->keyDoActionEdit('editPost?id=###')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -142,20 +142,20 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminConfigBuilder();
         $builder->title($isEdit ? '编辑帖子' : '新建帖子')
-            ->keyId()->keyTitle()->keyEditor('content','内容')->keyCreateTime()->keyUpdateTime()
+            ->keyId()->keyTitle()->keyEditor('content','内容')->keyBool('is_top','是否置顶')->keyCreateTime()->keyUpdateTime()
             ->keyTime('last_reply_time','最后回复时间')
             ->buttonSubmit(U('doEditPost'))->buttonBack()
             ->data($post)
             ->display();
     }
 
-    public function doEditPost($id=null,$title,$content,$create_time,$update_time,$last_reply_time) {
+    public function doEditPost($id=null,$title,$content,$create_time,$update_time,$last_reply_time,$is_top) {
         //判断是否为编辑模式
         $isEdit = $id ? true : false;
 
         //写入数据库
         $model = M('ForumPost');
-        $data = array('title'=>$title,'content'=>$content,'create_time'=>$create_time,'update_time'=>$update_time,'last_reply_time'=>$last_reply_time);
+        $data = array('title'=>$title,'content'=>$content,'create_time'=>$create_time,'update_time'=>$update_time,'last_reply_time'=>$last_reply_time,'is_top'=>$is_top);
         if($isEdit) {
             $result = $model->where(array('id'=>$id))->save($data);
         } else {

@@ -79,6 +79,11 @@ class AdminConfigBuilder extends AdminBuilder {
         return $this->keyTime($name, $title, $subtitle);
     }
 
+    public function keyBool($name, $title, $subtitle=null) {
+        $map = array(1=>'是',0=>'否');
+        return $this->keyRadio($name, $title, $subtitle, $map);
+    }
+
     public function keyUpdateTime($name='update_time', $title='修改时间', $subtitle=null) {
         return $this->keyTime($name, $title, $subtitle);
     }

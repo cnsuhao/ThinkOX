@@ -49,8 +49,8 @@ class AdminListBuilder extends AdminBuilder {
         return $this->key($name, $title, 'html');
     }
 
-    public function keyMap($name, $title) {
-        return $this->key($name, $title, 'map');
+    public function keyMap($name, $title, $map) {
+        return $this->key($name, $title, 'map', $map);
     }
 
     public function keyId($name='id', $title='ID') {
@@ -77,7 +77,16 @@ class AdminListBuilder extends AdminBuilder {
 
     public function keyStatus($name='status', $title='状态') {
         $map = array(-1=>'删除', 0=>'禁用', 1=>'启用', 2=>'未审核');
-        return $this->key($name, $title, 'map', $map);
+        return $this->keyMap($name, $title, $map);
+    }
+
+    public function keyYesNo($name, $title) {
+        $map = array(0=>'不是',1=>'是');
+        return $this->keymap($name, $title, $map);
+    }
+
+    public function keyBool($name, $title) {
+        return $this->keyYesNo($name, $title);
     }
 
     public function keyTime($name, $title) {
