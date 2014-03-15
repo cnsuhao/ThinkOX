@@ -219,7 +219,7 @@ class AdminListBuilder extends AdminBuilder {
         });
 
         //status转换为html
-        $this->convertKey('status','html', function($value,$key,$item){
+        $this->convertKey('status','html', function($value,$key,$item) use($this) {
             //如果没有设置修改状态的URL，则直接返回文字
             $map = $key['opt'];
             $text = $map[$value];
