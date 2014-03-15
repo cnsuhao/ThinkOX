@@ -68,9 +68,7 @@ class AdminListBuilder extends AdminBuilder {
     public function keyLink($name, $title, $getUrl) {
         //如果getUrl是一个字符串，则表示getUrl是一个U函数解析的字符串
         if(is_string($getUrl)) {
-            $getUrl = function($item) use($getUrl){
-                return U($getUrl, array('id'=>$item['id']));
-            };
+            $getUrl = $this->createDefaultGetUrlFunction($getUrl);
         }
 
         //添加key
@@ -102,7 +100,29 @@ class AdminListBuilder extends AdminBuilder {
         return $this->keyText($name, $title);
     }
 
-    public function pagination($totalCount, $listRows=10) {
+    public function keyDoAction($getUrl, $text, $title='操作') {
+        if(is_string($getUrl)) {
+            $getUrl = $this->createDefaultGetUrlFunction($getUrl);
+        }
+        $opt = array('text'=>$text, 'get_url'=>$getUrl);
+        return $this->key('DOACTIONS', $title, 'doaction', $opt);
+    }
+
+    public function keyDoActionEdit($getUrl, $text='编辑') {
+        return $this->keyDoAction($getUrl, $text);
+    }
+
+    public function keyTruncText($name, $title, $length) {
+        return $this->key($name, $title, 'trunktext', $length);
+    }
+
+    /**
+     * 不要给listRows默认值，因为开发人员很可能忘记填写listRows导致翻页不正确
+     * @param $totalCount
+     * @param $listRows
+     * @return $this
+     */
+    public function pagination($totalCount, $listRows) {
         $this->_pagination = array('totalCount'=>$totalCount, 'listRows'=>$listRows);
         return $this;
     }
@@ -130,6 +150,12 @@ class AdminListBuilder extends AdminBuilder {
             return time_format($value);
         });
 
+        //trunctext转换成text
+        $this->convertKey('trunktext', 'text', function($value, $key){
+            $length = $key['opt'];
+            return msubstr($value, 0, $length);
+        });
+
         //text转换成html
         $this->convertKey('text', 'html', function($value){
             return htmlspecialchars($value);
@@ -141,6 +167,14 @@ class AdminListBuilder extends AdminBuilder {
             $getUrl = $key['opt'];
             $url = $getUrl($item);
             return "<a href=\"$url\">$value</a>";
+        });
+
+        //doaction转换为html
+        $this->convertKey('doaction','html', function($value,$key,$item){
+            $getUrl = $key['opt']['get_url'];
+            $linkText = $key['opt']['text'];
+            $url = $getUrl($item);
+            return "<a href=\"$url\">$linkText</a>";
         });
 
         //如果html为空
@@ -194,5 +228,17 @@ class AdminListBuilder extends AdminBuilder {
         } else {
             $button['attr']['class'] .= ' btn';
         }
+    }
+
+    /**
+     * @param $pattern U函数解析的URL字符串，例如 Admin/Test/index?test_id=###
+     * ###将被id替换
+     * @return callable
+     */
+    private function createDefaultGetUrlFunction($pattern) {
+        return function($item) use($pattern){
+            $pattern = str_replace('###', $item['id'], $pattern);
+            return U($pattern);
+        };
     }
 }
