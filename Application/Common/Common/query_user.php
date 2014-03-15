@@ -31,12 +31,11 @@ function query_user($fields, $uid = null)
     $cacheResult = array();
     foreach($fields as $field) {
         $cache = read_query_user_cache($uid, $field);
-        if($cache !== false) {
+        if(!empty($cache)) {
             $cacheResult[$field] = $cache;
             $cachedFields[] = $field;
         }
     }
-
     //去除已经缓存的字段
     $fields = array_diff($fields, $cachedFields);
 

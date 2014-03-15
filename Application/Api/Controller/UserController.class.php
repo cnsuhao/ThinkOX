@@ -312,11 +312,14 @@ class UserController extends ApiController {
         //修改数据库
         $uid = $this->getUid();
         D('User/UcenterMember')->where(array('id'=>$uid))->save(array('mobile'=>$mobile));
+        write_query_user_cache($uid,'mobile',$mobile);
         //返回成功结果
         $this->apiSuccess("绑定成功");
     }
 
     public function unbindMobile($verify) {
+        $uid = $this->getUid();
+        write_query_user_cache($uid,'mobile',null);
         $this->requireLogin();
         //确认用户已经绑定手机
         $model = D('User/UcenterMember');
@@ -335,8 +338,9 @@ class UserController extends ApiController {
             $this->apiError(1903,"手机验证码错误");
         }
         //写入数据库
-        $uid = $this->getUid();
+
         $model->where(array('uid'=>$uid))->save(array('mobile'=>''));
+
         //返回成功结果
         $this->apiSuccess("解绑成功");
     }
