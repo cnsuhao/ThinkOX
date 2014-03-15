@@ -25,7 +25,7 @@
                 <a href="{$user.space_url}"  ucard="{$user.uid}" ><img src="{$user.avatar32}" class="avatar-img"/></a>
             </div>
             <div class="" style="overflow: hidden; padding-left: 15px; padding-top: 5px;">
-                <span class="text-muted pull-right">{$comment.create_time|time_format}</span>
+                <span class="text-muted pull-right">{$comment.create_time|friendlyDate}</span>
                 <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>{$user.icons_html}：{$comment.content|htmlspecialchars}
             </div>
         </div>

@@ -17,7 +17,7 @@ class IndexController extends Controller
         //载入第一页微博
         $list = $this->loadWeiboList();
         foreach ($list as &$li) {
-            $li['user'] =  query_user(array('avatar64','username','uid','space_url','icons_html'), $li['uid']);
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
 
         //显示页面
@@ -30,7 +30,7 @@ class IndexController extends Controller
         //载入全站微博
         $list = $this->loadWeiboList($page);
         foreach ($list as &$li) {
-            $li['user'] =  query_user(array('avatar64','username','uid','space_url','icons_html'), $li['uid']);
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
         unset($li);
 
@@ -102,4 +102,6 @@ class IndexController extends Controller
         $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
         return $list;
     }
+
+
 }
