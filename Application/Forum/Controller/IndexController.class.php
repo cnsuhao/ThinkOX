@@ -17,20 +17,16 @@ class IndexController extends Controller
 {
     public function _initialize()
     {
+        //读取板块列表
+        $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
 
-        $forum_list = S('forum_forums');
-
-        if (empty($forum_list)) {
-            //读取板块列表
-            $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
-            //判断板块能否发帖
-            foreach ($forum_list as &$e) {
-                $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
-            }
-            unset($e);
-            S('forum_forums', $forum_list, 600);
+        //判断板块能否发帖
+        foreach ($forum_list as &$e) {
+            $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
         }
+        unset($e);
 
+        //赋予贴吧列表
         $this->assign('forum_list', $forum_list);
     }
 
@@ -44,13 +40,14 @@ class IndexController extends Controller
     public function forum($id, $page = 1)
     {
         $this->requireForumAllowView($id);
+
         //读取帖子列表
         $map = array('forum_id' => $id, 'status' => 1);
         $list = D('ForumPost')->where($map)->order('last_reply_time desc')->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('(is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ')')->order('last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ')')->order('last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);

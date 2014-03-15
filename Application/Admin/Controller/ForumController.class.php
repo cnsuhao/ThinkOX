@@ -28,7 +28,9 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder
             ->title('贴吧管理')
-            ->buttonNew(U('Forum/editForum'))->buttonSort(U('Forum/sortForum'))
+            ->buttonNew(U('Forum/editForum'))
+            ->setStatusUrl(U('Forum/setForumStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
+            ->buttonSort(U('Forum/sortForum'))
             ->keyId()->keyLink('title', '标题', 'Forum/post?forum_id=###')
             ->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyDoActionEdit('editForum?id=###')
             ->data($list)
@@ -46,6 +48,11 @@ class ForumController extends AdminController {
             ->data($list)
             ->buttonSubmit(U('doSortForum'))->buttonBack()
             ->display();
+    }
+
+    public function setForumStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('Forum', $ids, $status);
     }
 
     public function doSortForum($ids) {
@@ -121,8 +128,9 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('帖子管理' . $forumTitle)
+            ->setStatusUrl(U('Forum/setPostStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyLink('title','标题','Forum/reply?post_id=###')
-            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyBool('is_top','是否置顶')->keyDoActionEdit('editPost?id=###')
+            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyBool('is_top','是否置顶')->keyStatus()->keyDoActionEdit('editPost?id=###')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -147,6 +155,11 @@ class ForumController extends AdminController {
             ->buttonSubmit(U('doEditPost'))->buttonBack()
             ->data($post)
             ->display();
+    }
+
+    public function setPostStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('ForumPost', $ids, $status);
     }
 
     public function doEditPost($id=null,$title,$content,$create_time,$update_time,$last_reply_time,$is_top) {
@@ -182,10 +195,16 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('回复管理')
+            ->setStatusUrl(U('setReplyStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply')
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();
+    }
+
+    public function setReplyStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('ForumPostReply', $ids, $status);
     }
 
     public function editReply($id=null) {
