@@ -14,15 +14,19 @@ class SeoRuleModel extends Model
 {
     public function getMetaOfCurrentPage()
     {
-        // G('begin');
-        //$result = $this->getMeta(MODULE_NAME, CONTROLLER_NAME, ACTION_NAME);
-        // G('end');
-        // dump(G('begin','end'));exit;
-        return null; // $result;
+        $result = $this->getMeta(MODULE_NAME, CONTROLLER_NAME, ACTION_NAME);
+        return $result;
     }
 
     private function getMeta($module, $controller, $action)
     {
+        //查询缓存，如果已有，则直接返回
+        $cacheKey = "oneplus_seo_meta_{$module}_{$controller}_{$action}";
+        $cache = S($cacheKey);
+        if($cache !== false) {
+            return $cache;
+        }
+
         //获取相关的规则
         $rules = $this->getRelatedRules($module, $controller, $action);
 
@@ -42,8 +46,14 @@ class SeoRuleModel extends Model
             }
         }
 
+        //生成结果
+        $result = array('title' => $title, 'keywords' => $keywords, 'description' => $description);
+
+        //写入缓存
+        S($cacheKey, $result);
+
         //返回结果
-        return array('title' => $title, 'keywords' => $keywords, 'description' => $description);
+        return $result;
     }
 
     private function getRelatedRules($module, $controller, $action)
