@@ -219,18 +219,19 @@ class AdminListBuilder extends AdminBuilder {
         });
 
         //status转换为html
-        $that = $this;
-        $this->convertKey('status','html', function($value,$key,$item) use($that) {
+        $setStatusUrl = $this->_setStatusUrl;
+        $that = &$this;
+        $this->convertKey('status','html', function($value,$key,$item) use($setStatusUrl, $that) {
             //如果没有设置修改状态的URL，则直接返回文字
             $map = $key['opt'];
             $text = $map[$value];
-            if(!$that->_setStatusUrl) {
+            if(!$setStatusUrl) {
                 return $text;
             }
 
             //返回带链接的文字
             $switchStatus = $value==1 ? 0 : 1;
-            $url = $that->addUrlParam($that->_setStatusUrl, array('status'=>$switchStatus,'ids'=>$item['id']));
+            $url = $that->addUrlParam($setStatusUrl, array('status'=>$switchStatus,'ids'=>$item['id']));
             return "<a href=\"{$url}\" class=\"ajax-get\">$text</a>";
         });
 
@@ -305,7 +306,7 @@ class AdminListBuilder extends AdminBuilder {
         };
     }
 
-    private function addUrlParam($url, $params) {
+    public function addUrlParam($url, $params) {
         if(strpos($url, '?') === false) {
             $seperator = '?';
         } else {
