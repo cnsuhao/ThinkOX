@@ -25,12 +25,19 @@ class SEOController extends AdminController
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('SEO规则配置')
+            ->setStatusUrl(U('setRuleStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->buttonNew(U('editRule'))->buttonSort(U('sortRule'))
             ->keyId()->keyTitle()->keyText('app', '模块')->keyText('controller', '控制器')->keyText('action', '方法')
-            ->keyText('seo_title', 'SEO标题')->keyText('seo_keywords', 'SEO关键字')->keyText('seo_description', 'SEO描述')->keyDoActionEdit('editRule?id=###')
+            ->keyText('seo_title', 'SEO标题')->keyText('seo_keywords', 'SEO关键字')->keyText('seo_description', 'SEO描述')
+            ->keyStatus()->keyDoActionEdit('editRule?id=###')
             ->data($ruleList)
             ->pagination($totalCount, $r)
             ->display();
+    }
+
+    public function setRuleStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('SeoRule', $ids, $status);
     }
 
     public function sortRule()

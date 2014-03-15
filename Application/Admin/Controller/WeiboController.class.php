@@ -22,10 +22,16 @@ class WeiboController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('微博管理')
+            ->setStatusUrl(U('setWeiboStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyLink('content','内容','comment?weibo_id=###')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editWeibo?id=###')
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();
+    }
+
+    public function setWeiboStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('Weibo', $ids, $status);
     }
 
     public function editWeibo($id) {
@@ -65,10 +71,16 @@ class WeiboController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('评论管理')
+            ->setStatusUrl(U('setCommentStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyText('content','内容')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editComment')->keyDoActionEdit('editComment')
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();
+    }
+
+    public function setCommentStatus($ids, $status) {
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('WeiboComment', $ids, $status);
     }
 
     public function editComment($id) {

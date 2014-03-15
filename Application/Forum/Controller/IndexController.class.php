@@ -40,13 +40,14 @@ class IndexController extends Controller
     public function forum($id, $page = 1)
     {
         $this->requireForumAllowView($id);
+
         //读取帖子列表
         $map = array('forum_id' => $id, 'status' => 1);
         $list = D('ForumPost')->where($map)->order('last_reply_time desc')->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('(is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ')')->order('last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ')')->order('last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);

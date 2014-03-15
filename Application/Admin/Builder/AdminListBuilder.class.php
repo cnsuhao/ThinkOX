@@ -21,6 +21,10 @@ class AdminListBuilder extends AdminBuilder {
         return $this;
     }
 
+    /**
+     * @param $url string 已被U函数解析的地址
+     * @return $this
+     */
     public function setStatusUrl($url) {
         $this->_setStatusUrl = $url;
         return $this;
@@ -216,11 +220,17 @@ class AdminListBuilder extends AdminBuilder {
 
         //status转换为html
         $this->convertKey('status','html', function($value,$key,$item){
+            //如果没有设置修改状态的URL，则直接返回文字
             $map = $key['opt'];
             $text = $map[$value];
+            if(!$this->_setStatusUrl) {
+                return $text;
+            }
+
+            //返回带链接的文字
             $switchStatus = $value==1 ? 0 : 1;
             $url = $this->addUrlParam($this->_setStatusUrl, array('status'=>$switchStatus,'ids'=>$item['id']));
-            return "<a href=\"$url\" class=\"ajax-get\">$text</a>";
+            return "<a href=\"{$url}\" class=\"ajax-get\">$text</a>";
         });
 
         //如果html为空
@@ -255,7 +265,7 @@ class AdminListBuilder extends AdminBuilder {
 
     public function doSetStatus($model, $ids, $status) {
         $ids = is_array($ids) ? $ids : explode(',', $ids);
-        M('Forum')->where(array('id'=>array('in', $ids)))->save(array('status'=>$status));
+        M($model)->where(array('id'=>array('in', $ids)))->save(array('status'=>$status));
         $this->success('设置成功', $_SERVER['HTTP_REFERER']);
     }
 

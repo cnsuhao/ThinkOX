@@ -24,7 +24,7 @@ class HotPostWidget extends Action
         $posts = S('forum_hot_posts_' . $forum_id);
         if (empty($posts)) {
             if ($forum_id) {
-                $posts = D('ForumPost')->where('forum_id=' . $forum_id)->order('reply_count desc')->limit(9)->select();
+                $posts = D('ForumPost')->where(array('forum_id'=>$forum_id, 'status'=>1))->order('reply_count desc')->limit(9)->select();
             }
             S('forum_hot_posts_' . $forum_id, $posts, 300);
         }
