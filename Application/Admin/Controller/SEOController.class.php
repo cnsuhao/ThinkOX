@@ -22,19 +22,12 @@ class SEOController extends AdminController
         $ruleList = $model->where($map)->page($page, $r)->order('sort asc')->select();
         $totalCount = $model->where($map)->count();
 
-        //添加操作字段
-        foreach ($ruleList as &$e) {
-            $editUrl = U('editRule', array('id' => $e['id']));
-            $e['DOACTIONS'] = "<a href=\"{$editUrl}\">编辑</a>";
-        }
-        unset($e);
-
         //显示页面
         $builder = new AdminListBuilder();
         $builder->title('SEO规则配置')
             ->buttonNew(U('editRule'))->buttonSort(U('sortRule'))
             ->keyId()->keyTitle()->keyText('app', '模块')->keyText('controller', '控制器')->keyText('action', '方法')
-            ->keyText('seo_title', 'SEO标题')->keyText('seo_keywords', 'SEO关键字')->keyText('seo_description', 'SEO描述')->keyHtml('DOACTIONS', '操作')
+            ->keyText('seo_title', 'SEO标题')->keyText('seo_keywords', 'SEO关键字')->keyText('seo_description', 'SEO描述')->keyDoActionEdit('editRule?id=###')
             ->data($ruleList)
             ->pagination($totalCount, $r)
             ->display();
