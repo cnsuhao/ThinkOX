@@ -29,9 +29,9 @@ function query_user($fields, $uid = null)
     //查询缓存，过滤掉已缓存的字段
     $cachedFields = array();
     $cacheResult = array();
-    foreach($fields as $field) {
+    foreach ($fields as $field) {
         $cache = read_query_user_cache($uid, $field);
-        if(!empty($cache)) {
+        if (!empty($cache)) {
             $cacheResult[$field] = $cache;
             $cachedFields[] = $field;
         }
@@ -113,8 +113,8 @@ function query_user($fields, $uid = null)
     $result = array_merge($ucenterResult, $homeResult, $spaceUrlResult, $result);
 
     //写入缓存
-    foreach($result as $field=>$value) {
-        write_query_user_cache($uid, $field,$value);
+    foreach ($result as $field => $value) {
+        write_query_user_cache($uid, $field, $value);
     }
 
     //合并结果，包括缓存
@@ -124,10 +124,22 @@ function query_user($fields, $uid = null)
     return $result;
 }
 
-function read_query_user_cache($uid, $field) {
+function read_query_user_cache($uid, $field)
+{
     return S("query_user_{$uid}_{$field}");
 }
 
-function write_query_user_cache($uid, $field, $value) {
+function write_query_user_cache($uid, $field, $value)
+{
     return S("query_user_{$uid}_{$field}", $value);
+}
+
+function clean_query_user_cache($uid, $field)
+{
+    if(is_array($field)){
+        foreach($field as $field_item){
+            S("query_user_{$uid}_{$field_item}", null);
+        }
+    }
+    S("query_user_{$uid}_{$field}", null);
 }

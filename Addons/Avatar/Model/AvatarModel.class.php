@@ -36,6 +36,7 @@ class AvatarModel extends Model {
             'is_temp'=>0,
         );
         $data = $this->create($data);
+        clean_query_user_cache($uid,array('avatar32', 'avatar64', 'avatar128', 'avatar256', 'avatar512'));
         return $this->add($data);
     }
 
