@@ -3,7 +3,7 @@
 
 <block name="body">
     <section>
-    <div class="login-text"><strong><h1>欢迎登录到One Plus</h1></strong></div>
+    <div class="login-text"><strong><h1>欢迎登录到OnePlus</h1></strong></div>
 
     <div class="login-form-inbox">
         <form class="login-form" action="__SELF__" method="post">
@@ -57,26 +57,35 @@
                 });
 
 
-        $("form").submit(function () {
-            var self = $(this);
-            $.post(self.attr("action"), self.serialize(), success, "json");
-            return false;
 
-            function success(data) {
-                if (data.status) {
-                    op_success('欢迎回来，1.5秒后跳转到登陆页面。', '温馨提示');
-                    setTimeout(function () {
-                        window.location.href = data.url;
-                    }, 1500);
-                } else {
-                    self.find(".Validform_checktip").text(data.info);
-                    //刷新验证码
-                    $(".reloadverify").click();
-                }
-            }
-        });
 
         $(function () {
+
+            $("form").submit(function () {
+                var self = $(this);
+                $.post(self.attr("action"), self.serialize(), success, "json");
+                return false;
+
+                function success(data) {
+                    if (data.status) {
+                        op_success('欢迎回来，1.5秒后跳转到登陆页面。', '温馨提示');
+                        setTimeout(function () {
+                            window.location.href = data.url;
+                        }, 1500);
+                    } else {
+                        op_error(data.info,'温馨提示');
+                        //self.find(".Validform_checktip").text(data.info);
+                        //刷新验证码
+                       // $(".reloadverify").click();
+                    }
+                }
+            });
+
+
+
+
+
+
             var verifyimg = $(".verifyimg").attr("src");
             $(".reloadverify").click(function () {
                 if (verifyimg.indexOf('?') > 0) {

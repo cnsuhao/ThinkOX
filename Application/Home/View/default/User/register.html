@@ -79,9 +79,10 @@
                         window.location.href = data.url
                     }, 1500);
                 } else {
-                    self.find(".Validform_checktip").text(data.info);
+                    op_error(data.info,'温馨提示');
+                    /*self.find(".Validform_checktip").text(data.info);
                     //刷新验证码
-                    $(".reloadverify").click();
+                    $(".reloadverify").click();*/
                 }
             }
         });
