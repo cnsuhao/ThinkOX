@@ -22,6 +22,7 @@ class MessageModel extends Model
         $messages = D('message')->where('to_uid=' . $uid . ' and  is_read=0  and last_toast=0')->order('id desc')->limit(99999)->select();
         foreach ($messages as &$v) {
             $v['ctime'] = friendlyDate($v['create_time']);
+            $v['content']=op_t($v['content']);
         }
         unset($v);
         return $messages;
@@ -51,6 +52,7 @@ class MessageModel extends Model
         $messages = D('message')->where('to_uid=' . $uid . ' and  is_read=0 ')->order('id desc')->limit(99999)->select();
         foreach ($messages as &$v) {
             $v['ctime'] = friendlyDate($v['create_time']);
+            $v['content']=op_t($v['content']);
         }
         unset($v);
         return $messages;
@@ -65,6 +67,7 @@ class MessageModel extends Model
         $messages = D('message')->where('to_uid=' . $uid . ' and  is_read=0  and last_toast!=0')->order('id desc')->limit(99999)->select();
         foreach ($messages as &$v) {
             $v['ctime'] = friendlyDate($v['create_time']);
+            $v['content']=op_t($v['content']);
         }
         unset($v);
         return $messages;
@@ -85,7 +88,7 @@ class MessageModel extends Model
             return 0;
         }
         $message['to_uid'] = $to_uid;
-        $message['content'] = $content;
+        $message['content'] = op_t($content);
         $message['title'] = $title;
         $message['url'] = $url;
         $message['from_uid'] = $from_uid;
