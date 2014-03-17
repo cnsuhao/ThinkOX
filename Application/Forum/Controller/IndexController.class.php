@@ -10,8 +10,8 @@ namespace Forum\Controller;
 
 use Think\Controller;
 
-define('TOP_ALL', 1);
-define('TOP_FORUM', 2);
+define('TOP_ALL', 2);
+define('TOP_FORUM', 1);
 
 class IndexController extends Controller
 {
