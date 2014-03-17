@@ -24,6 +24,8 @@ class IndexController extends BaseController
         $this->display('basic');
     }
 
+
+
     public function logout()
     {
         //调用退出登录的API
@@ -173,39 +175,5 @@ class IndexController extends BaseController
         $this->ajaxReturn(apiToAjax($result));
     }
 
-    public function message($page = 1, $tab = 'unread')
-    {
 
-        switch ($tab) {
-            case 'system':
-                $map['type'] = 0;
-                break;
-            case 'user':
-                $map['type'] = 1;
-                break;
-            case 'app':
-                $map['type'] = 2;
-                break;
-            case 'all':
-                break;
-            default:
-                $map['is_read'] =0;
-                break;
-        }
-
-        $map['to_uid'] = is_login();
-        $this->defaultTabHash('message');
-        $messages = D('Message')->where($map)->order('create_time desc')->page($page, 10)->select();
-        foreach ($messages as &$v) {
-            if ($v['from_uid'] != 0) {
-                $v['from_user'] = query_user(array('username', 'space_url', 'avatar64', 'space_link'), $v['from_uid']);
-            }
-
-        }
-        $totalCount = D('Message')->where($map)->order('create_time desc')->count();
-        $this->assign('totalCount', $totalCount);
-        $this->assign('messages', $messages);
-        $this->assign('tab', $tab);
-        $this->display();
-    }
 }

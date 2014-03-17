@@ -360,3 +360,60 @@ $(function () {
         return false;
     });
 })
+
+
+/**
+ * 初始化聊天框
+ */
+function op_initTalkBox() {
+    $('#scrollArea').slimScroll({
+        height: '400px',
+        alwaysVisible: true,
+        start: 'bottom'
+    });
+}
+/**
+ * 向聊天窗添加一条消息
+ * @param html 消息内容
+ */
+function op_appendMessage(html) {
+    $('#scrollContainer').append(html);
+    $('#scrollArea').slimScroll({scrollTo: $('#scrollContainer').height()});
+    ucard();
+}
+/**
+ * 渲染消息模板
+ * @param message 消息体
+ * @param mid 当前用户ID
+ * @returns {string}
+ */
+function op_fetchMessageTpl(message, mid) {
+    var tpl_right = '<div class="row talk_right">' +
+        '<div class="time"><span class="timespan">{ctime}</span></div>' +
+        '<div class="row">' +
+        '<div class="col-md-10 bubble_outter">' +
+        '<h3>我</h3>' +
+        '<i class="bubble_sharp"></i>' +
+        '<div class="talk_bubble">{content}' +
+        '</div>' +
+        '</div>' +
+        ' <div class="col-md-2 "><img ucard="{uid}" class="avatar-img talk-avatar"' +
+        'src="{avatar128}"/>' +
+        '</div> </div> </div>';
+
+    var tpl_left = '<div class="row">' +
+        '<div class="time"><span class="timespan">{ctime}</span></div>' +
+        '<div class="row">' +
+        '<div class="col-md-2 "><img ucard="{uid}" class="avatar-img talk-avatar"' +
+        'src="{avatar128}"/>' +
+        '</div><div class="col-md-10 bubble_outter">' +
+        '<h3>{username}</h3>' +
+        '<i class="bubble_sharp"></i>' +
+        '<div class="talk_bubble">{content}' +
+        '</div></div></div></div>';
+    var tpl = message.uid == mid ? tpl_right :tpl_left;
+    $.each(message, function (index, value) {
+        tpl = tpl.replace('{' + index + '}', value);
+    });
+    return tpl;
+}

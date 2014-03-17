@@ -45,14 +45,14 @@ a:hover {
   padding-bottom: 10px;
   margin-left: 0px;
   margin-right: 0px;
- div{
-   font-style: normal;
- }
-  .message-ctime{
+  div {
+    font-style: normal;
+  }
+  .message-ctime {
     font-weight: normal;
   }
-  .message_icon{
-    img{
+  .message_icon {
+    img {
       margin-bottom: 0.5em;
     }
 
@@ -233,7 +233,7 @@ a:hover {
   margin-bottom: 10px;
 }
 
-.post_top, .post_top_forum,.op_rectangle {
+.post_top, .post_top_forum, .op_rectangle {
   height: 2em;
   margin-left: 1em;
   display: inline-block;
@@ -241,7 +241,7 @@ a:hover {
   font-style: normal;
   font-size: 0.5em;
   color: white;
-  background:rgb(72,184,122);
+  background: rgb(72, 184, 122);
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
@@ -674,3 +674,126 @@ General list for item with image
   position: absolute;
   right: 45px;
 }
+
+/*消息中心*/
+.talk_one {
+
+}
+
+.talk_bubble {
+  border-radius: 4px;
+  border: 1px solid white;
+  background: white;
+  padding: 10px 15px;
+  display: inline-block;
+}
+
+.talk-body {
+  background: #f5f5f5;
+  padding: 30px;
+  margin-top: 10px;
+  border-radius: 0.5em;
+}
+
+.talk-body .time {
+  text-align: center;
+
+}
+
+.talk-body .timespan {
+  background: #999;
+  color: white;
+  display: inline-block;
+  border-radius: 0.4em;
+  padding: 0.3em 0.5em;
+
+}
+
+.talk-body h3 {
+  font-size: 14px;
+  color: #999;
+  margin-top: 12px;
+}
+
+.bubble_outter {
+  position: relative;
+}
+
+.bubble_sharp {
+  background: url(../../oneplus/images/bubble_left.png);
+  width: 17px;
+  height: 22px;
+  position: absolute;
+  left: -2px;
+  top: 35px;
+}
+
+.talk-avatar {
+  width: 80px;
+}
+
+/*右侧重写*/
+.talk_right {
+  .bubble_outter {
+    text-align: right;
+  }
+  .bubble_sharp {
+    background: url(../../oneplus/images/bubble_right.png);
+    right: 1px;
+    left: inherit;
+  }
+  h3 {
+    text-align: right;
+  }
+  .talk_bubble {
+    border: 1px solid rgb(78, 155, 224);
+    color: white;
+    background: rgb(78, 155, 224);
+  }
+
+}
+
+.talk-body {
+  margin: 20px 0px;
+  .talk_blockquote {
+    background: url(../../oneplus/images/blockquote.png);
+    background-repeat: no-repeat;
+    width: 89px;
+    height: 76px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+  .talk_source_content{
+    z-index: 999;
+    position: relative;
+    text-shadow: 1px 1px 1px white;
+  }
+  .talk_source {
+
+    background: white;
+    border: 1px dashed #ccc;
+    min-height: 150px;
+    position: relative;
+    margin: 20px;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+  #scrollArea {
+    padding: 30px;
+    max-height: 400px;
+
+  }
+  .slimScrollDiv {
+    border: solid 1px white;
+    border-radius: 10px;
+    .row {
+      margin: 0px;
+    }
+  }
+}
+
+/*消息中心end*/
