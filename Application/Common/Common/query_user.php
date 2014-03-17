@@ -30,6 +30,9 @@ function query_user($fields, $uid = null)
     $cachedFields = array();
     $cacheResult = array();
     foreach ($fields as $field) {
+        if (in_array($field, array('icons_html', 'title','score'))) {
+            continue;
+        }
         $cache = read_query_user_cache($uid, $field);
         if (!empty($cache)) {
             $cacheResult[$field] = $cache;
@@ -114,6 +117,9 @@ function query_user($fields, $uid = null)
 
     //写入缓存
     foreach ($result as $field => $value) {
+        if (in_array($field, array('icons_html', 'title','score'))) {
+            continue;
+        };
         write_query_user_cache($uid, $field, $value);
     }
 
@@ -131,13 +137,13 @@ function read_query_user_cache($uid, $field)
 
 function write_query_user_cache($uid, $field, $value)
 {
-    return S("query_user_{$uid}_{$field}", $value,300);
+    return S("query_user_{$uid}_{$field}", $value, 300);
 }
 
 function clean_query_user_cache($uid, $field)
 {
-    if(is_array($field)){
-        foreach($field as $field_item){
+    if (is_array($field)) {
+        foreach ($field as $field_item) {
             S("query_user_{$uid}_{$field_item}", null);
         }
     }
