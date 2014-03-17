@@ -81,6 +81,9 @@ class MessageModel extends Model
      */
     public function sendMessage($to_uid, $content = '', $title = '您有新的消息', $url, $from_uid = 0, $type = 0)
     {
+        if ($to_uid == is_login()) {
+            return 0;
+        }
         $message['to_uid'] = $to_uid;
         $message['content'] = $content;
         $message['title'] = $title;
