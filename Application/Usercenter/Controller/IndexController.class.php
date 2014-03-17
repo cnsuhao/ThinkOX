@@ -25,15 +25,15 @@ class IndexController extends BaseController
     }
 
 
-
     public function logout()
     {
         //调用退出登录的API
         $result = callApi('Public/logout');
         $this->ensureApiSuccess($result);
 
+        exit(json_encode(array('message' => $result['message'], 'url' => U('Home/Index/index'))));
         //显示页面
-        $this->success($result['message'], U('Home/Index/index'));
+        //$this->success($result['message'], U('Home/Index/index'));
     }
 
     public function changePassword()

@@ -9,6 +9,7 @@ $(function () {
     bindGoTop();//回到顶部
     checkMessage();//检查一次消息
     bindMessageChecker();//绑定用户消息
+    bindLogout();
 });
 
 
@@ -411,9 +412,22 @@ function op_fetchMessageTpl(message, mid) {
         '<i class="bubble_sharp"></i>' +
         '<div class="talk_bubble">{content}' +
         '</div></div></div></div>';
-    var tpl = message.uid == mid ? tpl_right :tpl_left;
+    var tpl = message.uid == mid ? tpl_right : tpl_left;
     $.each(message, function (index, value) {
         tpl = tpl.replace('{' + index + '}', value);
     });
     return tpl;
+}
+/**
+ * 绑定登出事件
+ */
+function bindLogout() {
+    $('[event-node=logout]').click(function () {
+        $.get(U('userCenter/Index/logout'), function (msg) {
+            op_success(msg.message + '。', '温馨提示');
+            setTimeout(function () {
+                location.href = msg.url;
+            }, 1500);
+        }, 'json')
+    });
 }

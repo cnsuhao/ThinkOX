@@ -3,6 +3,7 @@ body {
 }
 a:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 .boxShadow {
   box-shadow: 0 0 5px #cccccc;
