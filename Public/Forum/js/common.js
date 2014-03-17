@@ -1,31 +1,4 @@
 $(function(){
-    var  textarea =   $('.input_tips');
-    /*    textarea.focus(function(){
-     var id =  $(this).attr('args');
-     var tip = $(this).attr('tip');
-     if(tip ==1){
-     textFocus(id);
-     $(this).attr('tip','0')
-     }
-     });
-
-     textarea.blur(function(){
-     var id =  $(this).attr('args');
-     var tip = $(this).attr('tip');
-     if(tip == 0){
-     textBlur(id);
-     $(this).attr('tip','1')
-     }
-     });*/
-    textarea.keydown(function(){
-        var id =  $(this).attr('args');
-        textChange(id);
-    })
-    textarea.keyup(function(){
-
-        var id =  $(this).attr('args');
-        textChange(id);
-    })
 
     var reply_btn = $('.reply_btn');
     reply_btn.click(function(){
@@ -97,25 +70,3 @@ var getArgs  = function(uri) {
     return obj;
 };
 
-
-function textChange(id) {
-    if ($('#reply_' + id).val().length == 0) {
-        $('#submit_' + id).removeClass('button_true')
-    }
-    else {
-        $('#submit_' + id).addClass('button_true')
-    }
-}
-function textFocus(id) {
-    $('#textarea_' + id).animate({marginLeft: '50px'}, 'fast','', function () {
-        $('#myavatar_' + id).show();
-    });
-}
-
-function textBlur(id) {
-    if ($('#reply_' + id).val().length == 0) {
-
-        $('#myavatar_' + id).hide();
-        $('#textarea_' + id).animate({marginLeft: '0px'}, "fast");
-    }
-}
