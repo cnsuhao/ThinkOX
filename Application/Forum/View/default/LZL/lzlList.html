@@ -1,68 +1,15 @@
 <script type="text/javascript" src="__JS__/common.js"></script>
-<style>
-    .input_tips {
-        width: 100%;
-        height: 85px;
-        display: block;
-        overflow-y: auto;
-        padding: 5px;
-        font-size: 14px;
-        line-height: 18px;
-        cursor: text;
-        outline: none;
-        border: #ddd solid 1px;
-        background: #fff;
-        box-shadow: 1px 1px 3px #dcdcdc inset;
-        -moz-box-shadow: 1px 1px 3px #dcdcdc inset;
-        -khtml-box-shadow: 1px 1px 3px #dcdcdc inset;
-    }
-    .lzl{display: block;
-    padding: 10px;
-    margin: 0 0 10px;
-    font-size: 13px;
-    line-height: 1.428571429;
-    word-break: break-all;
-    word-wrap: break-word;
-    color: #333;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;}
-.triangle {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #ccc;
-    float: right;
-    margin-right: 40px;
-    margin-top: -10px;
-    z-index: 1;
-}
 
-.triangle_up {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #f5f5f5;
-   float: right;
-    margin-right: 40px;
-    margin-top: -9px;
-    z-index: 2;
-}
-
-
-</style>
 
 <ul>
 <volist name="lzlList" id="vo"  key="k">
 
-<li class="show_{$to_f_reply_id}" style="list-style: none;border-bottom: 1px solid #ddd;padding-top: 12px;padding-bottom: 8px;<if condition="$nowPage eq 1 and $k gt 3 and $k elt $limit">display:none;</if>">
+<li class="show_{$to_f_reply_id} lzl_reply_list" style="<if condition="$nowPage eq 1 and $k gt 3 and $k elt $limit">display:none;</if>">
 
-    <div style="width: 40px;float: left;margin-top: 5px;">
+    <div class="XT_list_avatar" >
         <a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}"> <img src="{$vo.userInfo.avatar128}" ucard="{$vo.userInfo.uid}" class="avatar-img"  style="width:100%;" /></a>
     </div>
-    <div style="float: left;margin-left: 10px;width: 90%">
+    <div class="XT_list_content">
         <p> <a href="{$vo.userInfo.space_url}" ucard="{$user.uid}">  {$vo.userInfo.username}</a></p>
        <p>{$vo.content}</p>
         <p style="color:  #CCC;">{$vo.ctime|time_format} <a class="pull-right reply_btn" args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_username={$vo.userInfo.username}" href="javascript:">回复</a></p>
@@ -80,7 +27,7 @@
 </ul>
 
 <if condition="$nowPage eq 1 and $count gt 3">
-    <span class="pull-left" id="show_{$to_f_reply_id}" style="margin-top: 15px;margin-bottom: 10px;margin-left: 40px;">
+    <span class="pull-left XT_reply_count" id="show_{$to_f_reply_id}" >
      还有{$totalCount-3}条回复，<a href="javascript:" onclick="$('.show_{$to_f_reply_id}').slideDown('normal');$('#show_{$to_f_reply_id}').hide();$('#pagination_{$to_f_reply_id}').show();">点击查看</a>
     </span>
 
@@ -91,7 +38,7 @@
 
 <script>
     function changePage(id,p){
-        $('#lzl_reply_list_'+id).load(U('Forum/LZL/lzlList&to_f_reply_id='+id+'&page='+p,'',true),function(){
+        $('#lzl_reply_list_'+id).load(U('Forum/LZL/lzllist&to_f_reply_id='+id+'&page='+p,'',true),function(){
             ucard() })
     }
 </script>

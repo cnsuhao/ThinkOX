@@ -17,7 +17,7 @@ class LZLController extends Controller
 {
 
 
-public function  lzlList($to_f_reply_id,$page=1)
+public function  lzllist($to_f_reply_id,$page=1)
     {
 
        $limit = 5;
