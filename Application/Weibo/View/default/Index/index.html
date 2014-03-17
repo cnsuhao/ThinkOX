@@ -10,13 +10,18 @@
     </php>
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-9 weibo_main" >
+            <div class="col-md-9 weibo_main">
                 <div class="row">
                     <div class="col-md-12">
                         <br/>
+
                         <p>记录，就是一种态度！</p>
-                        <p><textarea class="form-control" id="weibo_content" style="height: 6em;" placeholder="写点什么吧～～"></textarea></p>
-                        <p class="pull-right"><input type="submit" value="发表" id="send_weibo_button" class="btn btn-primary" data-url="{:U('doSend')}"/></p>
+
+                        <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
+                                     placeholder="写点什么吧～～"></textarea></p>
+
+                        <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
+                                                     class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
                 </div>
 
@@ -46,51 +51,56 @@
 
 <block name="script">
     <script>
-        $(function(){
+        $(function () {
             var noMoreNextPage = false;
             var isLoadingWeibo = false;
             var currentPage = 1;
 
+            $('#weibo_content').keypress(function (e) {
+                if (e.ctrlKey && e.which == 13 || e.which == 10) {
+                    $("#send_weibo_button").click();
+                }
+            });
+
             //点击发表微博按钮之后
-            $('#send_weibo_button').click(function(){
+            $('#send_weibo_button').click(function () {
                 //获取参数
                 var url = $(this).attr('data-url');
                 var content = $('#weibo_content').val();
                 var button = $(this);
 
                 //发送到服务器
-                $.post(url, {content: content}, function(a){
-                    if(a.status) {
-                        button.attr('class','btn btn-primary');
+                $.post(url, {content: content}, function (a) {
+                    if (a.status) {
+                        button.attr('class', 'btn btn-primary');
                         button.val('发表');
                         reloadWeiboList();
                         clearWeibo();
                     } else {
-                        op_error(a.info,'温馨提示');
+                        op_error(a.info, '温馨提示');
                     }
                 });
-
             });
 
             //当屏幕滚动到底部时
-            $(window).scroll(function(){
-                if(noMoreNextPage) {
+            $(window).scroll(function () {
+                if (noMoreNextPage) {
                     return;
                 }
-                if(isLoadingWeibo) {
+                if (isLoadingWeibo) {
                     return;
                 }
-                if(isLoadMoreVisible()) {
+                if (isLoadMoreVisible()) {
                     loadNextPage();
                 }
             });
             $(window).trigger('scroll');
 
             //点击评论之后载入评论
-            $(document).on('click','.weibo-comment-link',function(e){
+            $(document).on('click', '.weibo-comment-link', function (e) {
                 var weibo_id = $(this).attr('data-weibo-id');
                 var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
-                if(weiboCommentList.is(':visible')) {
+                if (weiboCommentList.is(':visible')) {
                     hideWeiboCommentList(weiboCommentList);
                 } else {
                     showWeiboCommentList(weiboCommentList);
@@ -102,16 +112,16 @@
             });
 
             //点击评论按钮后提交评论
-            $(document).on('click', '.weibo-comment-commit', function(){
+            $(document).on('click', '.weibo-comment-commit', function () {
                 var weiboId = $(this).attr('data-weibo-id');
-                var weibo = $('#weibo_'+weiboId);
+                var weibo = $('#weibo_' + weiboId);
                 var content = $('.weibo-comment-content', weibo).val();
                 var url = "{:U('doComment')}";
                 var commitButton = $('.weibo-comment-commit', weibo);
                 var weiboCommentList = $('.weibo-comment-list', weibo);
                 commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
-                $.post(url, {weibo_id:weiboId,content:content}, function(a){
-                    if(a.status) {
+                $.post(url, {weibo_id: weiboId, content: content}, function (a) {
+                    if (a.status) {
                         reloadWeiboCommentList(weiboCommentList);
                     } else {
                         commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
@@ -131,7 +141,7 @@
             }
 
             function reloadWeiboList() {
-                loadWeiboList(1, function(){
+                loadWeiboList(1, function () {
                     clearWeiboList();
                     currentPage = 1;
                 });
@@ -141,9 +151,9 @@
                 $('#weibo_content').val('');
             }
 
-            function loadWeiboList(page,onBeforePrepend) {
+            function loadWeiboList(page, onBeforePrepend) {
                 //默认载入第1页
-                if(page == undefined) {
+                if (page == undefined) {
                     page = 1;
                 }
 
@@ -151,12 +161,12 @@
                 var url = "{:U('loadweibo')}";
                 isLoadingWeibo = true;
                 $('#load_more_text').text('正在载入...');
-                $.post(url, {page:page}, function(a){
-                    if(a.status == 0) {
+                $.post(url, {page: page}, function (a) {
+                    if (a.status == 0) {
                         noMoreNextPage = true;
                         $('#load_more_text').text('没有了');
                     }
-                    if(onBeforePrepend != undefined) {
+                    if (onBeforePrepend != undefined) {
                         onBeforePrepend();
                     }
                     $('#weibo_list').append(a);
@@ -175,7 +185,7 @@
                 var loaded = weiboCommentList.attr('data-weibo-comment-loaded');
 
                 //如果已经载入，只要显示即可
-                if(loaded) {
+                if (loaded) {
                     weiboCommentList.show();
                     return;
                 }
@@ -200,7 +210,7 @@
                 var weibo = $('#weibo_' + weiboId);
                 var weiboContainer = $('.weibo-comment-container', weiboCommentList);
                 var url = "{:U('loadComment')}";
-                $.post(url, {weibo_id:weiboId}, function(a){
+                $.post(url, {weibo_id: weiboId}, function (a) {
                     weiboContainer.html(a);
 
                     //更新评论数量

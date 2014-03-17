@@ -32,8 +32,9 @@ class IndexController extends Controller
 
     public function index($page = 1)
     {
-        //默认进入到后台配置的第一个板块
-        $forum = D('Forum')->order('sort asc')->find();
+      //默认进入到后台配置的第一个板块
+        $d_forum=D('forum');
+        $forum =$d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
         redirect(U('forum', array('id' => $forum['id'], 'page' => $page)));
     }
 
@@ -47,7 +48,7 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ')')->order('last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order('last_reply_time desc')->select();
 
         //显示页面
         $this->assign('forum_id', $id);
@@ -340,7 +341,7 @@ class IndexController extends Controller
         }
         unset($post);
 
-        $_GET['keywords']=$_REQUEST['keywords'];
+        $_GET['keywords'] = $_REQUEST['keywords'];
         //显示页面
         $this->assign('list', $list);
         $this->assign('totalCount', $totalCount);
