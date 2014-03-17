@@ -25,7 +25,8 @@ class IndexController extends Controller
             $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
         }
         unset($e);
-
+       $myInfo = query_user(array('avatar128','username','uid','space_url','icons_html'), is_login());
+        $this->assign('myInfo', $myInfo);
         //赋予贴吧列表
         $this->assign('forum_list', $forum_list);
     }
@@ -61,6 +62,7 @@ class IndexController extends Controller
 
     public function detail($id, $page = 1)
     {
+        $limit = 10;
         //读取帖子内容
         $post = D('ForumPost')->where(array('id' => $id, 'status' => 1))->find();
         if (!$post) {
@@ -72,9 +74,10 @@ class IndexController extends Controller
 
         //读取回复列表
         $map = array('post_id' => $id, 'status' => 1);
-        $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, 10)->select();
+        $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, $limit)->select();
         foreach ($replyList as &$reply) {
             $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
+            $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id='.$reply['id'])->count();
         }
         unset($reply);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
@@ -94,6 +97,8 @@ class IndexController extends Controller
         $this->assignAllowPublish();
         $this->assign('isBookmark', $isBookmark);
         $this->assign('post', $post);
+        $this->assign('limit', $limit);
+        $this->assign('page', $page);
         $this->assign('replyList', $replyList);
         $this->assign('replyTotalCount', $replyTotalCount);
         $this->assign('showMainPost', $showMainPost);

@@ -69,7 +69,7 @@
             <hr/>
         </if>
 
-        <volist name="replyList" id="reply">
+        <volist name="replyList" id="reply" key="k">
             <div class="row" style="position: relative">
 
                 <eq name="reply.uid" value="$post['uid']">
@@ -79,8 +79,7 @@
 
                 <div class="col-md-2">
                     <p class="text-center">
-                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}"><img src="{$reply.user.avatar128}"
-                                                                                    class="avatar-img"/></a>
+                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}"><img src="{$reply.user.avatar128}" class="avatar-img"/></a>
                     </p>
 
                     <p class="text-center">
@@ -93,9 +92,22 @@
                         {$reply.content}
                         <br/>
                     </div>
-                    <p class="pull-right text-muted">
+                    <p class="pull-right text-muted" style="margin-right: 35px;">
+                       {:getLou( $limit*($page-1)+$k+1)}
+
                         发表于 {$reply.create_time|time_format}
+
+                        <a href="javascript:" class="reply_btn" args="{$reply['id']}" id="reply_btn_{$reply['id']}" >回复({$reply.lzl_count})</a>
+
                     </p>
+
+
+                    <div class="clearfix"></div>
+                    <div id="lzl_reply_div_{$reply['id']}" <if condition="$reply['lzl_count'] eq 0">style="display:none"</if>>
+                        {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id']))}
+                    </div>
+
+
                 </div>
             </div>
             <hr/>

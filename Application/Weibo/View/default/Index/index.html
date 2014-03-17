@@ -87,6 +87,8 @@
                 if (noMoreNextPage) {
                     return;
                 }
+                    return;
+                }
                 if (isLoadingWeibo) {
                     return;
                 }
@@ -113,7 +115,9 @@
 
             //点击评论按钮后提交评论
             $(document).on('click', '.weibo-comment-commit', function () {
+                alert('aa');
                 var weiboId = $(this).attr('data-weibo-id');
+                var weibo = $('#weibo_'+weiboId);
                 var weibo = $('#weibo_' + weiboId);
                 var content = $('.weibo-comment-content', weibo).val();
                 var url = "{:U('doComment')}";

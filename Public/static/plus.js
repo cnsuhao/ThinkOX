@@ -20,7 +20,7 @@ $(function () {
  * @returns {string}
  * @constructor
  */
-function U(url, params) {
+function U(url, params, rewrite) {
     var website = _ROOT_ + '/index.php';
     url = url.split('/');
     if (url[0] == '' || url[0] == '@')
@@ -34,7 +34,9 @@ function U(url, params) {
         params = params.join('/');
         website = website + '/' + params;
     }
-    website = website + '.html';
+    if(!rewrite){
+        website = website + '.html';
+    }
     return website;
 }
 
