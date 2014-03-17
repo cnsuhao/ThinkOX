@@ -1,21 +1,14 @@
 <extend name="Base/common"/>
-<block name="header">
-    <header class="jumbotron subhead" id="overview">
-        <div class="container">
-            <h2>用户注册</h2>
 
-            <p><span><span class="pull-left"><span>已经有账号? <a href="{:U('User/login')}">点此登录</a> </span> </span></p>
-        </div>
-    </header>
-</block>
 
 <block name="body">
 
     <section>
-        <div class="col-md-3">
-            <form class="login-form" action="__SELF__" method="post">
-                <div class="control-group">
-                    <label class="control-label" for="inputEmail">用户名</label>
+        <div class="login-text"><strong><h1>欢迎注册One Plus</h1></strong></div>
+        <div class="login-form-upbox">
+        <form class="login-form" action="__SELF__" method="post">
+                <div class="control-group login-input">
+
 
                     <div class="controls">
                         <input type="text" id="inputEmail" class="form-control" placeholder="请输入用户名"
@@ -23,16 +16,16 @@
                                datatype="*1-16" value="" name="username">
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputPassword">密码</label>
+                <div class="control-group login-input">
+
 
                     <div class="controls">
                         <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码"
                                errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputPassword">确认密码</label>
+                <div class="control-group login-input">
+
 
                     <div class="controls">
                         <input type="password" id="inputPassword" class="form-control" placeholder="请再次输入密码"
@@ -40,8 +33,8 @@
                                name="repassword">
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputEmail">邮箱</label>
+                <div class="control-group login-input">
+
 
                     <div class="controls">
                         <input type="text" id="inputEmail" class="form-control" placeholder="请输入电子邮件"
@@ -49,29 +42,15 @@
                                datatype="e" value="" name="email">
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label" for="inputPassword">验证码</label>
 
-                    <div class="controls">
-                        <input type="text" id="inputPassword" class="form-control" placeholder="请输入验证码"
-                               errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label"></label>
 
-                    <div class="controls">
-                        <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
-                    </div>
-                    <div class="controls Validform_checktip text-warning"></div>
-                </div>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="btn">注 册</button>
+                        <button type="submit" class="btn btn-primary">注 册</button>
                     </div>
                 </div>
             </form>
-        </div>
+</div>
     </section>
 
 </block>
