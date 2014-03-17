@@ -10,7 +10,7 @@
         <a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}"> <img src="{$vo.userInfo.avatar128}" ucard="{$vo.userInfo.uid}" class="avatar-img"  style="width:100%;" /></a>
     </div>
     <div class="XT_list_content">
-        <p> <a href="{$vo.userInfo.space_url}" ucard="{$user.uid}">  {$vo.userInfo.username}</a></p>
+        <p> <a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}">  {$vo.userInfo.username}</a></p>
        <p>{$vo.content}</p>
         <p style="color:  #CCC;">{$vo.ctime|time_format} <a class="pull-right reply_btn" args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_username={$vo.userInfo.username}" href="javascript:">回复</a></p>
 
