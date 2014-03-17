@@ -9,7 +9,7 @@
     <div>
     <a href="javascript:" class="pull-right show_textarea" args="{$to_f_reply_id}" >我也说几句</a>
     </div>
-    <div id="show_textarea_{$to_f_reply_id}" style="display: none">
+    <div id="show_textarea_{$to_f_reply_id}" <neq name="count" value="0" >style="display: none"</neq>>
     <div id="myavatar_{$to_f_reply_id}"  class="XT_my_avatar">
         <a href="{$myInfo.space_url}" ucard="{$myInfo.uid}"> <img src="{$myInfo.avatar128}" ucard="{$myInfo.uid}" class="avatar-img" style="width:100%;"/></a>
     </div>

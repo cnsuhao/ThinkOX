@@ -104,7 +104,7 @@
 
                     <div class="clearfix"></div>
                     <div id="lzl_reply_div_{$reply['id']}" <if condition="$reply['lzl_count'] eq 0">style="display:none"</if>>
-                        {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id'],'reply_uid'=>$reply['uid']))}
+                        {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id'],'reply_uid'=>$reply['uid'],'count'=>$reply['lzl_count']))}
                     </div>
 
 

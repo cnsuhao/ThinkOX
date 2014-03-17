@@ -19,12 +19,13 @@ class LZLReplyWidget extends Action
 {
 
     /* 显示指定分类的同级分类或子分类列表 */
-    public function  LZLReply($to_f_reply_id,$post_id,$reply_uid)
+    public function  LZLReply($to_f_reply_id,$post_id,$reply_uid,$count)
     {
 
         $this->assign('reply_uid',$reply_uid);
         $this->assign('post_id',$post_id);
         $this->assign('to_f_reply_id',$to_f_reply_id);
+        $this->assign('count',$count);
         $this->display('Widget/LZLReply');
 
     }
