@@ -49,6 +49,48 @@ function getPagination($totalCount, $countPerPage=10) {
 }
 
 
+function getPageHtml($f_name, $totalpage, $data, $nowpage)
+{
+
+    if ($totalpage  > 1 && $totalpage != null) {
+        $str = '';
+        foreach ($data as $k => $v) {
+            $str = $str . '"' . $v . '"' . ',';
+        }
+        $pages = '';
+        for ($i = 1; $i <= $totalpage; $i++) {
+            if($i == $nowpage){
+                $pages = $pages . "<li class=\"active\"><a href=\"javascript:\" id='page_" . $i . "' class='page active' onclick='" . $f_name . "(" . $str . $i . ")'>" . $i . "</a></li>";
+            }
+            else{
+                $pages = $pages . "<li><a href=\"javascript:\" id='page_" . $i . "' class='page' onclick='" . $f_name . "(" . $str . $i . ")'>" . $i . "</a></li>";
+            }
+        }
+        if ($nowpage == 1) {
+            $a = $nowpage;
+            $pre = "<li class=\"disabled\"><a href=\"javascript:\" class='page_pre'  onclick = '" . $f_name . "( " . $str . $a . ")'>" . "&laquo;" . "</a></li>";
+        } else {
+            $a = $nowpage - 1;
+            $pre = "<li><a href=\"javascript:\" class='page_pre'  onclick = '" . $f_name . "( " . $str . $a . ")'>" . "&laquo;" . "</a></li>";
+        }
+    /*    $pre = "<li class=\"disabled\"><a class='a page_pre'  onclick = '" . $f_name . "( " . $str . $a . ")'>" . "上一页" . "</a></li>";*/
+
+        if ($nowpage == $totalpage) {
+            $b = $totalpage;
+            $next = "<li class=\"disabled\"><a href=\"javascript:\" class='a page_next'  onclick = '" . $f_name . "( " . $str . $b . ")'>" . "&raquo;" . "</a></li>";
+        } else {
+            $b = $nowpage + 1;
+            $next = "<li><a href=\"javascript:\" class='a page_next'  onclick = '" . $f_name . "( " . $str . $b . ")'>" . "&raquo;" . "</a></li>";
+        }
+
+        return $pre . $pages . $next;
+    }
+}
+
+
+
+
+
 function addUrlParam($url, $params) {
     $app = MODULE_NAME;
     $controller = CONTROLLER_NAME;

@@ -982,6 +982,24 @@ function get_list_count($category, $status = 1){
     return $count[$category];
 }
 
+/**
+ * 获取楼层信息
+ * @param $k
+ */
+function getLou($k){
+   $lou =  array(
+       2=>'沙发',
+       3=>'板凳',
+       4=>'地板'
+   );
+    !empty($lou[$k]) && $res = $lou[$k];
+     empty($lou[$k]) && $res = $k.'楼';
+     return $res;
+}
+
+
+
+
 require_once('pagination.php');
 require_once('query_user.php');
 require_once('thumb.php');

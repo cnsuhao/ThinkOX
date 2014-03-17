@@ -1,0 +1,48 @@
+<div class="triangle"></div>
+<div class="triangle_up"></div>
+<div class="lzl">
+    <div class="lzl_Reply" id="lzl_reply_list_{$to_f_reply_id}">
+
+    </div>
+
+<div class="clearfix"></div>
+    <div>
+    <a href="javascript:" class="pull-right show_textarea" args="{$to_f_reply_id}" style="margin-top: -15px;margin-bottom: 10px" >我也说几句</a>
+    </div>
+    <div id="show_textarea_{$to_f_reply_id}" style="display: none">
+    <div id="myavatar_{$to_f_reply_id}"       style="width: 40px;position: absolute;margin-top: 15px;margin-right: 10px;">
+        <a href="{$myInfo.space_url}" ucard="{$myInfo.uid}"> <img src="{$myInfo.avatar128}" ucard="{$myInfo.uid}"
+                                                                  class="avatar-img" style="width:100%;"/></a>
+    </div>
+    <div id="textarea_{$to_f_reply_id}" style="margin-left: 50px;">
+        <textarea  id="reply_{$to_f_reply_id}" tip="1" args="{$to_f_reply_id}"  class="input_tips" style="overflow-y: hidden;"></textarea>
+    </div>
+    <div style="width: 100%;height: 30px;margin-top: 10px;"><a id="submit_{$to_f_reply_id}" href="javascript:" post_id="{$post_id}" args="to_f_reply_id={$to_f_reply_id}&to_reply_id=0&to_uid=0" class="button submitReply">提交</a></div>
+</div>
+</div>
+
+<style>
+    .button_true, .button:hover {
+        color: #fff !important;
+        background: #414448 !important;
+    }
+    .button {
+        width: 60px;
+        background: #bbb;;
+        color: #FFF;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        float: right;
+    }
+</style>
+<script>
+
+    $('#lzl_reply_list_{$to_f_reply_id}').load(U('Forum/LZL/lzlList&to_f_reply_id={$to_f_reply_id}', '', true),function(){
+        ucard()
+    });
+    //  alert(U('Forum/LZL/lzlList'));
+</script>

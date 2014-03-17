@@ -1,0 +1,71 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: caipeichao
+ * Date: 14-3-8
+ * Time: PM4:30
+ */
+
+namespace Forum\Controller;
+
+use Think\Controller;
+
+define('TOP_ALL', 1);
+define('TOP_FORUM', 2);
+
+class LZLController extends Controller
+{
+
+
+public function  lzlList($to_f_reply_id,$page=1)
+    {
+
+       $limit = 5;
+       $list = D('forum_lzl_reply')->where('to_f_reply_id='.$to_f_reply_id)->page($page,$limit)->order('ctime asc')->select();
+       $totalCount =  D('forum_lzl_reply')->where('to_f_reply_id='.$to_f_reply_id)->count();
+      foreach($list as $k=>&$v){
+            $v['userInfo'] = query_user(array('avatar128','username','uid','space_url','icons_html'), $v['uid']);
+      }
+       $data['to_f_reply_id']=$to_f_reply_id;
+       $pageCount = ceil($totalCount / $limit);
+       $html =  getPageHtml('changePage',$pageCount,$data,$page);
+
+       $this->assign('lzlList',$list);
+        $this->assign('html',$html);
+        $this->assign('nowPage',$page);
+        $this->assign('totalCount',$totalCount);
+        $this->assign('limit',$limit);
+        $this->assign('count',count($list));
+        $this->assign('to_f_reply_id',$to_f_reply_id);
+        $this->display();
+
+    }
+
+
+    public function doSendLZLReply($post_id,$to_f_reply_id,$to_reply_id,$to_uid,$content)
+    {
+
+        //确认用户已经登录
+        $this->requireLogin();
+        //写入数据库
+        $model = D('ForumLzlReply');
+        $result = $model->addLZLReply($post_id,$to_f_reply_id,$to_reply_id,$to_uid, $content);
+        if (!$result) {
+            $this->error('发布失败：' . $model->getError());
+        }
+        //显示成功页面
+        $totalCount =  D('forum_lzl_reply')->where('to_f_reply_id='.$to_f_reply_id)->count();
+        $limit = 5;
+        $pageCount = ceil($totalCount / $limit);
+        $this->success($pageCount);
+    }
+
+    private function requireLogin()
+    {
+        if (!is_login()) {
+            $this->error('需要登录');
+        }
+    }
+
+
+}
