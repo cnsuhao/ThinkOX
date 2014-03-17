@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <p>
-                        <textarea name="content" class="form-control" placeholder="说点什么吧～" style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>
+                        <textarea  name="content" class="form-control" placeholder="说点什么吧～" style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>
                         {:hook('documentEditFormContent',array('name'=>'content','value'=>htmlspecialchars($post['content'])))}
                     </p>
                     <p>&nbsp;</p>
@@ -45,9 +45,9 @@
                         <button type="submit" class="btn btn-large btn-primary" id="submit-button">
                             <span class="glyphicon glyphicon-edit"></span>
                             <if condition="$isEdit">
-                                编辑
+                                编辑帖子
                                 <else/>
-                                发表
+                                发表帖子
                             </if>
                         </button>
                     </p>
