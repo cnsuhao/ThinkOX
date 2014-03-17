@@ -148,7 +148,7 @@ class IndexController extends Controller
         //写入帖子的内容
         $model = D('ForumPost');
         if ($isEdit) {
-            $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0);
+            $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
             $result = $model->editPost($data);
             if (!$result) {
                 $this->error('编辑失败：' . $model->getError());
