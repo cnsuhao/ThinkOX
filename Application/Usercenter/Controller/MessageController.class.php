@@ -51,23 +51,93 @@ class MessageController extends BaseController
         $totalCount = D('Message')->where($map)->order('create_time desc')->count();
         $this->assign('totalCount', $totalCount);
         $this->assign('messages', $messages);
+
         $this->assign('tab', $tab);
         $this->display();
     }
 
-    public function talk()
+    public function talk($message_id = 0, $talk_id = 0)
     {
-        $appname = 'Forum';
+        //获取当前会话
+        $talk = $this->getTalk($message_id, $talk_id);
+        /*$messages=D('TalkMessage')
+
+        $this->assign('messages', $messages);*/
 
 
-        $messageModel = D($appname . '/' . $appname . 'Message');
-        $data = $messageModel->getData();
-        $this->assign($data);
-        // $messageModel->getPoster();
-
-
+        $this->assign('talk', $talk);
+        $self = query_user(array('avatar128'), is_login());
+        $this->assign('self', $self);
         $this->assign('mid', is_login());
         $this->defaultTabHash('talk');
         $this->display();
+    }
+
+    public function postMessage($content, $message_id)
+    {
+        $message = D('Message')->find($message_id);
+        $messageModel = $this->getMessageModel($message);
+        $rs = $messageModel->postMessage($message, $content, is_login());
+
+        if ($rs) {
+            $info['status'] = 1;
+            $this->ajaxReturn($info);
+        } else {
+            $this->ajaxReturn('false');
+        }
+    }
+
+    private function getMessageModel($message)
+    {
+
+        $appname = ucwords($message['appname']);
+        $messageModel = D($appname . '/' . $appname . 'Message');
+        return $messageModel;
+    }
+
+    /**
+     * @param $message_id
+     * @param $talk_id
+     * @param $map
+     * @return array
+     */
+    private function getTalk($message_id, $talk_id)
+    {
+        if ($message_id != 0) {
+            /*如果是传递了message_id，就是创建对话*/
+            $message = D('Message')->find($message_id);
+
+            //权限检测，防止越权创建会话
+            if (($message['to_uid'] != $this->mid && $message['from_uid'] != $this->mid) || !$message) {
+                $this->error('非法操作。');
+            }
+            $map['message_id'] = $message_id;
+            $talk = D('Talk')->where($map)->find();
+            if ($talk) {
+                redirect(U('UserCenter/Message/talk', array('talk_id' => $talk['id'])));
+            }
+            //创建talk
+            $talk['uid'] = $this->mid;
+            $talk['appname'] = $message['appname'];
+            $talk['apptype'] = $message['apptype'];
+            $talk['source_id'] = $message['source_id'];
+            $talk['message_id'] = $message_id;
+
+            $messageModel = $this->getMessageModel($message);
+            $talk = array_merge($messageModel->getSource($message), $talk);
+            $talk = D('Talk')->create($talk);
+            $talk['id'] = D('Talk')->add($talk);
+            $message['talk_id'] = $talk['id'];
+            D('Message')->save($message);
+            return $talk;
+
+        } else {
+            $talk = D('Talk')->find($talk_id);
+            if ($talk['uid'] != $this->mid) {
+                $this->error('越权操作。');
+                return $talk;
+            }
+            return $talk;
+        }
     }
 }

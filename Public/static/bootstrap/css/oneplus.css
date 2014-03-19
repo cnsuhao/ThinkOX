@@ -596,6 +596,8 @@ General list for item with image
 }
 .talk-body .time {
   text-align: center;
+  margin-top: 30px;
+  margin-bottom: -25px;
 }
 .talk-body .timespan {
   background: #999;
@@ -639,6 +641,7 @@ General list for item with image
   border: 1px solid #4e9be0;
   color: white;
   background: #4e9be0;
+  word-break: break-all;
 }
 .talk-body {
   margin: 20px 0px;
@@ -664,9 +667,8 @@ General list for item with image
   border: 1px dashed #ccc;
   min-height: 150px;
   position: relative;
-  margin: 20px;
+  margin: 0px 0px 20px 0;
   padding: 20px;
-  margin-top: 10px;
   border-radius: 10px;
 }
 .talk-body #scrollArea {

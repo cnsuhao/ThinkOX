@@ -39,7 +39,7 @@
                 array('修改邮箱','envelope',U('UserCenter/Index/changeemail'),'change-email'),
                 array('修改个性签名','edit',U('UserCenter/Index/changesignature'),'change-signature'),
                 array('系统相关'),
-                array('聊天','comment',U('UserCenter/Message/talk'),'talk'),
+                array('聊天','comment',U('UserCenter/Message/talk',array('talk_id'=>$_GET['talk_id'])),'talk'),
                 array('消息中心','bullhorn',U('UserCenter/Message/message'),'message'),
                 array('修改密码','lock',U('UserCenter/Index/changepassword'),'change-password'),
                 array('讨论区'),
