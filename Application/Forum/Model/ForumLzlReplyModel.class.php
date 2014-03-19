@@ -16,13 +16,15 @@ class ForumLzlReplyModel extends Model
         array('content', '1,40000', '内容长度不合法', self::EXISTS_VALIDATE, 'length'),
     );
 
+    protected $can_open_session=true;
     protected $_auto = array(
         array('ctime', NOW_TIME, self::MODEL_INSERT),
         array('is_del', '0', self::MODEL_INSERT),
     );
 
-    public function addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content)
+    public function addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content,$can_open_session=true)
     {
+        $this->can_open_session=$can_open_session;
         //新增一条回复
         $data = array('uid' => is_login(), 'post_id' => $post_id, 'to_f_reply_id' => $to_f_reply_id, 'to_reply_id' => $to_reply_id, 'to_uid' => $to_uid, 'content' => $content);
         $data = $this->create($data);
@@ -58,6 +60,11 @@ class ForumLzlReplyModel extends Model
         $url = U('Forum/Index/detail', array('id' => $post_id));
         $from_uid = $uid;
         $type = 2;
-        D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', 'lzlreply',$post_id,$result);
+        if($this->can_open_session){
+            D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', 'lzlreply',$post_id,$result);
+        }else{
+            D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', '',$post_id,$result);
+        }
+
     }
 }

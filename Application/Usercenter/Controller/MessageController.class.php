@@ -156,6 +156,7 @@ class MessageController extends BaseController
 
             $messageModel = $this->getMessageModel($message);
             $talk = array_merge($messageModel->getSource($message), $talk);
+
             $talk = D('Talk')->create($talk);
             $talk['id'] = D('Talk')->add($talk);
             $message['talk_id'] = $talk['id'];

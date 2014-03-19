@@ -73,6 +73,13 @@ class ForumMessageModel extends Model implements IMessage
             $source['source_content'] = $post['content'];
             $source['source_url'] = U('Forum/Index/detail', array('id' => $post['id']));
             $source['title'] = '基于' . $post['title'] . '的贴内对话';
+        }elseif($message['apptype'] == 'lzlreply'){
+            $post = D('ForumLzlReply')->find($message['find_id']);
+            $source['source_title'] = '楼中楼回复';
+            $source['source_content'] = $post['content'];
+            $source['source_url'] = U('Forum/Index/detail', array('id' => $post['id']));
+            $source['title'] = '基于' . $post['title'] . '的楼中楼对话';
+
         }
 
         return $source;
@@ -104,7 +111,7 @@ class ForumMessageModel extends Model implements IMessage
         foreach ($uids as $uid) {
             if ($uid != is_login()) {
                 $user = query_user(array('username'), $uid);
-                $lzlReplys[] = D('Forum/ForumLzlReply')->addLZLReply($source_message['source_id'],$source_message['find_id'], $source_message['find_id'], $uid, '回复 ' . $user['username'] . '： ' . $content);
+                $lzlReplys[] = D('Forum/ForumLzlReply')->addLZLReply($source_message['source_id'], $source_message['find_id'], $source_message['find_id'], $uid, '回复 ' . $user['username'] . '： ' . $content, false);
             }
 
         }

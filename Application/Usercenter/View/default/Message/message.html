@@ -49,16 +49,18 @@
                     <div class="row">
                         <div class="col-md-9"><a href="{$message.url}">{$message.title}</a>
                             <eq name="message.is_read" value="0"><i class="op_rectangle">未读</i></eq>
-                            <if condition="($message['talk_id'] eq 0) AND ($message['apptype'] neq '')">
-                                <if condition=" ($message['appname'] != '') AND ($message['apptype'])">
+                            <if condition=" ($message['apptype'] neq '')">
+                                <if condition=" ($message['appname'] neq '')  AND ($message['talk_id'] eq 0)">
                                     <a href="{:U('UserCenter/Message/talk',array('message_id'=>$message['id']))}">
                                         <i class="op_rectangle" style="background: rgb(30, 144, 255);">开始对话</i>
                                     </a>
+                                    <else/>
+                                    <a href="{:U('UserCenter/Message/talk',array('talk_id'=>$message['talk_id']))}">
+                                        <i class="op_rectangle" style="background: rgb(30, 144, 255);">继续对话</i>
+                                    </a>
                                 </if>
                                 <else/>
-                                <a href="{:U('UserCenter/Message/talk',array('talk_id'=>$message['talk_id']))}">
-                                    <i class="op_rectangle" style="background: rgb(30, 144, 255);">继续对话</i>
-                                </a>
+
                             </if>
                         </div>
                         <div class="col-md-3 message-ctime">{$message.create_time|friendlyDate}</div>
