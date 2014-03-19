@@ -6,3 +6,4 @@ ALTER TABLE  `onethink_message` ADD  `apptype` VARCHAR( 30 ) NOT NULL;
 ALTER TABLE  `onethink_message` ADD  `source_id` INT NOT NULL;
 ALTER TABLE  `onethink_message` ADD  `find_id` INT NOT NULL;
 ALTER TABLE  `onethink_message` ADD  `talk_id` INT NOT NULL;
+ALTER TABLE  `onethink_message` ADD  `status` TINYINT NOT NULL

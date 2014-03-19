@@ -18,4 +18,14 @@ class TalkMessageModel extends Model
         array('create_time', NOW_TIME, self::MODEL_INSERT),
         array('status', '1', self::MODEL_INSERT),
     );
+
+    public function addMessage($content, $uid, $talk_id)
+    {
+        $message['content'] = $content;
+        $message['uid'] = $uid;
+        $message['talk_id'] = $talk_id;
+        $message = $this->create($message);
+        return $this->add($message);
+
+    }
 } 

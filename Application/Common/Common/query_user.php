@@ -89,7 +89,6 @@ function query_user($fields, $uid = null)
     }
 
     //获取昵称链接
-    $spaceUrlResult = array();
     if (in_array('space_link', $fields)) {
         $result['space_link'] = '<a ucard="' . $uid . '" href="' . U('UserCenter/Index/index', array('uid' => $uid)) . '">' . $ucenterResult['username'] . '</a>';
     }

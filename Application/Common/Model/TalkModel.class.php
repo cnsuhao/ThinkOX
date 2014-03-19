@@ -18,4 +18,10 @@ class TalkModel extends Model
         array('update_time', NOW_TIME, self::MODEL_BOTH),
         array('status', '1', self::MODEL_INSERT),
     );
+
+    public function getUids($uids)
+    {
+        preg_match_all('/\[(.*?)\]/', $uids, $uids_array);
+        return $uids_array[1];
+    }
 } 

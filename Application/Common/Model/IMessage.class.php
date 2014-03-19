@@ -13,9 +13,5 @@ namespace Common\Model;
 interface IMessage
 {
 
-    public function getData($id, $source_id, $type);
-
-    public function postMessage($source_message, $content, $uid, $type = 'reply');
-
-
+ 
 } 
