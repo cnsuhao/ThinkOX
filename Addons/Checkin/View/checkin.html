@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+
+<style>
+    .sign-in-h{
+               width: 233px;
+              height: 30px;
+                background-color: #48b87a;
+    }
+    .sign-in{
+        width: 263px;
+        height: 100px;
+        background-color:#48b87a;
+
+    }
+    .datetime .date .day .week .num{
+        color: lawngreen;
+    }
+.btn-sign{
+    color: magenta;
+}
+
+    .btn-sign-h{
+        color:darkblue;
+
+    }
+
+    .sign-wrap{position:absolute;top:54px;z-index:1;}
+
+    .arrow-y {
+        background-position: 0 0;
+        width: 10px;
+        height: 7px;
+        position: absolute;
+        top: -5px;
+        left: 10px;}
+
+    .sign-box {
+        width: 263px;
+        padding: 10px;
+        background: lawngreen;
+        border: 1px solid #fdd193;
+    }
+
+
+
+</style>
+
+<body>
+
+
+
+
+
+<div class="<php>if($ischeck){</php>sign-in-h<php>}else{</php>sign-in<php>}</php>" id="checkdiv">
+
+
+
+ <!--   <em class="day">连续签到</em>
+    <em class="num" id="con_num_day">{$addons_config.con_num}</em>-->
+   <div style="text-align: center">
+    <php>if($check.ischeck){</php>
+    <em id="checkin" class="btn-sign-h">已签到</em>
+    <php>}else{</php>
+    <div style="background-color: antiquewhite">
+    <em href="javascript:void(0)" id="checkin" onclick="checkin()" class="btn-sign">签到</em></div>
+    <php>}</php>
+    <div class="sign-wrap" style="display:none" id="checkdetail">
+        <i class="arrow-y"></i>
+        <div class="sign-box" style="margin-top: 50px">
+            <h3 id="checkinfo"><php>if($check.ischeck){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
+            <div class="sign-info"><p>已连续签到<font id="con_num">{$addons_config.con_num}</font>天，累计签到<font id="total_num">{$addons_config.total_num}</font>天</p></div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<div class="clearfix mb20 pb20 border-b">
+    <a href="#" class="btn-account right" target="_blank"><span>签到排名</span></a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    var isshow = 1;
+    $(function (){
+        <php>if($check.ischeck){</php>
+        $('#checkdetail').hover(function (){
+            isshow = 2;
+        },function (){
+            setTimeout(function (){
+                if(isshow==1){
+                    $('#checkdetail').hide();
+                }
+                isshow = 1;
+            },100);
+        });
+            $('#checkin').hover(function (){
+                $('#checkdetail').show();
+            },function (){
+                setTimeout(function (){
+                    if(isshow==1){
+                        $('#checkdetail').hide();
+                    }
+                    isshow = 1;
+                },100);
+            });
+        <php>}</php>
+    });
+
+    function checkin(){
+
+
+        $('#checkin').text('已签到');
+        $('#checkin').attr('onclick' , '');
+        $('#checkin').attr('class' , 'btn-sign-h');
+        $('#checkdiv').attr('class' , 'sign-in-h' );
+        $('#checkinfo').text('签到成功');
+        var totalnum = {$total_num} + 1;
+
+   //http://localhost/betav01/index.php?s=/Home/Addons/execute/_addons/Checkin/_controller/Checkin/_action/check_in.html
+
+        $.post("/betav01/index.php?s=/Home/Addons/execute/_addons/Checkin/_controller/Checkin/_action/check_in.html" , {} , function (res){
+
+            if ( res ){
+                var connum = res;
+                $('#con_num').text(connum);
+                $('#con_num_day').text(connum);
+                $('#total_num').text(totalnum);
+                $('#checkdetail').hover(function (){
+                    isshow = 2;
+                },function (){
+                    setTimeout(function (){
+                        if(isshow==1){
+                            $('#checkdetail').hide();
+                        }
+                        isshow = 1;
+                    },100);
+                });
+                $('#checkin').hover(function (){
+                    $('#checkdetail').show();
+                },function (){
+                    setTimeout(function (){
+                        if(isshow==1){
+                            $('#checkdetail').hide();
+                        }
+                        isshow = 1;
+                    },100);
+                });
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
