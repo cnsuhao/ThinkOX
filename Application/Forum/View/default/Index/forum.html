@@ -62,11 +62,13 @@
     <div class="row fourm-posts">
 
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <h2>帖子列表</h2>
             </div>
-            <div class="col-md-2"><a href="{:U('forum',array('id'=>$_GET['id'],'order'=>'ctime'))}">发布时间</a>&nbsp;&nbsp;&nbsp;<a href="{:U('forum',array('id'=>$_GET['id'],'order'=>'reply'))}">回复数</a></div>
-
+            <div class="col-md-3">
+                <div class="pull-right" style="margin-right: 20px"><a href="{:U('forum',array('id'=>$_GET['id'],'order'=>'ctime'))}">发布时间</a>&nbsp;&nbsp;&nbsp;<a
+                        href="{:U('forum',array('id'=>$_GET['id'],'order'=>'reply'))}">回复数</a></div>
+            </div>
         </div>
         <div class="col-md-12">
             <section id="contents">
