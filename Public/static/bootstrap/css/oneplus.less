@@ -145,6 +145,7 @@ a:hover {
 .forum-first-block, .forum-last-block, .forum-middle-block {
   padding: @grid-gutter-width/2 @grid-gutter-width/2;
   margin-left: -@grid-gutter-width/2;
+  word-break: break-all;
 
 }
 
@@ -690,6 +691,9 @@ General list for item with image
 }
 
 .talk-body {
+  img{
+    max-width: 80%;
+  }
   background: #f5f5f5;
   padding: 30px;
   margin-top: 10px;
@@ -698,7 +702,8 @@ General list for item with image
 
 .talk-body .time {
   text-align: center;
-
+  margin-top: 30px;
+  margin-bottom: -25px;
 }
 
 .talk-body .timespan {
@@ -750,6 +755,7 @@ General list for item with image
     border: 1px solid rgb(78, 155, 224);
     color: white;
     background: rgb(78, 155, 224);
+    word-break: break-all;
   }
 
 }
@@ -773,20 +779,17 @@ General list for item with image
     text-shadow: 1px 1px 1px white;
   }
   .talk_source {
-
     background: white;
     border: 1px dashed #ccc;
     min-height: 150px;
     position: relative;
-    margin: 20px;
+    margin: 0px 15px 20px 15px;
     padding: 20px;
-    margin-top: 10px;
     border-radius: 10px;
   }
   #scrollArea {
     padding: 30px;
     max-height: 400px;
-
   }
   .slimScrollDiv {
     border: solid 1px white;
@@ -828,8 +831,6 @@ General list for item with image
   padding: 20px;
 }
 
-
-
 .input_tips {
   width: 100%;
   height: 85px;
@@ -846,7 +847,9 @@ General list for item with image
   -moz-box-shadow: 1px 1px 3px #dcdcdc inset;
   -khtml-box-shadow: 1px 1px 3px #dcdcdc inset;
 }
-.lzl{display: block;
+
+.lzl {
+  display: block;
   padding: 10px;
   margin: 0 0 10px;
   font-size: 13px;
@@ -856,7 +859,9 @@ General list for item with image
   color: #333;
   background-color: #f5f5f5;
   border: 1px solid #ccc;
-  border-radius: 4px;}
+  border-radius: 4px;
+}
+
 .triangle {
   width: 0;
   height: 0;
@@ -885,6 +890,7 @@ General list for item with image
   color: #fff !important;
   background: #414448 !important;
 }
+
 .button {
   width: 60px;
   background: #bbb;;
@@ -897,13 +903,50 @@ General list for item with image
   display: inline-block;
   float: right;
 }
-.lzl_reply_list{
-  list-style: none;border-bottom: 1px solid #ddd;padding-top: 12px;padding-bottom: 8px;
+
+.lzl_reply_list {
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  padding-top: 12px;
+  padding-bottom: 8px;
 }
-.XT_list_avatar{width: 40px;float: left;margin-top: 5px;}
-.XT_list_content{float: left;margin-left: 10px;width: 90%}
-.XT_reply_count{margin-top: 15px;margin-bottom: 10px;margin-left: 40px;}
-.show_textarea{margin-top: -15px;margin-bottom: 10px}
-.XT_my_avatar{width: 40px;position: absolute;margin-top: 15px;margin-right: 10px;}
-.XT_submit{width: 100%;height: 30px;margin-top: 10px;}
-.lzl_Reply{margin-bottom: 25px;}
+
+.XT_list_avatar {
+  width: 40px;
+  float: left;
+  margin-top: 5px;
+}
+
+.XT_list_content {
+  float: left;
+  margin-left: 10px;
+  width: 90%
+}
+
+.XT_reply_count {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+}
+
+.show_textarea {
+  margin-top: -15px;
+  margin-bottom: 10px
+}
+
+.XT_my_avatar {
+  width: 40px;
+  position: absolute;
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+.XT_submit {
+  width: 100%;
+  height: 30px;
+  margin-top: 10px;
+}
+
+.lzl_Reply {
+  margin-bottom: 25px;
+}

@@ -107,7 +107,8 @@
                     </li>
                     <else/>
                     <li>
-                        <a href="{:U('Home/User/login')}">登录</a>
+                        <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];</php>
+                        <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
                     </li>
                     <li>
                         <a href="{:U('Home/User/register')}">注册</a>

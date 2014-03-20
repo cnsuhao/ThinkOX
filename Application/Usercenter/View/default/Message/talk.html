@@ -12,27 +12,33 @@
             <hr class="oneuser-title-hr"/>
 
             <ul class="nav nav-pills ucenter-tab">
-                <li class="active"><a href="{:U('Usercenter/Message/message',array('tab'=>'unread'))}">与lister的会话</a>
-                </li>
                 <li
                 <eq name="tab" value="unread"> class="active"</eq>
-                ><a href="{:U('Usercenter/Message/message',array('tab'=>'unread'))}">进行中的会话</a></li>
-                <li
+                ><a href="{:U('Usercenter/Message/session',array('tab'=>'session'))}">所有会话</a></li>
+                <li class="active"><a href="{:U('Usercenter/Message/talk',array('tab'=>'unread'))}">进行中的会话</a>
+                </li>
+             <!--   <li
                 <eq name="tab" value="all"> class="active"</eq>
-                ><a href="{:U('Usercenter/Message/message',array('tab'=>'all'))}">最近的联系人</a></li>
+                ><a href="{:U('Usercenter/Message/message',array('tab'=>'all'))}">最近的联系人</a></li>-->
             </ul>
 
         </div>
     </div>
+
     <div class="row talk-body">
         <div class="row ">
             <div class="row talk_source">
                 <i class="talk_blockquote"></i>
-                <div class="talk_source_content"><a href="{$source.url}"><i class="glyphicon glyphicon-share-alt"></i>返回来源</a>&nbsp;&nbsp;    首先介绍一下我们的主程，小蔡，其实项目开始已经很久了，一直都是小菜在负责，最早启动项目的时候，我们计划开发一个网站端，并配套一个手机端。确切的启动时间应该是年前，而后因为项目的原因，中断了手机端的开发，网站端的开发也暂停了一周时间。其后又继续开发，一直都是小蔡在负责，他一个人完成了手机端的api接口，同时也将网站端的功能开发得差不多了。这是最原始的版本，当时，我们界面就完全是沿用Onethink官方的风格，onethink用户中心的样式基本就是官方的。静态当时由另一个做前端的栋栋在官方基础上调整之后。后来，我们觉得既然着手做了，就更要做得好一点，就让我们的设计小韩重新设计了一套模板风格，也就是目前大家所看到的这个版本，经过多次细节的修改逐步成型。
 
-                    这周开始，由我协助小蔡一起开发Oneplus，由于上周，我们协商之后，小蔡在oneplus内部第一版的基础上进行了大规模重构，把oneplus从官方的框架上解耦和了。三月份的发布计划就一直没能实现，到目前，我们都还在努力修复bug以及开发一些必须的功能。
+                <div class="talk_source_content">【标题】{$talk.source_title}&nbsp;<a title="返回来源"
+                                                                                  href="{$talk.source_url}"><i
+                        class="glyphicon glyphicon-share-alt"></i></a>
 
-                    另外告诉大家一个小秘密，我们的前端栋栋已经差不多完成了安卓原生版手机客户端界面的制作，近期会放出截图，手机客户端我们采取的策略将是放出通用版客户端，可以通过扫码或者输入网址来确定网站，适配任何oneplus网站。代码原则上是不公开的，因为我们也需要生存，也需要商业客户的支持，这个特权就留给商业客户了。我们保证大家都能用上。</div>
+                    <p>
+                        【内容】{$talk.source_content}
+                    </p>
+
+                </div>
             </div>
         </div>
         <div id="scrollArea" class="row ">
@@ -40,7 +46,8 @@
                 <volist name="messages" id="message">
                     <if condition="$message['uid'] eq $mid">
                         <div class="row talk_right">
-                            <div class="time"><span class="timespan">{$message.ctime}</span></div>
+                            <div class="time"><span
+                                    class="timespan">{$message.create_time|date='Y-m-d h:m:s',###}</span></div>
                             <div class="row">
                                 <div class="col-md-10 bubble_outter">
                                     <h3>我</h3>
@@ -51,26 +58,25 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 "><img ucard="{$message.uid}" class="avatar-img talk-avatar"
-                                                            src="{$message.avatar128}"/>
+                                                            src="{$message.user.avatar128}"/>
                                 </div>
                             </div>
                         </div>
                         <else/>
                         <div class="row">
-                            <div class="time"><span class="timespan">{$message.ctime}</span></div>
+                            <div class="time"><span class="timespan">{$message.create_time|date='Y-m-d h:m:s',###}</span></div>
                             <div class="row">
-
-
                                 <div class="col-md-2 "><img ucard="{$message.uid}" class="avatar-img talk-avatar"
-                                                            src="{$message.avatar128}"/>
+                                                            src="{$message.user.avatar128}"/>
                                 </div>
 
                                 <div class="col-md-10 bubble_outter">
-                                    <h3>{$message.username}</h3>
+                                    <h3>{$message.user.username}</h3>
                                     <i class="bubble_sharp"></i>
 
                                     <div class="talk_bubble">
                                         {$message.content}
+
                                     </div>
                                 </div>
 
@@ -79,54 +85,52 @@
                     </if>
 
                 </volist>
+                <hr/>
+                <div style="text-align: center;color: #666">以上为历史聊天记录</div>
             </div>
 
 
         </div>
         <div class="row" style="margin-top: 20px">
             <div class="col-md-10">
-                <textarea class="form-control" style="width: 100%" placeholder="说点什么吧~"></textarea>
+                <textarea class="form-control" style="width: 100%" id="tt_content" placeholder="说点什么吧~"></textarea>
             </div>
-            <div class="col-md-2" style="text-align: right" >
+            <div class="col-md-2" style="text-align: right">
                 <button type="submit" class="btn btn-large btn-primary" id="submit-button" onclick="appendMessage()">
                     <span class="glyphicon glyphicon-edit"></span>
-                    发表                        </button>
+                    回复<br/>Ctrl+Enter
+                </button>
             </div>
 
         </div>
 
         <script>
             $(function () {
-               op_initTalkBox();
-
+                op_initTalkBox();
             });
+            var MID = "{$self.id}";
+            var message_id = "{$message_id}";
+            var talk_id = "{$talk.id}";
+            var myhead = "{$self.avatar128}";
 
             function appendMessage() {
-                op_appendMessage( op_fetchMessageTpl({uid:1,content:'hahaha',avatar128:'http://localhost/OnePlus/Addons/Avatar/default_128_auto.jpg',ctime:friendlyDate(19999),username:'一枝梨花'},1));
+                var myDate = new Date();
+                $.post(U('Usercenter/Message/postMessage'), {talk_id: talk_id, content: $('#tt_content').val()}, function (msg) {
+                    op_appendMessage(op_fetchMessageTpl({uid: MID, content: $('#tt_content').val(),
+                        avatar128: myhead,
+                        ctime: myDate.toLocaleTimeString()}, MID));
+                    $('#tt_content').val('');
+                    $('#tt_content').focus();
+                }, 'json');
             }
-            /* var talkBox = {
-             var scrollToBottom = function () {
-             $('#scrollArea').slimScroll({ scrollTo: $('#scrollContainer').height()});
-             }
-             var append = function (html) {
 
-             }
-             }*/
-
-            (function ($) {
-                $.talkBox = {
-                    init: function (element) {
-
-                    }
+            $('#tt_content').keypress(function (e) {
+                if (e.ctrlKey && e.which == 13 || e.which == 10) {
+                    appendMessage();
                 }
+            });
 
-            })
-                    (jQuery);
         </script>
-
-        <div class="pull-right">
-            {:getPagination($totalCount)}
-        </div>
     </div>
 
 

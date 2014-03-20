@@ -1,9 +1,7 @@
 <extend name="Public/usercenter"/>
 
 <block name="body">
-    <php>
-        $user = query_user(array('message'));
-    </php>
+
 
     <div class="row">
         <div class="col-md-12">
@@ -12,11 +10,21 @@
             <hr class="oneuser-title-hr"/>
 
             <ul class="nav nav-pills ucenter-tab">
-                <li <eq name="tab" value="unread"> class="active"</eq>><a href="{:U('Usercenter/Message/message',array('tab'=>'unread'))}">未读消息</a></li>
-                <li <eq name="tab" value="all"> class="active"</eq>><a href="{:U('Usercenter/Message/message',array('tab'=>'all'))}">全部消息</a></li>
-                <li <eq name="tab" value="system"> class="active"</eq> ><a  href="{:U('Usercenter/Message/message',array('tab'=>'system'))}">系统消息</a></li>
-                <li <eq name="tab" value="user"> class="active"</eq>><a href="{:U('Usercenter/Message/message',array('tab'=>'user'))}">用户消息</a></li>
-                <li <eq name="tab" value="app"> class="active"</eq>><a href="{:U('Usercenter/Message/message',array('tab'=>'app'))}">应用消息</a></li>
+                <li
+                <eq name="tab" value="unread"> class="active"</eq>
+                ><a href="{:U('Usercenter/Message/message',array('tab'=>'unread'))}">未读消息</a></li>
+                <li
+                <eq name="tab" value="all"> class="active"</eq>
+                ><a href="{:U('Usercenter/Message/message',array('tab'=>'all'))}">全部消息</a></li>
+                <li
+                <eq name="tab" value="system"> class="active"</eq>
+                ><a href="{:U('Usercenter/Message/message',array('tab'=>'system'))}">系统消息</a></li>
+                <li
+                <eq name="tab" value="user"> class="active"</eq>
+                ><a href="{:U('Usercenter/Message/message',array('tab'=>'user'))}">用户消息</a></li>
+                <li
+                <eq name="tab" value="app"> class="active"</eq>
+                ><a href="{:U('Usercenter/Message/message',array('tab'=>'app'))}">应用消息</a></li>
             </ul>
 
         </div>
@@ -39,7 +47,22 @@
                 <dl>
                     <dt>
                     <div class="row">
-                        <div class="col-md-9"><a href="{$message.url}">{$message.title}</a><eq name="message.is_read" value="0" ><i class="op_rectangle">未读</i></eq></div>
+                        <div class="col-md-9"><a href="{$message.url}">{$message.title}</a>
+                            <eq name="message.is_read" value="0"><i class="op_rectangle">未读</i></eq>
+                            <if condition=" ($message['apptype'] neq '')">
+                                <if condition=" ($message['appname'] neq '')  AND ($message['talk_id'] eq 0)">
+                                    <a href="{:U('UserCenter/Message/talk',array('message_id'=>$message['id']))}">
+                                        <i class="op_rectangle" style="background: rgb(30, 144, 255);">开始对话</i>
+                                    </a>
+                                    <else/>
+                                    <a href="{:U('UserCenter/Message/talk',array('talk_id'=>$message['talk_id']))}">
+                                        <i class="op_rectangle" style="background: rgb(30, 144, 255);">继续对话</i>
+                                    </a>
+                                </if>
+                                <else/>
+
+                            </if>
+                        </div>
                         <div class="col-md-3 message-ctime">{$message.create_time|friendlyDate}</div>
                     </div>
                     </dt>

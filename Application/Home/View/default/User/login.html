@@ -3,45 +3,39 @@
 
 <block name="body">
     <section>
-    <div class="login-text"><strong><h1>欢迎登录到OnePlus</h1></strong></div>
+        <div class="login-text"><strong><h1>欢迎登录到OnePlus</h1></strong></div>
 
-    <div class="login-form-inbox">
-        <form class="login-form" action="__SELF__" method="post">
-            <div class="control-group login-input">
+        <div class="login-form-inbox">
+            <form class="login-form" action="__SELF__" method="post">
+                <div class="control-group login-input">
 
 
-                <div class="controls">
-                    <input type="text" id="inputEmail" class="form-control" placeholder="请输入用户名"
-                           ajaxurl="/member/checkUserNameUnique.html" errormsg="请填写1-16位用户名" nullmsg="请填写用户名"
-                           datatype="*1-16" value="" name="username">
+                    <div class="controls">
+                        <input type="text" id="inputEmail" class="form-control" placeholder="请输入用户名"
+                               ajaxurl="/member/checkUserNameUnique.html" errormsg="请填写1-16位用户名" nullmsg="请填写用户名"
+                               datatype="*1-16" value="" name="username">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group login-input">
+                <div class="control-group login-input">
 
 
-                <div class="controls">
-                    <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码"
-                           errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+                    <div class="controls">
+                        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码"
+                               errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <label class="checkbox"style="float: left">
-                        <input type="checkbox" style="cursor:pointer"> 记住密码
-                    </label>
-
-                    <button type="submit" class="btn btn-primary" style="float: right">登 录</button>
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox" style="float: left">
+                            <input type="checkbox" style="cursor:pointer"> 记住密码
+                        </label>
+                        <button type="submit" class="btn btn-primary" style="float: right">登 录</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
     </section>
 </block>
-
-
-
-
-
 
 
 <block name="side"></block>
@@ -57,33 +51,27 @@
                 });
 
 
-
-
         $(function () {
-
             $("form").submit(function () {
                 var self = $(this);
                 $.post(self.attr("action"), self.serialize(), success, "json");
                 return false;
 
+
                 function success(data) {
                     if (data.status) {
-                        op_success('欢迎回来，1.5秒后跳转到登陆页面。', '温馨提示');
+                        op_success('欢迎回来，1.5秒后跳转到登陆前页面。', '温馨提示');
                         setTimeout(function () {
-                            window.location.href = data.url;
+                            window.location.href = "{$_REQUEST.back|urldecode}";
                         }, 1500);
                     } else {
-                        op_error(data.info,'温馨提示');
+                        op_error(data.info, '温馨提示');
                         //self.find(".Validform_checktip").text(data.info);
                         //刷新验证码
-                       // $(".reloadverify").click();
+                        // $(".reloadverify").click();
                     }
                 }
             });
-
-
-
-
 
 
             var verifyimg = $(".verifyimg").attr("src");

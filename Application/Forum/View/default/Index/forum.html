@@ -4,11 +4,13 @@
     <if condition="$list_top">
         <div class="row fourm-top">
             <h2>置顶推荐</h2>
+
             <div class="col-md-12">
                 <section id="top">
                     <volist name="list_top" id="document">
                         <php>
-                            $user = query_user(array('avatar128','username','uid','space_url','icons_html'), $document['uid']);
+                            $user = query_user(array('avatar128','username','uid','space_url','icons_html'),
+                            $document['uid']);
                         </php>
                         <div class="row">
                             <div class="col-md-1">
@@ -25,8 +27,9 @@
                                     <a class="forum-list-title-link" title="{$document.title|htmlspecialchars}"
                                        href="{:U('Index/detail',array('id'=>$document['id']))}">
                                         {$document.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
-                                        <eq name="document.is_top" value="1"><i class="post_top">全局</i><else/>
-                                            <eq name="document.is_top" value="2"><i class="post_top_forum">本版</i></eq>
+                                        <eq name="document.is_top" value="2"><i class="post_top">全局</i>
+                                            <else/>
+                                            <eq name="document.is_top" value="1"><i class="post_top_forum">本版</i></eq>
                                         </eq>
 
                                     </a>
@@ -57,7 +60,14 @@
     </if>
 
     <div class="row fourm-posts">
-        <h2>本版帖子</h2>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h2>本版帖子</h2>
+            </div>
+            <div class="col-md-2"><a href="{:U('forum',array('id'=>$_GET['id'],'order'=>'ctime'))}">发布时间</a>&nbsp;&nbsp;&nbsp;<a href="{:U('forum',array('id'=>$_GET['id'],'order'=>'reply'))}">回复数</a></div>
+
+        </div>
         <div class="col-md-12">
             <section id="contents">
                 <if condition="!$list">
@@ -73,7 +83,8 @@
                 </if>
                 <volist name="list" id="document">
                     <php>
-                        $user = query_user(array('avatar128','username','uid','space_url','icons_html'), $document['uid']);
+                        $user = query_user(array('avatar128','username','uid','space_url','icons_html'),
+                        $document['uid']);
                     </php>
                     <div class="row">
                         <div class="col-md-1">
@@ -89,8 +100,9 @@
                                 <a class="forum-list-title-link" title="{$document.title|htmlspecialchars}"
                                    href="{:U('Index/detail',array('id'=>$document['id']))}">
                                     {$document.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
-                                    <eq name="document.is_top" value="1"><i class="post_top">全局</i><else/>
-                                        <eq name="document.is_top" value="2"><i class="post_top_forum">本版</i></eq>
+                                    <eq name="document.is_top" value="2"><i class="post_top">全局</i>
+                                        <else/>
+                                        <eq name="document.is_top" value="1"><i class="post_top_forum">本版</i></eq>
                                     </eq>
                                 </a>
                             </p>

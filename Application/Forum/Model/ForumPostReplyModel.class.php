@@ -35,7 +35,7 @@ class ForumPostReplyModel extends Model
 
         //更新最后回复时间
         D("ForumPost")->where(array('id' => $post_id))->setField('last_reply_time', time());
-        $this->sendReplyMessage(is_login(), $post_id, $content);
+        $this->sendReplyMessage(is_login(), $post_id, $content,$result);
         //返回结果
         return $result;
     }
@@ -46,7 +46,7 @@ class ForumPostReplyModel extends Model
      * @param $weibo_id
      * @param $content
      */
-    private function sendReplyMessage($uid, $post_id, $content)
+    private function sendReplyMessage($uid, $post_id, $content,$reply_id)
     {
         //增加微博的评论数量
         $user = query_user(array('username', 'space_url'), $uid);
@@ -58,7 +58,6 @@ class ForumPostReplyModel extends Model
 
         $url = U('Forum/Index/detail', array('id' => $post_id));
         $from_uid = $uid;
-        $type = 2;
-        D('Message')->sendMessage($post['uid'], $content, $title, $url, $from_uid, $type);
+        D('Message')->sendMessage($post['uid'], $content, $title, $url, $from_uid, 2, null, 'reply', $post_id,$reply_id);
     }
 }

@@ -150,7 +150,7 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminConfigBuilder();
         $builder->title($isEdit ? '编辑帖子' : '新建帖子')
-            ->keyId()->keyTitle()->keyEditor('content','内容')->keyBool('is_top','是否置顶')->keyCreateTime()->keyUpdateTime()
+            ->keyId()->keyTitle()->keyEditor('content','内容')->keyRadio('is_top','置顶','选择置顶形式',array(0=>'不指定',1=>'本版置顶',2=>'全局置顶'))->keyCreateTime()->keyUpdateTime()
             ->keyTime('last_reply_time','最后回复时间')
             ->buttonSubmit(U('doEditPost'))->buttonBack()
             ->data($post)

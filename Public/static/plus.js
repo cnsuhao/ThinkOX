@@ -34,7 +34,7 @@ function U(url, params, rewrite) {
         params = params.join('/');
         website = website + '/' + params;
     }
-    if(!rewrite){
+    if (!rewrite) {
         website = website + '.html';
     }
     return website;
