@@ -30,22 +30,8 @@ class MessageController extends BaseController
     public function message($page = 1, $tab = 'unread')
     {
 
-        switch ($tab) {
-            case 'system':
-                $map['type'] = 0;
-                break;
-            case 'user':
-                $map['type'] = 1;
-                break;
-            case 'app':
-                $map['type'] = 2;
-                break;
-            case 'all':
-                break;
-            default:
-                $map['is_read'] = 0;
-                break;
-        }
+        //从条件里面获取Tab
+        $map = $this->getMapByTab($tab, $map);
 
         $map['to_uid'] = is_login();
         $this->defaultTabHash('message');
@@ -63,6 +49,9 @@ class MessageController extends BaseController
         $this->display();
     }
 
+    /**
+     * 会话列表页面
+     */
     public function session()
     {
         $this->defaultTabHash('session');
@@ -82,6 +71,10 @@ class MessageController extends BaseController
         $this->display();
     }
 
+    /**对话页面
+     * @param int $message_id 消息ID 只提供消息则从消息自动创建一个会话
+     * @param int $talk_id 会话ID
+     */
     public function talk($message_id = 0, $talk_id = 0)
     {
         //获取当前会话
@@ -99,10 +92,14 @@ class MessageController extends BaseController
         $self = query_user(array('avatar128'), is_login());
         $this->assign('self', $self);
         $this->assign('mid', is_login());
-        $this->defaultTabHash('talk');
+        $this->defaultTabHash('session');
         $this->display();
     }
 
+    /**回复的时候调用，通过该函数，会回调应用对应的postMessage函数实现对原始内容的数据添加。
+     * @param $content 内容文本
+     * @param $talk_id 会话ID
+     */
     public function postMessage($content, $talk_id)
     {
 
@@ -117,6 +114,10 @@ class MessageController extends BaseController
         $this->ajaxReturn(false);
     }
 
+    /**
+     * @param $message
+     * @return \Model
+     */
     private function getMessageModel($message)
     {
 
@@ -178,5 +179,31 @@ class MessageController extends BaseController
             }
             return $talk;
         }
+    }
+
+    /**
+     * @param $tab
+     * @param $map
+     * @return mixed
+     */
+    private function getMapByTab($tab, $map)
+    {
+        switch ($tab) {
+            case 'system':
+                $map['type'] = 0;
+                break;
+            case 'user':
+                $map['type'] = 1;
+                break;
+            case 'app':
+                $map['type'] = 2;
+                break;
+            case 'all':
+                break;
+            default:
+                $map['is_read'] = 0;
+                break;
+        }
+        return $map;
     }
 }
