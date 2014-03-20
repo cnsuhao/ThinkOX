@@ -595,6 +595,9 @@ General list for item with image
   margin-top: 10px;
   border-radius: 0.5em;
 }
+.talk-body img {
+  max-width: 80%;
+}
 .talk-body .time {
   text-align: center;
   margin-top: 30px;

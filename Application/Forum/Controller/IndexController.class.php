@@ -25,7 +25,7 @@ class IndexController extends Controller
             $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
         }
         unset($e);
-       $myInfo = query_user(array('avatar128','username','uid','space_url','icons_html'), is_login());
+        $myInfo = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html'), is_login());
         $this->assign('myInfo', $myInfo);
         //赋予贴吧列表
         $this->assign('forum_list', $forum_list);
@@ -33,23 +33,28 @@ class IndexController extends Controller
 
     public function index($page = 1)
     {
-      //默认进入到后台配置的第一个板块
-        $d_forum=D('forum');
-        $forum =$d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
+        //默认进入到后台配置的第一个板块
+        $d_forum = D('forum');
+        $forum = $d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
         redirect(U('forum', array('id' => $forum['id'], 'page' => $page)));
     }
 
-    public function forum($id, $page = 1)
+    public function forum($id, $page = 1, $order = 'last_reply_time desc')
     {
+        if ($order == 'ctime') {
+            $order = 'create_time desc';
+        } else if ($order == 'reply') {
+            $order = 'reply_count desc';
+        }
         $this->requireForumAllowView($id);
 
         //读取帖子列表
         $map = array('forum_id' => $id, 'status' => 1);
-        $list = D('ForumPost')->where($map)->order('last_reply_time desc')->page($page, 10)->select();
+        $list = D('ForumPost')->where($map)->order($order)->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
 
         //读取置顶列表
-        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order('last_reply_time desc')->select();
+        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
 
         //显示页面
         $this->assign('forum_id', $id);
@@ -77,7 +82,7 @@ class IndexController extends Controller
         $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, $limit)->select();
         foreach ($replyList as &$reply) {
             $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
-            $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id='.$reply['id'])->count();
+            $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id=' . $reply['id'])->count();
         }
         unset($reply);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
