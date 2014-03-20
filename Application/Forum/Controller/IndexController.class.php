@@ -34,12 +34,12 @@ class IndexController extends Controller
     public function index($page = 1)
     {
         //默认进入到后台配置的第一个板块
-        $d_forum = D('forum');
-        $forum = $d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
-        redirect(U('forum', array('id' => $forum['id'], 'page' => $page)));
+        //$d_forum = D('forum');
+        //$forum = $d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
+        redirect(U('forum', array( 'page' => $page)));
     }
 
-    public function forum($id, $page = 1, $order = 'last_reply_time desc')
+    public function forum($id=0, $page = 1, $order = 'last_reply_time desc')
     {
         if ($order == 'ctime') {
             $order = 'create_time desc';
@@ -49,12 +49,20 @@ class IndexController extends Controller
         $this->requireForumAllowView($id);
 
         //读取帖子列表
-        $map = array('forum_id' => $id, 'status' => 1);
+        if($id==0){
+            $map = array( 'status' => 1);
+            $list_top = D('ForumPost')->where('( status=1 AND is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM .  ' and status=1)')->order($order)->select();
+        }else{
+            $map = array('forum_id' => $id, 'status' => 1);
+            $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
+        }
+
         $list = D('ForumPost')->where($map)->order($order)->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
 
+
         //读取置顶列表
-        $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
+
 
         //显示页面
         $this->assign('forum_id', $id);
