@@ -47,6 +47,77 @@ class CheckinAddon extends Addon
     //实现的checkin钩子方法
     public function checkin($param)
     {
+
+       $uid = is_login();
+
+        $data =  s('check_info_');//model('Cache')->get('check_info_' . $uid . '_' . date('Ymd'));
+       //dump($data);exit;
+        if (!$data) {
+            $map['uid'] = $uid;
+            $map['ctime'] = array('gt', strtotime(date('Ymd')));
+            $res = D('Check_info')->where($map)->find();
+            //dump($res);exit;
+            //是否签到
+            $data['ischeck'] = $res ? true : false;
+            //dump($data);exit;
+
+            $checkinfo = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->limit(1)->find();
+           // dump($checkinfo);exit;
+            if ($checkinfo) {
+                if ($checkinfo['ctime'] > (strtotime(date('Ymd')) - 86400)) {
+                    $data['con_num'] = $checkinfo['con_num'];
+                } else {
+                    $data['con_num'] =1;
+                }
+                $data['total_num'] = $checkinfo['total_num'];
+            } else {
+                $data['con_num'] = 1;
+                $data['total_num'] = 1;
+            }
+            $data['day'] = date('m.d');
+            //dump($data);exit;
+            //model('Cache')->set('check_info_' . $uid . '_' . date('Ymd'), $data);
+            S('a','check_info_');
+            //dump(S('a','check_info_'));exit;
+        }
+
+        $data['tpl'] = 'index';
+        //dump($data);exit;
+        $week = date('w');
+        //dump($week);exit;
+        switch ($week) {
+            case '0':
+                $week = '周日';
+                break;
+            case '1':
+                $week = '周一';
+                break;
+            case '2':
+                $week = '周二';
+                break;
+            case '3':
+                $week = '周三';
+                break;
+            case '4':
+                $week = '周四';
+                break;
+            case '5':
+                $week = '周五';
+                break;
+            case '6':
+                $week = '周六';
+                break;
+        }
+        $data['week'] = $week;
+        //dump($data);exit;
+        //$content = $this->renderFile(dirname(__FILE__) . "/" . $data['tpl'] . '.html', $data);
+        // return $content;
+        $this->assign("check",$data);
+
+
+
+
+
         $uid =is_login();
 
         $list = D('Check_info')->where('uid='.$uid)->order('ctime desc')->count();
@@ -54,7 +125,7 @@ class CheckinAddon extends Addon
          $login= is_login() ? true : false;
 
 
-        if ($list==0) {
+      /*  if ($list==0) {
 
 
             $data['uid']=$uid;
@@ -66,7 +137,7 @@ class CheckinAddon extends Addon
             //$this->display('View/testcheck');
         }
 
-       elseif(!$login) {
+       else*/if(!$login) {
 
            $this->display('View/default');
 
@@ -75,9 +146,19 @@ class CheckinAddon extends Addon
         else{
             //$checkinfo= D('Check_info')->where('uid='.$uid)->getField('max(con_num)');
 
-            $checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
-            //$checkinfo = D('User_cdata')->where($map)->order('mtime desc')->select();
-            $this->assign("addons_config",$checkinfo);
+            $map['key'] = "check_connum";
+            $map['uid'] = $uid;
+
+            //$checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
+            $checkcon = D('User_cdata')->where($map)->order('mtime desc')->select();
+            //dump($checkinfo);exit;
+            $this->assign("lxqd",$checkcon['0']['value']);
+
+            $total['key'] = "check_totalnum";
+            $total['uid'] = $uid;
+            $checktotal = D('User_cdata')->where($total)->order('mtime desc')->select();
+
+            $this->assign("zgqd",$checktotal['0']['value']);
             $this->display('View/checkin');
            // $this->display('View/testcheck');
         }

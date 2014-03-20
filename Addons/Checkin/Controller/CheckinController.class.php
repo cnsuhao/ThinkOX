@@ -12,9 +12,9 @@ class CheckinController extends AddonsController{
 
    public function render($data)
     {
-        $uid = is_login();
+      /*  $uid = is_login();
 
-        $data = s('check_info');//model('Cache')->get('check_info_' . $uid . '_' . date('Ymd'));
+        $data = model('Cache')->get('check_info_' . $uid . '_' . date('Ymd'));  //s('check_info');
        //dump($data);exit;
         if (!$data) {
             $map['uid'] = $uid;
@@ -71,7 +71,7 @@ class CheckinController extends AddonsController{
         //$content = $this->renderFile(dirname(__FILE__) . "/" . $data['tpl'] . '.html', $data);
        // return $content;
             $this->assign("check",$data);
-            $this-display('View/checkin');
+            $this-display('View/checkin');*/
 
 
     }
@@ -91,7 +91,7 @@ class CheckinController extends AddonsController{
         $ischeck = D('Check_info')->where($map)->find();
 
         //是否重复签到
-        //dump($ischeck);exit;
+       // dump($ischeck);exit;
 
         if (!$ischeck) {
             $map['ctime'] = array('lt', strtotime(date('Ymd')));
@@ -134,18 +134,44 @@ class CheckinController extends AddonsController{
             }
         }
 
+      /*  $list = D('Check_info')->group('uid')->findAll();
+        foreach ( $list as $v ){
+            $con = D('User_cdata')->where('uid='.$v['uid']." and `key`='check_connum'")->find();
+
+            $connum = D('Check_info')->where('uid='.$v['uid'])->getField('max(con_num)');
+            $totalnum = D('Check_info')->where('uid='.$v['uid'])->getField('max(total_num)');
+            if ( !$con ){
+
+                $connumdata['uid'] = $v['uid'];
+                $connumdata['value'] = $connum;
+                $connumdata['key'] = 'check_connum';
+                D('User_cdata')->add($connumdata);
+
+                $totalnumdata['uid'] = $v['uid'];
+                $totalnumdata['value'] = $totalnum;
+                $totalnumdata['key'] = 'check_totalnum';
+                D('User_cdata')->add($totalnumdata);
+            } else {
+                D('User_cdata')->setField('value' , $connum , "`key`='check_connum' and uid=".$v['uid']);
+
+                D('User_cdata')->setField('value' , $totalnum , "`key`='check_totalnum' and uid=".$v['uid']);
+            }
+        }*/
+
+    }
+
     }
 
 
 
 
-    public function update_user_data(){
-        $list = D('check_info')->group('uid')->findAll();
+      /*  public function update_user_data(){
+    $list = D('Check_info')->group('uid')->findAll();
         foreach ( $list as $v ){
             $con = D('User_cdata')->where('uid='.$v['uid']." and `key`='check_connum'")->find();
 
-            $connum = D('check_info')->where('uid='.$v['uid'])->getField('max(con_num)');
-            $totalnum = D('check_info')->where('uid='.$v['uid'])->getField('max(total_num)');
+            $connum = D('Check_info')->where('uid='.$v['uid'])->getField('max(con_num)');
+            $totalnum = D('Check_info')->where('uid='.$v['uid'])->getField('max(total_num)');
             if ( !$con ){
 
                 $connumdata['uid'] = $v['uid'];
@@ -164,6 +190,5 @@ class CheckinController extends AddonsController{
             }
         }
     }
+}*/
 
-
-}

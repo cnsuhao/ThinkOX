@@ -20,7 +20,7 @@
         color: lawngreen;
     }
 .btn-sign{
-    color: magenta;
+    color:white ;
 }
 
     .btn-sign-h{
@@ -62,19 +62,56 @@
  <!--   <em class="day">连续签到</em>
     <em class="num" id="con_num_day">{$addons_config.con_num}</em>-->
    <div style="text-align: center">
-    <php>if($check.ischeck){</php>
-    <em id="checkin" class="btn-sign-h">已签到</em>
+
+<div style="float: left;padding-left: 70px;padding-top: 20px;">
+
+   <div>
+       {$check.week}
+
+   </div>
+
+    <div>
+
+        {$check.day}
+    </div>
+
+</div>
+
+       <div style="float: right;padding-right: 70px;padding-top: 20px;">
+
+           <div>
+               DAYS
+
+         </div>
+
+           <div>
+               {$lxqd}
+           </div>
+
+       </div>
+
+
+
+<div style="padding-top: 60px">
+
+
+
+
+    <php>if($check['ischeck']==1){</php>
+    <em id="checkin" class="btn-sign-h" style="margin-top: 80px">已签到</em>
     <php>}else{</php>
-    <div style="background-color: antiquewhite">
-    <em href="javascript:void(0)" id="checkin" onclick="checkin()" class="btn-sign">签到</em></div>
+
+    <em href="javascript:void(0)" id="checkin" onclick="checkin()" class="btn-sign">签到</em>
     <php>}</php>
     <div class="sign-wrap" style="display:none" id="checkdetail">
         <i class="arrow-y"></i>
-        <div class="sign-box" style="margin-top: 50px">
-            <h3 id="checkinfo"><php>if($check.ischeck){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
-            <div class="sign-info"><p>已连续签到<font id="con_num">{$addons_config.con_num}</font>天，累计签到<font id="total_num">{$addons_config.total_num}</font>天</p></div>
+        <div class="sign-box" style="margin-top: 100px">
+            <h3 id="checkinfo"><php>if($check['ischeck']){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
+            <div class="sign-info"><p>已连续签到<font id="con_num">{$lxqd}</font>天，累计签到<font id="total_num">{$zgqd}</font>天</p></div>
         </div>
     </div>
+
+</div>
 </div>
 
 </div>
@@ -98,7 +135,7 @@
 <script>
     var isshow = 1;
     $(function (){
-        <php>if($check.ischeck){</php>
+        <php>if($check['ischeck']){</php>
         $('#checkdetail').hover(function (){
             isshow = 2;
         },function (){
@@ -130,17 +167,19 @@
         $('#checkin').attr('class' , 'btn-sign-h');
         $('#checkdiv').attr('class' , 'sign-in-h' );
         $('#checkinfo').text('签到成功');
-        var totalnum = {$total_num} + 1;
+        //var totalnum = $check['total_num'] + 1;
 
    //http://localhost/betav01/index.php?s=/Home/Addons/execute/_addons/Checkin/_controller/Checkin/_action/check_in.html
+//alert("{:addons_url("Checkin://Checkin/check_in")}");
 
-        $.post("/betav01/index.php?s=/Home/Addons/execute/_addons/Checkin/_controller/Checkin/_action/check_in.html" , {} , function (res){
+
+        $.post("{:addons_url("Checkin://Checkin/check_in")}" , {} , function (res){
 
             if ( res ){
                 var connum = res;
                 $('#con_num').text(connum);
                 $('#con_num_day').text(connum);
-                $('#total_num').text(totalnum);
+                //$('#total_num').text(totalnum);
                 $('#checkdetail').hover(function (){
                     isshow = 2;
                 },function (){
