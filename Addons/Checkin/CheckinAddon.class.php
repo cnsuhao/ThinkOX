@@ -125,19 +125,56 @@ class CheckinAddon extends Addon
          $login= is_login() ? true : false;
 
 
-      /*  if ($list==0) {
+     if ($list==0) {
+
+            $default=0;
+
+            $this->assign("connum",$default);
+            $this->assign("totalnum",$checkinfo['total_num']);
+
+/*
+ *
+ * 显示签到排名
+ */
+
+         $y=date("Y",time());
+         $m=date("m",time());
+         $d=date("d",time());
+         $start_time = mktime(6, 0, 0, $m, $d ,$y);
+         $this->assign("ss",$start_time);
+
+         $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
+         //dump($rank);exit;
+         foreach($rank as &$v){
+             $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
+         }
+         //dump($rank);exit;
+         $this->assign("rank",$rank);
+         $this->display('View/checkin');
 
 
-            $data['uid']=$uid;
-            $data['ctime']=time();
-            D('Check_info')->add($data);
-            $check_info = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
-            $this->assign("addons_config",$check_info);
-           $this->display('View/checkin');
-            //$this->display('View/testcheck');
+
+         //$this->display('View/testcheck');
         }
 
-       else*/if(!$login) {
+       elseif(!$login) {
+/*
+ * 显示签到排名
+ *
+ */
+           $y=date("Y",time());
+           $m=date("m",time());
+           $d=date("d",time());
+           $start_time = mktime(6, 0, 0, $m, $d ,$y);
+           $this->assign("ss",$start_time);
+
+           $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
+           //dump($rank);exit;
+           foreach($rank as &$v){
+               $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
+           }
+        //dump($rank);exit;
+           $this->assign("rank",$rank);
 
            $this->display('View/default');
 
@@ -161,8 +198,31 @@ class CheckinAddon extends Addon
             $checktotal = D('User_cdata')->where($total)->order('mtime desc')->select();
 
             $this->assign("zgqd",$checktotal['0']['value']);
-            $this->display('View/checkin');
+
            // $this->display('View/testcheck');
+            /*
+             * 显示排名
+             *
+             */
+
+            $y=date("Y",time());
+            $m=date("m",time());
+            $d=date("d",time());
+            $start_time = mktime(6, 0, 0, $m, $d ,$y);
+            $this->assign("ss",$start_time);
+
+            $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
+            //dump($rank);exit;
+            foreach($rank as &$v){
+                $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
+            }
+            //dump($rank);exit;
+            $this->assign("rank",$rank);
+
+            $this->display('View/checkin');
+
+
+
         }
 
     }
