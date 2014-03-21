@@ -17,13 +17,30 @@ class PublicController extends Controller
     public function getProfile()
     {
         $uid = $_REQUEST['uid'];
-        $userProfile = query_user(array('username', 'score', 'signature', 'last_login_time', 'reg_time', 'title'), $uid);
-
-        //callApi('User/getProfile', array('uid' => $uid));
+        $userProfile = query_user(array('id', 'username', 'score', 'signature', 'last_login_time', 'reg_time', 'title'), $uid);
         $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
+        $follow['follow_who']=$userProfile['id'];
+        $follow['who_follow']=is_login();
+        $userProfile['followed']=D('Follow')->where($follow)->count();
 
         echo json_encode($userProfile);
     }
+    public function follow($uid=0){
+
+        if(D('Follow')->follow($uid)){
+            $this->ajaxReturn(array('status'=>1));
+        }else{
+            $this->ajaxReturn(array('status'=>0));
+        }
+    }
+    public function unfollow($uid=0){
+        if(D('Follow')->unfollow($uid)){
+            $this->ajaxReturn(array('status'=>1));
+        }else{
+            $this->ajaxReturn(array('status'=>0));
+        }
+    }
+
 
     public function getMessage()
     {
