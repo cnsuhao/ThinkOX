@@ -243,7 +243,7 @@ function bindMessageChecker() {
 function checkMessage() {
     $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
         if (msg) {
-            playsound('Public/static/plusjs/tip.mp3');
+            playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
             for (var index in msg) {
                 tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
                 //  var url=msg[index]['url']===''?U('') //设置默认跳转到消息中心
