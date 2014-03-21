@@ -47,11 +47,11 @@
                     <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                         <div class="row">
                             <div class="col-md-5">
-                                <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
+                                <a href="{:U('UserCenter/Index/changeavatar')}" ><img src="{$self.avatar128}"
                                                                                      class="avatar-img"/></a>
                             </div>
                             <div class="col-md-7">
-                                <a style="font-size: 1.2em" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
+                                <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
                                 <br/>积分：{$self.score}
                                 <br/>头衔：{$self.title}
                             </div>
