@@ -2,7 +2,9 @@
 <link rel="stylesheet" type="text/css" href="Addons/Rank_checkin/Css/rank.css">
 <div class="box" style="margin-top: 10px">
     <div class="titlerank">签到排名</div>
-
+<if condition="count($rank) eq 0">
+    <div class="default">虚位以待，赶紧签到。</div>
+<else/>
     <volist  name="rank" id="v">
         <div class="paiming">
              <switch   name="i" >
@@ -20,6 +22,6 @@
             </div>
         </div>
     </volist>
-
+    </if>
 </div>
 <div style="height: 10px"></div>
