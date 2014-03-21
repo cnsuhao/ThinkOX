@@ -73,7 +73,7 @@ function ucard() {
 
                 }, 'json');
                 return '获取数据中...'
-            }, button: "关闭"
+            }
 
         }, show: {solo: true}, style: {
             classes: 'qtip-shadow qtip-bootstrap'
