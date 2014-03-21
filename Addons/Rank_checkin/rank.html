@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="Addons/Rank_checkin/Css/rank.css">
-<div class="box" style="margin-top: 20px">
+<div class="box" style="margin-top: 10px">
     <div class="titlerank">签到排名</div>
 
     <volist  name="rank" id="v">
@@ -9,19 +9,17 @@
                  <case value="1">冠军</case>
                   <case value="2">亚军</case>
                   <case value="3">季军</case>
-                  <case value="4">第四名</case>
-                  <case value="5">第五名</case>
-                 <default />
+                     <default />第{$i}名
              </switch>
         </div>
         <div class="list">
             <div><img src="{$v.userInfo.avatar32}" ucard="{$v.uid}"></div>
             <div class="listitem">
-                <div> {$v.userInfo.username}</div>
+                <div class="text_more" style="width:80px;"> {$v.userInfo.username}</div>
                 <div><php> echo(friendlyDate($v[ctime]))</php></div>
             </div>
         </div>
     </volist>
 
 </div>
-<div style="height: 20px"></div>
+<div style="height: 10px"></div>
