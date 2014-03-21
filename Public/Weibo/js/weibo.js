@@ -8,12 +8,8 @@ function weibo_reply(obj,comment_id,comment_object) {
     var weiboId = $(obj).attr('data-weibo-id');
 
     var weibo = $('#weibo_'+weiboId);
-    var weibo = $('#weibo_' + weiboId);
     var textarea=$('.weibo-comment-content', weibo);
     var content =textarea.val();
-    var url =U('Weibo/Index/doComment');
-    var commitButton = $('.weibo-comment-commit', weibo);
-    var weiboCommentList = $('.weibo-comment-list', weibo);
     var weiboToCommentId=$('#weibo-comment-to-comment-id',weibo);
     weiboToCommentId.val(comment_id);
     textarea.focus();
@@ -27,7 +23,6 @@ function weibo_reply(obj,comment_id,comment_object) {
 $(document).on('click', '.weibo-comment-commit', function () {
     var weiboId = $(this).attr('data-weibo-id');
     var weibo = $('#weibo_'+weiboId);
-    var weibo = $('#weibo_' + weiboId);
     var content = $('.weibo-comment-content', weibo).val();
     var url =U('Weibo/Index/doComment');
     var commitButton = $('.weibo-comment-commit', weibo);
