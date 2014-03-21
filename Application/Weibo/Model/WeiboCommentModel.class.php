@@ -22,14 +22,18 @@ class WeiboCommentModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
 
-    public function addComment($uid, $weibo_id, $content)
+    public function addComment($uid, $weibo_id, $content,$comment_id=0)
     {
         //将评论内容写入数据库
-        $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content);
+        $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content,'comment_id'=>$comment_id);
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
         $this->sendCommentMessage($uid, $weibo_id, $content);
+        if($comment_id!=0){
+            $this->sendCommentReplyMessage($uid, $comment_id, $content);
+        }
+
         //增加微博的评论数量
         D('Weibo')->where(array('id' => $weibo_id))->setInc('comment_count');
 
@@ -56,6 +60,24 @@ class WeiboCommentModel extends Model
         $type = 2;
         D('Message')->sendMessage($weibo['uid'], $content, $title, $url, $from_uid, $type);
     }
+    /**
+     * @param $uid
+     * @param $weibo_id
+     * @param $content
+     */
+    private function sendCommentReplyMessage($uid, $comment_id, $content)
+    {
 
+        $user = query_user(array('username', 'space_url'), $uid);
+
+        $title = $user['username'] . '回复了您的微博评论。';
+        $content = '回复内容：' . $content;
+
+        $comment = $this->find($comment_id);
+        $url = U('Weibo/Index/index').'#weibo_'.$comment['weibo_id'];
+        $from_uid = $uid;
+        $type = 2;
+        D('Message')->sendMessage($comment['uid'], $content, $title, $url, $from_uid, $type);
+    }
 
 }

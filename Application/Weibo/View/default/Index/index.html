@@ -57,6 +57,7 @@
 </block>
 
 <block name="script">
+    <script src="__JS__/weibo.js"></script>
     <script>
         $(function () {
             var noMoreNextPage = false;
@@ -118,24 +119,7 @@
                 return false;
             });
 
-            //点击评论按钮后提交评论
-            $(document).on('click', '.weibo-comment-commit', function () {
-                var weiboId = $(this).attr('data-weibo-id');
-                var weibo = $('#weibo_'+weiboId);
-                var weibo = $('#weibo_' + weiboId);
-                var content = $('.weibo-comment-content', weibo).val();
-                var url = "{:U('doComment')}";
-                var commitButton = $('.weibo-comment-commit', weibo);
-                var weiboCommentList = $('.weibo-comment-list', weibo);
-                commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
-                $.post(url, {weibo_id: weiboId, content: content}, function (a) {
-                    if (a.status) {
-                        reloadWeiboCommentList(weiboCommentList);
-                    } else {
-                        commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
-                    }
-                });
-            });
+
 
             function isLoadMoreVisible() {
                 var visibleHeight = $(window.top).height();
@@ -210,22 +194,7 @@
                 weiboCommentList.hide();
             }
 
-            function reloadWeiboCommentList(weiboCommentList) {
-                //标记为已经载入
-                weiboCommentList.attr('data-weibo-comment-loaded', '1');
 
-                var weiboId = weiboCommentList.attr('data-weibo-id');
-                var weibo = $('#weibo_' + weiboId);
-                var weiboContainer = $('.weibo-comment-container', weiboCommentList);
-                var url = "{:U('loadComment')}";
-                $.post(url, {weibo_id: weiboId}, function (a) {
-                    weiboContainer.html(a);
-
-                    //更新评论数量
-                    var commentLinkText = $('.weibo-comment-link-text', weiboContainer).text();
-                    $('.weibo-comment-link', weibo).text(commentLinkText);
-                });
-            }
         })
     </script>
 </block>

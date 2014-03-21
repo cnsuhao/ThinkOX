@@ -45,26 +45,65 @@ function U(url, params, rewrite) {
  */
 function ucard() {
     $('[ucard]').qtip({ // Grab some elements to apply the tooltip to
-
+        suppress: true,
         content: {
             text: function (event, api) {
-                $.get(U('UserCenter/Public/getProfile'), {uid: $(this).attr('ucard')}, function (userProfile) {
-
+                var uid = $(this).attr('ucard');
+                $.get(U('UserCenter/Public/getProfile'), {uid: uid}, function (userProfile) {
+                    var follow = '';
                     var progress = userProfile.score * 1.0 / userProfile.total * 100;
                     var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
+                    if ((MID != uid) && (MID != 0)) {
+                        follow = '<div class="row" style="background: #f5f5f5;margin: -10px -15px;margin-top: 10px;padding: 5px 10px">' +
+                            '<div class="pull-right">' +
+                            '<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="padding: 5px 10px">';
+                        if (userProfile.followed==1) {
+                            follow += '已关注';
+                        } else {
+                            follow += '关注';
+                        }
+                        follow += '</button></div></div>';
+                    }
                     var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
-                        + '<p>个性签名：' + signature + ' </p><p>最后登录：' + friendlyDate(userProfile.last_login_time) + '</p><p>注册时间：' + friendlyDate(userProfile.reg_time) + '</p></div>');
+                        + '<p>个性签名：' + signature + ' </p><p>最后登录：' + friendlyDate(userProfile.last_login_time) + '</p><p>注册时间：' + friendlyDate(userProfile.reg_time) + '</p>' + follow +
+                        '</div>');
                     api.set('content.text', tpl.html());
                     api.set('content.title', '<b>' + userProfile.username + '</b>的小名片');
 
                 }, 'json');
                 return '获取数据中...'
             }
-        }, style: {
+
+        }, show: {delay: 500}, style: {
             classes: 'qtip-shadow qtip-bootstrap'
+        }, hide: {
+            event: 'unfocus'
         }
     })
+}
+function ufollow(obj, uid) {
+    var obj = $(obj);
+    if ($(obj).text() == '已关注') {
+        $.post(U('UserCenter/Public/unfollow'), {uid: uid}, function (msg) {
+            if (msg.status) {
+                op_success('取消关注成功。', '温馨提示');
+                obj.text('关注');
+            } else {
+                op_error('取消关注失败。', '温馨提示');
+            }
+        }, 'json');
+    } else {
+        $.post(U('UserCenter/Public/follow'), {uid: uid}, function (msg) {
+            if (msg.status) {
+                op_success('关注成功。', '温馨提示');
+                obj.text('已关注');
+            } else {
+                op_error('关注失败。', '温馨提示');
+            }
+        }, 'json');
+    }
+
 }
 /**
  * 绑定回到顶部
@@ -204,7 +243,7 @@ function bindMessageChecker() {
 function checkMessage() {
     $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
         if (msg) {
-            playsound('Public/static/plusjs/tip.mp3');
+            playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
             for (var index in msg) {
                 tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
                 //  var url=msg[index]['url']===''?U('') //设置默认跳转到消息中心
@@ -224,6 +263,9 @@ function checkMessage() {
         }
     }, 'json');
 }
+/**
+ * 将所有的消息设为已读
+ */
 function setAllReaded() {
     $.post(U('Usercenter/Public/setAllMessageReaded'), function () {
         $hint_count.text(0);
@@ -257,7 +299,12 @@ function tip_message(text, title) {
     }
     toastr.info(text, title);
 }
-
+/**
+ * 友好时间
+ * @param sTime
+ * @param cTime
+ * @returns {string}
+ */
 function friendlyDate(sTime, cTime) {
     var formatTime = function (num) {
         return (num < 10) ? '0' + num : num;

@@ -29,6 +29,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
+                            </php>
+
+                            <li class=" <if condition="intval($_GET['id']) eq 0">
+                            active
+                            </if>"><a href="{:U('Index/forum')}">全部帖子</a>
+                            </li>
                             <volist name="forum_list" id="each_forum">
                                 <php>
                                     $forum_class = $each_forum['id'] == $forum_id ? 'active' : '';
