@@ -43,10 +43,14 @@
                 </div>
             </div>
             <div class="col-md-3">
+                <if condition="is_login()">
+
+
                 <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                     <div class="row">
                         <div class="col-md-5">
-                            <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}" class="avatar-img"/></a>
+                            <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
+                                                                                 class="avatar-img"/></a>
                         </div>
                         <div class="col-md-7">
                             <a style="font-size: 1.2em" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
@@ -54,6 +58,7 @@
                             <br/>头衔：{$self.title}
                         </div>
                     </div>
+
                     <div class="row" style="margin: 10px;text-align: center">
                         <div class="col-md-4">
                             微博<br/>{$self.weibocount}
@@ -65,14 +70,13 @@
                             关注<br/>{$self.following}
                         </div>
                     </div>
-
-                </div>
-   <div>
+                </div> </if>
+                <div>
                     {:hook('checkin')}
-                <div style="height: 20px"></div>
-                {:hook('Rank')}
-                <div style="height: 20px"></div>
-                {:W('UserList/lists',array('forum_id'=>$forum_id))}
+                    <div style="padding: 5px"></div>
+                    {:hook('Rank')}
+                    <div style="padding: 5px"></div>
+                    {:W('UserList/lists',array('forum_id'=>$forum_id))}
                 </div>
             </div>
 
