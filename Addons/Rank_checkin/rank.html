@@ -16,7 +16,7 @@
             <div><img src="{$v.userInfo.avatar32}" ucard="{$v.uid}"></div>
             <div class="listitem">
                 <div class="text_more" style="width:80px;"> {$v.userInfo.username}</div>
-                <div><php> echo(date('h:m:s',$v[ctime]))</php></div>
+                <div><php> echo(date('H:i:s',$v[ctime]))</php></div>
             </div>
         </div>
     </volist>
