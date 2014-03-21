@@ -30,6 +30,18 @@ class FollowModel extends Model
             return 0;
         }
         $follow = $this->create($follow);
+
+
+        /**
+         * @param $to_uid 接受消息的用户ID
+         * @param string $content 内容
+         * @param string $title 标题，默认为  您有新的消息
+         * @param $url 链接地址，不提供则默认进入消息中心
+         * @param $int $from_uid 发起消息的用户，根据用户自动确定左侧图标，如果为用户，则左侧显示头像
+         * @param int $type 消息类型，0系统，1用户，2应用
+         */
+        $user = query_user(array('id', 'username', 'space_url'));
+        D('Message')->sendMessage($uid, $user['username'].' 关注了你。','粉丝数增加', $user['space_url'], is_login(), 0);
         return $this->add($follow);
     }
 
@@ -37,10 +49,13 @@ class FollowModel extends Model
      * @param $uid
      * @return mixed
      */
-    public function unfollow($uid){
+    public function unfollow($uid)
+    {
         $follow['who_follow'] = is_login();
         $follow['follow_who'] = $uid;
-        return $this->where($follow)->delete() ;
+        $user = query_user(array('id', 'username', 'space_url'));
+        D('Message')->sendMessage($uid, $user['username'].'取消了对你的关注', '粉丝数减少', $user['space_url'], is_login(), 0);
+        return $this->where($follow)->delete();
     }
 
 } 

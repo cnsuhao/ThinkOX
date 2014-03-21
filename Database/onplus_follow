@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS `onethink_follow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `follow_who` int(11) NOT NULL COMMENT '关注谁',
+  `who_follow` int(11) NOT NULL COMMENT '谁关注',
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='关注表' AUTO_INCREMENT=19 ;

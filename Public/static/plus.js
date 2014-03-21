@@ -45,7 +45,7 @@ function U(url, params, rewrite) {
  */
 function ucard() {
     $('[ucard]').qtip({ // Grab some elements to apply the tooltip to
-        suppress: false,
+        suppress: true,
         content: {
             text: function (event, api) {
                 var uid = $(this).attr('ucard');
