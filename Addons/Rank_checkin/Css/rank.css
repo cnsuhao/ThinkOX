@@ -24,3 +24,7 @@
     white-space: nowrap;
     overflow: hidden;
 }
+
+.default{
+    font-size: 15px;text-align: center;margin-top: 20px;padding-bottom: 10px
+}
