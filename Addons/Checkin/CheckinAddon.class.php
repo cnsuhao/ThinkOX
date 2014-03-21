@@ -125,19 +125,20 @@ class CheckinAddon extends Addon
          $login= is_login() ? true : false;
 
 
-      /*  if ($list==0) {
+     if ($list==0) {
 
 
             $data['uid']=$uid;
             $data['ctime']=time();
             D('Check_info')->add($data);
-            $check_info = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
-            $this->assign("addons_config",$check_info);
-           $this->display('View/checkin');
+            $checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
+            $this->assign("connum",$checkinfo['con_num']);
+            $this->assign("totalnum",$checkinfo['total_num']);
+            $this->display('View/checkin');
             //$this->display('View/testcheck');
         }
 
-       else*/if(!$login) {
+       elseif(!$login) {
 
            $this->display('View/default');
 
