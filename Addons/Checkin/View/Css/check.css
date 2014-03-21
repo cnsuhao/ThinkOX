@@ -49,8 +49,9 @@
     left: 10px;}
 
 .sign-box {
-    position: absolute;
-    width: 263px;
+margin-left: 15px;
+    margin-right: 15px;
+
     background:white;
     margin-top: -35px;
     filter:alpha(opacity=50);
