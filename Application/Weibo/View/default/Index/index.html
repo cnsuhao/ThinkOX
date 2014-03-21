@@ -72,10 +72,10 @@
                 </if>
                 <div>
                     {:hook('checkin')}
-                    <div style="padding: 5px"></div>
-                    {:hook('Rank')}
-                    <div style="padding: 5px"></div>
-                    {:W('UserList/lists',array('forum_id'=>$forum_id))}
+
+                {:hook('Rank')}
+
+                {:W('UserList/lists',array('forum_id'=>$forum_id))}
                 </div>
             </div>
 
