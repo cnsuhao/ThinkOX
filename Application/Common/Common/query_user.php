@@ -30,7 +30,7 @@ function query_user($fields, $uid = null)
     $cachedFields = array();
     $cacheResult = array();
     foreach ($fields as $field) {
-        if (in_array($field, array('icons_html', 'title','score'))) {
+        if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
         }
         $cache = read_query_user_cache($uid, $field);
@@ -110,13 +110,21 @@ function query_user($fields, $uid = null)
         }
         $result['icons_html'] .= '</span>';
     }
-
+    if (in_array('fans', $fields)) {
+        $result['fans'] = D('Follow')->where('follow_who=' . $uid)->count();
+    }
+    if (in_array('following', $fields)) {
+        $result['following'] = D('Follow')->where('who_follow=' . $uid)->count();
+    }
+    if (in_array('weibocount', $fields)) {
+        $result['weibocount'] = D('Weibo')->where('uid=' . $uid)->count();
+    }
     //合并结果，不包括缓存
     $result = array_merge($ucenterResult, $homeResult, $spaceUrlResult, $result);
 
     //写入缓存
     foreach ($result as $field => $value) {
-        if (in_array($field, array('icons_html', 'title','score'))) {
+        if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
         };
         write_query_user_cache($uid, $field, $value);

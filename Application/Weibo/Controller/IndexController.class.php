@@ -20,8 +20,11 @@ class IndexController extends Controller
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
 
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html','score','title','fans','following','weibocount'));
+
         //显示页面
         $this->assign('list', $list);
+        $this->assign('self', $self);
         $this->display();
     }
 
@@ -60,14 +63,14 @@ class IndexController extends Controller
         $this->success('发表成功');
     }
 
-    public function doComment($weibo_id, $content,$comment_id=0)
+    public function doComment($weibo_id, $content, $comment_id = 0)
     {
         //确认用户已经登录
         $this->requireLogin();
 
         //写入数据库
         $model = D('WeiboComment');
-        $result = $model->addComment(is_login(), $weibo_id, $content,$comment_id);
+        $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
         if (!$result) {
             $this->error('评论失败：' . $model->getError());
         }

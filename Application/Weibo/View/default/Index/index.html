@@ -43,6 +43,31 @@
                 </div>
             </div>
             <div class="col-md-3">
+                <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}" class="avatar-img"/></a>
+                        </div>
+                        <div class="col-md-7">
+                            <a style="font-size: 1.2em" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
+                            <br/>积分：{$self.score}
+                            <br/>头衔：{$self.title}
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 10px;text-align: center">
+                        <div class="col-md-4">
+                            微博<br/>{$self.weibocount}
+                        </div>
+                        <div class="col-md-4">
+                            粉丝<br/>{$self.fans}
+                        </div>
+                        <div class="col-md-4">
+                            关注<br/>{$self.following}
+                        </div>
+                    </div>
+
+                </div>
+
                 {:W('UserList/lists',array('forum_id'=>$forum_id))}
             </div>
         </div>
@@ -111,7 +136,6 @@
                 e.preventDefault();
                 return false;
             });
-
 
 
             function isLoadMoreVisible() {
