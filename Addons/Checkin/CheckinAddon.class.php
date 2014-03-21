@@ -149,7 +149,9 @@ class CheckinAddon extends Addon
             $map['key'] = "check_connum";
             $map['uid'] = $uid;
 
-            //$checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
+            $checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
+            $this->assign("connum",$checkinfo['con_num']);
+            $this->assign("totalnum",$checkinfo['total_num']);
             $checkcon = D('User_cdata')->where($map)->order('mtime desc')->select();
             //dump($checkinfo);exit;
             $this->assign("lxqd",$checkcon['0']['value']);

@@ -8,6 +8,7 @@
     .sign-in-h{
                width: 233px;
               height: 30px;
+
                 background-color: #48b87a;
     }
     .sign-in{
@@ -65,27 +66,27 @@
 
 <div style="float: left;padding-left: 70px;padding-top: 20px;">
 
-   <div>
+   <div style="color: white">
        {$check.week}
 
    </div>
 
-    <div>
+    <div style="color: white">
 
         {$check.day}
     </div>
 
 </div>
 
-       <div style="float: right;padding-right: 70px;padding-top: 20px;">
+       <div style="float: right;padding-right: 70px;padding-top: 20px;color: white">
 
            <div>
                DAYS
 
          </div>
 
-           <div>
-               {$lxqd}
+           <div style="color: white">
+               {$connum}
            </div>
 
        </div>
@@ -107,7 +108,7 @@
         <i class="arrow-y"></i>
         <div class="sign-box" style="margin-top: 100px">
             <h3 id="checkinfo"><php>if($check['ischeck']){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
-            <div class="sign-info"><p>已连续签到<font id="con_num">{$lxqd}</font>天，累计签到<font id="total_num">{$zgqd}</font>天</p></div>
+            <div class="sign-info"><p>已连续签到<font id="con_num">{$connum}</font>天，累计签到<font id="total_num">{$totalnum}</font>天</p></div>
         </div>
     </div>
 
