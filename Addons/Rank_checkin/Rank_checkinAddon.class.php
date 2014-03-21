@@ -55,7 +55,7 @@ use Common\Controller\Addon;
             $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(5)->select();
             //dump($rank);exit;
             foreach($rank as &$v){
-                $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
+                $v['userInfo'] = query_user(array('avatar32', 'username', 'uid',), $v['uid']);
             }
             //dump($rank);exit;
             $this->assign("rank",$rank);
