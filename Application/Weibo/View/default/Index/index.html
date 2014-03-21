@@ -43,9 +43,13 @@
                 </div>
             </div>
             <div class="col-md-3">
-                {:hook('checkin')}
+                <div>
+                    {:hook('checkin')}
+                <div style="height: 20px"></div>
                 {:hook('Rank')}
+                <div style="height: 20px"></div>
                 {:W('UserList/lists',array('forum_id'=>$forum_id))}
+                </div>
             </div>
 
         </div>

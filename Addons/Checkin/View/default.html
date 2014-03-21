@@ -1,103 +1,29 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-
-<style>
-    .sign-in-h{
-        width: 233px;
-        height: 30px;
-        background-color: #48b87a;
-    }
-    .sign-in{
-        width: 263px;
-        height: 100px;
-        background-color:#48b87a;
-
-    }
-    .datetime .date .day .week .num{
-        color: lawngreen;
-    }
-    .btn-sign a{
-        color:midnightblue;
-    }
-
-    .btn-sign-h{
-        color:darkblue;
-
-    }
-
-    .sign-wrap{position:absolute;top:54px;z-index:1;}
-
-    .arrow-y {
-        background-position: 0 0;
-        width: 10px;
-        height: 7px;
-        position: absolute;
-        top: -5px;
-        left: 10px;}
-
-    .sign-box {
-        width: 263px;
-        padding: 10px;
-        background: lawngreen;
-        border: 1px solid #fdd193;
-    }
-
-
-
-</style>
-
-<body>
-
-
+<link rel="stylesheet" type="text/css" href="Addons/Checkin/View/Css/check.css">
 
 <div class="<php>if($ischeck){</php>sign-in-h<php>}else{</php>sign-in<php>}</php>" id="checkdiv">
 
-
-
-    <!--   <em class="day">连续签到</em>
-       <em class="num" id="con_num_day">{$addons_config.con_num}</em>-->
     <div style="text-align: center">
 
-        <div style="float: left;padding-left: 70px;padding-top: 20px;">
+        <div class="dateinfo">
 
-            <div>
-                {$check.week}
+            <div>{$check.week}</div>
 
-            </div>
-
-            <div>
-
-                {$check.day}
-            </div>
-
+            <div>{$check.day}</div>
         </div>
 
-        <div style="float: right;padding-right: 70px;padding-top: 20px;">
+        <div class="checkinfo">
 
-            <div>
-                DAYS
-            </div>
+            <div> DAYS </div>
 
-            <div>
-                0
-            </div>
+            <div>0 </div>
 
         </div>
-
-
 
         <div style="padding-top: 60px">
-
-
-
-
-
             <div>
                 <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];</php>
-                <em href="javascript:void(0)" id="checkin" onclick="checkin()" class="btn-sign"><a href="{:U('Home/User/login',array('back'=>urlencode($url)))}" >签到</a></em></div>
+               <a style="color: white" href="{:U('Home/User/login',array('back'=>urlencode($url)))}" >签到</a>
             </div>
         </div>
     </div>
@@ -105,23 +31,3 @@
 </div>
 
 
-
-<div style="height: auto" >
-    <span>签到排名</span>
-
-<volist  name="rank" id="v">
-    <div style="padding-bottom: 15px">
-    <div><img src="{$v.userInfo.avatar64}"></div>
-    <div style="margin-top: -55px;margin-left: 70px;">
-    <div style="padding-bottom: 10px"> {$v.userInfo.username}</div>
-    <div style="font-size: 2px"><php> echo(friendlyDate($v[ctime])) </php></div>
-    </div>
-    </div>
-</volist>
-
-</div>
-
-
-
-</body>
-</html>
