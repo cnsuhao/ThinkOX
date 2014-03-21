@@ -127,12 +127,9 @@ class CheckinAddon extends Addon
 
      if ($list==0) {
 
+            $default=0;
 
-            $data['uid']=$uid;
-            $data['ctime']=time();
-            D('Check_info')->add($data);
-            $checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
-            $this->assign("connum",$checkinfo['con_num']);
+            $this->assign("connum",$default);
             $this->assign("totalnum",$checkinfo['total_num']);
             $this->display('View/checkin');
             //$this->display('View/testcheck');
