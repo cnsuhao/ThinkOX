@@ -19,3 +19,8 @@
 .paiming{
     float: right;margin-top: 10px;margin-right: 50px;text-align: center;width: 50px;color: #48b87a
 }
+.text_more{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

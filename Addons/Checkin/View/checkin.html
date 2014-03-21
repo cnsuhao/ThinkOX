@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="Addons/Checkin/View/Css/check.css">
 
-<div class="<php>if($ischeck){</php>sign-in-h<php>}else{</php>sign-in<php>}</php>" id="checkdiv">
+<div class="box1" id="checkdiv">
 
-    <div style="text-align: center">
+    <div class="row" style="text-align: center">
 
-                <div class="dateinfo">
+                <div class="col-md-6 dateinfo">
 
                         <div>{$check.week}</div>
 
                         <div>{$check.day}</div>
                 </div>
 
-                <div class="checkinfo">
+                <div class="col-md-6 checkinfo">
 
                         <div> DAYS </div>
 
@@ -22,7 +22,7 @@
 
 
 
-                    <div style="padding-top: 60px">
+                    <div style="padding-top: 70px">
 
                          <php>if($check['ischeck']==1){</php>
 
@@ -52,7 +52,7 @@
 
 </div>
 
-<div style="height: 20px"></div>
+
 
 
 

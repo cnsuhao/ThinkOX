@@ -1,9 +1,9 @@
 .dateinfo{
-  color: #FFFFFF;float: left;padding-left: 70px;padding-top: 20px;
+  color: #FFFFFF;float: left;padding-top: 20px;
 }
 
 .checkinfo{
-    float: right;padding-right: 70px;padding-top: 20px;color: white;
+    float: right;padding-top: 20px;color: white;
 }
 
 .sign-in-h{
@@ -61,5 +61,8 @@
 
 }
 
-
+.box1{
+    height: 100px;box-shadow: 0 0 5px #cccccc;
+   background-color:#48b87a ;
+}
 
