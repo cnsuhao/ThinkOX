@@ -51,16 +51,20 @@ use Common\Controller\Addon;
 
             $start_time = mktime( $set_ranktime, 0, 0, $m, $d ,$y);
             $this->assign("ss",$start_time);
-
             $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
             //dump($rank);exit;
-            foreach($rank as &$v){
+            if($rank==null)
+            {
+               $this->assign("time",$set_ranktime);
+                $this->display('default');
+            }
+            else{foreach($rank as &$v){
                 $v['userInfo'] = query_user(array('avatar32', 'username', 'uid',), $v['uid']);
             }
             //dump($rank);exit;
             $this->assign("rank",$rank);
             $this->display('rank');
-
+            }
 
 
         }
