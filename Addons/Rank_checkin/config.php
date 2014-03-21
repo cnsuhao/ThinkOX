@@ -10,10 +10,10 @@ return array(
 		'value'=>'1',			 //表单的默认值
 	),
 
-   /* 'ranktime'=>array(
+    'ranktime'=>array(
         'title'=>'签到时间配置;',
         'type'=>'text',
 
-    )*/
+    )
 );
 					

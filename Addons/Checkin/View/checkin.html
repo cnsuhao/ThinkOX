@@ -1,127 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-
-<style>
-    .sign-in-h{
-               width: 263px;
-              height: 100px;
-
-                background-color: #48b87a;
-    }
-    .sign-in{
-        width: 263px;
-        height: 100px;
-        background-color:#48b87a;
-
-    }
-    .datetime .date .day .week .num{
-        color: lawngreen;
-    }
-.btn-sign{
-    color:white ;
-}
-
-    .btn-sign-h{
-        color:darkblue;
-        width: 263px;
-        height: 100px;
-
-        background-color: #48b87a;
-
-    }
-
-    .sign-wrap{position:absolute;top:54px;z-index:1;}
-
-    .arrow-y {
-        background-position: 0 0;
-        width: 10px;
-        height: 7px;
-        position: absolute;
-        top: -5px;
-        left: 10px;}
-
-    .sign-box {
-        width: 263px;
-        padding: 10px;
-        background: lawngreen;
-        border: 1px solid #fdd193;
-    }
-
-
-
-</style>
-
-<body>
-
-
-
-
+<link rel="stylesheet" type="text/css" href="Addons/Checkin/View/Css/check.css">
 
 <div class="<php>if($ischeck){</php>sign-in-h<php>}else{</php>sign-in<php>}</php>" id="checkdiv">
 
+    <div style="text-align: center">
 
+                <div class="dateinfo">
 
- <!--   <em class="day">连续签到</em>
-    <em class="num" id="con_num_day">{$addons_config.con_num}</em>-->
-   <div style="text-align: center">
+                        <div>{$check.week}</div>
 
-<div style="float: left;padding-left: 70px;padding-top: 20px;">
+                        <div>{$check.day}</div>
+                </div>
 
-   <div style="color: white">
-       {$check.week}
+                <div class="checkinfo">
 
-   </div>
+                        <div> DAYS </div>
 
-    <div style="color: white">
+                         <div>{$connum} </div>
 
-        {$check.day}
-    </div>
-
-</div>
-
-       <div style="float: right;padding-right: 70px;padding-top: 20px;color: white">
-
-           <div>
-               DAYS
-
-         </div>
-
-           <div style="color: white">
-               {$connum}
-           </div>
-
-       </div>
+                 </div>
 
 
 
-<div style="padding-top: 60px">
+                    <div style="padding-top: 60px">
 
+                         <php>if($check['ischeck']==1){</php>
 
+                            <span id="checkin" class="btn-sign-h">已签到</span>
 
+                         <php>}else{</php>
 
-    <php>if($check['ischeck']==1){</php>
-    <em id="checkin" class="btn-sign-h" style="margin-top: 80px">已签到</em>
-    <php>}else{</php>
+                            <a href="javascript:void(0)" id="checkin" onclick="checkin()" class="btn-sign">签到</a>
 
-    <em href="javascript:void(0)" id="checkin" onclick="checkin()" class="btn-sign">签到</em>
-    <php>}</php>
-    <div class="sign-wrap" style="display:none" id="checkdetail">
-        <i class="arrow-y"></i>
-        <div class="sign-box" style="margin-top: 100px">
-            <h3 id="checkinfo"><php>if($check['ischeck']){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
-            <div class="sign-info"><p>已连续签到<font id="con_num">{$connum}</font>天，累计签到<font id="total_num">{$totalnum}</font>天</p></div>
-        </div>
-    </div>
+                         <php>}</php>
 
-</div>
-</div>
+                            <div class="sign-wrap" style="display:none" id="checkdetail">
+
+                                    <i class="arrow-y"></i>
+
+                                <div class="sign-box">
+
+                                        <h3 id="checkinfo"><php>if($check['ischeck']){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
+
+                                        <div><p>已连续签到<font id="con_num">{$connum}</font>天，累计签到<font id="total_num">{$totalnum}</font>天</p></div>
+
+                                 </div>
+                            </div>
+
+                    </div>
+     </div>
 
 </div>
 
-<div style="height: auto" >
+<!--<div style="height: auto" >
     <span>签到排名</span>
 
     <volist  name="rank" id="v">
@@ -134,16 +65,7 @@
         </div>
     </volist>
 
-</div>
-
-
-
-
-
-
-
-
-
+</div>-->
 
 
 
@@ -220,6 +142,3 @@
     location.reload();
     }
 </script>
-
-</body>
-</html>

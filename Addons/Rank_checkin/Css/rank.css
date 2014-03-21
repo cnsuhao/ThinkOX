@@ -1,0 +1,21 @@
+.box{
+    height: auto;background-color: white;box-shadow: 0 0 5px #cccccc;
+}
+.titlerank{
+    font-size: 1.4em;margin-left: 10px;padding-top: 15px;
+}
+.list{
+    padding-bottom: 15px;padding-top: 10px;padding-left: 10px
+
+}
+.list img{
+    border-radius: 100%
+}
+.listitem{
+    margin-top: -35px;margin-left: 50px;
+    font-size: 2px;color: #48b87a
+}
+
+.paiming{
+    float: right;margin-top: 10px;margin-right: 50px;text-align: center;width: 50px;color: #48b87a
+}
