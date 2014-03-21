@@ -25,7 +25,7 @@ class CheckinAddon extends Addon
         'model' => 'Check_info', //要查的表
         'fields' => '*', //要查的字段
         'map' => '', //查询条件, 如果需要可以再插件类的构造方法里动态重置这个属性
-        'order' => 'id desc', //排序,
+        'order' => 'uid desc', //排序,
         'listKey' => array( //这里定义的是除了id序号外的表格里字段显示的表头名
             'uid' => 'UID',
             'con_num'=>'连续签到次数',
@@ -48,7 +48,11 @@ class CheckinAddon extends Addon
     public function checkin($param)
     {
 
-       $uid = is_login();
+
+      /*  $getranktime= $this->getConfig();
+        $set_ranktime=$getranktime['ranktime'] ;*/
+
+        $uid = is_login();
 
         $data =  s('check_info_');//model('Cache')->get('check_info_' . $uid . '_' . date('Ymd'));
        //dump($data);exit;
@@ -135,12 +139,15 @@ class CheckinAddon extends Addon
 /*
  *
  * 显示签到排名
- */
+
 
          $y=date("Y",time());
          $m=date("m",time());
          $d=date("d",time());
-         $start_time = mktime(6, 0, 0, $m, $d ,$y);
+
+
+
+         $start_time = mktime( $set_ranktime, 0, 0, $m, $d ,$y);
          $this->assign("ss",$start_time);
 
          $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
@@ -149,7 +156,7 @@ class CheckinAddon extends Addon
              $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
          }
          //dump($rank);exit;
-         $this->assign("rank",$rank);
+         $this->assign("rank",$rank);*/
          $this->display('View/checkin');
 
 
@@ -161,11 +168,13 @@ class CheckinAddon extends Addon
 /*
  * 显示签到排名
  *
- */
+ *
+
+
            $y=date("Y",time());
            $m=date("m",time());
            $d=date("d",time());
-           $start_time = mktime(6, 0, 0, $m, $d ,$y);
+           $start_time = mktime( $set_ranktime, 0, 0, $m, $d ,$y);
            $this->assign("ss",$start_time);
 
            $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
@@ -174,7 +183,7 @@ class CheckinAddon extends Addon
                $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
            }
         //dump($rank);exit;
-           $this->assign("rank",$rank);
+           $this->assign("rank",$rank); */
 
            $this->display('View/default');
 
@@ -203,12 +212,12 @@ class CheckinAddon extends Addon
             /*
              * 显示排名
              *
-             */
+
 
             $y=date("Y",time());
             $m=date("m",time());
             $d=date("d",time());
-            $start_time = mktime(6, 0, 0, $m, $d ,$y);
+            $start_time = mktime( $set_ranktime, 0, 0, $m, $d ,$y);
             $this->assign("ss",$start_time);
 
             $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
@@ -217,7 +226,7 @@ class CheckinAddon extends Addon
                 $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
             }
             //dump($rank);exit;
-            $this->assign("rank",$rank);
+            $this->assign("rank",$rank); */
 
             $this->display('View/checkin');
 
