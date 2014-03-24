@@ -188,6 +188,14 @@ class IndexController extends Controller
     {
         //确认有权限回复
         $this->requireAllowReply($post_id);
+       //检测回复时间限制
+        $uid=is_login();
+        $near=D('ForumPostReply')->where('uid='.$uid)->order('create_time desc')->find();
+
+        $cha=time()-$near['create_time'];
+       if($cha>10){
+
+
         //添加到数据库
         $model = D('ForumPostReply');
         $result = $model->addReply($post_id, $content);
@@ -195,8 +203,12 @@ class IndexController extends Controller
             $this->error('回复失败：' . $model->getError());
         }
         //显示成功消息
-        $this->success('回复成功', 'refresh');
-    }
+        $this->success('回复成功', 'refresh');}
+        else{
+            $this->error('请十秒之后再回复');
+
+        }
+}
 
     public function doBookmark($post_id, $add = true)
     {

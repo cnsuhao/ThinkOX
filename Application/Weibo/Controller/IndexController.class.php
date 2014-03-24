@@ -69,14 +69,26 @@ class IndexController extends Controller
         $this->requireLogin();
 
         //写入数据库
+        $uid=is_login();
+        $near=D('WeiboComment')->where('uid='.$uid)->order('create_time desc')->find();
+
+        $cha=time()-$near['create_time'];
+
+
+        if($cha>10){
         $model = D('WeiboComment');
         $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
+        //dump($result);exit;
         if (!$result) {
             $this->error('评论失败：' . $model->getError());
         }
 
         //显示成功页面
-        $this->success('评论成功');
+        $this->success('评论成功');}
+        else{
+
+            $this->error('相隔不能低于十秒');
+        }
     }
 
     public function loadComment($weibo_id)
