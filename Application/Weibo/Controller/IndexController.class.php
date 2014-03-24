@@ -14,10 +14,10 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $atusers=S('atUsersJson');
+        $atusers=S('atUsersJson_'.is_login());
         if(empty($atusers)){
             $atusers = $this->getAtWhoJson();
-            S('atUsersJson',$atusers,60);
+            S('atUsersJson_'.is_login(),$atusers,600);
         }
 
 
