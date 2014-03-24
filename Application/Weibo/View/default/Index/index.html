@@ -17,19 +17,19 @@
 
                         <p>记录，就是一种态度！</p>
 <script>
-    $(function(){
-        var names ={$atwhousers};
+    var names ={$atwhousers};
 
-        var names = $.map(names,function(value,i) {
-            return {'id':i,'name':value.username,'pinyin':value.pinyin};
-        });
-        var at_config = {
-            at: "@",
-            data: names,
-            tpl: "<li data-value='@${name}'>${name}</li>",
-            show_the_at: true,
-            search_key:'pinyin'
-        };
+    var names = $.map(names,function(value,i) {
+        return {'id':i,'name':value.username,'pinyin':value.pinyin};
+    });
+    var at_config = {
+        at: "@",
+        data: names,
+        tpl: "<li data-value='@${name}'>${name}</li>",
+        show_the_at: true,
+        search_key:'pinyin'
+    };
+    $(function(){
         $inputor = $('#weibo_content').atwho(at_config);
     })
 

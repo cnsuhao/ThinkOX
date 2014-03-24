@@ -24,6 +24,12 @@ class WeiboCommentModel extends Model
 
     public function addComment($uid, $weibo_id, $content,$comment_id=0)
     {
+
+        $content=op_t($content);
+        $self = query_user(array('username')); //超找自己
+        $user_math = $this->matchUsers($content);
+        $content = $this->sendAllAtMessages($content, $user_math,  $self);
+
         //将评论内容写入数据库
         $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content,'comment_id'=>$comment_id);
         $data = $this->create($data);
@@ -73,6 +79,9 @@ class WeiboCommentModel extends Model
         $title = $user['username'] . '回复了您的微博评论。';
         $content = '回复内容：' . $content;
 
+
+
+
         $comment = $this->find($comment_id);
         $url = U('Weibo/Index/index').'#weibo_'.$comment['weibo_id'];
         $from_uid = $uid;
@@ -80,4 +89,40 @@ class WeiboCommentModel extends Model
         D('Message')->sendMessage($comment['uid'], $content, $title, $url, $from_uid, $type);
     }
 
+    /**
+     * @param $content
+     * @return mixed
+     */
+    private function matchUsers($content)
+    {
+        $user_pattern = "/\@([^\#|\s]+)\s/"; //匹配用户
+        preg_match_all($user_pattern, $content, $user_math);
+        return $user_math;
+    }
+
+    /**
+     * @param $content
+     * @param $user_math
+     * @param $self
+     * @return mixed
+     */
+    private function sendAllAtMessages($content, $user_math, $self)
+    {
+        foreach ($user_math[1] as $match) {
+            $map['username'] = $match;
+            $user = D('ucenter_member')->where($map)->find();
+            $query_user = query_user(array('username', 'space_url'), $user['id']);
+            $content = str_replace('@' . $match . ' ', '<a ucard="' . $user['id'] . '" href="' . $query_user['space_url'] . '">@' . $match . ' </a>', $content);
+            /**
+             * @param $to_uid 接受消息的用户ID
+             * @param string $content 内容
+             * @param string $title 标题，默认为  您有新的消息
+             * @param $url 链接地址，不提供则默认进入消息中心
+             * @param $int $from_uid 发起消息的用户，根据用户自动确定左侧图标，如果为用户，则左侧显示头像
+             * @param int $type 消息类型，0系统，1用户，2应用
+             */
+            D('Message')->sendMessage($user['id'], '微博内容：' . $content, $title = $self['username'] . '在微博的评论中@了您', U('Weibo/Index/index'), is_login(), 1);
+        }
+        return $content;
+    }
 }

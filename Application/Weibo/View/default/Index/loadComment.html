@@ -5,7 +5,7 @@
 
         <p>
             <input type="hidden" id="weibo-comment-to-comment-id" name="reply_id" value="0"/>
-            <textarea placeholder="说点什么吧～" class="form-control weibo-comment-content"></textarea>
+            <textarea placeholder="说点什么吧～" class="form-control weibo-comment-content comment_text_inputor"></textarea>
         </p>
 
         <!--评论按钮-->
@@ -28,7 +28,7 @@
             </div>
             <div class="" style="overflow: hidden; padding-left: 15px; padding-top: 5px;">
                 <span class="text-muted pull-right">&nbsp;{$comment.create_time|friendlyDate}&nbsp;&nbsp;<a  data-weibo-id="{$weiboId}" onclick="weibo_reply(this,{$comment.id},'{$user.username}')"><i class="glyphicon glyphicon-comment"></i></a></span>
-               <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>{$user.icons_html}：{$comment.content|htmlspecialchars}
+               <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>{$user.icons_html}：{$comment.content}
             </div>
         </div>
     </div>
@@ -37,3 +37,6 @@
 <div class="weibo-comment-link-text" style="display: none;">
     <include file="commentText"/>
 </div>
+<script>
+    $('.comment_text_inputor').atwho(at_config);
+</script>
