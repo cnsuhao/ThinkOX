@@ -14,30 +14,12 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $atuserIds = array();
-        $atusers = array();
-        $users_who_follow = D('Follow')->where('who_follow=' . is_login())->limit(999)->select();
-        foreach ($users_who_follow as &$user) {
-            if (!in_array($user['follow_who'], $atuserIds)) {
-                $user_temp = query_user(array('username', 'id'), $user['follow_who']);
-                $user_temp['pinyin'] = D('PinYin')->Pinyin($user_temp['username']);
-                $atusers = array_merge($atusers, array($user_temp));
-                $atuserIds[] = $user['follow_who'];
-            }
+        $atusers=S('atUsersJson');
+        if(empty($atusers)){
+            $atusers = $this->getAtWhoJson();
+            S('atUsersJson',$atusers,60);
         }
-        unset($user);
 
-        $users_follow_who = D('Follow')->where('follow_who=' . is_login())->limit(999)->select();
-        foreach ($users_follow_who as &$user) {
-            if (!in_array($user['who_follow'], $atuserIds)) {
-                $user_temp = query_user(array('username', 'id'), $user['who_follow']);
-                $user_temp['pinyin'] = D('PinYin')->Pinyin($user_temp['username']);
-                $atusers = array_merge($atusers, array($user_temp));
-                $atuserIds[] = $user['who_follow'];
-            }
-
-        }
-        unset($user);
 
         // dump($atuserIds);exit;
 
@@ -152,6 +134,39 @@ class IndexController extends Controller
         $map = array('status' => 1);
         $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
         return $list;
+    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    private function getAtWhoJson()
+    {
+        $atuserIds = array();
+        $atusers = array();
+        $users_who_follow = D('Follow')->where('who_follow=' . is_login())->limit(999)->select();
+        foreach ($users_who_follow as &$user) {
+            if (!in_array($user['follow_who'], $atuserIds)) {
+                $user_temp = query_user(array('username', 'id'), $user['follow_who']);
+                $user_temp['pinyin'] = D('PinYin')->Pinyin($user_temp['username']);
+                $atusers = array_merge($atusers, array($user_temp));
+                $atuserIds[] = $user['follow_who'];
+            }
+        }
+        unset($user);
+
+        $users_follow_who = D('Follow')->where('follow_who=' . is_login())->limit(999)->select();
+        foreach ($users_follow_who as &$user) {
+            if (!in_array($user['who_follow'], $atuserIds)) {
+                $user_temp = query_user(array('username', 'id'), $user['who_follow']);
+                $user_temp['pinyin'] = D('PinYin')->Pinyin($user_temp['username']);
+                $atusers = array_merge($atusers, array($user_temp));
+                $atuserIds[] = $user['who_follow'];
+            }
+
+        }
+        unset($user);
+        return $atusers;
     }
 
 
