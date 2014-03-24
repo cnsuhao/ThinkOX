@@ -31,7 +31,8 @@ class FollowModel extends Model
         }
         $follow = $this->create($follow);
 
-
+        clean_query_user_cache($uid,'fans');
+        clean_query_user_cache(is_login(),'following');
         /**
          * @param $to_uid 接受消息的用户ID
          * @param string $content 内容
@@ -41,6 +42,7 @@ class FollowModel extends Model
          * @param int $type 消息类型，0系统，1用户，2应用
          */
         $user = query_user(array('id', 'username', 'space_url'));
+
         D('Message')->sendMessage($uid, $user['username'] . ' 关注了你。', '粉丝数增加', $user['space_url'], is_login(), 0);
         return $this->add($follow);
     }
@@ -53,6 +55,8 @@ class FollowModel extends Model
     {
         $follow['who_follow'] = is_login();
         $follow['follow_who'] = $uid;
+        clean_query_user_cache($uid,'fans');
+        clean_query_user_cache(is_login(),'following');
         $user = query_user(array('id', 'username', 'space_url'));
         D('Message')->sendMessage($uid, $user['username'] . '取消了对你的关注', '粉丝数减少', $user['space_url'], is_login(), 0);
         return $this->where($follow)->delete();

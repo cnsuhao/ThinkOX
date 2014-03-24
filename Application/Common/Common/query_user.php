@@ -82,6 +82,12 @@ function query_user($fields, $uid = null)
         $result['title'] = $title;
     }
 
+    //读取用户名拼音
+    if (in_array('pinyin', $fields)) {
+
+        $result['pinyin'] =D('Pinyin')->pinYin($result['username']);
+    }
+
     //获取个人中心地址
     $spaceUrlResult = array();
     if (in_array('space_url', $fields)) {

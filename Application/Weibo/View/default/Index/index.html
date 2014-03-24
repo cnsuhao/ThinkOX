@@ -16,7 +16,24 @@
                         <br/>
 
                         <p>记录，就是一种态度！</p>
+<script>
+    $(function(){
+        var names ={$atwhousers};
 
+        var names = $.map(names,function(value,i) {
+            return {'id':i,'name':value.username,'pinyin':value.pinyin};
+        });
+        var at_config = {
+            at: "@",
+            data: names,
+            tpl: "<li data-value='@${name}'>${name}</li>",
+            show_the_at: true,
+            search_key:'pinyin'
+        };
+        $inputor = $('#weibo_content').atwho(at_config);
+    })
+
+</script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
 
@@ -84,6 +101,8 @@
 </block>
 
 <block name="script">
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script src="__JS__/weibo.js"></script>
     <script>
         $(function () {
