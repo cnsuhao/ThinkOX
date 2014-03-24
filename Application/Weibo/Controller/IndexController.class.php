@@ -24,8 +24,6 @@ class IndexController extends Controller
                 $atusers = array_merge($atusers, array($user_temp));
                 $atuserIds[] = $user['follow_who'];
             }
-
-
         }
         unset($user);
 
