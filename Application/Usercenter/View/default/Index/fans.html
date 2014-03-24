@@ -26,14 +26,30 @@
         暂无粉丝，努力发言哦～
         <br><br><br>
     </p></if>
-    <div style="margin-top: 20px">
+    <div style="margin-top: 20px;margin-bottom: 20px;">
         <volist name="fans" id="fan">
-            <div class="row">
+            <div class="row" style="border-bottom: 1px solid #dedede;padding-bottom: 20px;padding-top:20px;margin-left: 0;margin-right: 0">
                 <div class="col-md-2">
-                    <img ucard="{$fan.who_follow}" style="width: 128px" class="avatar-img" src="{$fan.user.avatar128}"/>
+                    <img ucard="{$fan.who_follow}" style="width: 80px" class="avatar-img" src="{$fan.user.avatar128}"/>
                 </div>
-                <div class="col-md-2">
-                    <a href="{$fan.user.space_url}">{$fan.user.username}</a><br/>
+                <div class="col-md-4">
+                    <div><a href="{$fan.user.space_url}">{$fan.user.username}</a><br/>
+                        头衔：{$fan.user.title}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            微博：
+                            {$fan.user.weibocount}
+                        </div>
+                        <div class="col-md-4">
+                            粉丝：
+                            {$fan.user.fans}
+                        </div>
+                        <div class="col-md-4">
+                            关注：
+                            {$fan.user.following}
+                        </div>
+                    </div>
                 </div>
             </div>
         </volist>

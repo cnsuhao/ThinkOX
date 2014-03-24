@@ -54,7 +54,7 @@ class Rank_checkinAddon extends Addon
 
         $start_time = mktime($set_ranktime, 0, 0, $m, $d, $y);
         $this->assign("ss", $start_time);
-        $rank = D('Check_info')->where('ctime>' . $start_time)->order('ctime asc')->limit(10)->select();
+        $rank = D('Check_info')->where('ctime>' . $start_time)->order('ctime asc')->limit(5)->select();
         //dump($rank);exit;
 
         if (time() <= $start_time) {
