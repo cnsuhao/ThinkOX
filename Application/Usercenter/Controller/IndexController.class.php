@@ -175,5 +175,19 @@ class IndexController extends BaseController
         $this->ajaxReturn(apiToAjax($result));
     }
 
+    public function fans($page = 1)
+    {
+
+        $this->assign('tab', 'fans');
+        $fans = D('Follow')->getFans(is_login(), $page);
+        $this->assign('fans', $fans);
+        $this->display('users');
+    }
+
+    public function following()
+    {
+        $this->assign('tab', 'following');
+        $this->display('users');
+    }
 
 }

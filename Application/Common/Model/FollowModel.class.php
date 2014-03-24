@@ -41,7 +41,7 @@ class FollowModel extends Model
          * @param int $type 消息类型，0系统，1用户，2应用
          */
         $user = query_user(array('id', 'username', 'space_url'));
-        D('Message')->sendMessage($uid, $user['username'].' 关注了你。','粉丝数增加', $user['space_url'], is_login(), 0);
+        D('Message')->sendMessage($uid, $user['username'] . ' 关注了你。', '粉丝数增加', $user['space_url'], is_login(), 0);
         return $this->add($follow);
     }
 
@@ -54,8 +54,18 @@ class FollowModel extends Model
         $follow['who_follow'] = is_login();
         $follow['follow_who'] = $uid;
         $user = query_user(array('id', 'username', 'space_url'));
-        D('Message')->sendMessage($uid, $user['username'].'取消了对你的关注', '粉丝数减少', $user['space_url'], is_login(), 0);
+        D('Message')->sendMessage($uid, $user['username'] . '取消了对你的关注', '粉丝数减少', $user['space_url'], is_login(), 0);
         return $this->where($follow)->delete();
     }
 
+    public function getFans($uid, $page)
+    {
+        $map['follow_who'] = $uid;
+        $fans = $this->where($map)->field('who_follow')->order('create_time desc')->page($page, 10)->select();
+        foreach ($fans as &$user) {
+            $user['user'] = query_user(array('avatar128', 'id', 'username', 'fans', 'following', 'weibocount','space_url'), $user['who_follow']);
+        }
+        unset($user);
+        return $fans;
+    }
 } 
