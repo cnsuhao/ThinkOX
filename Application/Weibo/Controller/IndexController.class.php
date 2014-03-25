@@ -40,6 +40,24 @@ class IndexController extends Controller
         $this->display();
     }
 
+public  function myconcerned()
+{
+    $list = $this->loadconcernedWeibolist();
+    foreach ($list as &$li) {
+        $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
+    }
+
+    $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+
+
+    //显示页面
+    $this->assign('list', $list);
+    $this->assign('self', $self);
+    $this->display();
+}
+
+
+
 
     public function atjson()
     {
@@ -50,6 +68,7 @@ class IndexController extends Controller
     {
         //载入全站微博
         $list = $this->loadWeiboList($page);
+
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
@@ -64,6 +83,30 @@ class IndexController extends Controller
         $this->assign('list', $list);
         $this->display();
     }
+
+
+    public function concernedWeibo($page)
+    {
+
+        $list = $this->loadconcernedWeibolist($page);
+
+        foreach ($list as &$li) {
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
+        }
+        unset($li);
+
+        //如果没有微博，则返回错误
+        if (!$list) {
+            $this->error('没有更多了');
+        }
+
+        //返回html代码用于ajax显示
+        $this->assign('list', $list);
+        $this->display();
+
+    }
+
+
 
     public function doSend($content)
     {
@@ -133,8 +176,27 @@ class IndexController extends Controller
     {
         $map = array('status' => 1);
         $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
+        //dump($list);exit;
         return $list;
     }
+
+    private function loadconcernedWeibolist($page=1)
+    {
+        $uid=is_login();
+        $concerned=D('Follow')->where('who_follow='.$uid)->select();
+        //dump( $concerned);exit;
+        $count=D('Follow')->where('who_follow='.$uid)->count();
+        //dump( $count);exit;
+        for($i=0;$i<$count;$i++)
+        {
+            $map[$i]=$concerned[$i]['follow_who'];
+
+        }
+        $list = D('Weibo')->where('status=1 and uid in('.implode(',',$map).')')->order('create_time desc')->page($page, 10)->select();
+        //dump($list);exit;
+        return $list;
+    }
+
 
     /**
      * @param $user
