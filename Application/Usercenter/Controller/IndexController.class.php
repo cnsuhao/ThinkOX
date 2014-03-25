@@ -175,5 +175,23 @@ class IndexController extends BaseController
         $this->ajaxReturn(apiToAjax($result));
     }
 
+    public function fans($page = 1)
+    {
+
+        $this->assign('tab', 'fans');
+        $fans = D('Follow')->getFans(is_login(), $page, array('avatar128', 'id', 'username', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
+        $this->assign('fans', $fans);
+        $this->assign('totalCount',$totalCount);
+        $this->display();
+    }
+
+    public function following($page=1)
+    {
+        $following = D('Follow')->getFollowing(is_login(), $page, array('avatar128', 'id', 'username', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
+        $this->assign('following',$following);
+        $this->assign('totalCount',$totalCount);
+        $this->assign('tab', 'following');
+        $this->display();
+    }
 
 }

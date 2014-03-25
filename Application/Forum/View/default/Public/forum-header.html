@@ -31,7 +31,7 @@
                         <ul class="nav navbar-nav">
                             </php>
 
-                            <li class=" <if condition="intval($_GET['id']) eq 0">
+                            <li class=" <if condition="$forum_id eq 0">
                             active
                             </if>"><a href="{:U('Index/forum')}">全部帖子</a>
                             </li>

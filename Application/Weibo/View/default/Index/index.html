@@ -16,7 +16,24 @@
                         <br/>
 
                         <p>记录，就是一种态度！</p>
+<script>
+    var names ={$atwhousers};
 
+    var names = $.map(names,function(value,i) {
+        return {'id':i,'name':value.username,'pinyin':value.pinyin};
+    });
+    var at_config = {
+        at: "@",
+        data: names,
+        tpl: "<li data-value='@${name}'>${name}</li>",
+        show_the_at: true,
+        search_key:'pinyin'
+    };
+    $(function(){
+        $inputor = $('#weibo_content').atwho(at_config);
+    })
+
+</script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
 
@@ -84,10 +101,10 @@
                                 微博<br/>{$self.weibocount}
                             </div>
                             <div class="col-md-4">
-                                粉丝<br/>{$self.fans}
+                                粉丝<br/><a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a>
                             </div>
                             <div class="col-md-4">
-                                关注<br/>{$self.following}
+                                关注<br/><a href="{:U('Usercenter/Index/following')}">{$self.following}</a>
                             </div>
                         </div>
                     </div>
@@ -106,6 +123,8 @@
 </block>
 
 <block name="script">
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script src="__JS__/weibo.js"></script>
     <script>
         $(function () {

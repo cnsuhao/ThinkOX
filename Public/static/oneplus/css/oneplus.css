@@ -216,15 +216,12 @@ a:hover {
   display: inline-block;
   text-decoration: none;
   font-style: normal;
-  font-size: 0.5em;
+  font-size: 0.7em;
   color: white;
   background: #48b87a;
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
-  box-shadow: 0 0 5px #cccccc;
-  -moz-box-shadow: 0 0 5px #CCCCCC;
-  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .post_top_forum {
   background: dodgerblue;
