@@ -12,6 +12,10 @@ use Think\Controller;
 
 class IndexController extends BaseController
 {
+    public function _initialize(){
+        parent::_initialize();
+
+    }
     public function index($uid = null)
     {
         //调用API获取基本信息
