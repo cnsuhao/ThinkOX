@@ -25,7 +25,7 @@ class WeiboCommentModel extends Model
     public function addComment($uid, $weibo_id, $content, $comment_id = 0)
     {
 
-        $content = op_t($content);
+        $content = htmlspecialchars($content);
         $self = query_user(array('username')); //超找自己
         $user_math = match_users($content);
         $content = $this->sendAllAtMessages($content, $user_math, $self);

@@ -27,7 +27,7 @@ class WeiboModel extends Model
 
 
         //$tag_pattern = "/\#([^\#|.]+)\#/";
-        $content = op_t($content);//过滤全部非法标签
+        $content = htmlspecialchars($content);//过滤全部非法标签
         $user_math = match_users($content);
 
         $self = query_user(array('username')); //超找自己

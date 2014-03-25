@@ -20,9 +20,6 @@ class IndexController extends Controller
             S('atUsersJson_'.is_login(),$atusers,600);
         }
 
-
-        // dump($atuserIds);exit;
-
         $this->assign('atwhousers', json_encode($atusers));
 
         //载入第一页微博
@@ -42,6 +39,15 @@ class IndexController extends Controller
 
 public  function myconcerned()
 {
+    $atusers=S('atUsersJson_'.is_login());
+    if(empty($atusers)){
+        $atusers = $this->getAtWhoJson();
+        S('atUsersJson_'.is_login(),$atusers,600);
+    }
+    $this->assign('atwhousers', json_encode($atusers));
+
+
+
     $list = $this->loadconcernedWeibolist();
     foreach ($list as &$li) {
         $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
