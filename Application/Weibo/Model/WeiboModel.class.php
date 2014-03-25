@@ -28,7 +28,7 @@ class WeiboModel extends Model
 
         //$tag_pattern = "/\#([^\#|.]+)\#/";
         $content = op_t($content);//过滤全部非法标签
-        $user_math = $this->matchUsers($content);
+        $user_math = match_users($content);
 
         $self = query_user(array('username')); //超找自己
         $content = $this->sendAllAtMessages($content, $user_math, $self);
@@ -38,16 +38,6 @@ class WeiboModel extends Model
         return $this->add($data);
     }
 
-    /**
-     * @param $content
-     * @return mixed
-     */
-    private function matchUsers($content)
-    {
-        $user_pattern = "/\@([^\#|\s]+)\s/"; //匹配用户
-        preg_match_all($user_pattern, $content, $user_math);
-        return $user_math;
-    }
 
     /**
      * @param $content

@@ -27,7 +27,7 @@ class WeiboCommentModel extends Model
 
         $content = op_t($content);
         $self = query_user(array('username')); //超找自己
-        $user_math = $this->matchUsers($content);
+        $user_math = match_users($content);
         $content = $this->sendAllAtMessages($content, $user_math, $self);
 
         //将评论内容写入数据库
@@ -88,16 +88,7 @@ class WeiboCommentModel extends Model
         D('Message')->sendMessage($comment['uid'], $content, $title, $url, $from_uid, $type);
     }
 
-    /**
-     * @param $content
-     * @return mixed
-     */
-    private function matchUsers($content)
-    {
-        $user_pattern = "/\@([^\#|\s]+)\s/"; //匹配用户
-        preg_match_all($user_pattern, $content, $user_math);
-        return $user_math;
-    }
+
 
     /**
      * @param $content
