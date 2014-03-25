@@ -16,24 +16,24 @@
                         <br/>
 
                         <p>记录，就是一种态度！</p>
-<script>
-    var names ={$atwhousers};
+                        <script>
+                            var names ={$atwhousers};
 
-    var names = $.map(names,function(value,i) {
-        return {'id':i,'name':value.username,'pinyin':value.pinyin};
-    });
-    var at_config = {
-        at: "@",
-        data: names,
-        tpl: "<li data-value='@${name}'>${name}</li>",
-        show_the_at: true,
-        search_key:'pinyin'
-    };
-    $(function(){
-        $inputor = $('#weibo_content').atwho(at_config);
-    })
+                            var names = $.map(names,function(value,i) {
+                                return {'id':i,'name':value.username,'pinyin':value.pinyin};
+                            });
+                            var at_config = {
+                                at: "@",
+                                data: names,
+                                tpl: "<li data-value='@${name}'>${name}</li>",
+                                show_the_at: true,
+                                search_key:'pinyin'
+                            };
+                            $(function(){
+                                $inputor = $('#weibo_content').atwho(at_config);
+                            })
 
-</script>
+                        </script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
 
@@ -52,25 +52,25 @@
 
                 <hr/>
 
-                <div class="row" style="padding-bottom: 20px">
+                <div class="row">
                     <div class="col-md-12">
 
                         <ul class="nav nav-pills ucenter-tab">
                             <li
                             <eq name="tab" value="fans"> class="active"</eq>
-                            ><a style="background-color: #7080a4;color: white" href="{:U('Weibo/Index/index')}">全站动态</a></li>
+                            ><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
                             <li
                             <eq name="tab" value="following"> class="active"</eq>
-                            ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
+                            ><a style="background-color: #7080a4;color: white" href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
 
                         </ul>
 
                     </div>
                 </div>
-<hr>
+                <hr>
 
                 <div id="weibo_list">
-                    <include file="loadweibo"/>
+                    <include file="concernedWeibo"/>
                 </div>
 
 
@@ -85,7 +85,7 @@
                         <div class="row">
                             <div class="col-md-5">
                                 <a href="{:U('UserCenter/Index/changeavatar')}" ><img src="{$self.avatar128}"
-                                                                                     class="avatar-img"/></a>
+                                                                                      class="avatar-img"/></a>
                             </div>
                             <div class="col-md-7">
                                 <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
@@ -108,11 +108,11 @@
                     </div>
                 </if>
                 <div>
-                {:hook('checkin')}
+                    {:hook('checkin')}
 
-                {:hook('Rank')}
+                    {:hook('Rank')}
 
-                {:W('UserList/lists',array('forum_id'=>$forum_id))}
+                    {:W('UserList/lists',array('forum_id'=>$forum_id))}
                 </div>
             </div>
 
