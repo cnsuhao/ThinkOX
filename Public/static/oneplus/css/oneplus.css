@@ -24,6 +24,7 @@ a:hover {
 .avatar-img {
   border-radius: 100%;
   width: 100%;
+  max-width: 128px;
   box-shadow: 0 0 5px #cccccc;
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
@@ -34,6 +35,7 @@ a:hover {
 .navbar-avatar-img {
   border-radius: 100%;
   width: 100%;
+  max-width: 128px;
   box-shadow: 0 0 5px #cccccc;
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
@@ -141,7 +143,7 @@ a:hover {
 .fourm-posts {
   padding-top: 15px;
   background-color: #ffffff;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   border-radius: 0.2em;
   box-shadow: 0 0 5px #cccccc;
   -moz-box-shadow: 0 0 5px #CCCCCC;

@@ -51,7 +51,7 @@ class IndexController extends Controller
         //读取帖子列表
         if($id==0){
             $map = array( 'status' => 1);
-            $list_top = D('ForumPost')->where('( status=1 AND is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM .  ' and status=1)')->order($order)->select();
+            $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL . '')->order($order)->select();
         }else{
             $map = array('forum_id' => $id, 'status' => 1);
             $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
