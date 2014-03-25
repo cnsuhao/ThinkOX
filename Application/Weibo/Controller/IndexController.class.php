@@ -24,6 +24,7 @@ class IndexController extends Controller
 
         //载入第一页微博
         $list = $this->loadWeiboList();
+        //dump($list);exit;
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
@@ -65,6 +66,29 @@ public  function myconcerned()
 
 
 
+    public function weiboDetail(){
+
+        $id=$_GET['id'];
+        $list=D('Weibo')->where('id='.$id)->select();
+        $uid=$list[0]['uid'];
+
+        //dump($uid);exit;
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'),$uid);
+
+        //dump($self);exit;
+
+
+        $this->assign('list', $list);
+        $this->assign('self', $self);
+        $this->display();
+
+    }
+
+
+
+
+
+
     public function atjson()
     {
 
@@ -78,6 +102,7 @@ public  function myconcerned()
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
+
         unset($li);
 
         //如果没有微博，则返回错误
@@ -86,9 +111,12 @@ public  function myconcerned()
         }
 
         //返回html代码用于ajax显示
+
         $this->assign('list', $list);
         $this->display();
     }
+
+
 
 
     public function concernedWeibo($page)
