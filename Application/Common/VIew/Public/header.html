@@ -48,17 +48,22 @@
                                 <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
                                     <ul id="nav_message" class="dropdown-menu-list scroller "
                                         style=" width: auto;">
-                                        <volist name="unreadMessage" id="message">
-                                            <li>
-                                                <a href="{$message.url}">
-                                                    <i class="glyphicon glyphicon-bell"></i>
-                                                    {$message.title}
+                                        <if condition="count($unreadMessage) eq 0">
+                                            <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">暂无任何消息!</div>
+                                           <else/>
+                                            <volist name="unreadMessage" id="message">
+                                                <li>
+                                                    <a href="{$message.url}">
+                                                        <i class="glyphicon glyphicon-bell"></i>
+                                                        {$message.title}
                                             <span class="time">
                                             {$message.ctime}
                                             </span>
-                                                </a>
-                                            </li>
-                                        </volist>
+                                                    </a>
+                                                </li>
+                                            </volist>
+                                        </if>
+
                                     </ul>
                                 </div>
 

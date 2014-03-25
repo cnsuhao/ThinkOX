@@ -246,6 +246,10 @@ function bindMessageChecker() {
 function checkMessage() {
     $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
         if (msg) {
+            var count = parseInt($hint_count.text());
+            if(count==0){
+                $('#nav_message').html('');
+            }
             playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
             for (var index in msg) {
                 tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
@@ -259,7 +263,7 @@ function checkMessage() {
 
 
             }
-            var count = parseInt($hint_count.text());
+
             $hint_count.text(count + msg.length);
             $nav_bandage_count.show();
             $nav_bandage_count.text(count + msg.length);
@@ -272,7 +276,7 @@ function checkMessage() {
 function setAllReaded() {
     $.post(U('Usercenter/Public/setAllMessageReaded'), function () {
         $hint_count.text(0);
-        $('#nav_message').html('');
+        $('#nav_message').html('<div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">暂无任何消息!</div>');
         $nav_bandage_count.hide();
         $nav_bandage_count.text(0);
 
