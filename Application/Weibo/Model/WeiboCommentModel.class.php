@@ -22,21 +22,21 @@ class WeiboCommentModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
 
-    public function addComment($uid, $weibo_id, $content,$comment_id=0)
+    public function addComment($uid, $weibo_id, $content, $comment_id = 0)
     {
 
-        $content=op_t($content);
+        $content = op_t($content);
         $self = query_user(array('username')); //超找自己
         $user_math = $this->matchUsers($content);
-        $content = $this->sendAllAtMessages($content, $user_math,  $self);
+        $content = $this->sendAllAtMessages($content, $user_math, $self);
 
         //将评论内容写入数据库
-        $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content,'comment_id'=>$comment_id);
+        $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content, 'comment_id' => $comment_id);
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
         $this->sendCommentMessage($uid, $weibo_id, $content);
-        if($comment_id!=0){
+        if ($comment_id != 0) {
             $this->sendCommentReplyMessage($uid, $comment_id, $content);
         }
 
@@ -66,6 +66,7 @@ class WeiboCommentModel extends Model
         $type = 2;
         D('Message')->sendMessage($weibo['uid'], $content, $title, $url, $from_uid, $type);
     }
+
     /**
      * @param $uid
      * @param $weibo_id
@@ -80,10 +81,8 @@ class WeiboCommentModel extends Model
         $content = '回复内容：' . $content;
 
 
-
-
         $comment = $this->find($comment_id);
-        $url = U('Weibo/Index/index').'#weibo_'.$comment['weibo_id'];
+        $url = U('Weibo/Index/index') . '#weibo_' . $comment['weibo_id'];
         $from_uid = $uid;
         $type = 2;
         D('Message')->sendMessage($comment['uid'], $content, $title, $url, $from_uid, $type);
@@ -111,8 +110,10 @@ class WeiboCommentModel extends Model
         foreach ($user_math[1] as $match) {
             $map['username'] = $match;
             $user = D('ucenter_member')->where($map)->find();
-            $query_user = query_user(array('username', 'space_url'), $user['id']);
-            $content = str_replace('@' . $match . ' ', '<a ucard="' . $user['id'] . '" href="' . $query_user['space_url'] . '">@' . $match . ' </a>', $content);
+            if ($user) {
+                $query_user = query_user(array('username', 'space_url'), $user['id']);
+                $content = str_replace('@' . $match . ' ', '<a ucard="' . $user['id'] . '" href="' . $query_user['space_url'] . '">@' . $match . ' </a>', $content);
+            }
             /**
              * @param $to_uid 接受消息的用户ID
              * @param string $content 内容
