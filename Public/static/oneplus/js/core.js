@@ -57,7 +57,7 @@ function ucard() {
                         follow = '<div class="row" style="background: #f5f5f5;margin: -10px -15px;margin-top: 10px;padding: 5px 10px">' +
                             '<div class="pull-right">' +
                             '<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="padding: 1px 5px 3px 5px">';
-                        if (userProfile.followed==1) {
+                        if (userProfile.followed == 1) {
                             follow += '已关注';
                         } else {
                             follow += '关注';
@@ -66,17 +66,19 @@ function ucard() {
                     }
                     var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
-                       + '<p>微博：'+userProfile.weibocount+'&nbsp;&nbsp;&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;&nbsp;&nbsp;'+'关注：'+userProfile.following+'</p><p>个性签名：' + signature + '</p>' + follow +
-                         '</div>');
+                        + '<p>微博：' + userProfile.weibocount + '&nbsp;&nbsp;&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
+                        '</div>');
                     api.set('content.text', tpl.html());
-                    api.set('content.title', '<b><a href="'+userProfile.space_url+'">' + userProfile.username + '</a></b>的小名片');
+                    api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
 
                 }, 'json');
                 return '获取数据中...'
             }
 
+        },position: {
+            viewport: $(window)
         }, show: {solo: true}, style: {
-            classes: 'qtip-shadow qtip-bootstrap'
+            classes: 'qtip-bootstrap'
 
         }, hide: {
             event: 'unfocus'
