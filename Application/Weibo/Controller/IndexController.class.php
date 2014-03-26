@@ -77,6 +77,13 @@ class IndexController extends Controller
         $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'),$uid);
 
         //dump($self);exit;
+        $atusers=S('atUsersJson_'.is_login());
+        if(empty($atusers)){
+            $atusers = $this->getAtWhoJson();
+            S('atUsersJson_'.is_login(),$atusers,600);
+        }
+
+        $this->assign('atwhousers', json_encode($atusers));
 
 
         $this->assign('list', $list);

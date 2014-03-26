@@ -3,7 +3,6 @@
 <block name="side">
 
 </block>
-
 <block name="body">
     <php>
         query_user(array('avatar128','username','uid'));
@@ -16,6 +15,24 @@
                         <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                             <div class="row">
                                 <div class="col-md-2">
+                                    <script>
+                                        var names ={$atwhousers};
+
+                                        var names = $.map(names,function(value,i) {
+                                            return {'id':i,'name':value.username,'pinyin':value.pinyin};
+                                        });
+                                        var at_config = {
+                                            at: "@",
+                                            data: names,
+                                            tpl: "<li data-value='@${name}'>${name}</li>",
+                                            show_the_at: true,
+                                            search_key:'pinyin'
+                                        };
+                                        $(function(){
+                                            $inputor = $('#weibo_content').atwho(at_config);
+                                        })
+
+                                    </script>
                                     <a href="{:U('UserCenter/Index/changeavatar')}" ><img src="{$self.avatar128}"
                                                                                           class="avatar-img"/></a>
                                 </div>
@@ -53,21 +70,14 @@
                         </p>
                     </div>
                 </div>
-
-
                 <hr>
-
                 <div id="weibo_list">
                     <volist name="list" id="weibo">
 
                         <div class="row" id="weibo_{$weibo.id}">
                             <div class="col-md-12">
-
-
-                                <div style="padding-left: 16px; overflow: hidden;">
-
-
-                                    <p>{$weibo.content}</p>
+                               <div style="padding-left: 16px; overflow: hidden;">
+                                   <p>{$weibo.content}</p>
 
                                     <p>
 
@@ -91,22 +101,12 @@
                                 </div>
                             </div>
                         </div>
-
-
-                    </volist>
-
-
-                </div>
-
-
-
-
-            </div>
+                   </volist>
+               </div>
+         </div>
             <div class="col-md-3">
 
                 <div>
-
-
                     {:hook('Rank')}
 
                     {:W('UserList/lists',array('forum_id'=>$forum_id))}
@@ -177,7 +177,6 @@
             function hideWeiboCommentList(weiboCommentList) {
                 weiboCommentList.hide();
             }
-
 
         })
     </script>
