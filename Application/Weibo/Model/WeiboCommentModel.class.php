@@ -28,13 +28,20 @@ class WeiboCommentModel extends Model
         $content = htmlspecialchars($content);
         $self = query_user(array('username')); //超找自己
         $user_math = match_users($content);
-        $content = $this->sendAllAtMessages($content, $user_math, $self);
+
 
         //将评论内容写入数据库
         $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content, 'comment_id' => $comment_id);
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
+        if ($result) {
+            $data['id'] = $result;
+            $data['content']= $this->sendAllAtMessages($content, $user_math, $self, $weibo_id);
+            $this->save($data);
+        }
+
+
         $this->sendCommentMessage($uid, $weibo_id, $content);
         if ($comment_id != 0) {
             $this->sendCommentReplyMessage($uid, $comment_id, $content);
@@ -61,7 +68,7 @@ class WeiboCommentModel extends Model
         $content = '评论内容：' . $content;
 
         $weibo = D('Weibo')->find($weibo_id);
-        $url = U('Weibo/Index/index');
+        $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
         $from_uid = $uid;
         $type = 2;
         D('Message')->sendMessage($weibo['uid'], $content, $title, $url, $from_uid, $type);
@@ -82,12 +89,11 @@ class WeiboCommentModel extends Model
 
 
         $comment = $this->find($comment_id);
-        $url = U('Weibo/Index/index') . '#weibo_' . $comment['weibo_id'];
+        $url = U('Weibo/Index/weiboDetail', array('id' => $comment['weibo_id']));
         $from_uid = $uid;
         $type = 2;
         D('Message')->sendMessage($comment['uid'], $content, $title, $url, $from_uid, $type);
     }
-
 
 
     /**
@@ -96,7 +102,7 @@ class WeiboCommentModel extends Model
      * @param $self
      * @return mixed
      */
-    private function sendAllAtMessages($content, $user_math, $self)
+    private function sendAllAtMessages($content, $user_math, $self, $weibo_id)
     {
         foreach ($user_math[1] as $match) {
             $map['username'] = $match;
@@ -113,7 +119,7 @@ class WeiboCommentModel extends Model
              * @param $int $from_uid 发起消息的用户，根据用户自动确定左侧图标，如果为用户，则左侧显示头像
              * @param int $type 消息类型，0系统，1用户，2应用
              */
-            D('Message')->sendMessage($user['id'], '微博内容：' . $content, $title = $self['username'] . '在微博的评论中@了您', U('Weibo/Index/index'), is_login(), 1);
+            D('Message')->sendMessage($user['id'], '微博内容：' . $content, $title = $self['username'] . '在微博的评论中@了您', U('Weibo/Index/weiboDetail', array('id' => $weibo_id)), is_login(), 1);
         }
         return $content;
     }
