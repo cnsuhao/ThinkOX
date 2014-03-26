@@ -9,13 +9,13 @@
             <p>&nbsp;</p>
             <!--头像-->
             <p class="text-center">
-            <if condition="$uid == is_login()">
-                <a href="{:U('UserCenter/Index/changeAvatar')}">
+                <if condition="$uid == is_login()">
+                    <a href="{:U('UserCenter/Index/changeAvatar')}">
+                        <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
+                    </a>
+                    <else/>
                     <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
-                </a>
-                <else/>
-                <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
-            </if>
+                </if>
             </p>
             <!--用户名-->
             <p class="text-center">
@@ -27,6 +27,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 头衔：{$sideBarUser.title}
             </p>
+
             <p>&nbsp;</p>
             <!--导航栏-->
             <php>
@@ -39,7 +40,7 @@
                 array('修改邮箱','envelope',U('UserCenter/Index/changeemail'),'change-email'),
                 array('修改个性签名','edit',U('UserCenter/Index/changesignature'),'change-signature'),
                 array('系统相关'),
-                array('会话','comment',U('UserCenter/Message/session'),'session'),
+                array('我的会话','send',U('UserCenter/Message/session'),'session'),
                 array('消息中心','bullhorn',U('UserCenter/Message/message'),'message'),
                 array('修改密码','lock',U('UserCenter/Index/changepassword'),'change-password'),
                 array('讨论区'),
