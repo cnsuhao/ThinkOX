@@ -38,23 +38,23 @@ class IndexController extends Controller
         $this->display();
     }
 
-public  function myconcerned()
-{
-    $atusers=S('atUsersJson_'.is_login());
-    if(empty($atusers)){
-        $atusers = $this->getAtWhoJson();
-        S('atUsersJson_'.is_login(),$atusers,600);
-    }
-    $this->assign('atwhousers', json_encode($atusers));
+    public  function myconcerned()
+                        {
+                             $atusers=S('atUsersJson_'.is_login());
+                             if(empty($atusers)){
+                             $atusers = $this->getAtWhoJson();
+                             S('atUsersJson_'.is_login(),$atusers,600);
+                         }
+                            $this->assign('atwhousers', json_encode($atusers));
 
 
 
-    $list = $this->loadconcernedWeibolist();
-    foreach ($list as &$li) {
-        $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-    }
+                            $list = $this->loadconcernedWeibolist();
+                        foreach ($list as &$li) {
+                                         $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
+                                                   }
 
-    $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+                                 $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
 
 
     //显示页面

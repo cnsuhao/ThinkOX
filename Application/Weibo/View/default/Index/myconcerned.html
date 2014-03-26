@@ -135,6 +135,12 @@
                 }
             });
 
+            $('#comment_text').keypress(function (e) {
+                if (e.ctrlKey && e.which == 13 || e.which == 10) {
+                    $("#comment").click();
+                }
+            });
+
             //点击发表微博按钮之后
             $('#send_weibo_button').click(function () {
                 //获取参数
