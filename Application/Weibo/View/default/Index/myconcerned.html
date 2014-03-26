@@ -135,11 +135,6 @@
                 }
             });
 
-            $('#comment_text').keypress(function (e) {
-                if (e.ctrlKey && e.which == 13 || e.which == 10) {
-                    $("#comment").click();
-                }
-            });
 
             //点击发表微博按钮之后
             $('#send_weibo_button').click(function () {
@@ -220,7 +215,7 @@
                 }
 
                 //通过服务器载入微博列表
-                var url = "{:U('loadweibo')}";
+                var url = "{:U('concernedWeibo')}";
                 isLoadingWeibo = true;
                 $('#load_more_text').text('正在载入...');
                 $.post(url, {page: page}, function (a) {

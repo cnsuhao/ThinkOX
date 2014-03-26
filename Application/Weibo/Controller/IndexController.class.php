@@ -50,17 +50,18 @@ class IndexController extends Controller
 
 
                             $list = $this->loadconcernedWeibolist();
-                        foreach ($list as &$li) {
+                            //dump($list);exit;
+                            foreach ($list as &$li) {
                                          $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
                                                    }
 
                                  $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
 
 
-    //显示页面
-    $this->assign('list', $list);
-    $this->assign('self', $self);
-    $this->display();
+                     //显示页面
+                          $this->assign('list', $list);
+                          $this->assign('self', $self);
+                          $this->display();
 }
 
 
@@ -123,7 +124,7 @@ class IndexController extends Controller
     {
 
         $list = $this->loadconcernedWeibolist($page);
-
+//dump($list);exit;
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
