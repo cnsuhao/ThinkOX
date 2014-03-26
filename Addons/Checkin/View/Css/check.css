@@ -55,7 +55,8 @@
 
     position: absolute;
     margin-left: 15px;
-    padding-right: 92px;
+    /*padding-right: 92px;*/
+    width: 90%;
     background:white;
     margin-top: -35px;
     filter:alpha(opacity=50);
