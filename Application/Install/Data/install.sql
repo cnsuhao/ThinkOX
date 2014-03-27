@@ -877,12 +877,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_forum_bookmark` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
---
--- 转存表中的数据 `thinkox_forum_bookmark`
---
-
-INSERT INTO `thinkox_forum_bookmark` (`id`, `uid`, `post_id`, `create_time`) VALUES
-(17, 1, 6, 1394528528);
 
 -- --------------------------------------------------------
 
