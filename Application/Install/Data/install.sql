@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Mar 15, 2014 at 08:59 AM
--- Server version: 5.5.33
--- PHP Version: 5.5.3
+-- 主机: 127.0.0.1
+-- 生成日期: 2014 年 03 月 27 日 07:42
+-- 服务器版本: 5.5.24-log
+-- PHP 版本: 5.3.13
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,17 +17,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `op`
+-- 数据库: `thinkox`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_action`
+-- 表的结构 `thinkox_action`
 --
 
-DROP TABLE IF EXISTS `onethink_action`;
-CREATE TABLE IF NOT EXISTS `onethink_action` (
+CREATE TABLE IF NOT EXISTS `thinkox_action` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '行为唯一标识',
   `title` char(80) NOT NULL DEFAULT '' COMMENT '行为说明',
@@ -38,33 +37,32 @@ CREATE TABLE IF NOT EXISTS `onethink_action` (
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统行为表' AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统行为表' AUTO_INCREMENT=13 ;
 
 --
--- Dumping data for table `onethink_action`
+-- 转存表中的数据 `thinkox_action`
 --
 
-INSERT INTO `onethink_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `type`, `status`, `update_time`) VALUES
+INSERT INTO `thinkox_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `type`, `status`, `update_time`) VALUES
 (1, 'user_login', '用户登录', '积分+10，每天一次', 'table:member|field:score|condition:uid={$self} AND status>-1|rule:score+10|cycle:24|max:1;', '[user|get_nickname]在[time|time_format]登录了后台', 1, 1, 1387181220),
 (2, 'add_article', '发布文章', '积分+5，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+5|cycle:24|max:5', '', 2, 0, 1380173180),
 (3, 'review', '评论', '评论积分+1，无限制', 'table:member|field:score|condition:uid={$self}|rule:score+1', '', 2, 1, 1383285646),
-(4, 'add_document', '发表文档', '积分+10，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+10|cycle:24|max:5', '[user|get_nickname]在[time|time_format]发表了一篇文章。\r\n表[model]，记录编号[record]。', 2, 0, 1386139726),
+(4, 'add_document', '发表文档', '积分+10，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+10|cycle:24|max:5', '[user|get_nickname]在[time|time_format]发表了一个微博。\r\n表[model]，记录编号[record]。', 1, 0, 1394866289),
 (5, 'add_document_topic', '发表讨论', '积分+5，每天上限10次', 'table:member|field:score|condition:uid={$self}|rule:score+5|cycle:24|max:10', '', 2, 0, 1383285551),
 (6, 'update_config', '更新配置', '新增或修改或删除配置', '', '', 1, 1, 1383294988),
 (7, 'update_model', '更新模型', '新增或修改模型', '', '', 1, 1, 1383295057),
 (8, 'update_attribute', '更新属性', '新增或更新或删除属性', '', '', 1, 1, 1383295963),
 (9, 'update_channel', '更新导航', '新增或修改或删除导航', '', '', 1, 1, 1383296301),
 (10, 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', 1, 1, 1383296392),
-(11, 'update_category', '更新分类', '新增或修改或删除分类', '', '', 1, 1, 1383296765);
+(11, 'update_category', '更新分类', '新增或修改或删除分类', '', '', 1, 1, 1383296765),
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_action_log`
+-- 表的结构 `thinkox_action_log`
 --
 
-DROP TABLE IF EXISTS `onethink_action_log`;
-CREATE TABLE IF NOT EXISTS `onethink_action_log` (
+CREATE TABLE IF NOT EXISTS `thinkox_action_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '行为id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行用户id',
@@ -78,16 +76,21 @@ CREATE TABLE IF NOT EXISTS `onethink_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=97 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_action_log`
+--
+
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_addons`
+-- 表的结构 `thinkox_addons`
 --
 
-DROP TABLE IF EXISTS `onethink_addons`;
-CREATE TABLE IF NOT EXISTS `onethink_addons` (
+CREATE TABLE IF NOT EXISTS `thinkox_addons` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(40) NOT NULL COMMENT '插件名或标识',
   `title` varchar(20) NOT NULL DEFAULT '' COMMENT '中文名',
@@ -99,13 +102,13 @@ CREATE TABLE IF NOT EXISTS `onethink_addons` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
   `has_adminlist` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否有后台列表',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件表' AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件表' AUTO_INCREMENT=27 ;
 
 --
--- Dumping data for table `onethink_addons`
+-- 转存表中的数据 `thinkox_addons`
 --
 
-INSERT INTO `onethink_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`) VALUES
+INSERT INTO `thinkox_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`) VALUES
 (15, 'EditorForAdmin', '后台编辑器', '用于增强整站长文本的输入和显示', 1, '{"editor_type":"2","editor_wysiwyg":"1","editor_height":"500px","editor_resize_type":"1"}', 'thinkphp', '0.1', 1383126253, 0),
 (2, 'SiteStat', '站点统计信息', '统计站点的基础信息', 1, '{"title":"\\u7cfb\\u7edf\\u4fe1\\u606f","width":"1","display":"1","status":"0"}', 'thinkphp', '0.1', 1379512015, 0),
 (3, 'DevTeam', '开发团队信息', '开发团队成员信息', 1, '{"title":"OneThink\\u5f00\\u53d1\\u56e2\\u961f","width":"2","display":"1"}', 'thinkphp', '0.1', 1379512022, 0),
@@ -114,16 +117,17 @@ INSERT INTO `onethink_addons` (`id`, `name`, `title`, `description`, `status`, `
 (6, 'Attachment', '附件', '用于文档模型上传附件', 1, 'null', 'thinkphp', '0.1', 1379842319, 1),
 (9, 'SocialComment', '通用社交化评论', '集成了各种社交化评论插件，轻松集成到系统中。', 1, '{"comment_type":"1","comment_uid_youyan":"","comment_short_name_duoshuo":"","comment_data_list_duoshuo":""}', 'thinkphp', '0.1', 1380273962, 0),
 (16, 'Avatar', '头像插件', '用于头像的上传', 1, '{"random":"1"}', 'caipeichao', '0.1', 1394449710, 1),
-(17, 'Tianyi', '天翼短信插件', '用于发送手机短信验证码、模板短信', 1, '{"expire":"120","clean_interval":"86400","app_id":"668228660000034680","app_secret":"75e30521444f11fb3ec265d3c809e443","access_token":"2389ae5bb8c44603337203f9f4aacf171392971135771","refresh_token":"0cbb07946822ca74c70f4288fc50dc531392971135772","update_access_token_interval":"1728000"}', 'caipeichao', '0.1', 1394519345, 0);
+(17, 'Tianyi', '天翼短信插件', '用于发送手机短信验证码、模板短信', 1, '{"expire":"120","clean_interval":"86400","app_id":"668228660000034680","app_secret":"75e30521444f11fb3ec265d3c809e443","access_token":"2389ae5bb8c44603337203f9f4aacf171392971135771","refresh_token":"0cbb07946822ca74c70f4288fc50dc531392971135772","update_access_token_interval":"1728000"}', 'caipeichao', '0.1', 1394519345, 0),
+(25, 'Checkin', '签到', '签到积分', 1, '{"random":"1"}', '想天软件工作室', '0.1', 1395371358, 1),
+(26, 'Rank_checkin', '签到排名', '设置每天某一时刻开始 按时间先后 签到排名，取前十', 1, '{"random":"1","ranktime":null}', '想天软件工作室', '0.1', 1395387458, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_attachment`
+-- 表的结构 `thinkox_attachment`
 --
 
-DROP TABLE IF EXISTS `onethink_attachment`;
-CREATE TABLE IF NOT EXISTS `onethink_attachment` (
+CREATE TABLE IF NOT EXISTS `thinkox_attachment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `title` char(30) NOT NULL DEFAULT '' COMMENT '附件显示名',
@@ -144,11 +148,10 @@ CREATE TABLE IF NOT EXISTS `onethink_attachment` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_attribute`
+-- 表的结构 `thinkox_attribute`
 --
 
-DROP TABLE IF EXISTS `onethink_attribute`;
-CREATE TABLE IF NOT EXISTS `onethink_attribute` (
+CREATE TABLE IF NOT EXISTS `thinkox_attribute` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '字段名',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '字段注释',
@@ -175,10 +178,10 @@ CREATE TABLE IF NOT EXISTS `onethink_attribute` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='模型属性表' AUTO_INCREMENT=33 ;
 
 --
--- Dumping data for table `onethink_attribute`
+-- 转存表中的数据 `thinkox_attribute`
 --
 
-INSERT INTO `onethink_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
+INSERT INTO `thinkox_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
 (1, 'uid', '用户ID', 'int(10) unsigned NOT NULL ', 'num', '0', '', 0, '', 1, 0, 1, 1384508362, 1383891233, '', 0, '', '', '', 0, ''),
 (2, 'name', '标识', 'char(40) NOT NULL ', 'string', '', '同一根节点下标识不重复', 1, '', 1, 0, 1, 1383894743, 1383891233, '', 0, '', '', '', 0, ''),
 (3, 'title', '标题', 'char(80) NOT NULL ', 'string', '', '文档标题', 1, '', 1, 0, 1, 1383894778, 1383891233, '', 0, '', '', '', 0, ''),
@@ -215,11 +218,10 @@ INSERT INTO `onethink_attribute` (`id`, `name`, `title`, `field`, `type`, `value
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_auth_extend`
+-- 表的结构 `thinkox_auth_extend`
 --
 
-DROP TABLE IF EXISTS `onethink_auth_extend`;
-CREATE TABLE IF NOT EXISTS `onethink_auth_extend` (
+CREATE TABLE IF NOT EXISTS `thinkox_auth_extend` (
   `group_id` mediumint(10) unsigned NOT NULL COMMENT '用户id',
   `extend_id` mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id',
   `type` tinyint(1) unsigned NOT NULL COMMENT '扩展类型标识 1:栏目分类权限;2:模型权限',
@@ -229,10 +231,10 @@ CREATE TABLE IF NOT EXISTS `onethink_auth_extend` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户组与分类的对应关系表';
 
 --
--- Dumping data for table `onethink_auth_extend`
+-- 转存表中的数据 `thinkox_auth_extend`
 --
 
-INSERT INTO `onethink_auth_extend` (`group_id`, `extend_id`, `type`) VALUES
+INSERT INTO `thinkox_auth_extend` (`group_id`, `extend_id`, `type`) VALUES
 (1, 1, 1),
 (1, 1, 2),
 (1, 2, 1),
@@ -245,11 +247,10 @@ INSERT INTO `onethink_auth_extend` (`group_id`, `extend_id`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_auth_group`
+-- 表的结构 `thinkox_auth_group`
 --
 
-DROP TABLE IF EXISTS `onethink_auth_group`;
-CREATE TABLE IF NOT EXISTS `onethink_auth_group` (
+CREATE TABLE IF NOT EXISTS `thinkox_auth_group` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户组id,自增主键',
   `module` varchar(20) NOT NULL COMMENT '用户组所属模块',
   `type` tinyint(4) NOT NULL COMMENT '组类型',
@@ -261,19 +262,21 @@ CREATE TABLE IF NOT EXISTS `onethink_auth_group` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `onethink_auth_group`
+-- 转存表中的数据 `thinkox_auth_group`
 --
 
-INSERT INTO `onethink_auth_group` (`id`, `module`, `type`, `title`, `description`, `status`, `rules`) VALUES
+INSERT INTO `thinkox_auth_group` (`id`, `module`, `type`, `title`, `description`, `status`, `rules`) VALUES
 (1, 'admin', 1, '默认用户组', '', 1, '218,220'),
+(3, 'admin', 1, '产品发布', '', 1, ''),
+(2, 'admin', 1, '测试用户', '测试用户', 1, '1,2,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,79,80,82,83,84,88,89,90,91,92,93,96,97,100,102,103,195');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_auth_group_access`
+-- 表的结构 `thinkox_auth_group_access`
 --
 
-DROP TABLE IF EXISTS `onethink_auth_group_access`;
-CREATE TABLE IF NOT EXISTS `onethink_auth_group_access` (
+CREATE TABLE IF NOT EXISTS `thinkox_auth_group_access` (
   `uid` int(10) unsigned NOT NULL COMMENT '用户id',
   `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id',
   UNIQUE KEY `uid_group_id` (`uid`,`group_id`),
@@ -281,14 +284,21 @@ CREATE TABLE IF NOT EXISTS `onethink_auth_group_access` (
   KEY `group_id` (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `thinkox_auth_group_access`
+--
+
+INSERT INTO `thinkox_auth_group_access` (`uid`, `group_id`) VALUES
+(1, 1),
+(1, 3);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_auth_rule`
+-- 表的结构 `thinkox_auth_rule`
 --
 
-DROP TABLE IF EXISTS `onethink_auth_rule`;
-CREATE TABLE IF NOT EXISTS `onethink_auth_rule` (
+CREATE TABLE IF NOT EXISTS `thinkox_auth_rule` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id,自增主键',
   `module` varchar(20) NOT NULL COMMENT '规则所属module',
   `type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '1-url;2-主菜单',
@@ -301,10 +311,10 @@ CREATE TABLE IF NOT EXISTS `onethink_auth_rule` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=223 ;
 
 --
--- Dumping data for table `onethink_auth_rule`
+-- 转存表中的数据 `thinkox_auth_rule`
 --
 
-INSERT INTO `onethink_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status`, `condition`) VALUES
+INSERT INTO `thinkox_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status`, `condition`) VALUES
 (1, 'admin', 2, 'Admin/Index/index', '首页', 1, ''),
 (2, 'admin', 2, 'Admin/Article/mydocument', '内容', 1, ''),
 (3, 'admin', 2, 'Admin/User/index', '用户', 1, ''),
@@ -528,11 +538,10 @@ INSERT INTO `onethink_auth_rule` (`id`, `module`, `type`, `name`, `title`, `stat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_avatar`
+-- 表的结构 `thinkox_avatar`
 --
 
-DROP TABLE IF EXISTS `onethink_avatar`;
-CREATE TABLE IF NOT EXISTS `onethink_avatar` (
+CREATE TABLE IF NOT EXISTS `thinkox_avatar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `path` varchar(70) NOT NULL,
@@ -540,16 +549,20 @@ CREATE TABLE IF NOT EXISTS `onethink_avatar` (
   `status` int(11) NOT NULL,
   `is_temp` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+
+--
+-- 转存表中的数据 `thinkox_avatar`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_category`
+-- 表的结构 `thinkox_category`
 --
 
-DROP TABLE IF EXISTS `onethink_category`;
-CREATE TABLE IF NOT EXISTS `onethink_category` (
+CREATE TABLE IF NOT EXISTS `thinkox_category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类ID',
   `name` varchar(30) NOT NULL COMMENT '标志',
   `title` varchar(50) NOT NULL COMMENT '标题',
@@ -582,21 +595,20 @@ CREATE TABLE IF NOT EXISTS `onethink_category` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='分类表' AUTO_INCREMENT=39 ;
 
 --
--- Dumping data for table `onethink_category`
+-- 转存表中的数据 `thinkox_category`
 --
 
-INSERT INTO `onethink_category` (`id`, `name`, `title`, `pid`, `sort`, `list_row`, `meta_title`, `keywords`, `description`, `template_index`, `template_lists`, `template_detail`, `template_edit`, `model`, `type`, `link_id`, `allow_publish`, `display`, `reply`, `check`, `reply_model`, `extend`, `create_time`, `update_time`, `status`, `icon`) VALUES
+INSERT INTO `thinkox_category` (`id`, `name`, `title`, `pid`, `sort`, `list_row`, `meta_title`, `keywords`, `description`, `template_index`, `template_lists`, `template_detail`, `template_edit`, `model`, `type`, `link_id`, `allow_publish`, `display`, `reply`, `check`, `reply_model`, `extend`, `create_time`, `update_time`, `status`, `icon`) VALUES
 (1, 'blog', '博客', 0, 0, 10, '', '', '', '', '', '', '', '2', '2,1', 0, 0, 1, 0, 0, '1', '', 1379474947, 1382701539, 1, 0),
 (2, 'default_blog', '默认分类', 1, 1, 10, '', '', '', '', '', '', '', '2', '2,1,3', 0, 1, 1, 0, 1, '1', '', 1379475028, 1386839751, 1, 31);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_channel`
+-- 表的结构 `thinkox_channel`
 --
 
-DROP TABLE IF EXISTS `onethink_channel`;
-CREATE TABLE IF NOT EXISTS `onethink_channel` (
+CREATE TABLE IF NOT EXISTS `thinkox_channel` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '频道ID',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级频道ID',
   `title` char(30) NOT NULL COMMENT '频道标题',
@@ -611,10 +623,10 @@ CREATE TABLE IF NOT EXISTS `onethink_channel` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `onethink_channel`
+-- 转存表中的数据 `thinkox_channel`
 --
 
-INSERT INTO `onethink_channel` (`id`, `pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
+INSERT INTO `thinkox_channel` (`id`, `pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
 (1, 0, '首页', 'Home/Index/index', 1, 1379475111, 1394586872, 1, 0),
 (2, 0, '讨论区', 'Forum/Index/index', 2, 1379475131, 1394692439, 1, 0),
 (3, 0, '微博', 'Weibo/Index/index', 3, 1379475154, 1394692449, 1, 0);
@@ -622,11 +634,29 @@ INSERT INTO `onethink_channel` (`id`, `pid`, `title`, `url`, `sort`, `create_tim
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_config`
+-- 表的结构 `thinkox_check_info`
 --
 
-DROP TABLE IF EXISTS `onethink_config`;
-CREATE TABLE IF NOT EXISTS `onethink_config` (
+CREATE TABLE IF NOT EXISTS `thinkox_check_info` (
+  `uid` int(11) DEFAULT NULL,
+  `con_num` int(11) DEFAULT '1',
+  `total_num` int(11) DEFAULT '1',
+  `ctime` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `thinkox_check_info`
+--
+
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_config`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_config` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '配置ID',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '配置名称',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型',
@@ -646,10 +676,10 @@ CREATE TABLE IF NOT EXISTS `onethink_config` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
--- Dumping data for table `onethink_config`
+-- 转存表中的数据 `thinkox_config`
 --
 
-INSERT INTO `onethink_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
+INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
 (1, 'WEB_SITE_TITLE', 1, '网站标题', 1, '', '网站标题前台显示标题', 1378898976, 1379235274, 1, 'OneThink内容管理框架', 1),
 (2, 'WEB_SITE_DESCRIPTION', 2, '网站描述', 1, '', '网站搜索引擎描述', 1378898976, 1379235841, 1, 'OneThink内容管理框架', 5),
 (3, 'WEB_SITE_KEYWORD', 2, '网站关键字', 1, '', '网站搜索引擎关键字', 1378898976, 1381390100, 1, 'ThinkPHP,OneThink', 19),
@@ -681,11 +711,10 @@ INSERT INTO `onethink_config` (`id`, `name`, `type`, `title`, `group`, `extra`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_document`
+-- 表的结构 `thinkox_document`
 --
 
-DROP TABLE IF EXISTS `onethink_document`;
-CREATE TABLE IF NOT EXISTS `onethink_document` (
+CREATE TABLE IF NOT EXISTS `thinkox_document` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `name` char(40) NOT NULL DEFAULT '' COMMENT '标识',
@@ -714,14 +743,20 @@ CREATE TABLE IF NOT EXISTS `onethink_document` (
   KEY `idx_status_type_pid` (`status`,`uid`,`pid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文档模型基础表' AUTO_INCREMENT=2 ;
 
+--
+-- 转存表中的数据 `thinkox_document`
+--
+
+INSERT INTO `thinkox_document` (`id`, `uid`, `name`, `title`, `category_id`, `description`, `root`, `pid`, `model_id`, `type`, `position`, `link_id`, `cover_id`, `display`, `deadline`, `attach`, `view`, `comment`, `extend`, `level`, `create_time`, `update_time`, `status`) VALUES
+(1, 1, '', 'ThinkOX1.0正式版发布', 2, '大家期待的ThinkOX正式版发布', 0, 0, 2, 2, 0, 0, 0, 1, 0, 0, 10, 0, 0, 0, 1387260660, 1387263112, 1);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_document_article`
+-- 表的结构 `thinkox_document_article`
 --
 
-DROP TABLE IF EXISTS `onethink_document_article`;
-CREATE TABLE IF NOT EXISTS `onethink_document_article` (
+CREATE TABLE IF NOT EXISTS `thinkox_document_article` (
   `id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
   `parse` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '内容解析类型',
   `content` text NOT NULL COMMENT '文章内容',
@@ -731,20 +766,19 @@ CREATE TABLE IF NOT EXISTS `onethink_document_article` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文档模型文章表';
 
 --
--- Dumping data for table `onethink_document_article`
+-- 转存表中的数据 `thinkox_document_article`
 --
 
-INSERT INTO `onethink_document_article` (`id`, `parse`, `content`, `template`, `bookmark`) VALUES
-(1, 0, '<h1>\r\n	OneThink1.0正式版发布&nbsp;\r\n</h1>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	<strong>OneThink是一个开源的内容管理框架，基于最新的ThinkPHP3.2版本开发，提供更方便、更安全的WEB应用开发体验，采用了全新的架构设计和命名空间机制，融合了模块化、驱动化和插件化的设计理念于一体，开启了国内WEB应用傻瓜式开发的新潮流。&nbsp;</strong> \r\n</p>\r\n<h2>\r\n	主要特性：\r\n</h2>\r\n<p>\r\n	1. 基于ThinkPHP最新3.2版本。\r\n</p>\r\n<p>\r\n	2. 模块化：全新的架构和模块化的开发机制，便于灵活扩展和二次开发。&nbsp;\r\n</p>\r\n<p>\r\n	3. 文档模型/分类体系：通过和文档模型绑定，以及不同的文档类型，不同分类可以实现差异化的功能，轻松实现诸如资讯、下载、讨论和图片等功能。\r\n</p>\r\n<p>\r\n	4. 开源免费：OneThink遵循Apache2开源协议,免费提供使用。&nbsp;\r\n</p>\r\n<p>\r\n	5. 用户行为：支持自定义用户行为，可以对单个用户或者群体用户的行为进行记录及分享，为您的运营决策提供有效参考数据。\r\n</p>\r\n<p>\r\n	6. 云端部署：通过驱动的方式可以轻松支持平台的部署，让您的网站无缝迁移，内置已经支持SAE和BAE3.0。\r\n</p>\r\n<p>\r\n	7. 云服务支持：即将启动支持云存储、云安全、云过滤和云统计等服务，更多贴心的服务让您的网站更安心。\r\n</p>\r\n<p>\r\n	8. 安全稳健：提供稳健的安全策略，包括备份恢复、容错、防止恶意攻击登录，网页防篡改等多项安全管理功能，保证系统安全，可靠、稳定的运行。&nbsp;\r\n</p>\r\n<p>\r\n	9. 应用仓库：官方应用仓库拥有大量来自第三方插件和应用模块、模板主题，有众多来自开源社区的贡献，让您的网站“One”美无缺。&nbsp;\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	<strong>&nbsp;OneThink集成了一个完善的后台管理体系和前台模板标签系统，让你轻松管理数据和进行前台网站的标签式开发。&nbsp;</strong> \r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<h2>\r\n	后台主要功能：\r\n</h2>\r\n<p>\r\n	1. 用户Passport系统\r\n</p>\r\n<p>\r\n	2. 配置管理系统&nbsp;\r\n</p>\r\n<p>\r\n	3. 权限控制系统\r\n</p>\r\n<p>\r\n	4. 后台建模系统&nbsp;\r\n</p>\r\n<p>\r\n	5. 多级分类系统&nbsp;\r\n</p>\r\n<p>\r\n	6. 用户行为系统&nbsp;\r\n</p>\r\n<p>\r\n	7. 钩子和插件系统\r\n</p>\r\n<p>\r\n	8. 系统日志系统&nbsp;\r\n</p>\r\n<p>\r\n	9. 数据备份和还原\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	&nbsp;[ 官方下载：&nbsp;<a href="http://www.onethink.cn/download.html" target="_blank">http://www.onethink.cn/download.html</a>&nbsp;&nbsp;开发手册：<a href="http://document.onethink.cn/" target="_blank">http://document.onethink.cn/</a>&nbsp;]&nbsp;\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	<strong>OneThink开发团队 2013</strong> \r\n</p>', '', 0);
+INSERT INTO `thinkox_document_article` (`id`, `parse`, `content`, `template`, `bookmark`) VALUES
+(1, 0, '<h1>\r\n	ThinkOX0.1正式版发布&nbsp;\r\n</h1>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	<strong>ThinkOX是一个开源的内容管理框架，基于最新的ThinkPHP3.2版本开发，提供更方便、更安全的WEB应用开发体验，采用了全新的架构设计和命名空间机制，融合了模块化、驱动化和插件化的设计理念于一体，开启了国内WEB应用傻瓜式开发的新潮流。&nbsp;</strong> \r\n</p>\r\n<h2>\r\n	主要特性：\r\n</h2>\r\n<p>\r\n	1. 基于ThinkPHP最新3.2版本。\r\n</p>\r\n<p>\r\n	2. 模块化：全新的架构和模块化的开发机制，便于灵活扩展和二次开发。&nbsp;\r\n</p>\r\n<p>\r\n	3. 文档模型/分类体系：通过和文档模型绑定，以及不同的文档类型，不同分类可以实现差异化的功能，轻松实现诸如资讯、下载、讨论和图片等功能。\r\n</p>\r\n<p>\r\n	4. 开源免费：OneThink遵循Apache2开源协议,免费提供使用。&nbsp;\r\n</p>\r\n<p>\r\n	5. 用户行为：支持自定义用户行为，可以对单个用户或者群体用户的行为进行记录及分享，为您的运营决策提供有效参考数据。\r\n</p>\r\n<p>\r\n	6. 云端部署：通过驱动的方式可以轻松支持平台的部署，让您的网站无缝迁移，内置已经支持SAE和BAE3.0。\r\n</p>\r\n<p>\r\n	7. 云服务支持：即将启动支持云存储、云安全、云过滤和云统计等服务，更多贴心的服务让您的网站更安心。\r\n</p>\r\n<p>\r\n	8. 安全稳健：提供稳健的安全策略，包括备份恢复、容错、防止恶意攻击登录，网页防篡改等多项安全管理功能，保证系统安全，可靠、稳定的运行。&nbsp;\r\n</p>\r\n<p>\r\n	9. 应用仓库：官方应用仓库拥有大量来自第三方插件和应用模块、模板主题，有众多来自开源社区的贡献，让您的网站“One”美无缺。&nbsp;\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	<strong>&nbsp;OneThink集成了一个完善的后台管理体系和前台模板标签系统，让你轻松管理数据和进行前台网站的标签式开发。&nbsp;</strong> \r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<h2>\r\n	后台主要功能：\r\n</h2>\r\n<p>\r\n	1. 用户Passport系统\r\n</p>\r\n<p>\r\n	2. 配置管理系统&nbsp;\r\n</p>\r\n<p>\r\n	3. 权限控制系统\r\n</p>\r\n<p>\r\n	4. 后台建模系统&nbsp;\r\n</p>\r\n<p>\r\n	5. 多级分类系统&nbsp;\r\n</p>\r\n<p>\r\n	6. 用户行为系统&nbsp;\r\n</p>\r\n<p>\r\n	7. 钩子和插件系统\r\n</p>\r\n<p>\r\n	8. 系统日志系统&nbsp;\r\n</p>\r\n<p>\r\n	9. 数据备份和还原\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	&nbsp;[ 官方下载：&nbsp;<a href="http://www.onethink.cn/download.html" target="_blank">http://www.onethink.cn/download.html</a>&nbsp;&nbsp;开发手册：<a href="http://document.onethink.cn/" target="_blank">http://document.onethink.cn/</a>&nbsp;]&nbsp;\r\n</p>\r\n<p>\r\n	<br />\r\n</p>\r\n<p>\r\n	<strong>OneThink开发团队 2013</strong> \r\n</p>', '', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_document_download`
+-- 表的结构 `thinkox_document_download`
 --
 
-DROP TABLE IF EXISTS `onethink_document_download`;
-CREATE TABLE IF NOT EXISTS `onethink_document_download` (
+CREATE TABLE IF NOT EXISTS `thinkox_document_download` (
   `id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
   `parse` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '内容解析类型',
   `content` text NOT NULL COMMENT '下载详细描述',
@@ -758,11 +792,10 @@ CREATE TABLE IF NOT EXISTS `onethink_document_download` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_file`
+-- 表的结构 `thinkox_file`
 --
 
-DROP TABLE IF EXISTS `onethink_file`;
-CREATE TABLE IF NOT EXISTS `onethink_file` (
+CREATE TABLE IF NOT EXISTS `thinkox_file` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文件ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '原始文件名',
   `savename` char(20) NOT NULL DEFAULT '' COMMENT '保存名称',
@@ -776,16 +809,40 @@ CREATE TABLE IF NOT EXISTS `onethink_file` (
   `create_time` int(10) unsigned NOT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_md5` (`md5`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文件表' AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文件表' AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_file`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_forum`
+-- 表的结构 `thinkox_follow`
 --
 
-DROP TABLE IF EXISTS `onethink_forum`;
-CREATE TABLE IF NOT EXISTS `onethink_forum` (
+CREATE TABLE IF NOT EXISTS `thinkox_follow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `follow_who` int(11) NOT NULL COMMENT '关注谁',
+  `who_follow` int(11) NOT NULL COMMENT '谁关注',
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='关注表' AUTO_INCREMENT=29 ;
+
+--
+-- 转存表中的数据 `thinkox_follow`
+--
+
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_forum`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_forum` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `create_time` int(11) NOT NULL,
@@ -794,25 +851,25 @@ CREATE TABLE IF NOT EXISTS `onethink_forum` (
   `allow_user_group` text NOT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `onethink_forum`
+-- 转存表中的数据 `thinkox_forum`
 --
 
-INSERT INTO `onethink_forum` (`id`, `title`, `create_time`, `post_count`, `status`, `allow_user_group`, `sort`) VALUES
-(1, '默认板块', 2433180, 9, 1, '1', 1),
-(2, '测试板块', 1394615400, 0, 0, '1', 3),
-(3, '意见反馈', 1394616120, 0, -1, '1', 4);
+INSERT INTO `thinkox_forum` (`id`, `title`, `create_time`, `post_count`, `status`, `allow_user_group`, `sort`) VALUES
+(1, '默认板块', 2433180, 10, 1, '1', 4),
+(2, '测试板块', 1394615400, 1, 1, '1', 2),
+(3, '意见反馈', 1394616120, 1, 1, '1', 3),
+(4, '产品下载', 1394692260, 3, 1, '3', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_forum_bookmark`
+-- 表的结构 `thinkox_forum_bookmark`
 --
 
-DROP TABLE IF EXISTS `onethink_forum_bookmark`;
-CREATE TABLE IF NOT EXISTS `onethink_forum_bookmark` (
+CREATE TABLE IF NOT EXISTS `thinkox_forum_bookmark` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
@@ -820,14 +877,45 @@ CREATE TABLE IF NOT EXISTS `onethink_forum_bookmark` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
+--
+-- 转存表中的数据 `thinkox_forum_bookmark`
+--
+
+INSERT INTO `thinkox_forum_bookmark` (`id`, `uid`, `post_id`, `create_time`) VALUES
+(17, 1, 6, 1394528528);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_forum_post`
+-- 表的结构 `thinkox_forum_lzl_reply`
 --
 
-DROP TABLE IF EXISTS `onethink_forum_post`;
-CREATE TABLE IF NOT EXISTS `onethink_forum_post` (
+CREATE TABLE IF NOT EXISTS `thinkox_forum_lzl_reply` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `to_f_reply_id` int(11) NOT NULL,
+  `to_reply_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `uid` int(11) NOT NULL,
+  `to_uid` int(11) NOT NULL,
+  `ctime` int(11) NOT NULL,
+  `is_del` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_forum_lzl_reply`
+--
+
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_forum_post`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_forum_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `forum_id` int(11) NOT NULL,
@@ -842,16 +930,21 @@ CREATE TABLE IF NOT EXISTS `onethink_forum_post` (
   `reply_count` int(11) NOT NULL,
   `is_top` tinyint(4) NOT NULL COMMENT '是否置顶',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_forum_post`
+--
+
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_forum_post_reply`
+-- 表的结构 `thinkox_forum_post_reply`
 --
 
-DROP TABLE IF EXISTS `onethink_forum_post_reply`;
-CREATE TABLE IF NOT EXISTS `onethink_forum_post_reply` (
+CREATE TABLE IF NOT EXISTS `thinkox_forum_post_reply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
@@ -861,16 +954,21 @@ CREATE TABLE IF NOT EXISTS `onethink_forum_post_reply` (
   `update_time` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_forum_post_reply`
+--
+
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_hooks`
+-- 表的结构 `thinkox_hooks`
 --
 
-DROP TABLE IF EXISTS `onethink_hooks`;
-CREATE TABLE IF NOT EXISTS `onethink_hooks` (
+CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(40) NOT NULL DEFAULT '' COMMENT '钩子名称',
   `description` text NOT NULL COMMENT '描述',
@@ -879,13 +977,13 @@ CREATE TABLE IF NOT EXISTS `onethink_hooks` (
   `addons` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
--- Dumping data for table `onethink_hooks`
+-- 转存表中的数据 `thinkox_hooks`
 --
 
-INSERT INTO `onethink_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`) VALUES
+INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`) VALUES
 (1, 'pageHeader', '页面header钩子，一般用于加载插件CSS文件和代码', 1, 0, ''),
 (2, 'pageFooter', '页面footer钩子，一般用于加载插件JS文件和JS代码', 1, 0, 'ReturnTop'),
 (3, 'documentEditForm', '添加编辑表单的 扩展内容钩子', 1, 0, 'Attachment'),
@@ -896,16 +994,17 @@ INSERT INTO `onethink_hooks` (`id`, `name`, `description`, `type`, `update_time`
 (8, 'adminArticleEdit', '后台内容编辑页编辑器', 1, 1378982734, 'EditorForAdmin'),
 (13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam'),
 (14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, 'Editor'),
-(16, 'app_begin', '应用开始', 2, 1384481614, '');
+(16, 'app_begin', '应用开始', 2, 1384481614, ''),
+(17, 'checkin', '签到', 1, 1395371353, 'Checkin'),
+(18, 'Rank', '签到排名钩子', 1, 1395387442, 'Rank_checkin');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_member`
+-- 表的结构 `thinkox_member`
 --
 
-DROP TABLE IF EXISTS `onethink_member`;
-CREATE TABLE IF NOT EXISTS `onethink_member` (
+CREATE TABLE IF NOT EXISTS `thinkox_member` (
   `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `nickname` char(16) NOT NULL DEFAULT '' COMMENT '昵称',
   `sex` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
@@ -921,16 +1020,19 @@ CREATE TABLE IF NOT EXISTS `onethink_member` (
   `signature` text NOT NULL,
   PRIMARY KEY (`uid`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=31 ;
+
+--
+-- 转存表中的数据 `thinkox_member`
+--
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_menu`
+-- 表的结构 `thinkox_menu`
 --
 
-DROP TABLE IF EXISTS `onethink_menu`;
-CREATE TABLE IF NOT EXISTS `onethink_menu` (
+CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID',
@@ -945,10 +1047,10 @@ CREATE TABLE IF NOT EXISTS `onethink_menu` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=141 ;
 
 --
--- Dumping data for table `onethink_menu`
+-- 转存表中的数据 `thinkox_menu`
 --
 
-INSERT INTO `onethink_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
+INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 (1, '首页', 0, 1, 'Index/index', 0, '', '', 0),
 (2, '内容', 0, 2, 'Article/mydocument', 0, '', '', 0),
 (3, '文档列表', 2, 0, 'article/index', 1, '', '内容', 0),
@@ -1081,11 +1183,10 @@ INSERT INTO `onethink_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_message`
+-- 表的结构 `thinkox_message`
 --
 
-DROP TABLE IF EXISTS `onethink_message`;
-CREATE TABLE IF NOT EXISTS `onethink_message` (
+CREATE TABLE IF NOT EXISTS `thinkox_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_uid` int(11) NOT NULL,
   `to_uid` int(11) NOT NULL,
@@ -1096,17 +1197,27 @@ CREATE TABLE IF NOT EXISTS `onethink_message` (
   `is_read` tinyint(4) NOT NULL,
   `last_toast` int(11) NOT NULL,
   `url` varchar(400) NOT NULL,
+  `talk_id` int(11) NOT NULL,
+  `appname` varchar(30) NOT NULL,
+  `apptype` varchar(30) NOT NULL,
+  `source_id` int(11) NOT NULL,
+  `find_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='OnePlus新增消息表' AUTO_INCREMENT=67 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='thinkox新增消息表' AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_message`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_model`
+-- 表的结构 `thinkox_model`
 --
 
-DROP TABLE IF EXISTS `onethink_model`;
-CREATE TABLE IF NOT EXISTS `onethink_model` (
+CREATE TABLE IF NOT EXISTS `thinkox_model` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '模型标识',
   `title` char(30) NOT NULL DEFAULT '' COMMENT '模型名称',
@@ -1131,10 +1242,10 @@ CREATE TABLE IF NOT EXISTS `onethink_model` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文档模型表' AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `onethink_model`
+-- 转存表中的数据 `thinkox_model`
 --
 
-INSERT INTO `onethink_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, `field_sort`, `field_group`, `attribute_list`, `template_list`, `template_add`, `template_edit`, `list_grid`, `list_row`, `search_key`, `search_list`, `create_time`, `update_time`, `status`, `engine_type`) VALUES
+INSERT INTO `thinkox_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, `field_sort`, `field_group`, `attribute_list`, `template_list`, `template_add`, `template_edit`, `list_grid`, `list_row`, `search_key`, `search_list`, `create_time`, `update_time`, `status`, `engine_type`) VALUES
 (1, 'document', '基础文档', 0, '', 1, '{"1":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"]}', '1:基础', '', '', '', '', 'id:编号\r\ntitle:标题:article/index?cate_id=[category_id]&pid=[id]\r\ntype|get_document_type:类型\r\nlevel:优先级\r\nupdate_time|time_format:最后更新\r\nstatus_text:状态\r\nview:浏览\r\nid:操作:[EDIT]&cate_id=[category_id]|编辑,article/setstatus?status=-1&ids=[id]|删除', 0, '', '', 1383891233, 1384507827, 1, 'MyISAM'),
 (2, 'article', '文章', 1, '', 1, '{"1":["3","24","2","5"],"2":["9","13","19","10","12","16","17","26","20","14","11","25"]}', '1:基础,2:扩展', '', '', '', '', 'id:编号\r\ntitle:标题:article/edit?cate_id=[category_id]&id=[id]\r\ncontent:内容', 0, '', '', 1383891243, 1387260622, 1, 'MyISAM'),
 (3, 'download', '下载', 1, '', 1, '{"1":["3","28","30","32","2","5","31"],"2":["13","10","27","9","12","16","17","19","11","20","14","29"]}', '1:基础,2:扩展', '', '', '', '', 'id:编号\r\ntitle:标题', 0, '', '', 1383891252, 1387260449, 1, 'MyISAM');
@@ -1142,11 +1253,10 @@ INSERT INTO `onethink_model` (`id`, `name`, `title`, `extend`, `relation`, `need
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_picture`
+-- 表的结构 `thinkox_picture`
 --
 
-DROP TABLE IF EXISTS `onethink_picture`;
-CREATE TABLE IF NOT EXISTS `onethink_picture` (
+CREATE TABLE IF NOT EXISTS `thinkox_picture` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id自增',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路径',
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT '图片链接',
@@ -1160,11 +1270,10 @@ CREATE TABLE IF NOT EXISTS `onethink_picture` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_seo_rule`
+-- 表的结构 `thinkox_seo_rule`
 --
 
-DROP TABLE IF EXISTS `onethink_seo_rule`;
-CREATE TABLE IF NOT EXISTS `onethink_seo_rule` (
+CREATE TABLE IF NOT EXISTS `thinkox_seo_rule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `app` varchar(40) NOT NULL,
@@ -1179,52 +1288,108 @@ CREATE TABLE IF NOT EXISTS `onethink_seo_rule` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data for table `onethink_seo_rule`
+-- 转存表中的数据 `thinkox_seo_rule`
 --
 
-INSERT INTO `onethink_seo_rule` (`id`, `title`, `app`, `controller`, `action`, `status`, `seo_keywords`, `seo_description`, `seo_title`, `sort`) VALUES
-(4, '整站标题', '', '', '', 1, '', '', 'OnePlus内容管理框架', 4),
-(6, '讨论区seo', 'Forum', '', '', 1, '', '', 'OnePlus讨论区', 1),
-(7, '微博seo', 'Weibo', '', '', 1, '', '', 'OnePlus微博', 2);
+INSERT INTO `thinkox_seo_rule` (`id`, `title`, `app`, `controller`, `action`, `status`, `seo_keywords`, `seo_description`, `seo_title`, `sort`) VALUES
+(4, '整站标题', '', '', '', 1, '', '', 'ThinkOX', 4),
+(6, '讨论区seo', 'Forum', '', '', 1, '', '', 'ThinkOX讨论区', 1),
+(7, '微博seo', 'Weibo', '', '', 1, '', '', 'ThinkOX微博', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_tianyi_verify`
+-- 表的结构 `thinkox_talk`
 --
 
-DROP TABLE IF EXISTS `onethink_tianyi_verify`;
-CREATE TABLE IF NOT EXISTS `onethink_tianyi_verify` (
+CREATE TABLE IF NOT EXISTS `thinkox_talk` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `create_time` int(11) NOT NULL,
+  `uids` varchar(100) NOT NULL,
+  `appname` varchar(30) NOT NULL,
+  `apptype` varchar(30) NOT NULL,
+  `source_id` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `source_title` varchar(100) NOT NULL,
+  `source_content` text NOT NULL,
+  `source_url` varchar(200) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `message_id` int(11) NOT NULL,
+  `other_uid` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会话表' AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_talk`
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_talk_message`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_talk_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(500) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `talk_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='聊天消息表' AUTO_INCREMENT=101 ;
+
+--
+-- 转存表中的数据 `thinkox_talk_message`
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_tianyi_verify`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_tianyi_verify` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mobile` varchar(20) NOT NULL,
   `verify` varchar(6) NOT NULL,
   `expire` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_tianyi_verify`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_ucenter_admin`
+-- 表的结构 `thinkox_ucenter_admin`
 --
 
-DROP TABLE IF EXISTS `onethink_ucenter_admin`;
-CREATE TABLE IF NOT EXISTS `onethink_ucenter_admin` (
+CREATE TABLE IF NOT EXISTS `thinkox_ucenter_admin` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '管理员ID',
   `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '管理员用户ID',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '管理员状态',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='管理员表' AUTO_INCREMENT=3 ;
 
+--
+-- 转存表中的数据 `thinkox_ucenter_admin`
+--
+
+INSERT INTO `thinkox_ucenter_admin` (`id`, `member_id`, `status`) VALUES
+(1, 1, 1),
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_ucenter_app`
+-- 表的结构 `thinkox_ucenter_app`
 --
 
-DROP TABLE IF EXISTS `onethink_ucenter_app`;
-CREATE TABLE IF NOT EXISTS `onethink_ucenter_app` (
+CREATE TABLE IF NOT EXISTS `thinkox_ucenter_app` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '应用ID',
   `title` varchar(30) NOT NULL COMMENT '应用名称',
   `url` varchar(100) NOT NULL COMMENT '应用URL',
@@ -1242,11 +1407,10 @@ CREATE TABLE IF NOT EXISTS `onethink_ucenter_app` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_ucenter_member`
+-- 表的结构 `thinkox_ucenter_member`
 --
 
-DROP TABLE IF EXISTS `onethink_ucenter_member`;
-CREATE TABLE IF NOT EXISTS `onethink_ucenter_member` (
+CREATE TABLE IF NOT EXISTS `thinkox_ucenter_member` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `username` char(16) NOT NULL COMMENT '用户名',
   `password` char(32) NOT NULL COMMENT '密码',
@@ -1262,16 +1426,21 @@ CREATE TABLE IF NOT EXISTS `onethink_ucenter_member` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=25 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+--
+-- 转存表中的数据 `thinkox_ucenter_member`
+--
+
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_ucenter_setting`
+-- 表的结构 `thinkox_ucenter_setting`
 --
 
-DROP TABLE IF EXISTS `onethink_ucenter_setting`;
-CREATE TABLE IF NOT EXISTS `onethink_ucenter_setting` (
+CREATE TABLE IF NOT EXISTS `thinkox_ucenter_setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '设置ID',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型（1-用户配置）',
   `value` text NOT NULL COMMENT '配置数据',
@@ -1281,11 +1450,10 @@ CREATE TABLE IF NOT EXISTS `onethink_ucenter_setting` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_url`
+-- 表的结构 `thinkox_url`
 --
 
-DROP TABLE IF EXISTS `onethink_url`;
-CREATE TABLE IF NOT EXISTS `onethink_url` (
+CREATE TABLE IF NOT EXISTS `thinkox_url` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '链接唯一标识',
   `url` char(255) NOT NULL DEFAULT '' COMMENT '链接地址',
   `short` char(100) NOT NULL DEFAULT '' COMMENT '短网址',
@@ -1298,11 +1466,10 @@ CREATE TABLE IF NOT EXISTS `onethink_url` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_userdata`
+-- 表的结构 `thinkox_userdata`
 --
 
-DROP TABLE IF EXISTS `onethink_userdata`;
-CREATE TABLE IF NOT EXISTS `onethink_userdata` (
+CREATE TABLE IF NOT EXISTS `thinkox_userdata` (
   `uid` int(10) unsigned NOT NULL COMMENT '用户id',
   `type` tinyint(3) unsigned NOT NULL COMMENT '类型标识',
   `target_id` int(10) unsigned NOT NULL COMMENT '目标id',
@@ -1312,11 +1479,10 @@ CREATE TABLE IF NOT EXISTS `onethink_userdata` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_weibo`
+-- 表的结构 `thinkox_weibo`
 --
 
-DROP TABLE IF EXISTS `onethink_weibo`;
-CREATE TABLE IF NOT EXISTS `onethink_weibo` (
+CREATE TABLE IF NOT EXISTS `thinkox_weibo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `content` text NOT NULL,
@@ -1324,24 +1490,34 @@ CREATE TABLE IF NOT EXISTS `onethink_weibo` (
   `comment_count` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_weibo`
+--
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `onethink_weibo_comment`
+-- 表的结构 `thinkox_weibo_comment`
 --
 
-DROP TABLE IF EXISTS `onethink_weibo_comment`;
-CREATE TABLE IF NOT EXISTS `onethink_weibo_comment` (
+CREATE TABLE IF NOT EXISTS `thinkox_weibo_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `weibo_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `create_time` int(11) NOT NULL,
   `status` int(11) NOT NULL,
+  `to_comment_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_weibo_comment`
+--
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

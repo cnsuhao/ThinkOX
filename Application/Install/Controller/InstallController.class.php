@@ -20,7 +20,7 @@ class InstallController extends Controller{
 		}
 
 		if(Storage::has(MODULE_PATH . 'Data/install.lock')){
-			$this->error('已经成功安装了OneThink，请不要重复安装!');
+			$this->error('已经成功安装了ThinkOX，请不要重复安装!');
 		}
 	}
 
