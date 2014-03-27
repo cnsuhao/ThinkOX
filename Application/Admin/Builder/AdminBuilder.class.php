@@ -24,9 +24,9 @@ use Admin\Controller\AdminController;
  * @package Admin\Builder
  */
 abstract class AdminBuilder extends AdminController {
-    protected function display($file) {
+    public function display($templateFile='',$charset='',$contentType='',$content='',$prefix='') {
         //获取模版的名称
-        $template = dirname(__FILE__) . '/../View/Builder/' . $file . '.html';
+        $template = dirname(__FILE__) . '/../View/Builder/' . $templateFile . '.html';
 
         //显示页面
         parent::display($template);
