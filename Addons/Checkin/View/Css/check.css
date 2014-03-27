@@ -59,10 +59,10 @@
     width: 90%;
     background:white;
     margin-top: -35px;
-    /*filter:alpha(opacity=50);
+    filter:alpha(opacity=50);
     -moz-opacity:0.5;
     -khtml-opacity: 0.5;
-    opacity: 1;*/
+    opacity: 1;
     border: 1px solid #48b87a;
 
 }
