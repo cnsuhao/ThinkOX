@@ -1,11 +1,15 @@
-<if condition="ONEPLUS_SEO_TITLE">
-    <title>{:ONEPLUS_SEO_TITLE}</title>
+<php>
+    $oneplus_seo_meta = get_seo_meta();
+</php>
+
+<if condition="$oneplus_seo_meta['title']">
+    <title>{$oneplus_seo_meta['title']}</title>
     <else/>
     <title>{:C('WEB_SITE_TITLE')}</title>
 </if>
-<if condition="ONEPLUS_SEO_KEYWORDS">
-    <meta name="keywords" content="{:ONEPLUS_SEO_KEYWORDS}"/>
+<if condition="$oneplus_seo_meta['keywords']">
+    <meta name="keywords" content="{$oneplus_seo_meta['keywords']}"/>
 </if>
-<if condition="ONEPLUS_SEO_DESCRIPTION">
-    <meta name="description" content="{:ONEPLUS_SEO_DESCRIPTION}"/>
+<if condition="$oneplus_seo_meta['description']">
+    <meta name="description" content="{$oneplus_seo_meta['description']}"/>
 </if>

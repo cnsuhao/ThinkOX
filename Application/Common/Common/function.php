@@ -1011,9 +1011,12 @@ function getLou($k){
     !empty($lou[$k]) && $res = $lou[$k];
      empty($lou[$k]) && $res = $k.'楼';
      return $res;
-}require_once('pagination.php');
+}
+
+require_once('pagination.php');
 require_once('query_user.php');
 require_once('thumb.php');
 require_once('api.php');
 require_once('time.php');
 require_once('match.php');
+require_once('seo.php');
