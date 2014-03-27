@@ -118,12 +118,8 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function edit($forum_id = null, $post_id = null)
+    public function edit($forum_id = 0, $post_id = null)
     {
-        //检查参数
-        if (!$forum_id && !$post_id) {
-            $this->error('参数错误，两个参数不能同时为空');
-        }
         //判断是不是为编辑模式
         $isEdit = $post_id ? true : false;
         //如果是编辑模式的话，读取帖子，并判断是否有权限编辑
