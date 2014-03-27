@@ -66,7 +66,7 @@ function ucard() {
                     }
                     var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
-                        + '<p>微博：' + userProfile.weibocount + '&nbsp;&nbsp;&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
+                        + '<p style="width: 250px">微博：' + userProfile.weibocount + '&nbsp;&nbsp;&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
                         '</div>');
                     api.set('content.text', tpl.html());
                     api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
@@ -246,6 +246,10 @@ function bindMessageChecker() {
 function checkMessage() {
     $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
         if (msg) {
+            var count = parseInt($hint_count.text());
+            if(count==0){
+                $('#nav_message').html('');
+            }
             playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
             for (var index in msg) {
                 tip_message(msg[index]['content'] + '<div style="text-align: right"> ' + msg[index]['ctime'] + '</div>', msg[index]['title']);
@@ -259,7 +263,7 @@ function checkMessage() {
 
 
             }
-            var count = parseInt($hint_count.text());
+
             $hint_count.text(count + msg.length);
             $nav_bandage_count.show();
             $nav_bandage_count.text(count + msg.length);
@@ -272,7 +276,7 @@ function checkMessage() {
 function setAllReaded() {
     $.post(U('Usercenter/Public/setAllMessageReaded'), function () {
         $hint_count.text(0);
-        $('#nav_message').html('');
+        $('#nav_message').html('<div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">暂无任何消息!</div>');
         $nav_bandage_count.hide();
         $nav_bandage_count.text(0);
 

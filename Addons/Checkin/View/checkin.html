@@ -3,30 +3,39 @@
 
 <div class="box1" id="checkdiv">
 
-    <div class="row" style="text-align: center">
+    <div class="row">
 
-                <div class="col-md-6 dateinfo">
+        <div class="col-md-2" style="float: left">
 
-                        <div>{$check.week}</div>
+            <i class="glyphicon glyphicon-calendar calendar"></i>
 
-                        <div>{$check.day}</div>
-                </div>
+        </div>
 
-                <div class="col-md-6 checkinfo">
+        <div class="col-md-6 row" style="float: left;margin-left:5px">
 
-                        <div> DAYS </div>
+            <div class="col-md-6 dateinfo" >
 
-                         <div>{$connum} </div>
+                <div>{$check.week}</div>
 
-                 </div>
+                <div>{$check.day}</div>
+            </div>
 
 
+            <div class="col-md-6 checkinfo" >
 
-                    <div style="padding-top: 70px">
+                <div> DAYS </div>
+
+                <div>{$connum} </div>
+
+            </div>
+        </div>
+
+
+                    <div style="padding-top:21px">
 
                          <php>if($check['ischeck']==1){</php>
 
-                            <span id="checkin" class="btn-sign-h">已签到</span>
+                            <span id="checkin" class="btn-sign-h" style="font-size: 20px;padding-top: 10px">已签到</span>
 
                          <php>}else{</php>
 
@@ -38,9 +47,9 @@
 
                                     <i class="arrow-y"></i>
 
-                                <div class="sign-box">
+                                <div class="sign-box" style="text-align: center">
 
-                                        <h3 id="checkinfo"><php>if($check['ischeck']){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
+                                        <h3 id="checkinfo" style="font-size: 20px"><php>if($check['ischeck']){</php>签到成功<php>}else{</php>未签到<php>}</php></h3>
 
                                         <div><p>已连续签到<font id="con_num">{$connum}</font>天，累计签到<font id="total_num">{$totalnum}</font>天</p></div>
 
@@ -48,11 +57,9 @@
                             </div>
 
                     </div>
-     </div>
 
+    </div>
 </div>
-
-
 
 
 
@@ -90,7 +97,7 @@
         $('#checkin').text('已签到');
         $('#checkin').attr('onclick' , '');
         $('#checkin').attr('class' , 'btn-sign-h');
-        $('#checkdiv').attr('class' , 'sign-in-h' );
+       /* $('#checkdiv').attr('class' , 'sign-in-h' );*/
         $('#checkinfo').text('签到成功');
         //var totalnum = $check['total_num'] + 1;
 

@@ -135,6 +135,7 @@
                 }
             });
 
+
             //点击发表微博按钮之后
             $('#send_weibo_button').click(function () {
                 //获取参数
@@ -214,7 +215,7 @@
                 }
 
                 //通过服务器载入微博列表
-                var url = "{:U('loadweibo')}";
+                var url = "{:U('concernedWeibo')}";
                 isLoadingWeibo = true;
                 $('#load_more_text').text('正在载入...');
                 $.post(url, {page: page}, function (a) {

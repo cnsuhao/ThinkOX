@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<div class="navbar navbar-default" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -37,28 +37,35 @@
                         <ul class="dropdown-menu extended notification">
                             <li style="padding-left: 15px;padding-right: 15px;">
                                 <div class="row nav_info_center">
-                                    <div class="col-md-9 nav_align_left"> 共有 <span
-                                            id="nav_hint_count">{:count($unreadMessage)}</span> 条未读消息
+                                    <div class="col-md-9 nav_align_left"><span
+                                            id="nav_hint_count">{:count($unreadMessage)}</span> 条未读
                                     </div>
                                     <div class="col-md-3"><i onclick="setAllReaded()"
-                                                             class="set_read glyphicon glyphicon-ok-circle "></i></div>
+                                                             class="set_read glyphicon glyphicon-ok" title="全部标为已读"></i></div>
                                 </div>
                             </li>
                             <li>
                                 <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
                                     <ul id="nav_message" class="dropdown-menu-list scroller "
                                         style=" width: auto;">
-                                        <volist name="unreadMessage" id="message">
-                                            <li>
-                                                <a href="{$message.url}">
-                                                    <i class="glyphicon glyphicon-bell"></i>
-                                                    {$message.title}
+                                        <if condition="count($unreadMessage) eq 0">
+                                            <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
+                                                暂无任何消息!
+                                            </div>
+                                            <else/>
+                                            <volist name="unreadMessage" id="message">
+                                                <li>
+                                                    <a href="{$message.url}">
+                                                        <i class="glyphicon glyphicon-bell"></i>
+                                                        {$message.title}
                                             <span class="time">
                                             {$message.ctime}
                                             </span>
-                                                </a>
-                                            </li>
-                                        </volist>
+                                                    </a>
+                                                </li>
+                                            </volist>
+                                        </if>
+
                                     </ul>
                                 </div>
 
@@ -77,37 +84,42 @@
                                 });
                             });
                         </script>
-                        <a id="nav_info dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown"><i
+                        <a id="nav_info dropdown-toggle " data-toggle="dropdown"><i
                                 class="glyphicon glyphicon-bullhorn"></i>
                             <span id="nav_bandage_count"
                             <if condition="count($unreadMessage) eq 0"> style="display: none"</if>
                             class="badge pull-right">{:count($unreadMessage)}</span>
                             &nbsp;
-                        </a></li>
+                        </a>
+                    </li>
 
 
-                    <!--<li class="op_nav_ico"><a href="#"><i class="glyphicon glyphicon-envelope"></i>
-                        <span class="badge pull-right">1</span>
-                        &nbsp;
-                    </a></li>-->
                     <li class="dropdown">
-
-
                         <php>
                             $common_header_user = query_user(array('avatar64'));
                         </php>
-                        <a href="#" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
+                        <a role="button" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
                             <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img"/>
-                            </b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{:U('UserCenter/Index/index')}">个人中心</a></li>
-                            <li><a href="{:U('UserCenter/Index/changepassword')}">修改密码</a></li>
-                            <li><a event-node="logout">退出</a></li>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('UserCenter/Index/index')}"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
+                            </li>
+                            <li><a href="{:U('UserCenter/Message/session')}"><span
+                                    class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;我的会话</a></li>
+                            <li><a href="{:U('UserCenter/Forum/myTopic')}"><span
+                                    class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;我的主题</a></li>
+                            <li><a href="{:U('UserCenter/Forum/myTakePartIn')}"><span
+                                    class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;我的参与</a></li>
+                            <li><a href="{:U('UserCenter/Forum/myBookmark')}"><span
+                                    class="glyphicon glyphicon-bookmark"></span>&nbsp;&nbsp;我的收藏</a></li>
+                            <li><a event-node="logout"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</a>
+                            </li>
                         </ul>
                     </li>
                     <else/>
                     <li>
-                        <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];</php>
+                        <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+                        </php>
                         <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
                     </li>
                     <li>
@@ -116,8 +128,6 @@
                 </if>
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container-fluid -->
-</nav>
+</div>
 <a id="goTopBtn"></a>

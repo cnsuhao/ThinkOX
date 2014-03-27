@@ -135,6 +135,8 @@
                 }
             });
 
+
+
             //点击发表微博按钮之后
             $('#send_weibo_button').click(function () {
                 //获取参数
@@ -170,6 +172,7 @@
             $(window).trigger('scroll');
 
             //点击评论之后载入评论
+
             $(document).on('click', '.weibo-comment-link', function (e) {
                 var weibo_id = $(this).attr('data-weibo-id');
                 var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
@@ -177,11 +180,15 @@
                     hideWeiboCommentList(weiboCommentList);
                 } else {
                     showWeiboCommentList(weiboCommentList);
-                }
 
+
+
+                }
                 //取消默认动作
+
                 e.preventDefault();
                 return false;
+
             });
 
 
