@@ -19,7 +19,7 @@ class UserListWidget extends Action
 {
 
     /* 显示指定分类的同级分类或子分类列表 */
-    public function lists($map = '', $order = 'reg_time desc')
+    public function lists($map = '', $order = 'id desc')
     {
         $users = S('weibo_latest_user');
         if (empty($users)) {
