@@ -1013,10 +1013,10 @@ function getLou($k){
      return $res;
 }
 
-require_once('pagination.php');
-require_once('query_user.php');
-require_once('thumb.php');
-require_once('api.php');
-require_once('time.php');
-require_once('match.php');
-require_once('seo.php');
+require_once(APP_PATH.'/Common/Common/pagination.php');
+require_once(APP_PATH.'/Common/Common/query_user.php');
+require_once(APP_PATH.'/Common/Common/thumb.php');
+require_once(APP_PATH.'/Common/Common/api.php');
+require_once(APP_PATH.'/Common/Common/time.php');
+require_once(APP_PATH.'/Common/Common/match.php');
+require_once(APP_PATH.'/Common/Common/seo.php');
