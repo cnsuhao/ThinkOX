@@ -176,7 +176,15 @@ class IndexController extends BaseController
         $this->ensureApiSuccess($result);
 
         //显示成功消息
-        $this->ajaxReturn(apiToAjax($result));
+        $this->iframeReturn(apiToAjax($result));
+    }
+
+    private function iframeReturn($result) {
+        $json = json_encode($result);
+        $json = htmlspecialchars($json);
+        $html = "<textarea data-type=\"application/json\">$json</textarea>";
+        echo $html;
+        exit;
     }
 
     public function fans($page = 1)
@@ -197,5 +205,4 @@ class IndexController extends BaseController
         $this->assign('tab', 'following');
         $this->display();
     }
-
 }
