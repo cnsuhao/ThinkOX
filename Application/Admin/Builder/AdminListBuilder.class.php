@@ -150,15 +150,48 @@ class AdminListBuilder extends AdminBuilder {
     }
 
     public function keyDoAction($getUrl, $text, $title='操作') {
+        //获取默认getUrl函数
         if(is_string($getUrl)) {
             $getUrl = $this->createDefaultGetUrlFunction($getUrl);
         }
-        $opt = array('text'=>$text, 'get_url'=>$getUrl);
-        return $this->key('DOACTIONS', $title, 'doaction', $opt);
+
+        //确认已经创建了DOACTIONS字段
+        $doActionKey = null;
+        foreach($this->_keyList as $key) {
+            if($key['name'] === 'DOACTIONS') {
+                $doActionKey = $key;
+                break;
+            }
+        }
+        if(!$doActionKey) {
+            $this->key('DOACTIONS', $title, 'doaction', array());
+        }
+
+        //找出第一个DOACTIONS字段
+        $doActionKey = null;
+        foreach($this->_keyList as &$key) {
+            if($key['name'] == 'DOACTIONS') {
+                $doActionKey = &$key;
+                break;
+            }
+        }
+
+        //在DOACTIONS中增加action
+        $doActionKey['opt']['actions'][] = array('text'=>$text, 'get_url'=>$getUrl);
+        return $this;
     }
 
     public function keyDoActionEdit($getUrl, $text='编辑') {
         return $this->keyDoAction($getUrl, $text);
+    }
+
+    public function keyDoActionRestore($text='还原') {
+        $that = $this;
+        $setStatusUrl = $this->_setStatusUrl;
+        $getUrl = function() use($that,$setStatusUrl) {
+            return $that->addUrlParam($setStatusUrl, array('status'=>1));
+        };
+        return $this->keyDoAction($getUrl, $text, array('class'=>'ajax-get'));
     }
 
     public function keyTruncText($name, $title, $length) {
@@ -220,10 +253,15 @@ class AdminListBuilder extends AdminBuilder {
 
         //doaction转换为html
         $this->convertKey('doaction','html', function($value,$key,$item){
-            $getUrl = $key['opt']['get_url'];
-            $linkText = $key['opt']['text'];
-            $url = $getUrl($item);
-            return "<a href=\"$url\">$linkText</a>";
+            $actions = $key['opt']['actions'];
+            $result = array();
+            foreach($actions as $action) {
+                $getUrl = $action['get_url'];
+                $linkText = $action['text'];
+                $url = $getUrl($item);
+                $result[] = "<a href=\"$url\">$linkText</a>";
+            }
+            return implode(' ', $result);
         });
 
         //status转换为html
