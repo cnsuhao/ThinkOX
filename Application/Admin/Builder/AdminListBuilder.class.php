@@ -77,7 +77,7 @@ class AdminListBuilder extends AdminBuilder {
 
     public function key($name, $title, $type, $opt=null) {
         $key = array('name'=>$name, 'title'=>$title, 'type'=>$type, 'opt'=>$opt);
-        $this->_keyList[$name] = $key;
+        $this->_keyList[] = $key;
         return $this;
     }
 
