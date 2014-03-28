@@ -51,22 +51,8 @@ class FileModel extends Model{
         /* 设置文件保存位置 */
         $this->_auto[] = array('location', 'Ftp' === $driver ? 1 : 0, self::MODEL_INSERT);
 
-        if($info){ //文件上传成功，记录文件信息
-            foreach ($info as $key => &$value) {
-                /* 已经存在文件记录 */
-                if(isset($value['id']) && is_numeric($value['id'])){
-                    continue;
-                }
-
-                /* 记录文件信息 */
-                if($this->create($value) && ($id = $this->add())){
-                    $value['id'] = $id;
-                } else {
-                    //TODO: 文件上传成功，但是记录文件信息失败，需记录日志
-                    unset($info[$key]);
-                }
-            }
-            return $info; //文件上传成功
+        if($info){ //文件上传成功，不记录文件
+            return $info;
         } else {
             $this->error = $Upload->getError();
             return false;
