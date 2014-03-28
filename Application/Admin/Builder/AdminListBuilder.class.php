@@ -57,9 +57,17 @@ class AdminListBuilder extends AdminBuilder {
         return $this->buttonSetStatus($url, 1, $title, $attr);
     }
 
+    /**
+     * 删除到回收站
+     */
     public function buttonDelete($url=null, $title='删除', $attr=array()) {
         if(!$url) $url = $this->_setStatusUrl;
         return $this->buttonSetStatus($url, -1, $title, $attr);
+    }
+
+    public function buttonRestore($url=null, $title='还原', $attr=array()) {
+        if(!$url) $url = $this->_setStatusUrl;
+        return $this->buttonSetStatus($url, 1, $title, $attr);
     }
 
     public function buttonSort($href, $title='排序', $attr=array()) {

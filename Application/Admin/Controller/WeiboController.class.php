@@ -29,6 +29,23 @@ class WeiboController extends AdminController {
             ->display();
     }
 
+    public function weiboTrash($page=1,$r=20) {
+        //读取微博列表
+        $map = array('status'=>-1);
+        $model = M('Weibo');
+        $list = $model->where($map)->page($page,$r)->select();
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->title('微博回收站')
+            ->setStatusUrl(U('setWeiboStatus'))->buttonRestore()
+            ->keyId()->keyLink('content','内容','comment?weibo_id=###')->keyUid()->keyCreateTime()
+            ->data($list)
+            ->pagination($totalCount,$r)
+            ->display();
+    }
+
     public function setWeiboStatus($ids, $status) {
         $builder = new AdminListBuilder();
         $builder->doSetStatus('Weibo', $ids, $status);
@@ -72,7 +89,24 @@ class WeiboController extends AdminController {
         $builder = new AdminListBuilder();
         $builder->title('评论管理')
             ->setStatusUrl(U('setCommentStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
-            ->keyId()->keyText('content','内容')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editComment')->keyDoActionEdit('editComment')
+            ->keyId()->keyText('content','内容')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editComment')
+            ->data($list)
+            ->pagination($totalCount,$r)
+            ->display();
+    }
+
+    public function commentTrash($page=1,$r=20) {
+        //读取评论列表
+        $map = array('status'=>-1);
+        $model = M('WeiboComment');
+        $list = $model->where($map)->order('create_time asc')->page($page,$r)->select();
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->title('评论回收站')
+            ->setStatusUrl(U('setCommentStatus'))->buttonRestore()
+            ->keyId()->keyText('content','内容')->keyUid()->keyCreateTime()
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();

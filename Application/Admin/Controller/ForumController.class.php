@@ -27,12 +27,31 @@ class ForumController extends AdminController {
         //显示页面
         $builder = new AdminListBuilder();
         $builder
-            ->title('贴吧管理')
+            ->title('板块管理')
             ->buttonNew(U('Forum/editForum'))
             ->setStatusUrl(U('Forum/setForumStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->buttonSort(U('Forum/sortForum'))
             ->keyId()->keyLink('title', '标题', 'Forum/post?forum_id=###')
             ->keyCreateTime()->keyText('post_count', '帖子数量')->keyStatus()->keyDoActionEdit('editForum?id=###')
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+
+    public function forumTrash($page=1,$r=20) {
+        //读取回收站中的数据
+        $map = array('status'=>'-1');
+        $model = M('Forum');
+        $list = $model->where($map)->page($page, $r)->order('sort asc')->select();
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder
+            ->title('板块回收站')
+            ->setStatusUrl(U('Forum/setForumStatus'))->buttonRestore()
+            ->keyId()->keyLink('title', '标题', 'Forum/post?forum_id=###')
+            ->keyCreateTime()->keyText('post_count', '帖子数量')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -136,6 +155,24 @@ class ForumController extends AdminController {
             ->display();
     }
 
+    public function postTrash($page=1, $r=20) {
+        //读取帖子数据
+        $map = array('status'=>-1);
+        $model = M('ForumPost');
+        $list = $model->where($map)->order('last_reply_time desc')->page($page, $r)->select();
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->title('帖子回收站')
+            ->setStatusUrl(U('Forum/setPostStatus'))->buttonRestore()
+            ->keyId()->keyLink('title','标题','Forum/reply?post_id=###')
+            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time','最后回复时间')->keyBool('is_top','是否置顶')
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+
     public function editPost($id=null) {
         //判断是否在编辑模式
         $isEdit = $id ? true : false;
@@ -197,6 +234,23 @@ class ForumController extends AdminController {
         $builder->title('回复管理')
             ->setStatusUrl(U('setReplyStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply')
+            ->data($list)
+            ->pagination($totalCount,$r)
+            ->display();
+    }
+
+    public function replyTrash($page=1, $r=20) {
+        //读取回复列表
+        $map = array('status'=>-1);
+        $model = M('ForumPostReply');
+        $list = $model->where($map)->order('create_time asc')->page($page,$r)->select();
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->title('回复回收站')
+            ->setStatusUrl(U('setReplyStatus'))->buttonRestore()
+            ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();
