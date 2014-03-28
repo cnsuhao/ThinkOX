@@ -29,7 +29,8 @@ $(function () {
     });
 
     var submitLZLReply = function (post_id, to_f_reply_id, to_reply_id, to_uid, content) {
-        var url = '/onePlus/index.php?s=/Forum/LZL/doSendLZLReply.html';
+        var url =U('Forum/LZL/doSendLZLReply');
+
         $.post(url, {post_id: post_id, to_f_reply_id: to_f_reply_id, to_reply_id: to_reply_id, to_uid: to_uid, content: content}, function (msg) {
             if (msg.status) {
                 op_success('回复成功', '温馨提示');
