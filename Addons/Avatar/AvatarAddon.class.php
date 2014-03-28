@@ -142,9 +142,12 @@ use PHPImageWorkshop\ImageWorkshop;
         }
 
         private function saveUploadedFile($image) {
+            $this->ensureAvatarFolderCreated();
+
             $config = $this->getUploadConfig();
             $model = D('Addons://Avatar/File');
             $upload = $model->upload(array('image'=>$image), $config);
+
             if(!$upload) {
                 $this->error = "写入磁盘失败";
                 return false;
@@ -259,5 +262,15 @@ use PHPImageWorkshop\ImageWorkshop;
                 'hash'     => true, //是否生成hash编码
                 'callback' => false, //检测文件是否存在回调函数，如果存在返回文件信息数组
             );
+        }
+
+        /**
+         * 确认头像文件夹已经创建。
+         *
+         * 检查头像是否存在，如果不存在则创建文件夹。
+         * @return void
+         */
+        private function ensureAvatarFolderCreated() {
+            mkdir('./Uploads/Avatar');
         }
     }

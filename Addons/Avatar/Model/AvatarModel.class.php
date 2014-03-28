@@ -28,6 +28,7 @@ class AvatarModel extends Model {
         //删除旧头像和临时头像
         $this->removeAvatar($uid);
         $this->removeTempAvatar($uid);
+
         //保存新头像
         $data = array(
             'uid'=>$uid,
@@ -43,6 +44,7 @@ class AvatarModel extends Model {
     public function saveTempAvatar($uid, $path) {
         //删除旧的临时头像
         $this->removeTempAvatar($uid);
+
         //保存新的临时头像
         $data = array(
             'uid'=>$uid,
