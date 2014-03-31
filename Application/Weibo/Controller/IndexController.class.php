@@ -102,11 +102,10 @@ class IndexController extends Controller
     }
 
 
-    public function concernedWeibo($page)
+    public function concernedWeibo($page=1)
     {
 
         $list = $this->loadconcernedWeibolist($page);
-//dump($list);exit;
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
@@ -194,19 +193,17 @@ class IndexController extends Controller
     {
         $map = array('status' => 1);
         $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
-        //dump($list);exit;
         return $list;
     }
 
     private function loadconcernedWeibolist($page = 1)
     {
-        $uid = is_login();
-        $concerned = D('Follow')->where('who_follow=' . $uid)->select();
+        $concerned = D('Follow')->where('who_follow=' . is_login())->select();
         $map = array();
         foreach ($concerned as $cuser) {
             $map[] = $cuser['follow_who'];
         }
-        $map[] = $uid;
+        $map[] = is_login();
         $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $map) . ')')->order('create_time desc')->page($page, 10)->select();
         return $list;
     }
@@ -263,7 +260,7 @@ class IndexController extends Controller
     public function doDelWeibo($weibo_id = 0)
     {
         if (intval($weibo_id)) {
-            exit(json_encode(array('status' => D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->delete())));
+            exit(json_encode(array('status' => D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status',0))));
         }
 
     }
