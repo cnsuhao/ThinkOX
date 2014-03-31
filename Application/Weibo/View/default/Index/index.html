@@ -171,25 +171,9 @@
             });
             $(window).trigger('scroll');
 
-            //点击评论之后载入评论
-
-            $(document).on('click', '.weibo-comment-link', function (e) {
-                var weibo_id = $(this).attr('data-weibo-id');
-                var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
-                if (weiboCommentList.is(':visible')) {
-                    hideWeiboCommentList(weiboCommentList);
-                } else {
-                    showWeiboCommentList(weiboCommentList);
 
 
 
-                }
-                //取消默认动作
-
-                e.preventDefault();
-                return false;
-
-            });
 
 
             function isLoadMoreVisible() {
@@ -242,28 +226,7 @@
                 $('#weibo_list').html('');
             }
 
-            function showWeiboCommentList(weiboCommentList) {
-                //判断是否已经载入
-                var weiboContainer = $('.weibo-comment-container', weiboCommentList);
-                var loaded = weiboCommentList.attr('data-weibo-comment-loaded');
 
-                //如果已经载入，只要显示即可
-                if (loaded) {
-                    weiboCommentList.show();
-                    return;
-                }
-
-                //显示“正在加载评论”
-                weiboContainer.html('<span class="text-muted">正在加载...</span>');
-                weiboCommentList.show();
-
-                //通过服务器载入评论列表
-                reloadWeiboCommentList(weiboCommentList);
-            }
-
-            function hideWeiboCommentList(weiboCommentList) {
-                weiboCommentList.hide();
-            }
 
 
         })

@@ -38,11 +38,11 @@ class IndexController extends Controller
         $atusers = $this->getAtWhoJson();
         $this->assign('atwhousers', $atusers);
 
-
         $list = $this->loadconcernedWeibolist();
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
+        unset($li);
 
         $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
 
@@ -176,6 +176,8 @@ class IndexController extends Controller
 
         //返回html代码用于ajax显示
         $this->assign('weiboId', $weibo_id);
+        $weibo = D('Weibo')->find($weibo_id);
+        $this->assign('weibo', $weibo);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->assign('list', $list);
         $this->display();
@@ -200,8 +202,9 @@ class IndexController extends Controller
     {
         $uid = is_login();
         $concerned = D('Follow')->where('who_follow=' . $uid)->select();
+        $map = array();
         foreach ($concerned as $cuser) {
-            $map = $cuser['follow_who'];
+            $map[] = $cuser['follow_who'];
         }
         $map[] = $uid;
         $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $map) . ')')->order('create_time desc')->page($page, 10)->select();
@@ -254,6 +257,15 @@ class IndexController extends Controller
             return json_encode($atusers);
         }
         return json_encode($atusers);
+    }
+
+
+    public function doDelWeibo($weibo_id = 0)
+    {
+        if (intval($weibo_id)) {
+            exit(json_encode(array('status' => D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->delete())));
+        }
+
     }
 
 }
