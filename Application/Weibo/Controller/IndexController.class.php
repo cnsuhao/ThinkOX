@@ -14,13 +14,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $atusers=S('atUsersJson_'.is_login());
-        if(empty($atusers)){
-            $atusers = $this->getAtWhoJson();
-            S('atUsersJson_'.is_login(),$atusers,600);
-        }
-
-        $this->assign('atwhousers', json_encode($atusers));
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
 
         //载入第一页微博
         $list = $this->loadWeiboList();
@@ -38,52 +33,38 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public  function myconcerned()
-                        {
-                             $atusers=S('atUsersJson_'.is_login());
-                             if(empty($atusers)){
-                             $atusers = $this->getAtWhoJson();
-                             S('atUsersJson_'.is_login(),$atusers,600);
-                         }
-                            $this->assign('atwhousers', json_encode($atusers));
+    public function myconcerned()
+    {
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
 
 
-
-                            $list = $this->loadconcernedWeibolist();
-                            //dump($list);exit;
-                            foreach ($list as &$li) {
-                                         $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-                                                   }
-
-                                 $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
-
-
-                     //显示页面
-                          $this->assign('list', $list);
-                          $this->assign('self', $self);
-                          $this->display();
-}
-
-
-
-
-    public function weiboDetail(){
-
-        $id=$_GET['id'];
-        $list=D('Weibo')->where('id='.$id)->select();
-        $uid=$list[0]['uid'];
-
-        //dump($uid);exit;
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'),$uid);
-
-        //dump($self);exit;
-        $atusers=S('atUsersJson_'.is_login());
-        if(empty($atusers)){
-            $atusers = $this->getAtWhoJson();
-            S('atUsersJson_'.is_login(),$atusers,600);
+        $list = $this->loadconcernedWeibolist();
+        foreach ($list as &$li) {
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
 
-        $this->assign('atwhousers', json_encode($atusers));
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+
+
+        //显示页面
+        $this->assign('list', $list);
+        $this->assign('self', $self);
+        $this->display();
+    }
+
+
+    public function weiboDetail()
+    {
+
+        $id = $_GET['id'];
+        $list = D('Weibo')->where('id=' . $id)->select();
+        $uid = $list[0]['uid'];
+
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'), $uid);
+
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
 
 
         $this->assign('list', $list);
@@ -91,10 +72,6 @@ class IndexController extends Controller
         $this->display();
 
     }
-
-
-
-
 
 
     public function atjson()
@@ -125,8 +102,6 @@ class IndexController extends Controller
     }
 
 
-
-
     public function concernedWeibo($page)
     {
 
@@ -147,7 +122,6 @@ class IndexController extends Controller
         $this->display();
 
     }
-
 
 
     public function doSend($content)
@@ -222,20 +196,15 @@ class IndexController extends Controller
         return $list;
     }
 
-    private function loadconcernedWeibolist($page=1)
+    private function loadconcernedWeibolist($page = 1)
     {
-        $uid=is_login();
-        $concerned=D('Follow')->where('who_follow='.$uid)->select();
-        //dump( $concerned);exit;
-        $count=D('Follow')->where('who_follow='.$uid)->count();
-        //dump( $count);exit;
-        for($i=0;$i<$count;$i++)
-        {
-            $map[$i]=$concerned[$i]['follow_who'];
-
+        $uid = is_login();
+        $concerned = D('Follow')->where('who_follow=' . $uid)->select();
+        foreach ($concerned as $cuser) {
+            $map = $cuser['follow_who'];
         }
-        $list = D('Weibo')->where('status=1 and uid in('.implode(',',$map).')')->order('create_time desc')->page($page, 10)->select();
-        //dump($list);exit;
+        $map[] = $uid;
+        $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $map) . ')')->order('create_time desc')->page($page, 10)->select();
         return $list;
     }
 
@@ -244,7 +213,7 @@ class IndexController extends Controller
      * @param $user
      * @return array
      */
-    private function getAtWhoJson()
+    private function getAtWho()
     {
         $atuserIds = array();
         $atusers = array();
@@ -273,5 +242,18 @@ class IndexController extends Controller
         return $atusers;
     }
 
+    /**
+     * @return array|mixed
+     */
+    private function getAtWhoJson()
+    {
+        $atusers = S('atUsersJson_' . is_login());
+        if (empty($atusers)) {
+            $atusers = $this->getAtWho();
+            S('atUsersJson_' . is_login(), $atusers, 600);
+            return json_encode($atusers);
+        }
+        return json_encode($atusers);
+    }
 
 }
