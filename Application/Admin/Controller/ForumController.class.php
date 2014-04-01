@@ -233,7 +233,7 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder->title('回复管理')
             ->setStatusUrl(U('setReplyStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
-            ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply')
+            ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply?id=###')
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();
