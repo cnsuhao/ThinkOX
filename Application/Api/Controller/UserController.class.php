@@ -123,7 +123,7 @@ class UserController extends ApiController
         $avatar128_path = '/' . $avatar128_path['src'];
         $avatar128_url = getRootUrl() . $avatar128_path;
 
-        //获取头衔
+        //获取等级
         $title = D('Usercenter/Title')->getTitle($user1['score']);
 
         //只返回必要的详细资料

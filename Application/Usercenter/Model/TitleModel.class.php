@@ -20,7 +20,7 @@ class TitleModel extends Model
 
     public function getTitleByScore($score)
     {
-        //根据积分查询对应头衔
+        //根据积分查询对应等级
         $config = $this->getTitleConfig();
         $config = array_reverse($config, true);
         foreach ($config as $min => $title) {
@@ -29,7 +29,7 @@ class TitleModel extends Model
             }
         }
 
-        //查询无结果，返回最高头衔
+        //查询无结果，返回最高等级
         $keys = array_keys($config);
         $max_key = $keys[count($config) - 1];
         return $config[$max_key];

@@ -9,7 +9,7 @@
 /**
  * 支持的字段有
  * member表中的所有字段，ucenter_member表中的所有字段
- * 头衔：title
+ * 等级：title
  * 头像：avatar32 avatar64 avatar128 avatar256 avatar512
  * 个人中心地址：space_url
  * 认证图标：icons_html
@@ -41,7 +41,6 @@ function query_user($fields, $uid = null)
     }
     //去除已经缓存的字段
     $fields = array_diff($fields, $cachedFields);
-
     //获取两张用户表格中的所有字段
     $homeModel = M('Member');
     $ucenterModel = M('UcenterMember');
@@ -75,7 +74,7 @@ function query_user($fields, $uid = null)
         $result[$e] = $avatarUrl;
     }
 
-    //读取头衔数据
+    //读取等级数据
     if (in_array('title', $fields)) {
         $titleModel = D('Usercenter/Title');
         $title = $titleModel->getTitle($uid);

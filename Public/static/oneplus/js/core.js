@@ -64,7 +64,7 @@ function ucard() {
                         }
                         follow += '</button></div></div>';
                     }
-                    var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
+                    var tpl = $('<div ><p>等级：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
                         + '<p style="width: 250px">微博：' + userProfile.weibocount + '&nbsp;&nbsp;&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
                         '</div>');
