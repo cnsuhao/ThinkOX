@@ -1,0 +1,47 @@
+<volist name="list" id="weibo">
+
+    <div class="row" id="weibo_{$weibo.id}">
+        <div class="col-md-12">
+            <div class="pull-left">
+                <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}"><img src="{$weibo.user.avatar64}"
+                                                                                 class="avatar-img"
+                                                                                 style="width: 64px;"/></a>
+            </div>
+
+            <div style="padding-left: 16px; overflow: hidden;">
+
+
+                <p><a ucard="{$weibo.user.uid}"
+                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}
+                </p>
+
+                <p>{$weibo.content}</p>
+
+                <div>
+                    <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a></span>
+
+                    <div class="pull-right operation" style="margin-bottom: .5em">
+                        <php>
+                            $weiboCommentTotalCount = $weibo['comment_count'];
+                        </php>
+                        <include file="_operation"/>
+                    </div>
+                </div>
+                <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
+                    <div class="col-md-12">
+                        <div class="light-jumbotron" style="padding: 1em 2em;">
+                            <div class="weibo-comment-container">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+</volist>
+
+<script>
+    ucard();
+</script>
