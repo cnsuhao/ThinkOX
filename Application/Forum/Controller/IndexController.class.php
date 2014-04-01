@@ -136,6 +136,7 @@ class IndexController extends Controller
             $this->error("回复内容不能为空！");
         }
         $data['content']=$content;
+        $data['update_time']=time();
         $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
         $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
         if($reply){
