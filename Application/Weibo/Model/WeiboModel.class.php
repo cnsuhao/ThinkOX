@@ -36,6 +36,9 @@ class WeiboModel extends Model
         $data = $this->create($data);
         if (!$data) return false;
         $weibo_id = $this->add($data);
+
+        action_log('add_weibo', 'Weibo', $weibo_id, is_login());
+
         $data['id'] = $weibo_id;
         $data['content'] = $this->sendAllAtMessages($content, $user_math, $self, $weibo_id);
         $this->save($data);

@@ -14,6 +14,7 @@
             <section id="contents">
                 <form action="{:U('Forum/Index/doEdit')}" method="post" id="edit-article-form">
                     <input type="hidden" name="post_id" value="{$post.id}"/>
+
                     <div class="row">
                         <!-- 帖子分类 -->
                         <div class="col-md-2">
@@ -24,7 +25,8 @@
                                             <php>
                                                 $selected = $each_forum['id'] == $forum_id ? 'selected' : '';
                                             </php>
-                                            <option value="{$each_forum.id}" {$selected}>{$each_forum.title|htmlspecialchars}</option>
+                                            <option value="{$each_forum.id}"
+                                            {$selected}>{$each_forum.title|htmlspecialchars}</option>
                                         </if>
                                     </volist>
                                 </select>
@@ -32,15 +34,19 @@
                         </div>
                         <div class="col-md-10">
                             <p>
-                                <input type="text" name="title" placeholder="标题" value="{$post.title}" class="form-control"/>
+                                <input type="text" name="title" placeholder="标题" value="{$post.title}"
+                                       class="form-control"/>
                             </p>
                         </div>
                     </div>
                     <p>
-                        <textarea  name="content" class="form-control" placeholder="说点什么吧～" style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>
+                        <textarea name="content" class="form-control" placeholder="说点什么吧～"
+                                  style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>
                         {:hook('documentEditFormContent',array('name'=>'content','value'=>htmlspecialchars($post['content'])))}
                     </p>
+
                     <p>&nbsp;</p>
+
                     <p class="pull-right">
                         <button type="submit" class="btn btn-large btn-primary" id="submit-button">
                             <span class="glyphicon glyphicon-edit"></span>
@@ -74,11 +80,11 @@
 <block name="script">
     <script>
         //点击编辑或发表按钮之后
-        $(function(){
+        $(function () {
             var submitCount = 0;
-            $('#edit-article-form').submit(function(e){
+            $('#edit-article-form').submit(function (e) {
                 //为了得到编辑器中的内容，触发两次提交事件
-                if(submitCount == 0) {
+                if (submitCount == 0) {
                     submitCount = 1;
                     $('#edit-article-form').trigger('submit');
                     e.preventDefault();
@@ -91,8 +97,8 @@
                 //获取用户输入的内容
                 var postData = $(this).serialize();
                 var action = $(this).attr('action');
-                $.post(action, postData, function(e){
-                    if(e.status) {
+                $.post(action, postData, function (e) {
+                    if (e.status) {
                         showSubmitSuccess(e.info, e.url);
                     } else {
                         showSubmitError(e.info);
@@ -109,14 +115,14 @@
             }
 
             function showSubmitSuccess(message, url) {
-                $('#submit-button').text(message);
-                setTimeout(function(){
+                op_success(message, '温馨提示');
+                setTimeout(function () {
                     location.href = url;
-                },500);
+                }, 1500);
             }
 
             function showSubmitting() {
-                $('#submit-button').attr('class','btn btn-primary disabled').text('正在提交');
+                $('#submit-button').attr('class', 'btn btn-primary disabled').text('正在提交');
             }
         })
     </script>

@@ -1518,6 +1518,53 @@ CREATE TABLE IF NOT EXISTS `thinkox_weibo_comment` (
 -- 转存表中的数据 `thinkox_weibo_comment`
 --
 
+CREATE TABLE IF NOT EXISTS `thinkox_action` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` char(30) NOT NULL DEFAULT '' COMMENT '行为唯一标识',
+  `title` char(80) NOT NULL DEFAULT '' COMMENT '行为说明',
+  `remark` char(140) NOT NULL DEFAULT '' COMMENT '行为描述',
+  `rule` text NOT NULL COMMENT '行为规则',
+  `log` text NOT NULL COMMENT '日志规则',
+  `type` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
+  `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统行为表' AUTO_INCREMENT=13 ;
+
+--
+-- 转存表中的数据 `onethink_action`
+--
+
+
+INSERT INTO `thinkox_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `type`, `status`, `update_time`) VALUES
+(1, 'user_login', '用户登录', '积分+10，每天一次', 'table:member|field:score|condition:uid={$self} AND status>-1|rule:score+10|cycle:24|max:1;', '[user|get_nickname]在[time|time_format]登录了后台', 1, 1, 1387181220),
+(2, 'add_article', '发布文章', '积分+5，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+5|cycle:24|max:5', '', 2, 0, 1380173180),
+(3, 'review', '评论', '评论积分+1，无限制', 'table:member|field:score|condition:uid={$self}|rule:score+1', '', 2, 1, 1383285646),
+(4, 'add_document', '发表文档', '积分+10，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+10|cycle:24|max:5', '[user|get_nickname]在[time|time_format]发表了一个微博。\r\n表[model]，记录编号[record]。', 1, 0, 1394866289),
+(5, 'add_document_topic', '发表讨论', '积分+5，每天上限10次', 'table:member|field:score|condition:uid={$self}|rule:score+5|cycle:24|max:10', '', 2, 0, 1383285551),
+(6, 'update_config', '更新配置', '新增或修改或删除配置', '', '', 1, 1, 1383294988),
+(7, 'update_model', '更新模型', '新增或修改模型', '', '', 1, 1, 1383295057),
+(8, 'update_attribute', '更新属性', '新增或更新或删除属性', '', '', 1, 1, 1383295963),
+(9, 'update_channel', '更新导航', '新增或修改或删除导航', '', '', 1, 1, 1383296301),
+(10, 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', 1, 1, 1383296392),
+(11, 'update_category', '更新分类', '新增或修改或删除分类', '', '', 1, 1, 1383296765);
+
+
+CREATE TABLE IF NOT EXISTS `thinkox_action_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '行为id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行用户id',
+  `action_ip` bigint(20) NOT NULL COMMENT '执行行为者ip',
+  `model` varchar(50) NOT NULL DEFAULT '' COMMENT '触发行为的表',
+  `record_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '触发行为的数据id',
+  `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '日志备注',
+  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '执行行为的时间',
+  PRIMARY KEY (`id`),
+  KEY `action_ip_ix` (`action_ip`),
+  KEY `action_id_ix` (`action_id`),
+  KEY `user_id_ix` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=126 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -94,18 +94,18 @@ class ForumController extends AdminController {
         $builder = new AdminConfigBuilder();
         $builder
             ->title($isEdit ? '编辑贴吧' : '新增贴吧')
-            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()
+            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()->keySingleImage('logo','板块图标','用于显示的图标')
             ->data($forum)
             ->buttonSubmit(U('doEditForum'))->buttonBack()
             ->display();
     }
 
-    public function doEditForum($id=null, $title, $create_time, $status, $allow_user_group) {
+    public function doEditForum($id=null, $title, $create_time, $status, $allow_user_group,$logo) {
         //判断是否为编辑模式
         $isEdit = $id ? true : false;
 
         //生成数据
-        $data = array('title'=>$title, 'create_time'=>$create_time, 'status'=>$status, 'allow_user_group'=>$allow_user_group);
+        $data = array('title'=>$title, 'create_time'=>$create_time, 'status'=>$status, 'allow_user_group'=>$allow_user_group,'logo'=>$logo);
 
         //写入数据库
         $model = M('Forum');
@@ -233,7 +233,7 @@ class ForumController extends AdminController {
         $builder = new AdminListBuilder();
         $builder->title('回复管理')
             ->setStatusUrl(U('setReplyStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
-            ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply')
+            ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply?id=###')
             ->data($list)
             ->pagination($totalCount,$r)
             ->display();

@@ -36,10 +36,10 @@ class IndexController extends Controller
         //默认进入到后台配置的第一个板块
         //$d_forum = D('forum');
         //$forum = $d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
-        redirect(U('forum', array( 'page' => $page)));
+        redirect(U('forum', array('page' => $page)));
     }
 
-    public function forum($id=0, $page = 1, $order = 'last_reply_time desc')
+    public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
     {
         if ($order == 'ctime') {
             $order = 'create_time desc';
@@ -49,10 +49,10 @@ class IndexController extends Controller
         $this->requireForumAllowView($id);
 
         //读取帖子列表
-        if($id==0){
-            $map = array( 'status' => 1);
+        if ($id == 0) {
+            $map = array('status' => 1);
             $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL . '')->order($order)->select();
-        }else{
+        } else {
             $map = array('forum_id' => $id, 'status' => 1);
             $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
         }
@@ -163,14 +163,17 @@ class IndexController extends Controller
             }
         } else {
             $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
+
+            $before = getMyScore();
             $result = $model->createPost($data);
+            $after = getMyScore();
             if (!$result) {
                 $this->error('发表失败：' . $model->getError());
             }
             $post_id = $result;
         }
         //显示成功消息
-        $message = $isEdit ? '编辑成功' : '发表成功';
+        $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after);
         $this->success($message, U('Forum/Index/detail', array('id' => $post_id)));
     }
 
@@ -178,26 +181,28 @@ class IndexController extends Controller
     {
         //确认有权限回复
         $this->requireAllowReply($post_id);
-       //检测回复时间限制
-        $uid=is_login();
-        $near=D('ForumPostReply')->where('uid='.$uid)->order('create_time desc')->find();
+        //检测回复时间限制
+        $uid = is_login();
+        $near = D('ForumPostReply')->where('uid=' . $uid)->order('create_time desc')->find();
 
-        $cha=time()-$near['create_time'];
-       if($cha>10){
+        $cha = time() - $near['create_time'];
+        if ($cha > 10) {
 
-        //添加到数据库
-        $model = D('ForumPostReply');
-        $result = $model->addReply($post_id, $content);
-        if (!$result) {
-            $this->error('回复失败：' . $model->getError());
+            //添加到数据库
+            $model = D('ForumPostReply');
+            $before = getMyScore();
+            $result = $model->addReply($post_id, $content);
+            $after = getMyScore();
+            if (!$result) {
+                $this->error('回复失败：' . $model->getError());
+            }
+            //显示成功消息
+            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh');
+        } else {
+            $this->error('请10秒之后再回复');
+
         }
-        //显示成功消息
-        $this->success('回复成功', 'refresh');}
-        else{
-            $this->error('请十秒之后再回复');
-
-        }
-}
+    }
 
     public function doBookmark($post_id, $add = true)
     {

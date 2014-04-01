@@ -2,7 +2,7 @@
 
 
 <ul>
-<volist name="lzlList" id="vo"  key="k">
+    <volist name="lzlList" id="vo" key="k">
 
 <li id="forum_lzl_reply_{$vo.id}" class="show_{$to_f_reply_id} lzl_reply_list" style="<if condition="$nowPage eq 1 and $k gt 3 and $k elt $limit">display:none;</if>">
 
@@ -28,28 +28,36 @@
     </div>
     <div class="clearfix"></div>
 
-</li>
+            <p style="color:  #ccc;">{$vo.ctime|time_format} <a class="pull-right reply_btn"
+                                                                args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_username={$vo.userInfo.username}"
+                                                                href="javascript:">回复</a></p>
+
+        </div>
+        <div class="clearfix"></div>
+
+        </li>
 
 
-
-
-</volist>
+    </volist>
 
 </ul>
 
 <if condition="$nowPage eq 1 and $count gt 3">
-    <span class="pull-left XT_reply_count" id="show_{$to_f_reply_id}" >
-     还有{$totalCount-3}条回复，<a href="javascript:" onclick="$('.show_{$to_f_reply_id}').slideDown('normal');$('#show_{$to_f_reply_id}').hide();$('#pagination_{$to_f_reply_id}').show();">点击查看</a>
+    <span class="pull-left XT_reply_count" id="show_{$to_f_reply_id}">
+     还有{$totalCount-3}条回复，<a href="javascript:"
+                             onclick="$('.show_{$to_f_reply_id}').slideDown('normal');$('#show_{$to_f_reply_id}').hide();$('#pagination_{$to_f_reply_id}').show();">点击查看</a>
     </span>
 
 </if>
-        <div class="pagination"  id="pagination_{$to_f_reply_id}" style="margin-left: 40px;<if condition='$nowPage eq 1'>display:none;</if>">
-        {$html}
-        </div>
+<div class="pagination" id="pagination_{$to_f_reply_id}"
+     style="margin-left: 40px;<if condition='$nowPage eq 1'>display:none;</if>">
+    {$html}
+</div>
 
 <script>
-    function changePage(id,p){
-        $('#lzl_reply_list_'+id).load(U('Forum/LZL/lzllist&to_f_reply_id='+id+'&page='+p,'',true),function(){
-            ucard() })
+    function changePage(id, p) {
+        $('#lzl_reply_list_' + id).load(U('Forum/LZL/lzllist&to_f_reply_id=' + id + '&page=' + p, '', true), function () {
+            ucard();
+        })
     }
 </script>

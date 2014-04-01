@@ -120,7 +120,8 @@ class SEOController extends AdminController
         } else {
             $result = $model->add($data);
         }
-
+        $cacheKey = "oneplus_seo_meta_{$app}_{$controller}_{$action2}";
+        S($cacheKey, null);
         //如果失败的话，显示失败消息
         if (!$result) {
             $this->error($isEdit ? '编辑失败' : '创建失败');

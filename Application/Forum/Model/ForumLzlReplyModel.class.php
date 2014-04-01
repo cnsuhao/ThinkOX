@@ -30,6 +30,7 @@ class ForumLzlReplyModel extends Model
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
+  		action_log('add_post_reply','ForumLzlReply',$result,is_login());
         S('post_replylist_'.$post_id,null);
         S('post_replylzllist_'.$to_f_reply_id,null);
         //增加帖子的回复数

@@ -32,9 +32,14 @@ class WeiboCommentModel extends Model
 
         //将评论内容写入数据库
         $data = array('uid' => $uid, 'weibo_id' => $weibo_id, 'content' => $content, 'comment_id' => $comment_id);
+
         $data = $this->create($data);
+
         if (!$data) return false;
         $result = $this->add($data);
+
+        action_log('add_weibo_comment', 'WeiboComment', $result, is_login());
+
         if ($result) {
             $data['id'] = $result;
             $data['content']= $this->sendAllAtMessages($content, $user_math, $self, $weibo_id);
