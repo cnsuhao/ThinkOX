@@ -118,6 +118,33 @@ class IndexController extends Controller
         $this->display();
     }
 
+    public function editReply($reply_id = null)
+    {
+        if ($reply_id) {
+            $reply = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->find();
+        }else{
+            $this->error('参数出错！');
+        }
+
+        //显示页面
+        $this->assign('reply', $reply);
+        $this->display();
+    }
+    public function doReplyEdit($reply_id = null, $content)
+    {
+        if(!$content){
+            $this->error("回复内容不能为空！");
+        }
+        $data['content']=$content;
+        $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
+        $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
+        if($reply){
+            $this->success('编辑回复成功', U('Forum/Index/detail', array('id' => $post_id)));
+        }else{
+            $this->error("编辑回复失败");
+        }
+    }
+
     public function edit($forum_id = 0, $post_id = null)
     {
         //判断是不是为编辑模式
