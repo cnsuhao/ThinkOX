@@ -4,6 +4,11 @@
 
 /*微博应用使用的js*/
 
+/**
+ * 评论微博
+ * @param obj
+ * @param comment_id 评论ID
+ */
 function weibo_reply(obj, comment_id, comment_object) {
     var weiboId = $(obj).attr('data-weibo-id');
 
@@ -14,6 +19,25 @@ function weibo_reply(obj, comment_id, comment_object) {
     weiboToCommentId.val(comment_id);
     textarea.focus();
     textarea.val('回复 ' + comment_object + ' ：');
+}
+/**
+ * 评论微博
+ * @param obj
+ * @param comment_id 评论ID
+ */
+function comment_del(obj, comment_id) {
+    var url = U('Weibo/Index/doDelComment');
+    var $this = $(obj);
+    $.post(url, {comment_id: comment_id}, function (msg) {
+        if(msg.status){
+            var weiboId = $this.attr('data-weibo-id');
+            var weibo = $('#weibo_' + weiboId);
+            var weiboCommentList = $('.weibo-comment-list', weibo);
+            reloadWeiboCommentList(weiboCommentList);
+            op_success('删除微博成功。', '温馨提示');
+        }
+    }, 'json');
+
 }
 
 
@@ -46,12 +70,12 @@ $(document).on('click', '.weibo-comment-commit', function () {
  */
 $(document).on('click', '.weibo-comment-del', function (e) {
     var weibo_id = $(this).attr('data-weibo-id');
-    var $this=$(this);
+    var $this = $(this);
     $.post(U('Weibo/Index/doDelWeibo'), {weibo_id: weibo_id}, function (msg) {
-        if(msg.status){
+        if (msg.status) {
             $this.parent().parent().parent().parent().parent().next().fadeOut();
             $this.parent().parent().parent().parent().parent().fadeOut();
-            op_success('删除微博成功。','温馨提示');
+            op_success('删除微博成功。', '温馨提示');
         }
     }, 'json');
     //取消默认动作

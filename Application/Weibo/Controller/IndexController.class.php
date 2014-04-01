@@ -168,7 +168,7 @@ class IndexController extends Controller
     public function loadComment($weibo_id)
     {
         //读取数据库中全部的评论列表
-        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id))->order('create_time desc')->select();
+        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->select();
         $weiboCommentTotalCount = count($list);
 
         //返回html代码用于ajax显示
@@ -258,9 +258,25 @@ class IndexController extends Controller
     public function doDelWeibo($weibo_id = 0)
     {
         if (intval($weibo_id)) {
-            exit(json_encode(array('status' => D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0))));
+            $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0);//删除带检测权限
+            if ($del) {
+                D('WeiboComment')->where(array('weibo_id' => $weibo_id))->setField('status', 0);
+            }
+            exit(json_encode(array('status' => $del)));
         }
+    }
 
+    public function doDelComment($comment_id = 0)
+    {
+        if (intval($comment_id)) {
+            $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0);//先删除带检测权限
+            if ($del) {
+                $comment = D('WeiboComment')->find($comment_id);
+                $count = D('WeiboComment')->where(array('weibo_id' => $comment['weibo_id'], 'status' => 1))->count();
+                D('Weibo')->where(array('id' => $comment['weibo_id']))->setField('comment_count', $count);
+            }
+            exit(json_encode(array('status' => $del)));
+        }
     }
 
 }
