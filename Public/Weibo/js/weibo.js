@@ -2,6 +2,70 @@
  * Created by 95 on 3/21/14.
  */
 
+$(function () {
+    /**
+     * 点击评论按钮后提交评论
+     */
+    $(document).on('click', '.weibo-comment-commit', function () {
+        var weiboId = $(this).attr('data-weibo-id');
+        var weibo = $('#weibo_' + weiboId);
+        var content = $('.weibo-comment-content', weibo).val();
+        var url = U('Weibo/Index/doComment');
+        var commitButton = $('.weibo-comment-commit', weibo);
+        var weiboCommentList = $('.weibo-comment-list', weibo);
+        commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
+        var weiboToCommentId = $('#weibo-comment-to-comment-id', weibo);
+        comment_id = weiboToCommentId.val();
+
+
+        $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
+            if (a.status) {
+                reloadWeiboCommentList(weiboCommentList);
+            } else {
+                commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
+            }
+        });
+    });
+
+    /**
+     * 点击删除后删除微博
+     */
+    $(document).on('click', '.weibo-comment-del', function (e) {
+        var weibo_id = $(this).attr('data-weibo-id');
+        var $this = $(this);
+        $.post(U('Weibo/Index/doDelWeibo'), {weibo_id: weibo_id}, function (msg) {
+            if (msg.status) {
+                $this.parent().parent().parent().parent().parent().next().fadeOut();
+                $this.parent().parent().parent().parent().parent().fadeOut();
+                op_success('删除微博成功。', '温馨提示');
+            }
+        }, 'json');
+        //取消默认动作
+        e.preventDefault();
+        return false;
+    });
+
+    /**
+     * 点击评论之后载入评论
+     */
+    $(document).on('click', '.weibo-comment-link', function (e) {
+        var weibo_id = $(this).attr('data-weibo-id');
+        var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
+        if (weiboCommentList.is(':visible')) {
+            hideWeiboCommentList(weiboCommentList);
+        } else {
+            showWeiboCommentList(weiboCommentList);
+        }
+        //取消默认动作
+        e.preventDefault();
+        return false;
+    });
+    if (typeof(auto_open_detail) !='undefined') {
+        $('.weibo-comment-link').click();
+    }
+});
+
+
 /*微博应用使用的js*/
 
 /**
@@ -29,7 +93,7 @@ function comment_del(obj, comment_id) {
     var url = U('Weibo/Index/doDelComment');
     var $this = $(obj);
     $.post(url, {comment_id: comment_id}, function (msg) {
-        if(msg.status){
+        if (msg.status) {
             var weiboId = $this.attr('data-weibo-id');
             var weibo = $('#weibo_' + weiboId);
             var weiboCommentList = $('.weibo-comment-list', weibo);
@@ -40,64 +104,6 @@ function comment_del(obj, comment_id) {
 
 }
 
-
-/**
- * 点击评论按钮后提交评论
- */
-$(document).on('click', '.weibo-comment-commit', function () {
-    var weiboId = $(this).attr('data-weibo-id');
-    var weibo = $('#weibo_' + weiboId);
-    var content = $('.weibo-comment-content', weibo).val();
-    var url = U('Weibo/Index/doComment');
-    var commitButton = $('.weibo-comment-commit', weibo);
-    var weiboCommentList = $('.weibo-comment-list', weibo);
-    commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
-    var weiboToCommentId = $('#weibo-comment-to-comment-id', weibo);
-    comment_id = weiboToCommentId.val();
-
-
-    $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
-        if (a.status) {
-            reloadWeiboCommentList(weiboCommentList);
-        } else {
-            commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
-        }
-    });
-});
-
-/**
- * 点击删除后删除微博
- */
-$(document).on('click', '.weibo-comment-del', function (e) {
-    var weibo_id = $(this).attr('data-weibo-id');
-    var $this = $(this);
-    $.post(U('Weibo/Index/doDelWeibo'), {weibo_id: weibo_id}, function (msg) {
-        if (msg.status) {
-            $this.parent().parent().parent().parent().parent().next().fadeOut();
-            $this.parent().parent().parent().parent().parent().fadeOut();
-            op_success('删除微博成功。', '温馨提示');
-        }
-    }, 'json');
-    //取消默认动作
-    e.preventDefault();
-    return false;
-});
-
-/**
- * 点击评论之后载入评论
- */
-$(document).on('click', '.weibo-comment-link', function (e) {
-    var weibo_id = $(this).attr('data-weibo-id');
-    var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
-    if (weiboCommentList.is(':visible')) {
-        hideWeiboCommentList(weiboCommentList);
-    } else {
-        showWeiboCommentList(weiboCommentList);
-    }
-    //取消默认动作
-    e.preventDefault();
-    return false;
-});
 
 /**
  * 显示微博列表

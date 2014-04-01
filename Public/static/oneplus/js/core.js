@@ -75,7 +75,7 @@ function ucard() {
                 return '获取数据中...'
             }
 
-        },position: {
+        }, position: {
             viewport: $(window)
         }, show: {solo: true}, style: {
             classes: 'qtip-bootstrap'
@@ -247,7 +247,7 @@ function checkMessage() {
     $.get(U('Usercenter/Public/getMessage'), {}, function (msg) {
         if (msg) {
             var count = parseInt($hint_count.text());
-            if(count==0){
+            if (count == 0) {
                 $('#nav_message').html('');
             }
             playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
@@ -256,7 +256,7 @@ function checkMessage() {
                 //  var url=msg[index]['url']===''?U('') //设置默认跳转到消息中心
 
 
-                var new_html = $('<span><li><a href="' + msg[index]['url'] + '"><i class="glyphicon glyphicon-bell"></i>' +
+                var new_html = $('<span><li><a data-url="' + msg[index]['url'] + '"' + 'onclick="readMessage(this,' + msg[index]['id'] + ')"><i class="glyphicon glyphicon-bell"></i>' +
                     msg[index]['title'] + '<br/><span class="time">' + msg[index]['ctime'] +
                     '</span> </a></li></span>');
                 $('#nav_message').prepend(new_html.html());
@@ -270,6 +270,15 @@ function checkMessage() {
         }
     }, 'json');
 }
+function readMessage(obj,message_id) {
+    var url = $(obj).attr('data-url');
+    $.post(U('Usercenter/Public/readMessage'), {message_id: message_id}, function (msg) {
+        if (msg.status) {
+            location.href = url;
+        }
+    }, 'json');
+}
+
 /**
  * 将所有的消息设为已读
  */

@@ -58,7 +58,11 @@ class IndexController extends Controller
     {
 
         $id = $_GET['id'];
-        $list = D('Weibo')->where('id=' . $id)->select();
+        $list = D('Weibo')->where(array('id' => $id, 'status' => 1))->select();
+        if (!$list) { //针对微博存在的检测
+            $this->assign('jumpUrl', U('Weibo/Index/index'));
+            $this->error('404未能找到该微博。');
+        }
         $uid = $list[0]['uid'];
 
         $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'), $uid);
@@ -258,7 +262,7 @@ class IndexController extends Controller
     public function doDelWeibo($weibo_id = 0)
     {
         if (intval($weibo_id)) {
-            $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0);//删除带检测权限
+            $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0); //删除带检测权限
             if ($del) {
                 D('WeiboComment')->where(array('weibo_id' => $weibo_id))->setField('status', 0);
             }
@@ -269,7 +273,7 @@ class IndexController extends Controller
     public function doDelComment($comment_id = 0)
     {
         if (intval($comment_id)) {
-            $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0);//先删除带检测权限
+            $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0); //先删除带检测权限
             if ($del) {
                 $comment = D('WeiboComment')->find($comment_id);
                 $count = D('WeiboComment')->where(array('weibo_id' => $comment['weibo_id'], 'status' => 1))->count();
