@@ -16,8 +16,6 @@ $(function () {
         commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
         var weiboToCommentId = $('#weibo-comment-to-comment-id', weibo);
         comment_id = weiboToCommentId.val();
-
-
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);

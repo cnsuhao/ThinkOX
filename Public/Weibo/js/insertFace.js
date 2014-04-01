@@ -4,7 +4,7 @@ var insertFace = function(){
         '<div class="XT_face_main"><div class="XT_face_title"><span class="XT_face_bt" style="float: left">常用表情</span>' +
         '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
 
-    $('#emot_content').html(html);
+    $('#emot_content1').html(html);
     getFace();
 }
 
