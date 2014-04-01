@@ -134,13 +134,14 @@ class IndexController extends Controller
 
         //写入数据库
         $model = D('Weibo');
+        $score_before = getMyScore();
         $result = $model->addWeibo(is_login(), $content);
+        $score_after =getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
         }
-
         //显示成功页面
-        $this->success('发表成功');
+        $this->success('发表微博成功。' . getScoreTip($score_before,$score_after));
     }
 
     public function doComment($weibo_id, $content, $comment_id = 0)
@@ -157,13 +158,15 @@ class IndexController extends Controller
 
         if ($cha > 10) {
             $model = D('WeiboComment');
+            $score_before = getMyScore();
             $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
+            $score_after =getMyScore();
             if (!$result) {
                 $this->error('评论失败：' . $model->getError());
             }
 
             //显示成功页面
-            $this->success('评论成功');
+            $this->success('评论成功。'.getScoreTip($score_before,$score_after));
         } else {
             $this->error('相隔不能低于10秒');
         }

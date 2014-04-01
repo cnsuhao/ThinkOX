@@ -21,6 +21,7 @@ $(function () {
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);
+                op_success(a.info,'温馨提示');
             } else {
                 commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
             }
