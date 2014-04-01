@@ -32,7 +32,9 @@ class ForumPostModel extends Model {
         //新增帖子
         $data = $this->create($data);
         if(!$data) return false;
+
         $result = $this->add($data);
+        action_log('add_post','ForumPost',$result,is_login());
         if(!$result) {
             return false;
         }

@@ -51,7 +51,9 @@ class LZLController extends Controller
         $this->requireLogin();
         //写入数据库
         $model = D('ForumLzlReply');
+        $before=getMyScore();
         $result = $model->addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, op_t($content));
+        $after=getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
         }
@@ -59,7 +61,7 @@ class LZLController extends Controller
         $totalCount = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->count();
         $limit = 5;
         $pageCount = ceil($totalCount / $limit);
-        $this->success($pageCount);
+        $this->success('回复成功。'.getScoreTip($before,$after),$pageCount);
     }
 
     private function requireLogin()
