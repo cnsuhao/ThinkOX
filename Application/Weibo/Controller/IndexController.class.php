@@ -262,7 +262,12 @@ class IndexController extends Controller
     public function doDelWeibo($weibo_id = 0)
     {
         if (intval($weibo_id)) {
-            $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0); //删除带检测权限
+
+            if (is_administrator()) {
+                $del = D('Weibo')->where(array('id' => $weibo_id))->setField('status', 0); //管理员即可直接删除
+            } else {
+                $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0); //删除带检测权限
+            }
             if ($del) {
                 D('WeiboComment')->where(array('weibo_id' => $weibo_id))->setField('status', 0);
             }
@@ -270,10 +275,15 @@ class IndexController extends Controller
         }
     }
 
-    public function doDelComment($comment_id = 0)
+    public
+    function doDelComment($comment_id = 0)
     {
         if (intval($comment_id)) {
-            $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0); //先删除带检测权限
+            if (is_administrator()) {
+                $del = D('WeiboComment')->where(array('id' => $comment_id))->setField('status', 0); //管理员即可直接删除
+            } else {
+                $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0); //先删除带检测权限
+            }
             if ($del) {
                 $comment = D('WeiboComment')->find($comment_id);
                 $count = D('WeiboComment')->where(array('weibo_id' => $comment['weibo_id'], 'status' => 1))->count();
