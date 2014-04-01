@@ -1,5 +1,5 @@
-<if condition="$weibo['uid'] eq is_login()"><span class="text-primary weibo-comment-del"
+<if condition="$weibo['uid'] eq is_login()"><span class="text-primary weibo-comment-del cpointer"
                                                   data-weibo-id="{$weibo.id}">删除</span></if>&nbsp;&nbsp;&nbsp;<span
-        class="text-primary weibo-comment-link" data-weibo-id="{$weibo.id}">评论<if condition="$weiboCommentTotalCount">(
+        class="text-primary weibo-comment-link cpointer" data-weibo-id="{$weibo.id}">评论<if condition="$weiboCommentTotalCount">(
     {$weiboCommentTotalCount} )
 </if></span>

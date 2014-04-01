@@ -102,7 +102,7 @@ class IndexController extends Controller
     }
 
 
-    public function concernedWeibo($page=1)
+    public function concernedWeibo($page = 1)
     {
 
         $list = $this->loadconcernedWeibolist($page);
@@ -154,7 +154,6 @@ class IndexController extends Controller
         if ($cha > 10) {
             $model = D('WeiboComment');
             $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
-            //dump($result);exit;
             if (!$result) {
                 $this->error('评论失败：' . $model->getError());
             }
@@ -162,8 +161,7 @@ class IndexController extends Controller
             //显示成功页面
             $this->success('评论成功');
         } else {
-
-            $this->error('相隔不能低于十秒');
+            $this->error('相隔不能低于10秒');
         }
     }
 
@@ -260,7 +258,7 @@ class IndexController extends Controller
     public function doDelWeibo($weibo_id = 0)
     {
         if (intval($weibo_id)) {
-            exit(json_encode(array('status' => D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status',0))));
+            exit(json_encode(array('status' => D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0))));
         }
 
     }
