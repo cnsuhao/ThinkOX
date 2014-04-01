@@ -17,27 +17,31 @@ class PublicController extends Controller
     public function getProfile()
     {
         $uid = $_REQUEST['uid'];
-        $userProfile = query_user(array('id', 'username', 'score', 'signature', 'weibocount','fans','following', 'space_url', 'title'), $uid);
+        $userProfile = query_user(array('id', 'username', 'score', 'signature', 'weibocount', 'fans', 'following', 'space_url', 'title'), $uid);
         $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
-        $follow['follow_who']=$userProfile['id'];
-        $follow['who_follow']=is_login();
-        $userProfile['followed']=D('Follow')->where($follow)->count();
+        $follow['follow_who'] = $userProfile['id'];
+        $follow['who_follow'] = is_login();
+        $userProfile['followed'] = D('Follow')->where($follow)->count();
 
         echo json_encode($userProfile);
     }
-    public function follow($uid=0){
 
-        if(D('Follow')->follow($uid)){
-            $this->ajaxReturn(array('status'=>1));
-        }else{
-            $this->ajaxReturn(array('status'=>0));
+    public function follow($uid = 0)
+    {
+
+        if (D('Follow')->follow($uid)) {
+            $this->ajaxReturn(array('status' => 1));
+        } else {
+            $this->ajaxReturn(array('status' => 0));
         }
     }
-    public function unfollow($uid=0){
-        if(D('Follow')->unfollow($uid)){
-            $this->ajaxReturn(array('status'=>1));
-        }else{
-            $this->ajaxReturn(array('status'=>0));
+
+    public function unfollow($uid = 0)
+    {
+        if (D('Follow')->unfollow($uid)) {
+            $this->ajaxReturn(array('status' => 1));
+        } else {
+            $this->ajaxReturn(array('status' => 0));
         }
     }
 
@@ -55,5 +59,11 @@ class PublicController extends Controller
     public function setAllMessageReaded()
     {
         D('Message')->setAllReaded(is_login());
+    }
+
+    public function readMessage($message_id)
+    {
+        exit(json_encode(array('status' => D('Message')->readMessage($message_id))));
+
     }
 }

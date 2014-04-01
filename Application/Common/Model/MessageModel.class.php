@@ -102,4 +102,9 @@ class MessageModel extends Model
         $rs = $this->add($message);
         return $rs;
     }
+
+    public function readMessage($message_id)
+    {
+        return $this->where(array('id' => $message_id))->setField('is_read', 1);
+    }
 } 

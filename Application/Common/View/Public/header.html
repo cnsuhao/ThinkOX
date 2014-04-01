@@ -27,7 +27,6 @@
                         </li>
                     </eq>
                 </think:nav>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!--登录注册-->
@@ -55,7 +54,7 @@
                                             <else/>
                                             <volist name="unreadMessage" id="message">
                                                 <li>
-                                                    <a href="{$message.url}">
+                                                    <a data-url="{$message.url}" onclick="readMessage(this,{$message.id})">
                                                         <i class="glyphicon glyphicon-bell"></i>
                                                         {$message.title}
                                             <span class="time">
