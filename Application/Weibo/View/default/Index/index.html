@@ -16,33 +16,34 @@
                         <br/>
 
                         <p>记录，就是一种态度！</p>
-<script>
-    var names ={$atwhousers};
 
-    var names = $.map(names,function(value,i) {
-        return {'id':i,'name':value.username,'pinyin':value.pinyin};
-    });
-    var at_config = {
-        at: "@",
-        data: names,
-        tpl: "<li data-value='@${name}'>${name}</li>",
-        show_the_at: true,
-        search_key:'pinyin'
-    };
-    $(function(){
-        $inputor = $('#weibo_content').atwho(at_config);
-    })
-
-</script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
-                        <a href="javascript:" onclick="insertFace()" ><img src="__STATIC__/image/bq.png"/></a>
+                        <a href="javascript:" onclick="insertFace($(this))" ><img src="__STATIC__/image/bq.png"/></a>
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
 
                 </div>
-                <div id="emot_content"></div>
+                <div id="emot_content" class="emot_content"></div>
+                <script>
+                    var names ={$atwhousers};
+
+                    var names = $.map(names,function(value,i) {
+                        return {'id':i,'name':value.username,'pinyin':value.pinyin};
+                    });
+                    var at_config = {
+                        at: "@",
+                        data: names,
+                        tpl: "<li data-value='@${name}'>${name}</li>",
+                        show_the_at: true,
+                        search_key:'pinyin'
+                    };
+                    $(function(){
+                        $inputor = $('#weibo_content').atwho(at_config);
+                    })
+
+                </script>
                 <div class="row">
                     <div class="col-md-12">
                         <p>

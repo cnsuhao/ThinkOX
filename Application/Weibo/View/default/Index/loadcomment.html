@@ -7,7 +7,7 @@
             <textarea placeholder="说点什么吧～" id="text_{$weiboId}"
                       class="form-control weibo-comment-content comment_text_inputor"></textarea>
         </p>
-        <a href="javascript:" onclick="insertFace()" ><img src="__STATIC__/image/bq.png"/></a>
+        <a href="javascript:" onclick="insertFace($(this))" ><img src="__STATIC__/image/bq.png"/></a>
 
         <!--评论按钮-->
         <p class="pull-right">
@@ -18,7 +18,7 @@
     </div>
 
 </div>
-<div id="emot_content1" style="float: left"></div>
+<div id="emot_content" class="emot_content" style="float: left"></div>
 <!--评论列表-->
 <volist name="list" id="comment">
     <php>

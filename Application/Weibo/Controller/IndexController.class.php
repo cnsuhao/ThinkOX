@@ -176,6 +176,9 @@ class IndexController extends Controller
     {
         //读取数据库中全部的评论列表
         $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->select();
+        foreach($list as $k=>&$v){
+            $v['content'] = parse_html($v['content']);
+        }
         $weiboCommentTotalCount = count($list);
 
         //返回html代码用于ajax显示
