@@ -88,7 +88,10 @@ function getPageHtml($f_name, $totalpage, $data, $nowpage)
 }
 
 
-
+function getPage($data,$limit,$page){
+    $offset = ($page-1)*$limit;
+    return array_slice($data,$offset,$limit);
+}
 
 
 function addUrlParam($url, $params) {

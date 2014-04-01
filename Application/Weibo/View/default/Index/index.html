@@ -36,12 +36,12 @@
 </script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
-
+                        <a href="javascript:" onclick="insertFace()" ><img src="__STATIC__/image/bq.png"/></a>
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
                 </div>
-
+                        <div id="emot_content"></div>
                 <div class="row">
                     <div class="col-md-12">
                         <p>
@@ -123,6 +123,7 @@
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
     <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script src="__JS__/weibo.js"></script>
+    <script src="__JS__/insertFace.js"></script>
     <script>
         $(function () {
             var noMoreNextPage = false;
@@ -151,7 +152,8 @@
                         button.val('发表');
                         reloadWeiboList();
                         clearWeibo();
-                        op_success(a.info, '温馨提示');
+                          $('.XT_face').remove();
+							op_success(a.info, '温馨提示');
                     } else {
                         op_error(a.info, '温馨提示');
                     }

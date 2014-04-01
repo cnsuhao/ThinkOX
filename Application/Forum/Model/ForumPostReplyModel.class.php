@@ -31,12 +31,14 @@ class ForumPostReplyModel extends Model
         $result = $this->add($data);
         action_log('add_post_reply','ForumPostReply',$result,is_login());
 
+        S('post_replylist_'.$post_id,null);
         //增加帖子的回复数
         D('ForumPost')->where(array('id' => $post_id))->setInc('reply_count');
 
         //更新最后回复时间
         D("ForumPost")->where(array('id' => $post_id))->setField('last_reply_time', time());
         $this->sendReplyMessage(is_login(), $post_id, $content,$result);
+
         //返回结果
         return $result;
     }
@@ -52,13 +54,35 @@ class ForumPostReplyModel extends Model
         //增加微博的评论数量
         $user = query_user(array('username', 'space_url'), $uid);
         $post = D('ForumPost')->find($post_id);
-
         $title = $user['username'] . '回复了您的帖子。';
         $content = '回复内容：' . mb_substr($content, 0, 20);
-
-
         $url = U('Forum/Index/detail', array('id' => $post_id));
         $from_uid = $uid;
         D('Message')->sendMessage($post['uid'], $content, $title, $url, $from_uid, 2, null, 'reply', $post_id,$reply_id);
     }
+
+    public function getReplyList($map,$order,$page,$limit){
+         $replyList = S('post_replylist_'.$map['post_id']);
+         if($replyList == null){
+            $replyList = D('ForumPostReply')->where($map)->order($order)->select();
+            foreach ($replyList as &$reply) {
+                $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
+                $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id=' . $reply['id'])->count();
+            }
+            unset($reply);
+            S('post_replylist_'.$map['post_id'],$replyList,60);
+        }
+        $replyList = getPage($replyList,$limit,$page);
+        return $replyList;
+    }
+
+
+    public function delPostReply($id){
+        $reply = D('ForumPostReply')->where('id='.$id)->find();
+        CheckPermission($reply['uid'])  &&  $res = $this->where('id='.$id)->delete();
+        D('ForumPost')->where(array('id' => $reply['post_id']))->setDec('reply_count');
+        S('post_replylist_'.$reply['post_id'],null);
+        return $res;
+    }
+
 }

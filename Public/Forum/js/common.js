@@ -69,7 +69,47 @@ $(function () {
     })
 
 
+    $('.del_lzl_reply').click(function () {
+        if(confirm('确定要删除该回复么？')){
+            var args = getArgs($(this).attr('args'));
+            var to_f_reply_id = args['to_f_reply_id'];
+            var url =U('Forum/LZL/delLZLReply');
+            $.post(url, {id: args['lzl_reply_id']}, function (msg) {
+                if (msg.status) {
+                    op_success('删除成功', '温馨提示');
+                     $('#forum_lzl_reply_'+args['lzl_reply_id']).hide();
+                    $('#reply_' + to_f_reply_id).val('');
+                } else {
+                    op_error('删除失败', '温馨提示');
+                }
+            });
+
+        }
+        this.preventDefault();
+    });
+
+    $('.del_reply_btn').click(function () {
+        if(confirm('确定要删除该回复么？')){
+            var args = getArgs($(this).attr('args'));
+            var url =U('Forum/Index/delPostReply');
+            $.post(url, {id: args['reply_id']}, function (msg) {
+                if (msg.status) {
+                    op_success('删除成功', '温馨提示');
+                   location.reload();
+                } else {
+                    op_error('删除失败', '温馨提示');
+                }
+            });
+
+        }
+        this.preventDefault();
+    });
+
 });
+
+
+
+
 
 
 var getArgs = function (uri) {

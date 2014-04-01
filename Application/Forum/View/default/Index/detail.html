@@ -80,7 +80,8 @@
 
                 <eq name="reply.uid" value="$post['uid']">
                     <div class="ribbion-green">
-                        <a>楼主</a></div>
+                        <a>楼主</a>
+                    </div>
                 </eq>
 
                 <div class="col-md-2">
@@ -102,17 +103,17 @@
                        {:getLou( $limit*($page-1)+$k+1)}
 
                         发表于 {$reply.create_time|time_format}
-
+                        <if condition="CheckPermission($reply['uid'])">
+                        <a href="javascript:" class="del_reply_btn" args="reply_id={$reply['id']}" >删除</a>
+                        </if>
                         <a href="javascript:" class="reply_btn" args="{$reply['id']}" id="reply_btn_{$reply['id']}" >回复({$reply.lzl_count})</a>
 
                     </p>
-
 
                     <div class="clearfix"></div>
                     <div id="lzl_reply_div_{$reply['id']}" <if condition="$reply['lzl_count'] eq 0">style="display:none"</if>>
                         {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id'],'reply_uid'=>$reply['uid'],'count'=>$reply['lzl_count']))}
                     </div>
-
 
                 </div>
             </div>
