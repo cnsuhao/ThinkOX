@@ -55,11 +55,11 @@
 
                         <ul class="nav nav-pills ucenter-tab">
                             <li
-                            <eq name="tab" value="fans"> class="active"</eq>
-                            ><a style="background-color: #7080a4;color: white" href="{:U('Weibo/Index/index')}">全站动态</a></li>
+                            <eq name="tab" value="all"> class="active"</eq>
+                            ><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
                            <if condition="is_login()">
                             <li
-                            <eq name="tab" value="following"> class="active"</eq>
+                            <eq name="tab" value="concerned"> class="active"</eq>
                             ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
                             </if>
                         </ul>
