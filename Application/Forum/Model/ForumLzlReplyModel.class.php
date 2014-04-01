@@ -30,7 +30,8 @@ class ForumLzlReplyModel extends Model
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
-
+        S('post_replylist_'.$post_id,null);
+        S('post_replylzllist_'.$to_f_reply_id,null);
         //增加帖子的回复数
         D('ForumPost')->where(array('id' => $post_id))->setInc('reply_count');
 
@@ -49,7 +50,6 @@ class ForumLzlReplyModel extends Model
      */
     private function sendReplyMessage($uid, $post_id, $content, $to_uid,$post_id,$result)
     {
-
         //增加微博的评论数量
         $user = query_user(array('username', 'space_url'), $uid);
 
@@ -67,4 +67,30 @@ class ForumLzlReplyModel extends Model
         }
 
     }
+
+    public function delLZLReply($id){
+      $lzl = D('ForumLzlReply')->where('id='.$id)->find();
+      CheckPermission($lzl['uid'])  &&  $res = $this->where('id='.$id)->delete();
+      D('ForumPost')->where(array('id' => $lzl['post_id']))->setDec('reply_count');
+      S('post_replylist_'.$lzl['post_id'],null);
+      S('post_replylzllist_'.$lzl['to_f_reply_id'],null);
+      return $res;
+    }
+
+    public function getLZLReplyList($to_f_reply_id,$order,$page,$limit){
+        $list = S('post_replylzllist_'.$to_f_reply_id);
+        if($list == null){
+            $list = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->order($order)->select();
+            foreach ($list as $k => &$v) {
+                $v['userInfo'] = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html'), $v['uid']);
+                $v['content'] = op_t($v['content']);
+            }
+            unset($v);
+            S('post_replylzllist_'.$to_f_reply_id,$list,60);
+        }
+        $list = getPage($list,$limit,$page);
+        return $list;
+    }
+
+
 }

@@ -31,6 +31,14 @@ function is_login(){
 }
 
 /**
+ * 检测权限
+ */
+function CheckPermission($uids){
+    is_administrator();
+    in_array(is_login(),$uids);
+}
+
+/**
  * 检测当前用户是否为管理员
  * @return boolean true-管理员，false-非管理员
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -1013,6 +1021,23 @@ function getLou($k){
      return $res;
 }
 
+function parse_html($content){
+    $content = preg_replace_callback("/(\[.+?\])/is",_parse_expression,$content);
+    return $content;
+}
+
+function _parse_expression($data) {
+    if(preg_match("/#.+#/i",$data[0])) {
+        return $data[0];
+    }
+    $allexpression = D('Expression')->getAllExpression();
+    $info = $allexpression[$data[0]];
+    if($info) {
+        return preg_replace("/\[.+?\]/i","<img src='".__ROOT__."/Public/static/image/expression/miniblog/".$info['filename']."' />",$data[0]);
+    }else {
+        return $data[0];
+    }
+}
 require_once(APP_PATH.'/Common/Common/pagination.php');
 require_once(APP_PATH.'/Common/Common/query_user.php');
 require_once(APP_PATH.'/Common/Common/thumb.php');

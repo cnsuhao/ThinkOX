@@ -81,30 +81,20 @@ class IndexController extends Controller
         if (!$post) {
             $this->error('找不到该帖子');
         }
-
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
-
         //读取回复列表
         $map = array('post_id' => $id, 'status' => 1);
-        $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, $limit)->select();
-        foreach ($replyList as &$reply) {
-            $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
-            $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id=' . $reply['id'])->count();
-        }
-        unset($reply);
+        $replyList = D('ForumPostReply')->getReplyList($map,'create_time',$page,$limit);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
-
         //判断是否需要显示1楼
         if ($page == 1) {
             $showMainPost = true;
         } else {
             $showMainPost = false;
         }
-
         //判断是否已经收藏
         $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
-
         //显示页面
         $this->assign('forum_id', $post['forum_id']);
         $this->assignAllowPublish();
@@ -117,7 +107,12 @@ class IndexController extends Controller
         $this->assign('showMainPost', $showMainPost);
         $this->display();
     }
-
+    public function delPostReply($id){
+        $this->requireLogin();
+        $res= D('ForumPostReply')->delPostReply($id);
+        $res &&   $this->success($res);
+        !$res &&   $this->error('');
+    }
     public function edit($forum_id = 0, $post_id = null)
     {
         //判断是不是为编辑模式
@@ -129,7 +124,6 @@ class IndexController extends Controller
         } else {
             $post = array('forum_id' => $forum_id);
         }
-
         //获取贴吧编号
         $forum_id = $forum_id ? $forum_id : $post['forum_id'];
 
@@ -190,7 +184,6 @@ class IndexController extends Controller
 
         $cha=time()-$near['create_time'];
        if($cha>10){
-
 
         //添加到数据库
         $model = D('ForumPostReply');
@@ -373,4 +366,9 @@ class IndexController extends Controller
         $this->assign('totalCount', $totalCount);
         $this->display();
     }
+
+
+
+
+
 }

@@ -218,6 +218,9 @@ class IndexController extends Controller
     {
         $map = array('status' => 1);
         $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
+        foreach($list as $k=>&$v){
+            $v['content'] = parse_html($v['content']);
+        }
         //dump($list);exit;
         return $list;
     }
@@ -273,5 +276,9 @@ class IndexController extends Controller
         return $atusers;
     }
 
+
+    public function getSmile() {
+        exit(json_encode(D('Expression')->getAllExpression()));
+    }
 
 }
