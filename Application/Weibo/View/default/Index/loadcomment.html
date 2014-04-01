@@ -2,15 +2,16 @@
 <div class="row">
     <div class="col-md-12">
         <!--输入框-->
-
         <p>
             <input type="hidden" id="weibo-comment-to-comment-id" name="reply_id" value="0"/>
-            <textarea placeholder="说点什么吧～" id="text_{$weiboId}" class="form-control weibo-comment-content comment_text_inputor"></textarea>
+            <textarea placeholder="说点什么吧～" id="text_{$weiboId}"
+                      class="form-control weibo-comment-content comment_text_inputor"></textarea>
         </p>
-
         <!--评论按钮-->
         <p class="pull-right">
-            <button class="btn btn-primary weibo-comment-commit" type="submit" id="btn_{$weiboId}"  data-weibo-id="{$weiboId}">评论 Ctrl+Enter</button>
+            <button class="btn btn-primary weibo-comment-commit" type="submit" id="btn_{$weiboId}"
+                    data-weibo-id="{$weiboId}">评论 Ctrl+Enter
+            </button>
         </p>
     </div>
 </div>
@@ -24,33 +25,33 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left" style="width: 32px;">
-                <a href="{$user.space_url}"  ucard="{$user.uid}" ><img src="{$user.avatar32}" class="avatar-img"/></a>
+                <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar32}" class="avatar-img"/></a>
             </div>
             <div class="" style="overflow: hidden; padding-left: 15px; padding-top: 5px;">
-                <span class="text-muted pull-right">&nbsp;{$comment.create_time|friendlyDate}&nbsp;&nbsp;<a  data-weibo-id="{$weiboId}" onclick="weibo_reply(this,{$comment.id},'{$user.username}')"><i class="glyphicon glyphicon-comment"></i></a></span>
-               <a href="{$user.space_url}" ucard="{$user.uid}" >{$user.username|htmlspecialchars}</a>{$user.icons_html}：{$comment.content}
+                <span class="text-muted pull-right">&nbsp;{$comment.create_time|friendlyDate}&nbsp;&nbsp;<a
+                        data-weibo-id="{$weiboId}" onclick="weibo_reply(this,{$comment.id},'{$user.username}')"><i
+                        class="glyphicon glyphicon-comment"></i></a>
+                        <if condition="($comment['uid'] eq is_login()) OR (is_administrator())">
+                            <a data-weibo-id="{$weiboId}" onclick="comment_del(this,{$comment.id})"><i style="margin-left: 0.2em" class="glyphicon glyphicon-trash"></i></a>
+                        </if>
+                </span>
+                <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username|htmlspecialchars}</a>{$user.icons_html}：{$comment.content}
             </div>
         </div>
     </div>
 </volist>
 <script>ucard();</script>
-<div class="weibo-comment-link-text" style="display: none;">
-    <include file="commentText"/>
+<div class="operation" style="display: none;">
+    <include file="_operation"/>
 </div>
 <script>
-
-
-    $(function(){
-
-
-        var weiboid ='{$weiboId}';
-
-        $('#text_'+weiboid+'').keypress(function (e) {
-
-        if (e.ctrlKey && e.which == 13 || e.which == 10) {
-            $('#btn_'+weiboid+'').click();
-        }
-    });})
-
-   $('.comment_text_inputor').atwho(at_config);
+    $(function () {
+        var weiboid = '{$weiboId}';
+        $('#text_' + weiboid + '').keypress(function (e) {
+            if (e.ctrlKey && e.which == 13 || e.which == 10) {
+                $('#btn_' + weiboid + '').click();
+            }
+        });
+    });
+    $('.comment_text_inputor').atwho(at_config);
 </script>

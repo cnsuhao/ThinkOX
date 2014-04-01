@@ -69,7 +69,7 @@
                 <hr>
 
                 <div id="weibo_list">
-                    <include file="concernedWeibo"/>
+                    <include file="concernedweibo"/>
                 </div>
 
 
@@ -170,20 +170,6 @@
             });
             $(window).trigger('scroll');
 
-            //点击评论之后载入评论
-            $(document).on('click', '.weibo-comment-link', function (e) {
-                var weibo_id = $(this).attr('data-weibo-id');
-                var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
-                if (weiboCommentList.is(':visible')) {
-                    hideWeiboCommentList(weiboCommentList);
-                } else {
-                    showWeiboCommentList(weiboCommentList);
-                }
-
-                //取消默认动作
-                e.preventDefault();
-                return false;
-            });
 
 
             function isLoadMoreVisible() {

@@ -1,9 +1,12 @@
 body {
   font-family: "Microsoft YaHei";
 }
+.cpointer {
+  cursor: pointer;
+}
 a:hover {
   text-decoration: none;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .text-more {
   text-overflow: ellipsis;

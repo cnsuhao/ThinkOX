@@ -9,20 +9,24 @@
             </div>
 
             <div style="padding-left: 16px; overflow: hidden;">
+
+
                 <p><a ucard="{$weibo.user.uid}"
-                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}</p>
+                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}
+                </p>
 
                 <p>{$weibo.content}</p>
 
-                <p>
+                <div>
                     <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a></span>
-                    <a class="pull-right text-primary weibo-comment-link" href="#" data-weibo-id="{$weibo.id}">
+
+                    <div class="pull-right operation" style="margin-bottom: .5em">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
-                        <include file="commentText"/>
-                    </a>
-                </p>
+                        <include file="_operation"/>
+                    </div>
+                </div>
                 <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
                     <div class="col-md-12">
                         <div class="light-jumbotron" style="padding: 1em 2em;">

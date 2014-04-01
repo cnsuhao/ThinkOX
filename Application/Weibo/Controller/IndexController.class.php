@@ -14,13 +14,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $atusers=S('atUsersJson_'.is_login());
-        if(empty($atusers)){
-            $atusers = $this->getAtWhoJson();
-            S('atUsersJson_'.is_login(),$atusers,600);
-        }
-
-        $this->assign('atwhousers', json_encode($atusers));
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
 
         //载入第一页微博
         $list = $this->loadWeiboList();
@@ -38,52 +33,42 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public  function myconcerned()
-                        {
-                             $atusers=S('atUsersJson_'.is_login());
-                             if(empty($atusers)){
-                             $atusers = $this->getAtWhoJson();
-                             S('atUsersJson_'.is_login(),$atusers,600);
-                         }
-                            $this->assign('atwhousers', json_encode($atusers));
+    public function myconcerned()
+    {
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
 
-
-
-                            $list = $this->loadconcernedWeibolist();
-                            //dump($list);exit;
-                            foreach ($list as &$li) {
-                                         $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-                                                   }
-
-                                 $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
-
-
-                     //显示页面
-                          $this->assign('list', $list);
-                          $this->assign('self', $self);
-                          $this->display();
-}
-
-
-
-
-    public function weiboDetail(){
-
-        $id=$_GET['id'];
-        $list=D('Weibo')->where('id='.$id)->select();
-        $uid=$list[0]['uid'];
-
-        //dump($uid);exit;
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'),$uid);
-
-        //dump($self);exit;
-        $atusers=S('atUsersJson_'.is_login());
-        if(empty($atusers)){
-            $atusers = $this->getAtWhoJson();
-            S('atUsersJson_'.is_login(),$atusers,600);
+        $list = $this->loadconcernedWeibolist();
+        foreach ($list as &$li) {
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
+        unset($li);
 
-        $this->assign('atwhousers', json_encode($atusers));
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+
+
+        //显示页面
+        $this->assign('list', $list);
+        $this->assign('self', $self);
+        $this->display();
+    }
+
+
+    public function weiboDetail()
+    {
+
+        $id = $_GET['id'];
+        $list = D('Weibo')->where(array('id' => $id, 'status' => 1))->select();
+        if (!$list) { //针对微博存在的检测
+            $this->assign('jumpUrl', U('Weibo/Index/index'));
+            $this->error('404未能找到该微博。');
+        }
+        $uid = $list[0]['uid'];
+
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'), $uid);
+
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
 
 
         $this->assign('list', $list);
@@ -91,10 +76,6 @@ class IndexController extends Controller
         $this->display();
 
     }
-
-
-
-
 
 
     public function atjson()
@@ -125,13 +106,10 @@ class IndexController extends Controller
     }
 
 
-
-
-    public function concernedWeibo($page)
+    public function concernedWeibo($page = 1)
     {
 
         $list = $this->loadconcernedWeibolist($page);
-//dump($list);exit;
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
         }
@@ -147,7 +125,6 @@ class IndexController extends Controller
         $this->display();
 
     }
-
 
 
     public function doSend($content)
@@ -181,7 +158,6 @@ class IndexController extends Controller
         if ($cha > 10) {
             $model = D('WeiboComment');
             $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
-            //dump($result);exit;
             if (!$result) {
                 $this->error('评论失败：' . $model->getError());
             }
@@ -189,19 +165,20 @@ class IndexController extends Controller
             //显示成功页面
             $this->success('评论成功');
         } else {
-
-            $this->error('相隔不能低于十秒');
+            $this->error('相隔不能低于10秒');
         }
     }
 
     public function loadComment($weibo_id)
     {
         //读取数据库中全部的评论列表
-        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id))->order('create_time desc')->select();
+        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->select();
         $weiboCommentTotalCount = count($list);
 
         //返回html代码用于ajax显示
         $this->assign('weiboId', $weibo_id);
+        $weibo = D('Weibo')->find($weibo_id);
+        $this->assign('weibo', $weibo);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->assign('list', $list);
         $this->display();
@@ -225,20 +202,15 @@ class IndexController extends Controller
         return $list;
     }
 
-    private function loadconcernedWeibolist($page=1)
+    private function loadconcernedWeibolist($page = 1)
     {
-        $uid=is_login();
-        $concerned=D('Follow')->where('who_follow='.$uid)->select();
-        //dump( $concerned);exit;
-        $count=D('Follow')->where('who_follow='.$uid)->count();
-        //dump( $count);exit;
-        for($i=0;$i<$count;$i++)
-        {
-            $map[$i]=$concerned[$i]['follow_who'];
-
+        $concerned = D('Follow')->where('who_follow=' . is_login())->select();
+        $map = array();
+        foreach ($concerned as $cuser) {
+            $map[] = $cuser['follow_who'];
         }
-        $list = D('Weibo')->where('status=1 and uid in('.implode(',',$map).')')->order('create_time desc')->page($page, 10)->select();
-        //dump($list);exit;
+        $map[] = is_login();
+        $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $map) . ')')->order('create_time desc')->page($page, 10)->select();
         return $list;
     }
 
@@ -247,7 +219,7 @@ class IndexController extends Controller
      * @param $user
      * @return array
      */
-    private function getAtWhoJson()
+    private function getAtWho()
     {
         $atuserIds = array();
         $atusers = array();
@@ -276,9 +248,57 @@ class IndexController extends Controller
         return $atusers;
     }
 
+    /**
+     * @return array|mixed
+     */
+    private function getAtWhoJson()
+    {
+        $atusers = S('atUsersJson_' . is_login());
+        if (empty($atusers)) {
+            $atusers = $this->getAtWho();
+            S('atUsersJson_' . is_login(), $atusers, 600);
+            return json_encode($atusers);
+        }
+        return json_encode($atusers);
+    }
 
     public function getSmile() {
         exit(json_encode(D('Expression')->getAllExpression()));
+    }
+
+
+    public function doDelWeibo($weibo_id = 0)
+    {
+        if (intval($weibo_id)) {
+
+            if (is_administrator()) {
+                $del = D('Weibo')->where(array('id' => $weibo_id))->setField('status', 0); //管理员即可直接删除
+            } else {
+                $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0); //删除带检测权限
+            }
+            if ($del) {
+                D('WeiboComment')->where(array('weibo_id' => $weibo_id))->setField('status', 0);
+            }
+            exit(json_encode(array('status' => $del)));
+        }
+    }
+
+    public
+    function doDelComment($comment_id = 0)
+    {
+        if (intval($comment_id)) {
+            if (is_administrator()) {
+                $del = D('WeiboComment')->where(array('id' => $comment_id))->setField('status', 0); //管理员即可直接删除
+            } else {
+                $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0); //先删除带检测权限
+            }
+            if ($del) {
+                $comment = D('WeiboComment')->find($comment_id);
+                $count = D('WeiboComment')->where(array('weibo_id' => $comment['weibo_id'], 'status' => 1))->count();
+                D('Weibo')->where(array('id' => $comment['weibo_id']))->setField('comment_count', $count);
+            }
+            exit(json_encode(array('status' => $del)));
+        }
     }
 
 }

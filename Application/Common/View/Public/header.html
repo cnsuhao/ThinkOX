@@ -27,7 +27,6 @@
                         </li>
                     </eq>
                 </think:nav>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!--登录注册-->
@@ -55,7 +54,7 @@
                                             <else/>
                                             <volist name="unreadMessage" id="message">
                                                 <li>
-                                                    <a href="{$message.url}">
+                                                    <a data-url="{$message.url}" onclick="readMessage(this,{$message.id})">
                                                         <i class="glyphicon glyphicon-bell"></i>
                                                         {$message.title}
                                             <span class="time">
@@ -112,6 +111,10 @@
                                     class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;我的参与</a></li>
                             <li><a href="{:U('UserCenter/Forum/myBookmark')}"><span
                                     class="glyphicon glyphicon-bookmark"></span>&nbsp;&nbsp;我的收藏</a></li>
+                            <if condition="is_administrator()">
+                                <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
+                                        class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;管理后台</a></li>
+                            </if>
                             <li><a event-node="logout"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</a>
                             </li>
                         </ul>
