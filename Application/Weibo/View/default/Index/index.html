@@ -16,32 +16,35 @@
                         <br/>
 
                         <p>记录，就是一种态度！</p>
-<script>
-    var names ={$atwhousers};
+                        <script>
+                            var names = {$atwhousers};
 
-    var names = $.map(names,function(value,i) {
-        return {'id':i,'name':value.username,'pinyin':value.pinyin};
-    });
-    var at_config = {
-        at: "@",
-        data: names,
-        tpl: "<li data-value='@${name}'>${name}</li>",
-        show_the_at: true,
-        search_key:'pinyin'
-    };
-    $(function(){
-        $inputor = $('#weibo_content').atwho(at_config);
-    })
+                            var names = $.map(names, function (value, i) {
+                                return {'id': i, 'name': value.username, 'pinyin': value.pinyin};
+                            });
+                            var at_config = {
+                                at: "@",
+                                data: names,
+                                tpl: "<li data-value='@${name}'>${name}</li>",
+                                show_the_at: true,
+                                search_key: 'pinyin',
+                                start_with_space: false
 
-</script>
+                            };
+                            $(function () {
+                                $inputor = $('#weibo_content').atwho(at_config);
+                            })
+
+                        </script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
-                        <a href="javascript:" onclick="insertFace()" ><img src="__STATIC__/image/bq.png"/></a>
+                        <a href="javascript:" onclick="insertFace()"><img src="__STATIC__/image/bq.png"/></a>
+
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
                 </div>
-                        <div id="emot_content"></div>
+                <div id="emot_content"></div>
                 <div class="row">
                     <div class="col-md-12">
                         <p>
@@ -57,21 +60,20 @@
                             <li
                             <eq name="tab" value="all"> class="active"</eq>
                             ><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
-                           <if condition="is_login()">
-                            <li
-                            <eq name="tab" value="concerned"> class="active"</eq>
-                            ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
+                            <if condition="is_login()">
+                                <li
+                                <eq name="tab" value="concerned"> class="active"</eq>
+                                ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
                             </if>
                         </ul>
 
                     </div>
                 </div>
-<hr>
+                <hr>
 
                 <div id="weibo_list">
                     <include file="loadweibo"/>
                 </div>
-
 
 
                 <div id="load_more" class="text-center text-muted">
@@ -83,11 +85,12 @@
                     <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                         <div class="row">
                             <div class="col-md-5">
-                                <a href="{:U('UserCenter/Index/changeavatar')}" ><img src="{$self.avatar128}"
+                                <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
                                                                                      class="avatar-img"/></a>
                             </div>
                             <div class="col-md-7">
-                                <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
+                                <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
+                                   href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
                                 <br/>积分：{$self.score}
                                 <br/>头衔：{$self.title}
                             </div>
@@ -107,11 +110,11 @@
                     </div>
                 </if>
                 <div>
-                {:hook('checkin')}
+                    {:hook('checkin')}
 
-                {:hook('Rank')}
+                    {:hook('Rank')}
 
-                {:W('UserList/lists',array('forum_id'=>$forum_id))}
+                    {:W('UserList/lists',array('forum_id'=>$forum_id))}
                 </div>
             </div>
 
@@ -137,7 +140,6 @@
             });
 
 
-
             //点击发表微博按钮之后
             $('#send_weibo_button').click(function () {
                 //获取参数
@@ -152,8 +154,8 @@
                         button.val('发表');
                         reloadWeiboList();
                         clearWeibo();
-                          $('.XT_face').remove();
-							op_success(a.info, '温馨提示');
+                        $('.XT_face').remove();
+                        op_success(a.info, '温馨提示');
                     } else {
                         op_error(a.info, '温馨提示');
                     }
@@ -173,10 +175,6 @@
                 }
             });
             $(window).trigger('scroll');
-
-
-
-
 
 
             function isLoadMoreVisible() {
@@ -228,8 +226,6 @@
                 currentPage = 0;
                 $('#weibo_list').html('');
             }
-
-
 
 
         })
