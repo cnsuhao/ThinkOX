@@ -1,0 +1,1 @@
+ALTER TABLE  `thinkox_forum` ADD  `logo` INT NOT NULL;
