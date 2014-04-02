@@ -31,6 +31,11 @@ function is_login()
     }
 }
 
+function get_uid()
+{
+    return is_login();
+}
+
 /**
  * 检测权限
  */
@@ -1109,3 +1114,4 @@ require_once(APP_PATH.'/Common/Common/api.php');
 require_once(APP_PATH.'/Common/Common/time.php');
 require_once(APP_PATH.'/Common/Common/match.php');
 require_once(APP_PATH.'/Common/Common/seo.php');
+require_once(APP_PATH.'/Common/Common/type.php');

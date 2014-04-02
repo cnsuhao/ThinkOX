@@ -9,56 +9,49 @@
 namespace Weibo\Controller;
 
 use Think\Controller;
+use Weibo\Api\WeiboApi;
+use Think\Exception;
 
 class IndexController extends Controller
 {
+    /**
+     * 业务逻辑都放在 WeiboApi 中
+     * @var
+     */
+    private $weiboApi;
+
+    public function _initialize() {
+        $this->weiboApi = new WeiboApi();
+    }
+
     public function index()
     {
-        $atusers = $this->getAtWhoJson();
-        $this->assign('atwhousers', $atusers);
-
         //载入第一页微博
-        $list = $this->loadWeiboList();
-        //dump($list);exit;
-        foreach ($list as &$li) {
-            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-        }
-
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
-
+        $result = $this->weiboApi->listAllWeibo();
 
         //显示页面
-        $this->assign('list', $list);
-        $this->assign('self', $self);
+        $this->assign('list', $result['list']);
         $this->assign('tab','all');
+        $this->assignSelf();
+        $this->assignAtWhoUsers();
         $this->display();
     }
 
     public function myconcerned()
     {
-        $atusers = $this->getAtWhoJson();
-        $this->assign('atwhousers', $atusers);
-
-        $list = $this->loadconcernedWeibolist();
-        foreach ($list as &$li) {
-            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-            $li['content']=parse_html($li['content']);
-        }
-        unset($li);
-
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+        //载入我关注的微博
+        $result = $this->weiboApi->listMyFollowingWeibo();
 
         //显示页面
-        $this->assign('list', $list);
-        $this->assign('self', $self);
+        $this->assign('list', $result['list']);
         $this->assign('tab','concerned');
+        $this->assignSelf();
+        $this->assignAtWhoUsers();
         $this->display('index');
     }
 
-
     public function weiboDetail()
     {
-
         $id = $_GET['id'];
         $list = D('Weibo')->where(array('id' => $id, 'status' => 1))->select();
         if (!$list) { //针对微博存在的检测
@@ -77,13 +70,6 @@ class IndexController extends Controller
         $this->assign('list', $list);
         $this->assign('self', $self);
         $this->display();
-
-    }
-
-
-    public function atjson()
-    {
-
     }
 
     public function loadWeibo($page = 1)
@@ -310,4 +296,13 @@ class IndexController extends Controller
         }
     }
 
+    private function assignAtWhoUsers() {
+        $atusers = $this->getAtWhoJson();
+        $this->assign('atwhousers', $atusers);
+    }
+
+    private function assignSelf() {
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+        $this->assign('self', $self);
+    }
 }
