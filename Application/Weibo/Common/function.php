@@ -7,15 +7,20 @@
  */
 
 function parse_weibo_content($content){
-    $content = parse_weibo_expression($content);
+    $content = parse_expression($content);
     return $content;
 }
 
-function parse_weibo_expression($content) {
-    return preg_replace_callback("/(\[.+?\])/is",parse_weibo_expression_callback,$content);
+function parse_comment_content($content) {
+    $content = parse_expression($content);
+    return $content;
 }
 
-function parse_weibo_expression_callback($data) {
+function parse_expression($content) {
+    return preg_replace_callback("/(\[.+?\])/is",'parse_expression_callback',$content);
+}
+
+function parse_expression_callback($data) {
     if(preg_match("/#.+#/i",$data[0])) {
         return $data[0];
     }
