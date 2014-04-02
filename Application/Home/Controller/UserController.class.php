@@ -62,7 +62,7 @@ class UserController extends HomeController
     }
 
     /* 登录页面 */
-    public function login($username = '', $password = '', $verify = '')
+    public function login($username = '', $password = '', $verify = '',$remember=false)
     {
         if (IS_POST) { //登录验证
             /* 检测验证码 */
@@ -76,7 +76,7 @@ class UserController extends HomeController
             if (0 < $uid) { //UC登录成功
                 /* 登录用户 */
                 $Member = D('Member');
-                if ($Member->login($uid)) { //登录用户
+                if ($Member->login($uid,$remember)) { //登录用户
                     //TODO:跳转到登录前页面
                     $this->success('登录成功！', U('Home/Index/index'));
                 } else {

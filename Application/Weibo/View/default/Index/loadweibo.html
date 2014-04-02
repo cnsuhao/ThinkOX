@@ -12,7 +12,9 @@
                 <p><a ucard="{$weibo.user.uid}"
                       href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}
                 </p>
-                <p>{$weibo.content}</p>
+
+                <p>{$weibo.content|parse_weibo_content}</p>
+
                 <div>
                     <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
                     <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
@@ -20,7 +22,7 @@
                         $weiboCommentTotalCount = $weibo['comment_count'];
                     </php>
                     <div class="pull-right operation" style="margin-bottom: .5em">
-                            <include file="_operation"/>
+                        <include file="_operation"/>
                         </a>
                     </div>
                 </div>

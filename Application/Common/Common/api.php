@@ -22,3 +22,16 @@ function apiToAjax($result) {
     unset($result['message']);
     return $result;
 }
+
+function ensureApiSuccess($apiResult) {
+    class EnsureApiSuccessController extends Think\Controller {
+        public function showError($message) {
+            $this->error($message);
+        }
+    }
+
+    if(!$apiResult['success']) {
+        $controller = new EnsureApiSuccessController();
+        $controller->showError($apiResult['message']);
+    }
+}
