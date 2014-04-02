@@ -27,3 +27,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_rank_user` (
 
 
 ALTER TABLE  `thinkox_rank` ADD  `create_time` INT NOT NULL AFTER  `logo`;
+
+INSERT INTO `thinkox_menu` ( `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
+('头衔', 0, 10, 'Rank/index', 0, '', '', 0),
+('头衔列表', 141, 1, 'Rank/index', 0, '', '头衔管理', 0),
+('添加头衔', 141, 2, 'Rank/editRank', 0, '', '头衔管理', 0),
+('用户列表', 141, 0, 'Rank/userList', 0, '', '关联头衔', 0),
+('用户头衔列表', 144, 0, 'Rank/userRankList', 1, '', '', 0),
+('关联新头衔', 144, 0, 'Rank/userAddRank', 1, '', '', 0),
+('编辑头衔关联', 144, 0, 'Rank/userChangeRank', 1, '', '', 0);
