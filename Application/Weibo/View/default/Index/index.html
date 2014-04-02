@@ -5,9 +5,6 @@
 </block>
 
 <block name="body">
-    <php>
-        query_user(array('avatar128','username','uid'));
-    </php>
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-9 weibo_main">
@@ -76,7 +73,6 @@
                 <div id="weibo_list">
                     <include file="loadweibo"/>
                 </div>
-
 
                 <div id="load_more" class="text-center text-muted">
                     <p id="load_more_text">载入更多</p>
