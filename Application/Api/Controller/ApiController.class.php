@@ -34,7 +34,7 @@ abstract class ApiController extends Controller {
     }
 
     public function setInternalCallApi($value=true) {
-        $this->$isInternalCall = $value ? true : false;
+        $this->isInternalCall = $value ? true : false;
     }
 
     /**
