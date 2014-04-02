@@ -81,6 +81,25 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
+    public function sendWeibo($content)
+    {
+        $this->requireLogin();
+
+        //写入数据库
+        $model = $this->weiboModel;
+        $score_before = getMyScore();
+        $result = $model->addWeibo(is_login(), $content);
+        $score_after = getMyScore();
+        if (!$result) {
+            throw new ApiException('发布失败：' . $model->getError());
+        }
+
+        //显示成功页面
+        $message = '发表微博成功。' . getScoreTip($score_before, $score_after);
+        $score_increase = $score_after - $score_before;
+        return $this->apiSuccess($message, array('score_increase'=>$score_increase));
+    }
+
     private function getWeiboStructure($id)
     {
         $weibo = $this->weiboModel->where(array('id' => $id))->find();

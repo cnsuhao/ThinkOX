@@ -97,19 +97,11 @@ class IndexController extends Controller
 
     public function doSend($content)
     {
-        //确认用户已经登录
-        $this->requireLogin();
+        //发送微博
+        $result = $this->weiboApi->sendWeibo($content);
 
-        //写入数据库
-        $model = D('Weibo');
-        $score_before = getMyScore();
-        $result = $model->addWeibo(is_login(), $content);
-        $score_after = getMyScore();
-        if (!$result) {
-            $this->error('发布失败：' . $model->getError());
-        }
-        //显示成功页面
-        $this->success('发表微博成功。' . getScoreTip($score_before, $score_after));
+        //返回成功结果
+        $this->ajaxReturn(apiToAjax($result));
     }
 
     public function doComment($weibo_id, $content, $comment_id = 0)
