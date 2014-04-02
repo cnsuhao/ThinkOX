@@ -8,16 +8,19 @@
 
 namespace Common\Api;
 
+use Common\Exception\ApiException;
+
 class Api
 {
-    protected function apiSuccess($message, $extra)
+    protected function apiSuccess($message, $extra = array())
     {
         return $this->apiReturn(true, $message, $extra);
     }
 
-    protected function apiError($message, $extra = array())
+    protected function apiError($message)
     {
-        return $this->apiReturn(false, $message, $extra);
+        throw new ApiException($message);
+        return null; // 这句话是为了消除IDE的警告
     }
 
     protected function apiReturn($success, $message, $extra)
@@ -32,5 +35,30 @@ class Api
         //请不要在这里增加用户敏感信息，可能会暴露用户隐私
         $fields = array('uid', 'username', 'avatar32', 'avatar64', 'avatar128', 'avatar256', 'avatar512', 'space_url', 'icons_html');
         return query_user($fields, $uid);
+    }
+
+    /**
+     * 发送微博、评论等，不能太频繁，否则抛出异常。
+     */
+    protected function requireSendInterval()
+    {
+        //获取最后的时间
+        $lastSendTime = session('last_send_time');
+        if (time() - $lastSendTime < 10) {
+            throw new ApiException('操作太频繁，请稍后重试');
+        }
+    }
+
+    protected function updateLastSendTime()
+    {
+        //更新最后发送时间
+        session('last_send_time', time());
+    }
+
+    protected function requireLogin()
+    {
+        if (!is_login()) {
+            throw new ApiException('需要登录', 400);
+        }
     }
 }

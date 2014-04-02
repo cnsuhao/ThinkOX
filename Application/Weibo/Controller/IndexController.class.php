@@ -106,30 +106,11 @@ class IndexController extends Controller
 
     public function doComment($weibo_id, $content, $comment_id = 0)
     {
-        //确认用户已经登录
-        $this->requireLogin();
+        //发送评论
+        $result = $this->weiboApi->sendComment($weibo_id, $content, $comment_id);
 
-        //写入数据库
-        $uid = is_login();
-        $near = D('WeiboComment')->where('uid=' . $uid)->order('create_time desc')->find();
-
-        $cha = time() - $near['create_time'];
-
-
-        if ($cha > 10) {
-            $model = D('WeiboComment');
-            $score_before = getMyScore();
-            $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
-            $score_after = getMyScore();
-            if (!$result) {
-                $this->error('评论失败：' . $model->getError());
-            }
-
-            //显示成功页面
-            $this->success('评论成功。' . getScoreTip($score_before, $score_after));
-        } else {
-            $this->error('相隔不能低于10秒');
-        }
+        //返回成功结果
+        $this->ajaxReturn(apiToAjax($result));
     }
 
     public function loadComment($weibo_id)
@@ -153,27 +134,6 @@ class IndexController extends Controller
             $this->error('需要登录');
         }
     }
-
-    private function loadWeiboList($page = 1)
-    {
-        $map = array('status' => 1);
-        $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
-        //dump($list);exit;
-        return $list;
-    }
-
-    private function loadconcernedWeibolist($page = 1)
-    {
-        $concerned = D('Follow')->where('who_follow=' . is_login())->select();
-        $map = array();
-        foreach ($concerned as $cuser) {
-            $map[] = $cuser['follow_who'];
-        }
-        $map[] = is_login();
-        $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $map) . ')')->order('create_time desc')->page($page, 10)->select();
-        return $list;
-    }
-
 
     /**
      * @param $user
