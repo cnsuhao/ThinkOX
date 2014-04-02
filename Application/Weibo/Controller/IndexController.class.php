@@ -80,12 +80,13 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function loadConcernedWeibo($page=1) {
+    public function loadConcernedWeibo($page = 1)
+    {
         //载入我关注的人的微博
         $result = $this->weiboApi->listMyFollowingWeibo($page);
 
         //如果没有微博，则返回错误
-        if(!$result['list']) {
+        if (!$result['list']) {
             $this->error('没有更多了');
         }
 
