@@ -49,8 +49,8 @@ class WeiboApi extends Api
         $this->requireLogin();
 
         //获取我关注的人
-        $result = $this->followModel->where(array('who_follow'=>get_uid()))->select();
-        foreach($result as &$e) {
+        $result = $this->followModel->where(array('who_follow' => get_uid()))->select();
+        foreach ($result as &$e) {
             $e = $e['follow_who'];
         }
         unset($e);
@@ -61,7 +61,7 @@ class WeiboApi extends Api
         $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $followList) . ')')->order('id desc')->page($page, $count)->select();
 
         //获取每个微博的详细信息
-        foreach($list as &$e) {
+        foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
         }
         unset($e);
@@ -78,7 +78,7 @@ class WeiboApi extends Api
         $weibo = $this->getWeiboStructure($weibo_id);
 
         //返回微博详情
-        return $this->apiSuccess('获取成功', array('weibo'=>$weibo));
+        return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
     private function getWeiboStructure($id)
@@ -93,15 +93,17 @@ class WeiboApi extends Api
         );
     }
 
-    private function requireLogin() {
-        if(!is_login()) {
+    private function requireLogin()
+    {
+        if (!is_login()) {
             throw new ApiException('需要登录', 400);
         }
     }
 
-    private function requireWeiboExist($id) {
-        $weibo = $this->weiboModel->where(array('id'=>$id,'status'=>1))->find();
-        if(!$weibo) {
+    private function requireWeiboExist($id)
+    {
+        $weibo = $this->weiboModel->where(array('id' => $id, 'status' => 1))->find();
+        if (!$weibo) {
             throw new ApiException('微博不存在');
         }
     }

@@ -20,7 +20,8 @@ class IndexController extends Controller
      */
     private $weiboApi;
 
-    public function _initialize() {
+    public function _initialize()
+    {
         $this->weiboApi = new WeiboApi();
     }
 
@@ -31,7 +32,8 @@ class IndexController extends Controller
 
         //显示页面
         $this->assign('list', $result['list']);
-        $this->assign('tab','all');
+        $this->assign('tab', 'all');
+        $this->assign('loadMoreUrl', U('loadWeibo'));
         $this->assignSelf();
         $this->assignAtWhoUsers();
         $this->display();
@@ -44,7 +46,8 @@ class IndexController extends Controller
 
         //显示页面
         $this->assign('list', $result['list']);
-        $this->assign('tab','concerned');
+        $this->assign('tab', 'concerned');
+        $this->assign('loadMoreUrl', U('loadConcernedWeibo'));
         $this->assignSelf();
         $this->assignAtWhoUsers();
         $this->display('index');
@@ -77,27 +80,19 @@ class IndexController extends Controller
         $this->display();
     }
 
-
-    public function concernedWeibo($page = 1)
-    {
-
-        $list = $this->loadconcernedWeibolist($page);
-        foreach ($list as &$li) {
-            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-        }
-        unset($li);
+    public function loadConcernedWeibo($page=1) {
+        //载入我关注的人的微博
+        $result = $this->weiboApi->listMyFollowingWeibo($page);
 
         //如果没有微博，则返回错误
-        if (!$list) {
+        if(!$result['list']) {
             $this->error('没有更多了');
         }
 
         //返回html代码用于ajax显示
-        $this->assign('list', $list);
-        $this->display();
-
+        $this->assign('list', $result['list']);
+        $this->display('loadweibo');
     }
-
 
     public function doSend($content)
     {
@@ -108,12 +103,12 @@ class IndexController extends Controller
         $model = D('Weibo');
         $score_before = getMyScore();
         $result = $model->addWeibo(is_login(), $content);
-        $score_after =getMyScore();
+        $score_after = getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
         }
         //显示成功页面
-        $this->success('发表微博成功。' . getScoreTip($score_before,$score_after));
+        $this->success('发表微博成功。' . getScoreTip($score_before, $score_after));
     }
 
     public function doComment($weibo_id, $content, $comment_id = 0)
@@ -132,13 +127,13 @@ class IndexController extends Controller
             $model = D('WeiboComment');
             $score_before = getMyScore();
             $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
-            $score_after =getMyScore();
+            $score_after = getMyScore();
             if (!$result) {
                 $this->error('评论失败：' . $model->getError());
             }
 
             //显示成功页面
-            $this->success('评论成功。'.getScoreTip($score_before,$score_after));
+            $this->success('评论成功。' . getScoreTip($score_before, $score_after));
         } else {
             $this->error('相隔不能低于10秒');
         }
@@ -234,7 +229,8 @@ class IndexController extends Controller
         return json_encode($atusers);
     }
 
-    public function getSmile() {
+    public function getSmile()
+    {
         exit(json_encode(D('Expression')->getAllExpression()));
     }
 
@@ -273,12 +269,14 @@ class IndexController extends Controller
         }
     }
 
-    private function assignAtWhoUsers() {
+    private function assignAtWhoUsers()
+    {
         $atusers = $this->getAtWhoJson();
         $this->assign('atwhousers', $atusers);
     }
 
-    private function assignSelf() {
+    private function assignSelf()
+    {
         $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
         $this->assign('self', $self);
     }
