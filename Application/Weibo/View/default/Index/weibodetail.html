@@ -78,7 +78,7 @@
                     <div class="row" id="weibo_{$weibo.id}">
                         <div class="col-md-12">
                             <div style="padding-left: 16px; overflow: hidden;">
-                                <p>{$weibo.content}</p>
+                                <p>{$weibo.content|parse_weibo_content}</p>
 
                                 <div>
 
@@ -122,6 +122,7 @@
 <block name="script">
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
     <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
+    <script src="__JS__/insertFace.js"></script>
     <script src="__JS__/weibo.js"></script>
     <script>
         var auto_open_detail = 1;
