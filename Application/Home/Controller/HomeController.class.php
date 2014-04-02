@@ -23,6 +23,8 @@ class HomeController extends Controller {
 
 
     protected function _initialize(){
+        $a=  D('Member')->need_login();
+
         /* 读取站点配置 */
         $config = api('Config/lists');
         C($config); //添加配置
