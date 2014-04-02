@@ -106,6 +106,8 @@
                         <if condition="CheckPermission($reply['uid'])">
                         <a href="javascript:" class="del_reply_btn" args="reply_id={$reply['id']}" >删除</a>
                         </if>
+                        <php>if($reply['uid']==is_login()){</php><a href="{:U('Index/editReply',array('reply_id'=>$reply['id']))}">编辑</a><php>}</php>
+
                         <a href="javascript:" class="reply_btn" args="{$reply['id']}" id="reply_btn_{$reply['id']}" >回复({$reply.lzl_count})</a>
 
                     </p>
@@ -142,19 +144,21 @@
                     </p>
                 </div>
                 <div class="col-md-10">
-                    <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post" class="ajax-form">
-                        <h4>发表回复</h4>
+                    <div id="reply_block">
+                        <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post" class="ajax-form">
+                            <h4>发表回复</h4>
 
-                        <p>
-                            <textarea name="content" placeholder="说点什么吧～" class="form-control"
-                                      style="height: 6em;"></textarea>
-                            {:hook('documentEditFormContent',array('name'=>'content'))}
-                        </p>
+                            <p>
+                                <textarea name="content" placeholder="说点什么吧～" class="form-control"
+                                          style="height: 6em;"></textarea>
+                                {:hook('documentEditFormContent',array('name'=>'content'))}
+                            </p>
 
-                        <p class="pull-right">
-                            <input type="submit" id="reply_button" class="btn btn-primary" value="发表"/>
-                        </p>
-                    </form>
+                            <p class="pull-right">
+                                <input type="submit" id="reply_button" class="btn btn-primary" value="发表"/>
+                            </p>
+                        </form>
+                    </div>
                 </div>
             </div>
             <else/>
@@ -199,6 +203,7 @@
                     element.show();
                 }
             }
+
         })
     </script>
     <style>

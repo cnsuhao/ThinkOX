@@ -64,10 +64,17 @@ function ucard() {
                         }
                         follow += '</button></div></div>';
                     }
-                    var tpl = $('<div ><p>头衔：' + userProfile.title + '</p><p>积分：' + userProfile.score + '</p>' +
+                    var html='<div ><p>等级：' + userProfile.title + '</p><p>头衔：';
+                    for(var i=0;i<userProfile.rank_link.length;i++){
+                        if(userProfile.rank_link[i].is_show==1){
+                            html=html+'<img src="'+userProfile.rank_link[i].logo_url+'" title="'+userProfile.rank_link[i].title+'" alt="'+userProfile.rank_link[i].title+'" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>'
+                        }
+                    }
+                    html=html+'</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
                         + '<p style="width: 250px">微博：' + userProfile.weibocount + '&nbsp;&nbsp;&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
-                        '</div>');
+                        '</div>';
+                    var tpl = $(html);
                     api.set('content.text', tpl.html());
                     api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
 

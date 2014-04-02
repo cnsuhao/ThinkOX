@@ -26,7 +26,9 @@
                 </p>
             </if>
             <p><span class="text-muted">积分：</span> {$user.score}</p>
-            <p><span class="text-muted">头衔：</span> {$user.title|htmlspecialchars}</p>
+            <p><span class="text-muted">等级：</span> {$user.title|htmlspecialchars}</p>
+            <p><span class="text-muted">头衔：</span> <volist name="user['rank_link']" id="vl"><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></volist>
+            </p>
         </div>
         <div class="col-md-4">
             <img class="avatar-img" src="{$user.avatar256}"/>

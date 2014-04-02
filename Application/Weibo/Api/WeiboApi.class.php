@@ -81,6 +81,46 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
+    public function sendWeibo($content)
+    {
+        $this->requireSendInterval();
+        $this->requireLogin();
+
+        //写入数据库
+        $model = $this->weiboModel;
+        $score_before = getMyScore();
+        $result = $model->addWeibo(is_login(), $content);
+        $score_after = getMyScore();
+        if (!$result) {
+            throw new ApiException('发布失败：' . $model->getError());
+        }
+        $this->updateLastSendTime();
+
+        //显示成功页面
+        $message = '发表微博成功。' . getScoreTip($score_before, $score_after);
+        $score_increase = $score_after - $score_before;
+        return $this->apiSuccess($message, array('score_increase' => $score_increase));
+    }
+
+    public function sendComment($weibo_id, $content, $comment_id = 0)
+    {
+        $this->requireSendInterval();
+        $this->requireLogin();
+
+        //写入数据库
+        $model = D('WeiboComment');
+        $score_before = getMyScore();
+        $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
+        $score_after = getMyScore();
+        if (!$result) {
+            return $this->apiError('评论失败：' . $model->getError());
+        }
+        $this->updateLastSendTime();
+
+        //显示成功页面
+        return $this->apiSuccess('评论成功。' . getScoreTip($score_before, $score_after));
+    }
+
     private function getWeiboStructure($id)
     {
         $weibo = $this->weiboModel->where(array('id' => $id))->find();
@@ -91,13 +131,6 @@ class WeiboApi extends Api
             'comment_count' => intval($weibo['comment_count']),
             'user' => $this->getUserStructure($weibo['uid']),
         );
-    }
-
-    private function requireLogin()
-    {
-        if (!is_login()) {
-            throw new ApiException('需要登录', 400);
-        }
     }
 
     private function requireWeiboExist($id)

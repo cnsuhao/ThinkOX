@@ -97,47 +97,20 @@ class IndexController extends Controller
 
     public function doSend($content)
     {
-        //确认用户已经登录
-        $this->requireLogin();
+        //发送微博
+        $result = $this->weiboApi->sendWeibo($content);
 
-        //写入数据库
-        $model = D('Weibo');
-        $score_before = getMyScore();
-        $result = $model->addWeibo(is_login(), $content);
-        $score_after = getMyScore();
-        if (!$result) {
-            $this->error('发布失败：' . $model->getError());
-        }
-        //显示成功页面
-        $this->success('发表微博成功。' . getScoreTip($score_before, $score_after));
+        //返回成功结果
+        $this->ajaxReturn(apiToAjax($result));
     }
 
     public function doComment($weibo_id, $content, $comment_id = 0)
     {
-        //确认用户已经登录
-        $this->requireLogin();
+        //发送评论
+        $result = $this->weiboApi->sendComment($weibo_id, $content, $comment_id);
 
-        //写入数据库
-        $uid = is_login();
-        $near = D('WeiboComment')->where('uid=' . $uid)->order('create_time desc')->find();
-
-        $cha = time() - $near['create_time'];
-
-
-        if ($cha > 10) {
-            $model = D('WeiboComment');
-            $score_before = getMyScore();
-            $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
-            $score_after = getMyScore();
-            if (!$result) {
-                $this->error('评论失败：' . $model->getError());
-            }
-
-            //显示成功页面
-            $this->success('评论成功。' . getScoreTip($score_before, $score_after));
-        } else {
-            $this->error('相隔不能低于10秒');
-        }
+        //返回成功结果
+        $this->ajaxReturn(apiToAjax($result));
     }
 
     public function loadComment($weibo_id)
@@ -154,34 +127,6 @@ class IndexController extends Controller
         $this->assign('list', $list);
         $this->display();
     }
-
-    private function requireLogin()
-    {
-        if (!is_login()) {
-            $this->error('需要登录');
-        }
-    }
-
-    private function loadWeiboList($page = 1)
-    {
-        $map = array('status' => 1);
-        $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
-        //dump($list);exit;
-        return $list;
-    }
-
-    private function loadconcernedWeibolist($page = 1)
-    {
-        $concerned = D('Follow')->where('who_follow=' . is_login())->select();
-        $map = array();
-        foreach ($concerned as $cuser) {
-            $map[] = $cuser['follow_who'];
-        }
-        $map[] = is_login();
-        $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $map) . ')')->order('create_time desc')->page($page, 10)->select();
-        return $list;
-    }
-
 
     /**
      * @param $user
@@ -252,8 +197,7 @@ class IndexController extends Controller
         }
     }
 
-    public
-    function doDelComment($comment_id = 0)
+    public function doDelComment($comment_id = 0)
     {
         if (intval($comment_id)) {
             if (is_administrator()) {
@@ -278,7 +222,7 @@ class IndexController extends Controller
 
     private function assignSelf()
     {
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link'));
         $this->assign('self', $self);
     }
 }
