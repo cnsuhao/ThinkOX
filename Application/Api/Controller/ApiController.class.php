@@ -17,7 +17,7 @@ require_once(dirname(__FILE__).'/../Common/function.php');
 
 abstract class ApiController extends Controller {
     protected $api;
-    protected $isApi;
+    protected $isInternalCall;
 
     public function _initialize() {
         //读取站点信息
@@ -29,10 +29,12 @@ abstract class ApiController extends Controller {
         }
         //定义API
         $this->api = new UserApi();
+
+        $this->$isInternalCall = false;
     }
 
     public function setInternalCallApi($value=true) {
-        $this->isApi = $value ? false : true;
+        $this->isInternalCall = $value ? true : false;
     }
 
     /**
@@ -58,7 +60,7 @@ abstract class ApiController extends Controller {
         }
         //将返回信息进行编码
         $format = $_REQUEST['format'] ? $_REQUEST['format'] : 'json';//返回值格式，默认json
-        if(!$this->isApi) {
+        if($this->isInternalCall) {
             throw new ReturnException($result);
         } else if($format == 'json') {
             echo json_encode($result);
