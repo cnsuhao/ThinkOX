@@ -36,10 +36,10 @@ class IndexController extends Controller
         //默认进入到后台配置的第一个板块
         //$d_forum = D('forum');
         //$forum = $d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
-        redirect(U('forum', array( 'page' => $page)));
+        redirect(U('forum', array('page' => $page)));
     }
 
-    public function forum($id=0, $page = 1, $order = 'last_reply_time desc')
+    public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
     {
         if ($order == 'ctime') {
             $order = 'create_time desc';
@@ -49,10 +49,10 @@ class IndexController extends Controller
         $this->requireForumAllowView($id);
 
         //读取帖子列表
-        if($id==0){
-            $map = array( 'status' => 1);
+        if ($id == 0) {
+            $map = array('status' => 1);
             $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL . '')->order($order)->select();
-        }else{
+        } else {
             $map = array('forum_id' => $id, 'status' => 1);
             $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
         }
@@ -81,30 +81,20 @@ class IndexController extends Controller
         if (!$post) {
             $this->error('找不到该帖子');
         }
-
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
-
         //读取回复列表
         $map = array('post_id' => $id, 'status' => 1);
-        $replyList = D('ForumPostReply')->where($map)->order('create_time asc')->page($page, $limit)->select();
-        foreach ($replyList as &$reply) {
-            $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
-            $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id=' . $reply['id'])->count();
-        }
-        unset($reply);
+        $replyList = D('ForumPostReply')->getReplyList($map,'create_time',$page,$limit);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
-
         //判断是否需要显示1楼
         if ($page == 1) {
             $showMainPost = true;
         } else {
             $showMainPost = false;
         }
-
         //判断是否已经收藏
         $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
-
         //显示页面
         $this->assign('forum_id', $post['forum_id']);
         $this->assignAllowPublish();
@@ -117,7 +107,12 @@ class IndexController extends Controller
         $this->assign('showMainPost', $showMainPost);
         $this->display();
     }
-
+    public function delPostReply($id){
+        $this->requireLogin();
+        $res= D('ForumPostReply')->delPostReply($id);
+        $res &&   $this->success($res);
+        !$res &&   $this->error('');
+    }
     public function editReply($reply_id = null)
     {
         if ($reply_id) {
@@ -157,7 +152,6 @@ class IndexController extends Controller
         } else {
             $post = array('forum_id' => $forum_id);
         }
-
         //获取贴吧编号
         $forum_id = $forum_id ? $forum_id : $post['forum_id'];
 
@@ -197,14 +191,17 @@ class IndexController extends Controller
             }
         } else {
             $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
+
+            $before = getMyScore();
             $result = $model->createPost($data);
+            $after = getMyScore();
             if (!$result) {
                 $this->error('发表失败：' . $model->getError());
             }
             $post_id = $result;
         }
         //显示成功消息
-        $message = $isEdit ? '编辑成功' : '发表成功';
+        $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after);
         $this->success($message, U('Forum/Index/detail', array('id' => $post_id)));
     }
 
@@ -212,27 +209,28 @@ class IndexController extends Controller
     {
         //确认有权限回复
         $this->requireAllowReply($post_id);
-       //检测回复时间限制
-        $uid=is_login();
-        $near=D('ForumPostReply')->where('uid='.$uid)->order('create_time desc')->find();
+        //检测回复时间限制
+        $uid = is_login();
+        $near = D('ForumPostReply')->where('uid=' . $uid)->order('create_time desc')->find();
 
-        $cha=time()-$near['create_time'];
-       if($cha>10){
+        $cha = time() - $near['create_time'];
+        if ($cha > 10) {
 
+            //添加到数据库
+            $model = D('ForumPostReply');
+            $before = getMyScore();
+            $result = $model->addReply($post_id, $content);
+            $after = getMyScore();
+            if (!$result) {
+                $this->error('回复失败：' . $model->getError());
+            }
+            //显示成功消息
+            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh');
+        } else {
+            $this->error('请10秒之后再回复');
 
-        //添加到数据库
-        $model = D('ForumPostReply');
-        $result = $model->addReply($post_id, $content);
-        if (!$result) {
-            $this->error('回复失败：' . $model->getError());
         }
-        //显示成功消息
-        $this->success('回复成功', 'refresh');}
-        else{
-            $this->error('请十秒之后再回复');
-
-        }
-}
+    }
 
     public function doBookmark($post_id, $add = true)
     {
@@ -401,4 +399,9 @@ class IndexController extends Controller
         $this->assign('totalCount', $totalCount);
         $this->display();
     }
+
+
+
+
+
 }

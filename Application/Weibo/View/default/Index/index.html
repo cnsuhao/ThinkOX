@@ -5,9 +5,6 @@
 </block>
 
 <block name="body">
-    <php>
-        query_user(array('avatar128','username','uid'));
-    </php>
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-9 weibo_main">
@@ -16,32 +13,37 @@
                         <br/>
 
                         <p>记录，就是一种态度！</p>
-<script>
-    var names ={$atwhousers};
 
-    var names = $.map(names,function(value,i) {
-        return {'id':i,'name':value.username,'pinyin':value.pinyin};
-    });
-    var at_config = {
-        at: "@",
-        data: names,
-        tpl: "<li data-value='@${name}'>${name}</li>",
-        show_the_at: true,
-        search_key:'pinyin'
-    };
-    $(function(){
-        $inputor = $('#weibo_content').atwho(at_config);
-    })
-
-</script>
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
+                        <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
 
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
                 </div>
+                <div id="emot_content" class="emot_content"></div>
 
+                <script>
+                    var names = {$atwhousers};
+
+                    var names = $.map(names, function (value, i) {
+                        return {'id': i, 'name': value.username, 'pinyin': value.pinyin};
+                    });
+                    var at_config = {
+                        at: "@",
+                        data: names,
+                        tpl: "<li data-value='@${name}'>${name}</li>",
+                        show_the_at: true,
+                        search_key: 'pinyin',
+                        start_with_space: false
+
+                    };
+                    $(function () {
+                        $inputor = $('#weibo_content').atwho(at_config);
+                    })
+
+                </script>
                 <div class="row">
                     <div class="col-md-12">
                         <p>
@@ -55,24 +57,22 @@
 
                         <ul class="nav nav-pills ucenter-tab">
                             <li
-                            <eq name="tab" value="fans"> class="active"</eq>
-                            ><a style="background-color: #7080a4;color: white" href="{:U('Weibo/Index/index')}">全站动态</a></li>
-                           <if condition="is_login()">
-                            <li
-                            <eq name="tab" value="following"> class="active"</eq>
-                            ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
+                            <eq name="tab" value="all"> class="active"</eq>
+                            ><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
+                            <if condition="is_login()">
+                                <li
+                                <eq name="tab" value="concerned"> class="active"</eq>
+                                ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
                             </if>
                         </ul>
 
                     </div>
                 </div>
-<hr>
+                <hr>
 
                 <div id="weibo_list">
                     <include file="loadweibo"/>
                 </div>
-
-
 
                 <div id="load_more" class="text-center text-muted">
                     <p id="load_more_text">载入更多</p>
@@ -83,11 +83,12 @@
                     <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                         <div class="row">
                             <div class="col-md-5">
-                                <a href="{:U('UserCenter/Index/changeavatar')}" ><img src="{$self.avatar128}"
+                                <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
                                                                                      class="avatar-img"/></a>
                             </div>
                             <div class="col-md-7">
-                                <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more" href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
+                                <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
+                                   href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
                                 <br/>头衔：<volist name="self['rank_link']" id="vl"><php>if($vl['is_show']==1){</php><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/><php>}</php></volist>
                                 <br/>积分：{$self.score}
                                 <br/>等级：{$self.title}
@@ -108,11 +109,11 @@
                     </div>
                 </if>
                 <div>
-                {:hook('checkin')}
+                    {:hook('checkin')}
 
-                {:hook('Rank')}
+                    {:hook('Rank')}
 
-                {:W('UserList/lists',array('forum_id'=>$forum_id))}
+                    {:W('UserList/lists',array('forum_id'=>$forum_id))}
                 </div>
             </div>
 
@@ -124,6 +125,7 @@
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
     <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script src="__JS__/weibo.js"></script>
+    <script src="__JS__/insertFace.js"></script>
     <script>
         $(function () {
             var noMoreNextPage = false;
@@ -135,7 +137,6 @@
                     $("#send_weibo_button").click();
                 }
             });
-
 
 
             //点击发表微博按钮之后
@@ -152,6 +153,8 @@
                         button.val('发表');
                         reloadWeiboList();
                         clearWeibo();
+                        $('.XT_face').remove();
+                        op_success(a.info, '温馨提示');
                     } else {
                         op_error(a.info, '温馨提示');
                     }
@@ -171,26 +174,6 @@
                 }
             });
             $(window).trigger('scroll');
-
-            //点击评论之后载入评论
-
-            $(document).on('click', '.weibo-comment-link', function (e) {
-                var weibo_id = $(this).attr('data-weibo-id');
-                var weiboCommentList = $('#weibo_' + weibo_id + ' .weibo-comment-list');
-                if (weiboCommentList.is(':visible')) {
-                    hideWeiboCommentList(weiboCommentList);
-                } else {
-                    showWeiboCommentList(weiboCommentList);
-
-
-
-                }
-                //取消默认动作
-
-                e.preventDefault();
-                return false;
-
-            });
 
 
             function isLoadMoreVisible() {
@@ -222,7 +205,7 @@
                 }
 
                 //通过服务器载入微博列表
-                var url = "{:U('loadweibo')}";
+                var url = "{$loadMoreUrl}";
                 isLoadingWeibo = true;
                 $('#load_more_text').text('正在载入...');
                 $.post(url, {page: page}, function (a) {
@@ -242,31 +225,6 @@
                 currentPage = 0;
                 $('#weibo_list').html('');
             }
-
-            function showWeiboCommentList(weiboCommentList) {
-                //判断是否已经载入
-                var weiboContainer = $('.weibo-comment-container', weiboCommentList);
-                var loaded = weiboCommentList.attr('data-weibo-comment-loaded');
-
-                //如果已经载入，只要显示即可
-                if (loaded) {
-                    weiboCommentList.show();
-                    return;
-                }
-
-                //显示“正在加载评论”
-                weiboContainer.html('<span class="text-muted">正在加载...</span>');
-                weiboCommentList.show();
-
-                //通过服务器载入评论列表
-                reloadWeiboCommentList(weiboCommentList);
-            }
-
-            function hideWeiboCommentList(weiboCommentList) {
-                weiboCommentList.hide();
-            }
-
-
         })
     </script>
 </block>

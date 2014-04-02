@@ -15,56 +15,82 @@ class ForumLzlReplyModel extends Model
     protected $_validate = array(
         array('content', '1,40000', '内容长度不合法', self::EXISTS_VALIDATE, 'length'),
     );
-
-    protected $can_open_session=true;
     protected $_auto = array(
         array('ctime', NOW_TIME, self::MODEL_INSERT),
         array('is_del', '0', self::MODEL_INSERT),
     );
 
-    public function addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content,$can_open_session=true)
+    public function addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content, $send_message = true)
     {
-        $this->can_open_session=$can_open_session;
         //新增一条回复
         $data = array('uid' => is_login(), 'post_id' => $post_id, 'to_f_reply_id' => $to_f_reply_id, 'to_reply_id' => $to_reply_id, 'to_uid' => $to_uid, 'content' => $content);
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
-
+        action_log('add_post_reply', 'ForumLzlReply', $result, is_login());
+        S('post_replylist_' . $post_id, null);
+        S('post_replylzllist_' . $to_f_reply_id, null);
         //增加帖子的回复数
         D('ForumPost')->where(array('id' => $post_id))->setInc('reply_count');
 
         //更新最后回复时间
         D("ForumPost")->where(array('id' => $post_id))->setField('last_reply_time', time());
-        $this->sendReplyMessage(is_login(), $post_id, $content, $to_uid,$post_id,$result);
+        if ($send_message) {
+            $this->sendReplyMessage(is_login(), $post_id, $content, $to_uid, $post_id, $result);
+        }
+
         //返回结果
         return $result;
     }
 
-
     /**
      * @param $uid
-     * @param $weibo_id
+     * @param $post_id
      * @param $content
+     * @param $to_uid
+     * @param $post_id
+     * @param $result
      */
-    private function sendReplyMessage($uid, $post_id, $content, $to_uid,$post_id,$result)
+    private function sendReplyMessage($uid, $post_id, $content, $to_uid, $post_id, $result)
     {
-
         //增加微博的评论数量
         $user = query_user(array('username', 'space_url'), $uid);
 
         $title = $user['username'] . '回复了您的评论。';
         $content = '回复内容：' . mb_substr($content, 0, 20);
 
-
         $url = U('Forum/Index/detail', array('id' => $post_id));
         $from_uid = $uid;
         $type = 2;
-        if($this->can_open_session){
-            D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', 'lzlreply',$post_id,$result);
-        }else{
-            D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', '',$post_id,$result);
-        }
+        D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', 'lzlreply', $post_id, $result);
 
     }
+
+    public function delLZLReply($id)
+    {
+        $lzl = D('ForumLzlReply')->where('id=' . $id)->find();
+        CheckPermission($lzl['uid']) && $res = $this->where('id=' . $id)->delete();
+        D('ForumPost')->where(array('id' => $lzl['post_id']))->setDec('reply_count');
+        S('post_replylist_' . $lzl['post_id'], null);
+        S('post_replylzllist_' . $lzl['to_f_reply_id'], null);
+        return $res;
+    }
+
+    public function getLZLReplyList($to_f_reply_id, $order, $page, $limit)
+    {
+        $list = S('post_replylzllist_' . $to_f_reply_id);
+        if ($list == null) {
+            $list = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->order($order)->select();
+            foreach ($list as $k => &$v) {
+                $v['userInfo'] = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html'), $v['uid']);
+                $v['content'] = op_t($v['content']);
+            }
+            unset($v);
+            S('post_replylzllist_' . $to_f_reply_id, $list, 60);
+        }
+        $list = getPage($list, $limit, $page);
+        return $list;
+    }
+
+
 }

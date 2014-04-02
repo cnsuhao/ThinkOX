@@ -60,9 +60,12 @@
                             </p>
                         </if>
                     </div>
-                    <p><div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_bdhome" data-cmd="bdhome" title="分享到百度新首页"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
-                    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{},"image":{"viewList":["tsina","tqq","renren","qzone","weixin","bdhome","copy"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","tqq","renren","qzone","weixin","bdhome","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></p>
-                    <p class="pull-right text-muted">
+                    <p>
+                    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+                    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin","tieba","sqq","copy"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+                    </p>
+                     <p class="pull-right text-muted">
                         发表于 {$post.create_time|time_format}
                     </p>
 
@@ -77,7 +80,8 @@
 
                 <eq name="reply.uid" value="$post['uid']">
                     <div class="ribbion-green">
-                        <a>楼主</a></div>
+                        <a>楼主</a>
+                    </div>
                 </eq>
 
                 <div class="col-md-2">
@@ -99,19 +103,19 @@
                        {:getLou( $limit*($page-1)+$k+1)}
 
                         发表于 {$reply.create_time|time_format}
-
+                        <if condition="CheckPermission($reply['uid'])">
+                        <a href="javascript:" class="del_reply_btn" args="reply_id={$reply['id']}" >删除</a>
+                        </if>
                         <php>if($reply['uid']==is_login()){</php><a href="{:U('Index/editReply',array('reply_id'=>$reply['id']))}">编辑</a><php>}</php>
 
                         <a href="javascript:" class="reply_btn" args="{$reply['id']}" id="reply_btn_{$reply['id']}" >回复({$reply.lzl_count})</a>
 
                     </p>
 
-
                     <div class="clearfix"></div>
                     <div id="lzl_reply_div_{$reply['id']}" <if condition="$reply['lzl_count'] eq 0">style="display:none"</if>>
                         {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id'],'reply_uid'=>$reply['uid'],'count'=>$reply['lzl_count']))}
                     </div>
-
 
                 </div>
             </div>

@@ -50,7 +50,7 @@ class SeoRuleModel extends Model
         $result = array('title' => $title, 'keywords' => $keywords, 'description' => $description);
 
         //写入缓存
-        S($cacheKey, $result,600);
+        S($cacheKey, $result);
 
         //返回结果
         return $result;

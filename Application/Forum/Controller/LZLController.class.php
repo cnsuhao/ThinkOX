@@ -19,19 +19,12 @@ class LZLController extends Controller
 
     public function  lzllist($to_f_reply_id, $page = 1)
     {
-
         $limit = 5;
-        $list = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->page($page, $limit)->order('ctime asc')->select();
+        $list = D('ForumLzlReply')->getLZLReplyList($to_f_reply_id,'ctime asc',$page,$limit);
         $totalCount = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->count();
-        foreach ($list as $k => &$v) {
-            $v['userInfo'] = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html'), $v['uid']);
-            $v['content'] = op_t($v['content']);
-        }
-        unset($v);
         $data['to_f_reply_id'] = $to_f_reply_id;
         $pageCount = ceil($totalCount / $limit);
         $html = getPageHtml('changePage', $pageCount, $data, $page);
-
         $this->assign('lzlList', $list);
         $this->assign('html', $html);
         $this->assign('nowPage', $page);
@@ -40,7 +33,6 @@ class LZLController extends Controller
         $this->assign('count', count($list));
         $this->assign('to_f_reply_id', $to_f_reply_id);
         $this->display();
-
     }
 
 
@@ -51,7 +43,9 @@ class LZLController extends Controller
         $this->requireLogin();
         //写入数据库
         $model = D('ForumLzlReply');
+        $before=getMyScore();
         $result = $model->addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, op_t($content));
+        $after=getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
         }
@@ -59,7 +53,7 @@ class LZLController extends Controller
         $totalCount = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->count();
         $limit = 5;
         $pageCount = ceil($totalCount / $limit);
-        $this->success($pageCount);
+        $this->success('回复成功。'.getScoreTip($before,$after),$pageCount);
     }
 
     private function requireLogin()
@@ -69,5 +63,11 @@ class LZLController extends Controller
         }
     }
 
+public function delLZLReply($id){
+    $this->requireLogin();
+    $res= D('ForumLzlReply')->delLZLReply($id);
+    $res &&   $this->success($res);
+    !$res &&   $this->error('');
+}
 
 }

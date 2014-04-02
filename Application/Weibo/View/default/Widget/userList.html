@@ -4,7 +4,7 @@
         <volist name="user" id="u">
             <li style="text-align: center">
                 <a href="{$u.user.space_url}"><img ucard="{$u.id}" class="avatar-img" src="{$u.user.avatar64}"/></a>
-                <br/><a href="{$u.user.space_url}" title="{$u.user.username}">{$u.user.username|mb_substr=0,6}</a>
+                <br/><a href="{$u.user.space_url}" title="{$u.user.username}" class="text-more" style="width: 100%">{$u.user.username}</a>
             </li>
         </volist>
     </ul>

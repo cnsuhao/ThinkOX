@@ -56,17 +56,15 @@ class MessageController extends BaseController
     {
         $this->defaultTabHash('session');
         $talks = D('Talk')->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
-        foreach ($talks as &$v) {
-
+        foreach ($talks as $key => $v) {
+            $users = array();
             $uids_array = $this->mTalkModel->getUids($v['uids']);
             foreach ($uids_array as $uid) {
                 $users[] = query_user(array('avatar64', 'username', 'space_link', 'id'), $uid);
             }
-            $v['users'] = $users;
-            $v['last_message'] = D('TalkMessage')->where('talk_id=' . $v['id'])->order('create_time desc')->find();
-            $v['last_message']['user'] = query_user(array('username', 'space_url', 'id'), $v['last_message']['uid']);
+            $talks[$key]['users'] = $users;
+            $talks[$key]['last_message'] = D('Talk')->getLastMessage($talks[$key]['id']);
         }
-        // dump($talks);exit;
         $this->assign('talks', $talks);
         $this->display();
     }
@@ -108,6 +106,8 @@ class MessageController extends BaseController
         $message = D('Message')->find($talk['message_id']);
         $messageModel = $this->getMessageModel($message);
         $rs = $messageModel->postMessage($message, $talk, $content, is_login());
+
+        D('TalkMessage')->sendMessage($content, $this->mTalkModel->getUids($talk['uids']), $talk_id);
         if ($rs) {
             $this->ajaxReturn(true);
         }
@@ -147,27 +147,40 @@ class MessageController extends BaseController
             if ($talk) {
                 redirect(U('UserCenter/Message/talk', array('talk_id' => $talk['id'])));
             }
-            //创建talk
+
+            /*创建talk*/
             $talk['uids'] = implode(',', array('[' . is_login() . ']', '[' . $message['from_uid'] . ']'));
             $talk['appname'] = $message['appname'];
             $talk['apptype'] = $message['apptype'];
             $talk['source_id'] = $message['source_id'];
             $talk['message_id'] = $message_id;
 
-
+            //通过消息获取到对应应用内的消息模型
             $messageModel = $this->getMessageModel($message);
+            //从对应模型内取回对话源资料
             $talk = array_merge($messageModel->getSource($message), $talk);
 
+            //创建会话
             $talk = D('Talk')->create($talk);
             $talk['id'] = D('Talk')->add($talk);
+            /*创建talk end*/
+
+
+            //关联会话到当前消息
             $message['talk_id'] = $talk['id'];
             D('Message')->save($message);
+
+            //插入第一条消息
             $talkMessage['uid'] = $message['from_uid'];
             $talkMessage['talk_id'] = $talk['id'];
             $talkMessage['content'] = $messageModel->getFindContent($message);
             $talkMessageModel = D('TalkMessage');
             $talkMessage = $talkMessageModel->create($talkMessage);
             $talkMessage['id'] = $talkMessageModel->add($talkMessage);
+
+
+            D('Message')->sendMessage($message['from_uid'], '会话名称：' . $talk['title'], '您有新的主题会话', U('UserCenter/Message/talk', array('talk_id' => $talk['id'])), is_login(), 0);
+
             return $talk;
 
         } else {
@@ -206,4 +219,6 @@ class MessageController extends BaseController
         }
         return $map;
     }
+
+
 }
