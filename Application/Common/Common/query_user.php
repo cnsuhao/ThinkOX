@@ -84,7 +84,7 @@ function query_user($fields, $uid = null)
     //读取用户名拼音
     if (in_array('pinyin', $fields)) {
 
-        $result['pinyin'] =D('Pinyin')->pinYin($result['username']);
+        $result['pinyin'] = D('Pinyin')->pinYin($result['username']);
     }
 
     //获取个人中心地址
@@ -100,13 +100,19 @@ function query_user($fields, $uid = null)
 
     //获取用户头衔链接
     if (in_array('rank_link', $fields)) {
-        $rank_List=D('rank_user')->where('uid='.$uid)->select();
-        foreach($rank_List as &$val){
-            $rank=D('rank')->where('id='.$val['rank_id'])->find();
-            $val['title']=$rank['title'];
-            $val['logo_url']=getRootUrl().D('picture')->where('id='.$rank['logo'])->getField('path');
+        $rank_List = D('rank_user')->where('uid=' . $uid)->select();
+
+        foreach ($rank_List as &$val) {
+            $rank = D('rank')->where('id=' . $val['rank_id'])->find();
+            $val['title'] = $rank['title'];
+            $val['logo_url'] = getRootUrl() . D('picture')->where('id=' . $rank['logo'])->getField('path');
         }
-        $result['rank_link'] =$rank_List;
+        if ($rank_List) {
+            $result['rank_link'] = $rank_List;
+        } else {
+            $result['rank_link'] = array();
+        }
+
     }
 
     //获取用户认证图标
