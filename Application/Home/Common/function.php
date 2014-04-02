@@ -36,3 +36,15 @@ function get_part_count($id){
     }
     return $count[$id];
 }
+
+
+/**
+ * 生成系统AUTH_KEY
+ * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+ */
+function build_auth_key(){
+    $chars  = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+   // $chars .= '`~!@#$%^&*()_+-=[]{};:"|,.<>/?';
+    $chars  = str_shuffle($chars);
+    return substr($chars, 0, 40);
+}

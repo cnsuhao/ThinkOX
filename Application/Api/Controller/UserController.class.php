@@ -31,6 +31,8 @@ class UserController extends ApiController
         $model->where(array('id' => $this->getUid()))->save($data);
         //返回成功信息
         clean_query_user_cache($this->getUid(),'password');//删除缓存
+        D('user_token')->where('uid='.$this->getUid())->delete();
+
         $this->apiSuccess("密码修改成功");
     }
 
