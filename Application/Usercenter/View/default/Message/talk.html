@@ -47,7 +47,7 @@
                     <if condition="$message['uid'] eq $mid">
                         <div class="row talk_right">
                             <div class="time"><span
-                                    class="timespan">{$message.create_time|date='Y-m-d h:m:s',###}</span></div>
+                                    class="timespan">{$message.create_time|date='m-d h:m:s',###}</span></div>
                             <div class="row">
                                 <div class="col-md-10 bubble_outter">
                                     <h3>我</h3>
@@ -64,7 +64,7 @@
                         </div>
                         <else/>
                         <div class="row">
-                            <div class="time"><span class="timespan">{$message.create_time|date='Y-m-d h:m:s',###}</span></div>
+                            <div class="time"><span class="timespan">{$message.create_time|date='m-d h:m:s',###}</span></div>
                             <div class="row">
                                 <div class="col-md-2 "><img ucard="{$message.uid}" class="avatar-img talk-avatar"
                                                             src="{$message.user.avatar128}"/>

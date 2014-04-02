@@ -49,7 +49,7 @@ class PublicController extends Controller
     public function getMessage()
     {
 
-        $message = D('Message');
+        $message = D('Common/Message');
         //取到所有没有提示过的信息
         $haventToastMessages = $message->getHaventToastMessage(is_login());
         $message->setAllToasted(is_login());
@@ -63,7 +63,7 @@ class PublicController extends Controller
 
     public function readMessage($message_id)
     {
-        exit(json_encode(array('status' => D('Message')->readMessage($message_id))));
+        exit(json_encode(array('status' => D('Common/Message')->readMessage($message_id))));
 
     }
 }
