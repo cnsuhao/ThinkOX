@@ -38,10 +38,12 @@ class TitleModel extends Model
     public function getTitleConfig()
     {
         return array(
-            0 => '新手',
-            10 => '入门',
-            100 => '初级',
-            1000 => '高级',
+            0 => 'Lv1 实习',
+            50 => 'Lv2 试用',
+            100 => 'Lv3 转正',
+            200 => 'Lv 4 助理',
+            400 => 'Lv 5 经理',
+            800 => 'Lv 6 董事',
         );
     }
 
