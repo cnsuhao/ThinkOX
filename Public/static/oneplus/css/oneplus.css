@@ -843,7 +843,6 @@ General list for item with image
 }
 .XT_face {
   width: 415px;
-  top: 180px;
   z-index: 1001;
   position: absolute !important;
 }
