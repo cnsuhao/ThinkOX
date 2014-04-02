@@ -204,7 +204,7 @@
                 }
 
                 //通过服务器载入微博列表
-                var url = "{:U('loadweibo')}";
+                var url = "{$loadMoreUrl}";
                 isLoadingWeibo = true;
                 $('#load_more_text').text('正在载入...');
                 $.post(url, {page: page}, function (a) {
@@ -224,8 +224,6 @@
                 currentPage = 0;
                 $('#weibo_list').html('');
             }
-
-
         })
     </script>
 </block>
