@@ -98,8 +98,20 @@ function query_user($fields, $uid = null)
         $result['space_link'] = '<a ucard="' . $uid . '" href="' . U('UserCenter/Index/index', array('uid' => $uid)) . '">' . $ucenterResult['username'] . '</a>';
     }
 
+    //获取用户头衔链接
+    if (in_array('rank_link', $fields)) {
+        $rank_List=D('rank_user')->where('uid='.$uid)->select();
+        foreach($rank_List as &$val){
+            $rank=D('rank')->where('id='.$val['rank_id'])->find();
+            $val['title']=$rank['title'];
+            $val['logo_url']=getRootUrl().D('picture')->where('id='.$rank['logo'])->getField('path');
+        }
+        $result['rank_link'] =$rank_List;
+    }
+
     //获取用户认证图标
     if (in_array('icons_html', $fields)) {
+
         //判断是否有手机图标
         $static = C('TMPL_PARSE_STRING.__STATIC__');
         $iconUrls = array();
@@ -107,7 +119,6 @@ function query_user($fields, $uid = null)
         if ($user['mobile']) {
             $iconUrls[] = "$static/oneplus/images/mobile-bind.png";
         }
-
         //生成结果
         $result['icons_html'] = '<span class="usercenter-verify-icon-list">';
         foreach ($iconUrls as $e) {

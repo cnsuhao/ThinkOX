@@ -100,6 +100,10 @@ class AdminConfigBuilder extends AdminBuilder {
         $options = $this->readUserGroups();
         return $this->keyCheckBox($name, $title, $subtitle, $options);
     }
+    public function keySingleImage($name,$title,$subtitle=null){
+
+        return $this->key($name, $title,$subtitle, 'image');
+    }
 
     public function keySingleUserGroup($name, $title, $subtitle=null) {
         $options = $this->readUserGroups();

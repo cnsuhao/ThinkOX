@@ -209,7 +209,7 @@ class ForumController extends AdminController {
         if($isEdit) {
             $result = $model->where(array('id'=>$id))->save($data);
         } else {
-            $result = $model->add($data);
+            $result = $model->keyDoActionEdit($data);
         }
 
         //如果写入不成功，则报错

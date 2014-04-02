@@ -19,7 +19,7 @@ class IndexController extends BaseController
     public function index($uid = null)
     {
         //调用API获取基本信息
-        $user = query_user(array('username', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256'), $uid);
+        $user = query_user(array('username', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256','rank_link'), $uid);
 
         //显示页面
         $this->defaultTabHash('index');

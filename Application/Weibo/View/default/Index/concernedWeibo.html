@@ -10,7 +10,9 @@
 
             <div style="padding-left: 16px; overflow: hidden;">
                 <p><a ucard="{$weibo.user.uid}"
-                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}</p>
+                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}
+                    <volist name="weibo['user']['rank_link']" id="vl"><php>if($vl['is_show']==1){</php><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/><php>}</php></volist>
+                </p>
 
                 <p>{$weibo.content}</p>
 

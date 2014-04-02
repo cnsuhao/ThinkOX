@@ -26,11 +26,10 @@ class IndexController extends Controller
         $list = $this->loadWeiboList();
         //dump($list);exit;
         foreach ($list as &$li) {
-            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html','rank_link'), $li['uid']);
         }
 
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
-
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount','rank_link'));
 
         //显示页面
         $this->assign('list', $list);
@@ -52,10 +51,10 @@ class IndexController extends Controller
                             $list = $this->loadconcernedWeibolist();
                             //dump($list);exit;
                             foreach ($list as &$li) {
-                                         $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
+                                         $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html','rank_link'), $li['uid']);
                                                    }
 
-                                 $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+                                 $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount','rank_link'));
 
 
                      //显示页面
@@ -74,7 +73,7 @@ class IndexController extends Controller
         $uid=$list[0]['uid'];
 
         //dump($uid);exit;
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'),$uid);
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount','rank_link'),$uid);
 
         //dump($self);exit;
         $atusers=S('atUsersJson_'.is_login());
@@ -108,7 +107,7 @@ class IndexController extends Controller
         $list = $this->loadWeiboList($page);
 
         foreach ($list as &$li) {
-            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
+            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html','rank_link'), $li['uid']);
         }
 
         unset($li);
