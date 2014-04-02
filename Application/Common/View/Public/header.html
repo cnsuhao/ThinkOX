@@ -30,7 +30,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!--登录注册-->
-                <php>$unreadMessage=D('Message')->getHaventReadMeassageAndToasted(is_login());</php>
+                <php>$unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());</php>
                 <if condition="is_login()">
                     <li class="dropdown op_nav_ico ">
                         <ul class="dropdown-menu extended notification">

@@ -8,5 +8,5 @@
 
 //读取SEO规则
 function get_seo_meta() {
-    return D('SeoRule')->getMetaOfCurrentPage();
+    return D('Common/SeoRule')->getMetaOfCurrentPage();
 }
