@@ -22,7 +22,7 @@ class WeiboApi extends Api
         $this->followModel = D('Weibo/Follow');
     }
 
-    public function listAllWeibo($page = 1, $count = 20)
+    public function listAllWeibo($page = 1, $count = 10)
     {
         //获取微博列表
         $map = array('status' => 1);
@@ -44,7 +44,7 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('list' => arrayval($list)));
     }
 
-    public function listMyFollowingWeibo($page = 1, $count = 20)
+    public function listMyFollowingWeibo($page = 1, $count = 10)
     {
         $this->requireLogin();
 

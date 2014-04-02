@@ -65,22 +65,15 @@ class IndexController extends Controller
     public function loadWeibo($page = 1)
     {
         //载入全站微博
-        $list = $this->loadWeiboList($page);
-
-        foreach ($list as &$li) {
-            $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-        }
-
-        unset($li);
+        $result = $this->weiboApi->listAllWeibo($page);
 
         //如果没有微博，则返回错误
-        if (!$list) {
+        if (!$result['list']) {
             $this->error('没有更多了');
         }
 
         //返回html代码用于ajax显示
-
-        $this->assign('list', $list);
+        $this->assign('list', $result['list']);
         $this->display();
     }
 
