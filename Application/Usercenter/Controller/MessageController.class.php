@@ -63,10 +63,8 @@ class MessageController extends BaseController
                 $users[] = query_user(array('avatar64', 'username', 'space_link', 'id'), $uid);
             }
             $talks[$key]['users'] = $users;
-            $talks[$key]['last_message'] = D('TalkMessage')->where('talk_id=' . $v['id'])->order('create_time desc')->find();
-            $talks[$key]['last_message']['user'] = query_user(array('username', 'space_url', 'id'), $v['last_message']['uid']);
+            $talks[$key]['last_message'] = D('Talk')->getLastMessage($talks[$key]['id']);
         }
-        // dump($talks);exit;
         $this->assign('talks', $talks);
         $this->display();
     }
@@ -221,4 +219,6 @@ class MessageController extends BaseController
         }
         return $map;
     }
+
+
 }

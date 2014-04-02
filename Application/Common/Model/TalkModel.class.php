@@ -24,4 +24,30 @@ class TalkModel extends Model
         preg_match_all('/\[(.*?)\]/', $uids, $uids_array);
         return $uids_array[1];
     }
-} 
+
+    public function getCurrentSessions()
+    {
+        $list = $this->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
+        foreach ($list as &$li) {
+            $uids = $this->getUids($li['uids']);
+            foreach ($uids as $uid) {
+                if ($uid != is_login()) {
+                    $li['first_user'] = query_user(array('avatar32', 'username'), $uid);
+                    $li['last_message'] = $this->getLastMessage($li['id']);
+                    break;
+                }
+            }
+        }
+        unset($li);
+        return $list;
+    }
+
+    public function getLastMessage($talk_id)
+    {
+        $last_message = D('TalkMessage')->where('talk_id=' . $talk_id)->order('create_time desc')->find();
+        $last_message['user'] = query_user(array('username', 'space_url', 'id'), $last_message['uid']);
+        return $last_message;
+    }
+
+
+}
