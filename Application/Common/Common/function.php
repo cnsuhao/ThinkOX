@@ -31,6 +31,11 @@ function is_login()
     }
 }
 
+function get_uid()
+{
+    return is_login();
+}
+
 /**
  * 检测权限
  */
@@ -1067,23 +1072,6 @@ function getLou($k)
     return $res;
 }
 
-function parse_html($content){
-    $content = preg_replace_callback("/(\[.+?\])/is",_parse_expression,$content);
-    return $content;
-}
-
-function _parse_expression($data) {
-    if(preg_match("/#.+#/i",$data[0])) {
-        return $data[0];
-    }
-    $allexpression = D('Expression')->getAllExpression();
-    $info = $allexpression[$data[0]];
-    if($info) {
-        return preg_replace("/\[.+?\]/i","<img src='".__ROOT__."/Public/static/image/expression/miniblog/".$info['filename']."' />",$data[0]);
-    }else {
-        return $data[0];
-    }
-}
 function getMyScore()
 {
     $user = query_user(array('score'), is_login());
@@ -1109,3 +1097,4 @@ require_once(APP_PATH.'/Common/Common/api.php');
 require_once(APP_PATH.'/Common/Common/time.php');
 require_once(APP_PATH.'/Common/Common/match.php');
 require_once(APP_PATH.'/Common/Common/seo.php');
+require_once(APP_PATH.'/Common/Common/type.php');
