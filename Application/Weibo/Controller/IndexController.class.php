@@ -50,25 +50,15 @@ class IndexController extends Controller
         $this->display('index');
     }
 
-    public function weiboDetail()
+    public function weiboDetail($id)
     {
-        $id = $_GET['id'];
-        $list = D('Weibo')->where(array('id' => $id, 'status' => 1))->select();
-        if (!$list) { //针对微博存在的检测
-            $this->assign('jumpUrl', U('Weibo/Index/index'));
-            $this->error('404未能找到该微博。');
-        }
-        $list[0]['content']=parse_html($list[0]['content']);
-        $uid = $list[0]['uid'];
+        //读取微博详情
+        $result = $this->weiboApi->getWeiboDetail($id);
 
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'), $uid);
-
-        $atusers = $this->getAtWhoJson();
-        $this->assign('atwhousers', $atusers);
-
-
-        $this->assign('list', $list);
-        $this->assign('self', $self);
+        //显示页面
+        $this->assign('weibo', $result['weibo']);
+        $this->assignSelf();
+        $this->assignAtWhoUsers();
         $this->display();
     }
 

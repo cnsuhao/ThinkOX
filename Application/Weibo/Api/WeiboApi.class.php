@@ -17,6 +17,7 @@ class WeiboApi extends Api
 
     public function __construct()
     {
+        // 模型名称请使用完整路径，否则其他应用中无法调用接口。
         $this->weiboModel = D('Weibo/Weibo');
         $this->followModel = D('Weibo/Follow');
     }
@@ -45,6 +46,8 @@ class WeiboApi extends Api
 
     public function listMyFollowingWeibo($page = 1, $count = 20)
     {
+        $this->requireLogin();
+
         //获取我关注的人
         $result = $this->followModel->where(array('who_follow'=>get_uid()))->select();
         foreach($result as &$e) {
@@ -67,6 +70,17 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('list' => arrayval($list)));
     }
 
+    public function getWeiboDetail($weibo_id)
+    {
+        $this->requireWeiboExist($weibo_id);
+
+        //获取微博详情
+        $weibo = $this->getWeiboStructure($weibo_id);
+
+        //返回微博详情
+        return $this->apiSuccess('获取成功', array('weibo'=>$weibo));
+    }
+
     private function getWeiboStructure($id)
     {
         $weibo = $this->weiboModel->where(array('id' => $id))->find();
@@ -82,6 +96,13 @@ class WeiboApi extends Api
     private function requireLogin() {
         if(!is_login()) {
             throw new ApiException('需要登录', 400);
+        }
+    }
+
+    private function requireWeiboExist($id) {
+        $weibo = $this->weiboModel->where(array('id'=>$id,'status'=>1))->find();
+        if(!$weibo) {
+            throw new ApiException('微博不存在');
         }
     }
 }
