@@ -128,13 +128,6 @@ class IndexController extends Controller
         $this->display();
     }
 
-    private function requireLogin()
-    {
-        if (!is_login()) {
-            $this->error('需要登录');
-        }
-    }
-
     /**
      * @param $user
      * @return array
@@ -204,8 +197,7 @@ class IndexController extends Controller
         }
     }
 
-    public
-    function doDelComment($comment_id = 0)
+    public function doDelComment($comment_id = 0)
     {
         if (intval($comment_id)) {
             if (is_administrator()) {
@@ -230,7 +222,7 @@ class IndexController extends Controller
 
     private function assignSelf()
     {
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'));
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_list'));
         $this->assign('self', $self);
     }
 }
