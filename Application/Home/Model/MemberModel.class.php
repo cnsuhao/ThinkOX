@@ -139,9 +139,7 @@ class MemberModel extends Model
     private function jiami($txt, $key = null)
     {
         empty($key) && $key = $this->change();
-        //有mcrypt扩展时
 
-        //无mcrypt扩展时
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=_";
         $nh = rand(0, 64);
         $ch = $chars[$nh];
@@ -169,9 +167,7 @@ class MemberModel extends Model
     private function jiemi($txt, $key = null)
     {
         empty($key) && $key = $this->change();
-        //有mcrypt扩展时
 
-        //无mcrypt扩展时
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=_";
         $ch = $txt[0];
         $nh = strpos($chars, $ch);
