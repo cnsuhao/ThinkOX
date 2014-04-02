@@ -49,7 +49,7 @@ class RankController extends AdminController
             $this->error('请选择头衔');
         }
         $result = D('rank')->where('id=' . $id)->delete();
-        $result1 = D('rank_user')->where('id=' . $id)->delete();
+        $result1 = D('rank_user')->where('rank_id=' . $id)->delete();
         if ($result) {
             $this->success('删除成功');
         } else {
@@ -227,7 +227,9 @@ class RankController extends AdminController
                 $content = '管理员给你颁发了头衔：[' . $rank['title'] . ']'; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
 
                 $user = query_user(array('username', 'space_link'), $uid);
+
                 $content1 = '管理员给@' . $user['username'] . ' 颁发了新的头衔：[' . $rank['title'] . ']，颁发理由：' . $reason; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
+                clean_query_user_cache($uid,array('rank_link'));
                 $this->sendMessage($data, $content);
                 //写入数据库
                 $model = D('Weibo/Weibo');
