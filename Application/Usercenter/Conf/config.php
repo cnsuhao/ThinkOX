@@ -31,12 +31,4 @@ return array(
         '__CSS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/css',
         '__JS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/js',
     ),
-    'TITLE' => array(
-        0 => 'Lv1 实习',
-        50 => 'Lv2 试用',
-        100 => 'Lv3 转正',
-        200 => 'Lv 4 助理',
-        400 => 'Lv 5 经理',
-        800 => 'Lv 6 董事',
-    )
 );

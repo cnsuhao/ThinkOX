@@ -30,7 +30,7 @@ class IndexController extends Controller
         //显示页面
         $this->assign('list', $list);
         $this->assign('self', $self);
-        $this->assign('tab','all');
+        $this->assign('tab', 'all');
         $this->display();
     }
 
@@ -42,7 +42,7 @@ class IndexController extends Controller
         $list = $this->loadconcernedWeibolist();
         foreach ($list as &$li) {
             $li['user'] = query_user(array('avatar64', 'username', 'uid', 'space_url', 'icons_html'), $li['uid']);
-            $li['content']=parse_html($li['content']);
+            $li['content'] = parse_html($li['content']);
         }
         unset($li);
 
@@ -51,7 +51,7 @@ class IndexController extends Controller
         //显示页面
         $this->assign('list', $list);
         $this->assign('self', $self);
-        $this->assign('tab','concerned');
+        $this->assign('tab', 'concerned');
         $this->display('index');
     }
 
@@ -65,7 +65,7 @@ class IndexController extends Controller
             $this->assign('jumpUrl', U('Weibo/Index/index'));
             $this->error('404未能找到该微博。');
         }
-        $list[0]['content']=parse_html($list[0]['content']);
+        $list[0]['content'] = parse_html($list[0]['content']);
         $uid = $list[0]['uid'];
 
         $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount'), $uid);
@@ -139,12 +139,12 @@ class IndexController extends Controller
         $model = D('Weibo');
         $score_before = getMyScore();
         $result = $model->addWeibo(is_login(), $content);
-        $score_after =getMyScore();
+        $score_after = getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
         }
         //显示成功页面
-        $this->success('发表微博成功。' . getScoreTip($score_before,$score_after));
+        $this->success('发表微博成功。' . getScoreTip($score_before, $score_after));
     }
 
     public function doComment($weibo_id, $content, $comment_id = 0)
@@ -163,13 +163,13 @@ class IndexController extends Controller
             $model = D('WeiboComment');
             $score_before = getMyScore();
             $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
-            $score_after =getMyScore();
+            $score_after = getMyScore();
             if (!$result) {
                 $this->error('评论失败：' . $model->getError());
             }
 
             //显示成功页面
-            $this->success('评论成功。'.getScoreTip($score_before,$score_after));
+            $this->success('评论成功。' . getScoreTip($score_before, $score_after));
         } else {
             $this->error('相隔不能低于10秒');
         }
@@ -179,7 +179,7 @@ class IndexController extends Controller
     {
         //读取数据库中全部的评论列表
         $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->select();
-        foreach($list as $k=>&$v){
+        foreach ($list as $k => &$v) {
             $v['content'] = parse_html($v['content']);
         }
         $weiboCommentTotalCount = count($list);
@@ -204,7 +204,7 @@ class IndexController extends Controller
     {
         $map = array('status' => 1);
         $list = D('Weibo')->where($map)->order('create_time desc')->page($page, 10)->select();
-        foreach($list as $k=>&$v){
+        foreach ($list as $k => &$v) {
             $v['content'] = parse_html($v['content']);
         }
         //dump($list);exit;
@@ -271,7 +271,8 @@ class IndexController extends Controller
         return json_encode($atusers);
     }
 
-    public function getSmile() {
+    public function getSmile()
+    {
         exit(json_encode(D('Expression')->getAllExpression()));
     }
 
