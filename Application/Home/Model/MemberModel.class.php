@@ -17,7 +17,6 @@ use User\Api\UserApi;
  */
 class MemberModel extends Model
 {
-
     /* 用户模型自动完成 */
     protected $_auto = array(
         array('login', 0, self::MODEL_INSERT),
@@ -34,10 +33,8 @@ class MemberModel extends Model
      * @param  integer $uid 用户ID
      * @return boolean      ture-登录成功，false-登录失败
      */
-    public function login($uid,$remember=false)
+    public function login($uid, $remember = false)
     {
-        $map['id'] = $uid;
-        $user1 = D('ucenter_member')->where($map)->find();
         /* 检测是否在当前应用注册 */
         $user = $this->field(true)->find($uid);
         if (!$user) { //未注册
@@ -54,10 +51,8 @@ class MemberModel extends Model
             $this->error = '用户未激活或已禁用！'; //应用级别禁用
             return false;
         }
-        $user['password'] =  $user1['password'];
-
         /* 登录用户 */
-        $this->autoLogin($user,$remember);
+        $this->autoLogin($user, $remember);
         //记录行为
         action_log('user_login', 'member', $uid, $uid);
         return true;
@@ -99,16 +94,28 @@ class MemberModel extends Model
         session('user_auth', $auth);
         session('user_auth_sign', data_auth_sign($auth));
 
-        if (!$this->getCookieUid() && $remember) {
-            $expire = 3600 * 24 * 7;
-            cookie('OX_LOGGED_USER', $this->jiami($this->change() . ".{$user['uid']}.{$user['password']}"), $expire);
-
+        if ($remember) {
+            $token = build_auth_key();
+            $user1 = D('user_token')->where('uid=' . $user['uid'])->find();
+            $data['token'] = $token;
+            $data['time'] = time();;
+            if ($user1 == null) {
+                $data['uid'] = $user['uid'];
+                D('user_token')->add($data);
+            } else {
+                D('user_token')->where('uid=' . $user['uid'])->save($data);
+            }
         }
 
-    }
+        if (!$this->getCookieUid() && $remember) {
+            $expire = 3600 * 24 * 7;
+            cookie('OX_LOGGED_USER', $this->jiami($this->change() . ".{$user['uid']}.{$token}"), $expire);
 
+        }
+    }
     public function need_login()
     {
+
         if ($uid = $this->getCookieUid()) {
             $this->login($uid);
             return true;
@@ -123,9 +130,10 @@ class MemberModel extends Model
         }
         $cookie = cookie('OX_LOGGED_USER');
         $cookie = explode(".", $this->jiemi($cookie));
-        $map['id'] = $cookie[1];
-        $user = D('ucenter_member')->where($map)->find();
-        $cookie_uid = ($cookie[0] != $this->change())|| ( $cookie[2] !=$user['password']) ? false : $cookie[1];
+        $map['uid'] = $cookie[1];
+        $user = D('user_token')->where($map)->find();
+        $cookie_uid = ($cookie[0] != $this->change()) || ($cookie[2] != $user['token']) ? false : $cookie[1];
+        $cookie_uid =  $user['time']-time() >= 3600*24*7 ? false:$cookie_uid;
         return $cookie_uid;
     }
 
