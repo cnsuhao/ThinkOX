@@ -222,7 +222,7 @@ class IndexController extends Controller
 
     private function assignSelf()
     {
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_list'));
+        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link'));
         $this->assign('self', $self);
     }
 }
