@@ -149,8 +149,12 @@ function query_user($fields, $uid = null)
         if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
         }
-        $result[$field] = str_replace('"','',op_t($value));
-        write_query_user_cache($uid, $field, str_replace('"','',op_t($value)));
+        if (!in_array($field, array('rank_link','icons_html'))) {
+            $value = str_replace('"', '', op_t($value));
+        }
+
+        $result[$field] = $value;
+        write_query_user_cache($uid, $field, str_replace('"', '', $value));
     }
 
     //合并结果，包括缓存
