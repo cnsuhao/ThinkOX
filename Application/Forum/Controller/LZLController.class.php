@@ -17,7 +17,7 @@ class LZLController extends Controller
 {
 
 
-    public function  lzllist($to_f_reply_id, $page = 1)
+    public function  lzllist($to_f_reply_id, $page = 1,$p=1)
     {
         $limit = 5;
         $list = D('ForumLzlReply')->getLZLReplyList($to_f_reply_id,'ctime asc',$page,$limit);
@@ -27,6 +27,7 @@ class LZLController extends Controller
         $html = getPageHtml('changePage', $pageCount, $data, $page);
         $this->assign('lzlList', $list);
         $this->assign('html', $html);
+        $this->assign('p', $p);
         $this->assign('nowPage', $page);
         $this->assign('totalCount', $totalCount);
         $this->assign('limit', $limit);
