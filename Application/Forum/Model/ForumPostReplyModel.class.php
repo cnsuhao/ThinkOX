@@ -51,12 +51,17 @@ class ForumPostReplyModel extends Model
      */
     private function sendReplyMessage($uid, $post_id, $content,$reply_id)
     {
+        $limit = 10;
+        $map['status']=1;
+        $map['post_id']=$post_id;
+        $count = D('ForumPostReply')->where($map)->count();
+        $pageCount = ceil($count / $limit);
         //增加微博的评论数量
         $user = query_user(array('username', 'space_url'), $uid);
         $post = D('ForumPost')->find($post_id);
         $title = $user['username'] . '回复了您的帖子。';
         $content = '回复内容：' . mb_substr($content, 0, 20);
-        $url = U('Forum/Index/detail', array('id' => $post_id));
+        $url = U('Forum/Index/detail', array('id' => $post_id,'page'=>$pageCount)).'#'.$reply_id;
         $from_uid = $uid;
         D('Message')->sendMessage($post['uid'], $content, $title, $url, $from_uid, 2, null, 'reply', $post_id,$reply_id);
     }

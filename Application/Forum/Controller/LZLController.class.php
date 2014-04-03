@@ -36,7 +36,7 @@ class LZLController extends Controller
     }
 
 
-    public function doSendLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content)
+    public function doSendLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content,$p)
     {
 
         //确认用户已经登录
@@ -44,7 +44,7 @@ class LZLController extends Controller
         //写入数据库
         $model = D('ForumLzlReply');
         $before=getMyScore();
-        $result = $model->addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, op_t($content));
+        $result = $model->addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, op_t($content),$p);
         $after=getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
