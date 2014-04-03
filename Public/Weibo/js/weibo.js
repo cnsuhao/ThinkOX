@@ -81,7 +81,7 @@ function weibo_reply(obj, comment_id, comment_object) {
     var weiboToCommentId = $('#weibo-comment-to-comment-id', weibo);
     weiboToCommentId.val(comment_id);
     textarea.focus();
-    textarea.val('回复 ' + comment_object + ' ：');
+    textarea.val('回复 @' + comment_object + ' ：');
 }
 /**
  * 评论微博
