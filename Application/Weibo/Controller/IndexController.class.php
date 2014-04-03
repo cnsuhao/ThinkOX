@@ -128,49 +128,13 @@ class IndexController extends Controller
         $this->display();
     }
 
-    /**
-     * @param $user
-     * @return array
-     */
-    private function getAtWhoUsers()
-    {
-        //获取能AT的人，UID列表
-        $uid = get_uid();
-        $follows = D('Follow')->where(array('who_follow'=>$uid,'follow_who'=>$uid,'_logic'=>'or'))->limit(999)->select();
-        $uids = array();
-        foreach($follows as &$e) {
-            $uids[] = $e['who_follow'];
-            $uids[] = $e['follow_who'];
-        }
-        unset($e);
-        $uids = array_unique($uids);
-
-        //加入拼音检索
-        $users = array();
-        foreach($uids as $uid) {
-            $user = query_user(array('username','id'),$uid);
-            $user['search_key'] = $user['username'].D('PinYin')->Pinyin($user['username']);
-            $users[] = $user;
-        }
-
-        //返回at用户列表
-        return $users;
-    }
-
     public function doDelWeibo($weibo_id = 0)
     {
-        if (intval($weibo_id)) {
+        //删除微博
+        $result = $this->weiboApi->deleteWeibo($weibo_id);
 
-            if (is_administrator()) {
-                $del = D('Weibo')->where(array('id' => $weibo_id))->setField('status', 0); //管理员即可直接删除
-            } else {
-                $del = D('Weibo')->where(array('id' => $weibo_id, 'uid' => is_login()))->setField('status', 0); //删除带检测权限
-            }
-            if ($del) {
-                D('WeiboComment')->where(array('weibo_id' => $weibo_id))->setField('status', 0);
-            }
-            exit(json_encode(array('status' => $del)));
-        }
+        //返回成功信息
+        $this->ajaxReturn(apiToAjax($result));
     }
 
     public function doDelComment($comment_id = 0)
@@ -190,10 +154,35 @@ class IndexController extends Controller
         }
     }
 
+    private function getAtWhoUsers()
+    {
+        //获取能AT的人，UID列表
+        $uid = get_uid();
+        $follows = D('Follow')->where(array('who_follow' => $uid, 'follow_who' => $uid, '_logic' => 'or'))->limit(999)->select();
+        $uids = array();
+        foreach ($follows as &$e) {
+            $uids[] = $e['who_follow'];
+            $uids[] = $e['follow_who'];
+        }
+        unset($e);
+        $uids = array_unique($uids);
+
+        //加入拼音检索
+        $users = array();
+        foreach ($uids as $uid) {
+            $user = query_user(array('username', 'id'), $uid);
+            $user['search_key'] = $user['username'] . D('PinYin')->Pinyin($user['username']);
+            $users[] = $user;
+        }
+
+        //返回at用户列表
+        return $users;
+    }
+
     private function assignAtWhoUsers()
     {
         $cacheKey = 'weibo_at_who_users_' . get_uid();
-        $atusers = op_cache($cacheKey, function(){
+        $atusers = op_cache($cacheKey, function () {
             return $this->getAtWhoUsers();
         }, 600);
         $this->assign('atwhousers', $atusers);

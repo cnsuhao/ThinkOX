@@ -13,7 +13,7 @@
  * @param $func
  * @return mixed
  */
-function op_cache($key, $interval, $func) {
+function op_cache($key, $func, $interval) {
     $result = S($key);
     if(!$result) {
         $result = $func();

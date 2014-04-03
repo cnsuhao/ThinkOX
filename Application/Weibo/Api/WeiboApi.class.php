@@ -132,6 +132,22 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('list'=>arrayval($list)));
     }
 
+    public function deleteWeibo($weibo_id) {
+        //确认当前登录的用户有删除权限
+        if(!$this->canDeleteWeibo($weibo_id)) {
+            return $this->apiError('您没有权限删除微博');
+        }
+
+        //从数据库中删除微博
+        $result = $this->weiboModel->where(array('id'=>$weibo_id))->setField('status', 0);
+        if(!$result) {
+            return $this->apiError('数据库写入错误');
+        }
+
+        //返回成功消息
+        return $this->apiSuccess('删除成功');
+    }
+
     private function getWeiboStructure($id)
     {
         $weibo = $this->weiboModel->find($id);
@@ -160,5 +176,21 @@ class WeiboApi extends Api
         if (!$weibo) {
             throw new ApiException('微博不存在');
         }
+    }
+
+    private function canDeleteWeibo($weibo_id) {
+        //如果是管理员，则可以删除微博
+        if(is_administrator(get_uid())) {
+            return true;
+        }
+
+        //如果是自己发送的微博，可以删除微博
+        $weibo = $this->weiboModel->find($weibo_id);
+        if($weibo['uid'] == get_uid()) {
+            return true;
+        }
+
+        //返回，不能删除微博
+        return false;
     }
 }

@@ -98,6 +98,8 @@ function comment_del(obj, comment_id) {
             var weiboCommentList = $('.weibo-comment-list', weibo);
             reloadWeiboCommentList(weiboCommentList);
             op_success('删除微博成功。', '温馨提示');
+        } else {
+            op_error(msg.info, '温馨提示');
         }
     }, 'json');
 
