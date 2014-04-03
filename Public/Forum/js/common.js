@@ -28,10 +28,10 @@ $(function () {
         this.preventDefault();
     });
 
-    var submitLZLReply = function (post_id, to_f_reply_id, to_reply_id, to_uid, content) {
+    var submitLZLReply = function (post_id, to_f_reply_id, to_reply_id, to_uid, content,p) {
         var url =U('Forum/LZL/doSendLZLReply');
 
-        $.post(url, {post_id: post_id, to_f_reply_id: to_f_reply_id, to_reply_id: to_reply_id, to_uid: to_uid, content: content}, function (msg) {
+        $.post(url, {post_id: post_id, to_f_reply_id: to_f_reply_id, to_reply_id: to_reply_id, to_uid: to_uid, content: content,p:p}, function (msg) {
             if (msg.status) {
                 op_success(msg.info, '温馨提示');
                 $('#lzl_reply_list_' + to_f_reply_id).load(U('Forum/LZL/lzlList&to_f_reply_id=' + to_f_reply_id + '&page=' + msg.url, '', true), function () {
@@ -50,8 +50,9 @@ $(function () {
         var content = $('#reply_' + to_f_reply_id).val();
         var to_reply_id = args['to_reply_id'];
         var to_uid = args['to_uid'];
+        var p = args['p'];
 
-        submitLZLReply(post_id, to_f_reply_id, to_reply_id, to_uid, content);
+        submitLZLReply(post_id, to_f_reply_id, to_reply_id, to_uid, content,p);
 
         this.preventDefault();
     })

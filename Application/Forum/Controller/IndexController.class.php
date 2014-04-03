@@ -63,7 +63,6 @@ class IndexController extends Controller
 
         //读取置顶列表
 
-
         //显示页面
         $this->assign('forum_id', $id);
         $this->assignAllowPublish();
@@ -73,7 +72,7 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function detail($id, $page = 1)
+    public function detail($id, $page = 1,$sr=null ,$sp =1)
     {
         $limit = 10;
         //读取帖子内容
@@ -101,6 +100,8 @@ class IndexController extends Controller
         $this->assign('isBookmark', $isBookmark);
         $this->assign('post', $post);
         $this->assign('limit', $limit);
+        $this->assign('sr', $sr);
+        $this->assign('sp', $sp);
         $this->assign('page', $page);
         $this->assign('replyList', $replyList);
         $this->assign('replyTotalCount', $replyTotalCount);
