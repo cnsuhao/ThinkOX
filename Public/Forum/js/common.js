@@ -79,11 +79,11 @@ $(function () {
                     op_success('删除成功', '温馨提示');
                      $('#forum_lzl_reply_'+args['lzl_reply_id']).hide();
                     $('#reply_' + to_f_reply_id).val('');
+                    $('#reply_btn_'+msg.post_reply_id).html('回复('+msg.lzl_reply_count+')');
                 } else {
                     op_error('删除失败', '温馨提示');
                 }
             });
-
         }
         this.preventDefault();
     });

@@ -69,18 +69,19 @@ class ForumLzlReplyModel extends Model
     public function delLZLReply($id)
     {
         $lzl = D('ForumLzlReply')->where('id=' . $id)->find();
-        CheckPermission($lzl['uid']) && $res = $this->where('id=' . $id)->delete();
+        $data['is_del']=1;
+        CheckPermission($lzl['uid']) && $res = $this->where('id=' . $id)->save($data);
         D('ForumPost')->where(array('id' => $lzl['post_id']))->setDec('reply_count');
         S('post_replylist_' . $lzl['post_id'], null);
         S('post_replylzllist_' . $lzl['to_f_reply_id'], null);
         return $res;
     }
 
-    public function getLZLReplyList($to_f_reply_id, $order, $page, $limit)
+    public function getLZLReplyList($to_f_reply_id, $order, $page=1, $limit)
     {
         $list = S('post_replylzllist_' . $to_f_reply_id);
         if ($list == null) {
-            $list = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->order($order)->select();
+            $list = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $to_f_reply_id)->order($order)->select();
             foreach ($list as $k => &$v) {
                 $v['userInfo'] = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html'), $v['uid']);
                 $v['content'] = op_t($v['content']);
