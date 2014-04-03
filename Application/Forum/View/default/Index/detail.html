@@ -77,7 +77,7 @@
 
         <volist name="replyList" id="reply" key="k">
             <div class="row" style="position: relative">
-
+                <a id="{$reply.id}" style="margin-top: -100px;position: absolute;"></a>
                 <eq name="reply.uid" value="$post['uid']">
                     <div class="ribbion-green">
                         <a>楼主</a>
@@ -203,6 +203,13 @@
                     element.show();
                 }
             }
+
+           if({$sr} != null){
+               $('#lzl_reply_list_{$sr}').load(U('Forum/LZL/lzllist&to_f_reply_id={$sr}&page={$sp}', '', true), function () {
+                   ucard();
+               })
+           }
+
 
         })
     </script>

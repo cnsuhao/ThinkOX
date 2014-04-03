@@ -17,16 +17,17 @@ class LZLController extends Controller
 {
 
 
-    public function  lzllist($to_f_reply_id, $page = 1)
+    public function  lzllist($to_f_reply_id, $page = 1,$p=1)
     {
         $limit = 5;
         $list = D('ForumLzlReply')->getLZLReplyList($to_f_reply_id,'ctime asc',$page,$limit);
-        $totalCount = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->count();
+        $totalCount = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $to_f_reply_id)->count();
         $data['to_f_reply_id'] = $to_f_reply_id;
         $pageCount = ceil($totalCount / $limit);
         $html = getPageHtml('changePage', $pageCount, $data, $page);
         $this->assign('lzlList', $list);
         $this->assign('html', $html);
+        $this->assign('p', $p);
         $this->assign('nowPage', $page);
         $this->assign('totalCount', $totalCount);
         $this->assign('limit', $limit);
@@ -36,7 +37,7 @@ class LZLController extends Controller
     }
 
 
-    public function doSendLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content)
+    public function doSendLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content,$p)
     {
 
         //确认用户已经登录
@@ -44,13 +45,13 @@ class LZLController extends Controller
         //写入数据库
         $model = D('ForumLzlReply');
         $before=getMyScore();
-        $result = $model->addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, op_t($content));
+        $result = $model->addLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, op_t($content),$p);
         $after=getMyScore();
         if (!$result) {
             $this->error('发布失败：' . $model->getError());
         }
         //显示成功页面
-        $totalCount = D('forum_lzl_reply')->where('to_f_reply_id=' . $to_f_reply_id)->count();
+        $totalCount = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $to_f_reply_id)->count();
         $limit = 5;
         $pageCount = ceil($totalCount / $limit);
         $this->success('回复成功。'.getScoreTip($before,$after),$pageCount);
@@ -65,8 +66,10 @@ class LZLController extends Controller
 
 public function delLZLReply($id){
     $this->requireLogin();
+    $data['post_reply_id']=D('ForumLzlReply')->where('id='.$id)->getfield('to_f_reply_id');
     $res= D('ForumLzlReply')->delLZLReply($id);
-    $res &&   $this->success($res);
+    $data['lzl_reply_count']=D('ForumLzlReply')->where('is_del=0 and to_f_reply_id='.$data['post_reply_id'])->count();
+    $res &&   $this->success($res,'',$data);
     !$res &&   $this->error('');
 }
 

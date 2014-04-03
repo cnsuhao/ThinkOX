@@ -40,8 +40,13 @@ function get_uid()
  * 检测权限
  */
 function CheckPermission($uids){
-    is_administrator();
-    in_array(is_login(),$uids);
+    if(is_administrator()){
+        return true;
+    }
+    if(in_array(is_login(),$uids)){
+        return true;
+    }
+    return false;
 }
 
 /**

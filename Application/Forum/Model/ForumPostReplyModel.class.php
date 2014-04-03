@@ -51,12 +51,17 @@ class ForumPostReplyModel extends Model
      */
     private function sendReplyMessage($uid, $post_id, $content,$reply_id)
     {
+        $limit = 10;
+        $map['status']=1;
+        $map['post_id']=$post_id;
+        $count = D('ForumPostReply')->where($map)->count();
+        $pageCount = ceil($count / $limit);
         //增加微博的评论数量
         $user = query_user(array('username', 'space_url'), $uid);
         $post = D('ForumPost')->find($post_id);
         $title = $user['username'] . '回复了您的帖子。';
         $content = '回复内容：' . mb_substr($content, 0, 20);
-        $url = U('Forum/Index/detail', array('id' => $post_id));
+        $url = U('Forum/Index/detail', array('id' => $post_id,'page'=>$pageCount)).'#'.$reply_id;
         $from_uid = $uid;
         D('Message')->sendMessage($post['uid'], $content, $title, $url, $from_uid, 2, null, 'reply', $post_id,$reply_id);
     }
@@ -67,7 +72,7 @@ class ForumPostReplyModel extends Model
             $replyList = D('ForumPostReply')->where($map)->order($order)->select();
             foreach ($replyList as &$reply) {
                 $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
-                $reply['lzl_count'] = D('forum_lzl_reply')->where('to_f_reply_id=' . $reply['id'])->count();
+                $reply['lzl_count'] = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $reply['id'])->count();
             }
             unset($reply);
             S('post_replylist_'.$map['post_id'],$replyList,60);
@@ -76,13 +81,22 @@ class ForumPostReplyModel extends Model
         return $replyList;
     }
 
-
     public function delPostReply($id){
         $reply = D('ForumPostReply')->where('id='.$id)->find();
-        CheckPermission($reply['uid'])  &&  $res = $this->where('id='.$id)->delete();
+        $data['status']=0;
+        CheckPermission($reply['uid'])  &&  $res = $this->where('id='.$id)->save($data);
+        if($res){
+            $lzlReply_idlist=D('ForumLzlReply')->where('is_del=0 and to_f_reply_id=' . $id)->field('id')->select();
+            $info['is_del']=1;
+            foreach($lzlReply_idlist as $val){
+                D('ForumLzlReply')->where('id=' . $val['id'])->save($info);
+                D('ForumPost')->where(array('id' => $reply['post_id']))->setDec('reply_count');
+            }
+        }
         D('ForumPost')->where(array('id' => $reply['post_id']))->setDec('reply_count');
         S('post_replylist_'.$reply['post_id'],null);
         return $res;
     }
+
 
 }
