@@ -74,7 +74,7 @@
 
             function success(data) {
                 if (data.status) {
-                    op_success('注册成功，1.5秒后跳转到登陆页面。', '温馨提示');
+                    op_success('注册成功，正在登录。', '温馨提示');
                     setTimeout(function () {
                         window.location.href = data.url
                     }, 1500);
