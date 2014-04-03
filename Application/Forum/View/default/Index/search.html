@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-11">
                             <p>
-                                <a class="forum-list-title-link" title="{$document.title}"
+                                <a class="forum-list-title-link"
                                    href="{:U('Index/detail',array('id'=>$document['id']))}">
                                     {$document.colored_title}
                                     <eq name="document.is_top" value="1"><i class="post_top">全局</i>
@@ -43,7 +43,6 @@
                                 </a>
                             <p>
                                 {$document.colored_content}
-                            </p>
                             </p>
 
                             <p class="pull-right text-muted ">
@@ -72,5 +71,4 @@
             </section>
         </div>
     </div>
-
 </block>
