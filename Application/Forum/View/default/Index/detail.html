@@ -103,7 +103,7 @@
                        {:getLou( $limit*($page-1)+$k+1)}
 
                         发表于 {$reply.create_time|time_format}
-                        <if condition="CheckPermission($reply['uid'])">
+                        <if condition="CheckPermission(array($reply['uid']))">
                         <a href="javascript:" class="del_reply_btn" args="reply_id={$reply['id']}" >删除</a>
                         </if>
                         <php>if($reply['uid']==is_login()){</php><a href="{:U('Index/editReply',array('reply_id'=>$reply['id']))}">编辑</a><php>}</php>
