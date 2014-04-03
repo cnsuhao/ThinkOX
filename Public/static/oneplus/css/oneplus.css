@@ -4,6 +4,9 @@ body {
 .cpointer {
   cursor: pointer;
 }
+.word-wrap {
+  word-break: break-all !important;
+}
 a:hover {
   text-decoration: none;
   cursor: pointer !important;
