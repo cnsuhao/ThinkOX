@@ -184,6 +184,9 @@ class IndexController extends Controller
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
         //写入帖子的内容
+        if(strlen($content)<25){
+            $this->error('发表失败：内容长度不能小于25');
+        }
         $model = D('ForumPost');
         if ($isEdit) {
             $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
