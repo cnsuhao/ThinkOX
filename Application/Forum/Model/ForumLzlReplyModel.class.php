@@ -74,7 +74,7 @@ class ForumLzlReplyModel extends Model
     {
         $lzl = D('ForumLzlReply')->where('id=' . $id)->find();
         $data['is_del']=1;
-        CheckPermission($lzl['uid']) && $res = $this->where('id=' . $id)->save($data);
+        CheckPermission(array($lzl['uid'])) && $res = $this->where('id=' . $id)->save($data);
         D('ForumPost')->where(array('id' => $lzl['post_id']))->setDec('reply_count');
         S('post_replylist_' . $lzl['post_id'], null);
         S('post_replylzllist_' . $lzl['to_f_reply_id'], null);
