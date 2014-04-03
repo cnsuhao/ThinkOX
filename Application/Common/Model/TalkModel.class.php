@@ -46,6 +46,7 @@ class TalkModel extends Model
     {
         $last_message = D('TalkMessage')->where('talk_id=' . $talk_id)->order('create_time desc')->find();
         $last_message['user'] = query_user(array('username', 'space_url', 'id'), $last_message['uid']);
+        $last_message['content'] = op_t($last_message['content']);
         return $last_message;
     }
 

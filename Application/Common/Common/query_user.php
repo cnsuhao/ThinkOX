@@ -148,8 +148,9 @@ function query_user($fields, $uid = null)
     foreach ($result as $field => $value) {
         if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
-        };
-        write_query_user_cache($uid, $field, $value);
+        }
+        $result[$field] = str_replace('"','',op_t($value));
+        write_query_user_cache($uid, $field, str_replace('"','',op_t($value)));
     }
 
     //合并结果，包括缓存
