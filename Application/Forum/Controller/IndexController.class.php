@@ -136,6 +136,7 @@ class IndexController extends Controller
         $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
         $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
         if($reply){
+            S('post_replylist_'.$post_id,null);
             $this->success('编辑回复成功', U('Forum/Index/detail', array('id' => $post_id)));
         }else{
             $this->error("编辑回复失败");
