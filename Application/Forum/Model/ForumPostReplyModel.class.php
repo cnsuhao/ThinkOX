@@ -84,7 +84,7 @@ class ForumPostReplyModel extends Model
     public function delPostReply($id){
         $reply = D('ForumPostReply')->where('id='.$id)->find();
         $data['status']=0;
-        CheckPermission($reply['uid'])  &&  $res = $this->where('id='.$id)->save($data);
+        CheckPermission(array($reply['uid']))  &&  $res = $this->where('id='.$id)->save($data);
         if($res){
             $lzlReply_idlist=D('ForumLzlReply')->where('is_del=0 and to_f_reply_id=' . $id)->field('id')->select();
             $info['is_del']=1;
