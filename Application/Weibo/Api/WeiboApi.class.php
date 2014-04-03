@@ -20,6 +20,7 @@ class WeiboApi extends Api
         // 模型名称请使用完整路径，否则其他应用中无法调用接口。
         $this->weiboModel = D('Weibo/Weibo');
         $this->followModel = D('Weibo/Follow');
+        $this->commentModel = D('Weibo/WeiboComment');
     }
 
     public function listAllWeibo($page = 1, $count = 10)
@@ -105,7 +106,7 @@ class WeiboApi extends Api
         //写入数据库
         $model = D('WeiboComment');
         $score_before = getMyScore();
-        $result = $model->addComment(is_login(), $weibo_id, $content, $comment_id);
+        $result = $model->addComment(get_uid(), $weibo_id, $content, $comment_id);
         $score_after = getMyScore();
         if (!$result) {
             return $this->apiError('评论失败：' . $model->getError());
@@ -116,15 +117,40 @@ class WeiboApi extends Api
         return $this->apiSuccess('评论成功。' . getScoreTip($score_before, $score_after));
     }
 
+    public function listComment($weibo_id, $page = 1, $count = 10)
+    {
+        //从数据库中读取评论列表
+        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->page($page, $count)->select();
+
+        //格式化评论列表
+        foreach($list as &$e) {
+            $e = $this->getCommentStructure($e['id']);
+        }
+        unset($e);
+
+        //返回结果
+        return $this->apiSuccess('获取成功', array('list'=>arrayval($list)));
+    }
+
     private function getWeiboStructure($id)
     {
-        $weibo = $this->weiboModel->where(array('id' => $id))->find();
+        $weibo = $this->weiboModel->find($id);
         return array(
             'id' => intval($weibo['id']),
             'content' => strval($weibo['content']),
             'create_time' => intval($weibo['create_time']),
             'comment_count' => intval($weibo['comment_count']),
             'user' => $this->getUserStructure($weibo['uid']),
+        );
+    }
+
+    private function getCommentStructure($id) {
+        $comment = $this->commentModel->find($id);
+        return array(
+            'id'=>intval($comment['id']),
+            'content'=>strval($comment['content']),
+            'create_time'=>intval($comment['create_time']),
+            'user'=>$this->getUserStructure($comment['uid']),
         );
     }
 

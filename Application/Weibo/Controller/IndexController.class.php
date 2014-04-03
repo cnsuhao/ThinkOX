@@ -117,15 +117,14 @@ class IndexController extends Controller
     public function loadComment($weibo_id)
     {
         //读取数据库中全部的评论列表
-        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->select();
+        $result = $this->weiboApi->listComment($weibo_id, 1, 10000);
+        $list = $result['list'];
         $weiboCommentTotalCount = count($list);
 
         //返回html代码用于ajax显示
-        $weibo = D('Weibo')->find($weibo_id);
-        $this->assign('weiboId', $weibo_id);
-        $this->assign('weibo', $weibo);
-        $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->assign('list', $list);
+        $this->assign('weiboId', $weibo_id);
+        $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->display();
     }
 
