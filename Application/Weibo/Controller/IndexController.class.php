@@ -11,6 +11,7 @@ namespace Weibo\Controller;
 use Think\Controller;
 use Weibo\Api\WeiboApi;
 use Think\Exception;
+use Common\Exception\ApiException;
 
 class IndexController extends Controller
 {
@@ -120,8 +121,8 @@ class IndexController extends Controller
         $weiboCommentTotalCount = count($list);
 
         //返回html代码用于ajax显示
-        $this->assign('weiboId', $weibo_id);
         $weibo = D('Weibo')->find($weibo_id);
+        $this->assign('weiboId', $weibo_id);
         $this->assign('weibo', $weibo);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->assign('list', $list);

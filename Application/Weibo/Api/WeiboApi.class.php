@@ -29,11 +29,6 @@ class WeiboApi extends Api
         $model = $this->weiboModel;
         $list = $model->where($map)->order('create_time desc')->page($page, $count)->select();
 
-        //确认正确获取了微博列表
-        if (!$list) {
-            return $this->apiError('没有更多微博了');
-        }
-
         //获取每个微博详情
         foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
