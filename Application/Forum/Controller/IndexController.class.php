@@ -72,7 +72,7 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function detail($id, $page = 1,$sr=null ,$sp =1)
+    public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
         $limit = 10;
         //读取帖子内容
@@ -84,7 +84,7 @@ class IndexController extends Controller
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
         //读取回复列表
         $map = array('post_id' => $id, 'status' => 1);
-        $replyList = D('ForumPostReply')->getReplyList($map,'create_time',$page,$limit);
+        $replyList = D('ForumPostReply')->getReplyList($map, 'create_time', $page, $limit);
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
         //判断是否需要显示1楼
         if ($page == 1) {
@@ -108,17 +108,20 @@ class IndexController extends Controller
         $this->assign('showMainPost', $showMainPost);
         $this->display();
     }
-    public function delPostReply($id){
+
+    public function delPostReply($id)
+    {
         $this->requireLogin();
-        $res= D('ForumPostReply')->delPostReply($id);
-        $res &&   $this->success($res);
-        !$res &&   $this->error('');
+        $res = D('ForumPostReply')->delPostReply($id);
+        $res && $this->success($res);
+        !$res && $this->error('');
     }
+
     public function editReply($reply_id = null)
     {
         if ($reply_id) {
             $reply = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->find();
-        }else{
+        } else {
             $this->error('参数出错！');
         }
 
@@ -126,19 +129,20 @@ class IndexController extends Controller
         $this->assign('reply', $reply);
         $this->display();
     }
+
     public function doReplyEdit($reply_id = null, $content)
     {
-        if(!$content){
+        if (!$content) {
             $this->error("回复内容不能为空！");
         }
-        $data['content']=$content;
-        $data['update_time']=time();
+        $data['content'] = $content;
+        $data['update_time'] = time();
         $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
         $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
-        if($reply){
-            S('post_replylist_'.$post_id,null);
+        if ($reply) {
+            S('post_replylist_' . $post_id, null);
             $this->success('编辑回复成功', U('Forum/Index/detail', array('id' => $post_id)));
-        }else{
+        } else {
             $this->error("编辑回复失败");
         }
     }
@@ -382,6 +386,7 @@ class IndexController extends Controller
 
     public function search($page = 1)
     {
+        $_REQUEST['keywords'] = op_t($_REQUEST['keywords']);
         //读取帖子列表
         $map['title'] = array('like', "%{$_REQUEST['keywords']}%");
         $map['content'] = array('like', "%{$_REQUEST['keywords']}%");
@@ -393,8 +398,8 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($where)->count();
 
         foreach ($list as &$post) {
-            $post['colored_title'] = str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', htmlspecialchars($post['title']));
-            $post['colored_content'] = str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t($post['content']));
+            $post['colored_title'] =str_replace('"','', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', strip_tags(op_t($post['title']))));
+            $post['colored_content'] =str_replace('"','',  str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', strip_tags(op_t($post['content']))));
         }
         unset($post);
 
@@ -404,9 +409,6 @@ class IndexController extends Controller
         $this->assign('totalCount', $totalCount);
         $this->display();
     }
-
-
-
 
 
 }
