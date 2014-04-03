@@ -132,54 +132,30 @@ class IndexController extends Controller
      * @param $user
      * @return array
      */
-    private function getAtWho()
+    private function getAtWhoUsers()
     {
-        $atuserIds = array();
-        $atusers = array();
-        $users_who_follow = D('Follow')->where('who_follow=' . is_login())->limit(999)->select();
-        foreach ($users_who_follow as &$user) {
-            if (!in_array($user['follow_who'], $atuserIds)) {
-                $user_temp = query_user(array('username', 'id'), $user['follow_who']);
-                $user_temp['pinyin'] = D('PinYin')->Pinyin($user_temp['username']);
-                $atusers = array_merge($atusers, array($user_temp));
-                $atuserIds[] = $user['follow_who'];
-            }
+        //获取能AT的人，UID列表
+        $uid = get_uid();
+        $follows = D('Follow')->where(array('who_follow'=>$uid,'follow_who'=>$uid,'_logic'=>'or'))->limit(999)->select();
+        $uids = array();
+        foreach($follows as &$e) {
+            $uids[] = $e['who_follow'];
+            $uids[] = $e['follow_who'];
         }
-        unset($user);
+        unset($e);
+        $uids = array_unique($uids);
 
-        $users_follow_who = D('Follow')->where('follow_who=' . is_login())->limit(999)->select();
-        foreach ($users_follow_who as &$user) {
-            if (!in_array($user['who_follow'], $atuserIds)) {
-                $user_temp = query_user(array('username', 'id'), $user['who_follow']);
-                $user_temp['pinyin'] = D('PinYin')->Pinyin($user_temp['username']);
-                $atusers = array_merge($atusers, array($user_temp));
-                $atuserIds[] = $user['who_follow'];
-            }
-
+        //加入拼音检索
+        $users = array();
+        foreach($uids as $uid) {
+            $user = query_user(array('username','id'),$uid);
+            $user['search_key'] = $user['username'].D('PinYin')->Pinyin($user['username']);
+            $users[] = $user;
         }
-        unset($user);
-        return $atusers;
-    }
 
-    /**
-     * @return array|mixed
-     */
-    private function getAtWhoJson()
-    {
-        $atusers = S('atUsersJson_' . is_login());
-        if (empty($atusers)) {
-            $atusers = $this->getAtWho();
-            S('atUsersJson_' . is_login(), $atusers, 600);
-            return json_encode($atusers);
-        }
-        return json_encode($atusers);
+        //返回at用户列表
+        return $users;
     }
-
-    public function getSmile()
-    {
-        exit(json_encode(D('Expression')->getAllExpression()));
-    }
-
 
     public function doDelWeibo($weibo_id = 0)
     {
@@ -216,7 +192,10 @@ class IndexController extends Controller
 
     private function assignAtWhoUsers()
     {
-        $atusers = $this->getAtWhoJson();
+        $cacheKey = 'weibo_at_who_users_' . get_uid();
+        $atusers = op_cache($cacheKey, function(){
+            return $this->getAtWhoUsers();
+        }, 600);
         $this->assign('atwhousers', $atusers);
     }
 

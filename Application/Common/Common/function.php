@@ -1103,3 +1103,4 @@ require_once(APP_PATH.'/Common/Common/time.php');
 require_once(APP_PATH.'/Common/Common/match.php');
 require_once(APP_PATH.'/Common/Common/seo.php');
 require_once(APP_PATH.'/Common/Common/type.php');
+require_once(APP_PATH.'/Common/Common/cache.php');
