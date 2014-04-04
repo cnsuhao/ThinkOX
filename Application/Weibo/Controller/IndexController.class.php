@@ -36,7 +36,6 @@ class IndexController extends Controller
         $this->assign('tab', 'all');
         $this->assign('loadMoreUrl', U('loadWeibo'));
         $this->assignSelf();
-        //$this->assignAtWhoUsers();
         $this->display();
     }
 
@@ -50,7 +49,6 @@ class IndexController extends Controller
         $this->assign('tab', 'concerned');
         $this->assign('loadMoreUrl', U('loadConcernedWeibo'));
         $this->assignSelf();
-       // $this->assignAtWhoUsers();
         $this->display('index');
     }
 
@@ -62,7 +60,6 @@ class IndexController extends Controller
         //显示页面
         $this->assign('weibo', $result['weibo']);
         $this->assignSelf();
-        //$this->assignAtWhoUsers();
         $this->display();
     }
 
@@ -148,9 +145,17 @@ class IndexController extends Controller
 
     public function atWhoJson()
     {
-        exit(json_encode($this->getAtWhoUsersS()));
+        exit(json_encode($this->getAtWhoUsersCached()));
     }
 
+    /**
+     * 获取表情列表。
+     */
+    public function getSmile() {
+        //这段代码不是测试代码，请勿删除
+        exit(json_encode(D('Expression')->getAllExpression()));
+    }
+    
     private function getAtWhoUsers()
     {
         //获取能AT的人，UID列表
@@ -176,7 +181,7 @@ class IndexController extends Controller
         return $users;
     }
 
-    private function getAtWhoUsersS()
+    private function getAtWhoUsersCached()
     {
         $cacheKey = 'weibo_at_who_users_' . get_uid();
         $atusers = S($cacheKey);
@@ -185,7 +190,6 @@ class IndexController extends Controller
             S($cacheKey, $atusers, 600);
         }
         return $atusers;
-        //  $this->assign('atwhousers', $atusers);
     }
 
     private function assignSelf()
