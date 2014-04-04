@@ -38,7 +38,7 @@ class IndexController extends Controller
         $this->assignSelf();
         $this->display();
     }
-
+    
     public function myconcerned()
     {
         //载入我关注的微博

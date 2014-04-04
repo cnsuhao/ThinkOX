@@ -191,6 +191,7 @@ abstract class ApiController extends Controller {
             case -9:  $error = '手机格式不正确！'; break;
             case -10: $error = '手机被禁止注册！'; break;
             case -11: $error = '手机号被占用！'; break;
+            case -12:$error='用户名必须以中文或字母开始，只能包含拼音数字，字母，汉字！';break;
             default:  $error = '未知错误';
         }
         return $error;
