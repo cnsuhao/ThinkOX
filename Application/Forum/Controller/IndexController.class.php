@@ -228,7 +228,7 @@ class IndexController extends Controller
             //添加到数据库
             $model = D('ForumPostReply');
             $before = getMyScore();
-            $result = $model->addReply($post_id, $content);
+            $result = $model->addReply($post_id, op_h($content));
             $after = getMyScore();
             if (!$result) {
                 $this->error('回复失败：' . $model->getError());
