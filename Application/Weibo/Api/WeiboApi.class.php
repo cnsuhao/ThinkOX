@@ -152,7 +152,7 @@ class WeiboApi extends Api
     public function deleteComment($comment_id)
     {
         //确认当前登录的用户有删除权限
-        if (!$this->canDeleteWeibo($comment_id)) {
+        if (!$this->canDeleteComment($comment_id)) {
             return $this->apiError('您没有删除权限');
         }
 
