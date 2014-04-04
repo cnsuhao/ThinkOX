@@ -162,7 +162,7 @@ class IndexController extends Controller
         //加入拼音检索
         $users = array();
         foreach ($uids as $uid) {
-            $user = query_user(array('username', 'id'), $uid);
+            $user = query_user(array('username', 'id','avatar32'), $uid);
             $user['search_key'] = $user['username'] . D('PinYin')->Pinyin($user['username']);
             $users[] = $user;
         }
@@ -174,9 +174,11 @@ class IndexController extends Controller
     private function assignAtWhoUsers()
     {
         $cacheKey = 'weibo_at_who_users_' . get_uid();
-        $atusers = op_cache($cacheKey, function () {
-            return $this->getAtWhoUsers();
-        }, 600);
+        $atusers=S($cacheKey);
+        if(empty($atusers)){
+            $atusers=$this->getAtWhoUsers();
+            S($cacheKey,$atusers,600);
+        }
         $this->assign('atwhousers', $atusers);
     }
 
