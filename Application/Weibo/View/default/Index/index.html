@@ -25,17 +25,14 @@
                 <div id="emot_content" class="emot_content"></div>
 
                 <script>
-                    var names = {$atwhousers};
+                    var names = {$atwhousers|json_encode};
 
-                    var names = $.map(names, function (value, i) {
-                        return {'id': i, 'name': value.username, 'pinyin': value.pinyin};
-                    });
                     var at_config = {
                         at: "@",
                         data: names,
-                        tpl: "<li data-value='@${name}'>${name}</li>",
+                        tpl: "<li data-value='@${username}'>${username}</li>",
                         show_the_at: true,
-                        search_key: 'pinyin',
+                        search_key: 'search_key',
                         start_with_space: false
 
                     };

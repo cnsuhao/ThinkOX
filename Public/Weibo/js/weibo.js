@@ -81,7 +81,7 @@ function weibo_reply(obj, comment_id, comment_object) {
     var weiboToCommentId = $('#weibo-comment-to-comment-id', weibo);
     weiboToCommentId.val(comment_id);
     textarea.focus();
-    textarea.val('回复 ' + comment_object + ' ：');
+    textarea.val('回复 @' + comment_object + ' ：');
 }
 /**
  * 评论微博
@@ -98,6 +98,8 @@ function comment_del(obj, comment_id) {
             var weiboCommentList = $('.weibo-comment-list', weibo);
             reloadWeiboCommentList(weiboCommentList);
             op_success('删除微博成功。', '温馨提示');
+        } else {
+            op_error(msg.info, '温馨提示');
         }
     }, 'json');
 

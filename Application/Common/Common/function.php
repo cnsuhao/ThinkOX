@@ -39,11 +39,12 @@ function get_uid()
 /**
  * 检测权限
  */
-function CheckPermission($uids){
-    if(is_administrator()){
+function CheckPermission($uids)
+{
+    if (is_administrator()) {
         return true;
     }
-    if(in_array(is_login(),$uids)){
+    if (in_array(is_login(), $uids)) {
         return true;
     }
     return false;
@@ -1048,17 +1049,16 @@ function get_list_count($category, $status = 1)
  */
 function op_t($text)
 {
-    $text = nl2br($text);
-    $text = real_strip_tags($text);
-    $text = addslashes($text);
-    $text = trim($text);
-    return $text;
+    return nl2br(htmlspecialchars($text));
 }
 
-function real_strip_tags($str, $allowable_tags = "")
+function op_h($html)
 {
-    $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
-    return strip_tags($str, $allowable_tags);
+    require_once VENDOR_PATH . 'HTMLPurifier/HTMLPurifier.auto.php';
+    $config = HTMLPurifier_Config::createDefault();
+    $purifier = new HTMLPurifier($config);
+    $clean = $purifier->purify($html);
+    return $clean;
 }
 
 /**
@@ -1095,11 +1095,12 @@ function getScoreTip($before, $after)
 }
 
 
-require_once(APP_PATH.'/Common/Common/pagination.php');
-require_once(APP_PATH.'/Common/Common/query_user.php');
-require_once(APP_PATH.'/Common/Common/thumb.php');
-require_once(APP_PATH.'/Common/Common/api.php');
-require_once(APP_PATH.'/Common/Common/time.php');
-require_once(APP_PATH.'/Common/Common/match.php');
-require_once(APP_PATH.'/Common/Common/seo.php');
-require_once(APP_PATH.'/Common/Common/type.php');
+require_once(APP_PATH . '/Common/Common/pagination.php');
+require_once(APP_PATH . '/Common/Common/query_user.php');
+require_once(APP_PATH . '/Common/Common/thumb.php');
+require_once(APP_PATH . '/Common/Common/api.php');
+require_once(APP_PATH . '/Common/Common/time.php');
+require_once(APP_PATH . '/Common/Common/match.php');
+require_once(APP_PATH . '/Common/Common/seo.php');
+require_once(APP_PATH . '/Common/Common/type.php');
+require_once(APP_PATH . '/Common/Common/cache.php');

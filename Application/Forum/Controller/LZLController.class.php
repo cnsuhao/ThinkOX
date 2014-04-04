@@ -54,7 +54,7 @@ class LZLController extends Controller
         $totalCount = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $to_f_reply_id)->count();
         $limit = 5;
         $pageCount = ceil($totalCount / $limit);
-        $this->success('回复成功。'.getScoreTip($before,$after),$pageCount);
+        exit(json_encode(array('status'=>1,'info'=>'回复成功。'.getScoreTip($before,$after),'url'=>$pageCount)));
     }
 
     private function requireLogin()
