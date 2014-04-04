@@ -36,7 +36,7 @@ class IndexController extends Controller
         $this->assign('tab', 'all');
         $this->assign('loadMoreUrl', U('loadWeibo'));
         $this->assignSelf();
-        $this->assignAtWhoUsers();
+        //$this->assignAtWhoUsers();
         $this->display();
     }
 
@@ -50,7 +50,7 @@ class IndexController extends Controller
         $this->assign('tab', 'concerned');
         $this->assign('loadMoreUrl', U('loadConcernedWeibo'));
         $this->assignSelf();
-        $this->assignAtWhoUsers();
+       // $this->assignAtWhoUsers();
         $this->display('index');
     }
 
@@ -62,7 +62,7 @@ class IndexController extends Controller
         //显示页面
         $this->assign('weibo', $result['weibo']);
         $this->assignSelf();
-        $this->assignAtWhoUsers();
+        //$this->assignAtWhoUsers();
         $this->display();
     }
 
@@ -146,6 +146,11 @@ class IndexController extends Controller
         $this->ajaxReturn(apiToAjax($result));
     }
 
+    public function atWhoJson()
+    {
+        exit(json_encode($this->getAtWhoUsersS()));
+    }
+
     private function getAtWhoUsers()
     {
         //获取能AT的人，UID列表
@@ -162,7 +167,7 @@ class IndexController extends Controller
         //加入拼音检索
         $users = array();
         foreach ($uids as $uid) {
-            $user = query_user(array('username', 'id','avatar32'), $uid);
+            $user = query_user(array('username', 'id', 'avatar32'), $uid);
             $user['search_key'] = $user['username'] . D('PinYin')->Pinyin($user['username']);
             $users[] = $user;
         }
@@ -171,15 +176,16 @@ class IndexController extends Controller
         return $users;
     }
 
-    private function assignAtWhoUsers()
+    private function getAtWhoUsersS()
     {
         $cacheKey = 'weibo_at_who_users_' . get_uid();
-        $atusers=S($cacheKey);
-        if(empty($atusers)){
-            $atusers=$this->getAtWhoUsers();
-            S($cacheKey,$atusers,600);
+        $atusers = S($cacheKey);
+        if (empty($atusers)) {
+            $atusers = $this->getAtWhoUsers();
+            S($cacheKey, $atusers, 600);
         }
-        $this->assign('atwhousers', $atusers);
+        return $atusers;
+        //  $this->assign('atwhousers', $atusers);
     }
 
     private function assignSelf()
