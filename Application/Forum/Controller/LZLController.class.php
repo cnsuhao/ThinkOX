@@ -37,7 +37,7 @@ class LZLController extends Controller
     }
 
 
-    public function doSendLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content,$p)
+    public function doSendLZLReply($post_id, $to_f_reply_id, $to_reply_id, $to_uid, $content,$p=1)
     {
 
         //确认用户已经登录
