@@ -71,7 +71,7 @@ function ucard() {
                             html=html+'<img src="'+userProfile.rank_link[i].logo_url+'" title="'+userProfile.rank_link[i].title+'" alt="'+userProfile.rank_link[i].title+'" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>'
                         }
                     }
-                    if(userProfile.rank_link.length==0)
+                    if(userProfile.rank_link.length==0||!userProfile.rank_link[0].num)
                     {
                         html=html+'无';
                     }

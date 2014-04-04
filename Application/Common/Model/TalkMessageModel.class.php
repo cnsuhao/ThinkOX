@@ -21,7 +21,7 @@ class TalkMessageModel extends Model
 
     public function addMessage($content, $uid, $talk_id)
     {
-        $message['content'] = $content;
+        $message['content'] = op_t($content);
         $message['uid'] = $uid;
         $message['talk_id'] = $talk_id;
         $message = $this->create($message);

@@ -82,6 +82,7 @@ class MessageController extends BaseController
         $messages = array_reverse($messages);
         foreach ($messages as &$mes) {
             $mes['user'] = query_user(array('avatar128', 'uid', 'username'), $mes['uid']);
+            $mes['content'] = op_t($mes['content']);
         }
         unset($mes);
         $this->assign('messages', $messages);

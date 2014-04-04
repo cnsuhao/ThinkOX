@@ -101,13 +101,17 @@ function query_user($fields, $uid = null)
     //获取用户头衔链接
     if (in_array('rank_link', $fields)) {
         $rank_List = D('rank_user')->where('uid=' . $uid)->select();
-
+        $num=0;
         foreach ($rank_List as &$val) {
             $rank = D('rank')->where('id=' . $val['rank_id'])->find();
             $val['title'] = $rank['title'];
             $val['logo_url'] = getRootUrl() . D('picture')->where('id=' . $rank['logo'])->getField('path');
+            if($val['is_show']){
+                $num=1;
+            }
         }
         if ($rank_List) {
+            $rank_List[0]['num']=$num;
             $result['rank_link'] = $rank_List;
         } else {
             $result['rank_link'] = array();

@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-10">
                             <p>
-                                <input type="text" name="title" placeholder="标题" value="{$post.title}"
+                                <input id="title" type="text" name="title" placeholder="标题" value="{$post.title}"
                                        class="form-control"/>
                             </p>
                         </div>
@@ -50,12 +50,15 @@
                     <p class="pull-right">
                         <button type="submit" class="btn btn-large btn-primary" id="submit-button">
                             <span class="glyphicon glyphicon-edit"></span>
-                            <if condition="$isEdit">
-                                编辑帖子
-                                <else/>
-                                发表帖子
-                            </if>
+                            <span id="submit-content">
+                                <if condition="$isEdit">
+                                    编辑帖子
+                                    <else/>
+                                    发表帖子
+                                </if>
+                            </span>
                         </button>
+                        <input type="hidden" id="isEdit" value="{$isEdit}">
                     </p>
                     <p>
                         <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>$forum_id))}">
@@ -111,7 +114,15 @@
 
             function showSubmitError(message) {
                 $('#submit-button').removeClass('disabled');
-                $('#submit-button').text(message).addClass('btn-danger').removeClass('btn-primary');
+                var isEdit=$('#isEdit').val();
+                var text='';
+                if(isEdit){
+                    text='编辑帖子';
+                }else{
+                    text='发表帖子';
+                }
+                $('#submit-content').text(text);
+                op_error(message,'错误');
             }
 
             function showSubmitSuccess(message, url) {
@@ -122,7 +133,8 @@
             }
 
             function showSubmitting() {
-                $('#submit-button').attr('class', 'btn btn-primary disabled').text('正在提交');
+                $('#submit-button').attr('class', 'btn btn-primary disabled');
+                $('#submit-content').text('正在提交');
             }
         })
     </script>
