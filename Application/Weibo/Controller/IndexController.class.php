@@ -139,19 +139,11 @@ class IndexController extends Controller
 
     public function doDelComment($comment_id = 0)
     {
-        if (intval($comment_id)) {
-            if (is_administrator()) {
-                $del = D('WeiboComment')->where(array('id' => $comment_id))->setField('status', 0); //管理员即可直接删除
-            } else {
-                $del = D('WeiboComment')->where(array('id' => $comment_id, 'uid' => is_login()))->setField('status', 0); //先删除带检测权限
-            }
-            if ($del) {
-                $comment = D('WeiboComment')->find($comment_id);
-                $count = D('WeiboComment')->where(array('weibo_id' => $comment['weibo_id'], 'status' => 1))->count();
-                D('Weibo')->where(array('id' => $comment['weibo_id']))->setField('comment_count', $count);
-            }
-            exit(json_encode(array('status' => $del)));
-        }
+        //删除评论
+        $result = $this->weiboApi->deleteComment($comment_id);
+
+        //返回成功信息
+        $this->ajaxReturn(apiToAjax($result));
     }
 
     private function getAtWhoUsers()
