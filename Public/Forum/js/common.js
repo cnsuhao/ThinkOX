@@ -41,8 +41,8 @@ $(function () {
             } else {
                 op_error(msg.info, '温馨提示');
             }
-        });
-    }
+        },'json');
+    };
     $(".submitReply").click(function () {
         var args = getArgs($(this).attr('args'));
         var to_f_reply_id = args['to_f_reply_id'];
@@ -55,7 +55,7 @@ $(function () {
         submitLZLReply(post_id, to_f_reply_id, to_reply_id, to_uid, content,p);
 
         this.preventDefault();
-    })
+    });
 
     $('.reply_btn').click(function () {
         var args = $(this).attr('args');
