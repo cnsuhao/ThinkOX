@@ -135,7 +135,7 @@ class IndexController extends Controller
         if (!$content) {
             $this->error("回复内容不能为空！");
         }
-        $data['content'] = $content;
+        $data['content'] = op_h($content);
         $data['update_time'] = time();
         $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
         $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
@@ -193,13 +193,13 @@ class IndexController extends Controller
         }
         $model = D('ForumPost');
         if ($isEdit) {
-            $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
+            $data = array('id' => $post_id, 'title' => $title, 'content' => op_h($content), 'parse' => 0, 'forum_id' => $forum_id);
             $result = $model->editPost($data);
             if (!$result) {
                 $this->error('编辑失败：' . $model->getError());
             }
         } else {
-            $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
+            $data = array('uid' => is_login(), 'title' => $title, 'content' =>op_h($content), 'parse' => 0, 'forum_id' => $forum_id);
 
             $before = getMyScore();
             $result = $model->createPost($data);

@@ -16,21 +16,8 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <script>
-                                        var names = {$atwhousers};
-
-                                        var names = $.map(names, function (value, i) {
-                                            return {'id': i, 'name': value.username, 'pinyin': value.pinyin};
-                                        });
-                                        var at_config = {
-                                            at: "@",
-                                            data: names,
-                                            tpl: "<li data-value='@${name}'>${name}</li>",
-                                            show_the_at: true,
-                                            search_key: 'pinyin',
-                                            start_with_space:false
-                                        };
                                         $(function () {
-                                            $inputor = $('#weibo_content').atwho(at_config);
+                                            $inputor = $('#weibo_content').atwho(atwho_config);
                                         })
 
                                     </script>

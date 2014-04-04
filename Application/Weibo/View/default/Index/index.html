@@ -25,20 +25,6 @@
                 <div id="emot_content" class="emot_content"></div>
 
                 <script>
-                    var names = {$atwhousers|json_encode};
-
-                    var at_config = {
-                        at: "@",
-                        data: names,
-                        tpl: "<li data-value='@${username}'>${username}</li>",
-                        show_the_at: true,
-                        search_key: 'search_key',
-                        start_with_space: false
-
-                    };
-                    $(function () {
-                        $inputor = $('#weibo_content').atwho(at_config);
-                    })
 
                 </script>
                 <div class="row">
@@ -86,7 +72,17 @@
                             <div class="col-md-7">
                                 <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
                                    href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
-                                <br/>头衔：<if condition="$self['rank_link'][0]['num']"><volist name="self['rank_link']" id="vl"><if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></if></volist><else />无</if>
+                                <br/>头衔：
+                                <if condition="$self['rank_link'][0]['num']">
+                                    <volist name="self['rank_link']" id="vl">
+                                        <if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}"
+                                                                            alt="{$vl.title}"
+                                                                            style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
+                                        </if>
+                                    </volist>
+                                    <else/>
+                                    无
+                                </if>
                                 <br/>积分：{$self.score}
                                 <br/>等级：{$self.title}
                             </div>
@@ -125,6 +121,8 @@
     <script src="__JS__/insertFace.js"></script>
     <script>
         $(function () {
+
+            $inputor = $('#weibo_content').atwho(atwho_config);
             var noMoreNextPage = false;
             var isLoadingWeibo = false;
             var currentPage = 1;

@@ -2,7 +2,17 @@
  * Created by 95 on 3/21/14.
  */
 
+var atwho_config;
+
 $(function () {
+    atwho_config = {
+        at: "@",
+        data: U('Weibo/Index/atWhoJson'),
+        tpl: "<li data-value='@${username}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${username}</li>",
+        show_the_at: true,
+        search_key: 'search_key',
+        start_with_space: false
+    };
     /**
      * 点击评论按钮后提交评论
      */
@@ -19,7 +29,7 @@ $(function () {
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);
-                op_success(a.info,'温馨提示');
+                op_success(a.info, '温馨提示');
             } else {
                 commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
             }
@@ -59,7 +69,7 @@ $(function () {
         e.preventDefault();
         return false;
     });
-    if (typeof(auto_open_detail) !='undefined') {
+    if (typeof(auto_open_detail) != 'undefined') {
         $('.weibo-comment-link').click();
     }
 });

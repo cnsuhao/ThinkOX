@@ -154,6 +154,8 @@ class WeiboApi extends Api
 
         //从数据库中删除微博
         $result = $this->weiboModel->where(array('id' => $weibo_id))->setField('status', 0);
+        $this->weiboModel->where(array('id' => $weibo_id))->setField('comment_count', 0);
+        $this->commentModel->where(array('weibo_id' => $weibo_id))->setField('status', 0);
         if (!$result) {
             return $this->apiError('数据库写入错误');
         }
