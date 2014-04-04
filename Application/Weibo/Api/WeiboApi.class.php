@@ -21,6 +21,7 @@ class WeiboApi extends Api
         $this->weiboModel = D('Weibo/Weibo');
         $this->followModel = D('Weibo/Follow');
         $this->commentModel = D('Weibo/WeiboComment');
+        $this->ucenterMemberModel = D('ucenter_member');
     }
 
     public function listAllWeibo($page = 1, $count = 10)
@@ -83,18 +84,30 @@ class WeiboApi extends Api
         $this->requireLogin();
 
         //写入数据库
-        $model = $this->weiboModel;
-        $score_before = getMyScore();
-        $result = $model->addWeibo(is_login(), $content);
-        $score_after = getMyScore();
-        if (!$result) {
-            throw new ApiException('发布失败：' . $model->getError());
+        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content);
+        if (!$weibo_id) {
+            throw new ApiException('发布失败：' . $this->weiboModel->getError());
         }
+
+        //发送成功，记录动作，更新最后发送时间
+        $score_increase = action_log_and_get_score('add_weibo', 'Weibo', $weibo_id, is_login());
         $this->updateLastSendTime();
 
+        //给被AT到的人都发送一条消息
+        $usernames = get_at_usernames($content);
+        foreach ($usernames as $username) {
+            $user = $this->ucenterMemberModel->where(array('username' => $username))->find();
+            $uid = $user['id'];
+            $message = '微博内容：' . $content;
+            $title = $username . '的微博@了您';
+            $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
+            $fromUid = get_uid();
+            $messageType = 1;
+            D('Message')->sendMessage($uid, $message, $title, $url, $fromUid, $messageType);
+        }
+
         //显示成功页面
-        $message = '发表微博成功。' . getScoreTip($score_before, $score_after);
-        $score_increase = $score_after - $score_before;
+        $message = '发表微博成功。' . getScoreTip(0, $score_increase);
         return $this->apiSuccess($message, array('score_increase' => $score_increase));
     }
 
