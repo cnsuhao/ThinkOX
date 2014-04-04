@@ -146,6 +146,14 @@ class IndexController extends Controller
         $this->ajaxReturn(apiToAjax($result));
     }
 
+    /**
+     * 获取表情列表。
+     */
+    public function getSmile() {
+        //这段代码不是测试代码，请勿删除
+        exit(json_encode(D('Expression')->getAllExpression()));
+    }
+
     private function getAtWhoUsers()
     {
         //获取能AT的人，UID列表
