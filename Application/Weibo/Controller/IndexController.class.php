@@ -39,7 +39,7 @@ class IndexController extends Controller
         //$this->assignAtWhoUsers();
         $this->display();
     }
-
+    
     public function myconcerned()
     {
         //载入我关注的微博

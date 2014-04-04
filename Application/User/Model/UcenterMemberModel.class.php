@@ -31,6 +31,7 @@ class UcenterMemberModel extends Model{
 	protected $_validate = array(
 		/* 验证用户名 */
 		array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
+        array('username', 'checkUserName', -12, self::EXISTS_VALIDATE, 'callback'), //用户名必须以中文或字母开始，只能包含拼音数字，字母，汉字
 		array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
 		array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
 
@@ -67,6 +68,22 @@ class UcenterMemberModel extends Model{
 		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
+    /**
+     * 检测用户名以中文或字母开始，只能包含拼音数字，字母，汉字
+     * @param  string $username 用户名
+     * @return boolean          ture - 合法，false - 不合法
+     */
+    protected function checkUserName($username){
+        $pre='/^[\x{4e00}-\x{9fa5}A-Za-z]([\x{4e00}-\x{9fa5}A-Za-z0-9]+)?$/u';
+        if(preg_match($pre,$username))   //UTF-8汉字字母数字正则表达式,以汉字字母开始
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 	/**
 	 * 检测邮箱是不是被禁止注册
 	 * @param  string $email 邮箱
