@@ -4,7 +4,7 @@
     <div class="row">
     <div class="col-md-12">
         <php>
-            $user = query_user(array('avatar128','uid','username','space_url','icons_html'), $post['uid']);
+            $user = query_user(array('avatar128','uid','username','space_url','icons_html','rank_link'), $post['uid']);
         </php>
         <div class="row">
             <div class="col-md-8">
@@ -49,6 +49,14 @@
                         <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username|htmlspecialchars}</a>
                         {$user.icons_html}
                     </p>
+                    <p class="text-center">
+                        <volist name="user.rank_link" id="vo">
+                            <if condition="$vo['is_show']"><img src="{$vo.logo_url}" title="{$vo.title}"
+                                                                alt="{$vo.title}"
+                                                               class="rank_html"/>
+                            </if>
+                        </volist>
+                       </p>
                 </div>
                 <div class="col-md-10 post_content">
                     <div style="min-height: 10em;">
@@ -92,6 +100,14 @@
                     <p class="text-center">
                         <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.username}</a>
                         {$reply.user.icons_html}
+                    </p>
+                    <p class="text-center">
+                    <volist name="reply.user.rank_link" id="vo">
+                        <if condition="$vo['is_show']"><img src="{$vo.logo_url}" title="{$vo.title}"
+                                                            alt="{$vo.title}"
+                                                            class="rank_html"/>
+                        </if>
+                    </volist>
                     </p>
                 </div>
                 <div class="col-md-10">

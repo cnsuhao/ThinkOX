@@ -71,7 +71,7 @@ class ForumPostReplyModel extends Model
          if($replyList == null){
             $replyList = D('ForumPostReply')->where($map)->order($order)->select();
             foreach ($replyList as &$reply) {
-                $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html'), $reply['uid']);
+                $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html','rank_link'), $reply['uid']);
                 $reply['lzl_count'] = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $reply['id'])->count();
             }
             unset($reply);
