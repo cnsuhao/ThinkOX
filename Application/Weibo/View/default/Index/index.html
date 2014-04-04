@@ -140,12 +140,13 @@
                 var url = $(this).attr('data-url');
                 var content = $('#weibo_content').val();
                 var button = $(this);
+                var originalButtonText = button.val();
 
                 //发送到服务器
                 $.post(url, {content: content}, function (a) {
                     if (a.status) {
                         button.attr('class', 'btn btn-primary');
-                        button.val('发表');
+                        button.val(originalButtonText);
                         reloadWeiboList();
                         clearWeibo();
                         $('.XT_face').remove();
