@@ -117,17 +117,17 @@ class WeiboApi extends Api
         $this->requireLogin();
 
         //写入数据库
-        $model = D('WeiboComment');
-        $score_before = getMyScore();
-        $result = $model->addComment(get_uid(), $weibo_id, $content, $comment_id);
-        $score_after = getMyScore();
+        $result = $this->commentModel->addComment(get_uid(), $weibo_id, $content, $comment_id);
         if (!$result) {
-            return $this->apiError('评论失败：' . $model->getError());
+            return $this->apiError('评论失败：' . $this->commentModel->getError());
         }
+
+        //写入数据库成功，记录动作，更新最后发送时间
+        $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
         $this->updateLastSendTime();
 
         //显示成功页面
-        return $this->apiSuccess('评论成功。' . getScoreTip($score_before, $score_after));
+        return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score));
     }
 
     public function listComment($weibo_id, $page = 1, $count = 10)
@@ -172,13 +172,10 @@ class WeiboApi extends Api
         }
 
         //从数据库中删除微博
-        $result = $this->commentModel->where(array('id' => $comment_id))->setField('status', 0);
+        $result = $this->commentModel->deleteComment($comment_id);
         if (!$result) {
             return $this->apiError('数据库写入错误');
         }
-
-        //减少微博评论数量
-        $this->weiboModel->where(array('id' => $comment_id))->setDec('comment_count');
 
         //返回成功消息
         return $this->apiSuccess('删除成功');
