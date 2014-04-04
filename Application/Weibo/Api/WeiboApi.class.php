@@ -22,6 +22,7 @@ class WeiboApi extends Api
         $this->followModel = D('Weibo/Follow');
         $this->commentModel = D('Weibo/WeiboComment');
         $this->ucenterMemberModel = D('ucenter_member');
+        $this->messageModel = D('Common/Message');
     }
 
     public function listAllWeibo($page = 1, $count = 10)
@@ -95,16 +96,7 @@ class WeiboApi extends Api
 
         //给被AT到的人都发送一条消息
         $usernames = get_at_usernames($content);
-        foreach ($usernames as $username) {
-            $user = $this->ucenterMemberModel->where(array('username' => $username))->find();
-            $uid = $user['id'];
-            $message = '微博内容：' . $content;
-            $title = $username . '的微博@了您';
-            $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
-            $fromUid = get_uid();
-            $messageType = 1;
-            D('Message')->sendMessage($uid, $message, $title, $url, $fromUid, $messageType);
-        }
+        $this->sendAtMessage($usernames, $weibo_id, $content);
 
         //显示成功页面
         $message = '发表微博成功。' . getScoreTip(0, $score_increase);
@@ -117,17 +109,29 @@ class WeiboApi extends Api
         $this->requireLogin();
 
         //写入数据库
-        $model = D('WeiboComment');
-        $score_before = getMyScore();
-        $result = $model->addComment(get_uid(), $weibo_id, $content, $comment_id);
-        $score_after = getMyScore();
+        $result = $this->commentModel->addComment(get_uid(), $weibo_id, $content, $comment_id);
         if (!$result) {
-            return $this->apiError('评论失败：' . $model->getError());
+            return $this->apiError('评论失败：' . $this->commentModel->getError());
         }
+
+        //写入数据库成功，记录动作，更新最后发送时间
+        $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
         $this->updateLastSendTime();
 
+        //通知被AT的人
+        $usernames = get_at_usernames($content);
+        $this->sendAtMessage($usernames, $weibo_id, $content);
+
+        //通知微博作者、被回复的人
+        $weibo = $this->weiboModel->field('uid')->find($weibo_id);
+        $this->sendCommentMessage($weibo['uid'], $weibo_id, "评论内容：$content");
+        if ($comment_id) {
+            $comment = $this->commentModel->field('uid')->find($comment_id);
+            $this->sendCommentMessage($comment['uid'], $weibo_id, "回复内容：$content");
+        }
+
         //显示成功页面
-        return $this->apiSuccess('评论成功。' . getScoreTip($score_before, $score_after));
+        return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score));
     }
 
     public function listComment($weibo_id, $page = 1, $count = 10)
@@ -172,13 +176,10 @@ class WeiboApi extends Api
         }
 
         //从数据库中删除微博
-        $result = $this->commentModel->where(array('id' => $comment_id))->setField('status', 0);
+        $result = $this->commentModel->deleteComment($comment_id);
         if (!$result) {
             return $this->apiError('数据库写入错误');
         }
-
-        //减少微博评论数量
-        $this->weiboModel->where(array('id' => $comment_id))->setDec('comment_count');
 
         //返回成功消息
         return $this->apiSuccess('删除成功');
@@ -251,5 +252,28 @@ class WeiboApi extends Api
 
         //其他情况不能删除微博
         return false;
+    }
+
+    private function sendAtMessage($usernames, $weibo_id, $content)
+    {
+        foreach ($usernames as $username) {
+            $user = $this->ucenterMemberModel->where(array('username' => $username))->find();
+            $uid = $user['id'];
+            $message = '内容：' . $content;
+            $title = $username . '@了您';
+            $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
+            $fromUid = get_uid();
+            $messageType = 1;
+            D('Message')->sendMessage($uid, $message, $title, $url, $fromUid, $messageType);
+        }
+    }
+
+    private function sendCommentMessage($uid, $weibo_id, $message)
+    {
+        $title = '评论消息';
+        $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
+        $from_uid = get_uid();
+        $type = 1;
+        $this->messageModel->sendMessage($uid, $message, $title, $url, $from_uid, $type);
     }
 }
