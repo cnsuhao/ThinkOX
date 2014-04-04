@@ -398,8 +398,8 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($where)->count();
 
         foreach ($list as &$post) {
-            $post['colored_title'] =str_replace('"','', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', strip_tags(op_t($post['title']))));
-            $post['colored_content'] =str_replace('"','',  str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', strip_tags(op_t($post['content']))));
+            $post['colored_title'] =str_replace('"','', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
+            $post['colored_content'] =str_replace('"','',  str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
         }
         unset($post);
 
