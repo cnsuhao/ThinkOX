@@ -66,7 +66,7 @@ class ForumLzlReplyModel extends Model
         $url = U('Forum/Index/detail', array('id' => $post_id,'page'=>$p,'sr'=>$to_f_reply_id,'sp'=>$pageCount)).'#'.$to_f_reply_id;
         $from_uid = $uid;
         $type = 2;
-        D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, 'forum', 'lzlreply', $post_id, $result);
+        D('Message')->sendMessage($to_uid, $content, $title, $url, $from_uid, $type, '', '', $post_id, $result);
 
     }
 

@@ -153,7 +153,7 @@ function query_user($fields, $uid = null)
         if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
         }
-        if (!in_array($field, array('rank_link','icons_html'))) {
+        if (!in_array($field, array('rank_link','icons_html','space_link'))) {
             $value = str_replace('"', '', op_t($value));
         }
 
