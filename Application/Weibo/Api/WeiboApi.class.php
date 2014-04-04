@@ -162,6 +162,9 @@ class WeiboApi extends Api
             return $this->apiError('数据库写入错误');
         }
 
+        //减少微博评论数量
+        $this->weiboModel->where(array('id' => $comment_id))->setDec('comment_count');
+
         //返回成功消息
         return $this->apiSuccess('删除成功');
     }
