@@ -1094,6 +1094,13 @@ function getScoreTip($before, $after)
     return $tip;
 }
 
+function action_log_and_get_score($action = null, $model = null, $record_id = null, $user_id = null)
+{
+    $score_before = getMyScore();
+    action_log($action, $model, $record_id, $user_id);
+    $score_after = getMyScore();
+    return $score_after - $score_before;
+}
 
 require_once(APP_PATH . '/Common/Common/pagination.php');
 require_once(APP_PATH . '/Common/Common/query_user.php');

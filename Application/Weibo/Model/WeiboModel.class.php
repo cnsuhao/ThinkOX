@@ -24,55 +24,13 @@ class WeiboModel extends Model
 
     public function addWeibo($uid, $content)
     {
-
-
-        //$tag_pattern = "/\#([^\#|.]+)\#/";
-        $content = htmlspecialchars($content); //过滤全部非法标签
-        $user_math = match_users($content);
-
-        $self = query_user(array('username')); //超找自己
-
-        $data = array('uid' => $uid, 'content' => $content);
+        //写入数据库
+        $data = array('uid'=>$uid,'content'=>$content);
         $data = $this->create($data);
-        if (!$data) return false;
+        if(!$data) return false;
         $weibo_id = $this->add($data);
 
-        action_log('add_weibo', 'Weibo', $weibo_id, is_login());
-
-        $data['id'] = $weibo_id;
-        $data['content'] = $this->sendAllAtMessages($content, $user_math, $self, $weibo_id);
-        $this->save($data);
+        //返回微博编号
         return $weibo_id;
-    }
-
-
-    /**
-     * @param $content
-     * @param $user_math
-     * @param $self
-     * @return mixed
-     */
-    private function sendAllAtMessages($content, $user_math, $self, $weibo_id)
-    {
-        foreach ($user_math[1] as $match) {
-
-            $map['username'] = $match;
-            $user = D('ucenter_member')->where($map)->find();
-            if ($user) {
-                $query_user = query_user(array('username', 'space_url'), $user['id']);
-                $content = str_replace('@' . $match . ' ', '<a ucard="' . $user['id'] . '" href="' . $query_user['space_url'] . '">@' . $match . ' </a>', $content);
-                /**
-                 * @param $to_uid 接受消息的用户ID
-                 * @param string $content 内容
-                 * @param string $title 标题，默认为  您有新的消息
-                 * @param $url 链接地址，不提供则默认进入消息中心
-                 * @param $int $from_uid 发起消息的用户，根据用户自动确定左侧图标，如果为用户，则左侧显示头像
-                 * @param int $type 消息类型，0系统，1用户，2应用
-                 */
-                D('Message')->sendMessage($user['id'], '微博内容：' . $content, $title = $self['username'] . '的微博@了您', U('Weibo/Index/weiboDetail', array('id' => $weibo_id)), is_login(), 1);
-            }
-
-        }
-        return $content;
     }
 }

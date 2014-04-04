@@ -3,15 +3,25 @@
     <div class="row" id="weibo_{$weibo.id}">
         <div class="col-md-12">
             <div class="pull-left">
-                <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}"><img src="{$weibo.user.avatar64}"
-                                                                                 class="avatar-img"
-                                                                                 style="width: 64px;"/></a>
+                <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
+                    <img src="{$weibo.user.avatar64}"
+                         class="avatar-img"
+                         style="width: 64px;"/>
+                </a>
             </div>
 
             <div style="padding-left: 16px; width: 92%;float: left">
-                <p><a ucard="{$weibo.user.uid}"
-                      href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}</a>{$weibo.user.icons_html}
-                    <volist name="weibo['user']['rank_link']" id="vl"><if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></if></volist>
+                <p>
+                    <a ucard="{$weibo.user.uid}"
+                       href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}
+                    </a>
+                    {$weibo.user.icons_html}
+                    <volist name="weibo['user']['rank_link']" id="vl">
+                        <if condition="$vl['is_show']">
+                            <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
+                                 style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
+                        </if>
+                    </volist>
                 </p>
 
                 <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
