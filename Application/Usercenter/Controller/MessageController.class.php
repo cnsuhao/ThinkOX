@@ -27,24 +27,31 @@ class MessageController extends BaseController
 
     }
 
+    /**消息页面
+     * @param int $page
+     * @param string $tab 当前tab
+     */
     public function message($page = 1, $tab = 'unread')
     {
-
         //从条件里面获取Tab
         $map = $this->getMapByTab($tab, $map);
 
         $map['to_uid'] = is_login();
-        $this->defaultTabHash('message');
+
         $messages = D('Message')->where($map)->order('create_time desc')->page($page, 10)->select();
+        $totalCount = D('Message')->where($map)->order('create_time desc')->count();//用于分页
+
         foreach ($messages as &$v) {
             if ($v['from_uid'] != 0) {
                 $v['from_user'] = query_user(array('username', 'space_url', 'avatar64', 'space_link'), $v['from_uid']);
             }
         }
-        $totalCount = D('Message')->where($map)->order('create_time desc')->count();
+
         $this->assign('totalCount', $totalCount);
         $this->assign('messages', $messages);
 
+        //设置Tab
+        $this->defaultTabHash('message');
         $this->assign('tab', $tab);
         $this->display();
     }
