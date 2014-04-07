@@ -56,7 +56,7 @@ class WeiboApi extends Api
         $followList[] = is_login();
 
         //获取我关注的微博
-        $list = D('Weibo')->where('status=1 and uid in(' . implode(',', $followList) . ')')->order('id desc')->page($page, $count)->select();
+        $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->order('id desc')->page($page, $count)->select();
 
         //获取每个微博的详细信息
         foreach ($list as &$e) {
@@ -137,7 +137,7 @@ class WeiboApi extends Api
     public function listComment($weibo_id, $page = 1, $count = 10)
     {
         //从数据库中读取评论列表
-        $list = D('WeiboComment')->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->page($page, $count)->select();
+        $list = $this->commentModel->where(array('weibo_id' => $weibo_id, 'status' => 1))->order('create_time desc')->page($page, $count)->select();
 
         //格式化评论列表
         foreach ($list as &$e) {
@@ -264,7 +264,7 @@ class WeiboApi extends Api
             $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
             $fromUid = get_uid();
             $messageType = 1;
-            D('Message')->sendMessage($uid, $message, $title, $url, $fromUid, $messageType);
+            $this->messageModel->sendMessage($uid, $message, $title, $url, $fromUid, $messageType);
         }
     }
 
