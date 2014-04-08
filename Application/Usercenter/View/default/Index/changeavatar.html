@@ -1,5 +1,13 @@
 <extend name="Public/usercenter"/>
 
+<block name="style">
+    <style>
+        .jcrop-holder > div > div {
+            border-radius: 50%;
+        }
+    </style>
+</block>
+
 <block name="body">
     <php>
         $user = query_user(array('avatar128'));
