@@ -1,34 +1,47 @@
 <meta charset="UTF-8"/>
 <include file="Public/seo"/>
-<link href="__STATIC__/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-<link href="__STATIC__/oneplus/css/oneplus.css" rel="stylesheet"/>
 
+<!-- Bootstrap库 -->
+<link href="__STATIC__/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- 增强IE兼容性 -->
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]><!-->
 <script src="__STATIC__/bootstrap/js/html5shiv.js"></script>
 <script src="__STATIC__/bootstrap/js/respond.js"></script>
 <!--<!--[endif]-->
-<block name="style"></block>
+
+<!-- jquery库 -->
 <!--[if lt IE 9]><!-->
 <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
 <!--<!--[endif]-->
 <!--[if gte IE 9]><!-->
 <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
 <!--<![endif]-->
-<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+
+
+<!-- 其他库 -->
 <link type="text/css" rel="stylesheet" href="__STATIC__/qtip/jquery.qtip.css"/>
-<script src="__STATIC__/qtip/jquery.qtip.js"></script>
-<script type="text/javascript" src="__STATIC__/oneplus/js/core.js"></script>
 <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/toastr/toastr.min.css"/>
+<script src="__STATIC__/qtip/jquery.qtip.js"></script>
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery.iframe-transport.js"></script>
+
+<!-- 自定义css -->
+<link href="__STATIC__/oneplus/css/oneplus.css" rel="stylesheet"/>
+<script type="text/javascript" src="__STATIC__/oneplus/js/core.js"></script>
 
 <script>
     //全局内容的定义
     var _ROOT_ = "__ROOT__";
     var MID = "{:is_login()}";
 </script>
+
 <audio id="music" src="" autoplay="autoplay"></audio>
-<script type="text/javascript" src="__STATIC__/oneplus/js/ext/toastr/toastr.min.js"></script>
-<script type="text/javascript" src="__STATIC__/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js"></script>
-<script type="text/javascript" src="__STATIC__/jquery.iframe-transport.js"></script>
+
+<block name="style"></block>
+
 <!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
 {:hook('pageHeader')}
