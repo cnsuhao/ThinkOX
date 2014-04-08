@@ -1,9 +1,12 @@
 <meta charset="UTF-8"/>
 <include file="Public/seo"/>
 
-<!-- Bootstrap库 -->
+<!-- 为了让html5shiv生效，请将所有的CSS都添加到此处 -->
 <link href="__STATIC__/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+<link type="text/css" rel="stylesheet" href="__STATIC__/qtip/jquery.qtip.css"/>
+<link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/toastr/toastr.min.css"/>
+<link href="__STATIC__/oneplus/css/oneplus.css" rel="stylesheet"/>
+<block name="style"></block>
 
 <!-- 增强IE兼容性 -->
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -12,7 +15,7 @@
 <script src="__STATIC__/bootstrap/js/respond.js"></script>
 <!--<!--[endif]-->
 
-<!-- jquery库 -->
+<!-- jQuery库 -->
 <!--[if lt IE 9]><!-->
 <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
 <!--<!--[endif]-->
@@ -20,17 +23,16 @@
 <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
 <!--<![endif]-->
 
+<!-- Bootstrap库 -->
+<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- 其他库 -->
-<link type="text/css" rel="stylesheet" href="__STATIC__/qtip/jquery.qtip.css"/>
-<link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/toastr/toastr.min.css"/>
 <script src="__STATIC__/qtip/jquery.qtip.js"></script>
 <script type="text/javascript" src="__STATIC__/oneplus/js/ext/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="__STATIC__/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js"></script>
 <script type="text/javascript" src="__STATIC__/jquery.iframe-transport.js"></script>
 
-<!-- 自定义css -->
-<link href="__STATIC__/oneplus/css/oneplus.css" rel="stylesheet"/>
+<!-- 自定义js -->
 <script type="text/javascript" src="__STATIC__/oneplus/js/core.js"></script>
 
 <script>
@@ -40,8 +42,6 @@
 </script>
 
 <audio id="music" src="" autoplay="autoplay"></audio>
-
-<block name="style"></block>
 
 <!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
 {:hook('pageHeader')}
