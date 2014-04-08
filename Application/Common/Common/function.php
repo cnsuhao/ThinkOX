@@ -1102,6 +1102,16 @@ function action_log_and_get_score($action = null, $model = null, $record_id = nu
     return $score_after - $score_before;
 }
 
+function is_ie() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $pos = strpos($userAgent, ' MSIE ');
+    if($pos === false) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 require_once(APP_PATH . '/Common/Common/pagination.php');
 require_once(APP_PATH . '/Common/Common/query_user.php');
 require_once(APP_PATH . '/Common/Common/thumb.php');

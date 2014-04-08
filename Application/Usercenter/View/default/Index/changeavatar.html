@@ -24,7 +24,9 @@
     <div class="row">
         <div class="col-md-3">
             <p class="text-warning">当前头像</p>
+
             <p>&nbsp;</p>
+
             <div class="thumbnail">
                 <img src="{$user.avatar128}" class="avatar-img"/>
             </div>
@@ -34,15 +36,24 @@
         </div>
         <div class="col-md-6">
             <p class="text-warning">设置新头像</p>
+
             <p class="text-muted">支持jpg，png，gif，bmp等格式，可以在大照片中裁剪比较满意的部分</p>
-            <form action="{:U('UserCenter/Index/doUploadAvatar')}" id="avatar_form" method="post" enctype="multipart/form-data">
-                <p class="hide">
+
+            <form action="{:U('UserCenter/Index/doUploadAvatar')}" id="avatar_form" method="post"
+                  enctype="multipart/form-data">
+                <if condition="is_ie()">
                     <input type="file" class="btn btn-default" name="image"/>
-                </p>
-                <div class="btn btn-primary" id="select_file_button">选择文件</div>
+                    <else/>
+                    <p class="hide">
+                        <input type="file" name="image"/>
+                    </p>
+
+                    <div class="btn btn-primary" id="select_file_button">选择文件</div>
+                </if>
                 <p class="text-error" id="submitTip"></p>
             </form>
             <p id="upload_tip" class="text-danger"></p>
+
             <div id="uploaded_image_div" style="display: none;">
                 <div class="thumbnail">
                     <img id="uploaded_image" style="width: 100%;" class="thumbnails"/>
@@ -63,22 +74,22 @@
     <script>
         var temp;
 
-        $(function(){
+        $(function () {
             var crop;
 
             //选择图片文件之后立即上传表单
-            $('[name=image]').change(function(){
+            $('[name=image]').change(function () {
                 $('#avatar_form').submit();
             });
 
-            $('#avatar_form').submit(function(e){
+            $('#avatar_form').submit(function (e) {
                 e.preventDefault();
 
                 $.ajax(this.action, {
                     files: $(":file", this),
                     iframe: true,
                     processData: false
-                }).complete(function(data) {
+                }).complete(function (data) {
                     var json = data.responseJSON;
 
                     $('#avatar_form').trigger('onJson', [json])
@@ -86,9 +97,9 @@
             });
 
             //头像上传后显示图片内容
-            $('#avatar_form').bind('onJson', function(e,json){
+            $('#avatar_form').bind('onJson', function (e, json) {
                 //如果发生错误，则显示错误信息
-                if(!json.success) {
+                if (!json.success) {
                     $('#upload_tip').text(json.message);
                 }
 
@@ -100,9 +111,9 @@
                 $('#uploaded_image_div').show();
 
                 //图片加载完之后 开启图片切割
-                $('#uploaded_image').load(function(){
+                $('#uploaded_image').load(function () {
                     $('#uploaded_image').Jcrop({
-                        aspectRatio:1,
+                        aspectRatio: 1,
                         onSelect: updateCoordinate
                     });
                 })
@@ -112,7 +123,7 @@
             }
 
             //点击选择文件按钮之后显示选择文件对话框
-            $('#select_file_button').click(function() {
+            $('#select_file_button').click(function () {
                 $('[name=image]').trigger('click');
             });
 
@@ -120,9 +131,10 @@
             function showAvatarTip(text) {
                 $('#save_avatar_tip').text(text);
             }
-            $('#save_avatar_button').click(function(){
+
+            $('#save_avatar_button').click(function () {
                 //检查是否已经裁剪过
-                if(crop.w == undefined || crop.w == 0) {
+                if (crop.w == undefined || crop.w == 0) {
                     showAvatarTip('请先选出图片中需要的部分');
                     return;
                 }
@@ -138,9 +150,9 @@
                 var url = $(this).attr('data-url');
                 var imageWidth = $('.jcrop-holder img').width();
                 var imageHeight = $('.jcrop-holder img').height();
-                var crop2 = crop.x/imageWidth + ',' + crop.y/imageHeight + ',' + crop.w/imageWidth + ',' + crop.h/imageHeight;
-                $.post(url, {crop:crop2}, function(a){
-                    if(a.status) {
+                var crop2 = crop.x / imageWidth + ',' + crop.y / imageHeight + ',' + crop.w / imageWidth + ',' + crop.h / imageHeight;
+                $.post(url, {crop: crop2}, function (a) {
+                    if (a.status) {
                         location.href = location.href;
                         location.reload();
                     } else {
