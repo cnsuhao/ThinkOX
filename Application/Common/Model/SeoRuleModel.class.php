@@ -59,9 +59,9 @@ class SeoRuleModel extends Model
     private function getRelatedRules($module, $controller, $action)
     {
         //防止SQL注入
-        $module = mysql_real_escape_string($module);
-        $controller = mysql_real_escape_string($controller);
-        $action = mysql_real_escape_string($action);
+        $module = mysql_escape_string($module);
+        $controller = mysql_escape_string($controller);
+        $action = mysql_escape_string($action);
 
         //查询与当前页面相关的SEO规则
         $map = array();
