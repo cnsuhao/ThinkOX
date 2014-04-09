@@ -280,4 +280,19 @@ class WeiboApi extends Api
         $type = 1;
         $this->messageModel->sendMessage($uid, $message, $title, $url, $from_uid, $type);
     }
+
+    /**
+     * 如果发生了错误，跳转到登录页面
+     * @throws \Common\Exception\ApiException
+     */
+    protected function requireLogin() {
+        try {
+            parent::requireLogin();
+        } catch(ApiException $ex) {
+            $message = $ex->getMessage();
+            $errorCode = $ex->getCode();
+            $extra = array('url'=>U('Home/User/login'));
+            throw new ApiException($message, $errorCode, $extra);
+        }
+    }
 }

@@ -58,7 +58,7 @@ class Api
     protected function requireLogin()
     {
         if (!is_login()) {
-            throw new ApiException('需要登录', 400);
+            throw new ApiException('需要登录', ErrorCodeApi::REQUIRE_LOGIN);
         }
     }
 }

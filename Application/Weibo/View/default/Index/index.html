@@ -144,15 +144,13 @@
 
                 //发送到服务器
                 $.post(url, {content: content}, function (a) {
+                    handleAjax(a);
                     if (a.status) {
                         button.attr('class', 'btn btn-primary');
                         button.val(originalButtonText);
                         reloadWeiboList();
                         clearWeibo();
                         $('.XT_face').remove();
-                        op_success(a.info, '温馨提示');
-                    } else {
-                        op_error(a.info, '温馨提示');
                     }
                 });
             });
