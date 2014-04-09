@@ -30,7 +30,7 @@ class WeiboApi extends Api
         //获取微博列表
         $map = array('status' => 1);
         $model = $this->weiboModel;
-        $list = $model->where($map)->order('create_time desc')->page($page, $count)->select();
+        $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
 
         //获取每个微博详情
         foreach ($list as &$e) {
@@ -56,7 +56,7 @@ class WeiboApi extends Api
         $followList[] = is_login();
 
         //获取我关注的微博
-        $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->order('id desc')->page($page, $count)->select();
+        $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->order('is_top desc,id desc')->page($page, $count)->select();
 
         //获取每个微博的详细信息
         foreach ($list as &$e) {
@@ -196,6 +196,7 @@ class WeiboApi extends Api
             'comment_count' => intval($weibo['comment_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
+            'is_top'=>$weibo['is_top']
         );
     }
 

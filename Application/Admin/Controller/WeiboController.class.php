@@ -21,7 +21,7 @@ class WeiboController extends AdminController
         $model = M('Weibo');
         $list = $model->where($map)->page($page, $r)->select();
         foreach ($list as &$li) {
-            if (D('WeiboTop')->where(array('weibo_id' => $li['id']))->count()) {
+            if ($li['is_top']) {
                 $li['top'] = '置顶';
             } else {
                 $li['top'] = '不置顶';
@@ -55,14 +55,8 @@ class WeiboController extends AdminController
 
     public function setWeiboTop($ids, $top)
     {
-        D('Weibo')->where(array('id' => array('in', implode($ids))))->setField('is_top', $top);
         foreach ($ids as $id) {
-            if ($top) {
-                D('WeiboTop')->add(array('weibo_id' => $id, 'create_time' => time()));
-            } else {
-                D('WeiboTop')->where(array('weibo_id' => $id))->delete();
-            }
-
+                D('Weibo')->where(array('id' => $id))->setField('is_top',$top);
         }
 
         $this->success('设置成功', $_SERVER['HTTP_REFERER']);

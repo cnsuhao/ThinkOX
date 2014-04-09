@@ -18,7 +18,7 @@ class TopWeiboModel extends Model
      * @param int $limit
      * @return mixed
      */
-    public function getTopWeibo($limit = 10)
+  /*  public function getTopWeibo($limit = 10)
     {
         $list = $this->limit($limit)->select();
         foreach ($list as $key=>&$li) {
@@ -32,5 +32,5 @@ class TopWeiboModel extends Model
         }
         unset($li);
         return ($list);
-    }
+    }*/
 } 
