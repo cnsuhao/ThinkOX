@@ -64,3 +64,13 @@ function get_at_usernames($content)
     //返回用户名列表
     return array_unique($users[1]);
 }
+
+function get_at_uids($content) {
+    $usernames = get_at_usernames($content);
+    $result = array();
+    foreach($usernames as $username){
+        $user = D('User/UcenterMember')->where(array('username'=>$username))->field('uid')->find();
+        $result[] = $user['uid'];
+    }
+    return $result;
+}

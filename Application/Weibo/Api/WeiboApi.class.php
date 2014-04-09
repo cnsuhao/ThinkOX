@@ -95,7 +95,7 @@ class WeiboApi extends Api
         $this->updateLastSendTime();
 
         //给被AT到的人都发送一条消息
-        $usernames = get_at_usernames($content);
+        $usernames = get_at_uids($content);
         $this->sendAtMessage($usernames, $weibo_id, $content);
 
         //显示成功页面
@@ -127,11 +127,10 @@ class WeiboApi extends Api
         }
 
         //通知被AT的人，除去被回复的人，避免通知出现两次。
-        $usernames = get_at_usernames($content);
+        $usernames = get_at_uids($content);
         if(isset($comment)) {
-            $comment_username = query_user('username', $comment['uid']);
-            if(in_array($comment_username, $usernames)) {
-                $usernames = array_diff($usernames, array($comment_username));
+            if(in_array($comment['uid'], $usernames)) {
+                $usernames = array_diff($usernames, array($comment['uid']));
             }
         }
         $this->sendAtMessage($usernames, $weibo_id, $content);
@@ -260,13 +259,12 @@ class WeiboApi extends Api
         return false;
     }
 
-    private function sendAtMessage($usernames, $weibo_id, $content)
+    private function sendAtMessage($uids, $weibo_id, $content)
     {
-        foreach ($usernames as $username) {
-            $user = $this->ucenterMemberModel->where(array('username' => $username))->find();
-            $uid = $user['id'];
+        $my_username = query_user('username');
+        foreach ($uids as $uid) {
             $message = '内容：' . $content;
-            $title = $username . '@了您';
+            $title = $my_username . '@了您';
             $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
             $fromUid = get_uid();
             $messageType = 1;
