@@ -128,8 +128,8 @@ class WeiboApi extends Api
 
         //通知被AT的人，除去被回复的人，避免通知出现两次。
         $usernames = get_at_uids($content);
-        if(isset($comment)) {
-            if(in_array($comment['uid'], $usernames)) {
+        if (isset($comment)) {
+            if (in_array($comment['uid'], $usernames)) {
                 $usernames = array_diff($usernames, array($comment['uid']));
             }
         }
