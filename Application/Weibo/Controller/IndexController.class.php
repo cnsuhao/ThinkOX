@@ -36,9 +36,15 @@ class IndexController extends Controller
         $this->assign('tab', 'all');
         $this->assign('loadMoreUrl', U('loadWeibo'));
         $this->assignSelf();
+        $this->assignWeiboTop();
         $this->display();
     }
-    
+
+    public function assignWeiboTop()
+    {
+        $this->assign('top_weibo', D('TopWeibo')->getTopWeibo());
+    }
+
     public function myconcerned()
     {
         //载入我关注的微博
@@ -49,6 +55,7 @@ class IndexController extends Controller
         $this->assign('tab', 'concerned');
         $this->assign('loadMoreUrl', U('loadConcernedWeibo'));
         $this->assignSelf();
+        $this->assignWeiboTop();
         $this->display('index');
     }
 

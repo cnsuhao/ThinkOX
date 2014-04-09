@@ -52,7 +52,61 @@
                     </div>
                 </div>
                 <hr>
+                <volist name="top_weibo" id="topweibo">
 
+                    <php>$weibo=$topweibo['weibo'];</php>
+                    <div class="row" id="weibo_{$weibo.id}" style="position: relative">
+                        <div class="ribbion-green">
+                            <a>置顶</a></div>
+                        <div class="col-md-12">
+                            <div class="pull-left">
+                                <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
+                                    <img src="{$weibo.user.avatar64}"
+                                         class="avatar-img"
+                                         style="width: 64px;"/>
+                                </a>
+                            </div>
+
+                            <div style="padding-left: 16px; width: 92%;float: left">
+                                <p>
+                                    <a ucard="{$weibo.user.uid}"
+                                       href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}
+                                    </a>
+                                    {$weibo.user.icons_html}
+                                    <volist name="weibo['user']['rank_link']" id="vl">
+                                        <if condition="$vl['is_show']">
+                                            <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
+                                                 class="rank_html"/>
+                                        </if>
+                                    </volist>
+                                </p>
+
+                                <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
+
+                                <p>
+                                    <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
+                                    <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a>&nbsp;&nbsp;置顶于&nbsp;{$topweibo.create_time|friendlyDate} </span>
+                                    <a class="pull-right text-primary weibo-comment-link" href="#" data-weibo-id="{$weibo.id}">
+                                        <php>
+                                            $weiboCommentTotalCount = $weibo['comment_count'];
+                                        </php>
+                                        <include file="_operation"/>
+                                    </a>
+                                </p>
+                                <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
+                                    <div class="col-md-12">
+                                        <div class="light-jumbotron" style="padding: 1em 2em;">
+                                            <div class="weibo-comment-container">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr/>
+                </volist>
                 <div id="weibo_list">
                     <include file="loadweibo"/>
                 </div>
