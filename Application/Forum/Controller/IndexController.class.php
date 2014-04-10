@@ -111,6 +111,7 @@ class IndexController extends Controller
 
     public function delPostReply($id)
     {
+        //TODO：存在漏洞！没有检测权限
         $this->requireLogin();
         $res = D('ForumPostReply')->delPostReply($id);
         $res && $this->success($res);
