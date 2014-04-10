@@ -27,7 +27,7 @@ return array(
     'access_token'=>array(
         'title'=>'天翼访问令牌(Access Token)：',
         'type'=>'text',
-        'value'=>'2389ae5bb8c44603337203f9f4aacf171392971135771',
+        'value'=>'4607d0582539012eea100b09e79f136a1397106411735',
     ),
 
     'refresh_token'=>array(

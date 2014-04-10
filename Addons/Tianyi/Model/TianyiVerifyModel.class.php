@@ -13,6 +13,7 @@ use Think\Model;
 class TianyiVerifyModel extends Model
 {
     private $config;
+    private $addonName = 'Tianyi';
 
     /**
      * 调用天翼接口前必须调用此方法传入配置信息
@@ -30,12 +31,14 @@ class TianyiVerifyModel extends Model
      */
     public function sendVerify($mobile)
     {
-        //TODO：定时更新ACCESS_TOKEN
+        if ($this->isAccessTokenNeedRefresh()) {
+            $this->refreshAccessToken();
+        }
 
         //测试模式
         //只有特定号码段的手机才支持
         //在测试模式下，不会真正发送短信，而且每次都假定验证码为123456
-        $test = true;
+        $test = false;
 
         //确认确实是测试手机
         if (!$this->isTestMobile($mobile)) {
@@ -175,12 +178,33 @@ class TianyiVerifyModel extends Model
         return $token;
     }
 
+    private function tianyiRefreshAccessToken()
+    {
+        //调用接口来获取新的AT
+        $url = 'https://oauth.api.189.cn/emp/oauth2/v2/access_token';
+        $result = $this->callApi($url, array(
+            'app_id' => $this->config['app_id'],
+            'app_secret' => $this->config['app_secret'],
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $this->config['refresh_token'],
+        ));
+
+        //如果失败，就直接返回
+        if($result['res_code'] != 0) {
+            return false;
+        }
+
+        //如果成功，就返回新的AT
+        return $result['access_token'];
+    }
+
     private function callTianyiApi($url, $params = array())
     {
         //获取配置
         $app_id = $this->config['app_id'];
         $access_token = $this->config['access_token'];
         $app_secret = $this->config['app_secret'];
+
         //发送HTTP请求
         $timestamp = date('Y-m-d H:i:s');
         $param['app_id'] = $app_id;
@@ -189,6 +213,14 @@ class TianyiVerifyModel extends Model
         $param = array_merge($param, $params);
         $param['sign'] = $this->computeSign($app_secret, $param);
         $str = http_build_query($param);
+        $result = $this->curl_post($url, $str);
+        $resultArray = json_decode($result, true);
+        return $resultArray;
+    }
+
+    private function callApi($url, $params = array())
+    {
+        $str = http_build_query($params);
         $result = $this->curl_post($url, $str);
         $resultArray = json_decode($result, true);
         return $resultArray;
@@ -260,4 +292,50 @@ class TianyiVerifyModel extends Model
             return false;
         }
     }
+
+    private function isAccessTokenNeedRefresh()
+    {
+        $lastUpdate = $this->getAccessTokenLastUpdateTime();
+        $updateInterval = $this->config['update_access_token_interval'];
+        if (time() - $lastUpdate >= $updateInterval) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function refreshAccessToken()
+    {
+        $newAccessToken = $this->tianyiRefreshAccessToken();
+        $this->config['access_token'] = $newAccessToken;
+        $this->updateLastUpdateTime();
+        $this->saveConfig();
+    }
+
+    private function getAccessTokenLastUpdateTime()
+    {
+        return intval($this->config['last_update_time']);
+    }
+
+    private function updateLastUpdateTime()
+    {
+        $this->config['last_update_time'] = time();
+    }
+
+    private function saveConfig()
+    {
+        $map = array('name'=>$this->addonName);
+        $data = array('config'=>json_encode($this->config));
+        M('Addons')->where($map)->save($data);
+    }
 }
+
+
+//        AppID:<input name="app_id" type="text" value="<?php echo $appid ? >" readonly= "readonly" />
+//            AppSecret: <input name="app_secret" type="text" value="<?php echo $appsecret ? >" readonly= "readonly" />
+//            GrantType: <input name="grant_type" type="text" value="refresh_token" readonly= "readonly" />
+//            RefreshToken:<input id= "refresh_token" name="refresh_token" type="text" value="" />
+//            <input name="btn_refresh" type="submit" value="认证授权" onclick="return checkRefresh_token();" />
+
+//string(154) "app_id=668228660000034680&app_secret=75e30521444f11fb3ec265d3c809e443&grant_type=refresh_token&refresh_token=0cbb07946822ca74c70f4288fc50dc531392971135772" Access_Token has been refreshed!
+//The latest Access_Token is 10019b837bdfc5834be58024c50db5a31397108066251
