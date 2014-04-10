@@ -125,7 +125,7 @@ class WeiboApi extends Api
         //通知被回复的人。为了避免出现两次通知，进行了特殊处理
         if ($comment_id) {
             $comment = $this->commentModel->field('uid')->find($comment_id);
-            if($comment['uid'] != $weibo['uid']) {
+            if ($comment['uid'] != $weibo['uid']) {
                 $this->sendCommentMessage($comment['uid'], $weibo_id, "回复内容：$content");
             }
         }
@@ -285,13 +285,14 @@ class WeiboApi extends Api
      * 如果发生了错误，跳转到登录页面
      * @throws \Common\Exception\ApiException
      */
-    protected function requireLogin() {
+    protected function requireLogin()
+    {
         try {
             parent::requireLogin();
-        } catch(ApiException $ex) {
+        } catch (ApiException $ex) {
             $message = $ex->getMessage();
             $errorCode = $ex->getCode();
-            $extra = array('url'=>U('Home/User/login'));
+            $extra = array('url' => U('Home/User/login'));
             throw new ApiException($message, $errorCode, $extra);
         }
     }
