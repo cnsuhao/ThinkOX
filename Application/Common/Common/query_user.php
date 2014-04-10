@@ -45,8 +45,10 @@ function query_user($fields, $uid = null)
             $cachedFields[] = $field;
         }
     }
+
     //去除已经缓存的字段
     $fields = array_diff($fields, $cachedFields);
+
     //获取两张用户表格中的所有字段
     $homeModel = M('Member');
     $ucenterModel = M('UcenterMember');

@@ -21,29 +21,41 @@
                                         })
 
                                     </script>
-                                    <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
-                                                                                         class="avatar-img"/></a>
+                                    <php>
+                                        $weibo['user']['space_url'] = U('UserCenter/Index/index', array('uid'=>$weibo['user']['uid']));
+                                    </php>
+                                    <a href="{$weibo.user.space_url}">
+                                        <img src="{$weibo.user.avatar128}" class="avatar-img"/>
+                                    </a>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
-                                       href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
-                                    <br/>头衔：<if condition="$self['rank_link'][0]['num']"><volist name="self['rank_link']" id="vl"><if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></if></volist><else />无</if>
-                                    <br/>积分：{$self.score}
-                                    <br/>等级：{$self.title}
+                                    <a style="font-size: 1.2em;width: 100%" title="{$weibo.user.username}" class="text-more"
+                                       href="{$weibo.user.space_url}">{$weibo.user.username}</a>&nbsp;{$weibo.user.icons_html}
+                                    <br/>头衔：
+                                    <if condition="$weibo['user']['rank_link'][0]['num']">
+                                        <volist name="weibo['user']['rank_link']" id="vl">
+                                            <if condition="$vl['is_show']">
+                                                <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
+                                            </if>
+                                        </volist>
+                                        <else />无
+                                    </if>
+                                    <br/>积分：{$weibo.user.score}
+                                    <br/>等级：{$weibo.user.title|op_t}
                                 </div>
 
 
                                 <div class="col-md-4 row">
                                     <div style="margin: 10px;text-align: center">
                                         <div class="col-md-4">
-                                            微博<br/>{$self.weibocount}
+                                            微博<br/>{$weibo.user.weibocount}
                                         </div>
                                         <div class="col-md-4">
-                                            粉丝<br/>{$self.fans}
+                                            粉丝<br/>{$weibo.user.fans}
                                         </div>
                                         <div class="col-md-4">
-                                            关注<br/>{$self.following}
+                                            关注<br/>{$weibo.user.following}
                                         </div>
                                     </div>
                                 </div>
