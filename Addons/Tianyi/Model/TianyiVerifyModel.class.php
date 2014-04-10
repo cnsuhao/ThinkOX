@@ -190,7 +190,7 @@ class TianyiVerifyModel extends Model
         ));
 
         //如果失败，就直接返回
-        if($result['res_code'] != 0) {
+        if ($result['res_code'] != 0) {
             return false;
         }
 
@@ -324,8 +324,8 @@ class TianyiVerifyModel extends Model
 
     private function saveConfig()
     {
-        $map = array('name'=>$this->addonName);
-        $data = array('config'=>json_encode($this->config));
+        $map = array('name' => $this->addonName);
+        $data = array('config' => json_encode($this->config));
         M('Addons')->where($map)->save($data);
     }
 }
