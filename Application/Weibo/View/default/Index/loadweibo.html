@@ -1,5 +1,13 @@
 <volist name="list" id="weibo">
 
+    <div class="row" id="weibo_{$weibo.id}" style="position: relative">
+        <eq name="weibo.is_top" value="1">
+            <div class="ribbion-green">
+                <a>置顶</a>
+            </div>
+        </eq>
+        <div class="col-md-12" >
+
     <div class="row" id="weibo_{$weibo.id}">
         <div class="col-xs-12">
             <div class="pull-left">

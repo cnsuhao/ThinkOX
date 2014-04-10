@@ -38,7 +38,7 @@ class IndexController extends Controller
         $this->assignSelf();
         $this->display();
     }
-
+    
     public function myconcerned()
     {
         //载入我关注的微博
@@ -145,7 +145,7 @@ class IndexController extends Controller
 
     public function atWhoJson()
     {
-        exit(json_encode($this->getAtWhoUsers()));
+        exit(json_encode($this->getAtWhoUsersCached()));
     }
 
     /**
@@ -159,7 +159,7 @@ class IndexController extends Controller
 
     private function getAtWhoUsers()
     {
-        //获取能AT的人，UID列表。包括我关注的人，和关注我的人，不包括自己。
+        //获取能AT的人，UID列表
         $uid = get_uid();
         $follows = D('Follow')->where(array('who_follow' => $uid, 'follow_who' => $uid, '_logic' => 'or'))->limit(999)->select();
         $uids = array();
