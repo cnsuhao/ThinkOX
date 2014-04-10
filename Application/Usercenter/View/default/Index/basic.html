@@ -2,7 +2,7 @@
 
 <block name="body">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <p>&nbsp;</p>
             <h4>基本资料</h4>
             <hr class="oneuser-title-hr"/>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 text-muted">
+        <div class="col-xs-6 text-muted">
             <p><span class="text-muted">用户名：</span> {$user.username|htmlspecialchars}</p>
             <p><span class="text-muted">邮箱：</span> {$user.email|htmlspecialchars}</p>
             <if condition="$uid==is_login()">
@@ -30,10 +30,10 @@
             <p><span class="text-muted">头衔：</span> <if condition="$user['rank_link']"><volist name="user['rank_link']" id="vl"><img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></volist><else/>无</if>
             </p>
         </div>
-        <div class="col-md-4">
+        <div class="col-xs-4">
             <img class="avatar-img" src="{$user.avatar256}"/>
         </div>
-        <div class="col-md-2">
+        <div class="col-xs-2">
             &nbsp;
         </div>
     </div>

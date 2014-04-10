@@ -6,7 +6,7 @@
     </php>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <p>&nbsp;</p>
             <h4>修改个性签名</h4>
             <hr class="oneuser-title-hr"/>
@@ -14,10 +14,10 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-xs-3">
             <p class="pull-right">输入新的签名：</p>
         </div>
-        <div class="col-md-6">
+        <div class="col-xs-6">
             <form id="changePasswordForm" action="{:U('UserCenter/Index/doChangeSignature')}" method="post" class="ajax-form">
                 <p>
                     <textarea name="signature" class="form-control" style="width: 100%; height: 6em;">{$homeProfile.signature|htmlspecialchars}</textarea>

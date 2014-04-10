@@ -2,15 +2,15 @@
 
 <block name="body">
     <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
         <php>
             $user = query_user(array('avatar128','uid','username','space_url','icons_html','rank_link'), $post['uid']);
         </php>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-xs-8">
                 <h4>{$post.title|htmlspecialchars}</h4>
             </div>
-            <div class="col-md-4">
+            <div class="col-xs-4">
                 <p class="pull-right text-right">
                     <if condition="$post['uid']==is_login()">
                         <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
@@ -39,7 +39,7 @@
 
                 <div class="ribbion-green">
                     <a>楼主</a></div>
-                <div class="col-md-2">
+                <div class="col-xs-2">
                     <p>
                         <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
                                                                              class="avatar-img"/></a>
@@ -58,7 +58,7 @@
                         </volist>
                        </p>
                 </div>
-                <div class="col-md-10 post_content">
+                <div class="col-xs-10 post_content">
                     <div style="min-height: 10em;">
                         {$post.content}
                         <br/>
@@ -92,7 +92,7 @@
                     </div>
                 </eq>
 
-                <div class="col-md-2">
+                <div class="col-xs-2">
                     <p class="text-center">
                         <a ucard="{$reply.uid}" href="{$reply.user.space_url}"><img src="{$reply.user.avatar128}" class="avatar-img"/></a>
                     </p>
@@ -110,7 +110,7 @@
                     </volist>
                     </p>
                 </div>
-                <div class="col-md-10">
+                <div class="col-xs-10">
                     <div style="min-height: 10em;" class="post_content">
                         {$reply.content}
                         <br/>
@@ -139,7 +139,7 @@
         </volist>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <pull class="pull-right">
                     {:getPagination($replyTotalCount)}
                 </pull>
@@ -154,12 +154,12 @@
                 $user = query_user(array('avatar128'));
             </php>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-xs-2">
                     <p>
                         <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}" class="avatar-img"/></a>
                     </p>
                 </div>
-                <div class="col-md-10">
+                <div class="col-xs-10">
                     <div id="reply_block">
                         <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post" class="ajax-form">
                             <h4>发表回复</h4>
