@@ -22,7 +22,8 @@
 
                                     </script>
                                     <php>
-                                        $weibo['user']['space_url'] = U('UserCenter/Index/index', array('uid'=>$weibo['user']['uid']));
+                                        $weibo['user']['space_url'] = U('UserCenter/Index/index',
+                                        array('uid'=>$weibo['user']['uid']));
                                     </php>
                                     <a href="{$weibo.user.space_url}">
                                         <img src="{$weibo.user.avatar128}" class="avatar-img"/>
@@ -30,16 +31,19 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <a style="font-size: 1.2em;width: 100%" title="{$weibo.user.username}" class="text-more"
+                                    <a style="font-size: 1.2em;width: 100%" title="{$weibo.user.username}"
+                                       class="text-more"
                                        href="{$weibo.user.space_url}">{$weibo.user.username}</a>&nbsp;{$weibo.user.icons_html}
                                     <br/>头衔：
                                     <if condition="$weibo['user']['rank_link'][0]['num']">
                                         <volist name="weibo['user']['rank_link']" id="vl">
                                             <if condition="$vl['is_show']">
-                                                <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
+                                                <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
+                                                     style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
                                             </if>
                                         </volist>
-                                        <else />无
+                                        <else/>
+                                        无
                                     </if>
                                     <br/>积分：{$weibo.user.score}
                                     <br/>等级：{$weibo.user.title|op_t}
