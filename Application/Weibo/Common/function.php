@@ -8,7 +8,8 @@
 
 function parse_weibo_content($content)
 {
-    $content=op_t($content);
+    $content = shorten_white_space($content);
+    $content = op_t($content);
     $content = parse_expression($content);
     $content = parse_at_users($content);
     return $content;
@@ -16,9 +17,15 @@ function parse_weibo_content($content)
 
 function parse_comment_content($content)
 {
-    $content=op_t($content);
+    $content = shorten_white_space($content);
+    $content = op_t($content);
     $content = parse_expression($content);
     $content = parse_at_users($content);
+    return $content;
+}
+
+function shorten_white_space($content) {
+    $content = preg_replace('/\s+/', ' ', $content);
     return $content;
 }
 
