@@ -36,7 +36,6 @@ a:hover {
 .avatar-img {
   border-radius: 100%;
   width: 100%;
-  max-width: 128px;
 }
 .navbar-nav > li > a {
   line-height: 28px;
