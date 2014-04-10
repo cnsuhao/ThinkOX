@@ -95,8 +95,8 @@ class WeiboApi extends Api
         $this->updateLastSendTime();
 
         //给被AT到的人都发送一条消息
-        $usernames = get_at_uids($content);
-        $this->sendAtMessage($usernames, $weibo_id, $content);
+        $uids = get_at_uids($content);
+        $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
         $message = '发表微博成功。' . getScoreTip(0, $score_increase);
@@ -118,22 +118,22 @@ class WeiboApi extends Api
         $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
         $this->updateLastSendTime();
 
-        //通知微博作者、被回复的人
+        //通知微博作者
         $weibo = $this->weiboModel->field('uid')->find($weibo_id);
         $this->sendCommentMessage($weibo['uid'], $weibo_id, "评论内容：$content");
+
+        //通知被回复的人。为了避免出现两次通知，进行了特殊处理
         if ($comment_id) {
             $comment = $this->commentModel->field('uid')->find($comment_id);
-            $this->sendCommentMessage($comment['uid'], $weibo_id, "回复内容：$content");
-        }
-
-        //通知被AT的人，除去被回复的人，避免通知出现两次。
-        $usernames = get_at_uids($content);
-        if (isset($comment)) {
-            if (in_array($comment['uid'], $usernames)) {
-                $usernames = array_diff($usernames, array($comment['uid']));
+            if($comment['uid'] != $weibo['uid']) {
+                $this->sendCommentMessage($comment['uid'], $weibo_id, "回复内容：$content");
             }
         }
-        $this->sendAtMessage($usernames, $weibo_id, $content);
+
+        //通知被AT的人，除去微博作者、被回复的人，避免通知出现两次。
+        $uids = get_at_uids($content);
+        $uids = array_subtract($uids, array($weibo['uid'], $comment['uid']));
+        $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
         return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score));

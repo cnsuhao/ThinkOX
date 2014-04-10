@@ -1112,6 +1112,10 @@ function is_ie() {
     }
 }
 
+function array_subtract($a, $b) {
+    return array_diff($a, array_intersect($a,$b));
+}
+
 require_once(APP_PATH . '/Common/Common/pagination.php');
 require_once(APP_PATH . '/Common/Common/query_user.php');
 require_once(APP_PATH . '/Common/Common/thumb.php');
