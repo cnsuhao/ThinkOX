@@ -14,12 +14,18 @@
  * 个人中心地址：space_url
  * 认证图标：icons_html
  *
- * @param $fields
+ * @param $fields array|string 如果是数组，则返回数组。如果不是数组，则返回对应的值
  * @param null $uid
  * @return array|null
  */
 function query_user($fields, $uid = null)
 {
+    //如果fields不是数组，则返回值也不是数组
+    if (!is_array($fields)) {
+        $result = query_user(array($fields), $uid);
+        return $result[$fields];
+    }
+
     //默认获取自己的资料
     $uid = $uid ? $uid : is_login();
     if (!$uid) {
@@ -39,8 +45,10 @@ function query_user($fields, $uid = null)
             $cachedFields[] = $field;
         }
     }
+
     //去除已经缓存的字段
     $fields = array_diff($fields, $cachedFields);
+
     //获取两张用户表格中的所有字段
     $homeModel = M('Member');
     $ucenterModel = M('UcenterMember');
@@ -101,17 +109,17 @@ function query_user($fields, $uid = null)
     //获取用户头衔链接
     if (in_array('rank_link', $fields)) {
         $rank_List = D('rank_user')->where('uid=' . $uid)->select();
-        $num=0;
+        $num = 0;
         foreach ($rank_List as &$val) {
             $rank = D('rank')->where('id=' . $val['rank_id'])->find();
             $val['title'] = $rank['title'];
             $val['logo_url'] = getRootUrl() . D('picture')->where('id=' . $rank['logo'])->getField('path');
-            if($val['is_show']){
-                $num=1;
+            if ($val['is_show']) {
+                $num = 1;
             }
         }
         if ($rank_List) {
-            $rank_List[0]['num']=$num;
+            $rank_List[0]['num'] = $num;
             $result['rank_link'] = $rank_List;
         } else {
             $result['rank_link'] = array();
@@ -153,7 +161,7 @@ function query_user($fields, $uid = null)
         if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
         }
-        if (!in_array($field, array('rank_link','icons_html','space_link'))) {
+        if (!in_array($field, array('rank_link', 'icons_html', 'space_link'))) {
             $value = str_replace('"', '', op_t($value));
         }
 

@@ -5,11 +5,11 @@
 </block>
 
 <block name="body">
-    <div class="col-md-12">
+    <div class="col-xs-12">
         <div class="row">
-            <div class="col-md-9 weibo_main">
+            <div class="col-xs-9 weibo_main">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-xs-12">
                         <br/>
 
                         <p>记录，就是一种态度！</p>
@@ -28,7 +28,7 @@
 
                 </script>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-xs-12">
                         <p>
                             <img src="__IMG__/ad.png" style="width: 100%;"/>
                         </p>
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="row" style="padding-top: 10px">
-                    <div class="col-md-12">
+                    <div class="col-xs-12">
 
                         <ul class="nav nav-pills ucenter-tab">
                             <li
@@ -60,15 +60,15 @@
                     <p id="load_more_text">载入更多</p>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-xs-3">
                 <if condition="is_login()">
                     <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-xs-5">
                                 <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
                                                                                      class="avatar-img"/></a>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-xs-7">
                                 <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
                                    href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
                                 <br/>头衔：
@@ -88,13 +88,13 @@
                         </div>
 
                         <div class="row" style="margin: 10px;text-align: center">
-                            <div class="col-md-4">
+                            <div class="col-xs-4">
                                 微博<br/>{$self.weibocount}
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-xs-4">
                                 粉丝<br/><a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-xs-4">
                                 关注<br/><a href="{:U('Usercenter/Index/following')}">{$self.following}</a>
                             </div>
                         </div>
@@ -143,15 +143,13 @@
 
                 //发送到服务器
                 $.post(url, {content: content}, function (a) {
+                    handleAjax(a);
                     if (a.status) {
                         button.attr('class', 'btn btn-primary');
                         button.val(originalButtonText);
                         reloadWeiboList();
                         clearWeibo();
                         $('.XT_face').remove();
-                        op_success(a.info, '温馨提示');
-                    } else {
-                        op_error(a.info, '温馨提示');
                     }
                 });
             });

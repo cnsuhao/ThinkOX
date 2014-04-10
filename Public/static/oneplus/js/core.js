@@ -374,11 +374,16 @@ function friendlyDate(sTime, cTime) {
  * 处理ajax返回结果
  */
 function handleAjax(a) {
+    //如果需要跳转的话，消息的末尾附上即将跳转字样
+    if(a.url) {
+        a.info += '，页面即将跳转～';
+    }
+
     //弹出提示消息
     if (a.status) {
-        op_success(a.info);
+        op_success(a.info, '温馨提示');
     } else {
-        op_error(a.info);
+        op_error(a.info, '温馨提示');
     }
 
     //需要跳转的话就跳转

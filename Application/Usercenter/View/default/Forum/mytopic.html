@@ -2,7 +2,7 @@
 
 <block name="body">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <p>&nbsp;</p>
             <h4>{$call}的主题</h4>
             <hr class="oneuser-title-hr"/>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <p class="text-muted">共有 <span class="text-success">{$totalCount}</span> 个主题发布</p>
             <hr/>
         </div>
@@ -18,7 +18,7 @@
 
     <volist name="list" id="document">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <p>
                     <a class="link-black" href="{:U('Forum/Index/detail',array('id'=>$document['id']))}">{$document.title|htmlspecialchars}</a>
                 </p>
@@ -30,7 +30,7 @@
     </volist>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="pull-right">
                 {:getPagination($totalCount)}
             </div>

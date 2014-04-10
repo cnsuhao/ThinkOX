@@ -23,15 +23,17 @@ $(function () {
         var url = U('Weibo/Index/doComment');
         var commitButton = $('.weibo-comment-commit', weibo);
         var weiboCommentList = $('.weibo-comment-list', weibo);
+        var originalButtonText = commitButton.text();
         commitButton.text('正在发表...').attr('class', 'btn btn-primary disabled');
         var weiboToCommentId = $('#weibo-comment-to-comment-id', weibo);
         comment_id = weiboToCommentId.val();
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
+            handleAjax(a);
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);
-                op_success(a.info, '温馨提示');
             } else {
-                commitButton.text(a.info).attr('class', 'btn btn-danger weibo-comment-commit');
+                commitButton.text(originalButtonText);
+                commitButton.attr('class', 'btn btn-primary weibo-comment-commit');
             }
         });
     });

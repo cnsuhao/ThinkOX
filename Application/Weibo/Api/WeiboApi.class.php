@@ -95,8 +95,8 @@ class WeiboApi extends Api
         $this->updateLastSendTime();
 
         //给被AT到的人都发送一条消息
-        $usernames = get_at_usernames($content);
-        $this->sendAtMessage($usernames, $weibo_id, $content);
+        $uids = get_at_uids($content);
+        $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
         $message = '发表微博成功。' . getScoreTip(0, $score_increase);
@@ -118,17 +118,22 @@ class WeiboApi extends Api
         $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
         $this->updateLastSendTime();
 
-        //通知被AT的人
-        $usernames = get_at_usernames($content);
-        $this->sendAtMessage($usernames, $weibo_id, $content);
-
-        //通知微博作者、被回复的人
+        //通知微博作者
         $weibo = $this->weiboModel->field('uid')->find($weibo_id);
         $this->sendCommentMessage($weibo['uid'], $weibo_id, "评论内容：$content");
+
+        //通知被回复的人。为了避免出现两次通知，进行了特殊处理
         if ($comment_id) {
             $comment = $this->commentModel->field('uid')->find($comment_id);
-            $this->sendCommentMessage($comment['uid'], $weibo_id, "回复内容：$content");
+            if ($comment['uid'] != $weibo['uid']) {
+                $this->sendCommentMessage($comment['uid'], $weibo_id, "回复内容：$content");
+            }
         }
+
+        //通知被AT的人，除去微博作者、被回复的人，避免通知出现两次。
+        $uids = get_at_uids($content);
+        $uids = array_subtract($uids, array($weibo['uid'], $comment['uid']));
+        $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
         return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score));
@@ -255,13 +260,12 @@ class WeiboApi extends Api
         return false;
     }
 
-    private function sendAtMessage($usernames, $weibo_id, $content)
+    private function sendAtMessage($uids, $weibo_id, $content)
     {
-        foreach ($usernames as $username) {
-            $user = $this->ucenterMemberModel->where(array('username' => $username))->find();
-            $uid = $user['id'];
+        $my_username = query_user('username');
+        foreach ($uids as $uid) {
             $message = '内容：' . $content;
-            $title = $username . '@了您';
+            $title = $my_username . '@了您';
             $url = U('Weibo/Index/weiboDetail', array('id' => $weibo_id));
             $fromUid = get_uid();
             $messageType = 1;
@@ -276,5 +280,21 @@ class WeiboApi extends Api
         $from_uid = get_uid();
         $type = 1;
         $this->messageModel->sendMessage($uid, $message, $title, $url, $from_uid, $type);
+    }
+
+    /**
+     * 如果发生了错误，跳转到登录页面
+     * @throws \Common\Exception\ApiException
+     */
+    protected function requireLogin()
+    {
+        try {
+            parent::requireLogin();
+        } catch (ApiException $ex) {
+            $message = $ex->getMessage();
+            $errorCode = $ex->getCode();
+            $extra = array('url' => U('Home/User/login'));
+            throw new ApiException($message, $errorCode, $extra);
+        }
     }
 }

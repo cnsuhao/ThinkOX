@@ -111,6 +111,7 @@ class IndexController extends Controller
 
     public function delPostReply($id)
     {
+        //TODO：存在重大安全漏洞！没有检测权限
         $this->requireLogin();
         $res = D('ForumPostReply')->delPostReply($id);
         $res && $this->success($res);
@@ -132,10 +133,13 @@ class IndexController extends Controller
 
     public function doReplyEdit($reply_id = null, $content)
     {
+        //对帖子内容进行安全过滤
+        $content = $this->filterPostContent($content);
+
         if (!$content) {
             $this->error("回复内容不能为空！");
         }
-        $data['content'] = op_h($content);
+        $data['content'] = $content;
         $data['update_time'] = time();
         $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
         $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
@@ -179,6 +183,9 @@ class IndexController extends Controller
 
     public function doEdit($post_id = null, $forum_id, $title, $content)
     {
+        //对帖子内容进行安全过滤
+        $content = $this->filterPostContent($content);
+
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
         //如果是编辑模式，确认当前用户能编辑帖子
@@ -188,18 +195,18 @@ class IndexController extends Controller
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
         //写入帖子的内容
-        if(strlen($content)<25){
+        if (strlen($content) < 25) {
             $this->error('发表失败：内容长度不能小于25');
         }
         $model = D('ForumPost');
         if ($isEdit) {
-            $data = array('id' => $post_id, 'title' => $title, 'content' => op_h($content), 'parse' => 0, 'forum_id' => $forum_id);
+            $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
             $result = $model->editPost($data);
             if (!$result) {
                 $this->error('编辑失败：' . $model->getError());
             }
         } else {
-            $data = array('uid' => is_login(), 'title' => $title, 'content' =>op_h($content), 'parse' => 0, 'forum_id' => $forum_id);
+            $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
 
             $before = getMyScore();
             $result = $model->createPost($data);
@@ -218,6 +225,10 @@ class IndexController extends Controller
     {
         //确认有权限回复
         $this->requireAllowReply($post_id);
+
+        //对帖子内容进行安全过滤
+        $content = $this->filterPostContent($content);
+
         //检测回复时间限制
         $uid = is_login();
         $near = D('ForumPostReply')->where('uid=' . $uid)->order('create_time desc')->find();
@@ -228,7 +239,7 @@ class IndexController extends Controller
             //添加到数据库
             $model = D('ForumPostReply');
             $before = getMyScore();
-            $result = $model->addReply($post_id, op_h($content));
+            $result = $model->addReply($post_id, $content);
             $after = getMyScore();
             if (!$result) {
                 $this->error('回复失败：' . $model->getError());
@@ -398,8 +409,8 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($where)->count();
 
         foreach ($list as &$post) {
-            $post['colored_title'] =str_replace('"','', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
-            $post['colored_content'] =str_replace('"','',  str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
+            $post['colored_title'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
+            $post['colored_content'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
         }
         unset($post);
 
@@ -410,5 +421,44 @@ class IndexController extends Controller
         $this->display();
     }
 
+    private function filterPostContent($content)
+    {
+        $content = op_h($content);
+        $content = $this->limitPictureCount($content);
+        $content = op_h($content);
+        return $content;
+    }
 
+    private function limitPictureCount($content)
+    {
+        //默认最多显示10张图片
+        $maxImageCount = 10;
+
+        //正则表达式配置
+        $beginMark = 'BEGIN0000hfuidafoidsjfiadosj';
+        $endMark = 'END0000fjidoajfdsiofjdiofjasid';
+        $imageRegex = '/<img(.*?)\\>/i';
+        $reverseRegex = "/{$beginMark}(.*?){$endMark}/i";
+
+        //如果图片数量不够多，那就不用额外处理了。
+        $imageCount = preg_match_all($imageRegex, $content);
+        if ($imageCount <= $maxImageCount) {
+            return $content;
+        }
+
+        //清除伪造图片
+        $content = preg_replace($reverseRegex, "<img$1>", $content);
+
+        //临时替换图片来保留前$maxImageCount张图片
+        $content = preg_replace($imageRegex, "{$beginMark}$1{$endMark}", $content, $maxImageCount);
+
+        //替换多余的图片
+        $content = preg_replace($imageRegex, "[图片]", $content);
+
+        //将替换的东西替换回来
+        $content = preg_replace($reverseRegex, "<img$1>", $content);
+
+        //返回结果
+        return $content;
+    }
 }

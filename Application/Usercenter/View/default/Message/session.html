@@ -6,7 +6,7 @@
     </php>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <p>&nbsp;</p>
             <h4>消息中心</h4>
             <hr class="oneuser-title-hr"/>
@@ -30,7 +30,7 @@
         <div id="scrollContainer">
             <volist name="talks" id="talk">
                 <div class="row talk_line">
-                    <div class="col-md-2">
+                    <div class="col-xs-2">
                         <div class="row heads"
                              style="text-align: center;">
                             <volist name="talk.users" id="user">
@@ -50,7 +50,7 @@
                         </div>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-xs-8">
                         <h2><a href="{:U('UserCenter/Message/talk',array('talk_id'=>$talk['id']))}">{$talk.title}&nbsp;（{:count($talk['users'])}人）</a></h2>
 
                         <if condition="$talk['last_message']['content'] neq ''"><p>

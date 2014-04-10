@@ -40,9 +40,9 @@
             <ul class="dropdown-menu extended notification">
                 <li style="padding-left: 15px;padding-right: 15px;">
                     <div class="row nav_info_center">
-                        <div class="col-md-9 nav_align_left"><span>{:count($currentSession)}</span> 个进行中的会话
+                        <div class="col-xs-9 nav_align_left"><span>{:count($currentSession)}</span> 个进行中的会话
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-xs-3"></div>
                     </div>
                 </li>
                 <li>
@@ -58,11 +58,11 @@
                                     <li>
                                         <a href="{:U('Usercenter/Message/talk',array('talk_id'=>$session['id']))}">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-xs-3">
                                                     <img class="avatar-img session_head"
                                                          src="{$session.first_user.avatar32}">
                                                 </div>
-                                                <div class="col-md-9">
+                                                <div class="col-xs-9">
                                                     <div class="title text-more" title=" {$session.title}">
                                                         {$session.title|op_t}
                                                     </div>
@@ -127,10 +127,10 @@
             <ul class="dropdown-menu extended notification">
                 <li style="padding-left: 15px;padding-right: 15px;">
                     <div class="row nav_info_center">
-                        <div class="col-md-9 nav_align_left"><span
+                        <div class="col-xs-9 nav_align_left"><span
                                 id="nav_hint_count">{:count($unreadMessage)}</span> 条未读
                         </div>
-                        <div class="col-md-3"><i onclick="setAllReaded()"
+                        <div class="col-xs-3"><i onclick="setAllReaded()"
                                                  class="set_read glyphicon glyphicon-ok" title="全部标为已读"></i></div>
                     </div>
                 </li>
