@@ -37,7 +37,17 @@ function ensureApiSuccess($apiResult)
  * 如果是直接页面访问的话，直接显示错误消息
  * @param $message
  */
-function api_show_error($message, $extra=array()) {
+function api_show_error($message, $extra = array())
+{
+    if (IS_AJAX) {
+        api_show_error_json($message, $extra);
+    } else {
+        api_show_error_html($message, $extra);
+    }
+}
+
+function api_show_error_json($message, $extra = array())
+{
     //生成错误信息
     $json['status'] = false;
     $json['info'] = $message;
@@ -48,11 +58,29 @@ function api_show_error($message, $extra=array()) {
     echo json_encode($json);
 }
 
+function api_show_error_html($message, $extra = null)
+{
+    class EnsureApiSuccessController extends Think\Controller
+    {
+        public function showError($message)
+        {
+            $this->error($message);
+        }
+    }
+
+    $controller = new EnsureApiSuccessController();
+    $controller->showError($message);
+}
+
 function handle_exception($exception)
 {
     // 显示错误消息
     $message = $exception->getMessage();
-    $extra = $exception->getExtra();
+    if (method_exists($exception, 'getExtra')) {
+        $extra = $exception->getExtra();
+    } else {
+        $extra = array();
+    }
     $extra['error_code'] = $exception->getCode();
     api_show_error($message, $extra);
 }
