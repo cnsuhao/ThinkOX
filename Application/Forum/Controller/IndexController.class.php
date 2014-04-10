@@ -195,7 +195,7 @@ class IndexController extends Controller
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
         //写入帖子的内容
-        if(strlen($content)<25){
+        if (strlen($content) < 25) {
             $this->error('发表失败：内容长度不能小于25');
         }
         $model = D('ForumPost');
@@ -206,7 +206,7 @@ class IndexController extends Controller
                 $this->error('编辑失败：' . $model->getError());
             }
         } else {
-            $data = array('uid' => is_login(), 'title' => $title, 'content' =>$content, 'parse' => 0, 'forum_id' => $forum_id);
+            $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
 
             $before = getMyScore();
             $result = $model->createPost($data);
@@ -409,8 +409,8 @@ class IndexController extends Controller
         $totalCount = D('ForumPost')->where($where)->count();
 
         foreach ($list as &$post) {
-            $post['colored_title'] =str_replace('"','', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
-            $post['colored_content'] =str_replace('"','',  str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
+            $post['colored_title'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
+            $post['colored_content'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
         }
         unset($post);
 
@@ -421,14 +421,16 @@ class IndexController extends Controller
         $this->display();
     }
 
-    private function filterPostContent($content) {
+    private function filterPostContent($content)
+    {
         $content = op_h($content);
         $content = $this->limitPictureCount($content);
         $content = op_h($content);
         return $content;
     }
 
-    private function limitPictureCount($content) {
+    private function limitPictureCount($content)
+    {
         //默认最多显示10张图片
         $maxImageCount = 10;
 
@@ -440,7 +442,7 @@ class IndexController extends Controller
 
         //如果图片数量不够多，那就不用额外处理了。
         $imageCount = preg_match_all($imageRegex, $content);
-        if($imageCount <= $maxImageCount) {
+        if ($imageCount <= $maxImageCount) {
             return $content;
         }
 
