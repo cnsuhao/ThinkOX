@@ -111,8 +111,8 @@ class IndexController extends Controller
 
     public function delPostReply($id)
     {
-        //TODO：存在重大安全漏洞！没有检测权限
         $this->requireLogin();
+        $this->requireCanDeletePostReply($id);
         $res = D('ForumPostReply')->delPostReply($id);
         $res && $this->success($res);
         !$res && $this->error('');
@@ -460,5 +460,27 @@ class IndexController extends Controller
 
         //返回结果
         return $content;
+    }
+
+    private function requireCanDeletePostReply($post_id) {
+        if(!$this->canDeletePostReply($post_id)) {
+            $this->error('您没有删贴权限');
+        }
+    }
+
+    private function canDeletePostReply($post_id) {
+        //如果是管理员，则可以删除
+        if(is_administrator()) {
+            return true;
+        }
+
+        //如果是自己的回帖，则可以删除
+        $reply = D('ForumPostReply')->find($post_id);
+        if($reply['uid'] == get_uid()) {
+            return true;
+        }
+
+        //其他情况不能删除
+        return false;
     }
 }
