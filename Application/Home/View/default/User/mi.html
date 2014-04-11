@@ -1,0 +1,104 @@
+<extend name="Base/common"/>
+
+
+<block name="body">
+    <section>
+        <div class="login-text"><strong><h1>{:C('WEB_SITE')}密码找回</h1></strong></div>
+
+        <div class="login-form-inbox">
+                <form class="login-form" id="J_findpwd_form" action="{:U('user/mi')}" method="post">
+                <div class="control-group login-input">
+
+
+                    <div class="controls">
+                        <input type="text" id="inputEmail" class="form-control" placeholder="请输入用户名"
+                               ajaxurl="/member/checkUserNameUnique.html" errormsg="请填写1-16位用户名" nullmsg="请填写用户名"
+                               datatype="*1-16" value="" name="username">
+                    </div>
+                </div>
+                <div class="control-group login-input">
+
+
+                    <div class="controls">
+                        <input type="text" id="inputEmail" class="form-control" placeholder="请输入电子邮件"
+                               ajaxurl="/member/checkUserEmailUnique.html" errormsg="请填写正确格式的邮箱" nullmsg="请填写邮箱"
+                               datatype="e" value="" name="email">
+                    </div>
+                </div>
+		<if condition="C(VERIFY_OPEN) eq 1">
+                <div class="control-group login-input">
+            <div class="controls">
+              <input type="text" id="inputPassword" class="form-control" placeholder="请输入验证码"  errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label"></label>
+            <div class="controls">
+                <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
+            </div>
+            <div class="controls Validform_checktip text-warning"></div>
+          </div>
+		</if>
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox" style="float: left">
+                            <input type="checkbox" style="cursor:pointer"> 安全找回
+                        </label>
+                        <button type="submit" class="btn btn-primary" style="float: right">找 回</button>
+                        <a href="{:U('User/login')}">再去登录</a>
+                        <a href="{:U('User/regjihuo')}">没有收到邮件？</a>
+						</div>
+                </div>
+            </form>
+        </div>
+    </section>
+</block>
+
+
+<block name="side"></block>
+<block name="script">
+    <script type="text/javascript">
+
+        $(document)
+                .ajaxStart(function () {
+                    $("button:submit").addClass("log-in").attr("disabled", true);
+                })
+                .ajaxStop(function () {
+                    $("button:submit").removeClass("log-in").attr("disabled", false);
+                });
+
+
+        $(function () {
+            $("form").submit(function () {
+                var self = $(this);
+                $.post(self.attr("action"), self.serialize(), success, "json");
+                return false;
+
+
+                function success(data) {
+                    if (data.status) {
+                        op_success('密码找回成功，1.5秒后跳转到之前页面。', '温馨提示');
+                        setTimeout(function () {
+                            window.location.href = "{$_REQUEST.back|urldecode}";
+                        }, 1500);
+                    } else {
+                        op_error(data.info, '温馨提示');
+                        //self.find(".Validform_checktip").text(data.info);
+                        //刷新验证码
+                         $(".reloadverify").click();
+                    }
+                }
+            });
+
+
+            var verifyimg = $(".verifyimg").attr("src");
+            $(".reloadverify").click(function () {
+                if (verifyimg.indexOf('?') > 0) {
+                    $(".verifyimg").attr("src", verifyimg + '&random=' + Math.random());
+                } else {
+                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+                }
+            });
+        });
+    </script>
+</block>
