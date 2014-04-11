@@ -97,8 +97,8 @@ function ucard() {
     })
 }
 function ufollow(obj, uid) {
-    var obj = $(obj);
-    if ($(obj).text() == '已关注') {
+    obj = $(obj);
+    if ($(obj).text().trim() == '已关注') {
         $.post(U('UserCenter/Public/unfollow'), {uid: uid}, function (msg) {
             if (msg.status) {
                 op_success('取消关注成功。', '温馨提示');

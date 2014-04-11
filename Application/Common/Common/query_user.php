@@ -144,6 +144,8 @@ function query_user($fields, $uid = null)
         }
         $result['icons_html'] .= '</span>';
     }
+
+    //粉丝数、关注数、微博数
     if (in_array('fans', $fields)) {
         $result['fans'] = D('Follow')->where('follow_who=' . $uid)->count();
     }
@@ -153,6 +155,19 @@ function query_user($fields, $uid = null)
     if (in_array('weibocount', $fields)) {
         $result['weibocount'] = D('Weibo')->where('uid=' . $uid)->count();
     }
+
+    //是否关注、是否被关注
+    if(in_array('is_following', $fields)) {
+        $follow = D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$uid))->find();
+        $result['is_following'] = $follow ? true : false;
+    }
+    if(in_array('is_followed', $fields)) {
+        $follow = D('Follow')->where(array('who_follow'=>$uid,'follow_who'=>get_uid()))->find();
+        $result['is_followed'] = $follow ? true : false;
+    }
+
+    //↑↑↑ 新增字段应该写在在这行注释以上 ↑↑↑
+
     //合并结果，不包括缓存
     $result = array_merge($ucenterResult, $homeResult, $spaceUrlResult, $result);
 

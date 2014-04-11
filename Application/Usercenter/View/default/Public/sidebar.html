@@ -17,10 +17,13 @@
                     <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
                 </if>
             </p>
+
             <!--用户名-->
             <p class="text-center">
                 {$sideBarUser.username|htmlspecialchars}
+                &nbsp;
             </p>
+
             <!--积分 等级-->
             <p class="text-center text-muted">
                 积分：{$sideBarUser.score}
@@ -28,7 +31,22 @@
                 等级：{$sideBarUser.title}
             </p>
 
+            <!--关注按钮-->
+            <php>
+                $sideBarUser['is_following'] = D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$sideBarUser['uid']))->find();
+            </php>
+            <p class="text-center">
+                <a class="btn btn-primary" onclick="ufollow(this,{$sideBarUser['uid']})">
+                    <if condition="$sideBarUser['is_following']">
+                        已关注
+                        <else/>
+                        关注
+                    </if>
+                </a>
+            </p>
+
             <p>&nbsp;</p>
+
             <!--导航栏-->
             <php>
                 //各列字段的含义分别是：标签名称，图标，链接，tabHash

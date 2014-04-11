@@ -17,7 +17,7 @@ class PublicController extends Controller
     public function getProfile()
     {
         $uid = $_REQUEST['uid'];
-        $userProfile = query_user(array('id', 'username', 'score', 'signature', 'weibocount', 'fans', 'following', 'space_url', 'title','rank_link'), $uid);
+        $userProfile = query_user(array('id', 'username', 'score', 'signature', 'weibocount', 'fans', 'following', 'space_url', 'title', 'rank_link'), $uid);
         $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
         $follow['follow_who'] = $userProfile['id'];
         $follow['who_follow'] = is_login();
@@ -28,7 +28,6 @@ class PublicController extends Controller
 
     public function follow($uid = 0)
     {
-
         if (D('Follow')->follow($uid)) {
             $this->ajaxReturn(array('status' => 1));
         } else {
