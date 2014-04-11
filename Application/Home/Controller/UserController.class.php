@@ -73,7 +73,8 @@ class UserController extends HomeController
 					$uid = $User->register($username, $password, $email);
 			if(0 < $uid){ //注册成功
 				//TODO: 发送注册成功邮件
-            sae_mail($email, C('WEB_SITE')."注册成功", "尊敬的《".$username."》你好：<br/>您已在".C('WEB_SITE')."成功注册，您的用户名为：".$username."  您的密码为:".$password."<br/>".C('MAIL_USER_REG')."<br/><p style='text-align:right;'>".C('WEB_SITE')."系统自动发送--请勿直接回复<br/>".date('Y-m-d H:i:s',TIME())."</p>");
+         //如果在SAE上部署，请修改为sae_mail
+         send_mail($email, C('WEB_SITE')."注册成功", "尊敬的《".$username."》你好：<br/>您已在".C('WEB_SITE')."成功注册，您的用户名为：".$username."  您的密码为:".$password."<br/>".C('MAIL_USER_REG')."<br/><p style='text-align:right;'>".C('WEB_SITE')."系统自动发送--请勿直接回复<br/>".date('Y-m-d H:i:s',TIME())."</p>");
 				$this->success('成功注册,正在转入登录页面！',U('login'));
 			} else { //注册失败，显示错误信息
 				$this->error($this->showRegError($uid));
@@ -171,7 +172,8 @@ class UserController extends HomeController
 			$urls = think_ucenter_md5($uids['id']. "+" .$uids['last_login_time'], UC_AUTH_KEY);
             $urlss = 'http://'.$_SERVER['HTTP_HOST'].U('Home/User/reset?uid='.$uids['id'].'&activation='.$urls);
 			$urlsss = C('USER_RESPASS')."<br/>".$urlss."<br/>".C('WEB_SITE')."系统自动发送--请勿直接回复<br/>".date('Y-m-d H:i:s',TIME())."</p>";
-            sae_mail($email,C('WEB_SITE')."密码找回",$urlsss);
+         //如果在SAE上部署，请修改为sae_mail
+             send_mail($email,C('WEB_SITE')."密码找回",$urlsss);
 			$this->success('密码找回邮件发送成功！', U('User/login'));
 
 			} else { //登录失败
