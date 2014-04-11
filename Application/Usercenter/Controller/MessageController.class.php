@@ -77,11 +77,14 @@ class MessageController extends BaseController
     }
 
     /**对话页面
+     * 创建会话或显示现有会话。
      * @param int $message_id 消息ID 只提供消息则从消息自动创建一个会话
      * @param int $talk_id 会话ID
      */
     public function talk($message_id = 0, $talk_id = 0)
     {
+        //TODO:BUG：没有检测message是否存在，没有检测message归属。
+
         //获取当前会话
         $talk = $this->getTalk($message_id, $talk_id);
         $map['talk_id'] = $talk['id'];
