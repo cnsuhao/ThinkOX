@@ -14,53 +14,6 @@ use Think\Model;
 
 class ForumMessageModel extends Model implements IMessage
 {
-    /**
-     * @param $id
-     * @param $source_id
-     * @param string $type
-     * @return mixed
-     */
-    /*public function getData($id, $source_id, $type = 'reply')
-    {
-
-        $message = D('Message')->find($id);
-        $messages = array();
-        $source = array();
-        if (strtolower($type) == 'reply') {
-            $post = D('forum_post')->find($message['source_id']);
-            $user = query_user(array('space_link', 'avatar64'), $post['uid']);
-            $source['content'] = '<h2>[标题] ' . op_t($post['title']) . '</h2><p>[内容] ' . op_t($post['content']) . '</p><div class="pull-right"><img class="avatar-img" style="width:64px" src="' . $user['avatar64'] . '" ucard="' . $post['uid'] . '"</div>';
-            $source['url'] = U('Forum/Index/detail', array('id' => $post['id']));
-            //查找来源用户和当前用户的全部
-            $forum_reply = D('forum_post_reply')->find($message['find_id']); //查找回帖信息
-            $message['uid'] = $forum_reply['uid'];
-            $message['ctime'] = friendlyDate($forum_reply['create_time']);
-            $user = query_user(array('avatar128', 'username', 'space_url'), $forum_reply['uid']);
-            $message = array_merge($user, $message);
-            $message['content'] = $forum_reply['content'];
-
-            $messages[] = $message;
-        } else {
-            $post = D('forum_post')->find($message['source_id']);
-            $user = query_user(array('space_link', 'avatar64'), $post['uid']);
-            $source['content'] = '<h2>[标题] ' . op_t($post['title']) . '</h2><p>[内容] ' . op_t($post['content']) . '</p><div class="pull-right"><img class="avatar-img" style="width:64px" src="' . $user['avatar64'] . '" ucard="' . $post['uid'] . '"</div>';
-            $source['url'] = U('Forum/Index/detail', array('id' => $post['id']));
-            //查找来源用户和当前用户的全部
-            $forum_reply = D('forum_post_reply')->find($message['find_id']); //查找回帖信息
-            $message['uid'] = $forum_reply['uid'];
-            $message['ctime'] = friendlyDate($forum_reply['create_time']);
-            $user = query_user(array('avatar128', 'username', 'space_url'), $forum_reply['uid']);
-            $message = array_merge($user, $message);
-            $message['content'] = $forum_reply['content'];
-            $messages[] = $message;
-
-
-        }
-        $data['messages'] = $messages;
-        $data['source'] = $source;
-        return $data;
-    }*/
-
     /**获取聊天源，一般用于创建聊天时对顶部来源进行赋值
      * @param $message
      * @return mixed
