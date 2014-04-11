@@ -34,7 +34,8 @@
                                     <else/>
                                     <div class="pull-left" style="margin:25px;margin-top: 0">
                                         <div>
-                                            <img style="width:64px" class="avatar-img" ucard="{$user.id}" src="{$user.avatar64}">
+                                            <img style="width:64px" class="avatar-img" ucard="{$user.id}"
+                                                 src="{$user.avatar64}">
                                         </div>
                                     </div>
                                 </if>
@@ -45,7 +46,8 @@
                     </div>
                     <div class="col-xs-10">
                         <div class="pull-right">
-                            <a class="btn btn-danger ajax-post" href="{:U('Usercenter/Message/doDeleteTalk', array('talk_id'=>$talk['id']))}">
+                            <a class="btn btn-danger ajax-post"
+                               href="{:U('Usercenter/Message/doDeleteTalk', array('talk_id'=>$talk['id']))}">
                                 <span class="glyphicon glyphicon-remove"></span> 关闭
                             </a>
                         </div>
