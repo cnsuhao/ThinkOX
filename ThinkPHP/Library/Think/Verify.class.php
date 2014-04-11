@@ -14,7 +14,7 @@ namespace Think;
 class Verify {
 	public $seKey     = 'ThinkPHP.CN'; //验证码加密密钥
 	public $expire    = 1800;     // 验证码过期时间（s）
-	public $useZh     = 3;    // 使用中文验证码    1：中文  2：英文  3：数字  4：算数
+	public $useZh     = 3;    // 使用中文验证码    1：中文  2：英文  3：数字  4：算数，目前不建议使用中文
 	public $useImgBg  = false;     // 使用背景图片 
 	public $fontSize  = 25;     // 验证码字体大小(px)
 	public $useCurve  = false;   // 是否画混淆曲线
