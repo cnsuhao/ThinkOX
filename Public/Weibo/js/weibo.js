@@ -13,6 +13,7 @@ $(function () {
         search_key: 'search_key',
         start_with_space: false
     };
+
     /**
      * 点击评论按钮后提交评论
      */
