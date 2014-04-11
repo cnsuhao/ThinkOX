@@ -33,9 +33,6 @@ class IndexController extends Controller
 
     public function index($page = 1)
     {
-        //默认进入到后台配置的第一个板块
-        //$d_forum = D('forum');
-        //$forum = $d_forum->where(array('status' => 1))->field('id,sort')->order('sort asc')->find();
         redirect(U('forum', array('page' => $page)));
     }
 
@@ -59,7 +56,6 @@ class IndexController extends Controller
 
         $list = D('ForumPost')->where($map)->order($order)->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
-
 
         //读取置顶列表
 
