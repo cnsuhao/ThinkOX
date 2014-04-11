@@ -9,7 +9,6 @@
 
 namespace Usercenter\Controller;
 
-
 use Think\Controller;
 
 class MessageController extends BaseController

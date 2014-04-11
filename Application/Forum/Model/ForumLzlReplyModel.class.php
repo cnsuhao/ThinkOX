@@ -13,8 +13,10 @@ use Think\Model;
 class ForumLzlReplyModel extends Model
 {
     protected $_validate = array(
-        array('content', '1,40000', '内容长度不合法', self::EXISTS_VALIDATE, 'length'),
+        array('content', '10,999999', '内容太短', self::EXISTS_VALIDATE, 'length'),
+        array('content', '0,40000', '内容太长', self::EXISTS_VALIDATE, 'length'),
     );
+
     protected $_auto = array(
         array('ctime', NOW_TIME, self::MODEL_INSERT),
         array('is_del', '0', self::MODEL_INSERT),
