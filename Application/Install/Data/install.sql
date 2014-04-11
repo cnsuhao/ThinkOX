@@ -1,9 +1,9 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 3.5.4
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2014 年 04 月 11 日 20:32
+-- 生成日期: 2014 年 04 月 10 日 20:32
 -- 服务器版本: 5.5.28
 -- PHP 版本: 5.3.8
 
