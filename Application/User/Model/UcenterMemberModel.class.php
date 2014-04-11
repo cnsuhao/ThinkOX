@@ -31,7 +31,6 @@ class UcenterMemberModel extends Model{
 	protected $_validate = array(
 		/* 验证用户名 */
 		array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
-        array('username', 'checkUserName', -12, self::EXISTS_VALIDATE, 'callback'), //用户名必须以中文或字母开始，只能包含拼音数字，字母，汉字
 		array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
 		array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
 
@@ -68,22 +67,6 @@ class UcenterMemberModel extends Model{
 		return true; //TODO: 暂不限制，下一个版本完善
 	}
 
-    /**
-     * 检测用户名以中文或字母开始，只能包含拼音数字，字母，汉字
-     * @param  string $username 用户名
-     * @return boolean          ture - 合法，false - 不合法
-     */
-    protected function checkUserName($username){
-        $pre='/^[\x{4e00}-\x{9fa5}A-Za-z]([\x{4e00}-\x{9fa5}A-Za-z0-9]+)?$/u';
-        if(preg_match($pre,$username))   //UTF-8汉字字母数字正则表达式,以汉字字母开始
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 	/**
 	 * 检测邮箱是不是被禁止注册
 	 * @param  string $email 邮箱
@@ -178,8 +161,67 @@ class UcenterMemberModel extends Model{
 			return -1; //用户不存在或被禁用
 		}
 	}
-
 	/**
+	 * 用户密码找回认证
+	 * @param  string  $username 用户名
+	 * @param  string  $password 用户密码
+	 * @param  integer $type     用户名类型 （1-用户名，2-邮箱，3-手机，4-UID）
+	 * @return integer           登录成功-用户ID，登录失败-错误编号
+	 */
+	public function lomi($username, $email){
+		$map = array();
+        $map['username'] = $username;
+		$map['email'] = $email;
+		/* 获取用户数据 */
+		$user = $this->where($map)->find();
+		if(is_array($user)){
+			/* 验证用户 */
+			//if($user['last_login_time']){
+			//return $user['last_login_time']; //成功，返回用户最后登录时间
+			return $user; //成功，返回用户最后登录时间
+			//}else{
+			//return $user['reg_time']; //返回用户注册时间
+			//return -1; //成功，返回用户最后登录时间
+			//}
+		} else {
+			return -2; //用户和邮箱不符
+		}
+		}
+	/**
+	 * 用户密码找回认证2
+	 * @param  string  $username 用户名
+	 * @param  string  $password 用户密码
+	 * @param  integer $type     用户名类型 （1-用户名，2-邮箱，3-手机，4-UID）
+	 * @return integer           登录成功-用户ID，登录失败-错误编号
+	 */
+	public function reset($uid){
+		$map = array();
+        $map['id'] = $uid;
+		/* 获取用户数据 */
+		$user = $this->where($map)->find();
+		if(is_array($user)){
+			return $user; //成功，返回用户数据
+
+		} else {
+			return -2; //用户和邮箱不符
+		}
+		}
+		/**
+	 * 根据IP获取用户最后注册时间
+	 * @param  string  $uid         用户ID或用户名
+	 * @param  boolean $is_username 是否使用用户名查询
+	 * @return array                用户信息
+	 */
+	public function infos($regip){
+		$map['reg_ip'] = $regip;
+		$user = $this->where($map)->max('reg_time');
+		if($user){
+			return  $user;
+		} else {
+			return -1; //用户不存在或被禁用
+		}
+	}
+		/**
 	 * 获取用户信息
 	 * @param  string  $uid         用户ID或用户名
 	 * @param  boolean $is_username 是否使用用户名查询
@@ -249,7 +291,7 @@ class UcenterMemberModel extends Model{
 	 */
 	public function updateUserFields($uid, $password, $data){
 		if(empty($uid) || empty($password) || empty($data)){
-			$this->error = '参数错误！';
+			$this->error = '参数错误！25';
 			return false;
 		}
 
@@ -260,13 +302,32 @@ class UcenterMemberModel extends Model{
 		}
 
 		//更新用户信息
-		$data = $this->create($data);
+        $data = $this->create($data,2);//指定此处为更新数据
 		if($data){
 			return $this->where(array('id'=>$uid))->save($data);
 		}
 		return false;
 	}
-
+	/**
+	 * 重置用户密码
+	 * @param int $uid 用户id
+	 * @param string $password 密码，用来验证
+	 * @param array $data 修改的字段数组
+	 * @return true 修改成功，false 修改失败
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function updateUserFieldss($uid, $data){
+		if(empty($uid) || empty($data)){
+			$this->error = '参数错误！26';
+			return false;
+		}
+		//更新用户信息
+		$data = $this->create($data,2);
+		if($data){
+			return $this->where(array('id'=>$uid))->save($data);
+		}
+		return false;
+	}
 	/**
 	 * 验证用户密码
 	 * @param int $uid 用户id

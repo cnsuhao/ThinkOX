@@ -51,7 +51,35 @@ class UserApi extends Api{
     public function info($uid, $is_username = false){
         return $this->model->info($uid, $is_username);
     }
-
+    /**
+     * 根据用户名和邮箱获取用户数据
+     * @param  string  $username 用户名
+     * @param  string  $password 用户密码
+     * @param  integer $type     用户名类型 （1-用户名，2-邮箱，3-手机，4-UID）
+     * @return integer           登录成功-用户ID，登录失败-错误编号
+     */
+    public function lomi($username, $email){
+        return $this->model->lomi($username, $email);
+    }
+    /**
+     * 根据用户ID获取用户所以数据
+     * @param  string  $username 用户名
+     * @param  string  $password 用户密码
+     * @param  integer $type     用户名类型 （1-用户名，2-邮箱，3-手机，4-UID）
+     * @return integer           登录成功-用户ID，登录失败-错误编号
+     */
+    public function reset($uid){
+        return $this->model->reset($uid);
+    }
+    /**
+     * 获取用户信息2
+     * @param  string  $uid         用户ID或用户名
+     * @param  boolean $is_username 是否使用用户名查询
+     * @return array                用户信息
+     */
+    public function infos($regip){
+        return $this->model->infos($regip);
+    }
     /**
      * 检测用户名
      * @param  string  $field  用户名
@@ -96,5 +124,21 @@ class UserApi extends Api{
         }
         return $return;
     }
-
+    /**
+     * 重置用户密码2
+     * @param int $uid 用户id
+     * @param string $password 密码，用来验证
+     * @param array $data 修改的字段数组
+     * @return true 修改成功，false 修改失败
+     * @author huajie <banhuajie@163.com>
+     */
+    public function updateInfos($uid, $data){
+        if($this->model->updateUserFieldss($uid, $data) !== false){
+            $return['status'] = true;
+        }else{
+            $return['status'] = false;
+            $return['info'] = $this->model->getError();
+        }
+        return $return;
+    }
 }

@@ -253,7 +253,7 @@ body{
 .show-num-mod dt,
 .show-num-mod dd {
     float:left;
-    padding: 10px;
+    padding: 5px;
 }
 .show-num-mod dt {
     width: 65px;
