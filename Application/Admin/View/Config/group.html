@@ -42,7 +42,7 @@
 				</volist>
 			</select>
 			</case>
-			<case value="5"><!--增加富文本和非明文类型-->
+			<case value="5"><!--增加富文本和非明文-->
 			<label class="textarea">
 				<textarea name="config[{$config.name}]">{$config.value}</textarea>
                 {:hook('adminArticleEdit', array('name'=>$field['names'],'value'=>$config.name,'id'=>$config.name))}
