@@ -1127,3 +1127,4 @@ require_once(APP_PATH . '/Common/Common/match.php');
 require_once(APP_PATH . '/Common/Common/seo.php');
 require_once(APP_PATH . '/Common/Common/type.php');
 require_once(APP_PATH . '/Common/Common/cache.php');
+require_once(APP_PATH.'/Common/Common/vendors.php');

@@ -154,7 +154,7 @@ class TianyiVerifyModel extends Model
             'url' => 'test',
             'randcode' => $verify,
             'token' => $token,
-            'expire' => $this->config['expire'],
+            'exp_time' => ($this->config['expire'])/60,
         ));
         $error_code = $result['res_code'];
         $identifier = $result['identifier'];
