@@ -48,15 +48,18 @@
                     <dt>
                     <div class="row">
                         <div class="col-xs-9"><a href="{$message.url}">{$message.title}</a>
-                            <eq name="message.is_read" value="0"><i class="op_rectangle">未读</i></eq>
+                            <eq name="message.is_read" value="0"><span class="badge-primary">未读</span></eq>
                             <if condition=" ($message['apptype'] neq '')">
                                 <if condition=" ($message['appname'] neq '')  AND ($message['talk_id'] eq 0)">
                                     <a href="{:U('UserCenter/Message/talk',array('message_id'=>$message['id']))}">
-                                        <i class="op_rectangle" style="background: rgb(30, 144, 255);">开始对话</i>
+                                        <span class="badge-success">开始对话</span>
                                     </a>
                                     <else/>
                                     <a href="{:U('UserCenter/Message/talk',array('talk_id'=>$message['talk_id']))}">
-                                        <i class="op_rectangle" style="background: rgb(30, 144, 255);">继续对话</i>
+                                        <span class="badge-success">继续对话</span>
+                                    </a>
+                                    <a href="{:U('UserCenter/Message/doDeleteTalk',array('talk_id'=>$message['talk_id']))}" class="ajax-post" data-confirm="您确实要删除该会话吗？">
+                                        <span class="badge-danger">删除</span>
                                     </a>
                                 </if>
                                 <else/>

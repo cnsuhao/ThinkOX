@@ -15,13 +15,6 @@
                 <li class="active"
                 <eq name="tab" value="unread"> class="active"</eq>
                 ><a href="{:U('Usercenter/Message/session',array('tab'=>'session'))}">所有会话</a></li>
-
-              <!--  <li><a href="{:U('Usercenter/Message/message',array('tab'=>'unread'))}">与lister的会话</a>
-                </li>-->
-<!--
-                <li
-                <eq name="tab" value="all"> class="active"</eq>
-                ><a href="{:U('Usercenter/Message/message',array('tab'=>'all'))}">最近的联系人</a></li>-->
             </ul>
 
         </div>
@@ -31,8 +24,7 @@
             <volist name="talks" id="talk">
                 <div class="row talk_line">
                     <div class="col-xs-2">
-                        <div class="row heads"
-                             style="text-align: center;">
+                        <div class="row heads text-center">
                             <volist name="talk.users" id="user">
                                 <if condition="count($talk['users']) neq 2">
                                     <div class="pull-left" style="margin:11px;margin-top: 0">
@@ -41,8 +33,9 @@
                                     </div>
                                     <else/>
                                     <div class="pull-left" style="margin:25px;margin-top: 0">
-                                        <div><img style="width:64px" class="avatar-img" ucard="{$user.id}"
-                                                  src="{$user.avatar64}"></div>
+                                        <div>
+                                            <img style="width:64px" class="avatar-img" ucard="{$user.id}" src="{$user.avatar64}">
+                                        </div>
                                     </div>
                                 </if>
 
@@ -50,11 +43,24 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-8">
-                        <h2><a href="{:U('UserCenter/Message/talk',array('talk_id'=>$talk['id']))}">{$talk.title}&nbsp;（{:count($talk['users'])}人）</a></h2>
+                    <div class="col-xs-10">
+                        <div class="pull-right">
+                            <a class="btn btn-danger ajax-post" href="{:U('Usercenter/Message/doDeleteTalk', array('talk_id'=>$talk['id']))}">
+                                <span class="glyphicon glyphicon-remove"></span> 关闭
+                            </a>
+                        </div>
+                        <h2>
+                            <a href="{:U('UserCenter/Message/talk',array('talk_id'=>$talk['id']))}">
+                                {$talk.title}&nbsp;（{:count($talk['users'])}人）
+                            </a>
+                        </h2>
 
-                        <if condition="$talk['last_message']['content'] neq ''"><p>
-                            <a href="{$talk.last_message.user.space_url}" ucard="{$talk.last_message.user.id}">{$talk.last_message.user.username}</a>： &nbsp;&nbsp;{$talk.last_message.content} &nbsp; &nbsp; &nbsp;{$talk.last_message.create_time|friendlyDate}</p>
+                        <if condition="$talk['last_message']['content'] neq ''">
+                            <p>
+                                <a href="{$talk.last_message.user.space_url}" ucard="{$talk.last_message.user.id}">
+                                    {$talk.last_message.user.username}
+                                </a>： &nbsp;&nbsp;{$talk.last_message.content} &nbsp; &nbsp; &nbsp;{$talk.last_message.create_time|friendlyDate}
+                            </p>
                             <else/>
                             <p>暂无对话内容</p>
                         </if>
@@ -62,6 +68,9 @@
                 </div>
                 <hr/>
             </volist>
+            <if condition="!$talks">
+                <p style="font-size:3em;padding:2em 0;" class="text-muted text-center">暂无内容</p>
+            </if>
         </div>
     </div>
     <style>
@@ -107,15 +116,6 @@
                 appendMessage();
             }
         });
-
-        /* var talkBox = {
-         var scrollToBottom = function () {
-         $('#scrollArea').slimScroll({ scrollTo: $('#scrollContainer').height()});
-         }
-         var append = function (html) {
-
-         }
-         }*/
 
         (function ($) {
             $.talkBox = {

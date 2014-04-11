@@ -2,7 +2,6 @@
 // Badges
 // --------------------------------------------------
 
-
 // Base classes
 .badge {
   display: inline-block;
@@ -50,6 +49,61 @@ a.list-group-item.active > .badge,
   color: @badge-active-color;
   background-color: @badge-active-bg;
 }
+
 .nav-pills > li > a > .badge {
   margin-left: 3px;
+}
+
+.badge-primary {
+  .badge();
+  background-color: @brand-primary;
+}
+
+.badge-primary:hover {
+  background-color: lighten(@brand-primary, @badge-active-bg-lighter);
+}
+
+.badge-muted {
+  .badge();
+  background-color: @gray-light;
+}
+
+.badge-muted:hover {
+  background-color: lighen(@gray-light, @badge-active-bg-lighter);
+}
+
+.badge-danger {
+  .badge();
+  background-color: @brand-danger;
+}
+
+.badge-danger:hover {
+  background-color: lighten(@brand-danger, @badge-active-bg-lighter);
+}
+
+.badge-warning {
+  .badge();
+  background-color: @brand-warning;
+}
+
+.badge-warning:hover {
+  background-color: lighten(@brand-warning, @badge-active-bg-lighter);
+}
+
+.badge-success {
+  .badge();
+  background-color: @brand-success;
+}
+
+.badge-success:hover {
+  background-color: lighten(@brand-success,@badge-active-bg-lighter);
+}
+
+.badge-info {
+  .badge();
+  background-color: @brand-info;
+}
+
+.badge-info:hover {
+  background-color: lighten(@brand-info,@badge-active-bg-lighter);
 }

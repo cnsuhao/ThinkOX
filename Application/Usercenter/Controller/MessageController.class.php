@@ -39,7 +39,7 @@ class MessageController extends BaseController
         $map['to_uid'] = is_login();
 
         $messages = D('Message')->where($map)->order('create_time desc')->page($page, 10)->select();
-        $totalCount = D('Message')->where($map)->order('create_time desc')->count();//用于分页
+        $totalCount = D('Message')->where($map)->order('create_time desc')->count(); //用于分页
 
         foreach ($messages as &$v) {
             if ($v['from_uid'] != 0) {
@@ -105,6 +105,37 @@ class MessageController extends BaseController
         $this->display();
     }
 
+    /**
+     * 删除现有会话
+     */
+    public function doDeleteTalk($talk_id)
+    {
+        $this->requireLogin();
+
+        //确认当前用户属于会话。
+        $talk = D('Talk')->find($talk_id);
+        $uid = get_uid();
+        if (false === strpos($talk['uids'], "[$uid]")) {
+            $this->error('您没有权限删除该会话');
+        }
+
+        //如果删除前会话中只有两个人，就将会话标记为已删除。
+        $uids = explode(',', $talk['uids']);
+        if (count($uids) <= 2) {
+            D('Talk')->where(array('id' => $talk_id))->setField('status', -1);
+            D('Message')->where(array('talk_id' => $talk_id))->setField('talk_id', 0);
+        } //如果删除前会话中有多个人，就退出会话。
+        else {
+            $uids = array_diff($uids, array("[$uid]"));
+            $uids = implode(',', $uids);
+            D('Talk')->where(array('id' => $talk_id))->save(array('uids' => $uids));
+            D('Message')->where(array('talk_id' => $talk_id, 'uid' => get_uid()))->setField('talk_id', 0);
+        }
+
+        //返回成功结果
+        $this->success('删除成功', 'refresh');
+    }
+
     /**回复的时候调用，通过该函数，会回调应用对应的postMessage函数实现对原始内容的数据添加。
      * @param $content 内容文本
      * @param $talk_id 会话ID
@@ -153,7 +184,10 @@ class MessageController extends BaseController
             if (($message['to_uid'] != $this->mid && $message['from_uid'] != $this->mid) || !$message) {
                 $this->error('非法操作。');
             }
+
+            //如果已经创建过会话了，就不再创建
             $map['message_id'] = $message_id;
+            $map['status'] = 1;
             $talk = D('Talk')->where($map)->find();
             if ($talk) {
                 redirect(U('UserCenter/Message/talk', array('talk_id' => $talk['id'])));

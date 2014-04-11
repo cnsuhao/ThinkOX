@@ -64,18 +64,17 @@ function ucard() {
                         }
                         follow += '</button></div></div>';
                     }
-                    var html='<div ><p>等级：' + userProfile.title + '</p><p>头衔：';
+                    var html = '<div ><p>等级：' + userProfile.title + '</p><p>头衔：';
 
-                    for(var i=0;i<userProfile.rank_link.length;i++){
-                        if(userProfile.rank_link[i].is_show==1){
-                            html=html+'<img src="'+userProfile.rank_link[i].logo_url+'" title="'+userProfile.rank_link[i].title+'" alt="'+userProfile.rank_link[i].title+'" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>'
+                    for (var i = 0; i < userProfile.rank_link.length; i++) {
+                        if (userProfile.rank_link[i].is_show == 1) {
+                            html = html + '<img src="' + userProfile.rank_link[i].logo_url + '" title="' + userProfile.rank_link[i].title + '" alt="' + userProfile.rank_link[i].title + '" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>'
                         }
                     }
-                    if(userProfile.rank_link.length==0||!userProfile.rank_link[0].num)
-                    {
-                        html=html+'无';
+                    if (userProfile.rank_link.length == 0 || !userProfile.rank_link[0].num) {
+                        html = html + '无';
                     }
-                    html=html+'</p><p>积分：' + userProfile.score + '</p>' +
+                    html = html + '</p><p>积分：' + userProfile.score + '</p>' +
                         '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
                         + '<p style="width: 217px;">微博：' + userProfile.weibocount + '&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
                         '</div>';
@@ -282,7 +281,7 @@ function checkMessage() {
         }
     }, 'json');
 }
-function readMessage(obj,message_id) {
+function readMessage(obj, message_id) {
     var url = $(obj).attr('data-url');
     $.post(U('Usercenter/Public/readMessage'), {message_id: message_id}, function (msg) {
         if (msg.status) {
@@ -375,7 +374,7 @@ function friendlyDate(sTime, cTime) {
  */
 function handleAjax(a) {
     //如果需要跳转的话，消息的末尾附上即将跳转字样
-    if(a.url) {
+    if (a.url) {
         a.info += '，页面即将跳转～';
     }
 
@@ -401,6 +400,35 @@ function handleAjax(a) {
 }
 
 $(function () {
+    /**
+     * ajax-post
+     * 将链接转换为ajax请求，并交给handleAjax处理
+     * 参数：
+     * data-confirm：如果存在，则点击后发出提示。
+     * 示例：<a href="xxx" class="ajax-post">Test</a>
+     */
+    $(document).on('click', '.ajax-post', function (e) {
+        //取消默认动作，防止跳转页面
+        e.preventDefault();
+
+        //获取参数（属性）
+        var url = $(this).attr('href');
+        var confirmText = $(this).attr('data-confirm');
+
+        //如果需要的话，发出确认提示信息
+        if(confirmText) {
+            var result = confirm(confirmText);
+            if(!result) {
+                return false;
+            }
+        }
+
+        //发送AJAX请求
+        $.post(url, {}, function(a,b,c){
+            handleAjax(a);
+        });
+    });
+
     /**
      * ajax-form
      * 通过ajax提交表单，通过oneplus提示消息
