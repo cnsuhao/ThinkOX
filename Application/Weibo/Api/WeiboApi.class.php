@@ -21,7 +21,6 @@ class WeiboApi extends Api
         $this->weiboModel = D('Weibo/Weibo');
         $this->followModel = D('Weibo/Follow');
         $this->commentModel = D('Weibo/WeiboComment');
-        $this->ucenterMemberModel = D('ucenter_member');
         $this->messageModel = D('Common/Message');
     }
 
@@ -161,9 +160,8 @@ class WeiboApi extends Api
             return $this->apiError('您没有权限删除微博');
         }
 
-        //从数据库中删除微博
-        $result = $this->weiboModel->where(array('id' => $weibo_id))->setField('status', 0);
-        $this->weiboModel->where(array('id' => $weibo_id))->setField('comment_count', 0);
+        //从数据库中删除微博、以及附属评论
+        $result = $this->weiboModel->where(array('id' => $weibo_id))->save(array('status' => 0, 'comment_count' => 0));
         $this->commentModel->where(array('weibo_id' => $weibo_id))->setField('status', 0);
         if (!$result) {
             return $this->apiError('数据库写入错误');
@@ -201,7 +199,7 @@ class WeiboApi extends Api
             'comment_count' => intval($weibo['comment_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
-            'is_top'=>$weibo['is_top']
+            'is_top' => $weibo['is_top'],
         );
     }
 
