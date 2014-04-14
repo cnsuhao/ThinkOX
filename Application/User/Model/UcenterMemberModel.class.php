@@ -9,7 +9,8 @@
 namespace User\Model;
 use Think\Model;
 
-require_once('./Application/User/Conf/config.php');
+require_once(APP_PATH . 'User/Conf/config.php');
+require_once(APP_PATH . 'User/Common/common.php');
 
 /**
  * 会员模型

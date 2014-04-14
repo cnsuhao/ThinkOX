@@ -233,19 +233,19 @@ class UserController extends HomeController
         }
 
         //将新的密码写入数据库
-        $data = array('password' => $password);
+        $data = array('id' => $uid, 'password' => $password);
         $model = D('User/UcenterMember');
         $data = $model->create($data);
         if (!$data) {
             $this->error('密码格式不正确');
         }
-        $result = $model->where(array('uid' => $uid))->save($data);
+        $result = $model->where(array('id' => $uid))->save($data);
         if (!$result) {
             $this->error('数据库写入错误');
         }
 
         //显示成功消息
-        $this->success('密码重置成功');
+        $this->success('密码重置成功', U('Home/User/login'));
     }
 
     private function getResetPasswordVerifyCode($uid)
