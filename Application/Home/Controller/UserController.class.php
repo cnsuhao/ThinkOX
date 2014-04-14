@@ -49,8 +49,6 @@ class UserController extends HomeController
             $User = new UserApi;
             $uid = $User->register($username, $password, $email);
             if (0 < $uid) { //注册成功
-                //TODO: 发送注册成功邮件
-                send_mail($email, C('WEB_SITE') . "注册成功", "尊敬的《" . $username . "》你好：<br/>您已在" . C('WEB_SITE') . "成功注册，您的用户名为：" . $username . "<br/>" . C('MAIL_USER_REG') . "<br/><p style='text-align:right;'>" . C('WEB_SITE') . "系统自动发送--请勿直接回复<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>");
                 $this->success('成功注册,正在转入登录页面！', U('login'));
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));
