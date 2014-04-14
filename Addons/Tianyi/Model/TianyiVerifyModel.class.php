@@ -329,13 +329,3 @@ class TianyiVerifyModel extends Model
         M('Addons')->where($map)->save($data);
     }
 }
-
-
-//        AppID:<input name="app_id" type="text" value="<?php echo $appid ? >" readonly= "readonly" />
-//            AppSecret: <input name="app_secret" type="text" value="<?php echo $appsecret ? >" readonly= "readonly" />
-//            GrantType: <input name="grant_type" type="text" value="refresh_token" readonly= "readonly" />
-//            RefreshToken:<input id= "refresh_token" name="refresh_token" type="text" value="" />
-//            <input name="btn_refresh" type="submit" value="认证授权" onclick="return checkRefresh_token();" />
-
-//string(154) "app_id=668228660000034680&app_secret=75e30521444f11fb3ec265d3c809e443&grant_type=refresh_token&refresh_token=0cbb07946822ca74c70f4288fc50dc531392971135772" Access_Token has been refreshed!
-//The latest Access_Token is 10019b837bdfc5834be58024c50db5a31397108066251
