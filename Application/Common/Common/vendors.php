@@ -149,7 +149,8 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     return $mail->Send() ? true : $mail->ErrorInfo; //返回错误信息
 }
 
-function thinkox_hash($message, $salt="ThinkOX") {
+function thinkox_hash($message, $salt = "ThinkOX")
+{
     $s01 = $message . $salt;
     $s02 = md5($s01) . $salt;
     $s03 = sha1($s01) . md5($s02) . $salt;
