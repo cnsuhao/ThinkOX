@@ -10,6 +10,7 @@ function parse_weibo_content($content)
 {
     $content = shorten_white_space($content);
     $content = op_t($content);
+    $content = parse_url_link($content);
     $content = parse_expression($content);
     $content = parse_at_users($content);
     return $content;
@@ -17,14 +18,12 @@ function parse_weibo_content($content)
 
 function parse_comment_content($content)
 {
-    $content = shorten_white_space($content);
-    $content = op_t($content);
-    $content = parse_expression($content);
-    $content = parse_at_users($content);
-    return $content;
+    //就目前而言，评论内容和微博的格式是一样的。
+    return parse_weibo_content($content);
 }
 
-function shorten_white_space($content) {
+function shorten_white_space($content)
+{
     $content = preg_replace('/\s+/', ' ', $content);
     return $content;
 }
@@ -83,4 +82,12 @@ function get_at_uids($content)
         $result[] = $user['uid'];
     }
     return $result;
+}
+
+function parse_url_link($content)
+{
+    $content = preg_replace("#((http|https|ftp)://(\S*?\.\S*?))(\s|\;|\)|\]|\[|\{|\}|,|\"|'|:|\<|$|\.\s)#ie",
+        "'<a href=\"$1\" target=\"_blank\">链接&gt;&gt;&gt;</a>$4'",$content
+    );
+    return $content;
 }
