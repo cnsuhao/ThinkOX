@@ -18,7 +18,7 @@
  * 淘宝IP接口
  * @Return: array
  */
-function getCity($ip)
+function get_city_by_ip($ip)
 {
     $url = "http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip;
     $ipinfo = json_decode(file_get_contents($url));
