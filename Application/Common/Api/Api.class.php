@@ -55,6 +55,10 @@ class Api
         session('last_send_time', time());
     }
 
+    public function resetLastSendTime() {
+        session('last_send_time', 0);
+    }
+
     protected function requireLogin()
     {
         if (!is_login()) {

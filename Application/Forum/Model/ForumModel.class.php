@@ -11,7 +11,8 @@ use Think\Model;
 
 class ForumModel extends Model {
     protected $_validate = array(
-        array('title', '1,100', '标题长度不合法', self::EXISTS_VALIDATE, 'length'),
+        array('title', '1,99999', '标题不能为空', self::EXISTS_VALIDATE, 'length'),
+        array('title', '0,100', '标题太长', self::EXISTS_VALIDATE, 'length'),
     );
 
     protected $_auto = array(

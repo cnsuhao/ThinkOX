@@ -9,6 +9,7 @@
 namespace Forum\Controller;
 
 use Think\Controller;
+use Weibo\Api\WeiboApi;
 
 define('TOP_ALL', 2);
 define('TOP_FORUM', 1);
@@ -184,12 +185,15 @@ class IndexController extends Controller
 
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
+
         //如果是编辑模式，确认当前用户能编辑帖子
         if ($isEdit) {
             $this->requireAllowEditPost($post_id);
         }
+
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
+
         //写入帖子的内容
         if (strlen($content) < 25) {
             $this->error('发表失败：内容长度不能小于25');
@@ -212,6 +216,13 @@ class IndexController extends Controller
             }
             $post_id = $result;
         }
+
+        //发布帖子成功，发送一条微博消息
+        $postUrl = "http://$_SERVER[HTTP_HOST]" . U('Forum/Index/detail', array('id' => $post_id));
+        $weiboApi = new WeiboApi();
+        $weiboApi->resetLastSendTime();
+        $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
+
         //显示成功消息
         $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after);
         $this->success($message, U('Forum/Index/detail', array('id' => $post_id)));
@@ -458,21 +469,23 @@ class IndexController extends Controller
         return $content;
     }
 
-    private function requireCanDeletePostReply($post_id) {
-        if(!$this->canDeletePostReply($post_id)) {
+    private function requireCanDeletePostReply($post_id)
+    {
+        if (!$this->canDeletePostReply($post_id)) {
             $this->error('您没有删贴权限');
         }
     }
 
-    private function canDeletePostReply($post_id) {
+    private function canDeletePostReply($post_id)
+    {
         //如果是管理员，则可以删除
-        if(is_administrator()) {
+        if (is_administrator()) {
             return true;
         }
 
         //如果是自己的回帖，则可以删除
         $reply = D('ForumPostReply')->find($post_id);
-        if($reply['uid'] == get_uid()) {
+        if ($reply['uid'] == get_uid()) {
             return true;
         }
 
