@@ -36,6 +36,23 @@ function get_city_by_ip($ip)
 
 }
 
+/**
+ * 系统邮件发送函数
+ * @param string $to 接收邮件者邮箱
+ * @param string $name 接收邮件者名称
+ * @param string $subject 邮件主题
+ * @param string $body 邮件内容
+ * @param string $attachment 附件列表
+ * @茉莉清茶 57143976@qq.com
+ */
+function send_mail($to = '', $subject = '', $body = '', $name = '', $attachment = null)
+{
+    if (is_sae()) {
+        return sae_mail($to, $subject, $body, $name);
+    } else {
+        return send_mail_local($to, $subject, $body, $name, $attachment);
+    }
+}
 
 /**
  * SAE邮件发送函数
@@ -46,7 +63,7 @@ function get_city_by_ip($ip)
  * @param string $attachment 附件列表
  * @茉莉清茶 57143976@qq.com
  */
-function sae_mail($to = '', $subject = '', $body = '')
+function sae_mail($to = '', $subject = '', $body = '', $name = '')
 {
     if ($to == '') {
         $to = C('MAIL_SMTP_CE'); //邮件地址为空时，默认使用后台默认邮件测试地址
@@ -76,16 +93,15 @@ function sae_mail($to = '', $subject = '', $body = '')
     return $ret ? true : $mail->errmsg(); //返回错误信息
 }
 
+function is_sae()
+{
+    return function_exists('sae_debug');
+}
+
 /**
- * 系统邮件发送函数
- * @param string $to 接收邮件者邮箱
- * @param string $name 接收邮件者名称
- * @param string $subject 邮件主题
- * @param string $body 邮件内容
- * @param string $attachment 附件列表
- * @茉莉清茶 57143976@qq.com
+ * 用常规方式发送邮件。
  */
-function send_mail($to = '', $subject = '', $body = '', $name = '', $attachment = null)
+function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attachment = null)
 {
     $from_email = C('MAIL_SMTP_USER');
     $from_name = C('WEB_SITE');

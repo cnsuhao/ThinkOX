@@ -31,58 +31,56 @@ class UserController extends HomeController
         if (!C('USER_ALLOW_REGISTER')) {
             $this->error('注册已关闭');
         }
-		if(IS_POST){ //注册用户
-		/* 检测验证码 */
-            if(C('VERIFY_OPEN') == 1 or C('VERIFY_OPEN') == 2){
-			if(!check_verify($verify)){
-				$this->error('验证码输入错误11');
-			}
-			}
-			/**@茉莉清茶57143976@qq.com
-     * 检测系统禁止用户名
-     */
-			$limit_username = explode ( ',', C('USER_NAME_BAOLIU'));
-	        foreach ($limit_username as $k=>$v) {
-	        if(stristr($username, $v)){
-            $this->error("包含系统禁止注册的词汇:".$v);
-	        return false;
-        }
-    }
-			/* 检测密码 */
-			if($password != $repassword){
-				$this->error('密码和重复密码不一致！');
-			}	
-			/**@茉莉清茶57143976@qq.com
-     * 同IP注册时间限制
-     */
-            if (C('USER_REG_TIME')) {//注册时间限制
-			/* 调用注册接口注册用户 */
-            $User = new UserApi;
-	        $regip = get_client_ip(1);
-            $reg_limrt = C('USER_REG_TIME') * 60;
-			$users = $User->infos($regip);
-		    $check_time = time() - $users;
-            $ch_time = $check_time - $reg_limrt;
-            $cq_time = ceil(($reg_limrt - $check_time)/60);
-            if($ch_time < 0){
-            $this->error(("先休息一下,请".$cq_time."分钟后再来注册！"));
-	        return false;
-			}
-			}
+        if (IS_POST) { //注册用户
+            /* 检测验证码 */
+            if (C('VERIFY_OPEN') == 1 or C('VERIFY_OPEN') == 2) {
+                if (!check_verify($verify)) {
+                    $this->error('验证码输入错误11');
+                }
+            }
+            /**@茉莉清茶57143976@qq.com
+             * 检测系统禁止用户名
+             */
+            $limit_username = explode(',', C('USER_NAME_BAOLIU'));
+            foreach ($limit_username as $k => $v) {
+                if (stristr($username, $v)) {
+                    $this->error("包含系统禁止注册的词汇:" . $v);
+                    return false;
+                }
+            }
+            /* 检测密码 */
+            if ($password != $repassword) {
+                $this->error('密码和重复密码不一致！');
+            }
+            /**@茉莉清茶57143976@qq.com
+             * 同IP注册时间限制
+             */
+            if (C('USER_REG_TIME')) { //注册时间限制
+                /* 调用注册接口注册用户 */
+                $User = new UserApi;
+                $regip = get_client_ip(1);
+                $reg_limrt = C('USER_REG_TIME') * 60;
+                $users = $User->infos($regip);
+                $check_time = time() - $users;
+                $ch_time = $check_time - $reg_limrt;
+                $cq_time = ceil(($reg_limrt - $check_time) / 60);
+                if ($ch_time < 0) {
+                    $this->error(("先休息一下,请" . $cq_time . "分钟后再来注册！"));
+                    return false;
+                }
+            }
 
-					$uid = $User->register($username, $password, $email);
-			if(0 < $uid){ //注册成功
-				//TODO: 发送注册成功邮件
-         //如果在SAE上部署，请修改为sae_mail
-         send_mail($email, C('WEB_SITE')."注册成功", "尊敬的《".$username."》你好：<br/>您已在".C('WEB_SITE')."成功注册，您的用户名为：".$username."  您的密码为:".$password."<br/>".C('MAIL_USER_REG')."<br/><p style='text-align:right;'>".C('WEB_SITE')."系统自动发送--请勿直接回复<br/>".date('Y-m-d H:i:s',TIME())."</p>");
-				$this->success('成功注册,正在转入登录页面！',U('login'));
-			} else { //注册失败，显示错误信息
-				$this->error($this->showRegError($uid));
-			}
+            $uid = $User->register($username, $password, $email);
+            if (0 < $uid) { //注册成功
+                //TODO: 发送注册成功邮件
+                send_mail($email, C('WEB_SITE') . "注册成功", "尊敬的《" . $username . "》你好：<br/>您已在" . C('WEB_SITE') . "成功注册，您的用户名为：" . $username . "  您的密码为:" . $password . "<br/>" . C('MAIL_USER_REG') . "<br/><p style='text-align:right;'>" . C('WEB_SITE') . "系统自动发送--请勿直接回复<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>");
+                $this->success('成功注册,正在转入登录页面！', U('login'));
+            } else { //注册失败，显示错误信息
+                $this->error($this->showRegError($uid));
+            }
 
-		} else { //显示注册表单
-            if(is_login())
-            {
+        } else { //显示注册表单
+            if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
             $this->display();
@@ -93,12 +91,12 @@ class UserController extends HomeController
     public function login($username = '', $password = '', $verify = '')
     {
         if (IS_POST) { //登录验证
-		/* 检测验证码 */
-            if(C('VERIFY_OPEN') == 1 or C('VERIFY_OPEN') == 3){
-			if(!check_verify($verify)){
-				$this->error('验证码输入错误12');
-			}
-			}
+            /* 检测验证码 */
+            if (C('VERIFY_OPEN') == 1 or C('VERIFY_OPEN') == 3) {
+                if (!check_verify($verify)) {
+                    $this->error('验证码输入错误12');
+                }
+            }
 
             /* 调用UC登录接口登录 */
             $user = new UserApi;
@@ -129,8 +127,7 @@ class UserController extends HomeController
             }
 
         } else { //显示登录表单
-            if(is_login())
-            {
+            if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
             $this->display();
@@ -155,48 +152,55 @@ class UserController extends HomeController
         $verify->entry(1);
     }
 
-	/* 用户密码找回首页 */
-	public function mi($username = '', $email = '', $verify = ''){
-		if(IS_POST){ //登录验证
-		/* 检测验证码 */
-            if(C('VERIFY_OPEN')){
-			if(!check_verify($verify)){
-				$this->error('验证码输入错误13');
-			}
-			}
-			/* 调用UC登录接口 */
-			$user = new UserApi;
-			$uids = $user->lomi($username, $email);
-			if(0 < $uids['id']){ //UC登录成功
-			//TODO: 发送密码找回邮件
-			$urls = think_ucenter_md5($uids['id']. "+" .$uids['last_login_time'], UC_AUTH_KEY);
-            $urlss = 'http://'.$_SERVER['HTTP_HOST'].U('Home/User/reset?uid='.$uids['id'].'&activation='.$urls);
-			$urlsss = C('USER_RESPASS')."<br/>".$urlss."<br/>".C('WEB_SITE')."系统自动发送--请勿直接回复<br/>".date('Y-m-d H:i:s',TIME())."</p>";
-         //如果在SAE上部署，请修改为sae_mail
-             send_mail($email,C('WEB_SITE')."密码找回",$urlsss);
-			$this->success('密码找回邮件发送成功！', U('User/login'));
+    /* 用户密码找回首页 */
+    public function mi($username = '', $email = '', $verify = '')
+    {
+        if (IS_POST) { //登录验证
+            /* 检测验证码 */
+            if (C('VERIFY_OPEN')) {
+                if (!check_verify($verify)) {
+                    $this->error('验证码输入错误13');
+                }
+            }
+            /* 调用UC登录接口 */
+            $user = new UserApi;
+            $uids = $user->lomi($username, $email);
+            if (0 < $uids['id']) { //UC登录成功
+                //TODO: 发送密码找回邮件
+                $urls = think_ucenter_md5($uids['id'] . "+" . $uids['last_login_time'], UC_AUTH_KEY);
+                $urlss = 'http://' . $_SERVER['HTTP_HOST'] . U('Home/User/reset?uid=' . $uids['id'] . '&activation=' . $urls);
+                $urlsss = C('USER_RESPASS') . "<br/>" . $urlss . "<br/>" . C('WEB_SITE') . "系统自动发送--请勿直接回复<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
 
-			} else { //登录失败
-				switch($uids) {
-					case -1: $error = '用户不存在或被禁用！！！'; break; //系统级别禁用
-					case -2: $error = '用户名不存在或和邮箱不符！'; break;
-					default: $error = '未知错误28！'; break; // 0-接口参数错误（调试阶段使用）
-				}
-				$this->error($error);
-			}
-			} else{
-			 if(is_login())
-            {
+                send_mail($email, C('WEB_SITE') . "密码找回", $urlsss);
+                $this->success('密码找回邮件发送成功！', U('User/login'));
+
+            } else { //登录失败
+                switch ($uids) {
+                    case -1:
+                        $error = '用户不存在或被禁用！！！';
+                        break; //系统级别禁用
+                    case -2:
+                        $error = '用户名不存在或和邮箱不符！';
+                        break;
+                    default:
+                        $error = '未知错误28！';
+                        break; // 0-接口参数错误（调试阶段使用）
+                }
+                $this->error($error);
+            }
+        } else {
+            if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
-			            $this->display();
-			}
-			}
+            $this->display();
+        }
+    }
 
-			/**
+    /**
      * 重置密码
      */
-    public function reset() {
+    public function reset()
+    {
 
         if (IS_POST) {
             //获取参数
@@ -214,31 +218,31 @@ class UserController extends HomeController
             $Api = new UserApi();
             $ress = $Api->updateInfos($uid, $data);
             if ($ress['status']) {
-                $this->success('重置密码成功！',U('User/login'));
+                $this->success('重置密码成功！', U('User/login'));
             } else {
                 $this->error($ress['info']);
             }
         } else {
-			if(is_login())
-            {
+            if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
-        //检测链接合法性
+            //检测链接合法性
             $uts = I('get.uid');
             $ats = I('get.activation');
-			if (!$uts || !$ats) {
-			$this->error('地址有误不能为空18', U('User/login'));
-        }
-					/* 调用UC登录接口 */
-			$user = new UserApi;
-			$uidss = $user->reset($uts);
-			if ($ats != think_ucenter_md5($uidss['id']. "+" .$uidss['last_login_time'], UC_AUTH_KEY)) {
-			$this->error('地址无效错误参数19', U('User/login'));
-        }
+            if (!$uts || !$ats) {
+                $this->error('地址有误不能为空18', U('User/login'));
+            }
+            /* 调用UC登录接口 */
+            $user = new UserApi;
+            $uidss = $user->reset($uts);
+            if ($ats != think_ucenter_md5($uidss['id'] . "+" . $uidss['last_login_time'], UC_AUTH_KEY)) {
+                $this->error('地址无效错误参数19', U('User/login'));
+            }
             $this->display();
         }
     }
-			/**
+
+    /**
      * 获取用户注册错误信息
      * @param  integer $code 错误编码
      * @return string        错误信息
