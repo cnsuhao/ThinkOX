@@ -11,6 +11,8 @@ namespace Home\Controller;
 
 use User\Api\UserApi;
 
+require_once APP_PATH . 'User/Conf/config.php';
+
 /**
  * 用户控制器
  * 包括用户中心，用户登录及注册
@@ -156,42 +158,33 @@ class UserController extends HomeController
     public function mi($username = '', $email = '', $verify = '')
     {
         if (IS_POST) { //登录验证
-            /* 检测验证码 */
+            //检测验证码
             if (C('VERIFY_OPEN')) {
                 if (!check_verify($verify)) {
-                    $this->error('验证码输入错误13');
+                    $this->error('验证码输入错误');
                 }
             }
-            /* 调用UC登录接口 */
-            $user = new UserApi;
-            $uids = $user->lomi($username, $email);
-            if (0 < $uids['id']) { //UC登录成功
-                //TODO: 发送密码找回邮件
-                $urls = think_ucenter_md5($uids['id'] . "+" . $uids['last_login_time'], UC_AUTH_KEY);
-                $urlss = 'http://' . $_SERVER['HTTP_HOST'] . U('Home/User/reset?uid=' . $uids['id'] . '&activation=' . $urls);
-                $urlsss = C('USER_RESPASS') . "<br/>" . $urlss . "<br/>" . C('WEB_SITE') . "系统自动发送--请勿直接回复<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
 
-                send_mail($email, C('WEB_SITE') . "密码找回", $urlsss);
-                $this->success('密码找回邮件发送成功！', U('User/login'));
-
-            } else { //登录失败
-                switch ($uids) {
-                    case -1:
-                        $error = '用户不存在或被禁用！！！';
-                        break; //系统级别禁用
-                    case -2:
-                        $error = '用户名不存在或和邮箱不符！';
-                        break;
-                    default:
-                        $error = '未知错误28！';
-                        break; // 0-接口参数错误（调试阶段使用）
-                }
-                $this->error($error);
+            //根据用户名获取用户UID
+            $user = D('User/UcenterMember')->where(array('username' => $username, 'email' => $email, 'status' => 1))->find();
+            $uid = $user['id'];
+            if (!$uid) {
+                $this->error("用户名或邮箱错误");
             }
+
+            //生成找回密码的验证码
+            $verify = $this->getResetPasswordVerifyCode($uid);
+
+            //发送验证邮箱
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . U('Home/User/reset?uid=' . $uid . '&verify=' . $verify);
+            $content = C('USER_RESPASS') . "<br/>" . $url . "<br/>" . C('WEB_SITE') . "系统自动发送--请勿直接回复<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
+            send_mail($email, C('WEB_SITE') . "密码找回", $content);
+            $this->success('密码找回邮件发送成功！', U('User/login'));
         } else {
             if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
+
             $this->display();
         }
     }
@@ -199,47 +192,68 @@ class UserController extends HomeController
     /**
      * 重置密码
      */
-    public function reset()
+    public function reset($uid, $verify)
     {
-
-        if (IS_POST) {
-            //获取参数
-            $uid = I('post.uid');
-            $repassword = I('post.repassword');
-            $data['password'] = I('post.password');
-            empty($uid) && $this->error('参数有误14');
-            empty($data['password']) && $this->error('请输入新密码15');
-            empty($repassword) && $this->error('请输入确认密码16');
-
-            if ($data['password'] !== $repassword) {
-                $this->error('您输入的新密码与确认密码不一致17');
-            }
-
-            $Api = new UserApi();
-            $ress = $Api->updateInfos($uid, $data);
-            if ($ress['status']) {
-                $this->success('重置密码成功！', U('User/login'));
-            } else {
-                $this->error($ress['info']);
-            }
-        } else {
-            if (is_login()) {
-                redirect(U('Weibo/Index/index'));
-            }
-            //检测链接合法性
-            $uts = I('get.uid');
-            $ats = I('get.activation');
-            if (!$uts || !$ats) {
-                $this->error('地址有误不能为空18', U('User/login'));
-            }
-            /* 调用UC登录接口 */
-            $user = new UserApi;
-            $uidss = $user->reset($uts);
-            if ($ats != think_ucenter_md5($uidss['id'] . "+" . $uidss['last_login_time'], UC_AUTH_KEY)) {
-                $this->error('地址无效错误参数19', U('User/login'));
-            }
-            $this->display();
+        //检查参数
+        $uid = intval($uid);
+        $verify = strval($verify);
+        if (!$uid || !$verify) {
+            $this->error("参数错误");
         }
+
+        //确认邮箱验证码正确
+        $expectVerify = $this->getResetPasswordVerifyCode($uid);
+        if ($expectVerify != $verify) {
+            $this->error("参数错误");
+        }
+
+        //将邮箱验证码储存在SESSION
+        session('reset_password_uid', $uid);
+        session('reset_password_verify', $verify);
+
+        //显示新密码页面
+        $this->display();
+    }
+
+    public function doReset($password, $repassword)
+    {
+        //确认两次输入的密码正确
+        if ($password != $repassword) {
+            $this->error('两次输入的密码不一致');
+        }
+
+        //读取SESSION中的验证信息
+        $uid = session('reset_password_uid');
+        $verify = session('reset_password_verify');
+
+        //确认验证信息正确
+        $expectVerify = $this->getResetPasswordVerifyCode($uid);
+        if ($expectVerify != $verify) {
+            $this->error("验证信息无效");
+        }
+
+        //将新的密码写入数据库
+        $data = array('password' => $password);
+        $model = D('User/UcenterMember');
+        $data = $model->create($data);
+        if (!$data) {
+            $this->error('密码格式不正确');
+        }
+        $result = $model->where(array('uid' => $uid))->save($data);
+        if (!$result) {
+            $this->error('数据库写入错误');
+        }
+
+        //显示成功消息
+        $this->success('密码重置成功');
+    }
+
+    private function getResetPasswordVerifyCode($uid)
+    {
+        $user = D('User/UcenterMember')->where(array('id' => $uid))->find();
+        $clear = implode('|', array($user['uid'], $user['username'], $user['last_login_time'], $user['password']));
+        $verify = thinkox_hash($clear, UC_AUTH_KEY);
+        return $verify;
     }
 
     /**

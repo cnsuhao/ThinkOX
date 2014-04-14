@@ -108,9 +108,7 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     $reply_email = '';
     $reply_name = '';
 
-    //new phpmailer();
-    //$mail = new ORG\PHPMailer\phpmailer();
-    import('ORG.PHPMailer.phpmailer'); //从PHPMailer目录导入phpmailer.class.php类文件
+    require_once('./ThinkPHP/Library/Vendor/PHPMailer/phpmailer.class.php');
     $mail = new PHPMailer; //实例化PHPMailer
     $mail->CharSet = 'UTF-8'; //设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
     $mail->IsSMTP(); // 设定使用SMTP服务
@@ -151,5 +149,11 @@ function send_mail_local($to = '', $subject = '', $body = '', $name = '', $attac
     return $mail->Send() ? true : $mail->ErrorInfo; //返回错误信息
 }
 
-
-
+function thinkox_hash($message, $salt="ThinkOX") {
+    $s01 = $message . $salt;
+    $s02 = md5($s01) . $salt;
+    $s03 = sha1($s01) . md5($s02) . $salt;
+    $s04 = $salt . md5($s03) . $salt . $s02;
+    $s05 = $salt . sha1($s04) . md5($s04) . crc32($salt . $s04);
+    return md5($s05);
+}
