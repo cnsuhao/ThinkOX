@@ -44,33 +44,34 @@
 .syntaxhighlighter.printing .color2,.syntaxhighlighter.printing .color2 a{color:#ff1493 !important;}
 .syntaxhighlighter.printing .color3,.syntaxhighlighter.printing .color3 a{color:red !important;}
 .syntaxhighlighter.printing .break,.syntaxhighlighter.printing .break a{color:black !important;}
-.syntaxhighlighter{background-color:#222222 !important;}
-.syntaxhighlighter .line.alt1{background-color:#222222 !important;}
-.syntaxhighlighter .line.alt2{background-color:#222222 !important;}
-.syntaxhighlighter .line.highlighted.alt1,.syntaxhighlighter .line.highlighted.alt2{background-color:#253e5a !important;}
-.syntaxhighlighter .line.highlighted.number{color:white !important;}
-.syntaxhighlighter table caption{color:lime !important;}
-.syntaxhighlighter .gutter{color:#38566f !important;}
-.syntaxhighlighter .gutter .line{border-right:3px solid #435a5f !important;}
-.syntaxhighlighter .gutter .line.highlighted{background-color:#435a5f !important;color:#222222 !important;}
+.syntaxhighlighter{background-color:white !important;}
+.syntaxhighlighter .line.alt1{background-color:white !important;}
+.syntaxhighlighter .line.alt2{background-color:white !important;}
+.syntaxhighlighter .line.highlighted.alt1,.syntaxhighlighter .line.highlighted.alt2{background-color:#e0e0e0 !important;}
+.syntaxhighlighter .line.highlighted.number{color:black !important;}
+.syntaxhighlighter table caption{color:black !important;}
+.syntaxhighlighter .gutter{color:#afafaf !important;}
+.syntaxhighlighter .gutter .line{border-right:3px solid #6ce26c !important;}
+.syntaxhighlighter .gutter .line.highlighted{background-color:#6ce26c !important;color:white !important;}
 .syntaxhighlighter.printing .line .content{border:none !important;}
 .syntaxhighlighter.collapsed{overflow:visible !important;}
-.syntaxhighlighter.collapsed .toolbar{color:#428bdd !important;background:black !important;border:1px solid #435a5f !important;}
-.syntaxhighlighter.collapsed .toolbar a{color:#428bdd !important;}
-.syntaxhighlighter.collapsed .toolbar a:hover{color:lime !important;}
-.syntaxhighlighter .toolbar{color:#aaaaff !important;background:#435a5f !important;border:none !important;}
-.syntaxhighlighter .toolbar a{color:#aaaaff !important;}
-.syntaxhighlighter .toolbar a:hover{color:#9ccff4 !important;}
-.syntaxhighlighter .plain,.syntaxhighlighter .plain a{color:lime !important;}
-.syntaxhighlighter .comments,.syntaxhighlighter .comments a{color:#428bdd !important;}
-.syntaxhighlighter .string,.syntaxhighlighter .string a{color:lime !important;}
-.syntaxhighlighter .keyword{color:#aaaaff !important;}
-.syntaxhighlighter .preprocessor{color:#8aa6c1 !important;}
-.syntaxhighlighter .variable{color:aqua !important;}
-.syntaxhighlighter .value{color:#f7e741 !important;}
-.syntaxhighlighter .functions{color:#ff8000 !important;}
-.syntaxhighlighter .constants{color:yellow !important;}
-.syntaxhighlighter .script{font-weight:bold !important;color:#aaaaff !important;background-color:none !important;}
-.syntaxhighlighter .color1,.syntaxhighlighter .color1 a{color:red !important;}
-.syntaxhighlighter .color2,.syntaxhighlighter .color2 a{color:yellow !important;}
-.syntaxhighlighter .color3,.syntaxhighlighter .color3 a{color:#ffaa3e !important;}
+.syntaxhighlighter.collapsed .toolbar{color:blue !important;background:white !important;border:1px solid #6ce26c !important;}
+.syntaxhighlighter.collapsed .toolbar a{color:blue !important;}
+.syntaxhighlighter.collapsed .toolbar a:hover{color:red !important;}
+.syntaxhighlighter .toolbar{color:white !important;background:#6ce26c !important;border:none !important;}
+.syntaxhighlighter .toolbar a{color:white !important;}
+.syntaxhighlighter .toolbar a:hover{color:black !important;}
+.syntaxhighlighter .plain,.syntaxhighlighter .plain a{color:black !important;}
+.syntaxhighlighter .comments,.syntaxhighlighter .comments a{color:#008200 !important;}
+.syntaxhighlighter .string,.syntaxhighlighter .string a{color:blue !important;}
+.syntaxhighlighter .keyword{color:#006699 !important;}
+.syntaxhighlighter .preprocessor{color:gray !important;}
+.syntaxhighlighter .variable{color:#aa7700 !important;}
+.syntaxhighlighter .value{color:#009900 !important;}
+.syntaxhighlighter .functions{color:#ff1493 !important;}
+.syntaxhighlighter .constants{color:#0066cc !important;}
+.syntaxhighlighter .script{font-weight:bold !important;color:#006699 !important;background-color:none !important;}
+.syntaxhighlighter .color1,.syntaxhighlighter .color1 a{color:gray !important;}
+.syntaxhighlighter .color2,.syntaxhighlighter .color2 a{color:#ff1493 !important;}
+.syntaxhighlighter .color3,.syntaxhighlighter .color3 a{color:red !important;}
+.syntaxhighlighter .keyword{font-weight:bold !important;}
