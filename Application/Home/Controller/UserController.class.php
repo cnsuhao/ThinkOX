@@ -40,38 +40,13 @@ class UserController extends HomeController
                     $this->error('验证码输入错误11');
                 }
             }
-            /**@茉莉清茶57143976@qq.com
-             * 检测系统禁止用户名
-             */
-            $limit_username = explode(',', C('USER_NAME_BAOLIU'));
-            foreach ($limit_username as $k => $v) {
-                if (stristr($username, $v)) {
-                    $this->error("包含系统禁止注册的词汇:" . $v);
-                    return false;
-                }
-            }
             /* 检测密码 */
             if ($password != $repassword) {
                 $this->error('密码和重复密码不一致！');
             }
-            /**@茉莉清茶57143976@qq.com
-             * 同IP注册时间限制
-             */
-            if (C('USER_REG_TIME')) { //注册时间限制
-                /* 调用注册接口注册用户 */
-                $User = new UserApi;
-                $regip = get_client_ip(1);
-                $reg_limrt = C('USER_REG_TIME') * 60;
-                $users = $User->infos($regip);
-                $check_time = time() - $users;
-                $ch_time = $check_time - $reg_limrt;
-                $cq_time = ceil(($reg_limrt - $check_time) / 60);
-                if ($ch_time < 0) {
-                    $this->error(("先休息一下,请" . $cq_time . "分钟后再来注册！"));
-                    return false;
-                }
-            }
 
+            /* 调用注册接口注册用户 */
+            $User = new UserApi;
             $uid = $User->register($username, $password, $email);
             if (0 < $uid) { //注册成功
                 //TODO: 发送注册成功邮件
