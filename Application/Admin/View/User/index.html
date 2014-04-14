@@ -47,7 +47,7 @@
 			<td>{$vo.score}</td>
 			<td>{$vo.login}</td>
 			<td><span>{$vo.last_login_time|time_format}</span></td>
-			<td><span>{$vo['last_login_ip']|long2ip|getcity}</span></td>
+			<td><a href="http://ip138.com/ips138.asp?ip={$vo['last_login_ip']|long2ip}">{$vo['last_login_ip']|long2ip}</a></td>
 			<td>{$vo.status_text}</td>
 
 			<td><eq name="vo.status" value="1">
