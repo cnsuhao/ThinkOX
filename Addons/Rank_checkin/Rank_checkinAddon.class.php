@@ -65,7 +65,7 @@ class Rank_checkinAddon extends Addon
             $this->display('default');
         } else {
             foreach ($rank as &$v) {
-                $v['userInfo'] = query_user(array('avatar32', 'username', 'uid',), $v['uid']);
+                $v['userInfo'] = query_user(array('avatar32','space_url', 'username', 'uid',), $v['uid']);
             }
             //dump($rank);exit;
             $this->assign("rank", $rank);
