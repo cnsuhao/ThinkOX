@@ -12,8 +12,6 @@
  * 系统公共库文件扩展
  * 主要定义系统公共函数库扩展
  */
-//use ORG\PHPMailer\phpmailer;
-
 
 /**
  * 获取 IP  地理位置
@@ -34,11 +32,6 @@ function getCity($ip)
     if ($guo == '中国') {
         $guo = '';
     }
-//if(in_array(strtok($ip, '.'), array('10', '127', '168', '192'))){
-//$city = "本机地址或局域网";
-//}
-//$ipp = '110.113.161.105';
-//$ipss = ip2long($ipp);
     return $guo . $city . $ips . '[' . $ip . ']';
 
 }
