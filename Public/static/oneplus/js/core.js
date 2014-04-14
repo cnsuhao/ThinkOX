@@ -9,7 +9,7 @@ $(function () {
     bindGoTop();//回到顶部
     checkMessage();//检查一次消息
 
-    if(is_login()) {
+    if (is_login()) {
         bindMessageChecker();//绑定用户消息
     }
     bindLogout();
@@ -422,15 +422,15 @@ $(function () {
         var confirmText = $(this).attr('data-confirm');
 
         //如果需要的话，发出确认提示信息
-        if(confirmText) {
+        if (confirmText) {
             var result = confirm(confirmText);
-            if(!result) {
+            if (!result) {
                 return false;
             }
         }
 
         //发送AJAX请求
-        $.post(url, {}, function(a,b,c){
+        $.post(url, {}, function (a, b, c) {
             handleAjax(a);
         });
     });
