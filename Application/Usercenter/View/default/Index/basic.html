@@ -43,39 +43,45 @@
         </div>
     </div>
     <div>
-        <if condition="$user['rank_link']">
-            <p><span class="text-muted">头衔：</span>
-            <table class="tb_rank">
-                <thead>
-                <tr>
-                    <th>图标</th>
-                    <th>头衔名称</th>
-                    <th>颁发理由</th>
-                    <th>是否显示</th>
-                    <th>颁发时间</th>
-                </tr>
-                </thead>
-                <tbody>
-                <volist name="user['rank_link']" id="vl">
+
+        <p><span class="text-muted">头衔：</span>
+            <if condition="$user['rank_link']">
+                <table class="tb_rank">
+                    <thead>
                     <tr>
-                        <td><img src="{$vl.logo_url}" title="{$vl.title}"
-                                 alt="{$vl.title}"
-                                 style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></td>
-                        <td>{$vl.title}</td>
-                        <td>{$vl.reason}</td>
-                        <td><eq name="vl.is_show" value="1">显示<else/>不显示</eq></td>
-                        <td>{$vl.create_time|friendlyDate}</td>
-
+                        <th>图标</th>
+                        <th>头衔名称</th>
+                        <th>颁发理由</th>
+                        <th>是否显示</th>
+                        <th>颁发时间</th>
                     </tr>
-                </volist>
+                    </thead>
+                    <tbody>
+                    <volist name="user['rank_link']" id="vl">
+                        <tr>
+                            <td><img src="{$vl.logo_url}" title="{$vl.title}"
+                                     alt="{$vl.title}"
+                                     style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></td>
+                            <td>{$vl.title}</td>
+                            <td>{$vl.reason}</td>
+                            <td>
+                                <eq name="vl.is_show" value="1">显示
+                                    <else/>
+                                    不显示
+                                </eq>
+                            </td>
+                            <td>{$vl.create_time|friendlyDate}</td>
 
-                </tbody>
-            </table>
+                        </tr>
+                    </volist>
+
+                    </tbody>
+                </table>
 
 
-            <else/>
-            无
-
-            </p></if>
+                <else/>
+                暂无头衔，努力为社区做点贡献吧！O(∩_∩)O~
+            </if>
+        </p>
     </div>
 </block>
