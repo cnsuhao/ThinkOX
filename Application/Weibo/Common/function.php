@@ -87,7 +87,7 @@ function get_at_uids($content)
 function parse_url_link($content)
 {
     $content = preg_replace("#((http|https|ftp)://(\S*?\.\S*?))(\s|\;|\)|\]|\[|\{|\}|,|\"|'|:|\<|$|\.\s)#ie",
-        "'<a href=\"$1\" target=\"_blank\">链接&gt;&gt;&gt;</a>$4'",$content
+        "'<a href=\"$1\" target=\"_blank\">链接&gt;&gt;&gt;</a>$4'", $content
     );
     return $content;
 }

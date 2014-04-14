@@ -55,7 +55,8 @@ class Api
         session('last_send_time', time());
     }
 
-    public function resetLastSendTime() {
+    public function resetLastSendTime()
+    {
         session('last_send_time', 0);
     }
 
