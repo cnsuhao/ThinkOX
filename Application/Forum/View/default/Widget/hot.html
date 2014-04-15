@@ -3,8 +3,13 @@
         <h2>热门讨论</h2>
         <dl>
             <volist name="posts" id="post">
-                <dt><i class="hot_num">{$i}</i>&nbsp;<a href="{:U('Index/detail',array('id'=>$post['id']))}"
-                                                        title="{$post.title|op_t}">{$post.title|op_t}</a></dt>
+                <dt>
+                    <i class="hot_num">{$i}</i>
+                    &nbsp;
+                    <a href="{:U('Index/detail',array('id'=>$post['id']))}" title="{$post.title|op_t}">
+                        {$post.title|op_t}
+                    </a>
+                </dt>
             </volist>
         </dl>
     </div>
