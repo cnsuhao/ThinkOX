@@ -42,12 +42,15 @@
                 </if>
                 <div class="control-group">
                     <div class="controls">
-                        <label class="checkbox" style="float: left">
+                        <label class="checkbox pull-left">
                             <input type="checkbox" style="cursor:pointer"> 记住密码
                         </label>
-                        <button type="submit" class="btn btn-primary" style="float: right">登 录</button>
-                        <a href="{:U('User/mi')}">忘记密码？</a>
-                        <a href="{:U('User/regjihuo')}">没有收到邮件？</a>
+                        <button type="submit" class="btn btn-primary pull-right">登 录</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <a class="btn btn-link pull-right" href="{:U('User/mi')}">忘记密码？</a>
                     </div>
                 </div>
             </form>
