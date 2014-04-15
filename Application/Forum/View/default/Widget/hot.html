@@ -4,8 +4,9 @@
         <dl>
             <volist name="posts" id="post">
                 <dt>
-                    <i class="hot_num">{$i}</i>
+                    <span class="hot_num">{$i}</span>
                     &nbsp;
+
                     <a href="{:U('Index/detail',array('id'=>$post['id']))}" title="{$post.title|op_t}">
                         {$post.title|op_t}
                     </a>

@@ -284,6 +284,10 @@ h2 {
   margin-bottom: .8em;
   padding-bottom: .8em;
   border-bottom: 1px dashed #ccc;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .hot_post dt .hot_num {
   background: #4eb87a;
@@ -297,13 +301,6 @@ h2 {
 .hot_post dt a {
   color: #333;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 1em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  width: 200px;
 }
 .link-black {
   color: #333333;
