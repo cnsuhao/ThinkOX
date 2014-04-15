@@ -41,16 +41,8 @@
                         <div class="controls Validform_checktip text-warning"></div>
                     </div>
                 </if>
-                <div class="control-group">
-                    <div class="controls">
-                        <label class="checkbox" style="float: left">
-                            <input type="checkbox" style="cursor:pointer"> 安全找回
-                        </label>
-                        <button type="submit" class="btn btn-primary" style="float: right">找 回</button>
-                        <a href="{:U('User/login')}">再去登录</a>
-                        <a href="{:U('User/regjihuo')}">没有收到邮件？</a>
-                    </div>
-                </div>
+                <a class="btn btn-default" href="{:U('User/login')}">再去登录</a>
+                <button type="submit" class="btn btn-primary pull-right" style="float: right">找 回</button>
             </form>
         </div>
     </section>
