@@ -152,7 +152,7 @@ class UserController extends HomeController
             $url = 'http://' . $_SERVER['HTTP_HOST'] . U('Home/User/reset?uid=' . $uid . '&verify=' . $verify);
             $content = C('USER_RESPASS') . "<br/>" . $url . "<br/>" . C('WEB_SITE') . "系统自动发送--请勿直接回复<br/>" . date('Y-m-d H:i:s', TIME()) . "</p>";
             send_mail($email, C('WEB_SITE') . "密码找回", $content);
-            $this->success('密码找回邮件发送成功！', U('User/login'));
+            $this->success('密码找回邮件发送成功', U('User/login'));
         } else {
             if (is_login()) {
                 redirect(U('Weibo/Index/index'));
