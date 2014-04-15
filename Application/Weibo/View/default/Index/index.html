@@ -121,7 +121,7 @@
     <script>
         $(function () {
 
-            $inputor = $('#weibo_content').atwho(atwho_config);
+            var $inputor = $('#weibo_content').atwho(atwho_config);
             var noMoreNextPage = false;
             var isLoadingWeibo = false;
             var currentPage = 1;
@@ -155,7 +155,7 @@
             });
 
             //当屏幕滚动到底部时
-            $(window).scroll(function () {
+            $(window).on('scroll', function () {
                 if (noMoreNextPage) {
                     return;
                 }
@@ -172,7 +172,7 @@
             function isLoadMoreVisible() {
                 var visibleHeight = $(window.top).height();
                 var loadMoreOffset = $('#load_more').offset();
-                return visibleHeight + window.scrollY > loadMoreOffset.top;
+                return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
             }
 
             function loadNextPage() {
