@@ -466,17 +466,21 @@ $(function () {
         var formContent = $(this).serialize();
 
         //发送提交请求
+        var callable;
         if (method == 'post') {
-            $.post(action, formContent, function (a) {
-                handleAjax(a);
-                $('[type=submit]', form).removeClass('disabled');
-            });
+            callable = $.post;
+        } else {
+            callable = $.get;
         }
+        callable(action, formContent, function (a) {
+            handleAjax(a);
+            $('[type=submit]', form).removeClass('disabled');
+        });
 
         //返回
         return false;
     });
-})
+});
 
 
 /**
