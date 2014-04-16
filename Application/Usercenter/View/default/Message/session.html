@@ -53,7 +53,7 @@
                         </div>
                         <h2>
                             <a href="{:U('UserCenter/Message/talk',array('talk_id'=>$talk['id']))}">
-                                {$talk.title}&nbsp;（{:count($talk['users'])}人）
+                                {$talk.title|op_t}&nbsp;（{:count($talk['users'])}人）
                             </a>
                         </h2>
 
