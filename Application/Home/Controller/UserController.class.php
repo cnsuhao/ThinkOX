@@ -130,6 +130,9 @@ class UserController extends HomeController
     /* 用户密码找回首页 */
     public function mi($username = '', $email = '', $verify = '')
     {
+        $username = strval($username);
+        $email = strval($email);
+
         if (IS_POST) { //登录验证
             //检测验证码
             if (C('VERIFY_OPEN')) {
