@@ -31,7 +31,7 @@ class UcenterMemberModel extends Model{
 	/* 用户模型自动验证 */
 	protected $_validate = array(
 		/* 验证用户名 */
-		array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
+		array('username', '5,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
 		array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
 		array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
 
