@@ -60,7 +60,7 @@
                         <if condition="$talk['last_message']['content'] neq ''">
                             <p>
                                 <a href="{$talk.last_message.user.space_url}" ucard="{$talk.last_message.user.id}">
-                                    {$talk.last_message.user.username}
+                                    {$talk.last_message.user.username|op_t}
                                 </a>： &nbsp;&nbsp;{$talk.last_message.content} &nbsp; &nbsp; &nbsp;{$talk.last_message.create_time|friendlyDate}
                             </p>
                             <else/>
