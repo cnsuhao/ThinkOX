@@ -27,12 +27,16 @@
             <div class="row talk_source">
                 <i class="talk_blockquote"></i>
 
-                <div class="talk_source_content">【标题】{$talk.source_title}&nbsp;<a title="返回来源"
-                                                                                  href="{$talk.source_url}"><i
-                        class="glyphicon glyphicon-share-alt"></i></a>
+                <div class="talk_source_content">
+                    <p class="thinkox-break-word">
+                        【标题】{$talk.source_title|op_t}&nbsp;
+                        <a title="返回来源" href="{$talk.source_url}">
+                            <i class="glyphicon glyphicon-share-alt"></i>
+                        </a>
+                    </p>
 
-                    <p>
-                        【内容】{$talk.source_content}
+                    <p class="thinkox-break-word">
+                        【内容】{$talk.source_content|op_t}
                     </p>
 
                 </div>
@@ -61,7 +65,8 @@
                         </div>
                         <else/>
                         <div class="row">
-                            <div class="time"><span class="timespan">{$message.create_time|date='m-d h:m:s',###}</span></div>
+                            <div class="time"><span class="timespan">{$message.create_time|date='m-d h:m:s',###}</span>
+                            </div>
                             <div class="row">
                                 <div class="col-xs-2 "><img ucard="{$message.uid}" class="avatar-img talk-avatar"
                                                             src="{$message.user.avatar128}"/>
@@ -113,7 +118,7 @@
             function appendMessage() {
                 var myDate = new Date();
                 $.post(U('Usercenter/Message/postMessage'), {talk_id: talk_id, content: $('#tt_content').val()}, function (msg) {
-                    if(msg.status) {
+                    if (msg.status) {
                         op_appendMessage(op_fetchMessageTpl({uid: MID, content: $('#tt_content').val(),
                             avatar128: myhead,
                             ctime: myDate.toLocaleTimeString()}, MID));
