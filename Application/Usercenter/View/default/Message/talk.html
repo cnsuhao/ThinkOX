@@ -116,11 +116,15 @@
             function appendMessage() {
                 var myDate = new Date();
                 $.post(U('Usercenter/Message/postMessage'), {talk_id: talk_id, content: $('#tt_content').val()}, function (msg) {
-                    op_appendMessage(op_fetchMessageTpl({uid: MID, content: $('#tt_content').val(),
-                        avatar128: myhead,
-                        ctime: myDate.toLocaleTimeString()}, MID));
-                    $('#tt_content').val('');
-                    $('#tt_content').focus();
+                    if(msg.status) {
+                        op_appendMessage(op_fetchMessageTpl({uid: MID, content: $('#tt_content').val(),
+                            avatar128: myhead,
+                            ctime: myDate.toLocaleTimeString()}, MID));
+                        $('#tt_content').val('');
+                        $('#tt_content').focus();
+                    } else {
+                        handleAjax(msg);
+                    }
                 }, 'json');
             }
 

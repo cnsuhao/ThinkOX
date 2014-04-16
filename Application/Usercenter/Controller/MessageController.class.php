@@ -139,6 +139,10 @@ class MessageController extends BaseController
      */
     public function postMessage($content, $talk_id)
     {
+        //空的内容不能发送
+        if(!trim($content)) {
+            $this->error('内容不能为空');
+        }
 
         D('TalkMessage')->addMessage($content, is_login(), $talk_id);
         $talk = D('Talk')->find($talk_id);
@@ -147,10 +151,11 @@ class MessageController extends BaseController
         $rs = $messageModel->postMessage($message, $talk, $content, is_login());
 
         D('TalkMessage')->sendMessage($content, $this->mTalkModel->getUids($talk['uids']), $talk_id);
-        if ($rs) {
-            $this->ajaxReturn(true);
+        if (!$rs) {
+            $this->error('写入数据库错误');
         }
-        $this->ajaxReturn(false);
+
+        $this->success("发送成功");
     }
 
     /**
