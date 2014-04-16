@@ -33,6 +33,7 @@ class UcenterMemberModel extends Model{
 		/* 验证用户名 */
 		array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
 		array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
+        array('username', 'checkUsername', -2, self::EXISTS_VALIDATE, 'callback'),
 		array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
 
 		/* 验证密码 */
@@ -76,6 +77,15 @@ class UcenterMemberModel extends Model{
 	protected function checkDenyEmail($email){
 		return true; //TODO: 暂不限制，下一个版本完善
 	}
+
+    protected function checkUsername($username) {
+        //如果用户名中有空格，不允许注册
+        if(strpos($username, ' ') !== false) {
+            return false;
+        }
+
+        return true;
+    }
 
 	/**
 	 * 检测手机是不是被禁止注册
