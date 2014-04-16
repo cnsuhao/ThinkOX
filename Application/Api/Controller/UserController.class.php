@@ -171,13 +171,19 @@ class UserController extends ApiController
             if (isset($home['sex'])) {
                 $home['sex'] = $this->decodeSex($home['sex']);
             }
-            $result = D('Home/Member')->where(array('uid' => $uid))->save($home);
+            $home['uid'] = $uid;
+            $model = D('Home/Member');
+            $home = $model->create($home);
+            $result = $model->where(array('uid' => $uid))->save($home);
             if (!$result) {
                 $this->apiError(0, '写入数据库错误');
             }
         }
         if ($ucenter) {
-            $result = D('User/UcenterMember')->where(array('id' => $uid))->save($ucenter);
+            $model = D('User/UcenterMember');
+            $ucenter['id'] = $uid;
+            $ucenter = $model->create($model);
+            $result = $model->where(array('id' => $uid))->save($ucenter);
             if (!$result) {
                 $this->apiError(0, '写入数据库错误');
             }

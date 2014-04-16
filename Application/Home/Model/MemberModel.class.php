@@ -28,6 +28,10 @@ class MemberModel extends Model
         array('status', 1, self::MODEL_INSERT),
     );
 
+    protected $_validate = array(
+        array('signature', '0,100', -1, self::EXISTS_VALIDATE, 'length'),
+    );
+
     /**
      * 登录指定用户
      * @param  integer $uid 用户ID
