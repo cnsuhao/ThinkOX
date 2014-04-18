@@ -32,12 +32,8 @@ class WeiboController extends AdminController
 
         //显示页面
         $builder = new AdminListBuilder();
-
-
         $attr['class'] = 'btn ajax-post';
-
         $attr['target-form'] = 'ids';
-
         $attr1 = $attr;
         $attr1['url'] = $builder->addUrlParam(U('setWeiboTop'), array('top' => 1));
         $attr0 = $attr;
