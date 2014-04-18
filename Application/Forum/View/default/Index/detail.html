@@ -1,6 +1,7 @@
 <extend name="Public/forum"/>
 
 <block name="body">
+
     <div class="row">
     <div class="col-xs-12">
         <php>
@@ -182,13 +183,14 @@
         </if>
     </div>
     </div>
-</block>
 
-<block name="script">
     <script>
         //点击收藏/取消收藏按钮
         $(function () {
             $('#bookmark_button a, #unbookmark_button a').click(function (e) {
+                //取消默认操作
+                e.preventDefault();
+
                 //发送AJAX请求
                 var button = $(this);
                 var href = button.attr('href');
@@ -201,8 +203,6 @@
                     }
                 });
 
-                //取消默认操作
-                e.preventDefault();
                 return false;
             });
 
@@ -220,13 +220,11 @@
                 }
             }
 
-           if({$sr} != null){
-               $('#lzl_reply_list_{$sr}').load(U('Forum/LZL/lzllist&to_f_reply_id={$sr}&page={$sp}', '', true), function () {
-                   ucard();
-               })
-           }
-
-
+            if("{$sr}" != ""){
+                $('#lzl_reply_list_{$sr}').load(U('Forum/LZL/lzllist&to_f_reply_id={$sr}&page={$sp}', '', true), function () {
+                    ucard();
+                });
+            }
         })
     </script>
     <style>
