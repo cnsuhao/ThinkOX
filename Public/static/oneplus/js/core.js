@@ -395,8 +395,7 @@ function handleAjax(a) {
     var interval = 1500;
     if (a.url == "refresh") {
         setTimeout(function () {
-            location.href = a.url;
-            location.reload();
+            location.href = location.href;
         }, interval);
     } else if (a.url) {
         setTimeout(function () {
