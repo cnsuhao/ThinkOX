@@ -20,13 +20,6 @@ class WeiboController extends AdminController
         $map = array('status' => array('EGT', 0));
         $model = M('Weibo');
         $list = $model->where($map)->page($page, $r)->select();
-        foreach ($list as &$li) {
-            if ($li['is_top']) {
-                $li['top'] = '置顶';
-            } else {
-                $li['top'] = '不置顶';
-            }
-        }
         unset($li);
         $totalCount = $model->where($map)->count();
 
@@ -41,18 +34,17 @@ class WeiboController extends AdminController
 
         $builder->title('微博管理')
             ->setStatusUrl(U('setWeiboStatus'))->buttonEnable()->buttonDisable()->buttonDelete()->button('置顶', $attr1)->button('取消置顶', $attr0)
-            ->keyId()->keyLink('content', '内容', 'comment?weibo_id=###')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editWeibo?id=###')->keyText('top', '置顶')
+            ->keyId()->keyLink('content', '内容', 'comment?weibo_id=###')->keyUid()->keyCreateTime()->keyStatus()
+            ->keyDoActionEdit('editWeibo?id=###')->keyMap('is_top', '置顶', array(0 => '不置顶', 1 => '置顶'))
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
-
-
     }
 
     public function setWeiboTop($ids, $top)
     {
         foreach ($ids as $id) {
-                D('Weibo')->where(array('id' => $id))->setField('is_top',$top);
+            D('Weibo')->where(array('id' => $id))->setField('is_top', $top);
         }
 
         $this->success('设置成功', $_SERVER['HTTP_REFERER']);
