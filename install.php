@@ -30,6 +30,13 @@ define ( 'APP_PATH', './Application/' );
 define ( 'RUNTIME_PATH', './Runtime/' );
 
 /**
+ * 确认Runtime目录可以写入
+ */
+if(!is_writable(RUNTIME_PATH)){
+    exit('错误：' . RUNTIME_PATH . '不可写。请设置文件权限。');
+}
+
+/**
  * 引入核心入口
  * ThinkPHP亦可移动到WEB以外的目录
  */
