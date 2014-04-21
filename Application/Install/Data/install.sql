@@ -1178,7 +1178,14 @@ INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, 
   (143, '回复回收站', 122, 6, 'Forum/replyTrash', 0, '', '回复', 0),
   (144, '微博回收站', 123, 2, 'Weibo/weiboTrash', 0, '', '微博', 0),
   (145, '回复回收站', 123, 4, 'Weibo/commentTrash', 0, '', '回复', 0),
-  (146, '规则回收站', 129, 0, 'SEO/ruleTrash', 0, '', '规则', 0);
+  (146, '规则回收站', 129, 0, 'SEO/ruleTrash', 0, '', '规则', 0),
+  (147, '头衔', 0, 10, 'Rank/index', 0, '', '', 0),  /*141*/
+  (148, '头衔列表', 147, 1, 'Rank/index', 0, '', '头衔管理', 0),
+  (149, '添加头衔', 147, 2, 'Rank/editRank', 0, '', '头衔管理', 0),
+  (150, '用户列表', 147, 0, 'Rank/userList', 0, '', '关联头衔', 0),/*144*/
+  (151, '用户头衔列表', 150, 0, 'Rank/userRankList', 1, '', '', 0),
+  (152, '关联新头衔', 150, 0, 'Rank/userAddRank', 1, '', '', 0),
+  (153, '编辑头衔关联', 150, 0, 'Rank/userChangeRank', 1, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1473,6 +1480,29 @@ CREATE TABLE IF NOT EXISTS `thinkox_weibo_comment` (
   `to_comment_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `thinkox_rank` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL COMMENT '上传者id',
+  `title` varchar(50) NOT NULL,
+  `logo` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- 表的结构 `thinkox_rank_user`
+--
+CREATE TABLE IF NOT EXISTS `thinkox_rank_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `rank_id` int(11) NOT NULL,
+  `reason` varchar(255) NOT NULL,
+  `is_show` tinyint(4) NOT NULL COMMENT '是否显示在昵称右侧（必须有图片才可）',
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
