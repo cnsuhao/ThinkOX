@@ -51,7 +51,11 @@ INSERT INTO `thinkox_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `t
   (8, 'update_attribute', '更新属性', '新增或更新或删除属性', '', '', 1, 1, 1383295963),
   (9, 'update_channel', '更新导航', '新增或修改或删除导航', '', '', 1, 1, 1383296301),
   (10, 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', 1, 1, 1383296392),
-  (11, 'update_category', '更新分类', '新增或修改或删除分类', '', '', 1, 1, 1383296765);
+  (11, 'update_category', '更新分类', '新增或修改或删除分类', '', '', 1, 1, 1383296765),
+  (12, 'add_weibo', '发微博', '积分+2，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+2|cycle:24|max:5', '', 1, 1, 1396342914),
+  (13, 'add_weibo_comment', '微博评论', '积分+1，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+1|cycle:24|max:5', '', 1, 1, 1396342907),
+  (14, 'add_post', '发帖子', '积分+3，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+3|cycle:24|max:5', '', 1, 1, 1396342951),
+  (15, 'add_post_reply', '发帖子回复', '积分+1，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+1|cycle:24|max:5', '', 1, 1, 1396342956);
 
 -- --------------------------------------------------------
 
