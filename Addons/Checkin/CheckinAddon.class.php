@@ -8,7 +8,6 @@ use Common\Controller\Addon;
  * 签到插件
  * @author 想天软件工作室
  */
-
 class CheckinAddon extends Addon
 {
 
@@ -28,9 +27,9 @@ class CheckinAddon extends Addon
         'order' => 'uid desc', //排序,
         'listKey' => array( //这里定义的是除了id序号外的表格里字段显示的表头名
             'uid' => 'UID',
-            'con_num'=>'连续签到次数',
-            'total_num'=>'总签到次数',
-            'ctime'=>'签到时间',
+            'con_num' => '连续签到次数',
+            'total_num' => '总签到次数',
+            'ctime' => '签到时间',
         ),
     );
 
@@ -49,29 +48,26 @@ class CheckinAddon extends Addon
     {
 
 
-      /*  $getranktime= $this->getConfig();
-        $set_ranktime=$getranktime['ranktime'] ;*/
+        /*  $getranktime= $this->getConfig();
+          $set_ranktime=$getranktime['ranktime'] ;*/
 
         $uid = is_login();
 
-        $data =  s('check_info_');//model('Cache')->get('check_info_' . $uid . '_' . date('Ymd'));
-       //dump($data);exit;
+        $data = S('check_info_'); //model('Cache')->get('check_info_' . $uid . '_' . date('Ymd'));
         if (!$data) {
             $map['uid'] = $uid;
             $map['ctime'] = array('gt', strtotime(date('Ymd')));
             $res = D('Check_info')->where($map)->find();
-            //dump($res);exit;
             //是否签到
             $data['ischeck'] = $res ? true : false;
-            //dump($data);exit;
 
             $checkinfo = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->limit(1)->find();
-           // dump($checkinfo);exit;
+            // dump($checkinfo);exit;
             if ($checkinfo) {
                 if ($checkinfo['ctime'] > (strtotime(date('Ymd')) - 86400)) {
                     $data['con_num'] = $checkinfo['con_num'];
                 } else {
-                    $data['con_num'] =1;
+                    $data['con_num'] = 1;
                 }
                 $data['total_num'] = $checkinfo['total_num'];
             } else {
@@ -81,7 +77,7 @@ class CheckinAddon extends Addon
             $data['day'] = date('m.d');
             //dump($data);exit;
             //model('Cache')->set('check_info_' . $uid . '_' . date('Ymd'), $data);
-            S('a','check_info_');
+            S('a', 'check_info_');
             //dump(S('a','check_info_'));exit;
         }
 
@@ -113,59 +109,52 @@ class CheckinAddon extends Addon
                 break;
         }
         $data['week'] = $week;
-        //dump($data);exit;
         //$content = $this->renderFile(dirname(__FILE__) . "/" . $data['tpl'] . '.html', $data);
         // return $content;
-        $this->assign("check",$data);
+        $this->assign("check", $data);
 
 
+        $uid = is_login();
+
+        $list = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->count();
+
+        $login = is_login() ? true : false;
 
 
-
-        $uid =is_login();
-
-        $list = D('Check_info')->where('uid='.$uid)->order('ctime desc')->count();
-
-         $login= is_login() ? true : false;
+        if (!$login) {
 
 
+            $this->display('View/default');
 
-       if(!$login) {
+        } elseif ($list == 0) {
+
+            $default = 0;
 
 
-           $this->display('View/default');
-
-            }
-        elseif ($list==0) {
-
-            $default=0;
-
-            $this->assign("connum",$default);
-            $this->assign("totalnum",$checkinfo['total_num']);
+            $this->assign("connum", $default);
+            $this->assign("totalnum", $checkinfo['total_num']);
             $this->display('View/checkin');
 
-        }
-
-        else{
+        } else {
             //$checkinfo= D('Check_info')->where('uid='.$uid)->getField('max(con_num)');
 
             $map['key'] = "check_connum";
             $map['uid'] = $uid;
 
-            $checkinfo = D('Check_info')->where('uid='.$uid)->order('ctime desc')->find();
-            $this->assign("connum",$checkinfo['con_num']);
-            $this->assign("totalnum",$checkinfo['total_num']);
+            $checkinfo = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->find();
+            $this->assign("connum", $checkinfo['con_num']);
+            $this->assign("totalnum", $checkinfo['total_num']);
             $checkcon = D('User_cdata')->where($map)->order('mtime desc')->select();
             //dump($checkinfo);exit;
-            $this->assign("lxqd",$checkcon['0']['value']);
+            $this->assign("lxqd", $checkcon['0']['value']);
 
             $total['key'] = "check_totalnum";
             $total['uid'] = $uid;
             $checktotal = D('User_cdata')->where($total)->order('mtime desc')->select();
 
-            $this->assign("zgqd",$checktotal['0']['value']);
+            $this->assign("zgqd", $checktotal['0']['value']);
 
-           // $this->display('View/testcheck');
+            // $this->display('View/testcheck');
             /*
              * 显示排名
              *
@@ -184,13 +173,30 @@ class CheckinAddon extends Addon
             }
             //dump($rank);exit;
             $this->assign("rank",$rank); */
-
+            /*计算超越*/
+            $over_rate=S('check_in_over_rate_'.is_login());
+            if(empty($over_rate)){
+                $over_rate=$this->getOverRate($checkinfo);
+                S('check_in_over_rate_'.is_login(),$over_rate,60);
+            }
+            $this->assign('over_rate',$over_rate );
             $this->display('View/checkin');
-
-
-
         }
 
+    }
+
+    /**
+     * @param $checkinfo
+     * @auth 陈一枭
+     */
+    private function getOverRate($checkinfo)
+    {
+        $db_prefix = C('DB_PREFIX');
+        $over_count = D()->query("select count(uid)  AS rank from (SELECT *,max(total_num) as total FROM `{$db_prefix}check_info`  WHERE 1 group by uid ) as checkin where total>={$checkinfo['total_num']}");
+
+        $users_count = D('Member')->count('uid');
+        $over_rate =((1- number_format($over_count[0]['rank']  / $users_count, '3'))*100)."%";
+        return $over_rate;
     }
 
 }
