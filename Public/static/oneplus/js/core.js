@@ -8,7 +8,6 @@ $(function () {
     ucard();//绑定用户小名片
     bindGoTop();//回到顶部
     checkMessage();//检查一次消息
-
     if (is_login()) {
         bindMessageChecker();//绑定用户消息
     }
@@ -548,5 +547,12 @@ function bindLogout() {
                 location.href = msg.url;
             }, 1500);
         }, 'json')
+    });
+}
+function bindSupport() {
+    $('.support_btn').unbind('click');
+    $('.support_btn').click(function(){
+        alert('a');
+        event.stopPropagation();
     });
 }
