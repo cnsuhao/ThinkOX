@@ -382,6 +382,10 @@ class IndexController extends Controller
         if (is_login() == 1) {
             return true;
         }
+        if(intval($forum_id)==0)
+        {
+            return true;
+        }
 
         //读取贴吧的基本信息
         $forum = D('Forum')->where(array('id' => $forum_id))->find();
