@@ -37,12 +37,12 @@
                 <p>
                     <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
                     <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
-                    <a class="pull-right text-primary weibo-comment-link"  data-weibo-id="{$weibo.id}">
+                    <span class="pull-right text-primary weibo-comment-link"  data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
                         <include file="_operation"/>
-                    </a>
+                    </span>
                 </p>
                 <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
                     <div class="col-xs-12">

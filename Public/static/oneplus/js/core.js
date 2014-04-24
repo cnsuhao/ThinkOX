@@ -552,7 +552,6 @@ function bindLogout() {
 function bindSupport() {
     $('.support_btn').unbind('click');
     $('.support_btn').click(function(){
-        alert('a');
         event.stopPropagation();
     });
 }
