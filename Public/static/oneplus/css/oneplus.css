@@ -57,6 +57,9 @@ a:hover {
 .navbar-nav > li > a {
   line-height: 28px;
 }
+#main-container {
+  margin-top: 80px;
+}
 .navbar-avatar-img {
   border-radius: 100%;
   width: 100%;
