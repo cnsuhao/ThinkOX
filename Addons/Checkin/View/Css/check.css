@@ -76,3 +76,6 @@
     font-size: 40px;padding-top: 15px;color: white;padding-left: 10px;
 }
 
+#checkdiv{
+    overflow: hidden;
+}
