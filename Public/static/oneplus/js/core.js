@@ -564,7 +564,8 @@ function bindSupport() {
             var row = $(this).attr('row');
             var table = $(this).attr('table');
             var uid = $(this).attr('uid');
-            $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table,uid:uid}, function (msg) {
+            var jump = $(this).attr('jump');
+            $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table,uid:uid,jump:jump}, function (msg) {
                 if (msg.status) {
                     var num_tag = $('#support_' + MODULE_NAME + '_' + table + '_' + row);
                     var pos = $('#support_' + MODULE_NAME + '_' + table + '_' + row + '_pos');

@@ -38,7 +38,12 @@ class SupportController extends AddonsController
             $support['create_time'] = time();
             if (D('Support')->where($support)->add($support)) {
                 $user = query_user(array('username'));
-                D('Message')->sendMessage($message_uid, $user['username'] . '给您点了个赞。', $title = '收到一个赞', U($appname . '/Index/' . $table . 'Detail' ,array('id' => $row)), is_login());
+                if (I('POST.jump') != 'no') {
+                    $jump = $_SERVER['HTTP_REFERER']; //如果设置了jump=no，则默认使用引用页
+                } else {
+                    $jump = U($appname . '/Index/' . $table . 'Detail', array('id' => $row));//否则按照约定规则组合消息跳转页面。
+                }
+                D('Message')->sendMessage($message_uid, $user['username'] . '给您点了个赞。', $title = '收到一个赞', $jump, is_login());
                 exit(json_encode(array('status' => 1, 'info' => '感谢您的支持。')));
             } else {
                 exit(json_encode(array('status' => 0, 'info' => '写入数据库失败。')));
