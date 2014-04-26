@@ -38,7 +38,7 @@ class SupportController extends AddonsController
             $support['create_time'] = time();
             if (D('Support')->where($support)->add($support)) {
                 $user = query_user(array('username'));
-                if (I('POST.jump') != 'no') {
+                if (I('POST.jump') == 'no') {
                     $jump = $_SERVER['HTTP_REFERER']; //如果设置了jump=no，则默认使用引用页
                 } else {
                     $jump = U($appname . '/Index/' . $table . 'Detail', array('id' => $row));//否则按照约定规则组合消息跳转页面。
