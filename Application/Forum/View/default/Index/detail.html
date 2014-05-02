@@ -167,9 +167,8 @@
                             <h4>发表回复</h4>
 
                             <p>
-                                <textarea name="content" placeholder="说点什么吧～" class="form-control"
-                                          style="height: 6em;"></textarea>
-                                {:hook('documentEditFormContent',array('name'=>'content'))}
+
+                                {:W('UeditorMini/editor',array('myeditor','content','','100%','250px',$config))}
                             </p>
 
                             <p class="pull-right">
