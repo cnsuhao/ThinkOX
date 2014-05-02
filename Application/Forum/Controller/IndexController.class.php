@@ -221,7 +221,12 @@ class IndexController extends Controller
         $postUrl = "http://$_SERVER[HTTP_HOST]" . U('Forum/Index/detail', array('id' => $post_id));
         $weiboApi = new WeiboApi();
         $weiboApi->resetLastSendTime();
-        $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
+        if($isEdit){
+            $weiboApi->sendWeibo("我修改了帖子【" . $title . "】：" . $postUrl);
+        }else{
+            $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
+        }
+
 
         //显示成功消息
         $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after);
