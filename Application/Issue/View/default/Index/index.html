@@ -1,0 +1,77 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/issue.css" rel="stylesheet" type="text/css"/>
+</block>
+
+<block name="body">
+    <div class="row">
+        <div class="col-md-12 app_head">
+            <div class="app_title">
+                <i class="app_ico_i glyphicon glyphicon-th-large"> </i>专辑
+            </div>
+            <div>
+                <div class="aline"></div>
+            </div>
+            <div class="sub_nav">
+                <ul id="top_nav" class="nav_list clearfix">
+                    <li>
+                        <a class="cur">全部分类</a>
+                    </li>
+                    <volist name="tree" id="top">
+                        <li>
+                            <a data="{$top.id}">{$top.title}</a>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+            <volist name="tree" id="top">
+                <div class="children_nav" id="children_{$top.id}">
+                    <ul class="nav_list clearfix">
+                        <li><a class="cur">全部分类</a></li>
+                        <volist name="top._" id="children">
+                            <li><a>{$children.title}</a></li>
+                        </volist>
+
+                    </ul>
+                </div>
+            </volist>
+
+        </div>
+
+
+    </div>
+
+    <div class="row issue_list">
+        <div class=" col-md-3">
+            <div class="item_inner">
+                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/>
+            </div>
+        </div>
+        <div class=" col-md-3">
+            <div class="item_inner">
+                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></div>
+        </div>
+        <div class=" col-md-3">
+            <div class="item_inner">
+                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></div>
+        </div>
+        <div class=" col-md-3">
+            <div class="item_inner">
+                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></div>
+        </div>
+
+    </div>
+
+</block>
+
+<block name="script">
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            })
+        })
+    </script>
+</block>

@@ -29,6 +29,13 @@ a:hover {
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
+
+.boxShadowBorder {
+  .boxShadow;
+  border: 1px solid #dddddd;
+  border-radius: 0.2em;
+}
+
 /*头衔*/
 .rank_html {
   width: 18px;
@@ -43,13 +50,15 @@ a:hover {
   width: 100%;
   margin: auto;
 }
-.tb_rank td,.tb_rank th{
-  padding:5px 10px;
+
+.tb_rank td, .tb_rank th {
+  padding: 5px 10px;
   border: 1px solid #ccc;
   border-left: none;
   border-right: none;
   color: #555;
 }
+
 /*头衔end*/
 
 .oneuser-title-hr {
@@ -67,9 +76,11 @@ a:hover {
 .navbar-nav > li > a {
   line-height: 28px;
 }
-#main-container{
+
+#main-container {
   margin-top: 80px;
 }
+
 .navbar-avatar-img {
   .avatar-img();
   border: solid 2px #fff;
@@ -332,7 +343,7 @@ h2 {
     border-bottom: 1px dashed #ccc;
     width: 100%;
     white-space: nowrap;
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
 
     .hot_num {
@@ -1034,20 +1045,87 @@ General list for item with image
   word-wrap: break-word;
 }
 
-
-.post_read{
-  i{
+.post_read {
+  i {
     margin-right: .3em;
   }
 
   display: inline-block;
   min-width: 4em;
 }
-.post_comment{
-  i{
+
+.post_comment {
+  i {
     margin-right: .3em;
   }
   display: inline-block;
-  min-width:  4em;
+  min-width: 4em;
   margin-right: -1em;
+}
+
+/*应用公共css*/
+.app_head {
+  background: #f8f8f8;
+  padding: 0;
+  margin: 0;
+  .boxShadowBorder;
+  margin-bottom: 1em;
+}
+
+.app_title {
+  padding: 0.3em .8em;
+  .app_ico_i {
+    font-size: .8em;
+    margin-right: .5em;
+  }
+  font-size: 1.5em;
+  line-height: 2em;
+}
+
+.sub_nav {
+  .nav_list {
+    padding-left: 0em;
+    margin-bottom: 0;
+    li {
+      list-style: none;
+      float: left;
+      a {
+        padding: 1.1em 1.3em;
+        font-size: 1.1em;
+        display: inline-block;
+      }
+      .cur {
+        background: white;
+        color: #333;
+      }
+    }
+  }
+}
+
+.aline {
+  border-bottom: 1px solid white;
+  border-top: 1px solid #ccc;
+}
+
+.children_nav {
+  display:none;
+  .nav_list {
+    background: white;
+    padding-left: 0;
+    margin: 0;
+    li {
+      list-style: none;
+      float: left;
+      a {
+        padding: 1.1em 1.3em;
+        font-size: 1.1em;
+        display: inline-block;
+        color: #666;
+      }
+      .cur {
+        background: white;
+        font-size: 1.0em;
+      }
+    }
+  }
 }
