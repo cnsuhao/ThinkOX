@@ -7,7 +7,7 @@
 // | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
-namespace Forum\Widget;
+namespace Issue\Widget;
 
 use Think\Action;
 

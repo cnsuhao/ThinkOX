@@ -2,76 +2,401 @@
 
 <block name="style">
     <link href="__CSS__/issue.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+
+    <style>
+        .issue_list .item_inner {
+            width: 280px;
+            float: left;
+            margin-right: 20px;
+            border: none;
+            background: white;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .issue_list h3 {
+            font-size: 1em;
+            padding-left: 20px;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .issue_list .operation {
+            padding-left: 20px;
+        }
+
+        .issue_list .operation li {
+            float: left;
+            list-style: none;
+            width: 33%;
+            text-align: left;
+        }
+
+        .issue_list .operation li i {
+            margin-right: 5px;
+            color: #999;
+        }
+
+        .issue_list .author img {
+            width: 32px;
+            margin-right: 10px;
+        }
+
+        .issue_list .author {
+            margin-left: 20px;
+
+        }
+
+        .app_head {
+            width: 1180px;
+        }
+
+        .spliter {
+            border-top: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+
+        .btn-submit {
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .upload-pre-item img{
+            min-width: 250px;
+
+            max-width: 250px;
+            max-height: 300px;
+            border: 1px solid #ccc;
+            padding: 2px;
+        }
+        .uploadcover{
+            color: rgb(255, 255, 255);
+            background-color: rgba(3, 3, 3, 0.50);
+            border-color: rgb(47, 122, 81);
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: normal;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid rgba(0, 0, 0, 0);
+            white-space: nowrap;
+            font-size: 14px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            position: absolute;
+        }
+    </style>
 </block>
 
 <block name="body">
-    <div class="row">
-        <div class="col-md-12 app_head">
-            <div class="app_title">
-                <i class="app_ico_i glyphicon glyphicon-th-large"> </i>专辑
-            </div>
-            <div>
-                <div class="aline"></div>
-            </div>
-            <div class="sub_nav">
-                <ul id="top_nav" class="nav_list clearfix">
+<div class="row">
+    <div class="col-md-12 app_head">
+        <div class="app_title">
+            <i class="app_ico_i glyphicon glyphicon-th-large"> </i>专辑
+        </div>
+        <div>
+            <div class="aline"></div>
+        </div>
+        <div class="sub_nav">
+            <ul id="top_nav" class="nav_list clearfix">
+                <li>
+                    <a class="cur">全部分类</a>
+                </li>
+                <volist name="tree" id="top">
                     <li>
-                        <a class="cur">全部分类</a>
+                        <a data="{$top.id}">{$top.title}</a>
                     </li>
-                    <volist name="tree" id="top">
-                        <li>
-                            <a data="{$top.id}">{$top.title}</a>
-                        </li>
+                </volist>
+
+                <li class="pull-right btn-submit">
+                    <button class="btn btn-primary open-popup-link" href="#frm-post-popup"><i
+                            class="glyphicon glyphicon-send"></i>&nbsp;投稿
+                    </button>
+                </li>
+            </ul>
+
+        </div>
+        <volist name="tree" id="top">
+            <div class="children_nav" id="children_{$top.id}">
+                <ul class="nav_list clearfix">
+                    <li><a class="cur">全部分类</a></li>
+                    <volist name="top._" id="children">
+                        <li><a>{$children.title}</a></li>
                     </volist>
+
                 </ul>
             </div>
-            <volist name="tree" id="top">
-                <div class="children_nav" id="children_{$top.id}">
-                    <ul class="nav_list clearfix">
-                        <li><a class="cur">全部分类</a></li>
-                        <volist name="top._" id="children">
-                            <li><a>{$children.title}</a></li>
-                        </volist>
-
-                    </ul>
-                </div>
-            </volist>
-
-        </div>
+        </volist>
 
 
     </div>
 
-    <div class="row issue_list">
-        <div class=" col-md-3">
-            <div class="item_inner">
-                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/>
+</div>
+
+<div class="row issue_list">
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+    <div class="item_inner">
+        <div class="item_core">
+            <a href=""> <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></a>
+
+            <div><h3><a href="">动态商学院-动态，有动画</a></h3></div>
+            <div class="spliter"></div>
+            <div>
+                <ul class="operation clearfix">
+                    <li><i class="glyphicon glyphicon-stats"></i>232</li>
+                    <li><i class="glyphicon glyphicon-heart-empty"></i>232</li>
+                    <li><i class="glyphicon glyphicon-comment"></i>232</li>
+                </ul>
+            </div>
+            <div class="spliter"></div>
+            <div><a class="author" href="/thinkox/index.php?s=/UserCenter/Index/index/uid/1.html">
+                <img src="http://localhost/thinkox/Uploads/Avatar/2014-03-29/533669a250755-75eab128_128_auto.jpg"
+                     ucard="1" class="avatar-img" data-hasqtip="2" aria-describedby="qtip-2">adawadwdaw
+            </a></div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 745px">
+    <h2>投稿</h2>
+
+    <div class="aline" style="margin-bottom: 10px"></div>
+    <div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="controls">
+                    <input type="file" id="upload_picture_cover">
+                    <div class="upload-img-box" style="margin-top: 20px;">
+                        <div class="upload-pre-item">请上传图片</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">标题</label>
+
+                        <div class="col-sm-10">
+                            <input id="title" type="" class="form-control" value="" placeholder="标题"/>
+                        </div>
+
+                        <input type="hidden" name="cover" id="cover_id_cover" value="{$data['cover']}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="content" class="col-sm-2 control-label">介绍</label>
+
+                        <div class="col-sm-10">
+
+                            <php>$config='toolbar:[\'bold italic underline fontsize forecolor justifyleft |  map image emotion\']';</php>
+                            {:W('UeditorMini/editor',array('myeditor','content',$post['content'],'378px','250px',$config))}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
-        <div class=" col-md-3">
-            <div class="item_inner">
-                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></div>
-        </div>
-        <div class=" col-md-3">
-            <div class="item_inner">
-                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></div>
-        </div>
-        <div class=" col-md-3">
-            <div class="item_inner">
-                <img src="http://www.shihe.me/data/upload/2014/0303/16/53144240bc37f.png"/></div>
-        </div>
 
     </div>
-
+</div>
+<!-- /.modal -->
 </block>
 
 <block name="script">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
         $(function () {
             $('#top_nav >li >a ').mouseenter(function () {
                 $('.children_nav').hide();
                 $('#children_' + $(this).attr('data')).show();
-            })
+            });
+            $('.open-popup-link').magnificPopup({
+                type: 'inline',
+                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+
+                closeOnBgClick:false
+            });
+
         })
+    </script>
+
+    <script type="text/javascript">
+        //上传图片
+        /* 初始化上传插件 */
+        $("#upload_picture_cover").uploadify({
+            "height"          : 30,
+            "swf"             : "__STATIC__/uploadify/uploadify.swf",
+            "fileObjName"     : "download",
+            "buttonText"      : "上传封面",
+            "buttonClass":"uploadcover",
+            "uploader"        : "{:U('Admin/File/uploadPicture',array('session_id'=>session_id()))}",
+            "width"           : 250,
+            'removeTimeout'	  : 1,
+            'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+            "onUploadSuccess" : uploadPicturecover,
+            'overrideEvents':['onUploadProgress','onUploadComplete','onUploadStart','onSelect'],
+        'onFallback' : function() {
+            alert('未检测到兼容版本的Flash.');
+        }, 'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                $("#cover_id_cover").parent().find('.upload-img-box').html(totalBytesUploaded + ' bytes uploaded of ' + totalBytesTotal + ' bytes.');
+            },'onUploadComplete' : function(file) {
+               //alert('The file ' + file.name + ' finished processing.');
+            },'onUploadStart' : function(file) {
+                //alert('Starting to upload ' + file.name);
+            },'onQueueComplete' : function(queueData) {
+               // alert(queueData.uploadsSuccessful + ' files were successfully uploaded.');
+            }
+        });
+        function uploadPicturecover(file, data){
+            var data = $.parseJSON(data);
+            var src = '';
+            if(data.status){
+                $("#cover_id_cover").val(data.id);
+                src = data.url || '__ROOT__' + data.path
+                $('.upload-img-box').html(
+                        '<div class="upload-pre-item"><img src="' + src + '"/></div>'
+                );
+            } else {
+              op_error('封面上传失败。','温馨提示');
+            }
+        }
     </script>
 </block>
