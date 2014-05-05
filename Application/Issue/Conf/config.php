@@ -33,5 +33,10 @@ return array(
         '__JS__' => __ROOT__ . '/Public/' . MODULE_NAME . '/js',
     ),
 
+
+
+
+    'NEED_VERIFY'=>true,//此处控制默认是否需要审核，该配置项为了便于部署起见，暂时通过在此修改来设定。
+
 );
 

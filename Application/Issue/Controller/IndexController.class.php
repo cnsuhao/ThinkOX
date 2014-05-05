@@ -65,14 +65,13 @@ class IndexController extends Controller
         $content = D('IssueContent')->create();
 
         if ($id) {
-            //TODO 对所有者的检测
-            $content_temp=D('IssueContent')->find($id);
-            if (!is_administrator(is_login())) {//不是管理员则进行检测
-                if ($content_temp['uid']!=is_login()) {
+            $content_temp = D('IssueContent')->find($id);
+            if (!is_administrator(is_login())) { //不是管理员则进行检测
+                if ($content_temp['uid'] != is_login()) {
                     $this->error('小样儿，可别学坏。别以为改一下页面元素就能越权操作。');
                 }
             }
-            $content['uid']=$content_temp['uid'];//权限矫正，防止被改为管理员
+            $content['uid'] = $content_temp['uid']; //权限矫正，防止被改为管理员
             $rs = D('IssueContent')->save($content);
             if ($rs) {
                 $this->success('编辑成功。', U('issueContentDetail', array('id' => $content['id'])));
@@ -80,9 +79,16 @@ class IndexController extends Controller
                 $this->success('编辑失败。', '');
             }
         } else {
+            if (C('NEED_VERIFY') && !is_administrator()) //需要审核且不是管理员
+            {
+                $content['status'] = 0;
+                $tip='但需管理员审核通过后才会显示在列表中，请耐心等待。';
+                //TODO 给管理员发送审核提醒消息 issue
+            }
+
             $rs = D('IssueContent')->add($content);
             if ($rs) {
-                $this->success('投稿成功。', 'refresh');
+                $this->success('投稿成功。'.$tip, 'refresh');
             } else {
                 $this->success('投稿失败。', '');
             }
@@ -122,8 +128,8 @@ class IndexController extends Controller
         if (!$issue_content) {
             $this->error('404 not found');
         }
-        if (!is_administrator(is_login())) {//不是管理员则进行检测
-            if($issue_content['uid'] != is_login()){
+        if (!is_administrator(is_login())) { //不是管理员则进行检测
+            if ($issue_content['uid'] != is_login()) {
                 $this->error('404 not found');
             }
         }

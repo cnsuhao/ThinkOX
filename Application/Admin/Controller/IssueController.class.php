@@ -23,14 +23,9 @@ class IssueController extends AdminController
         parent::_initialize();
     }
 
-    public function issue($page = 1, $r = 20)
+    public function issue()
     {
-        //读取微博列表
-        $map = array('status' => array('EGT', 0));
-        $model = M('Weibo');
-        $list = $model->where($map)->page($page, $r)->select();
-        unset($li);
-        $totalCount = $model->where($map)->count();
+
 
         //显示页面
         $builder = new AdminTreeListBuilder();
@@ -43,7 +38,7 @@ class IssueController extends AdminController
 
         $tree = D('Issue/Issue')->getTree(0, 'id,title,sort,pid,status');
 
-        $builder->title('微博管理')
+        $builder->title('专辑管理')
             ->buttonNew(U('Issue/add'))
             ->data($tree)
 
@@ -132,6 +127,72 @@ class IssueController extends AdminController
 
     public function doMerge($id, $toid)
     {
-        //TODO 实现合并功能
+        //TODO 实现合并功能 issue
+    }
+
+    public function contents($page=1,$r=10){
+        //读取列表
+        $map = array('status' => 1);
+        $model = M('IssueContent');
+        $list = $model->where($map)->page($page, $r)->select();
+        unset($li);
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $attr['class'] = 'btn ajax-post';
+        $attr['target-form'] = 'ids';
+
+
+        $builder->title('内容管理')
+            ->setStatusUrl(U('setIssueContentStatus'))->buttonDisable('','审核不通过')->buttonDelete()
+            ->keyId()->keyLink('title', '标题','Issue/Index/issueContentDetail?id=###')->keyUid()->keyCreateTime()->keyStatus()
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+    public function verify($page=1,$r=10){
+        //读取列表
+        $map = array('status' => 0);
+        $model = M('IssueContent');
+        $list = $model->where($map)->page($page, $r)->select();
+        unset($li);
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $attr['class'] = 'btn ajax-post';
+        $attr['target-form'] = 'ids';
+
+
+        $builder->title('审核内容')
+            ->setStatusUrl(U('setIssueContentStatus'))->buttonEnable('','审核通过')->buttonDelete()
+            ->keyId()->keyLink('title', '标题','Issue/Index/issueContentDetail?id=###')->keyUid()->keyCreateTime()->keyStatus()
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+
+    public function setIssueContentStatus($ids,$status){
+        $builder = new AdminListBuilder();
+        $builder->doSetStatus('IssueContent', $ids, $status);
+        //TODO 判断是审核通过，审核通过则需向作者发消息通知他 issue
+    }
+
+    public function contentTrash($page=1, $r=10){
+        //读取微博列表
+        $map = array('status' => -1);
+        $model = D('IssueContent');
+        $list = $model->where($map)->page($page, $r)->select();
+        $totalCount = $model->where($map)->count();
+
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->title('内容回收站')
+            ->setStatusUrl(U('setIssueContentStatus'))->buttonRestore()
+            ->keyId()->keyLink('title', '标题','Issue/Index/issueContentDetail?id=###')->keyUid()->keyCreateTime()->keyStatus()
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
     }
 }
