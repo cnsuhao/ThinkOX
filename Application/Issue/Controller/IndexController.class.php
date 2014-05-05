@@ -67,6 +67,10 @@ class IndexController extends Controller
         $content = D('IssueContent')->create();
 
         if($id){
+            //TODO 对所有者的检测
+            if(!D('IssueContent')->where(array('id'=>$id,'uid'=>is_login()))->count()){
+                $this->error('小样儿，可别学坏。别以为改一下页面元素就能越权操作。');
+            }
             $rs = D('IssueContent')->save($content);
             if ($rs) {
                 $this->success('编辑成功。',U('issueContentDetail',array('id'=>$content['id'])));
@@ -111,7 +115,7 @@ class IndexController extends Controller
 
     public function edit($id){
         $issue_content=D('IssueContent')->find($id);
-        if(!$issue_content){
+        if(!$issue_content || $issue_content['uid'] !=is_login()){
             $this->error('404 not found');
         }
         $issue=D('Issue')->find($issue_content['issue_id']);

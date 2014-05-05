@@ -37,7 +37,7 @@
                             <div class="col-sm-5">
                                 <select id="issue_top" name="issue" class="form-control">
                                     <volist name="tree" id="top">
-                                        <option value="{$top.id}">
+                                        <option value="{$top.id}" <eq name="content.top_id"> selected</eq>>
                                             {$top.title}
                                         </option>
 
