@@ -47,7 +47,9 @@
     <include file="_operation"/>
 </div>
 <script>
+    bindSupport();
     $(function () {
+
         var weiboid = '{$weiboId}';
         $('#text_' + weiboid + '').keypress(function (e) {
             if (e.ctrlKey && e.which == 13 || e.which == 10) {

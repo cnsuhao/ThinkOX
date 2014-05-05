@@ -91,6 +91,7 @@
                                         <php>
                                             $weiboCommentTotalCount = $weibo['comment_count'];
                                         </php>
+
                                         <include file="_operation"/>
                                     </div>
                                 </div>
@@ -129,6 +130,8 @@
     <script src="__JS__/weibo.js"></script>
     <script src="__JS__/insertFace.js"></script>
     <script>
+        var SUPPORT_URL="{:addons_url('Support://Support/doSupport')}";
+
         var auto_open_detail = 1;
         $(function () {
             var noMoreNextPage = false;

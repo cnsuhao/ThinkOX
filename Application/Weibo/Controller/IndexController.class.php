@@ -60,6 +60,7 @@ class IndexController extends Controller
         //显示页面
         $this->assign('weibo', $result['weibo']);
         $this->assignSelf();
+
         $this->display();
     }
 
@@ -121,6 +122,8 @@ class IndexController extends Controller
         //返回html代码用于ajax显示
         $this->assign('list', $list);
         $this->assign('weiboId', $weibo_id);
+        $weobo=$this->weiboApi->getWeiboDetail($weibo_id);
+        $this->assign('weibo',$weobo['weibo']);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->display();
     }
