@@ -108,7 +108,7 @@
                 </div>
                 <div class="row" style="margin-top: 40px">
                     <div class="col-md-6">
-                        <if condition="$content['uid'] eq is_login()">
+                        <if condition="($content['uid'] eq is_login()) OR is_administrator(is_login())">
                             <a class="btn btn-primary " href="{:U('edit',array('id'=>$content['id']))}" ><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
                         </if>
                     </div>

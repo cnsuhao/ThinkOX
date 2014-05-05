@@ -18,38 +18,36 @@ class IndexController extends Controller
         $this->assign('tree', $tree);
     }
 
-    public function index($page=1,$issue_id=0)
+    public function index($page = 1, $issue_id = 0)
     {
-        $issue=D('Issue')->find($issue_id);
-        if(!$issue_id==0){
-            $issue_id=intval($issue_id);
-            $issues=D('Issue')->where('id='.$issue_id.' OR pid='.$issue_id)->limit(999)->select();
-            $ids=array();
-            foreach($issues as $v)
-            {
-                $ids[]=$v['id'];
+        $issue = D('Issue')->find($issue_id);
+        if (!$issue_id == 0) {
+            $issue_id = intval($issue_id);
+            $issues = D('Issue')->where('id=' . $issue_id . ' OR pid=' . $issue_id)->limit(999)->select();
+            $ids = array();
+            foreach ($issues as $v) {
+                $ids[] = $v['id'];
             }
-            $map['issue_id']=array('in',implode(',',$ids));
+            $map['issue_id'] = array('in', implode(',', $ids));
         }
-        $map['status']=1;
-        $content=D('IssueContent')->where($map)->order('create_time desc')->page($page,16)->select();
-        $totalCount=D('IssueContent')->where($map)->count();
-        foreach($content as &$v){
-            $v['user']=query_user(array('id','username','space_url','space_link','avatar128','rank_html'),$v['uid']);
+        $map['status'] = 1;
+        $content = D('IssueContent')->where($map)->order('create_time desc')->page($page, 16)->select();
+        $totalCount = D('IssueContent')->where($map)->count();
+        foreach ($content as &$v) {
+            $v['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
         }
         unset($v);
-        $this->assign('contents',$content);
-        $this->assign('totalPageCount',$totalCount);
-        $this->assign('top_issue',$issue['pid']==0?$issue['id']:$issue['pid']);
+        $this->assign('contents', $content);
+        $this->assign('totalPageCount', $totalCount);
+        $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
 
         $this->display();
     }
 
-    public function doPost($id=0,$cover_id = 0, $title = '', $content = '', $issue_id = 0)
+    public function doPost($id = 0, $cover_id = 0, $title = '', $content = '', $issue_id = 0)
     {
 
-        if(!is_login())
-        {
+        if (!is_login()) {
             $this->error('请登陆后再投稿。');
         }
         if (!$cover_id) {
@@ -66,18 +64,22 @@ class IndexController extends Controller
         }
         $content = D('IssueContent')->create();
 
-        if($id){
+        if ($id) {
             //TODO 对所有者的检测
-            if(!D('IssueContent')->where(array('id'=>$id,'uid'=>is_login()))->count()){
-                $this->error('小样儿，可别学坏。别以为改一下页面元素就能越权操作。');
+            $content_temp=D('IssueContent')->find($id);
+            if (!is_administrator(is_login())) {//不是管理员则进行检测
+                if ($content_temp['uid']!=is_login()) {
+                    $this->error('小样儿，可别学坏。别以为改一下页面元素就能越权操作。');
+                }
             }
+            $content['uid']=$content_temp['uid'];//权限矫正，防止被改为管理员
             $rs = D('IssueContent')->save($content);
             if ($rs) {
-                $this->success('编辑成功。',U('issueContentDetail',array('id'=>$content['id'])));
+                $this->success('编辑成功。', U('issueContentDetail', array('id' => $content['id'])));
             } else {
                 $this->success('编辑失败。', '');
             }
-        }else{
+        } else {
             $rs = D('IssueContent')->add($content);
             if ($rs) {
                 $this->success('投稿成功。', 'refresh');
@@ -87,21 +89,22 @@ class IndexController extends Controller
         }
 
 
-
     }
-    public function issueContentDetail($id=0){
 
-        $issue_content=D('IssueContent')->find($id);
-        if(!$issue_content){
+    public function issueContentDetail($id = 0)
+    {
+
+        $issue_content = D('IssueContent')->find($id);
+        if (!$issue_content) {
             $this->error('404 not found');
         }
-        D('IssueContent')->where(array('id'=>$id))->setInc('view_count');
-        $issue=D('Issue')->find($issue_content['issue_id']);
+        D('IssueContent')->where(array('id' => $id))->setInc('view_count');
+        $issue = D('Issue')->find($issue_content['issue_id']);
 
-        $this->assign('top_issue',$issue['pid']==0?$issue['id']:$issue['pid']);
-        $this->assign('issue_id',$issue['id']);
-        $issue_content['user']=query_user(array('id','username','space_url','space_link','avatar64','rank_html','signature'),$issue_content['uid']);
-        $this->assign('content',$issue_content);
+        $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
+        $this->assign('issue_id', $issue['id']);
+        $issue_content['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
+        $this->assign('content', $issue_content);
         $this->display();
     }
 
@@ -113,17 +116,24 @@ class IndexController extends Controller
 
     }
 
-    public function edit($id){
-        $issue_content=D('IssueContent')->find($id);
-        if(!$issue_content || $issue_content['uid'] !=is_login()){
+    public function edit($id)
+    {
+        $issue_content = D('IssueContent')->find($id);
+        if (!$issue_content) {
             $this->error('404 not found');
         }
-        $issue=D('Issue')->find($issue_content['issue_id']);
+        if (!is_administrator(is_login())) {//不是管理员则进行检测
+            if($issue_content['uid'] != is_login()){
+                $this->error('404 not found');
+            }
+        }
 
-        $this->assign('top_issue',$issue['pid']==0?$issue['id']:$issue['pid']);
-        $this->assign('issue_id',$issue['id']);
-        $issue_content['user']=query_user(array('id','username','space_url','space_link','avatar64','rank_html','signature'),$issue_content['uid']);
-        $this->assign('content',$issue_content);
+        $issue = D('Issue')->find($issue_content['issue_id']);
+
+        $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
+        $this->assign('issue_id', $issue['id']);
+        $issue_content['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
+        $this->assign('content', $issue_content);
         $this->display();
     }
 }
