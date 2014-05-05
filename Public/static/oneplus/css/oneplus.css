@@ -943,6 +943,9 @@ General list for item with image
   font-size: 1.1em;
   display: inline-block;
 }
+.sub_nav .nav_list li:hover {
+  background: white;
+}
 .sub_nav .nav_list li .cur {
   background: white;
   color: #333;

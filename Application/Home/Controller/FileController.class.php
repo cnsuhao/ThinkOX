@@ -75,6 +75,7 @@ class FileController extends HomeController {
             C("UPLOAD_{$pic_driver}_CONFIG")
         ); //TODO:上传到远程服务器
 
+
         /* 记录图片信息 */
         if($info){
             $return['status'] = 1;

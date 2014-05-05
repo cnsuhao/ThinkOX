@@ -17,7 +17,7 @@
         <div class="sub_nav">
             <ul id="top_nav" class="nav_list clearfix">
                 <li>
-                    <a href="{:U('index')}" <eq name="top_issue" value="">class="cur"</eq>>全部分类</a>
+                    <a href="{:U('index')}">全部分类</a>
                 </li>
                 <volist name="tree" id="top">
                     <li>
@@ -45,7 +45,7 @@
                 <ul class="nav_list clearfix">
                     <li><a href="{:U('index',array('issue_id'=>$top['id']))}" <eq name="_GET.issue_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
                     <volist name="top._" id="children">
-                        <li><a <if condition="$_GET['issue_id'] eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('issue_id'=>$children['id']))}">{$children.title}</a></li>
+                        <li><a <if condition="$issue_id eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('issue_id'=>$children['id']))}">{$children.title}</a></li>
                     </volist>
 
                 </ul>
@@ -56,44 +56,88 @@
     </div>
 
 </div>
-
-<div class="row issue_list">
-
-    <volist name="contents" id="vo">
-        <div class="item_inner">
-            <div class="item_core">
-                <a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}"> <img class="cover" src="{$vo.cover_id|getThumbImageById=280,210}"/></a>
-
-                <div><h3><a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}" class="text-more" style="width: 100%">{$vo.title}</a></h3></div>
-                <div class="spliter"></div>
-                <div>
-                    <ul class="operation clearfix">
-                        <li><i class="glyphicon glyphicon-stats"></i>{$vo.view_count}</li>
-                        <li>{:Hook('support',array('table'=>'issue_content','row'=>$vo['id'],'app'=>'Issue','uid'=>$vo['uid'],'jump'=>'no'))}</li>
-                        <li><i class="glyphicon glyphicon-comment"></i>{$vo.reply_count}</li>
-                    </ul>
+<div class="content-body">
+        <h2 class="content-title">
+            {$content.title}
+        </h2>
+        <hr/>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img class="cover" src="{$content.cover_id|getThumbImageById=350,262}"/>
                 </div>
-                <div class="spliter"></div>
-                <div><a class="author" href="{$vo.user.space_url}">
-                    <img src="{$vo.user.avatar128}"
-                         ucard="{$vo.user.uid}" class="avatar-img" >{$vo.user.username}
-                </a>
-                <div class="pull-right ctime">{$vo.create_time|friendlyDate}</div></div>
             </div>
+            <div class="col-md-8 ">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <ul class="operation clearfix">
+                            <li><i class="glyphicon glyphicon-stats"></i>{$content.view_count}</li>
+                            <li>{:Hook('support',array('table'=>'issue_content','row'=>$content['id'],'app'=>'Issue','uid'=>$content['uid'],'jump'=>'no'))}</li>
+                            <li><i class="glyphicon glyphicon-comment"></i>{$content.reply_count}</li>
+                        </ul>
+
+                    </div>
+                    <div class="col-md-9">
+                        <div class="pull-right">
+                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 50px">
+                    <div class="col-md-2" style="text-align: center">
+                        <img ucard="{$content.user.id}" src="{$content.user.avatar64}" class="avatar-img" style="width: 64px"/>
+                        <br/>
+
+                           <a href="{$content.user.space_url}"> {$content.user.username} </a>
+
+                    </div>
+                    <div class="col-md-8">
+
+                        <div class="signature word-wrap">
+                            <div class="triangle"></div>
+                            <div class="triangle_left"></div>
+
+                            {$content.user.signature}
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 40px">
+                    <div class="col-md-6">
+                        <if condition="$content['uid'] eq is_login()">
+                            <a class="btn btn-primary " href="{:U('edit',array('id'=>$content['id']))}" ><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
+                        </if>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right" style="color: #999">
+                            发布时间：  {$content.create_time|friendlyDate} &nbsp;&nbsp;
+                            更新时间： {$content.update_time|friendlyDate}
+                        </div>
+                    </div>
+
+               </div>
+
+
+           </div>
+
 
         </div>
-    </volist>
-<if condition="count($contents) eq 0">
-    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">此分类下暂无内容哦。O(∩_∩)O~</div>
-</if>
 
-</div>
     <div>
-        <div class="pull-right">
 
-            {:getPagination($totalPageCount,16)}
-        </div>
     </div>
+    <hr/>
+        <div>
+            <h3>介绍</h3>
+            {$content.content}
+        </div>
+</div>
+
+
 
 
 <!-- Modal -->
@@ -147,10 +191,13 @@
 
                                                         $('#issue_second').append('<option value="'+element.id+'">'+element.title+'</option>')
                                                     }
-                                            )
+                                            );
+
+
                                         },'json');
                                 });
                                 $('#issue_top').change();
+
                             })
 
                         </script>
@@ -204,6 +251,16 @@
                 midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
                 closeOnBgClick:false
             });
+
+            $('.open-popup-ajax').magnificPopup({
+                type: 'iframe',
+                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                closeOnBgClick:false
+
+            });
+
+
+
 
             bindSupport();
         })

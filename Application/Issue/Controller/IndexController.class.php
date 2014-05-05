@@ -45,8 +45,13 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function doPost($cover_id = 0, $title = '', $content = '', $issue_id = 0)
+    public function doPost($id=0,$cover_id = 0, $title = '', $content = '', $issue_id = 0)
     {
+
+        if(!is_login())
+        {
+            $this->error('请登陆后再投稿。');
+        }
         if (!$cover_id) {
             $this->error('请上传封面。');
         }
@@ -60,13 +65,40 @@ class IndexController extends Controller
             $this->error('请选择分类。');
         }
         $content = D('IssueContent')->create();
-        $rs = D('IssueContent')->add($content);
-        if ($rs) {
-            $this->success('投稿成功。', 'refresh');
-        } else {
-            $this->success('投稿失败。', '');
+
+        if($id){
+            $rs = D('IssueContent')->save($content);
+            if ($rs) {
+                $this->success('编辑成功。',U('issueContentDetail',array('id'=>$content['id'])));
+            } else {
+                $this->success('编辑失败。', '');
+            }
+        }else{
+            $rs = D('IssueContent')->add($content);
+            if ($rs) {
+                $this->success('投稿成功。', 'refresh');
+            } else {
+                $this->success('投稿失败。', '');
+            }
         }
 
+
+
+    }
+    public function issueContentDetail($id=0){
+
+        $issue_content=D('IssueContent')->find($id);
+        if(!$issue_content){
+            $this->error('404 not found');
+        }
+        D('IssueContent')->where(array('id'=>$id))->setInc('view_count');
+        $issue=D('Issue')->find($issue_content['issue_id']);
+
+        $this->assign('top_issue',$issue['pid']==0?$issue['id']:$issue['pid']);
+        $this->assign('issue_id',$issue['id']);
+        $issue_content['user']=query_user(array('id','username','space_url','space_link','avatar64','rank_html','signature'),$issue_content['uid']);
+        $this->assign('content',$issue_content);
+        $this->display();
     }
 
     public function selectDropdown($pid)
@@ -75,5 +107,19 @@ class IndexController extends Controller
         exit(json_encode($issues));
 
 
+    }
+
+    public function edit($id){
+        $issue_content=D('IssueContent')->find($id);
+        if(!$issue_content){
+            $this->error('404 not found');
+        }
+        $issue=D('Issue')->find($issue_content['issue_id']);
+
+        $this->assign('top_issue',$issue['pid']==0?$issue['id']:$issue['pid']);
+        $this->assign('issue_id',$issue['id']);
+        $issue_content['user']=query_user(array('id','username','space_url','space_link','avatar64','rank_html','signature'),$issue_content['uid']);
+        $this->assign('content',$issue_content);
+        $this->display();
     }
 }
