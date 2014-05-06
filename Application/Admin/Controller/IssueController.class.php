@@ -127,6 +127,9 @@ class IssueController extends AdminController
 
     public function doMerge($id, $toid)
     {
+        $effect_count=D('IssueContent')->where(array('issue_id'=>$id))->setField('issue_id',$toid);
+        D('Issue')->where(array('id'=>$id))->setField('status',-1);
+        $this->success('合并分类成功。共影响了'.$effect_count.'个内容。',U('issue'));
         //TODO 实现合并功能 issue
     }
 
@@ -175,8 +178,15 @@ class IssueController extends AdminController
 
     public function setIssueContentStatus($ids,$status){
         $builder = new AdminListBuilder();
+        if($status==1){
+            foreach($ids as $id){
+                $content=D('IssueContent')->find($id);
+                D('Common/Message')->sendMessage($content['uid'],"管理员审核通过了您发布的内容。现在可以在列表看到该内容了。" , $title = '专辑内容审核通知', U('Issue/Index/issueContentDetail',array('id'=>$id)), is_login(), 2);
+            }
+
+        }
         $builder->doSetStatus('IssueContent', $ids, $status);
-        //TODO 判断是审核通过，审核通过则需向作者发消息通知他 issue
+
     }
 
     public function contentTrash($page=1, $r=10){

@@ -83,9 +83,9 @@ class IndexController extends Controller
             {
                 $content['status'] = 0;
                 $tip='但需管理员审核通过后才会显示在列表中，请耐心等待。';
-                //TODO 给管理员发送审核提醒消息 issue
+                $user=query_user(array('username'),is_login());
+                D('Common/Message')->sendMessage(C('USER_ADMINISTRATOR'),"{$user['username']}向专辑投了一份稿件，请到后台审核。" , $title = '专辑投稿提醒', U('Admin/Issue/verify'), is_login(), 2);
             }
-
             $rs = D('IssueContent')->add($content);
             if ($rs) {
                 $this->success('投稿成功。'.$tip, 'refresh');
