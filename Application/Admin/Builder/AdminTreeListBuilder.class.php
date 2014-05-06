@@ -308,7 +308,7 @@ class AdminTreeListBuilder extends AdminBuilder {
         $this->assign('buttonList', $this->_buttonList);
         $this->assign('pagination', $paginationHtml);
         $this->assign('tree', $this->_data);
-        parent::display('admin_tree_list');
+        parent::display('admin_tree');
     }
 
  /**

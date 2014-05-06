@@ -251,6 +251,8 @@ function list_sort_by($list, $field, $sortby = 'asc')
  */
 function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root = 0)
 {
+
+
     // 创建Tree
     $tree = array();
     if (is_array($list)) {
@@ -272,6 +274,7 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
             }
         }
     }
+
     return $tree;
 }
 

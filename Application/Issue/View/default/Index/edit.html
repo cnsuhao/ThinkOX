@@ -37,7 +37,7 @@
                             <div class="col-sm-5">
                                 <select id="issue_top" name="issue" class="form-control">
                                     <volist name="tree" id="top">
-                                        <option value="{$top.id}" <eq name="content.top_id"> selected</eq>>
+                                        <option value="{$top.id}" <eq name="top_issue" value="$top['id']"> selected</eq>>
                                             {$top.title}
                                         </option>
 
@@ -46,7 +46,6 @@
                             </div>
 
                             <script>
-                                $(function () {
                                     var first_load=true;
 
                                         $('#issue_top').change(function(){
@@ -68,17 +67,12 @@
                                 });
                                 $('#issue_top').change();
 
-                                })
 
 
                             </script>
                             <div class="col-sm-5">
                                 <select id="issue_second" name="issue_id" class="form-control">
-                                    <volist name="tree" id="top">
-                                        <option value="{$top.id}">
-                                            {$top.title}
-                                        </option>
-                                    </volist>
+                                  <option>请选择一级分类</option>
                                 </select>
                             </div>
 
@@ -88,7 +82,7 @@
 
                             <div class="col-sm-10">
 
-                                <php>$config='toolbar:[\'bold italic underline fontsize forecolor justifyleft | map image emotion\']';
+                                <php>$config='toolbar:[\'bold italic underline fontsize forecolor justifyleft | map image emotion link \']';
                                 </php>
                                 {:W('UeditorMini/editor',array('myeditor_edit','content',$content['content'],'378px','250px',$config))}
                             </div>

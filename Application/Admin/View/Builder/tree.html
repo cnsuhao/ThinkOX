@@ -23,10 +23,12 @@
 				</div>
 			</form>
 		</dt>
+
 		<notempty name="list['_']">
 			<dd>
                 <php>
                     $tree_list = new Admin\Builder\AdminTreeListBuilder();
+
                     $tree_list->tree($list['_']);
                 </php>
 			</dd>

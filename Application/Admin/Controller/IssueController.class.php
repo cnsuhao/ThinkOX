@@ -38,6 +38,7 @@ class IssueController extends AdminController
 
         $tree = D('Issue/Issue')->getTree(0, 'id,title,sort,pid,status');
 
+
         $builder->title('专辑管理')
             ->buttonNew(U('Issue/add'))
             ->data($tree)
@@ -79,7 +80,9 @@ class IssueController extends AdminController
             } else {
                 $issue = array('pid' => $pid, 'status' => 1);
             }
-            $builder->title('新增分类')->keyId()->keyText('title', '标题')->keySelect('pid', '父分类', '选择父级分类', array_merge(array('0' => '顶级分类'), $opt))
+
+
+            $builder->title('新增分类')->keyId()->keyText('title', '标题')->keySelect('pid', '父分类', '选择父级分类', array('0' => '顶级分类')+$opt)
                 ->keyStatus()->keyCreateTime()->keyUpdateTime()
                 ->data($issue)
                 ->buttonSubmit(U('Issue/add'))->buttonBack()->display();
