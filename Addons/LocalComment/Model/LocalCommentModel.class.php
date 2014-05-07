@@ -23,6 +23,7 @@ class LocalCommentModel extends Model {
         array('status', 1, self::MODEL_BOTH),
     );
 
+    //此方法未被调用。
     public function addComment($uid, $document_id, $content) {
         //添加评论
         $row = array('uid'=>$uid, 'document_id'=>$document_id,'parse'=>0,'content'=>$content, 'create_time'=>time(), 'pid'=>0, 'status'=>1);

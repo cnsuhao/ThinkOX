@@ -135,9 +135,8 @@
             <h3>介绍</h3>
             {$content.content}
         </div>
-    <hr>
     <div>
-    {:hook('localComment', array('path'=>"Issue/Index/issueContentDetail/$issueContent[id]", 'uid'=>$issueContent['uid']))}
+    {:hook('localComment', array('path'=>"Issue/issueContent/$content[id]", 'uid'=>$content['uid']))}
     </div>
 </div>
 

@@ -22,7 +22,8 @@ class IndexController extends Controller
         $uid = intval($_REQUEST['uid']);
 
         //调用API接口，添加新评论
-        $data = array('app' => $app, 'mod' => $mod, 'row_id' => $row_id, 'content' => $content);
+        $data = array('app' => $app, 'mod' => $mod, 'row_id' => $row_id, 'content' => $content,'uid'=>is_login());
+        D($app.'/'.$mod)->where(array('id'=>$row_id))->setInc('reply_count');
         $commentModel = D('Addons://LocalComment/LocalComment');
         $data = $commentModel->create($data);
         if (!$data) {
