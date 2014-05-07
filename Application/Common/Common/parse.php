@@ -78,8 +78,8 @@ function get_at_uids($content)
     $usernames = get_at_usernames($content);
     $result = array();
     foreach ($usernames as $username) {
-        $user = D('User/UcenterMember')->where(array('username' => $username))->field('uid')->find();
-        $result[] = $user['uid'];
+        $user = D('User/UcenterMember')->where(array('username' => $username))->field('id')->find();
+        $result[] = $user['id'];
     }
     return $result;
 }

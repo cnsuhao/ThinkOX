@@ -1131,3 +1131,18 @@ require_once(APP_PATH . '/Common/Common/seo.php');
 require_once(APP_PATH . '/Common/Common/type.php');
 require_once(APP_PATH . '/Common/Common/cache.php');
 require_once(APP_PATH . '/Common/Common/vendors.php');
+require_once(APP_PATH . '/Common/Common/parse.php');
+function tox_addons_url($url, $param)
+{
+    // 拆分URL
+    $url = explode('/', $url);
+    $addon = $url[0];
+    $controller = $url[1];
+    $action = $url[2];
+
+    // 调用u函数
+    $param['_addons'] = $addon;
+    $param['_controller'] = $controller;
+    $param['_action'] = $action;
+    return U("Home/Addons/execute", $param);
+}

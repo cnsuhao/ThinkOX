@@ -11,7 +11,7 @@ namespace Weibo\Api;
 use Common\Api\Api;
 use Common\Exception\ApiException;
 
-require_once(APP_PATH . 'Weibo/Common/function.php');
+
 
 class WeiboApi extends Api
 {
