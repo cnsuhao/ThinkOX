@@ -64,7 +64,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="thumbnail">
-                    <img class="cover" src="{$content.cover_id|getThumbImageById=350,262}"/>
+                    <img  style="width: 350px;height: 262px" src="{$content.cover_id|getThumbImageById=350,262}"/>
                 </div>
             </div>
             <div class="col-md-8 ">
@@ -107,12 +107,12 @@
                     </div>
                 </div>
                 <div class="row" style="margin-top: 40px">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <if condition="($content['uid'] eq is_login()) OR is_administrator(is_login())">
                             <a class="btn btn-primary " href="{:U('edit',array('id'=>$content['id']))}" ><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
                         </if>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="pull-right" style="color: #999">
                             发布时间：  {$content.create_time|friendlyDate} &nbsp;&nbsp;
                             更新时间： {$content.update_time|friendlyDate}
