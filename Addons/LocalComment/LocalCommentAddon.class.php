@@ -74,7 +74,7 @@ SQL
 
         //增加用户信息
         foreach ($list as &$e) {
-            $e['user'] = query_user(array('uid', 'avatar64', 'username', 'space_url'));
+            $e['user'] = query_user(array('uid', 'avatar64', 'username', 'space_url'),$e['uid']);
         }
         unset($e);
 
