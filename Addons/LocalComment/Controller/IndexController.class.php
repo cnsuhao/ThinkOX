@@ -14,6 +14,10 @@ class IndexController extends Controller
 {
     public function addComment()
     {
+        if(!is_login())
+        {
+            $this->error('请登录后评论。');
+        }
         //获取参数
         $app = strval($_REQUEST['app']);
         $mod = strval($_REQUEST['mod']);

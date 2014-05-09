@@ -37,15 +37,28 @@
         <volist name="list" id="comment">
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="{$comment.user.space_url}" class="pull-left">
-                        <img src="{$comment.user.avatar64}" style="width: 64px;" ucard="{$comment.user.uid}"
-                             class="avatar-img"/>
-                    </a>
+                    <eq name="comment.uid" value="0">
+                        <a class="pull-left">
+                            <img src="http://tox.ourstu.com/tox/Addons/Avatar/default_64_auto.jpg" style="width: 64px;"
+                                 class="avatar-img"/>
+                        </a>
+                        <else/>
+                        <a href="{$comment.user.space_url}" class="pull-left">
+                            <img src="{$comment.user.avatar64}" style="width: 64px;" ucard="{$comment.user.uid}"
+                                 class="avatar-img"/>
+                        </a>
+                    </eq>
+
 
                     <div style="overflow: hidden">
                         <div class="" style="padding-left: 16px;">
-                            <p><a href="{$comment.user.space_url}"
-                                  ucard="{$comment.user.uid}">{$comment.user.username|op_t}</a></p>
+
+                            <p><eq name="comment.uid" value="0">
+                                <a>游客</a>
+                                <else/>
+                                <a href="{$comment.user.space_url}"
+                                  ucard="{$comment.user.uid}">{$comment.user.username|op_t}</a> </eq></p>
+
 
                             <p>{$comment.content|parse_comment_content}</p>
 
