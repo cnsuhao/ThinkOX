@@ -36,7 +36,7 @@
   margin-top: 5px;
 }
 
- .operation {
+.operation {
   padding-left: 20px;
 }
 
@@ -82,9 +82,22 @@
   margin-top: 10px;
 }
 
-.item_core .cover {
-  width: 280px;
-  height: 210px;
+.item_core  {
+  .cover{
+    width: 280px;
+    height: 210px;
+  }
+
+  position: relative;
+}
+
+.item_type {
+  background: rgba(72, 184, 122, 0.8);
+  color: white;
+  position: absolute;
+  padding: 3px 5px;
+  left: 0;
+  top: 0;
 }
 
 .upload-pre-item img {
@@ -141,7 +154,7 @@
     margin-bottom: 33px;
     text-transform: uppercase;
   }
-  .signature{
+  .signature {
     border: 1px solid #ccc;
     border-radius: 2px;
     background: #f5f5f5;
@@ -150,11 +163,11 @@
     position: relative;
     min-height: 80px;
   }
-  .cover{
+  .cover {
     width: 350px;
     height: 252px;
   }
-  .triangle_left{
+  .triangle_left {
     width: 0;
     height: 0;
     border-top: 10px solid rgba(0, 0, 0, 0);
@@ -167,12 +180,12 @@
     display: inline-block;
     position: absolute;
   }
-  .triangle{
+  .triangle {
     width: 0;
     height: 0;
     border-top: 10px solid rgba(0, 0, 0, 0);
     border-right: 10px solid rgb(204, 204, 204);
-    border-bottom:10px solid rgba(0, 0, 0, 0);
+    border-bottom: 10px solid rgba(0, 0, 0, 0);
     margin-left: -41px;
     margin-top: 0px;
     z-index: 2;

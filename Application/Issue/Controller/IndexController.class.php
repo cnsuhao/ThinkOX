@@ -35,6 +35,7 @@ class IndexController extends Controller
         $totalCount = D('IssueContent')->where($map)->count();
         foreach ($content as &$v) {
             $v['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
+            $v['issue']=D('Issue')->field('id,title')->find($v['issue_id']);
         }
         unset($v);
         $this->assign('contents', $content);

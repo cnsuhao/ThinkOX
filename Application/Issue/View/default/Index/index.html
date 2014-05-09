@@ -20,9 +20,12 @@
                     <a href="{:U('index')}" <eq name="top_issue" value="">class="cur"</eq>>全部分类</a>
                 </li>
                 <volist name="tree" id="top">
-                    <li>
-                        <a <eq name="top_issue" value="$top['id']">class="cur"</eq> href="{:U('index',array('issue_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
-                    </li>
+                    <if condition="$top['status'] eq 1">
+                        <li>
+                            <a <eq name="top_issue" value="$top['id']">class="cur"</eq> href="{:U('index',array('issue_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+                        </li>
+                    </if>
+
                 </volist>
 
                 <li class="pull-right btn-submit">
@@ -41,6 +44,7 @@
 
         </div>
         <volist name="tree" id="top">
+            <if condition="$top['status'] eq 1">
             <div <eq name="top_issue" value="$top['id']">style="display:block;"</eq>  class="children_nav" id="children_{$top.id}">
                 <ul class="nav_list clearfix">
                     <li><a href="{:U('index',array('issue_id'=>$top['id']))}" <eq name="_GET.issue_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
@@ -50,6 +54,7 @@
 
                 </ul>
             </div>
+   </if>
         </volist>
 
 
@@ -62,6 +67,7 @@
     <volist name="contents" id="vo">
         <div class="item_inner">
             <div class="item_core">
+                <div class="item_type">{$vo.issue.title}</div>
                 <a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}"> <img class="cover" src="{$vo.cover_id|getThumbImageById=280,210}"/></a>
 
                 <div><h3><a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}" class="text-more" style="width: 100%">{$vo.title}</a></h3></div>
