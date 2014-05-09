@@ -109,4 +109,14 @@ SQL
     {
         return D('Addons://LocalComment/LocalComment');
     }
+
+
+    //实现的AdminIndex钩子方法
+    public function AdminIndex($param)
+    {
+        $config = $this->getConfig();
+        $this->assign('addons_config', $config);
+        if ($config['display'])
+            $this->display('widget');
+    }
 }

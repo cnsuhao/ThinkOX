@@ -14,10 +14,16 @@ class IndexController extends Controller
 {
     public function addComment()
     {
-        if(!is_login())
-        {
-            $this->error('请登录后评论。');
+
+        $config=  get_addon_config('LocalComment');
+        $can_guest_comment=$config['can_guest_comment'];
+        if(!$can_guest_comment){//不允许游客评论
+            if(!is_login())
+            {
+                $this->error('请登录后评论。');
+            }
         }
+
         //获取参数
         $app = strval($_REQUEST['app']);
         $mod = strval($_REQUEST['mod']);
@@ -34,15 +40,28 @@ class IndexController extends Controller
             $this->error('评论失败：' . $commentModel->getError());
         }
         $commentModel->add($data);
-
-        //给评论对象发送消息
-        if($uid){
-            $user = D('User/UcenterMember')->find(get_uid());
-            $title = $user['username'] . '评论了您';
-            $message = '评论内容：' . $content;
-            $url = $_SERVER['HTTP_REFERER'];
-            D('Common/Message')->sendMessage($uid, $message, $title, $url, get_uid(), 0, $app);
+        if(!is_login())//游客逻辑直接跳过@环节
+        {
+            if($uid){
+                $title ='游客' . '评论了您';
+                $message = '评论内容：' . $content;
+                $url = $_SERVER['HTTP_REFERER'];
+                D('Common/Message')->sendMessage($uid, $message, $title, $url,0, 0, $app);
+            }
+            //返回结果
+            $this->success('评论成功', 'refresh');
+        }else{
+            //给评论对象发送消息
+            if($uid){
+                $user = D('User/UcenterMember')->find(get_uid());
+                $title = $user['username'] . '评论了您';
+                $message = '评论内容：' . $content;
+                $url = $_SERVER['HTTP_REFERER'];
+                D('Common/Message')->sendMessage($uid, $message, $title, $url, get_uid(), 0, $app);
+            }
         }
+
+
 
         //通知被@到的人
         $uids = get_at_uids($content);
