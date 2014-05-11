@@ -143,13 +143,19 @@
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         ,toolbar:[
+            'source | bold italic underline strikethrough | forecolor backcolor | removeformat |',
+            'insertorderedlist | paragraph | fontfamily fontsize' ,
+            '| justifyleft justifycenter justifyright justifyjustify |',
+            'link unlink | emotion image video  | map',
+            '| horizontal ', 'drafts'
+        ]
+       /* ,toolbar:[
             'source | undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
             'insertorderedlist insertunorderedlist | selectall cleardoc paragraph | fontfamily fontsize' ,
             '| justifyleft justifycenter justifyright justifyjustify |',
             'link unlink | emotion image video  | map',
             '| horizontal print preview fullscreen', 'drafts', 'formula'
-        ]
-
+        ]*/
         //语言配置项,默认是zh-cn。有需要的话也可以使用如下这样的方式来自动多语言切换，当然，前提条件是lang文件夹下存在对应的语言文件：
         //lang值也可以通过自动获取 (navigator.language||navigator.browserLanguage ||navigator.userLanguage).toLowerCase()
         //,lang:"zh-cn"
@@ -180,7 +186,7 @@
 
         //,textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
 
-        //,focus:false //初始化时，是否让编辑器获得焦点true或false
+       ,focus:true //初始化时，是否让编辑器获得焦点true或false
 
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
@@ -188,13 +194,13 @@
 
         //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
-        //,zIndex : 900     //编辑器层级的基数,默认是900
+        ,zIndex : 1     //编辑器层级的基数,默认是900
 
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //注意这里添加的样式，最好放在.edui-editor-body .edui-body-container这两个的下边，防止跟页面上css冲突
         //,initialStyle:'.edui-editor-body .edui-body-container p{line-height:1em}'
 
-        //,autoSyncData:true //自动同步编辑器要提交的数据
+        ,autoSyncData:true //自动同步编辑器要提交的数据
 
         //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
 
@@ -238,10 +244,9 @@
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        //,autoFloatEnabled:true
 
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
-        //,topOffset:30
+        ,topOffset:62
 
         //填写过滤规则
         //,filterRules: {}
