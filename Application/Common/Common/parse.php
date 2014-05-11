@@ -55,8 +55,10 @@ function parse_at_users($content)
     //将@用户替换成链接
     foreach ($at_usernames as $e) {
         $user = D('ucenter_member')->where(array('username' => $e))->find();
-        $query_user = query_user(array('space_url'), $user['uid']);
-        $content = str_replace("@$e ", "<a ucard=\"$user[id]\" href=\"$query_user[space_url]\">@$e </a>", $content);
+        if($user){
+            $query_user = query_user(array('space_url'), $user['uid']);
+            $content = str_replace("@$e ", "<a ucard=\"$user[id]\" href=\"$query_user[space_url]\">@$e </a>", $content);
+        }
     }
 
     //返回替换的文本

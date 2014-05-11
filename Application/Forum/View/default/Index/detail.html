@@ -113,7 +113,7 @@
                 </div>
                 <div class="col-xs-10">
                     <div style="min-height: 10em;" class="post_content">
-                        {$reply.content}
+                        {$reply.content|parse_at_users}
                         <br/>
                     </div>
                     <p class="pull-right text-muted">
@@ -167,7 +167,7 @@
 
                             <p>
 
-                                {:W('UeditorMini/editor',array('myeditor','content','','100%','250px',$config))}
+                                {:W('UeditorMini/editor',array('contentEditor','content','','100%','250px',$config))}
                             </p>
 
                             <p class="pull-right">
@@ -182,17 +182,32 @@
         </if>
     </div>
     </div>
-
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script>
         var SUPPORT_URL="{:addons_url('Support://Support/doSupport')}";
         //点击收藏/取消收藏按钮
         $(function () {
+
             $('#reply_form').keypress(function (e) {
                 if (e.ctrlKey && e.which == 13 || e.which == 10) {
                     $('#reply_button').focus();
                     $("#reply_form").submit();
                 }
             });
+
+
+            atwho_config = {
+                at: "@",
+                alias:"at",
+                data: U('Weibo/Index/atWhoJson'),
+                tpl: "<li data-value='@${username}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${username}</li>",
+                show_the_at: true,
+                search_key: 'search_key',
+                start_with_space: false,
+                insert_tpl:'${atwho-data-value} '
+            };
+            var $inputor = $('#contentEditor').atwho(atwho_config);
 
             bindSupport();
             $('#bookmark_button a, #unbookmark_button a').click(function (e) {
