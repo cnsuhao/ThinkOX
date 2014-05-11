@@ -180,8 +180,6 @@ class IndexController extends Controller
 
     public function doEdit($post_id = null, $forum_id, $title, $content)
     {
-        //对帖子内容进行安全过滤
-        $content = $this->filterPostContent($content);
 
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
@@ -202,6 +200,8 @@ class IndexController extends Controller
         if ($isEdit) {
             $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
             $result = $model->editPost($data);
+
+
             if (!$result) {
                 $this->error('编辑失败：' . $model->getError());
             }
@@ -238,12 +238,11 @@ class IndexController extends Controller
         //确认有权限回复
         $this->requireAllowReply($post_id);
 
-        //对帖子内容进行安全过滤
-        $content = $this->filterPostContent($content);
+
 
         //检测回复时间限制
         $uid = is_login();
-        $near = D('ForumPostReply')->where('uid=' . $uid)->order('create_time desc')->find();
+        $near = D('ForumPostReply')->where(array('uid'=>$uid))->order('create_time desc')->find();
 
         $cha = time() - $near['create_time'];
         if ($cha > 10) {
@@ -251,7 +250,7 @@ class IndexController extends Controller
             //添加到数据库
             $model = D('ForumPostReply');
             $before = getMyScore();
-            $result = $model->addReply($post_id, $content);
+            $result = $model->addReply($post_id, $this->filterPostContent($content));
             $after = getMyScore();
             if (!$result) {
                 $this->error('回复失败：' . $model->getError());
@@ -437,13 +436,7 @@ class IndexController extends Controller
         $this->display();
     }
 
-    private function filterPostContent($content)
-    {
-        $content = op_h($content);
-        $content = $this->limitPictureCount($content);
-        $content = op_h($content);
-        return $content;
-    }
+
 
     private function limitPictureCount($content)
     {
@@ -500,5 +493,19 @@ class IndexController extends Controller
 
         //其他情况不能删除
         return false;
+    }
+
+
+    /**过滤输出，临时解决方案
+     * @param $content
+     * @return mixed|string
+     * @auth 陈一枭
+     */
+    private function filterPostContent($content)
+    {
+        $content = op_h($content);
+        $content = $this->limitPictureCount($content);
+        $content = op_h($content);
+        return $content;
     }
 }

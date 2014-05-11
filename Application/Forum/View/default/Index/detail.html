@@ -9,7 +9,7 @@
         </php>
         <div class="row">
             <div class="col-xs-8">
-                <h4>{$post.title|htmlspecialchars}</h4>
+                <h4>{$post.title|op_t}</h4>
             </div>
             <div class="col-xs-4">
                 <p class="pull-right text-right">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-xs-10 post_content">
                     <div style="min-height: 10em;">
-                        {$post.content}
+                        {$post.content|parse_at_users}
                         <br/>
                         <if condition="$post['create_time'] != $post['update_time']">
                             <p class="text-muted">
