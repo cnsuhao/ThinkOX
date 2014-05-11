@@ -56,9 +56,9 @@
                                 <span class="glyphicon glyphicon-edit"></span>
                             <span id="submit-content">
                                 <if condition="$isEdit">
-                                    编辑帖子
+                                    编辑帖子 Ctrl+Enter
                                     <else/>
-                                    发表帖子
+                                    发表帖子 Ctrl+Enter
                                 </if>
                             </span>
                             </button>
@@ -90,6 +90,14 @@
     <script>
         //点击编辑或发表按钮之后
         $(function () {
+            $('#edit-article-form').keypress(function (e) {
+                if (e.ctrlKey && e.which == 13 || e.which == 10) {
+                    $('#submit-button').focus();
+                    $("#submit-button").click();
+                }
+            });
+
+
             var submitCount = 0;
             $('#edit-article-form').submit(function (e) {
                 //为了得到编辑器中的内容，触发两次提交事件
