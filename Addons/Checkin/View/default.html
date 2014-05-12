@@ -5,36 +5,37 @@
 
     <div class="row">
 
-            <div class="col-md-2" style="float: left">
+        <div class="col-md-2" style="float: left">
 
-                    <i class="glyphicon glyphicon-calendar calendar"></i>
+            <i class="glyphicon glyphicon-calendar calendar"></i>
 
+        </div>
+
+        <div class="col-md-6 row" style="float: left;margin-left:5px">
+
+            <div class="col-md-6 dateinfo">
+
+                <div>{$check.week}</div>
+
+                <div>{$check.day}</div>
             </div>
 
-            <div class="col-md-6 row" style="float: left;margin-left:5px">
 
-                <div class="col-md-6 dateinfo" >
+            <div class="col-md-6 checkinfo">
 
-                    <div>{$check.week}</div>
+                <div> DAYS</div>
 
-                    <div>{$check.day}</div>
-                </div>
+                <div>0</div>
 
-
-                <div class="col-md-6 checkinfo" >
-
-                    <div> DAYS </div>
-
-                    <div>0 </div>
-
-                </div>
             </div>
-                <div class="col-md-4" style="padding-top:17px"  >
-                     <div>
-                        <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];</php>
-                        <a style="color: white;font-size: 20px" href="{:U('Home/User/login',array('back'=>urlencode($url)))}" >签到</a>
-                     </div>
-                </div>
+        </div>
+        <div class="col-md-4" style="padding-top:17px">
+            <div>
+                <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];</php>
+                <a style="color: white;font-size: 20px"
+                   href="{:U('Home/User/login',array('back'=>urlencode($url)))}">签到</a>
+            </div>
+        </div>
 
     </div>
 
