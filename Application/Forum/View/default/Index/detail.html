@@ -8,10 +8,10 @@
             $user = query_user(array('avatar128','uid','username','space_url','icons_html','rank_link'), $post['uid']);
         </php>
         <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-6 col-md-8">
                 <h4>{$post.title|htmlspecialchars}</h4>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-6 col-md-4">
                 <p class="pull-right text-right">
 
                     <if condition="$post['uid']==is_login()">

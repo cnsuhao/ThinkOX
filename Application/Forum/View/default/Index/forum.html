@@ -8,51 +8,7 @@
             <div class="col-xs-12">
                 <section id="top">
                     <volist name="list_top" id="document">
-                        <php>
-                            $user = query_user(array('avatar128','username','uid','space_url','icons_html'),
-                            $document['uid']);
-                        </php>
-                        <div class="row">
-                            <div class="col-xs-1">
-                                <p>
-                                    <a href="{$user.space_url}">
-                                        <img src="{$user.avatar128}" ucard="{$user.uid}" class="avatar-img"
-                                             style="width:100%;"/>
-                                    </a>
-                                </p>
-                            </div>
-                            <div class="col-xs-11">
-
-                                <p>
-                                    <a class="forum-list-title-link" title="{$document.title|htmlspecialchars}"
-                                       href="{:U('Index/detail',array('id'=>$document['id']))}">
-                                        {$document.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
-                                        <eq name="document.is_top" value="2"><i class="post_top">全站</i>
-                                            <else/>
-                                            <eq name="document.is_top" value="1"><i class="post_top_forum">版块</i></eq>
-                                        </eq>
-
-                                    </a>
-                                </p>
-
-                                <p class="pull-right text-muted">
-                                    <span class="post_read"><i class="glyphicon glyphicon-eye-open" title="阅读"></i> {$document.view_count} </span>
-                                    <span class="post_comment"><i class="glyphicon glyphicon-comment" title="回复"></i> {$document.reply_count} </span>
-                                </p>
-
-                                <p class="text-muted author">
-                                    <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a>{$user.icons_html}
-                                    &nbsp; <i class="glyphicon glyphicon-time"></i>&nbsp;{$document.create_time|friendlyDate} |
-                                    <i class="glyphicon glyphicon-comment"></i>&nbsp;{$document.last_reply_time|friendlyDate}
-
-                                </p>
-                            </div>
-                        </div>
-                        <if condition="$i neq count($list_top)">
-                            <hr class="forum-list-hr"/>
-                            <else/>
-                            <div class="forum-list-no-hr"></div>
-                        </if>
+                        <include file="Public/post-item"/>
                     </volist>
                 </section>
             </div>
@@ -60,18 +16,17 @@
     </if>
 
     <div class="row fourm-posts">
-
-        <div class="row">
-            <div class="col-xs-9">
-                <h2>帖子列表</h2>
-            </div>
-            <div class="col-xs-3">
-                <div class="pull-right" title="" style="margin-right: 20px">排序 &nbsp;
-                    <a title="按发布时间排序" href="{:U('forum',array('id'=>$_GET['id'],'order'=>'ctime'))}"><i  class="glyphicon glyphicon-time"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-                  title="按回复数排序"       href="{:U('forum',array('id'=>$_GET['id'],'order'=>'reply'))}"><i  class="glyphicon glyphicon-comment"></i></a></div>
-            </div>
-        </div>
         <div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-6">
+				    <h2>帖子列表</h2>
+				</div>
+				<div class="col-xs-6">
+				    <div class="pull-right" title="" style="margin-right: 20px">排序 &nbsp;
+				        <a title="按发布时间排序" href="{:U('forum',array('id'=>$_GET['id'],'order'=>'ctime'))}"><i  class="glyphicon glyphicon-time"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a
+				      title="按回复数排序"       href="{:U('forum',array('id'=>$_GET['id'],'order'=>'reply'))}"><i  class="glyphicon glyphicon-comment"></i></a></div>
+				</div>
+			</div>
             <section id="contents">
                 <if condition="!$list">
                     <div class="row">
@@ -85,49 +40,7 @@
                     </div>
                 </if>
                 <volist name="list" id="document">
-                    <php>
-                        $user = query_user(array('avatar128','username','uid','space_url','icons_html'),
-                        $document['uid']);
-                    </php>
-                    <div class="row">
-                        <div class="col-xs-1">
-                            <p>
-                                <a href="{$user.space_url}">
-                                    <img src="{$user.avatar128}" ucard="{$user.uid}" class="avatar-img"
-                                         style="width:100%;"/>
-                                </a>
-                            </p>
-                        </div>
-                        <div class="col-xs-11">
-                            <p>
-                                <a class="forum-list-title-link" title="{$document.title|htmlspecialchars}"
-                                   href="{:U('Index/detail',array('id'=>$document['id']))}">
-                                    {$document.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
-                                    <eq name="document.is_top" value="2"><i class="post_top">全站</i>
-                                        <else/>
-                                        <eq name="document.is_top" value="1"><i class="post_top_forum">版块</i></eq>
-                                    </eq>
-                                </a>
-                            </p>
-
-                            <p class="pull-right text-muted ">
-                                <span class="post_read"><i class="glyphicon glyphicon-eye-open" title="阅读"></i> {$document.view_count} </span>
-                                <span class="post_comment"><i class="glyphicon glyphicon-comment" title="回复"></i> {$document.reply_count} </span>
-                            </p>
-
-                            <p class="text-muted author">
-                                <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username}</a>{$user.icons_html}
-                               &nbsp; <i class="glyphicon glyphicon-time"></i>&nbsp;{$document.create_time|friendlyDate} |
-                                <i class="glyphicon glyphicon-comment"></i>&nbsp;{$document.last_reply_time|friendlyDate}
-
-                            </p>
-                        </div>
-                    </div>
-                    <if condition="$i neq count($list)">
-                        <hr class="forum-list-hr"/>
-                        <else/>
-                        <div class="forum-list-no-hr"></div>
-                    </if>
+                    <include file="Public/post-item"/>
                 </volist>
                 <div class="pull-right">
                     {:getPagination($totalCount)}
