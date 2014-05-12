@@ -1,3 +1,15 @@
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
+  background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
+  background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
+  margin: 10px 0 10px 0;
+}
+
+
 .boxShadow {
   box-shadow: 0 0 5px rgb(204, 204, 204);
   -moz-box-shadow: 0 0 5px #CCCCCC;
@@ -10,6 +22,101 @@
   border-radius: 0.2em;
 }
 
+
+.avatar-img-rectangle{
+  border-radius: 3px;
+  max-width: 100%;
+}
+
+  .people-li{
+    h3{
+     font-size: 16px;
+      margin: 0;
+    }
+    margin-bottom: 10px;
+  }
+
+
+/*应用公共css*/
+.app_head {
+  background: #f8f8f8;
+  .boxShadowBorder;
+  margin-bottom: 1em;
+  background: white;
+}
+
+.app_title {
+  padding: 0.3em .8em;
+  .app_ico_i {
+    font-size: .8em;
+    margin-right: .5em;
+  }
+  font-size: 1.5em;
+  line-height: 2em;
+}
+
+.sub_nav {
+  .nav_list {
+    padding-left: 0em;
+    margin-bottom: 0;
+    li {
+      list-style: none;
+      float: left;
+      a {
+        padding: 1.1em 1.3em;
+        font-size: 1.1em;
+        display: inline-block;
+      }
+      &:hover{
+        background: white;
+      }
+      .cur {
+        background: white;
+        color: #333;
+      }
+    }
+  }
+}
+
+.aline {
+  border-bottom: 1px solid white;
+  border-top: 1px solid #ccc;
+}
+
+.children_nav {
+  display:none;
+  .nav_list {
+    background: white;
+    padding-left: 0;
+    margin: 0;
+    li {
+      list-style: none;
+      float: left;
+      a {
+        padding: 1.1em 1.3em;
+        font-size: 1.1em;
+        display: inline-block;
+        color: #666;
+      }
+      .cur {
+        background: white;
+        font-size: 1.0em;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 .issue_list img {
   max-width: 100%;
 }
@@ -20,11 +127,10 @@
 
 /*index页面*/
 .issue_list .item_inner {
-  width: 280px;
+  width: 140px;
   float: left;
   margin-right: 20px;
   border: none;
-  background: white;
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
@@ -68,9 +174,6 @@
 
 }
 
-.app_head {
-  width: 1180px;
-}
 
 .spliter {
   border-top: 1px solid #ddd;
@@ -83,10 +186,6 @@
 }
 
 .item_core  {
-  .cover{
-    width: 280px;
-    height: 210px;
-  }
 
   position: relative;
 }
@@ -163,10 +262,6 @@
     position: relative;
     min-height: 80px;
   }
-  .cover {
-    width: 350px;
-    height: 252px;
-  }
   .triangle_left {
     width: 0;
     height: 0;
@@ -194,85 +289,4 @@
   }
 }
 
-hr {
-  border: 0;
-  height: 1px;
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
-  background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
-  background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
-  background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0));
-  margin: 10px 0 10px 0;
-}
-
 /*详情页面END*/
-
-
-/*应用公共css*/
-.app_head {
-  background: #f8f8f8;
-  padding: 0;
-  margin: 0;
-  .boxShadowBorder;
-  margin-bottom: 1em;
-}
-
-.app_title {
-  padding: 0.3em .8em;
-  .app_ico_i {
-    font-size: .8em;
-    margin-right: .5em;
-  }
-  font-size: 1.5em;
-  line-height: 2em;
-}
-
-.sub_nav {
-  .nav_list {
-    padding-left: 0em;
-    margin-bottom: 0;
-    li {
-      list-style: none;
-      float: left;
-      a {
-        padding: 1.1em 1.3em;
-        font-size: 1.1em;
-        display: inline-block;
-      }
-      &:hover{
-        background: white;
-      }
-      .cur {
-        background: white;
-        color: #333;
-      }
-    }
-  }
-}
-
-.aline {
-  border-bottom: 1px solid white;
-  border-top: 1px solid #ccc;
-}
-
-.children_nav {
-  display:none;
-  .nav_list {
-    background: white;
-    padding-left: 0;
-    margin: 0;
-    li {
-      list-style: none;
-      float: left;
-      a {
-        padding: 1.1em 1.3em;
-        font-size: 1.1em;
-        display: inline-block;
-        color: #666;
-      }
-      .cur {
-        background: white;
-        font-size: 1.0em;
-      }
-    }
-  }
-}

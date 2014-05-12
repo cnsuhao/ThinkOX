@@ -1,0 +1,72 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/people.css" rel="stylesheet" type="text/css"/>
+</block>
+
+<block name="body">
+    <div class="  app_head">
+        <div class="">
+            <div class="app_title col-md-12">
+                <i class="app_ico_i glyphicon glyphicon-th-large"> </i>群英
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <volist name="lists" id="vo">
+                        <div class="col-md-3">
+                            <div class="row people-li">
+                                <div class="col-md-6">
+                                    <a href="{$vo.user.space_url}">
+                                        <img src="{$vo.user.avatar128}" class="avatar-img-rectangle"
+                                             ucard="{$vo.user.uid}">
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <div><h3><a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}"
+                                                class="text-more"
+                                                style="width: 100%">{$vo.user.nickname}</a></h3></div>
+                                    <div>
+                                        <div class="pull-left ctime">
+                                            {$vo.last_login_time|friendlyDate}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </volist>
+                </div>
+
+            </div>
+
+            <if condition="count($lists) eq 0">
+                <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">本站暂无会员哦。O(∩_∩)O~</div>
+            </if>
+
+        </div>
+    </div>
+
+    <div>
+        <div class="pull-right">
+
+            {:getPagination($totalPageCount,16)}
+        </div>
+    </div>
+
+
+</block>
+
+<block name="script">
+    <script>
+        $(function () {
+            bindSupport();
+        })
+    </script>
+
+</block>
