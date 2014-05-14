@@ -138,8 +138,8 @@ class IndexController extends Controller
         }
         $data['content'] = $content;
         $data['update_time'] = time();
-        $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
-        $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
+        $post_id = D('forum_post_reply')->where(array('id' => intval($reply_id), 'status' => 1))->getField('post_id');
+        $reply = D('forum_post_reply')->where(array('id' => intval($reply_id)))->save($data);
         if ($reply) {
             S('post_replylist_' . $post_id, null);
             $this->success('编辑回复成功', U('Forum/Index/detail', array('id' => $post_id)));
@@ -154,13 +154,13 @@ class IndexController extends Controller
         $isEdit = $post_id ? true : false;
         //如果是编辑模式的话，读取帖子，并判断是否有权限编辑
         if ($isEdit) {
-            $post = D('ForumPost')->where(array('id' => $post_id, 'status' => 1))->find();
+            $post = D('ForumPost')->where(array('id' => intval($post_id), 'status' => 1))->find();
             $this->requireAllowEditPost($post_id);
         } else {
             $post = array('forum_id' => $forum_id);
         }
         //获取贴吧编号
-        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
+        $forum_id = $forum_id ? intval($forum_id) : $post['forum_id'];
 
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
@@ -198,7 +198,7 @@ class IndexController extends Controller
         }
         $model = D('ForumPost');
         if ($isEdit) {
-            $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
+            $data = array('id' => intval($post_id), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => intval($forum_id));
             $result = $model->editPost($data);
 
 
