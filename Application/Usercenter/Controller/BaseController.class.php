@@ -14,7 +14,7 @@ class BaseController extends Controller
 {
     public function _initialize()
     {
-        $uid = $_REQUEST['uid'] ? $_REQUEST['uid'] : is_login();
+       $uid = intval($_REQUEST['uid']) ? intval($_REQUEST['uid']) : is_login();
         if (!$uid) {
             $this->error('需要登录');
         }
