@@ -47,9 +47,9 @@
             <if condition="$top['status'] eq 1">
             <div <eq name="top_issue" value="$top['id']">style="display:block;"</eq>  class="children_nav" id="children_{$top.id}">
                 <ul class="nav_list clearfix">
-                    <li><a href="{:U('index',array('issue_id'=>$top['id']))}" <eq name="_GET.issue_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
+                    <li><a href="{:U('index',array('issue_id'=>$top['id']))}" <eq name="issue_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
                     <volist name="top._" id="children">
-                        <li><a <if condition="$_GET['issue_id'] eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('issue_id'=>$children['id']))}">{$children.title}</a></li>
+                        <li><a <if condition="$issue_id eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('issue_id'=>$children['id']))}">{$children.title}</a></li>
                     </volist>
 
                 </ul>

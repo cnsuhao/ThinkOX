@@ -43,6 +43,7 @@ class IndexController extends Controller
         $this->assign('totalPageCount', $totalCount);
         $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
 
+        $this->assign('issue_id',$issue_id);
         $this->display();
     }
 
