@@ -24,7 +24,7 @@ class BaseController extends Controller
 
     protected function defaultTabHash($tabHash)
     {
-        $tabHash = $_REQUEST['tabHash'] ? $_REQUEST['tabHash'] : $tabHash;
+        $tabHash = op_t($_REQUEST['tabHash']) ?  op_t($_REQUEST['tabHash']): $tabHash;
         $this->assign('tabHash', $tabHash);
     }
 
