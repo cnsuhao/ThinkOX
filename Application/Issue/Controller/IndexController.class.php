@@ -20,10 +20,11 @@ class IndexController extends Controller
 
     public function index($page = 1, $issue_id = 0)
     {
+        $issue_id=intval($issue_id);
         $issue = D('Issue')->find($issue_id);
         if (!$issue_id == 0) {
             $issue_id = intval($issue_id);
-            $issues = D('Issue')->where('id=' . $issue_id . ' OR pid=' . $issue_id)->limit(999)->select();
+            $issues = D('Issue')->where("id=%d OR pid=%d",array($issue_id,$issue_id))->limit(999)->select();
             $ids = array();
             foreach ($issues as $v) {
                 $ids[] = $v['id'];
@@ -64,6 +65,8 @@ class IndexController extends Controller
             $this->error('请选择分类。');
         }
         $content = D('IssueContent')->create();
+        $content['content']=op_h($content['content']);
+        $content['title']=op_t($content['title']);
 
         if ($id) {
             $content_temp = D('IssueContent')->find($id);

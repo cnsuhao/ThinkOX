@@ -76,17 +76,12 @@
 }
 #checkdiv {
   overflow: hidden;
-
 }
-.checked,.sign-wrap{
-    background: white !important;
-}
-
 .checked #checkdiv,
 .checked i,
 .checked a,
 .checked span,
 .checked div {
-  background:transparent;
+  background: white;
   color: #48b87a;
 }
