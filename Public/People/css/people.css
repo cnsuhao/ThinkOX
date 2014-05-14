@@ -235,6 +235,7 @@ hr {
   border-right: 10px solid #f5f5f5;
   border-bottom: 10px solid rgba(0, 0, 0, 0);
   /* float: right; */
+
   margin-left: -30px;
   margin-top: 0px;
   z-index: 2;

@@ -3,7 +3,8 @@
 <block name="body">
     <div class="row">
 
-            <div class="col-xs-12">  <div class="fourm-top" style="padding: 15px 20px;margin: -15px;margin-top: 0">
+        <div class="col-xs-12">
+            <div class="fourm-top" style="padding: 15px 20px;margin: -15px;margin-top: 0">
                 <h4>
                     <if condition="$isEdit">
                         编辑帖子
@@ -18,7 +19,7 @@
 
                         <div class="row">
                             <!-- 帖子分类 -->
-                            <div class="col-xs-2">
+                            <div class="col-sm-3 col-xs-12">
                                 <p>
                                     <select class="form-control" name="forum_id">
                                         <volist name="forum_list" id="each_forum">
@@ -33,7 +34,7 @@
                                     </select>
                                 </p>
                             </div>
-                            <div class="col-xs-10">
+                            <div class="col-sm-9 col-xs-12">
                                 <p>
                                     <input id="title" type="text" name="title" placeholder="标题" value="{$post.title}"
                                            class="form-control"/>
@@ -140,15 +141,15 @@
 
             function showSubmitError(message) {
                 $('#submit-button').removeClass('disabled');
-                var isEdit=$('#isEdit').val();
-                var text='';
-                if(isEdit){
-                    text='编辑帖子';
-                }else{
-                    text='发表帖子';
+                var isEdit = $('#isEdit').val();
+                var text = '';
+                if (isEdit) {
+                    text = '编辑帖子';
+                } else {
+                    text = '发表帖子';
                 }
                 $('#submit-content').text(text);
-                op_error(message,'错误');
+                op_error(message, '错误');
             }
 
             function showSubmitSuccess(message, url) {

@@ -386,6 +386,8 @@ class IndexController extends Controller
         if (is_login() == 1) {
             return true;
         }
+
+		//如果帖子不属于任何板块，则允许发帖
         if(intval($forum_id)==0)
         {
             return true;
