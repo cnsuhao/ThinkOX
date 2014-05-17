@@ -18,24 +18,12 @@
 
     <!--导航栏菜单项-->
     <think:nav name="nav">
-        <if condition="$nav['id']==10001">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$nav.title} <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{:U('Travel/Rank/place')}">热门旅行地</a></li>
-                    <li><a href="{:U('Travel/Rank/activeUser')}">旅行达人</a></li>
-                </ul>
-            </li>
-
-            <else/>
-
-            <eq name="nav.pid" value="0">
+        <eq name="nav.pid" value="0">
                 <li>
                     <a href="{$nav.url|get_nav_url}"
                        target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
                 </li>
-            </eq>
-        </if>
+        </eq>
     </think:nav>
 </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -203,7 +191,7 @@
                 <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img"/>
             </a>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{:U('UserCenter/Travel/travel')}"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
+                <li><a href="{:U('UserCenter/Index/index')}"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
                 </li>
                 <if condition="is_administrator()">
                     <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
