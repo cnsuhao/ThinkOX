@@ -12,6 +12,8 @@ use Think\Model;
 
 class TitleModel extends Model
 {
+    
+    protected $tableName = 'rank';
     public function getTitle($uid)
     {
         $score = query_user(array('score'), $uid);
