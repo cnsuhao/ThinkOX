@@ -3,7 +3,7 @@
 <block name="body">
 
     <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 boxShadow" style="background: white">
         <php>
             $user = query_user(array('avatar128','uid','username','space_url','icons_html','rank_link'), $post['uid']);
         </php>
@@ -12,7 +12,7 @@
                 <h4>{$post.title|op_t}</h4>
             </div>
             <div class="col-xs-6 col-md-4">
-                <p class="pull-right text-right">
+                <p class="pull-right text-right" style="margin-top: 10px;margin-bottom: 0">
 
                     <if condition="$post['uid']==is_login()">
                         <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
