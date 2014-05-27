@@ -20,6 +20,10 @@ function getPagination($totalCount, $countPerPage = 10)
     if ($pageCount <= 1) {
         return '';
     }
+    $Page       = new \Think\Page($totalCount,$countPerPage);// 实例化分页类 传入总记录数和每页显示的记录数
+    return   $Page->show();
+
+
 
     //定义返回结果
     $html = '';
