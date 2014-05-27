@@ -1047,11 +1047,17 @@ function get_nav_active($url)
             break;
         default:
             $url_array=explode('/',$url);
-            $MODULE_NAME=$url_array[0]; //发现模块就是当前模块即选中。
+            if($url_array[0]==''){
+                $MODULE_NAME=$url_array[1];
+            }else{
+                $MODULE_NAME=$url_array[0]; //发现模块就是当前模块即选中。
+
+            }
             if(strtolower($MODULE_NAME)===strtolower(MODULE_NAME)){
                 return 1;
             };
             break;
+
     }
     return 0;
 }
