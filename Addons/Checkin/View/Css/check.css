@@ -77,6 +77,9 @@
 #checkdiv {
   overflow: hidden;
 }
+#checkdiv span {
+  color: white;
+}
 .checked {
   background: white;
 }
@@ -86,5 +89,5 @@
 .checked span,
 .checked div {
   background: white;
-  color: #48b87a;
+  color: #48b87a !important;
 }
