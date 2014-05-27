@@ -19,7 +19,7 @@
     <!--导航栏菜单项-->
     <think:nav name="nav">
         <eq name="nav.pid" value="0">
-                <li>
+                <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
                     <a href="{$nav.url|get_nav_url}"
                        target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
                 </li>

@@ -1031,6 +1031,31 @@ function get_nav_url($url)
 }
 
 /**
+ * @param $url 检测当前url是否被选中
+ * @return bool|string
+ * @auth 陈一枭
+ */
+function get_nav_active($url)
+{
+    switch ($url) {
+        case 'http://' === substr($url, 0, 7):
+            if(strtolower($url)===strtolower($_SERVER['HTTP_REFERER'])){
+                return 1;
+            }
+        case '#' === substr($url, 0, 1):
+            return 0;
+            break;
+        default:
+            $url_array=explode('/',$url);
+            $MODULE_NAME=$url_array[0]; //发现模块就是当前模块即选中。
+            if(strtolower($MODULE_NAME)===strtolower(MODULE_NAME)){
+                return 1;
+            };
+            break;
+    }
+    return 0;
+}
+/**
  * 获取列表总行数
  * @param  string $category 分类ID
  * @param  integer $status 数据状态
