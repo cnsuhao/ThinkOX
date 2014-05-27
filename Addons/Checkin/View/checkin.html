@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="Addons/Checkin/View/Css/check.css">
 
-<div class="box1" id="checkdiv">
+<div class="<php>if($check['ischeck']==1){</php>checked<php>}</php> box1 " id="checkdiv">
     <div class="row">
         <div class="col-xs-3 col-sm-4 col-md-3 col-lg-4 text-center">
-            <span style="font-size: 48px;padding: 10px 0 0 10px;color: #fff;"
+            <span style="font-size: 48px;padding: 10px 0 0 10px;"
                   class="glyphicon glyphicon-calendar"></span>
         </div>
 
@@ -13,7 +13,7 @@
             <div>{$check.day}</div>
         </div>
 
-        <div class="col-xs-2 col-md-4 col-lg-3 hidden-sm text-center" style="color: #fff; padding-top: 14px;">
+        <div class="col-xs-2 col-md-4 col-lg-3 hidden-sm text-center" style="color: #fff; padding-top: 14px;background: transparent">
             <div>DAYS</div>
             <div>{$connum}</div>
         </div>
@@ -35,8 +35,8 @@
 
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
+<div class="row" style="margin-right: 15px">
+    <div class="col-xs-12 col-md-12">
         <div class="sign-wrap" style="display:none" id="checkdetail">
 
             <i class="arrow-y"></i>

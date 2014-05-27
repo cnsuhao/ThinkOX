@@ -77,6 +77,9 @@
 #checkdiv {
   overflow: hidden;
 }
+.checked {
+  background: white;
+}
 .checked #checkdiv,
 .checked i,
 .checked a,
