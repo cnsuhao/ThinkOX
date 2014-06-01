@@ -16,19 +16,17 @@ class IndexController extends Controller
     {
     }
 
-    public function index($page = 1, $issue_id = 0)
+    public function index($page = 1)
     {
 
 
-        $peoples = D('UcenterMember')->field('id','reg_time','last_login_time')->page($page, 10)->select();
-        $count = D('UcenterMember')->field('id')->page($page, 10)->count();
-        foreach ($peoples as &$v) {
+        $peoples = D('UcenterMember')->where('status=1 and last_login_time!=0')->field('id','reg_time','last_login_time')->order('last_login_time desc')->findPage(20);
+        foreach ($peoples['data'] as &$v) {
             $v['user']=query_user(array('avatar128','space_url','nickname','username'),$v['id']);
         }
         unset($v);
 
         $this->assign('lists', $peoples);
-        $this->assign('totalPageCount', $count);
 
         $this->display();
     }

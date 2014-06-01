@@ -1698,6 +1698,7 @@ class Model {
             unset($result);
             unset($count_options);
         }
+
         // 如果查询总数大于0
         if($count > 0) {
             // 载入分页类
@@ -1720,7 +1721,7 @@ class Model {
             $output['totalRows']	=	$p->totalRows;
             $output['nowPage']		=	$p->nowPage;
             $output['html']			=	$p->show();
-            $resultSet	=	$this->where($options)->page($p->nowPage,$pageopt)->select();
+            $resultSet	=	$this->where($options['where'])->order($options['order'])->page($p->nowPage,$pageopt)->select();
             if($resultSet){
                 $this->dataList = $resultSet;
             }else{
