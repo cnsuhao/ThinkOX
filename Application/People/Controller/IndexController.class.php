@@ -20,9 +20,9 @@ class IndexController extends Controller
     {
 
 
-        $peoples = D('UcenterMember')->where('status=1 and last_login_time!=0')->field('id','reg_time','last_login_time')->order('last_login_time desc')->findPage(20);
+        $peoples = D('UcenterMember')->where('status=1 and last_login_time!=0')->field('id','reg_time','last_login_time')->order('last_login_time desc')->findPage(18);
         foreach ($peoples['data'] as &$v) {
-            $v['user']=query_user(array('avatar128','space_url','nickname','username'),$v['id']);
+            $v['user']=query_user(array('avatar128','space_url','username','fans','following','signature'),$v['id']);
         }
         unset($v);
 
