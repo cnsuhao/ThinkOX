@@ -26,15 +26,19 @@ class IndexController extends Controller
         $this->weiboApi = new WeiboApi();
     }
 
-    public function index()
+    public function index($uid=0)
     {
         //载入第一页微博
-        $result = $this->weiboApi->listAllWeibo();
 
+        if($uid!=0){
+            $result = $this->weiboApi->listAllWeibo(null,null,array('uid'=>$uid));
+        }else{
+            $result = $this->weiboApi->listAllWeibo();
+        }
         //显示页面
         $this->assign('list', $result['list']);
         $this->assign('tab', 'all');
-        $this->assign('loadMoreUrl', U('loadWeibo'));
+        $this->assign('loadMoreUrl', U('loadWeibo',array('uid'=>$uid)));
         $this->assignSelf();
         $this->display();
     }
@@ -64,11 +68,14 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function loadWeibo($page = 1)
+    public function loadWeibo($page = 1,$uid=0)
     {
         //载入全站微博
-        $result = $this->weiboApi->listAllWeibo($page);
-
+        if($uid!=0){
+            $result = $this->weiboApi->listAllWeibo($page,null,array('uid'=>$uid));
+        }else{
+            $result = $this->weiboApi->listAllWeibo($page,null);
+        }
         //如果没有微博，则返回错误
         if (!$result['list']) {
             $this->error('没有更多了');

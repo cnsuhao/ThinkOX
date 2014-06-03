@@ -26,10 +26,10 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 10)
+    public function listAllWeibo($page = 1, $count = 10,$map=array())
     {
         //获取微博列表
-        $map = array('status' => 1);
+        $map[] = array('status' => 1);
         $model = $this->weiboModel;
         $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
 
