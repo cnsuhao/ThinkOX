@@ -33,8 +33,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <volist name="children" id="subnav">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{$subnav.url|get_nav_url}" target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}</a></li>
-
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{$subnav.url|get_nav_url}" target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}</a></li>
                     </volist>
                 </ul>
             </li>
@@ -45,7 +44,6 @@
                 <a href="{$nav.url|get_nav_url}"
                    target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
             </li>
-
 
             <php>}</php>
 
