@@ -10,7 +10,6 @@
 		</h2>
 	</div>
 	<form action="{:U()}" method="post" class="form-horizontal">
-		<input type="hidden" name="pid" value="{$pid}">
 		<div class="form-item">
 			<label class="item-label">导航标题<span class="check-tips">（用于显示的文字）</span></label>
 			<div class="controls">
@@ -23,6 +22,17 @@
 				<input type="text" class="text input-large" name="url" value="{$info.url|default=''}">
 			</div>
 		</div>
+        <div class="form-item">
+            <label class="item-label">父导航<span class="check-tips">（仅支持二级）</span></label>
+            <div class="controls">
+               <select name="pid" >
+                   <option <empty name="pid" > selected</empty>value="0">顶级菜单</option>
+                   <volist name="pnav" id="p">
+                       <option <eq name="p.id" value="$pid" >selected</eq> value="{$p.id}">{$p.title}</option>
+                   </volist>
+               </select>
+            </div>
+        </div>
         <div class="form-item">
             <label class="item-label">新窗口打开<span class="check-tips">（是否新窗口打开链接）</span></label>
             <div class="controls">
