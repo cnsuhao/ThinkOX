@@ -22,7 +22,7 @@
         <eq name="nav.pid" value="0">
 
             <php>
-                $children=D('Channel')->where(array('pid'=>$nav['id']))->select();
+                $children=D('Channel')->where(array('pid'=>$nav['id']))->order('sort asc')->select();
                 if($children){
             </php>
 
