@@ -1,3 +1,17 @@
+#nav_session .session_head {
+  width: 3em;
+}
+#nav_session .title {
+  font-size: 1.2em;
+  width: 100%;
+}
+#nav_session .content {
+  color: grey;
+  font-size: 0.8em;
+  line-height: 1.2em;
+  height: 1.2em;
+  width: 90%;
+}
 .navbar-logo {
   padding-left: 0;
 }

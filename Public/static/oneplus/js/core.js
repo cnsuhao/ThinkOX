@@ -12,6 +12,9 @@ $(function () {
         bindMessageChecker();//绑定用户消息
     }
     bindLogout();
+    $('.scroller').slimScroll({
+        height: '150px'
+    });
 });
 
 function is_login() {
