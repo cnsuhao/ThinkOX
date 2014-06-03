@@ -143,11 +143,10 @@
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         ,toolbar:[
-            'source | bold italic underline strikethrough | forecolor backcolor | removeformat |',
-            'insertorderedlist | paragraph | fontfamily fontsize' ,
+            'source | bold italic underline | forecolor backcolor | ',
+            'insertorderedlist | fontsize' ,
             '| justifyleft justifycenter justifyright justifyjustify |',
-            'link unlink | emotion image video  | map',
-            '| horizontal ', 'drafts'
+            'link emotion image video  | map',
         ]
        /* ,toolbar:[
             'source | undo redo | bold italic underline strikethrough | superscript subscript | forecolor backcolor | removeformat |',
