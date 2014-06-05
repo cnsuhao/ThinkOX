@@ -592,13 +592,36 @@ function chat_fetchMessageTpl(message, mid) {
     });
     return tpl;
 }
-function chat_clear_box(){
+function chat_clear_box() {
     $('#scrollContainer_chat').html('');
 }
+$(function () {
+    $('#chat_content').keypress(function (e) {
+        if (e.ctrlKey && e.which == 13 || e.which == 10) {
+            chat_postMessage();
+        }
+    });
+});
+function chat_postMessage() {
+
+    var myDate = new Date();
+    $.post(U('Usercenter/Message/postMessage'), {talk_id: $('#chat_id').val(), content: $('#chat_content').val()}, function (msg) {
+        chat_appendMessage(op_fetchMessageTpl({uid: MID, content:msg.content,
+            avatar128: myhead,
+            ctime: myDate.toLocaleTimeString()}, MID));
+        $('#chat_content').val('');
+        $('#chat_content').focus();
+    }, 'json');
+}
+
+$('#chat_content').keypress(function (e) {
+    if (e.ctrlKey && e.which == 13 || e.which == 10) {
+        chat_appendMessage();
+    }
+});
+
 
 function open_chat_box(id) {
-
-
     $.get(U('Usercenter/Session/getSession'), {id: id}, function (data) {
         chat_clear_box();
         $('#chat_box').show();
@@ -606,17 +629,16 @@ function open_chat_box(id) {
         set_current_chat(data);
 
     }, 'json');
-
 }
 function set_current_chat(chat) {
     $('#chat_ico').attr('src', chat.ico);
     $('#chat_title').text(chat.title);
-
-    $.each(chat.messages,function(i,item){
-        chat_appendMessage(chat_fetchMessageTpl(item,MID));
+    $('#chat_id').val(chat.id);
+    $.each(chat.messages, function (i, item) {
+        chat_appendMessage(chat_fetchMessageTpl(item, MID));
     });
-    chat_appendMessage('<hr/>'+
-        '<div style="text-align: center;color: #666;margin-bottom: 15px">以上为历史聊天记录</div>');
+    chat_appendMessage('<hr/>' +
+        '<div style="text-align: center;color: #666">以上为历史聊天记录</div>',MID);
 }
 
 

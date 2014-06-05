@@ -1047,3 +1047,6 @@ General list for item with image
 .chat_panel .send_box {
   padding: 0 10px;
 }
+.chat_panel #scrollArea_chat {
+  padding-bottom: 20px;
+}

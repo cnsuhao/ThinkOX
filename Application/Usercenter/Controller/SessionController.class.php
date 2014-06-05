@@ -39,7 +39,6 @@ class SessionController extends BaseController
         $messages = array_reverse($messages);
         foreach ($messages as &$mes) {
             $mes['user'] = query_user(array('avatar64', 'uid', 'username'), $mes['uid']);
-            $mes['content'] = op_t($mes['content']);
             $mes['ctime']=date('m-d h:i',$mes['create_time']);
             $mes['avatar64']= $mes['user']['avatar64'];
         }

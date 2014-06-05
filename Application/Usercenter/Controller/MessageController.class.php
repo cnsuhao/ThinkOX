@@ -89,7 +89,6 @@ class MessageController extends BaseController
         $messages = array_reverse($messages);
         foreach ($messages as &$mes) {
             $mes['user'] = query_user(array('avatar128', 'uid', 'username'), $mes['uid']);
-            $mes['content'] = op_t($mes['content']);
         }
         unset($mes);
         $this->assign('messages', $messages);
@@ -139,6 +138,7 @@ class MessageController extends BaseController
      */
     public function postMessage($content, $talk_id)
     {
+        $content=op_t($content);
         //空的内容不能发送
         if(!trim($content)) {
             $this->error('内容不能为空');
@@ -154,7 +154,7 @@ class MessageController extends BaseController
         if (!$rs) {
             $this->error('写入数据库错误');
         }
-
+        exit(json_encode(array('status'=>1,'content'=>$content)));
         $this->success("发送成功");
     }
 
