@@ -15,6 +15,12 @@ $(function () {
     $('.scroller').slimScroll({
         height: '150px'
     });
+
+    $('#scrollArea_chat').slimScroll({
+        height: '320px',
+        alwaysVisible: true,
+        start: 'bottom'
+    });
 });
 
 function is_login() {
@@ -503,6 +509,8 @@ function op_appendMessage(html) {
     $('#scrollArea').slimScroll({scrollTo: $('#scrollContainer').height()});
     ucard();
 }
+
+
 /**
  * 渲染消息模板
  * @param message 消息体
@@ -539,6 +547,79 @@ function op_fetchMessageTpl(message, mid) {
     });
     return tpl;
 }
+
+
+/**
+ * 向聊天窗添加一条消息
+ * @param html 消息内容
+ */
+function chat_appendMessage(html) {
+    $('#scrollContainer_chat').append(html);
+    $('#scrollArea_chat').slimScroll({scrollTo: $('#scrollContainer_chat').height()});
+    ucard();
+}
+/**
+ * 渲染消息模板
+ * @param message 消息体
+ * @param mid 当前用户ID
+ * @returns {string}
+ */
+function chat_fetchMessageTpl(message, mid) {
+    var tpl_right = '<div class="row talk_right">' +
+        '<div class="time"><span class="timespan">{ctime}</span></div>' +
+        '<div class="row">' +
+        '<div class="col-md-9 bubble_outter">' +
+        '<h3>&nbsp;</h3><i class="bubble_sharp"></i>' +
+        '<div class="talk_bubble">{content}' +
+        '</div>' +
+        '</div>' +
+        ' <div class="col-md-3 "><img ucard="{uid}" class="avatar-img talk-avatar"' +
+        'src="{avatar64}"/>' +
+        '</div> </div> </div>';
+
+    var tpl_left = '<div class="row">' +
+        '<div class="time"><span class="timespan">{ctime}</span></div>' +
+        '<div class="row">' +
+        '<div class="col-md-3 "><img ucard="{uid}" class="avatar-img talk-avatar"' +
+        'src="{avatar64}"/>' +
+        '</div><div class="col-md-9 bubble_outter chat_bubble">' +
+        '<h3>&nbsp;</h3><i class="bubble_sharp"></i>' +
+        '<div class="talk_bubble">{content}' +
+        '</div></div></div></div>';
+    var tpl = message.uid == mid ? tpl_right : tpl_left;
+    $.each(message, function (index, value) {
+        tpl = tpl.replace('{' + index + '}', value);
+    });
+    return tpl;
+}
+function chat_clear_box(){
+    $('#scrollContainer_chat').html('');
+}
+
+function open_chat_box(id) {
+
+
+    $.get(U('Usercenter/Session/getSession'), {id: id}, function (data) {
+        chat_clear_box();
+        $('#chat_box').show();
+
+        set_current_chat(data);
+
+    }, 'json');
+
+}
+function set_current_chat(chat) {
+    $('#chat_ico').attr('src', chat.ico);
+    $('#chat_title').text(chat.title);
+
+    $.each(chat.messages,function(i,item){
+        chat_appendMessage(chat_fetchMessageTpl(item,MID));
+    });
+    chat_appendMessage('<hr/>'+
+        '<div style="text-align: center;color: #666;margin-bottom: 15px">以上为历史聊天记录</div>');
+}
+
+
 /**
  * 绑定登出事件
  */
@@ -556,7 +637,7 @@ function bindSupport() {
     $('.support_btn').unbind('click');
     $('.support_btn').click(function () {
         event.stopPropagation();
-        var me=$(this);
+        var me = $(this);
         if (MID == 0) {
             op_error('请在登陆后再点赞。即将跳转到登陆页。', '温馨提示');
             setTimeout(function () {
@@ -568,20 +649,20 @@ function bindSupport() {
             var table = $(this).attr('table');
             var uid = $(this).attr('uid');
             var jump = $(this).attr('jump');
-            $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table,uid:uid,jump:jump}, function (msg) {
+            $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table, uid: uid, jump: jump}, function (msg) {
                 if (msg.status) {
                     var num_tag = $('#support_' + MODULE_NAME + '_' + table + '_' + row);
                     var pos = $('#support_' + MODULE_NAME + '_' + table + '_' + row + '_pos');
                     if (pos.text() == '') {
                         var html = '<span id="' + '#support_' + MODULE_NAME + '_' + table + '_' + row + '">1</span>';
-                        pos.html('&nbsp;( '+html+'&nbsp;)');
+                        pos.html('&nbsp;( ' + html + '&nbsp;)');
 
                     } else {
                         var num = num_tag.text();
                         num++;
                         num_tag.text(num);
                     }
-                    me.attr({'style':'color:#ccc'});
+                    me.attr({'style': 'color:#ccc'});
                     op_success(msg.info, '温馨提示');
 
                 } else {
