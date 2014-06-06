@@ -991,11 +991,14 @@ General list for item with image
   display: inline-block;
   margin-bottom: 10px;
 }
+.friend_panel .friend_list .active {
+  background: #f6f6f6;
+}
 .friend_panel .session_more .btn_session_more {
   background: #f2f2f2;
   text-align: center;
   padding: 4px 0;
-  margin-left: 0 ;
+  margin-left: 0;
   margin-right: 0;
   display: block;
   float: left;
@@ -1012,7 +1015,7 @@ General list for item with image
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
   position: fixed;
-  right: 110px;
+  right: 190px;
   bottom: 30px;
   background: white;
   border: 1px solid #ccc;

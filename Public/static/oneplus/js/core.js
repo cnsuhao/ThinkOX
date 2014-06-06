@@ -606,27 +606,27 @@ function chat_postMessage() {
 
     var myDate = new Date();
     $.post(U('Usercenter/Message/postMessage'), {talk_id: $('#chat_id').val(), content: $('#chat_content').val()}, function (msg) {
-        chat_appendMessage(op_fetchMessageTpl({uid: MID, content:msg.content,
+        chat_appendMessage(op_fetchMessageTpl({uid: MID, content: msg.content,
             avatar128: myhead,
             ctime: myDate.toLocaleTimeString()}, MID));
         $('#chat_content').val('');
         $('#chat_content').focus();
     }, 'json');
 }
-function chat_exit(id){
-    if(confirm('确定退出该会话？退出后无法再主动加入。')){
-        if(typeof (id)=='undefined'){
-             id= $('#chat_id').val();
-        }else{
+function chat_exit(id) {
+    if (confirm('确定退出该会话？退出后无法再主动加入。')) {
+        if (typeof (id) == 'undefined') {
+            id = $('#chat_id').val();
+        } else {
         }
-        $.post(U('Usercenter/Message/doDeleteTalk'),{talk_id:id},function(msg){
-            if(msg.status){
+        $.post(U('Usercenter/Message/doDeleteTalk'), {talk_id: id}, function (msg) {
+            if (msg.status) {
                 $('#chat_box').hide();
-                $('#chat_li_'+id).remove();
-                op_success('成功退出会话。','会话助手');
+                $('#chat_li_' + id).remove();
+                op_success('成功退出会话。', '会话助手');
             }
 
-        },'json');
+        }, 'json');
     }
 
 }
@@ -634,25 +634,34 @@ function chat_exit(id){
 function open_chat_box(id) {
     $.get(U('Usercenter/Session/getSession'), {id: id}, function (data) {
         chat_clear_box();
+        $('li','#session_panel_main').removeClass();
+        $('#chat_li_'+id).addClass('active');
         $('#chat_box').show();
-
         set_current_chat(data);
 
     }, 'json');
 }
 
 function start_talk(uid) {
-    if(confirm('确定要和该用户发起会话？')){
-    $.post(U('Usercenter/Session/createTalk'), {uids: uid}, function (data) {
-        op_success('会话发起成功。','会话助手');
-        
+    if (confirm('确定要和该用户发起会话？')) {
+        $.post(U('Usercenter/Session/createTalk'), {uids: uid}, function (data) {
+            op_success('会话发起成功。', '会话助手');
+            $('#friend_panel_main').toggle();
+            $('#session_panel_main').toggle();
+            open_chat_box(data.id);
+            /*在面板中加入一个项目*/
+            var tpl = '<li id="chat_li_' +
+                data.id + '"><div class="row"><div class="col-md-6"><a title="' +
+                data.title + '" onclick="open_chat_box('+data.id+')"><img src="' +
+                data.ico + '" class="avatar-img" style="width: 45px;"></a></div><div class="col-md-6"><div><a class="text-more" style="width: 100%" target="_blank" title="' +
+                data.title + '">' +
+                data.title + '</a></div><div><a onclick="' +
+                "chat_exit(" + data.id + ")" +
+                '"><i style="color: red" title="退出会话" class="glyphicon glyphicon-off"></i></a></div></div></div></li>';
+            $('#session_panel_main .friend_list').append(tpl);
 
-
-        $('#friend_panel_main').toggle();
-        $('#session_panel_main').toggle()
-        open_chat_box(data.id);
-
-    }, 'json');}
+        }, 'json');
+    }
 }
 
 function set_current_chat(chat) {
@@ -663,7 +672,7 @@ function set_current_chat(chat) {
         chat_appendMessage(chat_fetchMessageTpl(item, MID));
     });
     chat_appendMessage('<hr/>' +
-        '<div style="text-align: center;color: #666">以上为历史聊天记录</div>',MID);
+        '<div style="text-align: center;color: #666">以上为历史聊天记录</div>', MID);
 }
 
 

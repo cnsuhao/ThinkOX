@@ -29,14 +29,7 @@ class TalkModel extends Model
     {
         $list = $this->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
         foreach ($list as &$li) {
-            $uids = $this->getUids($li['uids']);
-            foreach ($uids as $uid) {
-                if ($uid != is_login()) {
-                    $li['first_user'] = query_user(array('avatar64', 'username'), $uid);
-                    $li['last_message'] = $this->getLastMessage($li['id']);
-                    break;
-                }
-            }
+            $li = $this->getFirstUserAndLastMessage($li);
         }
         unset($li);
         return $list;
@@ -53,10 +46,15 @@ class TalkModel extends Model
     public function createTalk($members, $message = '',$title='')
     {
 
+        $has_got_ico=false;
         $orin_member=$members;
         if (is_array($members)) {
             $members[]=is_login();
             foreach($members as &$mem){
+                if ($mem != is_login() && $has_got_ico==false) {
+                    $ico_user = query_user(array('avatar64', 'username'), $mem);
+                    $has_got_ico=true;
+                }
                $mem= '[' .$mem.']';
             }
             unset($mem);
@@ -85,9 +83,17 @@ class TalkModel extends Model
         }
 
 
+
+
         //创建会话
         $talk = D('Talk')->create($talk);
         $talk['id'] = D('Talk')->add($talk);
+
+        //TODO 发送会话建立消息
+
+
+        //获取图标用于输出
+        $talk['ico']=$ico_user['avatar64'];
         return $talk;
         /*创建talk end*/
 
@@ -102,5 +108,23 @@ class TalkModel extends Model
         $appname = ucwords($message['appname']);
         $messageModel = D($appname . '/' . $appname . 'Message');
         return $messageModel;
+    }
+
+    /**
+     * @param $li
+     * @return mixed
+     * @auth 陈一枭
+     */
+    private function getFirstUserAndLastMessage($li)
+    {
+        $uids = $this->getUids($li['uids']);
+        foreach ($uids as $uid) {
+            if ($uid != is_login()) {
+                $li['first_user'] = query_user(array('avatar64', 'username'), $uid);
+                break;
+            }
+            $li['last_message'] = $this->getLastMessage($li['id']);
+        }
+        return $li;
     }
 }

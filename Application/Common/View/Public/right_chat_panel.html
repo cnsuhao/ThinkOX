@@ -10,13 +10,13 @@
             <!--开始会话板-->
 
             <div id="session_panel_main" >
-            <h2>会话</h2>
+            <h2>当前会话</h2>
 
             <div id="scrollArea_session" class="row ">
                 <div id="scrollContainer_session">
                     <ul class="friend_list">
                         <volist name="currentSession" id="session">
-                            <li id="chat_li_{$session.id}">
+                            <li id="chat_li_{$session.id}" >
                                 <div class="row">
                                     <div class="col-md-6">
                                         <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
