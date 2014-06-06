@@ -1,7 +1,7 @@
 <?php
 /**
  * 所属项目 OnePlus.
- * 开发者: 想天
+ * 开发者: 陈一枭
  * 创建日期: 3/21/14
  * 创建时间: 10:17 AM
  * 版权所有 想天工作室(www.ourstu.com)
@@ -86,6 +86,28 @@ class FollowModel extends Model
         }
         unset($user);
         return $fans;
+    }
+
+
+    /**显示全部的好友
+     * @param int $uid
+     * @return mixed
+     * @auth 陈一枭
+     */
+    public function getAllFriends($uid=0){
+        if($uid==0){
+            $uid=is_login();
+        }
+        $model_follow=D('Follow');
+        $i_follow=$model_follow->where(array('who_follow'=>$uid))->limit(999)->select();
+        foreach($i_follow as $key=>$user){
+            if($model_follow->where(array('follow_who'=>$uid,'who_follow'=>$user['follow_who']))->count()){
+                continue;
+            }else{
+                unset($i_follow[$key]);
+            }
+        }
+        return $i_follow;
     }
 
 } 

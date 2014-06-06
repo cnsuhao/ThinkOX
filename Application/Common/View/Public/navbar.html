@@ -11,22 +11,16 @@
         <img src="__PUBLIC__/Home/images/oneplus/oneplus-logo.png" style="width: 150px;"/>
     </a>
 </div>
-
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav" style="font-size: 18px">
-
         <!--导航栏菜单项-->
         <think:nav name="nav">
-
             <eq name="nav.pid" value="0">
-
                 <php>
                     $children=D('Channel')->where(array('pid'=>$nav['id']))->order('sort asc')->select();
                     if($children){
                 </php>
-
-
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         {$nav.title} <span class="caret"></span>
@@ -149,99 +143,4 @@
     </ul>
 </div>
 
-<if condition="(is_login()) ">
-    <div class="friend_panel visible-md visible-lg" style="display: none">
-        <a class="btn-pull" onclick="$('#right_panel_main').toggle();"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;
-        </a>
-        <php>
-            $currentSession=D('Common/Talk')->getCurrentSessions();
-        </php>
-
-        <div id="right_panel_main">
-            <!--开始会话板-->
-            <div id="session_panel_main" style="display: none"
-            <if condition="count($currentSession) eq 0">style="display: none"</if>
-            >
-            <h2>会话</h2>
-            <ul class="friend_list">
-                <volist name="currentSession" id="session">
-                    <li id="chat_li_{$session.id}">
-                        <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
-                            <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
-                        </a>
-                    </li>
-                </volist>
-            </ul>
-            <div class="session_more">
-                <a title="会话面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
-                   class="btn_session_more col-md-6 active"><i class="glyphicon glyphicon-send"></i>
-                </a>
-                <a title="好友面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
-                   class="btn_session_more col-md-6"><i class="glyphicon glyphicon-user"></i>
-                </a>
-            </div>
-            <!--结束会话版-->
-        </div>
-
-        <!--开始好友板-->
-        <div id="friend_panel_main">
-            <h2>好友</h2>
-            <ul class="friend_list">
-            </ul>
-
-            <div class="session_more">
-                <a title="会话面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
-                   class="btn_session_more col-md-6"><i class="glyphicon glyphicon-send"></i>
-                </a>
-                <a title="好友面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
-                   class="btn_session_more col-md-6 active"><i class="glyphicon glyphicon-user"></i>
-                </a>
-            </div>
-        </div>
-        <!--结束会话版-->
-
-
-    </div>
-
-
-    </div>
-
-
-    </div>
-    <div id="chat_box" style="display: none" class="chat_panel">
-        <div class="panel_title"><img id="chat_ico" class="chat_avatar avatar-img" src="{$friend.avatar64}">
-
-            <div id="chat_title" class="title pull-left text-more"></div>
-            <div class="control_btns pull-right"><a><i onclick="$('#chat_box').hide();"
-                                                       class="glyphicon glyphicon-minus"></i></a><!-- <a
-                ><i class="glyphicon glyphicon-off"></i></a>--></div>
-        </div>
-        <div class="row talk-body ">
-            <div id="scrollArea_chat" class="row ">
-                <div id="scrollContainer_chat">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="send_box">
-            <input id="chat_id" type="hidden" value="0">
-            <script>
-                var myhead = "{$self.avatar128}";
-            </script>
-            <textarea id="chat_content" class="form-control"></textarea>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <button class=" btn btn-danger" onclick="chat_exit()"
-                        style="margin: 10px 10px"> 退出会话
-                </button>
-            </div>
-            <div class="col-md-6">
-                <button class="pull-right btn btn-primary" onclick="chat_postMessage()"
-                        style="margin: 10px 10px"> 发送 Ctrl+Enter
-                </button>
-            </div>
-        </div>
-    </div>
-</if>
+<include file="Public/right_chat_panel"/>
