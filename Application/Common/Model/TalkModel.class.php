@@ -43,7 +43,7 @@ class TalkModel extends Model
         return $last_message;
     }
 
-    public function createTalk($members, $message = '',$title='')
+    public function createTalk($members, $message = '')
     {
 
         $has_got_ico=false;
