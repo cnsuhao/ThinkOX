@@ -60,72 +60,7 @@
             $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
         </php>
         <if condition="is_login()">
-            <!-- <li class="dropdown op_nav_ico ">
-                 <a class="dropdown-toggle text-left" data-toggle="dropdown">
-                     <span class="glyphicon glyphicon-send"></span>
-                     &nbsp;
-                 </a>
-                 <ul class="dropdown-menu extended notification" style="">
-                     <li style="padding-left: 15px;padding-right: 15px;">
-                         <div class="row nav_info_center">
-                             <div class="col-xs-9 nav_align_left"><span>{:count($currentSession)}</span> 个进行中的会话
-                             </div>
-                             <div class="col-xs-3"></div>
-                         </div>
-                     </li>
-                     <li>
-                         <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
-                             <ul id="nav_session" class="dropdown-menu-list scroller "
-                                 style=" width: auto;">
-                                 <if condition="count($currentSession) eq 0">
-                                     <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
-                                         暂无会话!
-                                     </div>
-                                     <else/>
-                                     <volist name="currentSession" id="session">
-                                         <li>
-                                             <a href="{:U('Usercenter/Message/talk',array('talk_id'=>$session['id']))}">
-                                                 <div class="row">
-                                                     <div class="col-xs-3">
-                                                         <img class="avatar-img session_head"
-                                                              src="{$session.first_user.avatar32}">
-                                                     </div>
-                                                     <div class="col-xs-9">
-                                                         <div class="title text-more" title=" {$session.title}">
-                                                             {$session.title|op_t}
-                                                         </div>
-                                                         <div class="content text-more"
-                                                              title="{$session.last_message.content|op_t}">
-                                                             <if condition="$session['last_message'] neq null">
-                                                                 {$session.last_message.user.username}:{$session.last_message.content|op_t|mb_substr=0,10,'utf-8'}
-                                                                 <else/>
-                                                                 暂无内容。
-                                                             </if>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </a>
-                                         </li>
-                                     </volist>
 
-                                 </if>
-                             </ul>
-                         </div>
-                     </li>
-                     <li class="">
-
-                         <a href="{:U('Usercenter/Message/session')}">
-                             <i class="glyphicon glyphicon-circle-arrow-right" title="查看全部"
-                                style="background: none;color: rgb(72,184,122)"></i>
-                         </a>
-                         <a href="{:U('Usercenter/Message/session')}">
-                             <i class="glyphicon glyphicon-circle-arrow-right" title="查看全部"
-                                style="background: none;color: rgb(72,184,122)"></i>
-                         </a>
-                     </li>
-                 </ul>
-             </li>
- -->
 
             <li class="dropdown op_nav_ico hidden-xs hidden-sm">
                 <div></div>
@@ -213,26 +148,31 @@
         </if>
     </ul>
 </div>
+
+<if condition="(is_login()) ">
 <div class="friend_panel visible-md visible-lg" style="display: none">
     <a class="btn-pull" onclick="$('#friend_panel_main').toggle();"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;
     </a>
     <php>
         $currentSession=D('Common/Talk')->getCurrentSessions();
     </php>
-    <div id="friend_panel_main">
-        <h2>会话</h2>
-        <ul class="friend_list">
-            <volist name="currentSession" id="session">
-                <li id="chat_li_{$session.id}">
-                    <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
-                        <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
-                    </a>
-                </li>
-            </volist>
+
+        <div id="friend_panel_main"  <if condition="count($currentSession) eq 0">style="display: none"</if>>
+            <h2>会话</h2>
+            <ul class="friend_list">
+                <volist name="currentSession" id="session">
+                    <li id="chat_li_{$session.id}">
+                        <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
+                            <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
+                        </a>
+                    </li>
+                </volist>
 
 
-        </ul>
-    </div>
+            </ul>
+        </div>
+
+
 </div>
 <div id="chat_box" style="display: none" class="chat_panel">
     <div class="panel_title"><img id="chat_ico" class="chat_avatar avatar-img" src="{$friend.avatar64}">
@@ -270,6 +210,4 @@
         </div>
     </div>
 </div>
-<style>
-
-</style>
+</if>
