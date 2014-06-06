@@ -27,7 +27,7 @@ class MessageController extends BaseController
     }
 
     /**消息页面
-     * @param int $page
+     * @param int    $page
      * @param string $tab 当前tab
      */
     public function message($page = 1, $tab = 'unread')
@@ -104,7 +104,7 @@ class MessageController extends BaseController
     /**
      * 删除现有会话
      */
-    public function doDeleteTalk($talk_id)
+    public function doDeleteTalk($talk_id = 0)
     {
         $this->requireLogin();
 
@@ -138,9 +138,9 @@ class MessageController extends BaseController
      */
     public function postMessage($content, $talk_id)
     {
-        $content=op_t($content);
+        $content = op_t($content);
         //空的内容不能发送
-        if(!trim($content)) {
+        if (!trim($content)) {
             $this->error('内容不能为空');
         }
 
@@ -154,7 +154,7 @@ class MessageController extends BaseController
         if (!$rs) {
             $this->error('写入数据库错误');
         }
-        exit(json_encode(array('status'=>1,'content'=>$content)));
+        exit(json_encode(array('status' => 1, 'content' => $content)));
         $this->success("发送成功");
     }
 

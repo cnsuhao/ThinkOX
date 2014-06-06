@@ -613,13 +613,17 @@ function chat_postMessage() {
         $('#chat_content').focus();
     }, 'json');
 }
+function chat_exit(){
+    var id= $('#chat_id').val();
+    $.post(U('Usercenter/Message/doDeleteTalk'),{talk_id:id},function(msg){
+        if(msg.status){
+            $('#chat_box').hide();
+            $('#chat_li_'+id).remove();
+            op_success('成功退出会话。','温馨提示');
+        }
 
-$('#chat_content').keypress(function (e) {
-    if (e.ctrlKey && e.which == 13 || e.which == 10) {
-        chat_appendMessage();
-    }
-});
-
+    },'json');
+}
 
 function open_chat_box(id) {
     $.get(U('Usercenter/Session/getSession'), {id: id}, function (data) {

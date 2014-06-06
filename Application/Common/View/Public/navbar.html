@@ -223,7 +223,7 @@
         <h2>会话</h2>
         <ul class="friend_list">
             <volist name="currentSession" id="session">
-                <li>
+                <li id="chat_li_{$session.id}">
                     <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
                         <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
                     </a>
@@ -245,48 +245,7 @@
     <div class="row talk-body ">
         <div id="scrollArea_chat" class="row ">
             <div id="scrollContainer_chat">
-                <!--   <div class="row talk_right">
-                       <div class="time"><span
-                               class="timespan">04-02 09:04:28</span></div>
-                       <div class="row">
-                           <div class="col-xs-9 bubble_outter">
-                               <h3>&nbsp;</h3>
-                               <i class="bubble_sharp"></i>
-
-                               <div class="talk_bubble">
-                                   123312
-                               </div>
-                           </div>
-                           <div class="col-xs-3 "><img ucard="1" class="avatar-img talk-avatar"
-                                                       src="http://localhost/thinkox/Uploads/Avatar/2014-06-03/538d48c07d1e1-feacd250_128_auto.jpg"/>
-                           </div>
-                       </div>
-                   </div>
-
-                   <div class="row">
-                       <div class="time"><span class="timespan">04-02 09:04:46</span>
-                       </div>
-                       <div class="row">
-                           <div class="col-xs-3"><img ucard="2" class="avatar-img talk-avatar"
-                                                      src="http://localhost/thinkox/Addons/Avatar/default_128_auto.jpg"/>
-                           </div>
-
-                           <div class="col-xs-9 bubble_outter chat_bubble">
-                               <h3>&nbsp;</h3>
-                               <i class="bubble_sharp"></i>
-
-                               <div class="talk_bubble ">
-                                   312123
-                               </div>
-                           </div>
-
-                       </div>
-                   </div>
-                   <hr/>
-                   <div style="text-align: center;color: #666">以上为历史聊天记录</div>-->
             </div>
-
-
         </div>
 
     </div>
@@ -299,9 +258,14 @@
         <textarea id="chat_content" class="form-control"></textarea>
     </div>
     <div class="row">
-        <div class="col-md-offset-6 col-md-6">
-            <button class=" btn btn-primary" onclick="chat_postMessage()"
-                    style="margin: 5px 0"> 发送 Ctrl+Enter
+        <div class="col-md-6">
+            <button class=" btn btn-danger" onclick="chat_exit()"
+                    style="margin: 10px 10px"> 退出会话
+            </button>
+        </div>
+        <div class="col-md-6">
+            <button class="pull-right btn btn-primary" onclick="chat_postMessage()"
+                    style="margin: 10px 10px"> 发送 Ctrl+Enter
             </button>
         </div>
     </div>
