@@ -951,7 +951,7 @@ General list for item with image
   left: -35px;
   margin-top: -31px;
 }
-.friend_panel #friend_panel_main {
+.friend_panel #right_panel_main {
   border: 1px solid #ccc;
   border-right: 0;
   height: 500px;
@@ -964,7 +964,7 @@ General list for item with image
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
-.friend_panel #friend_panel_main h2 {
+.friend_panel #right_panel_main h2 {
   font-size: 16px;
   color: #666;
   text-align: center;
@@ -973,6 +973,7 @@ General list for item with image
   border-bottom: 1px solid #ccc;
 }
 .friend_panel .friend_list {
+  height: 420px;
   padding: 0;
 }
 .friend_panel .friend_list li {
@@ -982,6 +983,22 @@ General list for item with image
 .friend_panel .friend_list li a {
   display: inline-block;
   margin-bottom: 10px;
+}
+.friend_panel .session_more .btn_session_more {
+  background: #f2f2f2;
+  text-align: center;
+  padding: 4px 0;
+  margin-left: 0 ;
+  margin-right: 0;
+  display: block;
+  float: left;
+  border-top: 1px solid #ccc;
+}
+.friend_panel .session_more .btn_session_more:hover {
+  background: #ffffff;
+}
+.friend_panel .session_more .active {
+  background: #ffffff;
 }
 .chat_panel {
   box-shadow: 0 0 5px #cccccc;
@@ -1008,7 +1025,7 @@ General list for item with image
 }
 .chat_panel .panel_title .control_btns a {
   display: inline-block;
-  margin: 7px ;
+  margin: 7px;
 }
 .chat_panel .chat_avatar {
   box-shadow: 0 0 5px #cccccc;
