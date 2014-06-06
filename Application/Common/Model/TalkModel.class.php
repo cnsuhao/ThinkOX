@@ -50,5 +50,57 @@ class TalkModel extends Model
         return $last_message;
     }
 
+    public function createTalk($members, $message = '',$title='')
+    {
 
+        $orin_member=$members;
+        if (is_array($members)) {
+            $members[]=is_login();
+            foreach($members as &$mem){
+               $mem= '[' .$mem.']';
+            }
+            unset($mem);
+
+            $talk['uids'] = implode(',', $members);
+        } else {
+            /*创建talk*/
+            $talk['uids'] = implode(',', array('[' . is_login() . ']', '[' . $members . ']'));
+
+        }
+        if ($message != '') {
+            $talk['appname'] = $message['appname'];
+            $talk['apptype'] = $message['apptype'];
+            $talk['source_id'] = $message['source_id'];
+            $talk['message_id'] = $message['id'];
+            //通过消息获取到对应应用内的消息模型
+            $messageModel = $this->getMessageModel($message);
+            //从对应模型内取回对话源资料
+            $talk = array_merge($messageModel->getSource($message), $talk);
+        }else{
+            if(count($orin_member)==1){
+                $user_one=query_user(array('username'),$orin_member[0]);
+                $user_two=query_user(array('username'));
+                $talk['title']=$user_one['username'].' 和 '.$user_two['username'].'的会话';
+            }
+        }
+
+
+        //创建会话
+        $talk = D('Talk')->create($talk);
+        $talk['id'] = D('Talk')->add($talk);
+        return $talk;
+        /*创建talk end*/
+
+    }
+    /**
+     * @param $message
+     * @return \Model
+     */
+    private function getMessageModel($message)
+    {
+
+        $appname = ucwords($message['appname']);
+        $messageModel = D($appname . '/' . $appname . 'Message');
+        return $messageModel;
+    }
 }

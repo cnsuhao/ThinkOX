@@ -2,16 +2,14 @@
     <div class="friend_panel visible-md visible-lg" style="display: none">
         <a class="btn-pull" onclick="$('#right_panel_main').toggle();"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;
         </a>
+        <php>
+            $currentSession=D('Common/Talk')->getCurrentSessions();
+        </php>
 
-
-        <div id="right_panel_main">
+        <div id="right_panel_main"  <if condition="count($currentSession) eq 0">style="display: none"</if>>
             <!--开始会话板-->
-            <php>
-                $currentSession=D('Common/Talk')->getCurrentSessions();
-            </php>
-            <div id="session_panel_main" style="display: none"
-            <if condition="count($currentSession) eq 0">style="display: none"</if>
-            >
+
+            <div id="session_panel_main" >
             <h2>会话</h2>
 
             <div id="scrollArea_session" class="row ">
@@ -19,10 +17,26 @@
                     <ul class="friend_list">
                         <volist name="currentSession" id="session">
                             <li id="chat_li_{$session.id}">
-                                <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
-                                    <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
-                                </a>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
+                                            <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <a class="text-more" style="width: 100%" target="_blank" title="{$session.title|op_t}">
+                                                {$session.title}
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a onclick="chat_exit({$session.id})"><i style="color: red" title="退出会话" class="glyphicon glyphicon-off"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </li>
+
                         </volist>
                     </ul>
                 </div>
@@ -47,7 +61,7 @@
         </div>
 
         <!--开始好友板-->
-        <div id="friend_panel_main">
+        <div id="friend_panel_main" style="display: none">
             <php>
                 $friends=D('Common/Follow')->getAllFriends();
             </php>
@@ -58,7 +72,7 @@
                     <ul class="friend_list">
                         <volist name="friends" id="friend">
                             <php>
-                                $friend=query_user(array('avatar64','username','space_url'),$friend['follow_who'])
+                                $friend=query_user(array('avatar64','username','space_url','uid'),$friend['follow_who'])
                             </php>
                             <li id="friends_li_{$friend.id}">
                                 <div class="row">
@@ -76,7 +90,7 @@
                                             </a>
                                         </div>
                                         <div>
-                                            <a onclick=""><i title="发起会话" class="glyphicon glyphicon-send"></i></a>
+                                            <a onclick="start_talk({$friend.uid})"><i title="发起新会话" class="glyphicon glyphicon-send"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -141,9 +155,9 @@
                 <button class=" btn btn-danger" onclick="chat_exit()"
                         style="margin: 10px 10px" title="退出会话"><i class="glyphicon glyphicon-off"></i>
                 </button>
-                <button class=" btn btn-success" onclick="chat_exit()"
+              <!--  <button class=" btn btn-success" onclick="chat_exit()"
                         style="margin: 10px 10px" title="邀请好友"><i class="glyphicon glyphicon-plus"></i>
-                </button>
+                </button>-->
 
             </div>
             <div class="col-md-6">

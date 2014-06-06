@@ -613,16 +613,22 @@ function chat_postMessage() {
         $('#chat_content').focus();
     }, 'json');
 }
-function chat_exit(){
-    var id= $('#chat_id').val();
-    $.post(U('Usercenter/Message/doDeleteTalk'),{talk_id:id},function(msg){
-        if(msg.status){
-            $('#chat_box').hide();
-            $('#chat_li_'+id).remove();
-            op_success('成功退出会话。','温馨提示');
+function chat_exit(id){
+    if(confirm('确定退出该会话？退出后无法再主动加入。')){
+        if(typeof (id)=='undefined'){
+             id= $('#chat_id').val();
+        }else{
         }
+        $.post(U('Usercenter/Message/doDeleteTalk'),{talk_id:id},function(msg){
+            if(msg.status){
+                $('#chat_box').hide();
+                $('#chat_li_'+id).remove();
+                op_success('成功退出会话。','会话助手');
+            }
 
-    },'json');
+        },'json');
+    }
+
 }
 
 function open_chat_box(id) {
@@ -634,6 +640,21 @@ function open_chat_box(id) {
 
     }, 'json');
 }
+
+function start_talk(uid) {
+    if(confirm('确定要和该用户发起会话？')){
+    $.post(U('Usercenter/Session/createTalk'), {uids: uid}, function (data) {
+        op_success('会话发起成功。','会话助手');
+        
+
+
+        $('#friend_panel_main').toggle();
+        $('#session_panel_main').toggle()
+        open_chat_box(data.id);
+
+    }, 'json');}
+}
+
 function set_current_chat(chat) {
     $('#chat_ico').attr('src', chat.ico);
     $('#chat_title').text(chat.title);
