@@ -10,7 +10,7 @@
             <!--开始会话板-->
 
             <div id="session_panel_main" >
-            <h2>当前会话</h2>
+            <h2>会话( {:count($currentSession)} )</h2>
 
             <div id="scrollArea_session" class="row ">
                 <div id="scrollContainer_session">
@@ -65,7 +65,7 @@
             <php>
                 $friends=D('Common/Follow')->getAllFriends();
             </php>
-            <h2>我的好友</h2>
+            <h2>好友( {:count($friends)} )</h2>
 
             <div id="scrollArea_friend" class="row ">
                 <div id="scrollContainer_friend">
