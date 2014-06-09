@@ -1,26 +1,5 @@
 @import "../../bootstrap/css/variables";
 
-#nav_session .session_head {
-  width: 3em
-}
-
-#nav_session .title {
-  font-size: 1.2em;
-  width: 100%;
-}
-
-#nav_session .content {
-  color: grey;
-  font-size: 0.8em;
-  line-height: 1.2em;
-  height: 1.2em;
-  width: 90%;
-}
-
-.navbar-logo {
-  padding-left: 0;
-}
-
 body {
   font-family: "Microsoft YaHei";
 }
@@ -50,13 +29,6 @@ a:hover {
   -moz-box-shadow: 0 0 5px #CCCCCC;
   -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
-
-.boxShadowBorder {
-  .boxShadow;
-  border: 1px solid #dddddd;
-  border-radius: 0.2em;
-}
-
 /*头衔*/
 .rank_html {
   width: 18px;
@@ -71,15 +43,13 @@ a:hover {
   width: 100%;
   margin: auto;
 }
-
-.tb_rank td, .tb_rank th {
-  padding: 5px 10px;
+.tb_rank td,.tb_rank th{
+  padding:5px 10px;
   border: 1px solid #ccc;
   border-left: none;
   border-right: none;
   color: #555;
 }
-
 /*头衔end*/
 
 .oneuser-title-hr {
@@ -97,11 +67,9 @@ a:hover {
 .navbar-nav > li > a {
   line-height: 28px;
 }
-
-#main-container {
+#main-container{
   margin-top: 80px;
 }
-
 .navbar-avatar-img {
   .avatar-img();
   border: solid 2px #fff;
@@ -364,7 +332,7 @@ h2 {
     border-bottom: 1px dashed #ccc;
     width: 100%;
     white-space: nowrap;
-    overflow: hidden;
+    overflow:hidden;
     text-overflow: ellipsis;
 
     .hot_num {
@@ -1064,164 +1032,4 @@ General list for item with image
 .thinkox-break-word {
   word-break: break-all;
   word-wrap: break-word;
-}
-
-.post_read {
-  i {
-    margin-right: .3em;
-  }
-
-  display: inline-block;
-  min-width: 4em;
-}
-
-.post_comment {
-  i {
-    margin-right: .3em;
-  }
-  display: inline-block;
-  min-width: 4em;
-  margin-right: -1em;
-}
-
-.white-popup {
-  position: relative;
-  background: #FFF;
-  padding: 20px;
-  width: auto;
-  max-width: 500px;
-  margin: 20px auto;
-}
-
-/*
-右侧好友界面*/
-
-.friend_panel {
-  position: fixed;
-  top: 50%;
-  right: 0;
-
-  .btn-pull {
-    position: absolute;
-    background: white;
-    padding: 20px 8px;
-    border: 1px solid #ccc;
-    border-right: 0;
-    margin-right: 0;
-    left: -35px;
-    margin-top: -31px;
-    i {
-    }
-
-  }
-
-  #friend_panel_main {
-    h2{
-      font-size: 16px;
-      color: #666;
-      text-align: center;
-      padding-top: 5px;
-      background: #eee;
-      border-bottom: 1px solid #ccc;
-    }
-    border: 1px solid #ccc;
-    border-right: 0;
-    height: 500px;
-    width: 64px;
-    margin-top: -250px;
-    background: white;
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    .boxShadow;
-  }
-
-  .friend_list {
-
-    padding: 0;
-    li {
-      list-style: none;
-      padding: 10px;
-
-      a {
-        display: inline-block;
-        margin-bottom: 10px;
-      }
-    }
-  }
-}
-
-.chat_panel {
-
-  .boxShadow;
-  position: fixed;
-  right: 110px;
-  bottom: 30px;
-  background: white;
-  border: 1px solid #ccc;
-  width: 320px;
-  height: 455px;
-  .panel_title {
-    .title{
-      padding-left: 74px;
-      line-height: 34px;
-      width: 280px;
-    }
-    position: relative;
-    background: #F4F4F4;
-    height: 35px;
-    border-bottom: 1px solid #ccc;
-    .control_btns{
-      a{
-        display: inline-block;
-        margin: 7px ;
-      }
-    }
-  }
-  .chat_avatar {
-    .boxShadow;
-    position: absolute;
-    top: -32px;
-    left: 5px;
-    width: 64px;
-    border: 1px solid #ccc;
-    padding: 1px;
-    background: white;
-  }
-
-  .talk-body {
-    background: white;
-    padding: 0;
-    margin-top: 0;
-    border: 0;
-    border-radius: 0;
-    margin-bottom: 0;
-    height: 320px;
-
-    .talk-avatar {
-      width: 48px;
-      max-width: 200%;
-      margin-right: 10px;
-    }
-    .chat_bubble {
-      .bubble_sharp {
-
-        background: url(../images/bubble_left_chat.png);
-      }
-      .talk_bubble {
-        border-color: rgb(72, 184, 122);
-        background: rgb(72, 184, 122);
-        color: white;
-      }
-    }
-  }
-
-  .send_box {
-    padding: 0 10px;
-    textarea {
-
-    }
-  }
- #scrollArea_chat{
-    padding-bottom: 20px;
-  }
 }

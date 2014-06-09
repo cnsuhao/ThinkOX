@@ -1,8 +1,227 @@
 <php> D('Home/Member')->need_login();</php>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 <div class="container">
+<!-- Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-logo" href="{:U('Home/Index/index')}">
+        <img src="__PUBLIC__/Home/images/oneplus/oneplus-logo.png" style="width: 150px;"/>
+    </a>
+</div>
 
-<include file="Public/navbar"/>
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<ul class="nav navbar-nav " style="font-size: 18px">
+
+    <!--导航栏菜单项-->
+    <think:nav name="nav">
+        <eq name="nav.pid" value="0">
+            <li>
+                <a href="{$nav.url|get_nav_url}"
+                   target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
+            </li>
+        </eq>
+    </think:nav>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+    <!--登录注册-->
+    <php>
+        $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
+        $currentSession=D('Common/Talk')->getCurrentSessions();
+    </php>
+    <if condition="is_login()">
+        <li class="dropdown op_nav_ico ">
+            <ul class="dropdown-menu extended notification">
+                <li style="padding-left: 15px;padding-right: 15px;">
+                    <div class="row nav_info_center">
+                        <div class="col-xs-9 nav_align_left"><span>{:count($currentSession)}</span> 个进行中的会话
+                        </div>
+                        <div class="col-xs-3"></div>
+                    </div>
+                </li>
+                <li>
+                    <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
+                        <ul id="nav_session" class="dropdown-menu-list scroller "
+                            style=" width: auto;">
+                            <if condition="count($currentSession) eq 0">
+                                <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
+                                    暂无会话!
+                                </div>
+                                <else/>
+                                <volist name="currentSession" id="session">
+                                    <li>
+                                        <a href="{:U('Usercenter/Message/talk',array('talk_id'=>$session['id']))}">
+                                            <div class="row">
+                                                <div class="col-xs-3">
+                                                    <img class="avatar-img session_head"
+                                                         src="{$session.first_user.avatar32}">
+                                                </div>
+                                                <div class="col-xs-9">
+                                                    <div class="title text-more" title=" {$session.title}">
+                                                        {$session.title|op_t}
+                                                    </div>
+                                                    <div class="content text-more"
+                                                         title="{$session.last_message.content|op_t}">
+                                                        <if condition="$session['last_message'] neq null">
+                                                            {$session.last_message.user.username}:{$session.last_message.content|op_t|mb_substr=0,10,'utf-8'}
+                                                            <else/>
+                                                            暂无内容。
+                                                        </if>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </volist>
+
+                            </if>
+                            <style>
+                                #nav_session .session_head {
+                                    width: 3em
+                                }
+
+                                #nav_session .title {
+                                    font-size: 1.2em;
+                                    width: 100%;
+                                }
+
+                                #nav_session .content {
+                                    color: grey;
+                                    font-size: 0.8em;
+                                    line-height: 1.2em;
+                                    height: 1.2em;
+                                    width: 90%;
+                                }
+                            </style>
+                        </ul>
+                    </div>
+                </li>
+                <li class="external">
+                    <a href="{:U('Usercenter/Message/session')}">
+                        查看全部 <i class="glyphicon glyphicon-circle-arrow-right"
+                                style="background: none;color: rgb(72,184,122)"></i>
+                    </a>
+                </li>
+            </ul>
+            <script>
+                $(function () {
+                    $('.scroller').slimScroll({
+                        height: '150px'
+                    });
+                });
+            </script>
+            <a class="dropdown-toggle" data-toggle="dropdown"><i
+                    class="glyphicon glyphicon-send"></i>
+                &nbsp;
+            </a>
+        </li>
+
+
+        <li class="dropdown op_nav_ico ">
+            <ul class="dropdown-menu extended notification">
+                <li style="padding-left: 15px;padding-right: 15px;">
+                    <div class="row nav_info_center">
+                        <div class="col-xs-9 nav_align_left"><span
+                                id="nav_hint_count">{:count($unreadMessage)}</span> 条未读
+                        </div>
+                        <div class="col-xs-3"><i onclick="setAllReaded()"
+                                                 class="set_read glyphicon glyphicon-ok" title="全部标为已读"></i></div>
+                    </div>
+                </li>
+                <li>
+                    <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
+                        <ul id="nav_message" class="dropdown-menu-list scroller "
+                            style=" width: auto;">
+                            <if condition="count($unreadMessage) eq 0">
+                                <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
+                                    暂无任何消息!
+                                </div>
+                                <else/>
+                                <volist name="unreadMessage" id="message">
+                                    <li>
+                                        <a data-url="{$message.url}" onclick="readMessage(this,{$message.id})">
+                                            <i class="glyphicon glyphicon-bell"></i>
+                                            {$message.title}
+                                            <span class="time">
+                                            {$message.ctime}
+                                            </span>
+                                        </a>
+                                    </li>
+                                </volist>
+                            </if>
+
+                        </ul>
+                    </div>
+
+                </li>
+                <li class="external">
+                    <a href="{:U('Usercenter/Message/message')}">
+                        查看全部 <i class="glyphicon glyphicon-circle-arrow-right"
+                                style="background: none;color: rgb(72,184,122)"></i>
+                    </a>
+                </li>
+            </ul>
+            <script>
+                $(function () {
+                    $('.scroller').slimScroll({
+                        height: '150px'
+                    });
+                });
+            </script>
+            <a id="nav_info dropdown-toggle " data-toggle="dropdown"><i
+                    class="glyphicon glyphicon-bullhorn"></i>
+                <span id="nav_bandage_count"
+                <if condition="count($unreadMessage) eq 0"> style="display: none"</if>
+                class="badge pull-right">{:count($unreadMessage)}</span>
+                &nbsp;
+            </a>
+        </li>
+
+
+        <li class="dropdown">
+            <php>
+                $common_header_user = query_user(array('avatar64'));
+            </php>
+            <a role="button" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
+                <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img"/>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{:U('UserCenter/Index/index')}"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
+                </li>
+                <li><a href="{:U('UserCenter/Message/session')}"><span
+                        class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;我的会话</a></li>
+                <li><a href="{:U('UserCenter/Forum/myTopic')}"><span
+                        class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;我的主题</a></li>
+                <li><a href="{:U('UserCenter/Forum/myTakePartIn')}"><span
+                        class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;我的参与</a></li>
+                <li><a href="{:U('UserCenter/Forum/myBookmark')}"><span
+                        class="glyphicon glyphicon-bookmark"></span>&nbsp;&nbsp;我的收藏</a></li>
+                <if condition="is_administrator()">
+                    <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
+                            class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;管理后台</a></li>
+                </if>
+                <li><a event-node="logout"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</a>
+                </li>
+            </ul>
+        </li>
+        <else/>
+        <li>
+            <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+            </php>
+            <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
+        </li>
+        <li>
+            <a href="{:U('Home/User/register')}">注册</a>
+        </li>
+    </if>
+</ul>
+</div>
 </div>
 </div>
 <a id="goTopBtn"></a>

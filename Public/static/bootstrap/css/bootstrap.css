@@ -1653,6 +1653,7 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
   /* IE8-9 */
+
   line-height: normal;
 }
 input[type="file"] {
@@ -3663,7 +3664,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-collapse {
-  max-height: 9999px;
+  max-height: 340px;
   overflow-x: visible;
   padding-right: 15px;
   padding-left: 15px;

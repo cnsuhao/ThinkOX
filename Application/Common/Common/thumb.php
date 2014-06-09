@@ -91,16 +91,3 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
 function getRootUrl() {
     return "http://$_SERVER[HTTP_HOST]$GLOBALS[_root]";
 }
-
-
-function getThumbImageById($cover_id, $width = 100, $height = 'auto', $cut = true, $replace = false)
-{
-    $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);
-    if(empty($picture))
-    {
-        return 'Public/static/assets/img/nopic.png';
-    }
-    $attach = getThumbImage($picture['path'], $width, $height, $cut, $replace);
-
-    return $attach['src'];
-}

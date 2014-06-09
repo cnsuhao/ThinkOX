@@ -192,7 +192,7 @@ class CheckinAddon extends Addon
     private function getOverRate($checkinfo)
     {
         $db_prefix = C('DB_PREFIX');
-        $over_count = D()->query("select count(uid)  AS rank from (SELECT *,max(total_num) as total FROM `{$db_prefix}check_info`  WHERE 1 group by uid ) as checkin where total>{$checkinfo['total_num']}");
+        $over_count = D()->query("select count(uid)  AS rank from (SELECT *,max(total_num) as total FROM `{$db_prefix}check_info`  WHERE 1 group by uid ) as checkin where total>={$checkinfo['total_num']}");
 
         $users_count = D('Member')->count('uid');
         $over_rate =((1- number_format($over_count[0]['rank']  / $users_count, '3'))*100)."%";

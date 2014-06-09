@@ -1,1 +1,0 @@
-#ThinkOX Developer

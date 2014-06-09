@@ -16,7 +16,7 @@ class PublicController extends Controller
 {
     public function getProfile()
     {
-        $uid = intval($_REQUEST['uid']);
+        $uid = $_REQUEST['uid'];
         $userProfile = query_user(array('id', 'username', 'score', 'signature', 'weibocount', 'fans', 'following', 'space_url', 'title', 'rank_link'), $uid);
         $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
         $follow['follow_who'] = $userProfile['id'];

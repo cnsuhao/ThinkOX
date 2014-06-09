@@ -1,8 +1,7 @@
 <extend name="Public/forum"/>
 
-<block name="body"> <div class="fourm-top" style="padding: 15px 20px;margin: -15px;margin-top: 0">
+<block name="body">
     <div class="row">
-
         <div class="col-xs-12">
             <h4>
                 编辑回复
@@ -12,7 +11,8 @@
                 <form action="{:U('Forum/Index/doReplyEdit')}" method="post" id="edit-article-form">
                     <input type="hidden" name="reply_id" value="{$reply.id}"/>
                     <p>
-                        {:W('UeditorMini/editor',array('myeditor','content',$reply['content'],'100%','250px',$config))}
+                        <textarea  name="content" class="form-control" placeholder="说点什么吧～" style="width:100%; height: 8em;">{$reply.content|htmlspecialchars}</textarea>
+                        {:hook('documentEditFormContent',array('name'=>'content','value'=>htmlspecialchars($reply['content'])))}
                     </p>
                     <p>&nbsp;</p>
                     <p class="pull-right">
@@ -25,8 +25,14 @@
             </section>
         </div>
     </div>
-</div>
 
+    <div class="row">
+        <div class="col-xs-9">
+        </div>
+        <div class="col-xs-3">
+
+        </div>
+    </div>
 </block>
 
 <block name="script">

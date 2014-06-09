@@ -11,7 +11,7 @@ namespace Weibo\Api;
 use Common\Api\Api;
 use Common\Exception\ApiException;
 
-
+require_once(APP_PATH . 'Weibo/Common/function.php');
 
 class WeiboApi extends Api
 {
@@ -26,10 +26,10 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 10,$map=array())
+    public function listAllWeibo($page = 1, $count = 10)
     {
         //获取微博列表
-        $map[] = array('status' => 1);
+        $map = array('status' => 1);
         $model = $this->weiboModel;
         $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
 

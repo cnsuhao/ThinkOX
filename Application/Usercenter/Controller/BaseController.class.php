@@ -14,7 +14,7 @@ class BaseController extends Controller
 {
     public function _initialize()
     {
-       $uid = intval($_REQUEST['uid']) ? intval($_REQUEST['uid']) : is_login();
+        $uid = $_REQUEST['uid'] ? $_REQUEST['uid'] : is_login();
         if (!$uid) {
             $this->error('需要登录');
         }
@@ -24,7 +24,7 @@ class BaseController extends Controller
 
     protected function defaultTabHash($tabHash)
     {
-        $tabHash = op_t($_REQUEST['tabHash']) ?  op_t($_REQUEST['tabHash']): $tabHash;
+        $tabHash = $_REQUEST['tabHash'] ? $_REQUEST['tabHash'] : $tabHash;
         $this->assign('tabHash', $tabHash);
     }
 

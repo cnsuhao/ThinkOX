@@ -26,23 +26,19 @@ class IndexController extends Controller
         $this->weiboApi = new WeiboApi();
     }
 
-    public function index($uid=0)
+    public function index()
     {
         //载入第一页微博
+        $result = $this->weiboApi->listAllWeibo();
 
-        if($uid!=0){
-            $result = $this->weiboApi->listAllWeibo(null,null,array('uid'=>$uid));
-        }else{
-            $result = $this->weiboApi->listAllWeibo();
-        }
         //显示页面
         $this->assign('list', $result['list']);
         $this->assign('tab', 'all');
-        $this->assign('loadMoreUrl', U('loadWeibo',array('uid'=>$uid)));
+        $this->assign('loadMoreUrl', U('loadWeibo'));
         $this->assignSelf();
         $this->display();
     }
-
+    
     public function myconcerned()
     {
         //载入我关注的微博
@@ -64,18 +60,14 @@ class IndexController extends Controller
         //显示页面
         $this->assign('weibo', $result['weibo']);
         $this->assignSelf();
-
         $this->display();
     }
 
-    public function loadWeibo($page = 1,$uid=0)
+    public function loadWeibo($page = 1)
     {
         //载入全站微博
-        if($uid!=0){
-            $result = $this->weiboApi->listAllWeibo($page,null,array('uid'=>$uid));
-        }else{
-            $result = $this->weiboApi->listAllWeibo($page,null);
-        }
+        $result = $this->weiboApi->listAllWeibo($page);
+
         //如果没有微博，则返回错误
         if (!$result['list']) {
             $this->error('没有更多了');
@@ -129,8 +121,6 @@ class IndexController extends Controller
         //返回html代码用于ajax显示
         $this->assign('list', $list);
         $this->assign('weiboId', $weibo_id);
-        $weobo=$this->weiboApi->getWeiboDetail($weibo_id);
-        $this->assign('weibo',$weobo['weibo']);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->display();
     }

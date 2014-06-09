@@ -1,45 +1,46 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <include file="Public/head"/>
+	<include file="Public/head"/>
     <script type="text/javascript" src="__JS__/common.js"></script>
 </head>
 <body>
-<!-- 头部 -->
-<include file="Public/header"/>
-<!-- /头部 -->
-
-<!-- 主体 -->
-<div id="main-container">
+	<!-- 头部 -->
+	<include file="Public/header"/>
+	<!-- /头部 -->
+	<div id="main-container">
+	<!-- 主体 -->
     <include file="Public/forum-header"/>
     <block name="header"></block>
     <div class="container">
         <div class="row">
-            <div class="col-sm-9 col-xs-12">
-                <div class="container-fluid">
+            <div class="col-xs-9">
+                <div class="forum-first-block">
                     <block name="body"></block>
                 </div>
             </div>
-            <div class="col-sm-3 col-xs-12">
-                <block name="side"></block>
-                <block name="side">
-                    <include file="Public/forum-side"/>
-                </block>
+            <div class="col-xs-3">
+                <div class="forum-last-block">
+                    <block name="side"></block>
+                    <block name="side">
+                        <include file="Public/forum-side"/>
+                    </block>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script type="text/javascript">
-    $(function () {
-        $(window).resize(function () {
-            $("#main-container").css("min-height", $(window).height() - 343);
-        }).resize();
-    });
-</script>
-<!-- /主体 -->
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $(window).resize(function(){
+                $("#main-container").css("min-height", $(window).height() - 343);
+            }).resize();
+        });
+    </script>
+	<!-- /主体 -->
 
-<!-- 底部 -->
-<include file="Public/footer"/>
-<!-- /底部 -->
+	<!-- 底部 -->
+	<include file="Public/footer"/>
+	<!-- /底部 -->
 </body>
 </html>

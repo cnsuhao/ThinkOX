@@ -83,7 +83,7 @@
                     if (data.status) {
                         op_success('欢迎回来，1.5秒后跳转到登陆前页面。', '温馨提示');
                         setTimeout(function () {
-                            window.location.href = "{$_REQUEST.back|op_t|urldecode}";
+                            window.location.href = "{$_REQUEST.back|urldecode}";
                         }, 1500);
                     } else {
                         op_error(data.info, '温馨提示');

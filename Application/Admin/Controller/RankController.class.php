@@ -223,7 +223,7 @@ class RankController extends AdminController
             } else {
                 $rank = D('rank')->where('id=' . $data['rank_id'])->find();
                 //$logoUrl=getRootUrl().D('picture')->where('id='.$rank['logo'])->getField('path');
-                //$u_name = D('member')->where('uid=' . $uid)->getField('nickname');
+                $u_name = D('member')->where('uid=' . $uid)->getField('nickname');
                 $content = '管理员给你颁发了头衔：[' . $rank['title'] . ']'; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
 
                 $user = query_user(array('username', 'space_link'), $uid);

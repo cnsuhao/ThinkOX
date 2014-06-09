@@ -32,7 +32,7 @@ class TalkModel extends Model
             $uids = $this->getUids($li['uids']);
             foreach ($uids as $uid) {
                 if ($uid != is_login()) {
-                    $li['first_user'] = query_user(array('avatar64', 'username'), $uid);
+                    $li['first_user'] = query_user(array('avatar32', 'username'), $uid);
                     $li['last_message'] = $this->getLastMessage($li['id']);
                     break;
                 }
@@ -50,23 +50,5 @@ class TalkModel extends Model
         return $last_message;
     }
 
-    /**获取到所有的好友
-     * @return mixed
-     * @auth 陈一枭
-     */
-    public function getAllFriends($uid=0){
-        if($uid==0){
-            $uid=is_login();
-        }
-        $model_follow=D('Follow');
-        $i_follow=$model_follow->where(array('who_follow'=>get_uid()))->limit(999)->select();
-
-        foreach($i_follow as $key=>$user){
-            if(!$model_follow->where(array('follow_who'=>get_uid(),'who_follow'=>$user['follow_who']))->count()){
-                unset($i_follow[$key]);
-            }
-        }
-        return $i_follow;
-    }
 
 }

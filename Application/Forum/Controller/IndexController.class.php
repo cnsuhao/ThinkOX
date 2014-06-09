@@ -71,15 +71,12 @@ class IndexController extends Controller
 
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
-        $id = intval($id);
         $limit = 10;
         //读取帖子内容
         $post = D('ForumPost')->where(array('id' => $id, 'status' => 1))->find();
-
         if (!$post) {
             $this->error('找不到该帖子');
         }
-        $post['content'] = op_h($post['content'],'base');
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
         //读取回复列表
@@ -92,11 +89,6 @@ class IndexController extends Controller
         } else {
             $showMainPost = false;
         }
-        foreach($replyList as &$reply)
-        {
-            $reply['content']=op_h($reply['content'],'base');
-        }
-        unset($reply);
         //判断是否已经收藏
         $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
         //显示页面
@@ -146,8 +138,8 @@ class IndexController extends Controller
         }
         $data['content'] = $content;
         $data['update_time'] = time();
-        $post_id = D('forum_post_reply')->where(array('id' => intval($reply_id), 'status' => 1))->getField('post_id');
-        $reply = D('forum_post_reply')->where(array('id' => intval($reply_id)))->save($data);
+        $post_id = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->getField('post_id');
+        $reply = D('forum_post_reply')->where(array('id' => $reply_id))->save($data);
         if ($reply) {
             S('post_replylist_' . $post_id, null);
             $this->success('编辑回复成功', U('Forum/Index/detail', array('id' => $post_id)));
@@ -162,13 +154,13 @@ class IndexController extends Controller
         $isEdit = $post_id ? true : false;
         //如果是编辑模式的话，读取帖子，并判断是否有权限编辑
         if ($isEdit) {
-            $post = D('ForumPost')->where(array('id' => intval($post_id), 'status' => 1))->find();
+            $post = D('ForumPost')->where(array('id' => $post_id, 'status' => 1))->find();
             $this->requireAllowEditPost($post_id);
         } else {
             $post = array('forum_id' => $forum_id);
         }
         //获取贴吧编号
-        $forum_id = $forum_id ? intval($forum_id) : $post['forum_id'];
+        $forum_id = $forum_id ? $forum_id : $post['forum_id'];
 
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
@@ -188,6 +180,8 @@ class IndexController extends Controller
 
     public function doEdit($post_id = null, $forum_id, $title, $content)
     {
+        //对帖子内容进行安全过滤
+        $content = $this->filterPostContent($content);
 
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
@@ -206,10 +200,8 @@ class IndexController extends Controller
         }
         $model = D('ForumPost');
         if ($isEdit) {
-            $data = array('id' => intval($post_id), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => intval($forum_id));
+            $data = array('id' => $post_id, 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
             $result = $model->editPost($data);
-
-
             if (!$result) {
                 $this->error('编辑失败：' . $model->getError());
             }
@@ -229,12 +221,7 @@ class IndexController extends Controller
         $postUrl = "http://$_SERVER[HTTP_HOST]" . U('Forum/Index/detail', array('id' => $post_id));
         $weiboApi = new WeiboApi();
         $weiboApi->resetLastSendTime();
-        if ($isEdit) {
-            $weiboApi->sendWeibo("我修改了帖子【" . $title . "】：" . $postUrl);
-        } else {
-            $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
-        }
-
+        $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
 
         //显示成功消息
         $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after);
@@ -246,10 +233,12 @@ class IndexController extends Controller
         //确认有权限回复
         $this->requireAllowReply($post_id);
 
+        //对帖子内容进行安全过滤
+        $content = $this->filterPostContent($content);
 
         //检测回复时间限制
         $uid = is_login();
-        $near = D('ForumPostReply')->where(array('uid' => $uid))->order('create_time desc')->find();
+        $near = D('ForumPostReply')->where('uid=' . $uid)->order('create_time desc')->find();
 
         $cha = time() - $near['create_time'];
         if ($cha > 10) {
@@ -257,7 +246,7 @@ class IndexController extends Controller
             //添加到数据库
             $model = D('ForumPostReply');
             $before = getMyScore();
-            $result = $model->addReply($post_id, $this->filterPostContent($content));
+            $result = $model->addReply($post_id, $content);
             $after = getMyScore();
             if (!$result) {
                 $this->error('回复失败：' . $model->getError());
@@ -393,9 +382,8 @@ class IndexController extends Controller
         if (is_login() == 1) {
             return true;
         }
-
-        //如果帖子不属于任何板块，则允许发帖
-        if (intval($forum_id) == 0) {
+        if(intval($forum_id)==0)
+        {
             return true;
         }
 
@@ -444,6 +432,13 @@ class IndexController extends Controller
         $this->display();
     }
 
+    private function filterPostContent($content)
+    {
+        $content = op_h($content);
+        $content = $this->limitPictureCount($content);
+        $content = op_h($content);
+        return $content;
+    }
 
     private function limitPictureCount($content)
     {
@@ -500,19 +495,5 @@ class IndexController extends Controller
 
         //其他情况不能删除
         return false;
-    }
-
-
-    /**过滤输出，临时解决方案
-     * @param $content
-     * @return mixed|string
-     * @auth 陈一枭
-     */
-    private function filterPostContent($content)
-    {
-        $content = op_h($content);
-        $content = $this->limitPictureCount($content);
-        $content = op_h($content);
-        return $content;
     }
 }

@@ -59,8 +59,7 @@ class ChannelController extends AdminController {
                 $parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
                 $this->assign('parent', $parent);
             }
-            $pnav=D('Channel')->where(array('pid'=>0))->select();
-            $this->assign('pnav',$pnav);
+
             $this->assign('pid', $pid);
             $this->assign('info',null);
             $this->meta_title = '新增导航';
@@ -98,14 +97,12 @@ class ChannelController extends AdminController {
             }
 
             $pid = i('get.pid', 0);
-
             //获取父导航
             if(!empty($pid)){
             	$parent = M('Channel')->where(array('id'=>$pid))->field('title')->find();
             	$this->assign('parent', $parent);
             }
-            $pnav=D('Channel')->where(array('pid'=>0))->select();
-            $this->assign('pnav',$pnav);
+
             $this->assign('pid', $pid);
             $this->assign('info', $info);
             $this->meta_title = '编辑导航';

@@ -2,80 +2,73 @@
 
 <block name="body">
     <div class="row">
-
         <div class="col-xs-12">
-            <div class="fourm-top" style="padding: 15px 20px;margin: -15px;margin-top: 0">
-                <h4>
-                    <if condition="$isEdit">
-                        编辑帖子
-                        <else/>
-                        发表新帖
-                    </if>
-                </h4>
-                <hr/>
-                <section id="contents">
-                    <form action="{:U('Forum/Index/doEdit')}" method="post" id="edit-article-form">
-                        <input type="hidden" name="post_id" value="{$post.id}"/>
+            <h4>
+                <if condition="$isEdit">
+                    编辑帖子
+                    <else/>
+                    发表新帖
+                </if>
+            </h4>
+            <hr/>
+            <section id="contents">
+                <form action="{:U('Forum/Index/doEdit')}" method="post" id="edit-article-form">
+                    <input type="hidden" name="post_id" value="{$post.id}"/>
 
-                        <div class="row">
-                            <!-- 帖子分类 -->
-                            <div class="col-sm-3 col-xs-12">
-                                <p>
-                                    <select class="form-control" name="forum_id">
-                                        <volist name="forum_list" id="each_forum">
-                                            <if condition="$each_forum['allow_publish']">
-                                                <php>
-                                                    $selected = $each_forum['id'] == $forum_id ? 'selected' : '';
-                                                </php>
-                                                <option value="{$each_forum.id}"
-                                                {$selected}>{$each_forum.title|htmlspecialchars}</option>
-                                            </if>
-                                        </volist>
-                                    </select>
-                                </p>
-                            </div>
-                            <div class="col-sm-9 col-xs-12">
-                                <p>
-                                    <input id="title" type="text" name="title" placeholder="标题" value="{$post.title}"
-                                           class="form-control"/>
-                                </p>
-                            </div>
+                    <div class="row">
+                        <!-- 帖子分类 -->
+                        <div class="col-xs-2">
+                            <p>
+                                <select class="form-control" name="forum_id">
+                                    <volist name="forum_list" id="each_forum">
+                                        <if condition="$each_forum['allow_publish']">
+                                            <php>
+                                                $selected = $each_forum['id'] == $forum_id ? 'selected' : '';
+                                            </php>
+                                            <option value="{$each_forum.id}"
+                                            {$selected}>{$each_forum.title|htmlspecialchars}</option>
+                                        </if>
+                                    </volist>
+                                </select>
+                            </p>
                         </div>
-                        <p>
-                            <!-- <textarea name="content" class="form-control" placeholder="说点什么吧～"
-                                       style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>-->
+                        <div class="col-xs-10">
+                            <p>
+                                <input id="title" type="text" name="title" placeholder="标题" value="{$post.title}"
+                                       class="form-control"/>
+                            </p>
+                        </div>
+                    </div>
+                    <p>
+                        <textarea name="content" class="form-control" placeholder="说点什么吧～"
+                                  style="width:100%; height: 8em;">{$post.content|htmlspecialchars}</textarea>
+                        {:hook('documentEditFormContent',array('name'=>'content','value'=>htmlspecialchars($post['content'])))}
+                    </p>
 
+                    <p>&nbsp;</p>
 
-                            {:W('UeditorMini/editor',array('contentEditor','content',$post['content'],'100%','250px',$config))}
-
-                        </p>
-
-                        <p>&nbsp;</p>
-
-                        <p class="pull-right">
-                            <button type="submit" class="btn btn-large btn-primary" id="submit-button">
-                                <span class="glyphicon glyphicon-edit"></span>
+                    <p class="pull-right">
+                        <button type="submit" class="btn btn-large btn-primary" id="submit-button">
+                            <span class="glyphicon glyphicon-edit"></span>
                             <span id="submit-content">
                                 <if condition="$isEdit">
-                                    编辑帖子 Ctrl+Enter
+                                    编辑帖子
                                     <else/>
-                                    发表帖子 Ctrl+Enter
+                                    发表帖子
                                 </if>
                             </span>
-                            </button>
-                            <input type="hidden" id="isEdit" value="{$isEdit}">
-                        </p>
-                        <p>
-                            <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>$forum_id))}">
-                                <span class="glyphicon glyphicon-home"></span>
-                                返回帖子列表
-                            </a>
-                        </p>
-                    </form>
-                </section>
-            </div>
+                        </button>
+                        <input type="hidden" id="isEdit" value="{$isEdit}">
+                    </p>
+                    <p>
+                        <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>$forum_id))}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            返回帖子列表
+                        </a>
+                    </p>
+                </form>
+            </section>
         </div>
-
     </div>
 
     <div class="row">
@@ -88,29 +81,9 @@
 </block>
 
 <block name="script">
-    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
-    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script>
         //点击编辑或发表按钮之后
         $(function () {
-            $('#edit-article-form').keypress(function (e) {
-                if (e.ctrlKey && e.which == 13 || e.which == 10) {
-                    $('#submit-button').focus();
-                    $("#submit-button").click();
-                }
-            });
-            atwho_config = {
-                at: "@",
-                alias:"at",
-                data: U('Weibo/Index/atWhoJson'),
-                tpl: "<li data-value='@${username}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${username}</li>",
-                show_the_at: true,
-                search_key: 'search_key',
-                start_with_space: false,
-                insert_tpl:'${atwho-data-value} '
-            };
-           var $inputor = $('#contentEditor').atwho(atwho_config);
-
             var submitCount = 0;
             $('#edit-article-form').submit(function (e) {
                 //为了得到编辑器中的内容，触发两次提交事件
@@ -141,15 +114,15 @@
 
             function showSubmitError(message) {
                 $('#submit-button').removeClass('disabled');
-                var isEdit = $('#isEdit').val();
-                var text = '';
-                if (isEdit) {
-                    text = '编辑帖子';
-                } else {
-                    text = '发表帖子';
+                var isEdit=$('#isEdit').val();
+                var text='';
+                if(isEdit){
+                    text='编辑帖子';
+                }else{
+                    text='发表帖子';
                 }
                 $('#submit-content').text(text);
-                op_error(message, '错误');
+                op_error(message,'错误');
             }
 
             function showSubmitSuccess(message, url) {
