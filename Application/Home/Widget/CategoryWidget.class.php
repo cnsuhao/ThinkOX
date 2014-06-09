@@ -15,16 +15,20 @@ use Think\Action;
  * 用于动态调用分类信息
  */
 
-class HotPostWidget extends Action{
+class CategoryWidget extends Action{
 	
 	/* 显示指定分类的同级分类或子分类列表 */
-	public function lists($forum_id){
+	public function lists($cate, $child = false){
 		$field = 'id,name,pid,title,link_id';
-		if($forum_id){
-           $posts= D('ForumPost')->where('forum_id='.$forum_id)->order('reply_count desc')->limit(10)->select();
+		if($child){
+			$category = D('Category')->getTree($cate, $field);
+			$category = $category['_'];
+		} else {
+			$category = D('Category')->getSameLevel($cate, $field);
 		}
-		$this->assign('posts', $posts);
-		$this->display('Widget/hot');
+		$this->assign('category', $category);
+		$this->assign('current', $cate);
+		$this->display('Category/lists');
 	}
 	
 }
