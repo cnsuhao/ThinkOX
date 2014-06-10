@@ -28,6 +28,164 @@ class IndexController extends BaseController
         $this->display('basic');
     }
 
+    /**获取用户扩展信息
+     * @param null $uid
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function expandInfo($uid=null){
+        $profile_group_list=$this->_profile_group_list();
+        if($profile_group_list){
+            $info_list=$this->_info_list($profile_group_list[0]['id'],$uid);
+            $this->assign('info_list',$info_list);
+            $this->assign('profile_group_id',$profile_group_list[0]['id']);
+            //dump($info_list);exit;
+        }
+
+        $this->assign('profile_group_list',$profile_group_list);
+        $this->defaultTabHash('expand-info');
+        $this->display();
+    }
+
+    /**显示某一扩展分组信息
+     * @param null $profile_group_id
+     * @param null $uid
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function show_expandInfo($profile_group_id=null,$uid=null){
+        $res=D('profile_group')->where(array('id'=>$profile_group_id,'status'=>'1'))->find();
+        if(!$res){
+            $this->error('信息出错！');
+        }
+        $profile_group_list=$this->_profile_group_list();
+        $info_list=$this->_info_list($profile_group_id,$uid);
+        $this->assign('info_list',$info_list);
+        $this->assign('profile_group_id',$profile_group_id);
+        //dump($info_list);exit;
+        $this->assign('profile_group_list',$profile_group_list);
+        $this->defaultTabHash('expand-info');
+        $this->display('expandinfo');
+    }
+
+    /**修改用户扩展信息
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function edit_expandinfo($profile_group_id){
+
+        $field_setting_list=D('field_setting')->where(array('profile_group_id'=>$profile_group_id,'status'=>'1'))->order('sort asc')->select();
+
+        if(!$field_setting_list){
+            $this->error('没有要修改的信息！');
+        }
+
+        $data=null;
+        foreach($field_setting_list as $key=>$val){
+            $data[$key]['uid']=is_login();
+            $data[$key]['field_id']=$val['id'];
+            switch($val['form_type']){
+                case 'input':
+                    $val['value']=op_t($_POST['expand_'.$val['id']]);
+                    if((!$val['value']||$val['value']=='')&&$val['required']==1){
+                        $this->error($val['field_name'].'输入框信息不完整！');
+                    }
+                    $data[$key]['field_data']=$val['value'];
+                    break;
+                case 'radio':
+                    $val['value']=op_t($_POST['expand_'.$val['id']]);
+                    $data[$key]['field_data']=$val['value'];
+                    break;
+                case 'checkbox':
+                    $val['value']=$_POST['expand_'.$val['id']];
+                    if(!is_array($val['value'])&&$val['required']==1){
+                        $this->error('请至少选择一个：'.$val['field_name']);
+                    }
+                    $data[$key]['field_data']=is_array($val['value'])?implode('|',$val['value']):'';
+                    break;
+                case 'select':
+                    $val['value']=op_t($_POST['expand_'.$val['id']]);
+                    $data[$key]['field_data']=$val['value'];
+                    break;
+                case 'time':
+                    $val['value']=op_t($_POST['expand_'.$val['id']]);
+                    $val['value']=strtotime($val['value']);
+                    $data[$key]['field_data']=$val['value'];
+                    break;
+                case 'textarea':
+                    $val['value']=op_t($_POST['expand_'.$val['id']]);
+                    if((!$val['value']||$val['value']=='')&&$val['required']==1){
+                        $this->error($val['field_name'].'内容不能为空！');
+                    }
+                    $data[$key]['field_data']=$val['value'];
+                    break;
+            }
+        }
+        $map['uid']=is_login();
+        foreach($data as $dl){
+            $map['field_id']=$dl['field_id'];
+            $res=D('field')->where($map)->find();
+            if(!$res){
+                $dl['createTime']=$dl['changeTime']=time();
+                if(!D('field')->add($dl)){
+                    $this->error('信息添加时出错！');
+                }
+            }else{
+                $dl['changeTime']=time();
+                if(!D('field')->where('id='.$res['id'])->save($dl)){
+                    $this->error('信息修改时出错！');
+                }
+            }
+            unset($map['field_id']);
+        }
+        $this->success('保存成功！');
+    }
+
+    /**分组下的字段信息及相应内容
+     * @param null $id 扩展分组id
+     * @param null $uid
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function _info_list($id=null,$uid=null){
+        $info_list=null;
+
+        if(isset($uid)&&$uid!=is_login()){
+                //查看别人的扩展信息
+                $field_setting_list=D('field_setting')->where(array('profile_group_id'=>$id,'status'=>'1','visiable'=>'1'))->order('sort asc')->select();
+
+                if(!$field_setting_list){
+                    return null;
+                }
+                $map['uid']=$uid;
+        }else if(is_login()){
+            $field_setting_list=D('field_setting')->where(array('profile_group_id'=>$id,'status'=>'1'))->order('sort asc')->select();
+
+            if(!$field_setting_list){
+                return null;
+            }
+            $map['uid']=is_login();
+
+        }else{
+            $this->error('请先登录！');
+        }
+        foreach($field_setting_list as $val){
+            $map['field_id']=$val['id'];
+            $field=D('field')->where($map)->find();
+            $val['field_content']=$field;
+            $info_list[$val['id']]=$val;
+            unset($map['field_id']);
+        }
+
+        return $info_list;
+    }
+
+
+    /**扩展信息分组列表获取
+     * @return mixed
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function _profile_group_list(){
+        $profile_group_list=D('profile_group')->where('status=1')->order('sort asc')->select();
+
+        return $profile_group_list;
+    }
 
     public function logout()
     {

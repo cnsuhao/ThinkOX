@@ -934,3 +934,32 @@ General list for item with image
   max-width: 500px;
   margin: 20px auto;
 }
+
+.expandinfo-noticeinfo{
+    margin-left: 30px;
+    color: #A59F9F;
+}
+.expandinfo-dt{
+    float: left;
+    width: 20%;
+    margin-right: 10px;;
+    text-align: right;
+}
+.expandinfo-dd{
+    float: left;
+    width: 70%;
+}
+.expandinfo-sumbit{
+    margin-left:20%;
+}
+.expandinfo-ul{
+    list-style-type: none;
+}
+.expandinfo-li{
+    float: left;
+    margin-right: 10px;;
+}
+.expandinfo-list{
+    margin: 20px 5px 20px 5px;
+    padding: 0;
+}

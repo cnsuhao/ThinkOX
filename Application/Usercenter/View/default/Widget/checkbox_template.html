@@ -1,0 +1,33 @@
+<eq name="type" value="personal">
+    <dt class="expandinfo-dt">
+        {$field_name}：
+    </dt>
+    <dd class="expandinfo-dd">
+        <ul class="expandinfo-ul" style="-webkit-padding-start: 0px;">
+            <volist name="items" id="vl">
+                <li class="expandinfo-li">
+                    <input type="checkbox" name="expand_{$field_id}[]" value="{$vl.value}" <eq name="vl.selected" value="1">checked</eq>>{$vl.value}
+                </li>
+            </volist>
+        </ul>
+        <div class="clearfix"></div>
+    </dd>
+<else/>
+    <dt class="expandinfo-dt">
+        {$field_name}：
+    </dt>
+    <dd class="expandinfo-dd">
+        <ul class="expandinfo-ul" style="-webkit-padding-start: 0;">
+            <volist name="checked" id="vl">
+                <li class="expandinfo-li">
+                    {$vl}
+                </li>
+            </volist>
+            <if condition="($checked eq null)||($checked[0] eq '')">
+                无
+            </if>
+        </ul>
+        <div class="clearfix"></div>
+    </dd>
+</eq>
+<div class="clearfix"></div>

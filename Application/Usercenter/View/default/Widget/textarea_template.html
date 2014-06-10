@@ -1,0 +1,22 @@
+<eq name="type" value="personal">
+    <dt class="expandinfo-dt">
+        {$field_name}：
+    </dt>
+
+    <dd class="expandinfo-dd">
+        <textarea name="expand_{$field_id}" style="height: 8em;width: 410px;height: 100px;">{$field_data|htmlspecialchars}</textarea>
+    </dd>
+    <else/>
+    <dt class="expandinfo-dt">
+        {$field_name}：
+    </dt>
+
+    <dd class="expandinfo-dd">
+        <if condition="($field_data neq null)&&($field_data neq '')">
+            {$field_data|htmlspecialchars}
+            <else/>
+            无
+        </if>
+    </dd>
+</eq>
+<div class="clearfix"></div>
