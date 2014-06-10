@@ -954,7 +954,7 @@ General list for item with image
 .friend_panel #right_panel_main {
   border: 1px solid #ccc;
   border-right: 0;
-  height: 500px;
+  height: 492px;
   margin-top: -250px;
   background: white;
   border-top-left-radius: 4px;
@@ -976,6 +976,7 @@ General list for item with image
   padding-top: 5px;
   background: #eee;
   border-bottom: 1px solid #ccc;
+  margin-bottom: 0;
 }
 .friend_panel .friend_list {
   margin-left: 15px;
