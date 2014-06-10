@@ -990,6 +990,19 @@ General list for item with image
 .friend_panel .friend_list li a {
   display: inline-block;
   margin-bottom: 10px;
+  position: relative;
+}
+.friend_panel .friend_list li a .badge_new {
+  position: absolute;
+  top: 0;
+  right: -15px;
+  background: red;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
 }
 .friend_panel .friend_list .active {
   background: #f6f6f6;

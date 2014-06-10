@@ -46,19 +46,12 @@ class TalkModel extends Model
     public function createTalk($members, $message = '')
     {
 
-        $has_got_ico=false;
-        $orin_member=$members;
-        if (is_array($members)) {
-            $members[]=is_login();
-            foreach($members as &$mem){
-                if ($mem != is_login() && $has_got_ico==false) {
-                    $ico_user = query_user(array('avatar64', 'username'), $mem);
-                    $has_got_ico=true;
-                }
-               $mem= '[' .$mem.']';
-            }
-            unset($mem);
 
+        $orin_member = $members;
+        if (is_array($members)) {
+            $members[] = is_login();
+            $ico_user = $this->getFirstOtherUser($members);
+            $members=$this->encodeArrayByRec($members);
             $talk['uids'] = implode(',', $members);
         } else {
             /*创建talk*/
@@ -74,30 +67,39 @@ class TalkModel extends Model
             $messageModel = $this->getMessageModel($message);
             //从对应模型内取回对话源资料
             $talk = array_merge($messageModel->getSource($message), $talk);
-        }else{
-            if(count($orin_member)==1){
-                $user_one=query_user(array('username'),$orin_member[0]);
-                $user_two=query_user(array('username'));
-                $talk['title']=$user_one['username'].' 和 '.$user_two['username'].'的会话';
+        } else {
+            if (count($orin_member) == 1) {
+                $user_one = query_user(array('username'), $orin_member[0]);
+                $user_two = query_user(array('username'));
+                $talk['title'] = $user_one['username'] . ' 和 ' . $user_two['username'] . '的会话';
             }
         }
-
-
 
 
         //创建会话
         $talk = D('Talk')->create($talk);
         $talk['id'] = D('Talk')->add($talk);
 
+        foreach ($orin_member as $mem) {
+            if ($mem != is_login()) {
+                //不是自己则建立一个push
+                $push['uid'] = $mem;
+                $push['source_id'] = $talk['id'];
+                $push['create_time'] = time();
+                D('TalkPush')->add($push);
+            }
+        }
+
         //TODO 发送会话建立消息
 
 
         //获取图标用于输出
-        $talk['ico']=$ico_user['avatar64'];
+        $talk['ico'] = $ico_user['avatar64'];
         return $talk;
         /*创建talk end*/
 
     }
+
     /**
      * @param $message
      * @return \Model
@@ -126,5 +128,40 @@ class TalkModel extends Model
             $li['last_message'] = $this->getLastMessage($li['id']);
         }
         return $li;
+    }
+
+    /**
+     * @param $members
+     * @auth 陈一枭
+     */
+    public  function getFirstOtherUser($members)
+    {
+        $has_got_ico = false;
+        foreach ($members as &$mem) {
+            if ($mem != is_login() && $has_got_ico == false) {
+                $ico_user = query_user(array('avatar64', 'username'), $mem);
+                $has_got_ico = true;
+            }
+        }
+        unset($mem);
+        return $ico_user;
+    }
+
+    public function encodeArrayByRec($members)
+    {
+        foreach ($members as &$mem) {
+            $mem = '[' . $mem . ']';
+        }
+        unset($mem);
+        return $members;
+    }
+
+    public function decodeArrayByRec($members){
+        foreach ($members as &$mem) {
+            $mem=str_replace('[','',$mem);
+            $mem=str_replace(']','',$mem);
+        }
+        unset($mem);
+        return $members;
     }
 }
