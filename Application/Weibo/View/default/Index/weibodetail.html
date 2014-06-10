@@ -4,6 +4,7 @@
 
 </block>
 <block name="body">
+
     <php>
         query_user(array('avatar128','username','uid'));
     </php>
@@ -82,6 +83,21 @@
                         <div class="col-xs-12">
                             <div style="padding-left: 16px;">
                                 <p>{$weibo.content|parse_weibo_content}</p>
+                                <if condition="$weibo['type'] eq 'image'">
+
+                                    <div class="popup-gallery"  style="width: 550px;">
+                                        <volist name="weibo['weibo_data']['image']" id="vo">
+
+
+                                            <a href="{$vo.big}" title="点击查看大图"><img src="{$vo.small}" width="100" height="100"></a>
+
+
+                                        </volist>
+                                    </div>
+
+
+
+                                </if>
 
                                 <div>
 
@@ -126,6 +142,8 @@
 <block name="script">
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
     <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
     <script src="__JS__/insertFace.js"></script>
     <script src="__JS__/weibo.js"></script>
     <script src="__JS__/insertFace.js"></script>
@@ -138,5 +156,32 @@
             var isLoadingWeibo = false;
             var currentPage = 1;
         })
+
+
+
+        $(document).ready(function() {
+
+
+            $('.popup-gallery').each(function() { // the containers for all your galleries
+                $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    tLoading: 'Loading image #%curr%...',
+                    mainClass: 'mfp-img-mobile',
+                    gallery: {
+                        enabled: true,
+                        navigateByImgClick: true,
+                        preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+                    },
+                    image: {
+                        tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                        titleSrc: function(item) {
+                            /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
+                            return '';
+                        }
+                    }
+                });
+            });
+        });
     </script>
 </block>

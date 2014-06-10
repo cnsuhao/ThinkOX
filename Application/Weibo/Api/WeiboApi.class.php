@@ -37,7 +37,7 @@ class WeiboApi extends Api
         //获取每个微博详情
         foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
-            $e['data']['attach_ids'] = explode(',',$e['data']['attach_ids']);
+  /*          $e['data']['attach_ids'] = explode(',',$e['data']['attach_ids']);
             if( $e['data']['attach_ids']!=null){
                 foreach($e['data']['attach_ids'] as $k_i =>$v_i ){
                     $e['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
@@ -45,7 +45,7 @@ class WeiboApi extends Api
                     $e['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
 
                 }
-            }
+            }*/
 
         }
         unset($e);
@@ -205,6 +205,19 @@ class WeiboApi extends Api
     {
         $weibo = $this->weiboModel->find($id);
         $canDelete = $this->canDeleteWeibo($id);
+        $weibo_data =  unserialize($weibo['data']);
+
+        $weibo_data['attach_ids'] = explode(',',$weibo_data['attach_ids']);
+        if( $weibo_data['attach_ids']!=null){
+            foreach($weibo_data['attach_ids'] as $k_i =>$v_i ){
+                $weibo_data['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
+                $bi =  M('Picture')->where(array('status' => 1))->getById($v_i);
+                $weibo_data['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
+
+            }
+        }
+
+
 
         return array(
             'id' => intval($weibo['id']),
@@ -212,6 +225,7 @@ class WeiboApi extends Api
             'create_time' => intval($weibo['create_time']),
             'type' => $weibo['type'],
             'data' => unserialize($weibo['data']),
+            'weibo_data'=>$weibo_data,
             'comment_count' => intval($weibo['comment_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
