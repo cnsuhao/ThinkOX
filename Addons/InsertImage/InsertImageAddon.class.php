@@ -32,4 +32,22 @@ use Common\Controller\Addon;
             $this->display('insertImage');
         }
 
+        public function fetchImage($weibo){
+
+            $weibo_data =  unserialize($weibo['data']);
+            $weibo_data['attach_ids'] = explode(',',$weibo_data['attach_ids']);
+
+                foreach($weibo_data['attach_ids'] as $k_i =>$v_i ){
+                    $weibo_data['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
+                    $bi =  M('Picture')->where(array('status' => 1))->getById($v_i);
+                    $weibo_data['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
+
+                    $param['weibo'] = $weibo;
+                    $param['weibo']['weibo_data'] = $weibo_data;
+                }
+
+            $this->assign($param);
+           return $this->fetch('display');
+        }
+
     }
