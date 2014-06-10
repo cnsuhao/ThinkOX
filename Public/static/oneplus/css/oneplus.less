@@ -16,9 +16,11 @@
   height: 1.2em;
   width: 90%;
 }
-.navbar-logo{
+
+.navbar-logo {
   padding-left: 0;
 }
+
 body {
   font-family: "Microsoft YaHei";
 }
@@ -1082,9 +1084,6 @@ General list for item with image
   margin-right: -1em;
 }
 
-
-
-
 .white-popup {
   position: relative;
   background: #FFF;
@@ -1092,4 +1091,181 @@ General list for item with image
   width: auto;
   max-width: 500px;
   margin: 20px auto;
+}
+
+/*
+右侧好友界面*/
+
+.friend_panel {
+  position: fixed;
+  top: 50%;
+  right: 0;
+
+  .btn-pull {
+    position: absolute;
+    background: white;
+    padding: 20px 8px;
+    border: 1px solid #ccc;
+    border-right: 0;
+    margin-right: 0;
+    left: -35px;
+    margin-top: -31px;
+    i {
+    }
+
+  }
+
+  #right_panel_main {
+    #friend_panel_main {
+      width: 132px;
+    }
+    #session_panel_main {
+      width: 132px;
+    }
+    h2 {
+      font-size: 16px;
+      color: #666;
+      text-align: center;
+      padding-top: 5px;
+      background: #eee;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 0;
+    }
+    border: 1px solid #ccc;
+    border-right: 0;
+    height: 492px;
+
+    margin-top: -250px;
+    background: white;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    .boxShadow;
+  }
+
+  .friend_list {
+    margin-left: 15px;
+    margin-right: 15px;
+    height: 420px;
+    padding: 0;
+    li {
+      list-style: none;
+      padding: 10px;
+
+      a {
+        display: inline-block;
+        margin-bottom: 10px;
+        position: relative;
+        .badge_new{
+          position: absolute;
+          top: 0;
+          right: -15px;
+          background: red;
+          border-radius:15px;
+          text-align: center;
+          color: white;
+          width: 10px;
+          height: 10px;
+          display: inline-block;
+        }
+      }
+    }
+    .active {
+      background: #f6f6f6;
+    }
+  }
+  .session_more {
+
+    .btn_session_more {
+      background: rgb(242, 242, 242);
+      text-align: center;
+      padding: 4px 0;
+      margin-left: 0;
+      margin-right: 0;
+      display: block;
+      float: left;
+      border-top: 1px solid #ccc;
+      &:hover {
+        background: rgb(255, 255, 255);
+      }
+    }
+    .active {
+      background: rgb(255, 255, 255);
+    }
+  }
+}
+
+.chat_panel {
+
+  .boxShadow;
+  position: fixed;
+  right: 190px;
+  bottom: 30px;
+  background: white;
+  border: 1px solid #ccc;
+  width: 320px;
+  height: 465px;
+  .panel_title {
+    .title {
+      padding-left: 74px;
+      line-height: 34px;
+      width: 280px;
+    }
+    position: relative;
+    background: #F4F4F4;
+    height: 35px;
+    border-bottom: 1px solid #ccc;
+    .control_btns {
+      a {
+        display: inline-block;
+        margin: 7px;
+      }
+    }
+  }
+  .chat_avatar {
+    .boxShadow;
+    position: absolute;
+    top: -32px;
+    left: 5px;
+    width: 64px;
+    border: 1px solid #ccc;
+    padding: 1px;
+    background: white;
+  }
+
+  .talk-body {
+    background: white;
+    padding: 0;
+    margin-top: 0;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    height: 320px;
+
+    .talk-avatar {
+      width: 48px;
+      max-width: 200%;
+      margin-right: 10px;
+    }
+    .chat_bubble {
+      .bubble_sharp {
+
+        background: url(../images/bubble_left_chat.png);
+      }
+      .talk_bubble {
+        border-color: rgb(72, 184, 122);
+        background: rgb(72, 184, 122);
+        color: white;
+      }
+    }
+  }
+
+  .send_box {
+    padding: 0 10px;
+    textarea {
+
+    }
+  }
+  #scrollArea_chat {
+    padding-bottom: 20px;
+  }
 }

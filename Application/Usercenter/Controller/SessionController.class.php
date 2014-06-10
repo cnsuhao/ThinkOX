@@ -11,7 +11,7 @@ namespace Usercenter\Controller;
 
 use Think\Controller;
 
-class MessageController extends BaseController
+class SessionController extends BaseController
 {
     protected $mTalkModel;
 
@@ -21,9 +21,32 @@ class MessageController extends BaseController
         $this->mTalkModel = D('Talk');
     }
 
-    public function index()
+    public function getSession($id)
     {
-
+        $id = intval($id);
+        //获取当前会话
+        $talk = $this->getTalk(0, $id);
+        $uids = D('Talk')->getUids($talk['uids']);
+        foreach ($uids as $uid) {
+            if ($uid != is_login()) {
+                $talk['first_user'] = query_user(array('avatar64', 'username'), $uid);
+                $talk['ico'] = $talk['first_user']['avatar64'];
+                break;
+            }
+        }
+        $map['talk_id'] = $talk['id'];
+        $messages = D('TalkMessage')->where($map)->order('create_time desc')->limit(20)->select();
+        $messages = array_reverse($messages);
+        foreach ($messages as &$mes) {
+            $mes['user'] = query_user(array('avatar64', 'uid', 'username'), $mes['uid']);
+            $mes['ctime'] = date('m-d h:i', $mes['create_time']);
+            $mes['avatar64'] = $mes['user']['avatar64'];
+        }
+        unset($mes);
+        $talk['messages'] = $messages;
+        $talk['self'] = query_user(array('avatar128'), is_login());
+        $talk['mid'] = is_login();
+        echo json_encode($talk);
     }
 
     /**消息页面
@@ -89,6 +112,7 @@ class MessageController extends BaseController
         $messages = array_reverse($messages);
         foreach ($messages as &$mes) {
             $mes['user'] = query_user(array('avatar128', 'uid', 'username'), $mes['uid']);
+            $mes['content'] = op_t($mes['content']);
         }
         unset($mes);
         $this->assign('messages', $messages);
@@ -104,7 +128,7 @@ class MessageController extends BaseController
     /**
      * 删除现有会话
      */
-    public function doDeleteTalk($talk_id = 0)
+    public function doDeleteTalk($talk_id)
     {
         $this->requireLogin();
 
@@ -138,7 +162,6 @@ class MessageController extends BaseController
      */
     public function postMessage($content, $talk_id)
     {
-        $content = op_t($content);
         //空的内容不能发送
         if (!trim($content)) {
             $this->error('内容不能为空');
@@ -147,14 +170,14 @@ class MessageController extends BaseController
         D('TalkMessage')->addMessage($content, is_login(), $talk_id);
         $talk = D('Talk')->find($talk_id);
         $message = D('Message')->find($talk['message_id']);
+        $messageModel = $this->getMessageModel($message);
+        $rs = $messageModel->postMessage($message, $talk, $content, is_login());
 
-        if ($talk['appname'] != '') {
-            $messageModel = $this->getMessageModel($message);
-
-             $messageModel->postMessage($message, $talk, $content, is_login());
+        D('TalkMessage')->sendMessage($content, $this->mTalkModel->getUids($talk['uids']), $talk_id);
+        if (!$rs) {
+            $this->error('写入数据库错误');
         }
-       D('TalkMessage')->sendMessage($content, $this->mTalkModel->getUids($talk['uids']), $talk_id);
-        exit(json_encode(array('status' => 1, 'content' => $content)));
+
         $this->success("发送成功");
     }
 
@@ -195,22 +218,13 @@ class MessageController extends BaseController
                 redirect(U('UserCenter/Message/talk', array('talk_id' => $talk['id'])));
             }
 
-            /*创建talk*/
-            $talk['uids'] = implode(',', array('[' . is_login() . ']', '[' . $message['from_uid'] . ']'));
-            $talk['appname'] = $message['appname'];
-            $talk['apptype'] = $message['apptype'];
-            $talk['source_id'] = $message['source_id'];
-            $talk['message_id'] = $message_id;
 
-            //通过消息获取到对应应用内的消息模型
+            $memeber = $message['from_uid'];
+
+
+            //TODO 调用模型创建会话
+            D('Common/Talk')->createTalk($memeber, $message);
             $messageModel = $this->getMessageModel($message);
-            //从对应模型内取回对话源资料
-            $talk = array_merge($messageModel->getSource($message), $talk);
-
-            //创建会话
-            $talk = D('Talk')->create($talk);
-            $talk['id'] = D('Talk')->add($talk);
-            /*创建talk end*/
 
 
             //关联会话到当前消息
@@ -267,5 +281,17 @@ class MessageController extends BaseController
         return $map;
     }
 
+    /**创建会话，
+     * @auth 陈一枭
+     */
+    public function createTalk($uids='')
+    {
+        if($uids==''){
+            exit;
+        }
+        $memebers = explode(',', $uids);
+        $talk = D('Common/Talk')->createTalk($memebers);
+        echo json_encode($talk);
+    }
 
 }

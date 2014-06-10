@@ -16,13 +16,15 @@
 
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
-                        <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                        <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.jpg"/></a>
 
+                        {:hook('InsertImage')}
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
                 </div>
                 <div id="emot_content" class="emot_content"></div>
+                <div id="hook_show" class="emot_content"></div>
 
                 <script>
 
@@ -152,9 +154,15 @@
                 var content = $('#weibo_content').val();
                 var button = $(this);
                 var originalButtonText = button.val();
+                var feedType = 'feed';
+                var  attach_ids = '';
+            if( typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length >0){
+                var feedType = 'image';
+                var attach_ids = $('#attach_ids').val();
+            }
 
                 //发送到服务器
-                $.post(url, {content: content}, function (a) {
+                $.post(url, {content: content,type:feedType,attach_ids:attach_ids}, function (a) {
                     handleAjax(a);
                     if (a.status) {
                         button.attr('class', 'btn btn-primary');
@@ -162,6 +170,7 @@
                         reloadWeiboList();
                         clearWeibo();
                         $('.XT_face').remove();
+                        insert_image.close();
                     }
                 });
             });

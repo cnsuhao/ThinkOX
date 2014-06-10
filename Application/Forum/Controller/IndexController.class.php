@@ -71,12 +71,15 @@ class IndexController extends Controller
 
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
+        $id = intval($id);
         $limit = 10;
         //读取帖子内容
         $post = D('ForumPost')->where(array('id' => $id, 'status' => 1))->find();
+
         if (!$post) {
             $this->error('找不到该帖子');
         }
+        $post['content'] = op_h($post['content'],'base');
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
         //读取回复列表
@@ -89,6 +92,11 @@ class IndexController extends Controller
         } else {
             $showMainPost = false;
         }
+        foreach($replyList as &$reply)
+        {
+            $reply['content']=op_h($reply['content'],'base');
+        }
+        unset($reply);
         //判断是否已经收藏
         $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
         //显示页面
@@ -221,9 +229,9 @@ class IndexController extends Controller
         $postUrl = "http://$_SERVER[HTTP_HOST]" . U('Forum/Index/detail', array('id' => $post_id));
         $weiboApi = new WeiboApi();
         $weiboApi->resetLastSendTime();
-        if($isEdit){
+        if ($isEdit) {
             $weiboApi->sendWeibo("我修改了帖子【" . $title . "】：" . $postUrl);
-        }else{
+        } else {
             $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
         }
 
@@ -239,10 +247,9 @@ class IndexController extends Controller
         $this->requireAllowReply($post_id);
 
 
-
         //检测回复时间限制
         $uid = is_login();
-        $near = D('ForumPostReply')->where(array('uid'=>$uid))->order('create_time desc')->find();
+        $near = D('ForumPostReply')->where(array('uid' => $uid))->order('create_time desc')->find();
 
         $cha = time() - $near['create_time'];
         if ($cha > 10) {
@@ -387,9 +394,8 @@ class IndexController extends Controller
             return true;
         }
 
-		//如果帖子不属于任何板块，则允许发帖
-        if(intval($forum_id)==0)
-        {
+        //如果帖子不属于任何板块，则允许发帖
+        if (intval($forum_id) == 0) {
             return true;
         }
 
@@ -437,7 +443,6 @@ class IndexController extends Controller
         $this->assign('totalCount', $totalCount);
         $this->display();
     }
-
 
 
     private function limitPictureCount($content)

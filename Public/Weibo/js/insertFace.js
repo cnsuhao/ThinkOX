@@ -1,7 +1,8 @@
 
 var insertFace = function(obj){
+$('.XT_insert').css('z-index','1000');
     $('.XT_face').remove();
-    var html ='<div class="XT_face"><div class="triangle sanjiao"></div><div class="triangle_up sanjiao"></div>' +
+    var html ='<div class="XT_face  XT_insert"><div class="triangle sanjiao"></div><div class="triangle_up sanjiao"></div>' +
         '<div class="XT_face_main"><div class="XT_face_title"><span class="XT_face_bt" style="float: left">常用表情</span>' +
         '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
     obj.parent().parent().next().html(html);
