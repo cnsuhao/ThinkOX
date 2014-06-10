@@ -11,22 +11,16 @@
         <img src="__PUBLIC__/Home/images/oneplus/oneplus-logo.png" style="width: 150px;"/>
     </a>
 </div>
-
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav" style="font-size: 18px">
-
         <!--导航栏菜单项-->
         <think:nav name="nav">
-
             <eq name="nav.pid" value="0">
-
                 <php>
                     $children=D('Channel')->where(array('pid'=>$nav['id']))->order('sort asc')->select();
                     if($children){
                 </php>
-
-
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         {$nav.title} <span class="caret"></span>
@@ -60,72 +54,7 @@
             $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
         </php>
         <if condition="is_login()">
-            <!-- <li class="dropdown op_nav_ico ">
-                 <a class="dropdown-toggle text-left" data-toggle="dropdown">
-                     <span class="glyphicon glyphicon-send"></span>
-                     &nbsp;
-                 </a>
-                 <ul class="dropdown-menu extended notification" style="">
-                     <li style="padding-left: 15px;padding-right: 15px;">
-                         <div class="row nav_info_center">
-                             <div class="col-xs-9 nav_align_left"><span>{:count($currentSession)}</span> 个进行中的会话
-                             </div>
-                             <div class="col-xs-3"></div>
-                         </div>
-                     </li>
-                     <li>
-                         <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
-                             <ul id="nav_session" class="dropdown-menu-list scroller "
-                                 style=" width: auto;">
-                                 <if condition="count($currentSession) eq 0">
-                                     <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
-                                         暂无会话!
-                                     </div>
-                                     <else/>
-                                     <volist name="currentSession" id="session">
-                                         <li>
-                                             <a href="{:U('Usercenter/Message/talk',array('talk_id'=>$session['id']))}">
-                                                 <div class="row">
-                                                     <div class="col-xs-3">
-                                                         <img class="avatar-img session_head"
-                                                              src="{$session.first_user.avatar32}">
-                                                     </div>
-                                                     <div class="col-xs-9">
-                                                         <div class="title text-more" title=" {$session.title}">
-                                                             {$session.title|op_t}
-                                                         </div>
-                                                         <div class="content text-more"
-                                                              title="{$session.last_message.content|op_t}">
-                                                             <if condition="$session['last_message'] neq null">
-                                                                 {$session.last_message.user.username}:{$session.last_message.content|op_t|mb_substr=0,10,'utf-8'}
-                                                                 <else/>
-                                                                 暂无内容。
-                                                             </if>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </a>
-                                         </li>
-                                     </volist>
 
-                                 </if>
-                             </ul>
-                         </div>
-                     </li>
-                     <li class="">
-
-                         <a href="{:U('Usercenter/Message/session')}">
-                             <i class="glyphicon glyphicon-circle-arrow-right" title="查看全部"
-                                style="background: none;color: rgb(72,184,122)"></i>
-                         </a>
-                         <a href="{:U('Usercenter/Message/session')}">
-                             <i class="glyphicon glyphicon-circle-arrow-right" title="查看全部"
-                                style="background: none;color: rgb(72,184,122)"></i>
-                         </a>
-                     </li>
-                 </ul>
-             </li>
- -->
 
             <li class="dropdown op_nav_ico hidden-xs hidden-sm">
                 <div></div>
@@ -213,99 +142,5 @@
         </if>
     </ul>
 </div>
-<div class="friend_panel visible-md visible-lg" style="display: none">
-    <a class="btn-pull" onclick="$('#friend_panel_main').toggle();"><i class="glyphicon glyphicon-chevron-left"></i>&nbsp;
-    </a>
-    <php>
-        $currentSession=D('Common/Talk')->getCurrentSessions();
-    </php>
-    <div id="friend_panel_main">
-        <h2>会话</h2>
-        <ul class="friend_list">
-            <volist name="currentSession" id="session">
-                <li>
-                    <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
-                        <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
-                    </a>
-                </li>
-            </volist>
 
-
-        </ul>
-    </div>
-</div>
-<div id="chat_box" style="display: none" class="chat_panel">
-    <div class="panel_title"><img id="chat_ico" class="chat_avatar avatar-img" src="{$friend.avatar64}">
-
-        <div id="chat_title" class="title pull-left text-more"></div>
-        <div class="control_btns pull-right"><a><i onclick="$('#chat_box').hide();"
-                                                   class="glyphicon glyphicon-minus"></i></a><!-- <a
-                ><i class="glyphicon glyphicon-off"></i></a>--></div>
-    </div>
-    <div class="row talk-body ">
-        <div id="scrollArea_chat" class="row ">
-            <div id="scrollContainer_chat">
-                <!--   <div class="row talk_right">
-                       <div class="time"><span
-                               class="timespan">04-02 09:04:28</span></div>
-                       <div class="row">
-                           <div class="col-xs-9 bubble_outter">
-                               <h3>&nbsp;</h3>
-                               <i class="bubble_sharp"></i>
-
-                               <div class="talk_bubble">
-                                   123312
-                               </div>
-                           </div>
-                           <div class="col-xs-3 "><img ucard="1" class="avatar-img talk-avatar"
-                                                       src="http://localhost/thinkox/Uploads/Avatar/2014-06-03/538d48c07d1e1-feacd250_128_auto.jpg"/>
-                           </div>
-                       </div>
-                   </div>
-
-                   <div class="row">
-                       <div class="time"><span class="timespan">04-02 09:04:46</span>
-                       </div>
-                       <div class="row">
-                           <div class="col-xs-3"><img ucard="2" class="avatar-img talk-avatar"
-                                                      src="http://localhost/thinkox/Addons/Avatar/default_128_auto.jpg"/>
-                           </div>
-
-                           <div class="col-xs-9 bubble_outter chat_bubble">
-                               <h3>&nbsp;</h3>
-                               <i class="bubble_sharp"></i>
-
-                               <div class="talk_bubble ">
-                                   312123
-                               </div>
-                           </div>
-
-                       </div>
-                   </div>
-                   <hr/>
-                   <div style="text-align: center;color: #666">以上为历史聊天记录</div>-->
-            </div>
-
-
-        </div>
-
-    </div>
-
-    <div class="send_box">
-        <input id="chat_id" type="hidden" value="0">
-        <script>
-            var myhead = "{$self.avatar128}";
-        </script>
-        <textarea id="chat_content" class="form-control"></textarea>
-    </div>
-    <div class="row">
-        <div class="col-md-offset-6 col-md-6">
-            <button class=" btn btn-primary" onclick="chat_postMessage()"
-                    style="margin: 5px 0"> 发送 Ctrl+Enter
-            </button>
-        </div>
-    </div>
-</div>
-<style>
-
-</style>
+<include file="Public/right_chat_panel"/>

@@ -30,7 +30,7 @@ class SessionController extends BaseController
         foreach ($uids as $uid) {
             if ($uid != is_login()) {
                 $talk['first_user'] = query_user(array('avatar64', 'username'), $uid);
-                $talk['ico']=$talk['first_user']['avatar64'];
+                $talk['ico'] = $talk['first_user']['avatar64'];
                 break;
             }
         }
@@ -39,8 +39,8 @@ class SessionController extends BaseController
         $messages = array_reverse($messages);
         foreach ($messages as &$mes) {
             $mes['user'] = query_user(array('avatar64', 'uid', 'username'), $mes['uid']);
-            $mes['ctime']=date('m-d h:i',$mes['create_time']);
-            $mes['avatar64']= $mes['user']['avatar64'];
+            $mes['ctime'] = date('m-d h:i', $mes['create_time']);
+            $mes['avatar64'] = $mes['user']['avatar64'];
         }
         unset($mes);
         $talk['messages'] = $messages;
@@ -218,22 +218,13 @@ class SessionController extends BaseController
                 redirect(U('UserCenter/Message/talk', array('talk_id' => $talk['id'])));
             }
 
-            /*创建talk*/
-            $talk['uids'] = implode(',', array('[' . is_login() . ']', '[' . $message['from_uid'] . ']'));
-            $talk['appname'] = $message['appname'];
-            $talk['apptype'] = $message['apptype'];
-            $talk['source_id'] = $message['source_id'];
-            $talk['message_id'] = $message_id;
 
-            //通过消息获取到对应应用内的消息模型
+            $memeber = $message['from_uid'];
+
+
+            //TODO 调用模型创建会话
+            D('Common/Talk')->createTalk($memeber, $message);
             $messageModel = $this->getMessageModel($message);
-            //从对应模型内取回对话源资料
-            $talk = array_merge($messageModel->getSource($message), $talk);
-
-            //创建会话
-            $talk = D('Talk')->create($talk);
-            $talk['id'] = D('Talk')->add($talk);
-            /*创建talk end*/
 
 
             //关联会话到当前消息
@@ -290,5 +281,17 @@ class SessionController extends BaseController
         return $map;
     }
 
+    /**创建会话，
+     * @auth 陈一枭
+     */
+    public function createTalk($uids='')
+    {
+        if($uids==''){
+            exit;
+        }
+        $memebers = explode(',', $uids);
+        $talk = D('Common/Talk')->createTalk($memebers);
+        echo json_encode($talk);
+    }
 
 }

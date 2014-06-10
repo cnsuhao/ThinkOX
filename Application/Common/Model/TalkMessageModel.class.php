@@ -25,6 +25,7 @@ class TalkMessageModel extends Model
         $message['uid'] = $uid;
         $message['talk_id'] = $talk_id;
         $message = $this->create($message);
+        D('Talk')->where(array('id'=>intval($talk_id)))->setField('update_time',time());
         return $this->add($message);
     }
 
@@ -48,7 +49,8 @@ class TalkMessageModel extends Model
                 D('Message')->sendMessage($uid, '对话内容：' . op_t($content), '您有新的会话消息', U('UserCenter/Message/talk', array('talk_id' => $talk_id)), is_login(), 1);
             }
         }
-
-
     }
+
+
+
 } 

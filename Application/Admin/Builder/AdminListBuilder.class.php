@@ -15,6 +15,9 @@ class AdminListBuilder extends AdminBuilder {
     private $_pagination = array();
     private $_data = array();
     private $_setStatusUrl;
+    private $_searchPostUrl;
+
+    private $_search = array();
 
     public function title($title) {
         $this->_title = $title;
@@ -29,7 +32,16 @@ class AdminListBuilder extends AdminBuilder {
         $this->_setStatusUrl = $url;
         return $this;
     }
-
+    /**设置搜索提交表单的URL
+     * @param $url
+     * @return $this
+     * @auth 陈一枭
+     */
+    public function setSearchPostUrl($url)
+    {
+        $this->_searchPostUrl = $url;
+        return $this;
+    }
     public function button($title, $attr) {
         $this->_buttonList[] = array('title'=>$title, 'attr'=>$attr);
         return $this;
@@ -73,6 +85,19 @@ class AdminListBuilder extends AdminBuilder {
     public function buttonSort($href, $title='排序', $attr=array()) {
         $attr['href'] = $href;
         return $this->button($title, $attr);
+    }
+    /**
+     * @param string $title 标题
+     * @param string $type 类型，默认文本
+     * @param string $des 描述
+     * @param        $attr 标签文本
+     * @return $this
+     * @auth 陈一枭
+     */
+    public function search($title = '搜索', $name = 'key', $type = 'text', $des = '', $attr)
+    {
+        $this->_search[] = array('title' => $title, 'name' => $name, 'type' => $type, 'des' => $des, 'attr' => $attr);
+        return $this;
     }
 
     public function key($name, $title, $type, $opt=null) {
@@ -223,8 +248,8 @@ class AdminListBuilder extends AdminBuilder {
 
         //uid转换成text
         $this->convertKey('uid', 'text', function($value){
-            $value = query_user(array('username','uid'), $value);
-            return "[{$value[uid]}]".$value['username'];
+            $value = query_user(array('username','uid', 'space_url'), $value);
+            return "<a href='" . $value['space_url'] . "' target='_blank'>[{$value[uid]}]" . $value['username'] . '</a>';
         });
 
         //time转换成text
@@ -308,6 +333,9 @@ class AdminListBuilder extends AdminBuilder {
         $this->assign('buttonList', $this->_buttonList);
         $this->assign('pagination', $paginationHtml);
         $this->assign('list', $this->_data);
+        /*加入搜索 陈一枭*/
+        $this->assign('searches', $this->_search);
+        $this->assign('searchPostUrl', $this->_searchPostUrl);
         parent::display('admin_list');
     }
 
@@ -342,12 +370,19 @@ class AdminListBuilder extends AdminBuilder {
 
     /**
      * @param $pattern U函数解析的URL字符串，例如 Admin/Test/index?test_id=###
+     * Admin/Test/index?test_id={other_id}
      * ###将被id替换
+     * {other_id}将被替换
      * @return callable
      */
-    private function createDefaultGetUrlFunction($pattern) {
-        return function($item) use($pattern){
+    private function createDefaultGetUrlFunction($pattern)
+    {
+        return function ($item) use ($pattern) {
             $pattern = str_replace('###', $item['id'], $pattern);
+            //调用ThinkPHP中的解析引擎解析变量
+            $view = new \Think\View();
+            $view->assign($item);
+            $pattern = $view->fetch('', $pattern);
             return U($pattern);
         };
     }

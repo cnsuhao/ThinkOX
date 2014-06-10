@@ -29,14 +29,7 @@ class TalkModel extends Model
     {
         $list = $this->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
         foreach ($list as &$li) {
-            $uids = $this->getUids($li['uids']);
-            foreach ($uids as $uid) {
-                if ($uid != is_login()) {
-                    $li['first_user'] = query_user(array('avatar64', 'username'), $uid);
-                    $li['last_message'] = $this->getLastMessage($li['id']);
-                    break;
-                }
-            }
+            $li = $this->getFirstUserAndLastMessage($li);
         }
         unset($li);
         return $list;
@@ -50,23 +43,125 @@ class TalkModel extends Model
         return $last_message;
     }
 
-    /**获取到所有的好友
+    public function createTalk($members, $message = '')
+    {
+
+
+        $orin_member = $members;
+        if (is_array($members)) {
+            $members[] = is_login();
+            $ico_user = $this->getFirstOtherUser($members);
+            $members=$this->encodeArrayByRec($members);
+            $talk['uids'] = implode(',', $members);
+        } else {
+            /*创建talk*/
+            $talk['uids'] = implode(',', array('[' . is_login() . ']', '[' . $members . ']'));
+
+        }
+        if ($message != '') {
+            $talk['appname'] = $message['appname'];
+            $talk['apptype'] = $message['apptype'];
+            $talk['source_id'] = $message['source_id'];
+            $talk['message_id'] = $message['id'];
+            //通过消息获取到对应应用内的消息模型
+            $messageModel = $this->getMessageModel($message);
+            //从对应模型内取回对话源资料
+            $talk = array_merge($messageModel->getSource($message), $talk);
+        } else {
+            if (count($orin_member) == 1) {
+                $user_one = query_user(array('username'), $orin_member[0]);
+                $user_two = query_user(array('username'));
+                $talk['title'] = $user_one['username'] . ' 和 ' . $user_two['username'] . '的会话';
+            }
+        }
+
+
+        //创建会话
+        $talk = D('Talk')->create($talk);
+        $talk['id'] = D('Talk')->add($talk);
+
+        foreach ($orin_member as $mem) {
+            if ($mem != is_login()) {
+                //不是自己则建立一个push
+                $push['uid'] = $mem;
+                $push['source_id'] = $talk['id'];
+                $push['create_time'] = time();
+                D('TalkPush')->add($push);
+            }
+        }
+
+        //TODO 发送会话建立消息
+
+
+        //获取图标用于输出
+        $talk['ico'] = $ico_user['avatar64'];
+        return $talk;
+        /*创建talk end*/
+
+    }
+
+    /**
+     * @param $message
+     * @return \Model
+     */
+    private function getMessageModel($message)
+    {
+
+        $appname = ucwords($message['appname']);
+        $messageModel = D($appname . '/' . $appname . 'Message');
+        return $messageModel;
+    }
+
+    /**
+     * @param $li
      * @return mixed
      * @auth 陈一枭
      */
-    public function getAllFriends($uid=0){
-        if($uid==0){
-            $uid=is_login();
-        }
-        $model_follow=D('Follow');
-        $i_follow=$model_follow->where(array('who_follow'=>get_uid()))->limit(999)->select();
-
-        foreach($i_follow as $key=>$user){
-            if(!$model_follow->where(array('follow_who'=>get_uid(),'who_follow'=>$user['follow_who']))->count()){
-                unset($i_follow[$key]);
+    private function getFirstUserAndLastMessage($li)
+    {
+        $uids = $this->getUids($li['uids']);
+        foreach ($uids as $uid) {
+            if ($uid != is_login()) {
+                $li['first_user'] = query_user(array('avatar64', 'username'), $uid);
+                break;
             }
+            $li['last_message'] = $this->getLastMessage($li['id']);
         }
-        return $i_follow;
+        return $li;
     }
 
+    /**
+     * @param $members
+     * @auth 陈一枭
+     */
+    public  function getFirstOtherUser($members)
+    {
+        $has_got_ico = false;
+        foreach ($members as &$mem) {
+            if ($mem != is_login() && $has_got_ico == false) {
+                $ico_user = query_user(array('avatar64', 'username'), $mem);
+                $has_got_ico = true;
+            }
+        }
+        unset($mem);
+        return $ico_user;
+    }
+
+    public function encodeArrayByRec($members)
+    {
+        foreach ($members as &$mem) {
+            $mem = '[' . $mem . ']';
+        }
+        unset($mem);
+        return $members;
+    }
+
+    public function decodeArrayByRec($members){
+        foreach ($members as &$mem) {
+            $mem=str_replace('[','',$mem);
+            $mem=str_replace(']','',$mem);
+        }
+        unset($mem);
+        return $members;
+    }
 }
