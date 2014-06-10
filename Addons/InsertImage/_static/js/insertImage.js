@@ -79,6 +79,23 @@ insert_image={
     },
     showBox:function(){
         $('.XT_image').css('z-index','1005');
+    },
+    /**
+     * 添加loading效果
+     * @param string unid 唯一ID
+     * @return void
+     */
+    addLoading: function (unid) {
+        var loadingHtml = '<li id="loading_'+unid+'" class="load"><span><img src="./Addons/InsertImage/_static/image/loading.gif" /></span></li>';
+        $('#btn_'+unid).before(loadingHtml);
+    },
+    /**
+     * 移除loading效果
+     * @param string unid 唯一ID
+     * @return void
+     */
+    removeLoading: function (unid) {
+        $('#loading_'+unid).remove();
     }
 
 }

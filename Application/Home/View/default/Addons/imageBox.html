@@ -43,7 +43,7 @@
                // core.multimage.removeLoading(unid);
 
 
-
+                insert_image.removeLoading(unid);
                 $('#btn_'+unid).before($('<li id="li_'+unid+'_'+file.index+'"><img src="'+'__ROOT__'+jsondata.path+'" width="80" height="80" /><a href="javascript:;" onclick="insert_image.removeImage(\''+unid+'\', '+file.index+', '+jsondata.id+')"><span class="del">删除</span></a></li>').fadeIn('slow'));
 
 
@@ -56,9 +56,11 @@
             }
         },
         onUploadStart: function (file) {
+            insert_image.addLoading(unid);
             // 验证是否能继续上传
-            var len = $('#ul_'+unid).find('li').length;
+            var len = $('#ul_'+unid).find('li').length-1;
             if (len > total) {
+                insert_image.removeLoading(unid);
                 op_error('最多只能上传' + total + '个图片');
                 // 停止上传
                 $('#uploadify_'+unid).uploadify('stop');
