@@ -101,10 +101,13 @@ class IndexController extends Controller
         $this->display('loadweibo');
     }
 
-    public function doSend($content)
+    public function doSend($content,$type,$attach_ids)
     {
+        $feed_data='';
+        $feed_data['attach_ids'] = $attach_ids;
+
         //发送微博
-        $result = $this->weiboApi->sendWeibo($content);
+        $result = $this->weiboApi->sendWeibo($content,$type,$feed_data);
 
         //返回成功结果
         $this->ajaxReturn(apiToAjax($result));

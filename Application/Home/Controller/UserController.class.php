@@ -49,7 +49,9 @@ class UserController extends HomeController
             $User = new UserApi;
             $uid = $User->register($username, $password, $email);
             if (0 < $uid) { //注册成功
-                $this->success('成功注册,正在转入登录页面！', U('login'));
+                $uid = $User->login($username, $password);
+                D('Member')->login($uid,false);
+                $this->success('成功注册！', U('Weibo/Index/index'));
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));
             }
