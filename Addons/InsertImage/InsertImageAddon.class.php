@@ -31,8 +31,9 @@ class InsertImageAddon extends Addon
     }
 
     //实现的InsertImage钩子方法
-    public function InsertImage($param)
+    public function weiboType($param)
     {
+
         $this->display('insertImage');
     }
 
