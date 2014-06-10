@@ -33,26 +33,17 @@
                         </if>
                     </volist>
                 </p>
+                {$weibo.fetchContent}
 
-                <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
-
+<!--                <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
                 <if condition="$weibo['type'] eq 'image'">
-
                     <div class="popup-gallery"  style="width: 550px;">
                 <volist name="weibo['weibo_data']['image']" id="vo">
-
-
                         <a href="{$vo.big}" title="点击查看大图"><img src="{$vo.small}" width="100" height="100"></a>
-
-
                 </volist>
 </div>
-
-
-
 </if>
-
-
+            -->
 
                 <p>
                     <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->

@@ -8,9 +8,10 @@
 
 namespace Weibo\Api;
 
+use Admin\Model\AddonsModel;
 use Common\Api\Api;
 use Common\Exception\ApiException;
-
+use Think\Hook;
 
 
 class WeiboApi extends Api
@@ -32,18 +33,16 @@ class WeiboApi extends Api
         $map[] = array('status' => 1);
         $model = $this->weiboModel;
         $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
-
-
         //获取每个微博详情
         foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
+
   /*          $e['data']['attach_ids'] = explode(',',$e['data']['attach_ids']);
             if( $e['data']['attach_ids']!=null){
                 foreach($e['data']['attach_ids'] as $k_i =>$v_i ){
                     $e['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
                     $bi =  M('Picture')->where(array('status' => 1))->getById($v_i);
                     $e['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
-
                 }
             }*/
 
@@ -207,16 +206,13 @@ class WeiboApi extends Api
         $canDelete = $this->canDeleteWeibo($id);
         $weibo_data =  unserialize($weibo['data']);
 
-        $weibo_data['attach_ids'] = explode(',',$weibo_data['attach_ids']);
-        if( $weibo_data['attach_ids']!=null){
-            foreach($weibo_data['attach_ids'] as $k_i =>$v_i ){
-                $weibo_data['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
-                $bi =  M('Picture')->where(array('status' => 1))->getById($v_i);
-                $weibo_data['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
+        if($weibo['type'] === 'feed'){
+            $fetchContent =    "<p>".parse_weibo_content($weibo['content'])."</p>";
 
-            }
+        }else{
+            $result =  Hook::exec('Insert'.ucfirst($weibo['type']),'fetch'.ucfirst($weibo['type']),$weibo);
+            $fetchContent = $result;
         }
-
 
 
         return array(
@@ -230,7 +226,8 @@ class WeiboApi extends Api
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
             'is_top' => $weibo['is_top'],
-            'uid'=>$weibo['uid']
+            'uid'=>$weibo['uid'],
+            'fetchContent'=>$fetchContent
         );
 
     }
