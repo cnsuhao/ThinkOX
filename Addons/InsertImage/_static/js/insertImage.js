@@ -1,11 +1,12 @@
 insert_image={
     insertImage : function(obj){
-        $('.attach_ids').remove();
+        $('#insert_image').attr('onclick','insert_image.showBox()');
+
     var box_url = $('#box_url').val()
 
 
         $.post(box_url , {} , function (res){
-            var html ='<div class="XT_image""><div class="triangle sanjiao" style="margin-left: 24px;"></div><div class="triangle_up sanjiao"  style="margin-left: 24px;"></div>' +
+            var html ='<div class="XT_image XT_insert""><div class="triangle sanjiao" style="margin-left: 30px;"></div><div class="triangle_up sanjiao"  style="margin-left: 30px;"></div>' +
                 '<div class="XT_face_main XT_insert_image" style="margin-left: 0px;"><div class="XT_face_title"><span class="XT_face_bt" style="float: left"><span>共&nbsp;<em id="upload_num_'+res.unid+'">0</em>&nbsp;张，还能上传&nbsp;<em id="total_num_'+res.unid+'">'+res.total+'</em>&nbsp;张（按住ctrl可选择多张）</span></span>' +
                 '<a onclick="insert_image.close()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;">'+res.html+'</div></div></div>';
             obj.parent().parent().next().next().html(html);
@@ -74,6 +75,10 @@ insert_image={
     close:function(){
         $('.XT_image').remove();
         $('.attach_ids').remove();
+        $('#insert_image').attr('onclick','insert_image.insertImage($(this))');
+    },
+    showBox:function(){
+        $('.XT_image').css('z-index','1005');
     }
 
 }

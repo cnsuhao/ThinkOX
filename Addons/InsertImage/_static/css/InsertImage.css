@@ -22,6 +22,6 @@
 
 .XT_image {
     width: 448px;
-    z-index: 1000;
+    z-index: 1001;
     position: absolute !important;
 }
