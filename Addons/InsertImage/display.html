@@ -1,4 +1,4 @@
-    <p>{$weibo.content|parse_weibo_content}</p>
+    <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
     <div class="popup-gallery"  style="width: 550px;">
         <volist name="weibo['weibo_data']['image']" id="vo">
             <a href="{$vo.big}" title="点击查看大图"><img src="{$vo.small}" width="100" height="100"></a>

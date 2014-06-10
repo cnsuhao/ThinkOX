@@ -207,7 +207,7 @@ class WeiboApi extends Api
         $weibo_data =  unserialize($weibo['data']);
 
         if($weibo['type'] === 'feed' || $weibo['type']==''){
-            $fetchContent =    "<p>".parse_weibo_content($weibo['content'])."</p>";
+            $fetchContent =    "<p class='word-wrap'>".parse_weibo_content($weibo['content'])."</p>";
 
         }else{
             $result =  Hook::exec('Insert'.ucfirst($weibo['type']),'fetch'.ucfirst($weibo['type']),$weibo);
