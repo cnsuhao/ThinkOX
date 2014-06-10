@@ -1,5 +1,6 @@
 
 var insertFace = function(obj){
+
     $('.XT_face').remove();
     var html ='<div class="XT_face"><div class="triangle sanjiao"></div><div class="triangle_up sanjiao"></div>' +
         '<div class="XT_face_main"><div class="XT_face_title"><span class="XT_face_bt" style="float: left">常用表情</span>' +

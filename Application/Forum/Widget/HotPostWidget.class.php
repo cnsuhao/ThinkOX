@@ -21,13 +21,19 @@ class HotPostWidget extends Action
     /* 显示指定分类的同级分类或子分类列表 */
     public function lists($forum_id)
     {
+        $forum_id=intval($forum_id);
         $posts = S('forum_hot_posts_' . $forum_id);
 
+        $map['status']=1;
+        $time=time()-604800;//一周以内
+        $map['create_time']=array('gt',$time);
         if (empty($posts)) {
             if ($forum_id == 0) {
-                $posts = D('ForumPost')->where(array( 'status' => 1))->order('reply_count desc')->limit(9)->select();
+                $posts = D('ForumPost')->where($map)->order('reply_count desc')->limit(9)->select();
             } else {
-                $posts = D('ForumPost')->where(array('status' => 1))->order('reply_count desc')->limit(9)->select();
+                $map['forum_id']=$forum_id;
+
+                $posts = D('ForumPost')->where($map)->order('reply_count desc')->limit(9)->select();
             }
             S('forum_hot_posts_' . $forum_id, $posts, 300);
         }

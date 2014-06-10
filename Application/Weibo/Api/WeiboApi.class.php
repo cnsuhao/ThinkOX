@@ -11,7 +11,7 @@ namespace Weibo\Api;
 use Common\Api\Api;
 use Common\Exception\ApiException;
 
-require_once(APP_PATH . 'Weibo/Common/function.php');
+
 
 class WeiboApi extends Api
 {
@@ -26,10 +26,10 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 10)
+    public function listAllWeibo($page = 1, $count = 10,$map=array())
     {
         //获取微博列表
-        $map = array('status' => 1);
+        $map[] = array('status' => 1);
         $model = $this->weiboModel;
         $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
 
@@ -37,6 +37,16 @@ class WeiboApi extends Api
         //获取每个微博详情
         foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
+            $e['data']['attach_ids'] = explode(',',$e['data']['attach_ids']);
+            if( $e['data']['attach_ids']!=null){
+                foreach($e['data']['attach_ids'] as $k_i =>$v_i ){
+                    $e['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
+                    $bi =  M('Picture')->where(array('status' => 1))->getById($v_i);
+                    $e['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
+
+                }
+            }
+
         }
         unset($e);
 
@@ -81,13 +91,13 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
-    public function sendWeibo($content)
+    public function sendWeibo($content,$type,$feed_data)
     {
         $this->requireSendInterval();
         $this->requireLogin();
 
         //写入数据库
-        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content);
+        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data);
         if (!$weibo_id) {
             throw new ApiException('发布失败：' . $this->weiboModel->getError());
         }
@@ -200,6 +210,8 @@ class WeiboApi extends Api
             'id' => intval($weibo['id']),
             'content' => strval($weibo['content']),
             'create_time' => intval($weibo['create_time']),
+            'type' => $weibo['type'],
+            'data' => unserialize($weibo['data']),
             'comment_count' => intval($weibo['comment_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),

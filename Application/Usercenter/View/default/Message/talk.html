@@ -119,7 +119,7 @@
                 var myDate = new Date();
                 $.post(U('Usercenter/Message/postMessage'), {talk_id: talk_id, content: $('#tt_content').val()}, function (msg) {
                     if (msg.status) {
-                        op_appendMessage(op_fetchMessageTpl({uid: MID, content: $('#tt_content').val(),
+                        op_appendMessage(op_fetchMessageTpl({uid: MID, content:msg.content,
                             avatar128: myhead,
                             ctime: myDate.toLocaleTimeString()}, MID));
                         $('#tt_content').val('');

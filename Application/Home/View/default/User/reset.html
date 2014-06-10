@@ -8,7 +8,7 @@
         <div class="login-form-inbox">
             <form class="login-form" id="J_findpwd_form" action="{:U('User/doReset')}" method="post">
                 <input type="hidden" id="inputname" class="form-control" placeholder="UID"
-                       errormsg="UID" nullmsg="UID" datatype="*1-5" name="uid" value="{$_REQUEST.uid}">
+                       errormsg="UID" nullmsg="UID" datatype="*1-5" name="uid" value="{$_REQUEST.uid|intval}">
 
                 <div class="control-group login-input">
 

@@ -7,7 +7,7 @@
 <block name="body">
     <div class="col-xs-12">
         <div class="row">
-            <div class="col-xs-9 weibo_main">
+            <div class="col-md-9 col-sm-8 col-xs-12 weibo_main">
                 <div class="row">
                     <div class="col-xs-12">
                         <br/>
@@ -18,19 +18,27 @@
                                      placeholder="写点什么吧～～"></textarea></p>
                         <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
 
-                       {:hook('InsertImage')}
-
+                        {:hook('InsertImage')}
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
                     </div>
                 </div>
                 <div id="emot_content" class="emot_content"></div>
+                <div id="hook_show" class="emot_content"></div>
 
+                <script>
 
-                <div class="row">
+                </script>
+                <div class="row ad_max" >
                     <div class="col-xs-12">
+                        <style>
+                            .ad_max{
+                               overflow: hidden;
+                            }
+                        </style>
                         <p>
-                            <img src="__IMG__/ad.png" style="width: 100%;"/>
+                            <!-- 广告位：微博下方广告位 -->
+                            <script>CNZZ_SLOT_RENDER("269575");</script>
                         </p>
                     </div>
                 </div>
@@ -60,7 +68,11 @@
                     <p id="load_more_text">载入更多</p>
                 </div>
             </div>
-            <div class="col-xs-3">
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <p class="visible-xs">
+                    <br/><br/><br/>
+                </p>
+
                 <if condition="is_login()">
                     <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
                         <div class="row">
@@ -70,8 +82,8 @@
                             </div>
                             <div class="col-xs-7">
                                 <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
-                                   href="{$self.space_url}">{$self.username}</a>&nbsp;{$self.icons_html}
-                                <br/>头衔：
+                                   href="{$self.space_url}">{$self.username}</a>
+                                头衔：{$self.icons_html}
                                 <if condition="$self['rank_link'][0]['num']">
                                     <volist name="self['rank_link']" id="vl">
                                         <if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}"
@@ -89,7 +101,7 @@
 
                         <div class="row" style="margin: 10px;text-align: center">
                             <div class="col-xs-4">
-                                微博<br/>{$self.weibocount}
+                                微博<br/><a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}">{$self.weibocount}</a>
                             </div>
                             <div class="col-xs-4">
                                 粉丝<br/><a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a>
@@ -104,8 +116,9 @@
                     {:hook('checkin')}
 
                     {:hook('Rank')}
+                    {:W('TopUserList/lists',array(null,'score desc','活跃用户','top'))}
+                    {:W('UserList/lists')}
 
-                    {:W('UserList/lists',array('forum_id'=>$forum_id))}
                 </div>
             </div>
 
@@ -118,7 +131,6 @@
     <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
     <script src="__JS__/weibo.js"></script>
     <script src="__JS__/insertFace.js"></script>
-
     <script>
         var SUPPORT_URL="{:addons_url('Support://Support/doSupport')}"
         $(function () {
@@ -142,9 +154,15 @@
                 var content = $('#weibo_content').val();
                 var button = $(this);
                 var originalButtonText = button.val();
+                var feedType = 'feed';
+                var  attach_ids = '';
+            if( typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length >0){
+                var feedType = 'image';
+                var attach_ids = $('#attach_ids').val();
+            }
 
                 //发送到服务器
-                $.post(url, {content: content}, function (a) {
+                $.post(url, {content: content,type:feedType,attach_ids:attach_ids}, function (a) {
                     handleAjax(a);
                     if (a.status) {
                         button.attr('class', 'btn btn-primary');
@@ -152,6 +170,7 @@
                         reloadWeiboList();
                         clearWeibo();
                         $('.XT_face').remove();
+                        insert_image.close();
                     }
                 });
             });

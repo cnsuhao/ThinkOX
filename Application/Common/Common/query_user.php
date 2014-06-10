@@ -198,7 +198,7 @@ function read_query_user_cache($uid, $field)
 
 function write_query_user_cache($uid, $field, $value)
 {
-    return S("query_user_{$uid}_{$field}", $value, 300);
+    return S("query_user_{$uid}_{$field}", $value, 1800);
 }
 
 function clean_query_user_cache($uid, $field)
