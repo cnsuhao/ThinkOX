@@ -22,10 +22,11 @@ class WeiboModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
 
-    public function addWeibo($uid, $content)
+    public function addWeibo($uid, $content,$type,$feed_data)
     {
+
         //写入数据库
-        $data = array('uid'=>$uid,'content'=>$content);
+        $data = array('uid'=>$uid,'content'=>$content,'type'=>$type,'data'=>serialize($feed_data));
         $data = $this->create($data);
         if(!$data) return false;
         $weibo_id = $this->add($data);
