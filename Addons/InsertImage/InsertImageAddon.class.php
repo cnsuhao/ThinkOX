@@ -29,7 +29,7 @@ use Common\Controller\Addon;
 
         //实现的InsertImage钩子方法
         public function InsertImage($param){
-$this->display('insertImage');
+            $this->display('insertImage');
         }
 
     }
