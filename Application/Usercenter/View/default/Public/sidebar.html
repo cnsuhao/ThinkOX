@@ -56,6 +56,7 @@
                 $oneuser_navbar_items = array(
                 array('个人资料'),
                 array('基本资料','list-alt',U('UserCenter/Index/index'),'index'),
+                array('扩展资料','expand',U('UserCenter/Index/expandInfo'),'expand-info'),
                 array('修改头像','user',U('UserCenter/Index/changeavatar'),'change-avatar'),
                 array('修改邮箱','envelope',U('UserCenter/Index/changeemail'),'change-email'),
                 array('修改个性签名','edit',U('UserCenter/Index/changesignature'),'change-signature'),
@@ -72,6 +73,7 @@
                 $oneuser_navbar_items = array(
                 array('个人资料'),
                 array('基本资料','list-alt',U('UserCenter/Index/index',array('uid'=>$uid)),'index'),
+                array('扩展资料','expand',U('UserCenter/Index/expandInfo',array('uid'=>$uid)),'expand-info'),
                 array('讨论区'),
                 array($call.'的主题','book',U('UserCenter/Forum/myTopic',array('uid'=>$uid)),'my-topic'),
                 array($call.'的参与','comment',U('/UserCenter/Forum/myTakePartIn',array('uid'=>$uid)),'my-take-part-in'),

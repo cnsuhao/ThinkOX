@@ -1,0 +1,22 @@
+<eq name="type" value="personal">
+    <dt class="expandinfo-dt">
+        {$field_name}：
+    </dt>
+
+    <dd class="expandinfo-dd">
+        <input type="text" name="expand_{$field_id}" value="{$field_data|htmlspecialchars}">
+    </dd>
+<else/>
+    <dt class="expandinfo-dt">
+        {$field_name}：
+    </dt>
+
+    <dd class="expandinfo-dd">
+        <if condition="($field_data neq null)&&($field_data neq '')">
+            {$field_data|htmlspecialchars}
+            <else/>
+            无
+        </if>
+    </dd>
+</eq>
+<div class="clearfix"></div>
