@@ -112,6 +112,7 @@ class SEOController extends AdminController
         //判断是否为编辑模式
         $isEdit = $id ? true : false;
 
+
         //写入数据库
         $data = array('title' => $title, 'app' => $app, 'controller' => $controller, 'action' => $action2, 'seo_title' => $seo_title, 'seo_keywords' => $seo_keywords, 'seo_description' => $seo_description, 'status' => $status);
         $model = M('SeoRule');
@@ -120,8 +121,8 @@ class SEOController extends AdminController
         } else {
             $result = $model->add($data);
         }
-        $cacheKey = "oneplus_seo_meta_{$app}_{$controller}_{$action2}";
-        S($cacheKey, null);
+
+        clean_all_cache();
         //如果失败的话，显示失败消息
         if (!$result) {
             $this->error($isEdit ? '编辑失败' : '创建失败');
