@@ -206,7 +206,7 @@ class WeiboApi extends Api
         $canDelete = $this->canDeleteWeibo($id);
         $weibo_data =  unserialize($weibo['data']);
 
-        if($weibo['type'] === 'feed' || $weibo['type']===''){
+        if($weibo['type'] === 'feed' || $weibo['type']==''){
             $fetchContent =    "<p>".parse_weibo_content($weibo['content'])."</p>";
 
         }else{
