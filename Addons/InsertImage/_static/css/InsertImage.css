@@ -25,3 +25,7 @@
     z-index: 1001;
     position: absolute !important;
 }
+
+#insert_image{
+    margin-left: 10px;
+}
