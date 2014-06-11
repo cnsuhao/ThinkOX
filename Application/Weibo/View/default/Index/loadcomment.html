@@ -21,7 +21,7 @@
 <div id="emot_content" class="emot_content" style="float: left"></div>
 <!--评论列表-->
 
-<div id="show_comment">
+<div id="show_comment_{$weiboId}">
 <volist name="list" id="comment">
 
 
@@ -48,19 +48,18 @@
 
 </volist>
 </div>
-
+<php>if($weiboCommentTotalCount>5){</php>
 <div style="width: 100%;height: 40px;text-align: center;line-height: 40px;">
     <a id="btn_showall"  href="javascript:" onclick="show_all_comment('{$weiboId}');">查看全部回复>></a>
 </div>
-<!--<php>if($i>5){</php>
 
-<php>}</php>-->
+<php>}</php>
 
 
 <script>
     function show_all_comment(weiboId){
         $.post("{:U('Weibo/Index/commentlist')}",{weibo_id:weiboId},function(res){
-                 $('#show_comment').html(res);
+                 $('#show_comment_'+weiboId).html(res);
                   $('#btn_showall').hide()
         },'json');
     }
