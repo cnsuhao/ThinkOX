@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_profile_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
-
+ALTER TABLE  `thinkox_field_setting` ADD  `child_form_type` VARCHAR( 25 ) NOT NULL
 --
 -- 添加表中的数据 `thinkox_menu`
 --
