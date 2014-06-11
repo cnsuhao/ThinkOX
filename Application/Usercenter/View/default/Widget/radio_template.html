@@ -6,7 +6,7 @@
         <ul class="expandinfo-ul" style="-webkit-padding-start: 0px;">
             <volist name="items" id="vl">
                 <li class="expandinfo-li">
-                    <input type="radio" name="expand_{$field_id}" value="{$vl.value}" {$vl.checked}>{$vl.value|htmlspecialchars}
+                    <input class="radio-inline" type="radio" name="expand_{$field_id}" value="{$vl.value}" {$vl.checked}>{$vl.value|htmlspecialchars}
                 </li>
             </volist>
         </ul>

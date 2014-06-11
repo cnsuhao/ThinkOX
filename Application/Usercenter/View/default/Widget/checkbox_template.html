@@ -6,7 +6,7 @@
         <ul class="expandinfo-ul" style="-webkit-padding-start: 0px;">
             <volist name="items" id="vl">
                 <li class="expandinfo-li">
-                    <input type="checkbox" name="expand_{$field_id}[]" value="{$vl.value}" <eq name="vl.selected" value="1">checked</eq>>{$vl.value}
+                    <input class="checkbox-inline" type="checkbox" name="expand_{$field_id}[]" value="{$vl.value}" <eq name="vl.selected" value="1">checked</eq>>{$vl.value}
                 </li>
             </volist>
         </ul>

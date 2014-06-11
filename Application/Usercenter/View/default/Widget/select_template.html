@@ -3,7 +3,7 @@
         {$field_name}：
     </dt>
     <dd class="expandinfo-dd">
-        <select name="expand_{$field_id}">
+        <select class="form-control" name="expand_{$field_id}">
             <volist name="items" id="vl">
                 <option value="{$vl.value}" {$vl.selected}>{$vl.value|htmlspecialchars}</option>
             </volist>
