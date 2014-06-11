@@ -21,10 +21,18 @@ class InputRenderWidget extends Action {
         //dump($data);exit;
         $this->assign('type',$type);
         $this->assign('field_id',$data['id']);
+        $this->assign('required',$data['required']);
+        if(!isset($data['field_content'])&&$data['required']){
+            $this->assign('canSubmit',0);
+        }else{
+            $this->assign('canSubmit',1);
+        }
         switch($data['form_type']){
             case 'input':
                 $this->assign('field_name',$data['field_name']);
-
+                $this->assign('child_form_type',$data['child_form_type']);
+                $validation=$this->_getValidation($data['validation']);
+                $this->assign('validation',$validation);
                 if(!$data['field_content']){
                     $this->assign('field_data',$data['form_default_value']);
                 }else{
@@ -132,6 +140,22 @@ class InputRenderWidget extends Action {
                 $this->display('Widget/textarea_template');
                 break;
             }
+    }
+    function _getValidation($validation){
+        $data['min']=$data['max']=0;
+        if($validation!=''){
+            $items=explode('&',$validation);
+            foreach($items as $val){
+                $item=explode('=',$val);
+                if($item[0]=='min'&&is_numeric($item[1])&&$item[1]>0){
+                    $data['min']=$item[1];
+                }
+                if($item[0]=='max'&&is_numeric($item[1])&&$item[1]>0){
+                    $data['max']=$item[1];
+                }
+            }
+        }
+        return $data;
     }
 
 } 

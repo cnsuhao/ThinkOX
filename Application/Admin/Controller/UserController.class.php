@@ -93,7 +93,7 @@ class UserController extends AdminController {
         $builder->title('【'.$profile['profile_name'].'】 字段管理');
         $builder->meta_title =$profile['profile_name'].'字段管理';
         $builder->buttonNew(U('editFieldSetting',array('id'=>'0','profile_group_id'=>$id)))->buttonDelete(U('setFieldSettingStatus',array('status'=>'-1')))->setStatusUrl(U('setFieldSettingStatus'))->buttonSort(U('sortField',array('id'=>$id)))->button('返回',array('href'=>U('profile')));
-        $builder->keyId()->keyText('field_name',"字段名称")->keyBool('visiable','是否公开')->keyBool('required','是否必填')->keyText('sort',"排序")->keyText('form_type','表单类型')->keyText('form_default_value','默认值')->keyText('validation','表单验证方式');
+        $builder->keyId()->keyText('field_name',"字段名称")->keyBool('visiable','是否公开')->keyBool('required','是否必填')->keyText('sort',"排序")->keyText('form_type','表单类型')->keyText('child_form_type','二级表单类型')->keyText('form_default_value','默认值')->keyText('validation','表单验证方式');
         $builder->keyTime("createTime","创建时间")->keyStatus()->keyDoAction('User/editFieldSetting?profile_group_id='.$id.'&id=###','编辑');
         $builder->data($field_list);
         $builder->display();
@@ -151,8 +151,14 @@ class UserController extends AdminController {
             'time'=>'time',
             'textarea'=>'textarea'
         );
-        $builder->keyReadOnly("id","标识")->keyReadOnly('profile_group_id','分组id')->keyText('field_name',"字段名称")->keySelect('form_type',"表单类型",'',$type_default)->keyTextArea('form_default_value','默认值',"多个值用'|'分割开")
-            ->keyText('validation','表单验证方式')->keyBool('visiable','是否公开')->keyBool('required','是否必填');
+        $child_type=array(
+            'string'=>'字符串',
+            'phone'=>'手机号码',
+            'email'=>'邮箱',
+            'number'=>'数字'
+        );
+        $builder->keyReadOnly("id","标识")->keyReadOnly('profile_group_id','分组id')->keyText('field_name',"字段名称")->keySelect('form_type',"表单类型",'',$type_default)->keySelect('child_form_type',"二级表单类型",'',$child_type)->keyTextArea('form_default_value','默认值',"多个值用'|'分割开")
+            ->keyText('validation','表单验证规则','例：min=5&max=10')->keyBool('visiable','是否公开')->keyBool('required','是否必填');
         $builder->data($field_setting);
         $builder->buttonSubmit(U('doEditFieldSetting'),$id==0?"添加":"修改")->buttonBack();
 
@@ -170,13 +176,16 @@ class UserController extends AdminController {
      * @param $validation
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function doEditFieldSetting($id,$field_name,$profile_group_id,$visiable,$required,$form_type,$form_default_value,$validation){
+    public function doEditFieldSetting($id,$field_name,$profile_group_id,$child_form_type,$visiable,$required,$form_type,$form_default_value,$validation){
 
         $data['field_name']=$field_name;
         $data['profile_group_id']=$profile_group_id;
         $data['visiable']=$visiable;
         $data['required']=$required;
         $data['form_type']=$form_type;
+        if($form_type=='input'){
+            $data['child_form_type']=$child_form_type;
+        }
         $data['form_default_value']=$form_default_value;
         $data['validation']=$validation;
         if($id!=''){
