@@ -129,15 +129,26 @@ class IndexController extends Controller
         $list = $result['list'];
         $weiboCommentTotalCount = count($list);
 
+        $result1 = $this->weiboApi->listComment($weibo_id, 1, 5);
+        $list1 = $result1['list'];
         //返回html代码用于ajax显示
-        $this->assign('list', $list);
+        $this->assign('list', $list1);
         $this->assign('weiboId', $weibo_id);
         $weobo=$this->weiboApi->getWeiboDetail($weibo_id);
         $this->assign('weibo',$weobo['weibo']);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->display();
     }
+    public function commentlist($weibo_id,$page=1){
 
+        $result = $this->weiboApi->listComment($weibo_id, $page, 10000);
+        $list = $result['list'];
+        $this->assign('list', $list);
+        $html =  $this->fetch('commentlist');
+        $this->ajaxReturn($html);
+        dump($html);
+
+    }
     public function doDelWeibo($weibo_id = 0)
     {
         //删除微博
