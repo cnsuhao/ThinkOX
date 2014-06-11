@@ -43,7 +43,7 @@ $(function () {
                     $('#btn_showall').hide()
                     var commentLinkText = $('.operation', weiboContainer).html();
                     $('.operation', weibo).html(commentLinkText);
-          
+
                 });
 
 

@@ -68,7 +68,7 @@
                             preg_match_all('/<img src=\"(.*?)\"/',$post['content'], $img_src);
                             preg_match_all('/<img src=\".*?\/>/',$post['content'], $img_tag);
                             foreach($img_tag[0] as $k=>&$v){
-                            $post['content']=str_replace($v,'<a href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$post['content']);
+                            $post['content']=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$post['content']);
                             }
                             $post['content'] = '  <div class="popup-gallery">'.  $post['content'].'</div>';
                         </php>
@@ -128,7 +128,7 @@
                             preg_match_all('/<img src=\"(.*?)\"/',$reply['content'], $img_src);
                             preg_match_all('/<img src=\".*?\/>/',$reply['content'], $img_tag);
                             foreach($img_tag[0] as $k=>&$v){
-                            $reply['content']=str_replace($v,'<a href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$reply['content']);
+                            $reply['content']=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$reply['content']);
                             }
                             $reply['content'] = '  <div class="popup-gallery">'.  $reply['content'].'</div>';
                         </php>
@@ -279,7 +279,7 @@
 
             $('.popup-gallery').each(function() { // the containers for all your galleries
                 $(this).magnificPopup({
-                    delegate: 'a',
+                    delegate: '.popup',
                     type: 'image',
                     tLoading: 'Loading image #%curr%...',
                     mainClass: 'mfp-img-mobile',
