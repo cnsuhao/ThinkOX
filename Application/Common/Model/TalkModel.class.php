@@ -27,11 +27,22 @@ class TalkModel extends Model
 
     public function getCurrentSessions()
     {
+      //每次获取到所有的id，就对这些做delete处理。防止反复提示。
+        $new_talks=D('TalkPush')->getAllPush();
+        foreach($new_talks as $push){
+            D('TalkPush')->where(array('id'=>$push['id']))->delete();
+            D('Talk')->where(array('id'=>$push['source_id']))->setField('new_count',-1);
+
+        }
         $list = $this->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
         foreach ($list as &$li) {
             $li = $this->getFirstUserAndLastMessage($li);
         }
         unset($li);
+
+
+
+
         return $list;
     }
 
