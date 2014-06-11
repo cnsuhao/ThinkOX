@@ -179,6 +179,9 @@ class UserController extends AdminController {
     public function doEditFieldSetting($id,$field_name,$profile_group_id,$child_form_type,$visiable,$required,$form_type,$form_default_value,$validation){
 
         $data['field_name']=$field_name;
+        if($data['field_name']==''){
+            $this->error('字段名称不能为空！');
+        }
         $data['profile_group_id']=$profile_group_id;
         $data['visiable']=$visiable;
         $data['required']=$required;
@@ -269,6 +272,9 @@ class UserController extends AdminController {
 
 
         $data['profile_name']=$profile_name;
+        if($data['profile_name']==''){
+            $this->error('分组名称不能为空！');
+        }
         if($id!=''){
             $res=D('profile_group')->where('id='.$id)->save($data);
         }else{

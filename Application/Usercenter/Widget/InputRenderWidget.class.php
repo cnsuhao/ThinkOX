@@ -22,7 +22,9 @@ class InputRenderWidget extends Action {
         $this->assign('type',$type);
         $this->assign('field_id',$data['id']);
         $this->assign('required',$data['required']);
-        if(!isset($data['field_content'])&&$data['required']){
+        if(!isset($data['field_content'])&&$data['required']&&$data['form_default_value']==''){
+            $this->assign('canSubmit',0);
+        }elseif(isset($data['field_content']['field_data'])&&$data['field_content']['field_data']==''&&$data['required']){
             $this->assign('canSubmit',0);
         }else{
             $this->assign('canSubmit',1);
@@ -131,7 +133,8 @@ class InputRenderWidget extends Action {
                 break;
             case 'textarea':
                 $this->assign('field_name',$data['field_name']);
-
+                $validation=$this->_getValidation($data['validation']);
+                $this->assign('validation',$validation);
                 if(!$data['field_content']){
                     $this->assign('field_data',$data['form_default_value']);
                 }else{

@@ -819,6 +819,30 @@ function check(args,id){
             return true;
     }
 }
+function check_textarea(args,id){
+    var value=document.getElementById("expand_"+id).value;
+    var required=args.getAttribute("required");
+    if(required){
+        if(value.length==0){
+            document.getElementById("label_"+id).innerHTML="该项不能为空";
+            $('#canSubmit_'+id).val(0);
+            return false;
+        }
+    }
+    var min_length=args.getAttribute("min_length");
+    var max_length=args.getAttribute("max_length");
+    if((min_length!=0&&value.length<min_length)||(max_length!=0&&value.length>max_length)){
+        if(max_length==0){
+            max_length='';
+        }
+        document.getElementById("label_"+id).innerHTML="文本长度必须在"+min_length+"-"+max_length+"之间";
+        $('#canSubmit_'+id).val(0);
+        return false;
+    }
+    document.getElementById("label_"+id).innerHTML="";
+    $('#canSubmit_'+id).val(1);
+    return true;
+}
 $(document).ready(function(){
     $(":submit[id=submit_btn]").click(function(check){
 

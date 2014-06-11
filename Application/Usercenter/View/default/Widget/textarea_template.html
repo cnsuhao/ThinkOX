@@ -4,8 +4,10 @@
     </dt>
 
     <dd class="expandinfo-dd">
-        <textarea class="form-control" name="expand_{$field_id}"style="min-height: 100px;">{$field_data|htmlspecialchars}</textarea>
+        <textarea class="form-control" onblur="check_textarea(this,{$field_id})" required="{$required}" min_length="{$validation.min}" max_length="{$validation.max}" text_type="textarea" id="expand_{$field_id}" name="expand_{$field_id}"style="min-height: 100px;">{$field_data|htmlspecialchars}</textarea>
+        <input type="hidden" class="canSubmit" id="canSubmit_{$field_id}" value="{$canSubmit}">
     </dd>
+    <div class="expandinfo-error-info"><label id="label_{$field_id}"></label></div>
     <else/>
     <dt class="expandinfo-dt">
         {$field_name}：
