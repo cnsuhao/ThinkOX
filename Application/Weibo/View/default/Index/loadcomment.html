@@ -50,7 +50,7 @@
 </div>
 
 <div style="width: 100%;height: 40px;text-align: center;line-height: 40px;">
-    <a  href="javascript:" onclick="show_all_comment('{$weiboId}',$(this));">查看全部回复>></a>
+    <a id="btn_showall"  href="javascript:" onclick="show_all_comment('{$weiboId}');">查看全部回复>></a>
 </div>
 <!--<php>if($i>5){</php>
 
@@ -58,10 +58,10 @@
 
 
 <script>
-    function show_all_comment(weiboId,obj){
+    function show_all_comment(weiboId){
         $.post("{:U('Weibo/Index/commentlist')}",{weibo_id:weiboId},function(res){
                  $('#show_comment').html(res);
-            obj.hide()
+                  $('#btn_showall').hide()
         },'json');
     }
 </script>
