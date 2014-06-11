@@ -1,7 +1,8 @@
 <extend name="Public/forum"/>
 
 <block name="body">
-
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+<link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
     <div class="row">
     <div class="col-xs-12 boxShadow" style="background: white">
         <php>
@@ -62,6 +63,15 @@
                 </div>
                 <div class="col-xs-10 post_content">
                     <div style="min-height: 10em;">
+
+                        <php>
+                            preg_match_all('/<img src=\"(.*?)\"/',$post['content'], $img_src);
+                            preg_match_all('/<img src=\".*?\/>/',$post['content'], $img_tag);
+                            foreach($img_tag[0] as $k=>&$v){
+                            $post['content']=str_replace($v,'<a href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$post['content']);
+                            }
+                            $post['content'] = '  <div class="popup-gallery">'.  $post['content'].'</div>';
+                        </php>
                         {$post.content|parse_at_users}
                         <br/>
                         <if condition="$post['create_time'] != $post['update_time']">
@@ -113,6 +123,17 @@
                 </div>
                 <div class="col-xs-10">
                     <div style="min-height: 10em;" class="post_content">
+
+                        <php>
+                            preg_match_all('/<img src=\"(.*?)\"/',$reply['content'], $img_src);
+                            preg_match_all('/<img src=\".*?\/>/',$reply['content'], $img_tag);
+                            foreach($img_tag[0] as $k=>&$v){
+                            $reply['content']=str_replace($v,'<a href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$reply['content']);
+                            }
+                            $reply['content'] = '  <div class="popup-gallery">'.  $reply['content'].'</div>';
+                        </php>
+
+
                         {$reply.content|parse_at_users}
                         <br/>
                     </div>
@@ -249,6 +270,34 @@
                 });
             }
         })
+
+
+
+
+        $(document).ready(function() {
+
+
+            $('.popup-gallery').each(function() { // the containers for all your galleries
+                $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    tLoading: 'Loading image #%curr%...',
+                    mainClass: 'mfp-img-mobile',
+                    gallery: {
+                        enabled: true,
+                        navigateByImgClick: true,
+                        preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+                    },
+                    image: {
+                        tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                        titleSrc: function(item) {
+                            /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
+                            return '';
+                        }
+                    }
+                });
+            });
+        });
     </script>
     <style>
         .forum-first-block {

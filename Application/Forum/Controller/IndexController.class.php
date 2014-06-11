@@ -85,6 +85,7 @@ class IndexController extends Controller
         //读取回复列表
         $map = array('post_id' => $id, 'status' => 1);
         $replyList = D('ForumPostReply')->getReplyList($map, 'create_time', $page, $limit);
+
         $replyTotalCount = D('ForumPostReply')->where($map)->count();
         //判断是否需要显示1楼
         if ($page == 1) {
@@ -92,10 +93,12 @@ class IndexController extends Controller
         } else {
             $showMainPost = false;
         }
+
         foreach($replyList as &$reply)
         {
-            $reply['content']=op_h($reply['content'],'base');
+            $reply['content']=op_h($reply['content'],'html');
         }
+
         unset($reply);
         //判断是否已经收藏
         $isBookmark = D('ForumBookmark')->exists(is_login(), $id);
