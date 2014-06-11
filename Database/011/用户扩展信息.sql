@@ -44,3 +44,16 @@ CREATE TABLE IF NOT EXISTS `thinkox_profile_group` (
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+
+--
+-- 添加表中的数据 `thinkox_menu`
+--
+
+INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
+(10000, '扩展资料', 16, 0, 'Admin/User/profile', 0, '', '用户管理', 0),
+(10001, '添加、编辑分组', 10000, 0, 'Admin/User/editProfile', 0, '', '', 0),
+(10002, '分组排序', 10000, 0, 'Admin/User/sortProfile', 0, '', '', 0),
+(10003, '字段列表', 10000, 0, 'Admin/User/field', 0, '', '', 0),
+(10004, '添加、编辑字段', 10003, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
+(10005, '字段排序', 10003, 0, 'Admin/User/sortField', 0, '', '', 0);
