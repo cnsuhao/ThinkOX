@@ -31,7 +31,7 @@ $(function () {
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             handleAjax(a);
             if (a.status) {
-               reloadWeiboCommentList(weiboCommentList);
+               // reloadWeiboCommentList(weiboCommentList);
                 show_all_comment(weiboId);
             } else {
                 commitButton.text(originalButtonText);
@@ -110,7 +110,7 @@ function comment_del(obj, comment_id) {
             var weiboId = $this.attr('data-weibo-id');
             var weibo = $('#weibo_' + weiboId);
             var weiboCommentList = $('.weibo-comment-list', weibo);
-            //reloadWeiboCommentList(weiboCommentList);
+            reloadWeiboCommentList(weiboCommentList);
             op_success('删除微博成功。', '温馨提示');
         } else {
             op_error(msg.info, '温馨提示');
