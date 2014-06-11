@@ -59,7 +59,7 @@ class PublicController extends Controller
         $message->setAllToasted(is_login());//消息中心推送
 
         $new_talks = D('TalkPush')->getAllPush();//会话推送
-        D('TalkPush')->where(array('uid' => get_uid()))->delete();//读取到推送之后，自动删除此推送来防止反复推送。
+        D('TalkPush')->where(array('uid' => get_uid(),'status'=>0))->setField('status',1);//读取到推送之后，自动删除此推送来防止反复推送。
 
 
         exit(json_encode(array('messages' => $haventToastMessages, 'talk_messages' => $talk_messages, 'new_talks' => $new_talks)));

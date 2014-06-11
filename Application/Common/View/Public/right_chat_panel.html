@@ -21,6 +21,9 @@
                                     <div class="col-md-6">
                                         <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
                                             <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
+                                            <eq name="session.new" value="1">
+                                                <span class="badge_new">&nbsp;</span>
+                                            </eq>
                                         </a>
                                     </div>
                                     <div class="col-md-6">
