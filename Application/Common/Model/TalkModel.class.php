@@ -27,9 +27,21 @@ class TalkModel extends Model
 
     public function getCurrentSessions()
     {
+        //每次获取到所有的id，就对这些做delete处理。防止反复提示。
+
+        $new_talks=D('TalkPush')->where(array('uid'=>get_uid(),'status'=>array('NEQ',-1)))->select();
+        $new_ids = array();
+        foreach ($new_talks as $push) {
+            D('TalkPush')->where(array('id' => $push['id']))->setField('status', 1);//全部置为已提示
+            $new_ids[] = $push['source_id'];
+        }
         $list = $this->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
-        foreach ($list as &$li) {
+        foreach ($list as $key => &$li) {
+
             $li = $this->getFirstUserAndLastMessage($li);
+            if (in_array($li['id'], $new_ids)) {
+                $list[$key]['new'] = 1;
+            }
         }
         unset($li);
         return $list;
@@ -51,7 +63,7 @@ class TalkModel extends Model
         if (is_array($members)) {
             $members[] = is_login();
             $ico_user = $this->getFirstOtherUser($members);
-            $members=$this->encodeArrayByRec($members);
+            $members = $this->encodeArrayByRec($members);
             $talk['uids'] = implode(',', $members);
         } else {
             /*创建talk*/
@@ -134,7 +146,7 @@ class TalkModel extends Model
      * @param $members
      * @auth 陈一枭
      */
-    public  function getFirstOtherUser($members)
+    public function getFirstOtherUser($members)
     {
         $has_got_ico = false;
         foreach ($members as &$mem) {
@@ -156,10 +168,11 @@ class TalkModel extends Model
         return $members;
     }
 
-    public function decodeArrayByRec($members){
+    public function decodeArrayByRec($members)
+    {
         foreach ($members as &$mem) {
-            $mem=str_replace('[','',$mem);
-            $mem=str_replace(']','',$mem);
+            $mem = str_replace('[', '', $mem);
+            $mem = str_replace(']', '', $mem);
         }
         unset($mem);
         return $members;
