@@ -118,6 +118,10 @@ class IndexController extends BaseController
                     if((!$val['value']||$val['value']=='')&&$val['required']==1){
                         $this->error($val['field_name'].'内容不能为空！');
                     }
+                    $val['submit']=$this->_checkInput($val);
+                    if($val['submit']!=null&&$val['submit']['succ']==0){
+                        $this->error($val['submit']['msg']);
+                    }
                     $data[$key]['field_data']=$val['value'];
                     break;
             }
@@ -148,44 +152,55 @@ class IndexController extends BaseController
      * @author 郑钟良<zzl@ourstu.com>
      */
     function _checkInput($data){
-        switch($data['child_form_type']){
-            case 'string':
-                $validation=$this->_getValidation($data['validation']);
-                if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
-                    if($validation['max']==0){
-                        $validation['max']='';
-                    }
-                    $info['succ']=0;
-                    $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间";
+        if($data['form_type']=="textarea"){
+            $validation=$this->_getValidation($data['validation']);
+            if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
+                if($validation['max']==0){
+                    $validation['max']='';
                 }
-                break;
-            case 'number':
-                if(preg_match("/^\d*$/",$data['value'])){
+                $info['succ']=0;
+                $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间";
+            }
+        }else{
+            switch($data['child_form_type']){
+                case 'string':
                     $validation=$this->_getValidation($data['validation']);
                     if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
                         if($validation['max']==0){
                             $validation['max']='';
                         }
                         $info['succ']=0;
-                        $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间，且为数字";
+                        $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间";
                     }
-                }else{
-                    $info['succ']=0;
-                    $info['msg']=$data['field_name']."必须是数字";
-                }
-                break;
-            case 'email':
-                if(!preg_match("/([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?/i",$data['value'])){
-                    $info['succ']=0;
-                    $info['msg']=$data['field_name']."格式不正确，必需为邮箱格式";
-                }
-                break;
-            case 'phone':
-                if(!preg_match("/^\d{11}$/",$data['value'])){
-                    $info['succ']=0;
-                    $info['msg']=$data['field_name']."格式不正确，必须为手机号码格式";
-                }
-                break;
+                    break;
+                case 'number':
+                    if(preg_match("/^\d*$/",$data['value'])){
+                        $validation=$this->_getValidation($data['validation']);
+                        if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
+                            if($validation['max']==0){
+                                $validation['max']='';
+                            }
+                            $info['succ']=0;
+                            $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间，且为数字";
+                        }
+                    }else{
+                        $info['succ']=0;
+                        $info['msg']=$data['field_name']."必须是数字";
+                    }
+                    break;
+                case 'email':
+                    if(!preg_match("/([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?/i",$data['value'])){
+                        $info['succ']=0;
+                        $info['msg']=$data['field_name']."格式不正确，必需为邮箱格式";
+                    }
+                    break;
+                case 'phone':
+                    if(!preg_match("/^\d{11}$/",$data['value'])){
+                        $info['succ']=0;
+                        $info['msg']=$data['field_name']."格式不正确，必须为手机号码格式";
+                    }
+                    break;
+            }
         }
         return $info;
     }
