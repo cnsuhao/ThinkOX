@@ -8,7 +8,7 @@
 
 
 function getImageUrlByPath($path, $size) {
-    $thumb = getThumbImage($path, $size);
+    $thumb = getThumbImage($path, $size,$size);
     $thumb = $thumb['src'];
     $thumb = substr($thumb,1);
     return getRootUrl().$thumb;
