@@ -4,8 +4,10 @@
     </dt>
 
     <dd class="expandinfo-dd">
-        <input type="text" class="form-control" name="expand_{$field_id}" value="{$field_data|htmlspecialchars}">
+        <input type="text" onblur="check(this,{$field_id})" required="{$required}" min_length="{$validation.min}" max_length="{$validation.max}" text_type="{$child_form_type}" class="form-control" id="expand_{$field_id}" name="expand_{$field_id}" value="{$field_data|htmlspecialchars}">
+        <input type="hidden" class="canSubmit" id="canSubmit_{$field_id}" value="{$canSubmit}">
     </dd>
+    <div class="expandinfo-error-info"><label id="label_{$field_id}"></label></div>
 <else/>
     <dt class="expandinfo-dt">
         {$field_name}：
