@@ -265,7 +265,7 @@ class AdminListBuilder extends AdminBuilder {
 
         //text转换成html
         $this->convertKey('text', 'html', function($value){
-            return htmlspecialchars($value);
+            return $value;
         });
 
         //link转换为html
