@@ -44,7 +44,7 @@ class UserController extends AdminController {
      */
     public function profile(){
         $map['status']  =   array('egt',0);
-        $profileList=D('profile_group')->where($map)->order("sort asc")->select();
+        $profileList=D('field_group')->where($map)->order("sort asc")->select();
         $builder=new AdminListBuilder();
         $builder->title("扩展信息分组列表");
         $builder->meta_title = '扩展信息分组';
@@ -60,7 +60,7 @@ class UserController extends AdminController {
      */
     public function sortProfile(){
         $map['status']  =   array('egt',0);
-        $list=D('profile_group')->where($map)->order("sort asc")->select();
+        $list=D('field_group')->where($map)->order("sort asc")->select();
         foreach($list as $key=>$val){
             $list[$key]['title']=$val['profile_name'];
         }
@@ -85,7 +85,7 @@ class UserController extends AdminController {
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function field($id){
-        $profile=D('profile_group')->where('id='.$id)->find();
+        $profile=D('field_group')->where('id='.$id)->find();
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
         $field_list=D('field_setting')->where($map)->order("sort asc")->select();
@@ -104,7 +104,7 @@ class UserController extends AdminController {
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function sortField($id){
-        $profile=D('profile_group')->where('id='.$id)->find();
+        $profile=D('field_group')->where('id='.$id)->find();
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
         $list=D('field_setting')->where($map)->order("sort asc")->select();
@@ -232,7 +232,7 @@ class UserController extends AdminController {
             $this->error('请选择要操作的数据!');
         }
         $id=is_array($id)?$id:explode(',',$id);
-        D('profile_group')->where(array('id'=>array('in',$id)))->setField('status',$status);
+        D('field_group')->where(array('id'=>array('in',$id)))->setField('status',$status);
         if($status==-1){
             $this->success('删除成功');
         }else if($status==0){
@@ -250,7 +250,7 @@ class UserController extends AdminController {
     public function editProfile($id){
         $builder=new AdminConfigBuilder();
         if($id!=0){
-            $profile=D('profile_group')->where('id='.$id)->find();
+            $profile=D('field_group')->where('id='.$id)->find();
             $builder->title("修改分组信息");
             $builder->meta_title = '修改分组信息';
         }else{
@@ -276,16 +276,16 @@ class UserController extends AdminController {
             $this->error('分组名称不能为空！');
         }
         if($id!=''){
-            $res=D('profile_group')->where('id='.$id)->save($data);
+            $res=D('field_group')->where('id='.$id)->save($data);
         }else{
             $map['profile_name']=$profile_name;
             $map['status']=array('egt',0);
-            if(D('profile_group')->where($map)->count()>0){
+            if(D('field_group')->where($map)->count()>0){
                    $this->error('已经有同名分组，请使用其他分组名称！');
             }
             $data['status']=1;
             $data['createTime']=time();
-            $res=D('profile_group')->add($data);
+            $res=D('field_group')->add($data);
         }
         if($res){
             $this->success($id==''?"添加分组成功":"编辑分组成功",U('profile'));

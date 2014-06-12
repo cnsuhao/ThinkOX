@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
 -- 表的结构 `thinkox_profile_group`
 --
 
-CREATE TABLE IF NOT EXISTS `thinkox_profile_group` (
+CREATE TABLE IF NOT EXISTS `thinkox_field_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `profile_name` varchar(25) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',

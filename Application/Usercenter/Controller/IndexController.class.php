@@ -52,7 +52,7 @@ class IndexController extends BaseController
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function show_expandInfo($profile_group_id=null,$uid=null){
-        $res=D('profile_group')->where(array('id'=>$profile_group_id,'status'=>'1'))->find();
+        $res=D('field_group')->where(array('id'=>$profile_group_id,'status'=>'1'))->find();
         if(!$res){
             $this->error('信息出错！');
         }
@@ -271,7 +271,7 @@ class IndexController extends BaseController
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function _profile_group_list(){
-        $profile_group_list=D('profile_group')->where('status=1')->order('sort asc')->select();
+        $profile_group_list=D('field_group')->where('status=1')->order('sort asc')->select();
 
         return $profile_group_list;
     }
