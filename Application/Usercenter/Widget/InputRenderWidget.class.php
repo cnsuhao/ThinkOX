@@ -127,6 +127,7 @@ class InputRenderWidget extends Action {
                 if(!$data['field_content']){
                     $this->assign('field_data',null);
                 }else{
+                    $data['field_content']['field_data']=date("Y-m-d",$data['field_content']['field_data']);
                     $this->assign('field_data',$data['field_content']['field_data']);
                 }
                 $this->display('Widget/time_template');

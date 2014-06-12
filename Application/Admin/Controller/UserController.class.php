@@ -89,6 +89,24 @@ class UserController extends AdminController {
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
         $field_list=D('field_setting')->where($map)->order("sort asc")->select();
+        $type_default=array(
+            'input'=>'单行文本框',
+            'radio'=>'单选按钮',
+            'checkbox'=>'多选按钮',
+            'select'=>'下拉选择框',
+            'time'=>'日期',
+            'textarea'=>'多行文本框'
+        );
+        $child_type=array(
+            'string'=>'字符串',
+            'phone'=>'手机号码',
+            'email'=>'邮箱',
+            'number'=>'数字'
+        );
+        foreach($field_list as &$val){
+            $val['form_type']=$type_default[$val['form_type']];
+            $val['child_form_type']=$child_type[$val['child_form_type']];
+        }
         $builder=new AdminListBuilder();
         $builder->title('【'.$profile['profile_name'].'】 字段管理');
         $builder->meta_title =$profile['profile_name'].'字段管理';
@@ -144,12 +162,12 @@ class UserController extends AdminController {
             $field_setting['profile_group_id']=$profile_group_id;
         }
         $type_default=array(
-            'input'=>'input',
-            'radio'=>'radio',
-            'checkbox'=>'checkbox',
-            'select'=>'select',
-            'time'=>'time',
-            'textarea'=>'textarea'
+            'input'=>'单行文本框',
+            'radio'=>'单选按钮',
+            'checkbox'=>'多选按钮',
+            'select'=>'下拉选择框',
+            'time'=>'日期',
+            'textarea'=>'多行文本框'
         );
         $child_type=array(
             'string'=>'字符串',
