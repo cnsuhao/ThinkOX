@@ -4,8 +4,9 @@
     </dt>
 
     <dd class="expandinfo-dd">
-        <input type="text" onblur="check(this,{$field_id})" required="{$required}" min_length="{$validation.min}" max_length="{$validation.max}" text_type="{$child_form_type}" class="form-control" id="expand_{$field_id}" name="expand_{$field_id}" value="{$field_data|htmlspecialchars}">
+        <input type="text" onblur="check(this,{$field_id})" require="{$required}" min_length="{$validation.min}" max_length="{$validation.max}" text_type="{$child_form_type}" class="form-control" id="expand_{$field_id}" name="expand_{$field_id}" value="{$field_data|htmlspecialchars}">
         <input type="hidden" class="canSubmit" id="canSubmit_{$field_id}" value="{$canSubmit}">
+        <neq name="input_tips" value=""><span class="input-tips">{$input_tips}</span></neq>
     </dd>
     <div class="expandinfo-error-info"><label id="label_{$field_id}"></label></div>
 <else/>

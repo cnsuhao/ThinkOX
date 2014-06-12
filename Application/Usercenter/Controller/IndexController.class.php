@@ -83,12 +83,15 @@ class IndexController extends BaseController
             switch($val['form_type']){
                 case 'input':
                     $val['value']=op_t($_POST['expand_'.$val['id']]);
-                    if((!$val['value']||$val['value']=='')&&$val['required']==1){
-                        $this->error($val['field_name'].'输入框信息不完整！');
-                    }
-                    $val['submit']=$this->_checkInput($val);
-                    if($val['submit']!=null&&$val['submit']['succ']==0){
-                        $this->error($val['submit']['msg']);
+                    if(!$val['value']||$val['value']==''){
+                        if($val['required']==1){
+                            $this->error($val['field_name'].'内容不能为空！');
+                        }
+                    }else{
+                        $val['submit']=$this->_checkInput($val);
+                        if($val['submit']!=null&&$val['submit']['succ']==0){
+                            $this->error($val['submit']['msg']);
+                        }
                     }
                     $data[$key]['field_data']=$val['value'];
                     break;
@@ -114,8 +117,15 @@ class IndexController extends BaseController
                     break;
                 case 'textarea':
                     $val['value']=op_t($_POST['expand_'.$val['id']]);
-                    if((!$val['value']||$val['value']=='')&&$val['required']==1){
-                        $this->error($val['field_name'].'内容不能为空！');
+                    if(!$val['value']||$val['value']==''){
+                        if($val['required']==1){
+                            $this->error($val['field_name'].'内容不能为空！');
+                        }
+                    }else{
+                        $val['submit']=$this->_checkInput($val);
+                        if($val['submit']!=null&&$val['submit']['succ']==0){
+                            $this->error($val['submit']['msg']);
+                        }
                     }
                     $val['submit']=$this->_checkInput($val);
                     if($val['submit']!=null&&$val['submit']['succ']==0){
@@ -126,24 +136,33 @@ class IndexController extends BaseController
             }
         }
         $map['uid']=is_login();
+        $is_success=false;
         foreach($data as $dl){
             $map['field_id']=$dl['field_id'];
             $res=D('field')->where($map)->find();
             if(!$res){
-                $dl['createTime']=$dl['changeTime']=time();
-                if(!D('field')->add($dl)){
-                    $this->error('信息添加时出错！');
+                if($dl['field_data']!=''&&$dl['field_data']!=null){
+                    $dl['createTime']=$dl['changeTime']=time();
+                    if(!D('field')->add($dl)){
+                        $this->error('信息添加时出错！');
+                    }
+                    $is_success=true;
                 }
             }else{
                 $dl['changeTime']=time();
                 if(!D('field')->where('id='.$res['id'])->save($dl)){
                     $this->error('信息修改时出错！');
                 }
+                $is_success=true;
             }
             unset($map['field_id']);
         }
         clean_query_user_cache(is_login(),'expand_info');
-        $this->success('保存成功！');
+        if($is_success){
+            $this->success('保存成功！');
+        }else{
+            $this->error('没有要保存的信息！');
+        }
     }
 
     /**input类型验证
@@ -154,34 +173,34 @@ class IndexController extends BaseController
     function _checkInput($data){
         if($data['form_type']=="textarea"){
             $validation=$this->_getValidation($data['validation']);
-            if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
+            if(($validation['min']!=0&&mb_strlen($data['value'],"utf-8")<$validation['min'])||($validation['max']!=0&&mb_strlen($data['value'],"utf-8")>$validation['max'])){
                 if($validation['max']==0){
                     $validation['max']='';
                 }
                 $info['succ']=0;
-                $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间";
+                $info['msg']=$data['field_name']."长度必须在".$validation['min']."-".$validation['max']."之间";
             }
         }else{
             switch($data['child_form_type']){
                 case 'string':
                     $validation=$this->_getValidation($data['validation']);
-                    if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
+                    if(($validation['min']!=0&&mb_strlen($data['value'],"utf-8")<$validation['min'])||($validation['max']!=0&&mb_strlen($data['value'],"utf-8")>$validation['max'])){
                         if($validation['max']==0){
                             $validation['max']='';
                         }
                         $info['succ']=0;
-                        $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间";
+                        $info['msg']=$data['field_name']."长度必须在".$validation['min']."-".$validation['max']."之间";
                     }
                     break;
                 case 'number':
                     if(preg_match("/^\d*$/",$data['value'])){
                         $validation=$this->_getValidation($data['validation']);
-                        if(($validation['min']!=0&&strlen($data['value'])<$validation['min'])||($validation['max']!=0&&strlen($data['value'])>$validation['max'])){
+                        if(($validation['min']!=0&&mb_strlen($data['value'],"utf-8")<$validation['min'])||($validation['max']!=0&&mb_strlen($data['value'],"utf-8")>$validation['max'])){
                             if($validation['max']==0){
                                 $validation['max']='';
                             }
                             $info['succ']=0;
-                            $info['msg']=$data['field_name']."长度必须在"+$validation['min']+"-"+$validation['max']+"之间，且为数字";
+                            $info['msg']=$data['field_name']."长度必须在".$validation['min']."-".$validation['max']."之间，且为数字";
                         }
                     }else{
                         $info['succ']=0;
