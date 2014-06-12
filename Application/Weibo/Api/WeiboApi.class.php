@@ -90,7 +90,7 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
-    public function sendWeibo($content,$type,$feed_data)
+    public function sendWeibo($content,$type='feed',$feed_data='')
     {
         $this->requireSendInterval();
         $this->requireLogin();
