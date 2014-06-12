@@ -31,15 +31,50 @@ CREATE TABLE IF NOT EXISTS `thinkox_issue_content` (
   `status` tinyint(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='专辑内容表' AUTO_INCREMENT=20 ;
+-- phpMyAdmin SQL Dump
+-- version 3.5.1
+-- http://www.phpmyadmin.net
+--
+-- 主机: 127.0.0.1
+-- 生成日期: 2014 年 06 月 12 日 03:13
+-- 服务器版本: 5.5.24-log
+-- PHP 版本: 5.3.13
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 --
--- 转存表中的数据 `thinkox_issue_content`
+-- 数据库: `rc6`
 --
 
+-- --------------------------------------------------------
 
-REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
+--
+-- 表的结构 `thinkox_menu`
+--
+
+DROP TABLE IF EXISTS `thinkox_menu`;
+CREATE TABLE IF NOT EXISTS `thinkox_menu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
+  `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级分类ID',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序（同级有效）',
+  `url` char(255) NOT NULL DEFAULT '' COMMENT '链接地址',
+  `hide` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否隐藏',
+  `tip` varchar(255) NOT NULL DEFAULT '' COMMENT '提示',
+  `group` varchar(50) DEFAULT '' COMMENT '分组',
+  `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10006 ;
+
+--
+-- 转存表中的数据 `thinkox_menu`
+--
+
+INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 (1, '首页', 0, 1, 'Index/index', 0, '', '', 0),
-(2, '内容', 0, 2, 'Article/mydocument', 0, '', '', 0),
+(2, '博客', 0, 2, 'Article/mydocument', 0, '', '', 0),
 (3, '文档列表', 2, 0, 'article/index', 1, '', '内容', 0),
 (4, '新增', 3, 0, 'article/add', 0, '', '', 0),
 (5, '编辑', 3, 0, 'article/edit', 0, '', '', 0),
@@ -80,7 +115,7 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (40, '保存分类授权', 27, 0, 'AuthManager/addToCategory', 0, '"分类授权"页面的"保存"按钮', '', 0),
 (41, '模型授权', 27, 0, 'AuthManager/modelauth', 0, '"后台 \\ 用户 \\ 权限管理"列表页的"模型授权"操作按钮', '', 0),
 (42, '保存模型授权', 27, 0, 'AuthManager/addToModel', 0, '"分类授权"页面的"保存"按钮', '', 0),
-(43, '扩展', 0, 6, 'Addons/index', 0, '', '', 0),
+(43, '扩展', 0, 998, 'Addons/index', 0, '', '', 0),
 (44, '插件管理', 43, 1, 'Addons/index', 0, '', '扩展', 0),
 (45, '创建', 44, 0, 'Addons/create', 0, '服务器上创建插件结构向导', '', 0),
 (46, '检测创建', 44, 0, 'Addons/checkForm', 0, '检测插件是否可以创建', '', 0),
@@ -95,7 +130,7 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (55, '插件后台列表', 44, 0, 'Addons/adminList', 0, '', '', 0),
 (56, 'URL方式访问插件', 44, 0, 'Addons/execute', 0, '控制是否有权限通过url访问插件控制器方法', '', 0),
 (57, '钩子管理', 43, 2, 'Addons/hooks', 0, '', '扩展', 0),
-(58, '模型管理', 68, 3, 'Model/index', 0, '', '系统设置', 0),
+(58, '模型管理', 2, 3, 'Model/index', 0, '', '系统设置', 0),
 (59, '新增', 58, 0, 'model/add', 0, '', '', 0),
 (60, '编辑', 58, 0, 'model/edit', 0, '', '', 0),
 (61, '改变状态', 58, 0, 'model/setStatus', 0, '', '', 0),
@@ -105,7 +140,7 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (65, '编辑', 63, 0, 'Attribute/edit', 0, '', '', 0),
 (66, '改变状态', 63, 0, 'Attribute/setStatus', 0, '', '', 0),
 (67, '保存数据', 63, 0, 'Attribute/update', 0, '', '', 0),
-(68, '系统', 0, 4, 'Config/group', 0, '', '', 0),
+(68, '系统', 0, 9999, 'Config/group', 0, '', '', 0),
 (69, '网站设置', 68, 1, 'Config/group', 0, '', '系统设置', 0),
 (70, '配置管理', 68, 4, 'Config/index', 0, '', '系统设置', 0),
 (71, '编辑', 70, 0, 'Config/edit', 0, '新增编辑和保存配置', '', 0),
@@ -117,13 +152,13 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (77, '新增', 76, 0, 'Channel/add', 0, '', '', 0),
 (78, '编辑', 76, 0, 'Channel/edit', 0, '', '', 0),
 (79, '删除', 76, 0, 'Channel/del', 0, '', '', 0),
-(80, '分类管理', 68, 2, 'Category/index', 0, '', '系统设置', 0),
+(80, '分类管理', 2, 2, 'Category/index', 0, '', '系统设置', 0),
 (81, '编辑', 80, 0, 'Category/edit', 0, '编辑和保存栏目分类', '', 0),
 (82, '新增', 80, 0, 'Category/add', 0, '新增栏目分类', '', 0),
 (83, '删除', 80, 0, 'Category/remove', 0, '删除栏目分类', '', 0),
 (84, '移动', 80, 0, 'Category/operate/type/move', 0, '移动栏目分类', '', 0),
 (85, '合并', 80, 0, 'Category/operate/type/merge', 0, '合并栏目分类', '', 0),
-(86, '备份数据库', 68, 0, 'Database/index?type=export', 0, '', '数据备份', 0),
+(86, '备份数据库', 68, 20, 'Database/index?type=export', 0, '', '数据备份', 0),
 (87, '备份', 86, 0, 'Database/export', 0, '备份数据库', '', 0),
 (88, '优化表', 86, 0, 'Database/optimize', 0, '优化数据表', '', 0),
 (89, '修复表', 86, 0, 'Database/repair', 0, '修复数据表', '', 0),
@@ -149,17 +184,16 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (119, '排序', 70, 0, 'Config/sort', 1, '', '', 0),
 (120, '排序', 75, 0, 'Menu/sort', 1, '', '', 0),
 (121, '排序', 76, 0, 'Channel/sort', 1, '', '', 0),
-(122, '讨论区', 0, 7, 'Forum/index', 0, '', '', 0),
+(122, '贴吧', 0, 7, 'Forum/index', 0, '', '', 0),
 (123, '微博', 0, 8, 'Weibo/weibo', 0, '', '', 0),
 (124, '板块管理', 122, 1, 'Forum/forum', 0, '', '板块', 0),
 (125, '帖子管理', 122, 3, 'Forum/post', 0, '', '帖子', 0),
 (126, '编辑／发表帖子', 124, 0, 'Forum/editForum', 0, '', '', 0),
 (127, 'edit pots', 125, 0, 'Forum/editPost', 0, '', '', 0),
 (128, '排序', 124, 0, 'Forum/sortForum', 0, '', '', 0),
-(129, 'SEO', 0, 9, 'SEO/index', 0, '', '', 0),
 (130, '新增、编辑', 132, 0, 'SEO/editRule', 0, '', '', 0),
 (131, '排序', 132, 0, 'SEO/sortRule', 0, '', '', 0),
-(132, '规则管理', 129, 0, 'SEO/index', 0, '', '规则', 0),
+(132, '规则管理', 68, 0, 'SEO/index', 0, '', 'SEO规则', 0),
 (133, '回复管理', 122, 5, '/Admin/Forum/reply', 0, '', '回复', 0),
 (134, '新增 编辑', 133, 0, 'Forum/editReply', 0, '', '', 0),
 (140, '编辑回复', 138, 0, 'Weibo/editComment', 0, '', '', 0),
@@ -171,11 +205,10 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (143, '回复回收站', 122, 6, 'Forum/replyTrash', 0, '', '回复', 0),
 (144, '微博回收站', 123, 2, 'Weibo/weiboTrash', 0, '', '微博', 0),
 (145, '回复回收站', 123, 4, 'Weibo/commentTrash', 0, '', '回复', 0),
-(146, '规则回收站', 129, 0, 'SEO/ruleTrash', 0, '', '规则', 0),
-(147, '头衔', 0, 10, 'Rank/index', 0, '', '', 0),
-(148, '头衔列表', 147, 1, 'Rank/index', 0, '', '头衔管理', 0),
-(149, '添加头衔', 147, 2, 'Rank/editRank', 0, '', '头衔管理', 0),
-(150, '用户列表', 147, 0, 'Rank/userList', 0, '', '关联头衔', 0),
+(146, '规则回收站', 68, 0, 'SEO/ruleTrash', 0, '', 'SEO规则', 0),
+(147, '头衔列表', 16, 10, 'Rank/index', 0, '', '头衔管理', 0),
+(149, '添加头衔', 16, 2, 'Rank/editRank', 0, '', '头衔管理', 0),
+(150, '查看用户', 16, 0, 'Rank/userList', 0, '', '头衔管理', 0),
 (151, '用户头衔列表', 150, 0, 'Rank/userRankList', 1, '', '', 0),
 (152, '关联新头衔', 150, 0, 'Rank/userAddRank', 1, '', '', 0),
 (153, '编辑头衔关联', 150, 0, 'Rank/userChangeRank', 1, '', '', 0),
@@ -186,4 +219,10 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (158, '专辑操作', 154, 0, 'Issue/operate', 1, '', '专辑', 0),
 (159, '内容审核', 154, 1, 'Issue/verify', 0, '', '内容管理', 0),
 (160, '内容回收站', 154, 5, 'Issue/contentTrash', 0, '', '内容管理', 0),
-(161, '内容管理', 154, 0, 'Issue/contents', 0, '', '内容管理', 0);
+(161, '内容管理', 154, 0, 'Issue/contents', 0, '', '内容管理', 0),
+(162, '扩展资料', 16, 0, 'Admin/User/profile', 0, '', '用户管理', 0),
+(163, '添加、编辑分组', 162, 0, 'Admin/User/editProfile', 0, '', '', 0),
+(164, '分组排序', 162, 0, 'Admin/User/sortProfile', 0, '', '', 0),
+(165, '字段列表', 162, 0, 'Admin/User/field', 0, '', '', 0),
+(166, '添加、编辑字段', 165, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
+(167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0);
