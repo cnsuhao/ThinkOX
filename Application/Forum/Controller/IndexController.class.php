@@ -79,7 +79,7 @@ class IndexController extends Controller
         if (!$post) {
             $this->error('找不到该帖子');
         }
-        $post['content'] = op_h($post['content'],'base');
+        $post['content'] = op_h($post['content'],'html');
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
         //读取回复列表

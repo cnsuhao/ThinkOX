@@ -1,7 +1,26 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.1
+-- http://www.phpmyadmin.net
+--
+-- 主机: 127.0.0.1
+-- 生成日期: 2014 年 06 月 12 日 03:16
+-- 服务器版本: 5.5.24-log
+-- PHP 版本: 5.3.13
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- 数据库: `rc6`
+--
+
+-- --------------------------------------------------------
+
 --
 -- 表的结构 `thinkox_field`
 --
 
+DROP TABLE IF EXISTS `thinkox_field`;
 CREATE TABLE IF NOT EXISTS `thinkox_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -10,12 +29,31 @@ CREATE TABLE IF NOT EXISTS `thinkox_field` (
   `createTime` int(11) NOT NULL,
   `changeTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_field_group`
+--
+
+DROP TABLE IF EXISTS `thinkox_field_group`;
+CREATE TABLE IF NOT EXISTS `thinkox_field_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profile_name` varchar(25) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `createTime` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+-- --------------------------------------------------------
 
 --
 -- 表的结构 `thinkox_field_setting`
 --
 
+DROP TABLE IF EXISTS `thinkox_field_setting`;
 CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `field_name` varchar(25) NOT NULL,
@@ -28,32 +66,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   `validation` varchar(25) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `createTime` int(11) NOT NULL,
+  `child_form_type` varchar(25) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
-
-
---
--- 表的结构 `thinkox_profile_group`
---
-
-CREATE TABLE IF NOT EXISTS `thinkox_field_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `profile_name` varchar(25) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  `createTime` int(11) NOT NULL,
-  `sort` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
-
-ALTER TABLE  `thinkox_field_setting` ADD  `child_form_type` VARCHAR( 25 ) NOT NULL
---
--- 添加表中的数据 `thinkox_menu`
---
-
-INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
-(10000, '扩展资料', 16, 0, 'Admin/User/profile', 0, '', '用户管理', 0),
-(10001, '添加、编辑分组', 10000, 0, 'Admin/User/editProfile', 0, '', '', 0),
-(10002, '分组排序', 10000, 0, 'Admin/User/sortProfile', 0, '', '', 0),
-(10003, '字段列表', 10000, 0, 'Admin/User/field', 0, '', '', 0),
-(10004, '添加、编辑字段', 10003, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
-(10005, '字段排序', 10003, 0, 'Admin/User/sortField', 0, '', '', 0);
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
