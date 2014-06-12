@@ -22,6 +22,7 @@ class InputRenderWidget extends Action {
         $this->assign('type',$type);
         $this->assign('field_id',$data['id']);
         $this->assign('required',$data['required']);
+        $this->assign('input_tips',$data['input_tips']);
         if(!isset($data['field_content'])&&$data['required']&&$data['form_default_value']==''){
             $this->assign('canSubmit',0);
         }elseif(isset($data['field_content']['field_data'])&&$data['field_content']['field_data']==''&&$data['required']){
