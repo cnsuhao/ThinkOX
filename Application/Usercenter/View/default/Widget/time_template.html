@@ -12,7 +12,7 @@
         }
     </php>
     <dd class="expandinfo-dd">
-        <input type="text" name="expand_{$field_id}" class="time form-control datetimepicker"  value="{$field_data}" placeholder="请选择时间" />
+        <input class="time form-control input-group date form_datetime col-md-5" name="expand_{$field_id}" size="16" style="position: relative;display: block;" type="text" value="{$field_data}"  placeholder="请选择时间" readonly>
         <neq name="input_tips" value=""><span class="input-tips">{$input_tips}</span></neq>
     </dd>
     <else/>
@@ -31,62 +31,47 @@
 <div class="clearfix"></div>
 
 <if condition="$importDatetimePicker">
-    <link href="__STATIC__/datetimepicker/css/datetimepicker.css" rel="stylesheet" type="text/css">
-    <link href="__STATIC__/datetimepicker/css/dropdown.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <link href="__STATIC__/datetimepickerV3/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="__STATIC__/datetimepickerV3/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__STATIC__/datetimepickerV3/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="__STATIC__/datetimepickerV3/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
     <script>
+        /*年月日，小时，分选择
         $('.time').datetimepicker({
-            format: 'yyyy-mm-dd',
-            language:"zh-CN",
-            minView:2,
-            autoclose:true
+            //language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            format: 'yyyy-mm-dd hh:ii'
+        });*/
+        $('.time').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: 'yyyy-mm-dd'
         });
+        /*小时，分选择
+        $('.time').datetimepicker({
+            language:  'fr',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0,
+            format: 'yyyy-mm-dd'
+        });*/
+
     </script>
-    <style>
-        .dropdown .caret{
-            margin-top: 0;
-            margin-left: 0;
-        }
-        .caret {
-            display: inline-block;
-            width: 0;
-            height: 0;
-            vertical-align: top;
-            border-top: 4px solid #000000;
-            border-right: 4px solid transparent;
-            border-left: 4px solid transparent;
-            content: "";
-        }
-        .caret {
-            display: inline-block;
-            width: 0;
-            height: 0;
-            margin-left: 2px;
-            vertical-align: middle;
-            border-top: 4px solid;
-            border-right: 4px solid transparent;
-            border-left: 4px solid transparent;
-        }
-        .dropdown-menu {
-            padding: 0;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 0;
-            background: #fff;
-        }
-        .dropdown-menu > li > a {
-            color: #919191;
-            font-weight: 400;
-            line-height:  2.5714285722;;
-        }
-        .dropdown-menu > li > a:hover,
-        .dropdown-menu > li > a:focus,
-        .dropdown-submenu:hover > a,
-        .dropdown-submenu:focus > a{
-            color: #919191;
-            background: #E4E4E4;
-            background-image: none;
-        }
-    </style>
 </if>
