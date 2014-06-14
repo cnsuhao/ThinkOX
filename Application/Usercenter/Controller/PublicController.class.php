@@ -28,6 +28,7 @@ class PublicController extends Controller
 
     public function follow($uid = 0)
     {
+
         if (D('Follow')->follow($uid)) {
             $this->ajaxReturn(array('status' => 1));
         } else {
