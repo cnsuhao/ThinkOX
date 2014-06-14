@@ -444,7 +444,7 @@ h2 {
   border-bottom-color: rgba(0, 0, 0, 0.2);
   content: '';
 }
-.dropdown-menu i {
+.notifycation .dropdown-menu i {
   background: #4c9bc4;
   border-radius: 0.2em;
   color: white;
