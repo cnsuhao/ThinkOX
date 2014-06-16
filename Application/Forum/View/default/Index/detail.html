@@ -61,8 +61,8 @@
                        </p>
                 </div>
                 <div class="col-xs-10 post_content">
-                    <div style="min-height: 10em;">
-                        {$post.content|parse_at_users}
+                    <div style="min-height: 10em;overflow: hidden">
+                        {$post.content|parse_at_users|replace_style}
                         <br/>
                         <if condition="$post['create_time'] != $post['update_time']">
                             <p class="text-muted">
@@ -112,8 +112,9 @@
                     </p>
                 </div>
                 <div class="col-xs-10">
-                    <div style="min-height: 10em;" class="post_content">
-                        {$reply.content|parse_at_users}
+                    <div style="min-height: 10em;overflow: hidden" class="post_content">
+                        {$reply.content|parse_at_users|replace_style}
+
                         <br/>
                     </div>
                     <p class="pull-right text-muted">
