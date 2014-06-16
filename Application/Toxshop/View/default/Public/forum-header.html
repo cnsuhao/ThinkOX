@@ -1,0 +1,71 @@
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4 col-sm-2">
+                <img class="hidden-xs" src="__PUBLIC__/Forum/images/header-rabbit.png"/>
+                <img class="visible-xs" style="width: 100px;padding-top: 32px;"  src="__PUBLIC__/Forum/images/header-rabbit.png"/>
+            </div>
+            <div class="col-xs-8 col-sm-10">
+                <p style="height: 5em;">&nbsp;</p>
+
+                <h3 class="text-success">讨论区</h3>
+
+                <p class="text-muted">一晃眼，我们都将垂垂老去，所以勇敢去做自己想做的事。</p>
+            </div>
+        </div>
+        <div class="row">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                        <ul class="nav navbar-nav">
+                            </php>
+
+                            <li class=" <if condition="$forum_id eq 0">
+                            active
+                            </if>"><a href="{:U('Index/forum')}">全部帖子</a>
+                            </li>
+                            <volist name="forum_list" id="each_forum">
+                                <php>
+                                    $forum_class = $each_forum['id'] == $forum_id ? 'active' : '';
+                                </php>
+                                <li class="{$forum_class}"><a href="{:U('Index/forum',array('id'=>$each_forum['id']))}">{$each_forum.title|htmlspecialchars}</a>
+                                </li>
+                            </volist>
+                        </ul>
+                        <form id="frm_search" class="navbar-form navbar-left pull-right" role="search" method="post" action="{:U('Forum/Index/search')}">
+                            <div class="form-group form-control" style="border-radius: 2em;padding-right: 0;margin-top: 5px;padding-top: 5px;">
+                                <input id="search_keywords" type="text" name="keywords" class="" style="border: none;width: 82%;outline: none;"
+                                       placeholder="输入帖子标题或内容">
+                                <i id="sbt_search"  style="color: rgb(72,184,122)" class="glyphicon glyphicon-search"></i>
+                            </div>
+                        </form>
+                        <script>
+                            $(function () {
+                                $('#sbt_search').click(function () {
+                                    var d = $('#frm_search').serialize();
+                                    $.get("{:U('Forum/Index/search')}", d, function (msg) {
+
+                                    }, 'json');
+                                })
+                            })
+                        </script>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+        </div>
+    </div>
+</header>
