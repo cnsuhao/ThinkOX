@@ -11,12 +11,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_issue` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_issue_content`
---
-
 CREATE TABLE IF NOT EXISTS `thinkox_issue_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL COMMENT '标题',
@@ -31,29 +25,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_issue_content` (
   `status` tinyint(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='专辑内容表' AUTO_INCREMENT=20 ;
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- 主机: 127.0.0.1
--- 生成日期: 2014 年 06 月 12 日 03:13
--- 服务器版本: 5.5.24-log
--- PHP 版本: 5.3.13
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
---
--- 数据库: `rc6`
---
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_menu`
---
 
 DROP TABLE IF EXISTS `thinkox_menu`;
+
+
+
 CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
@@ -66,11 +43,8 @@ CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10006 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=170 ;
 
---
--- 转存表中的数据 `thinkox_menu`
---
 
 INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 (1, '首页', 0, 1, 'Index/index', 0, '', '', 0),
@@ -225,10 +199,13 @@ INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, 
 (164, '分组排序', 162, 0, 'Admin/User/sortProfile', 0, '', '', 0),
 (165, '字段列表', 162, 0, 'Admin/User/field', 0, '', '', 0),
 (166, '添加、编辑字段', 165, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
-(167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0);
-DELETE FROM `thinkox_thinkox_config` WHERE `thinkox_config`.`id` = 1;
-DELETE FROM `thinkox_thinkox_config` WHERE `thinkox_config`.`id` = 2;
-DELETE FROM `thinkox_thinkox_config` WHERE `thinkox_config`.`id` = 3;
+(167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0),
+(168, '全部补丁', 68, 0, 'Admin/Update/quick', 0, '', '升级补丁', 0),
+(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0);
+
+DELETE FROM `thinkox_config` WHERE `thinkox_config`.`id` = 1;
+DELETE FROM `thinkox_config` WHERE `thinkox_config`.`id` = 2;
+DELETE FROM `thinkox_config` WHERE `thinkox_config`.`id` = 3;
 
 CREATE TABLE IF NOT EXISTS `thinkox_talk_push` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -239,20 +216,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_talk_push` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='对话推送表' AUTO_INCREMENT=50 ;
 
---
--- 转存表中的数据 `thinkox_talk_push`
---
 
-
---
--- 数据库: `rc6`
---
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_hooks`
---
 
 DROP TABLE IF EXISTS `thinkox_hooks`;
 CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
@@ -266,9 +230,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
---
--- 转存表中的数据 `thinkox_hooks`
---
 
 INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`) VALUES
 (1, 'pageHeader', '页面header钩子，一般用于加载插件CSS文件和代码', 1, 0, ''),
@@ -294,29 +255,11 @@ ADD  `data` TEXT NOT NULL;
 INSERT INTO `thinkox_seo_rule` ( `title`, `app`, `controller`, `action`, `status`, `seo_keywords`, `seo_description`, `seo_title`, `sort`) VALUES
 ( '微博详情页SEO', 'Weibo', 'Index', 'weiboDetail', 1, '{$weibo.title|op_t},Thinkox,ox,微博', '{$weibo.content|op_t}', '{$weibo.content|op_t}——ThinkOX微博', 0),
 ( '用户中心', 'Usercenter', 'Index', 'index', 1, '{$user.username|op_t},Thinkox', '{$user.username|op_t}的个人主页', '{$user.username|op_t}的个人主页', 0);
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- 主机: 127.0.0.1
--- 生成日期: 2014 年 06 月 12 日 03:16
--- 服务器版本: 5.5.24-log
--- PHP 版本: 5.3.13
+INSERT INTO `thinkox_seo_rule` ( `title`, `app`, `controller`, `action`, `status`, `seo_keywords`, `seo_description`, `seo_title`, `sort`) VALUES
+('会员SEO', 'People', '', '', 1, '会员', '会员', '会员', 0);
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
---
--- 数据库: `rc6`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_field`
---
-
-DROP TABLE IF EXISTS `thinkox_field`;
 CREATE TABLE IF NOT EXISTS `thinkox_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -327,13 +270,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_field` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_field_group`
---
-
-DROP TABLE IF EXISTS `thinkox_field_group`;
 CREATE TABLE IF NOT EXISTS `thinkox_field_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `profile_name` varchar(25) NOT NULL,
@@ -343,13 +280,8 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_field_setting`
---
 
-DROP TABLE IF EXISTS `thinkox_field_setting`;
 CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `field_name` varchar(25) NOT NULL,
@@ -363,6 +295,8 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `createTime` int(11) NOT NULL,
   `child_form_type` varchar(25) NOT NULL,
+  `input_tips` varchar(100) NOT NULL COMMENT '输入提示',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
-ALTER TABLE  `thinkox_field_setting` ADD  `input_tips` VARCHAR( 100 ) NOT NULL COMMENT  '输入提示';
+
+
