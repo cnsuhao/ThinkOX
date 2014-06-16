@@ -1,0 +1,18 @@
+
+    <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
+    <div  style="border: 1px solid #000000">
+    <php>if($weibo['sourse_weibo']){</php>
+
+
+        <div>  <a ucard="{$weibo.sourse_weibo.user.uid}"     href="{$weibo.sourse_weibo.user.space_url}">{$weibo.sourse_weibo.user.username|htmlspecialchars}</a></div>
+        {$weibo.sourse_weibo.fetchContent}
+        <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['sourse_weibo']['id']))}">{$weibo.sourse_weibo.create_time|friendlyDate}</a>   </span>
+        <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['sourse_weibo']['id']))}"> 原微博转发（{$weibo.sourse_weibo.repost_count}）</a>  </span>
+
+        <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['sourse_weibo']['id']))}"> 查看原微博</a>  </span>
+
+
+<php>}else{</php>
+    原微博已删除
+    <php>}</php>
+    </div>

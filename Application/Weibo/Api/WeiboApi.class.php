@@ -90,11 +90,10 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
-    public function sendWeibo($content,$type,$feed_data)
+    public function sendWeibo($content,$type='feed',$feed_data='')
     {
         $this->requireSendInterval();
         $this->requireLogin();
-
         //写入数据库
         $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data);
         if (!$weibo_id) {
@@ -209,6 +208,9 @@ class WeiboApi extends Api
         if($weibo['type'] === 'feed' || $weibo['type']==''){
             $fetchContent =    "<p class='word-wrap'>".parse_weibo_content($weibo['content'])."</p>";
 
+        }elseif($weibo['type'] === 'repost'){
+            $result =  Hook::exec('Repost','fetchRepost',$weibo);
+            $fetchContent = $result;
         }else{
             $result =  Hook::exec('Insert'.ucfirst($weibo['type']),'fetch'.ucfirst($weibo['type']),$weibo);
             $fetchContent = $result;
@@ -223,6 +225,7 @@ class WeiboApi extends Api
             'data' => unserialize($weibo['data']),
             'weibo_data'=>$weibo_data,
             'comment_count' => intval($weibo['comment_count']),
+            'repost_count' => intval($weibo['repost_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
             'is_top' => $weibo['is_top'],

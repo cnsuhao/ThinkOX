@@ -79,7 +79,7 @@ class IndexController extends Controller
         if (!$post) {
             $this->error('找不到该帖子');
         }
-        $post['content'] = op_h($post['content'],'base');
+        $post['content'] = op_h($post['content'],'html');
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
         //读取回复列表
@@ -94,7 +94,7 @@ class IndexController extends Controller
         }
         foreach($replyList as &$reply)
         {
-            $reply['content']=op_h($reply['content'],'base');
+            $reply['content']=op_h($reply['content'],'html');
         }
         unset($reply);
         //判断是否已经收藏
