@@ -1184,6 +1184,36 @@ function is_ie()
     }
 }
 
+function array_subtract($a, $b)
+{
+    return array_diff($a, array_intersect($a, $b));
+}
+
+require_once(APP_PATH . '/Common/Common/pagination.php');
+require_once(APP_PATH . '/Common/Common/query_user.php');
+require_once(APP_PATH . '/Common/Common/thumb.php');
+require_once(APP_PATH . '/Common/Common/api.php');
+require_once(APP_PATH . '/Common/Common/time.php');
+require_once(APP_PATH . '/Common/Common/match.php');
+require_once(APP_PATH . '/Common/Common/seo.php');
+require_once(APP_PATH . '/Common/Common/type.php');
+require_once(APP_PATH . '/Common/Common/cache.php');
+require_once(APP_PATH . '/Common/Common/vendors.php');
+require_once(APP_PATH . '/Common/Common/parse.php');
+function tox_addons_url($url, $param)
+{
+    // 拆分URL
+    $url = explode('/', $url);
+    $addon = $url[0];
+    $controller = $url[1];
+    $action = $url[2];
+
+    // 调用u函数
+    $param['_addons'] = $addon;
+    $param['_controller'] = $controller;
+    $param['_action'] = $action;
+    return U("Home/Addons/execute", $param);
+}
 
 
 function replace_style($content){
@@ -1216,33 +1246,14 @@ function closetags($html) {
     return $html;
 }
 
-function array_subtract($a, $b)
-{
-    return array_diff($a, array_intersect($a, $b));
-}
+function parse_popup($content){
+    $content = replace_style($content);
+    preg_match_all('/<img src=\"(.*?)\"/',$content, $img_src);
+    preg_match_all('/<img src=\".*?\/>/',$content, $img_tag);
+    foreach($img_tag[0] as $k=>&$v){
+        $content=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$content);
+    }
+    $content = '  <div class="popup-gallery">'.  $content.'</div>';
 
-require_once(APP_PATH . '/Common/Common/pagination.php');
-require_once(APP_PATH . '/Common/Common/query_user.php');
-require_once(APP_PATH . '/Common/Common/thumb.php');
-require_once(APP_PATH . '/Common/Common/api.php');
-require_once(APP_PATH . '/Common/Common/time.php');
-require_once(APP_PATH . '/Common/Common/match.php');
-require_once(APP_PATH . '/Common/Common/seo.php');
-require_once(APP_PATH . '/Common/Common/type.php');
-require_once(APP_PATH . '/Common/Common/cache.php');
-require_once(APP_PATH . '/Common/Common/vendors.php');
-require_once(APP_PATH . '/Common/Common/parse.php');
-function tox_addons_url($url, $param)
-{
-    // 拆分URL
-    $url = explode('/', $url);
-    $addon = $url[0];
-    $controller = $url[1];
-    $action = $url[2];
-
-    // 调用u函数
-    $param['_addons'] = $addon;
-    $param['_controller'] = $controller;
-    $param['_action'] = $action;
-    return U("Home/Addons/execute", $param);
+    return $content;
 }

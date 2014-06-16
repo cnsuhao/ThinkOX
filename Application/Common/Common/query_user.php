@@ -144,6 +144,29 @@ function query_user($fields, $uid = null)
         }
         $result['icons_html'] .= '</span>';
     }
+    //expand_info:用户扩展字段信息
+    if(in_array('expand_info',$fields)){
+        $map['status']=1;
+        $field_group=D('field_group')->where($map)->select();
+        $field_group_ids=array_column($field_group,'id');
+        $map['profile_group_id']=array('in',$field_group_ids);
+        $fields_list=D('field_setting')->where($map)->getField('id,field_name,form_type,visiable');
+        $fields_list=array_combine(array_column($fields_list,'field_name'),$fields_list);
+        $map_field['uid']=$uid;
+        foreach($fields_list as $key=>$val){
+            $map_field['field_id']=$val['id'];
+            $field_data=D('field')->where($map_field)->getField('field_data');
+            if($field_data==null||$field_data==''){
+                unset($fields_list[$key]);
+            }else{
+                if($val['form_type']=="checkbox"){
+                    $field_data=explode('|',$field_data);
+                }
+                $fields_list[$key]['data']=$field_data;
+            }
+        }
+        $result['expand_info']=$fields_list;
+    }
 
     //粉丝数、关注数、微博数
     if (in_array('fans', $fields)) {
@@ -176,7 +199,7 @@ function query_user($fields, $uid = null)
         if (in_array($field, array('icons_html', 'title', 'score'))) {
             continue;
         }
-        if (!in_array($field, array('rank_link', 'icons_html', 'space_link'))) {
+        if (!in_array($field, array('rank_link', 'icons_html', 'space_link','expand_info'))) {
             $value = str_replace('"', '', op_t($value));
         }
 

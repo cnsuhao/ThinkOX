@@ -144,13 +144,13 @@ class CheckinAddon extends Addon
             $checkinfo = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->find();
             $this->assign("connum", $checkinfo['con_num']);
             $this->assign("totalnum", $checkinfo['total_num']);
-            $checkcon = D('User_cdata')->where($map)->order('mtime desc')->select();
+            //$checkcon = D('User_cdata')->where($map)->order('mtime desc')->select();
             //dump($checkinfo);exit;
             $this->assign("lxqd", $checkcon['0']['value']);
 
             $total['key'] = "check_totalnum";
             $total['uid'] = $uid;
-            $checktotal = D('User_cdata')->where($total)->order('mtime desc')->select();
+            //$checktotal = D('User_cdata')->where($total)->order('mtime desc')->select();
 
             $this->assign("zgqd", $checktotal['0']['value']);
 
@@ -200,11 +200,3 @@ class CheckinAddon extends Addon
     }
 
 }
-
-
-
-
-
-
-
-

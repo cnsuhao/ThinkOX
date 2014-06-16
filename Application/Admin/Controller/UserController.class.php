@@ -44,7 +44,7 @@ class UserController extends AdminController {
      */
     public function profile(){
         $map['status']  =   array('egt',0);
-        $profileList=D('profile_group')->where($map)->order("sort asc")->select();
+        $profileList=D('field_group')->where($map)->order("sort asc")->select();
         $builder=new AdminListBuilder();
         $builder->title("扩展信息分组列表");
         $builder->meta_title = '扩展信息分组';
@@ -60,7 +60,7 @@ class UserController extends AdminController {
      */
     public function sortProfile(){
         $map['status']  =   array('egt',0);
-        $list=D('profile_group')->where($map)->order("sort asc")->select();
+        $list=D('field_group')->where($map)->order("sort asc")->select();
         foreach($list as $key=>$val){
             $list[$key]['title']=$val['profile_name'];
         }
@@ -77,7 +77,7 @@ class UserController extends AdminController {
      */
     public function doSortProfile($ids) {
         $builder = new AdminSortBuilder();
-        $builder->doSort('Profile_group', $ids);
+        $builder->doSort('Field_group', $ids);
     }
 
     /**扩展字段列表
@@ -85,15 +85,33 @@ class UserController extends AdminController {
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function field($id){
-        $profile=D('profile_group')->where('id='.$id)->find();
+        $profile=D('field_group')->where('id='.$id)->find();
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
         $field_list=D('field_setting')->where($map)->order("sort asc")->select();
+        $type_default=array(
+            'input'=>'单行文本框',
+            'radio'=>'单选按钮',
+            'checkbox'=>'多选框',
+            'select'=>'下拉选择框',
+            'time'=>'日期',
+            'textarea'=>'多行文本框'
+        );
+        $child_type=array(
+            'string'=>'字符串',
+            'phone'=>'手机号码',
+            'email'=>'邮箱',
+            'number'=>'数字'
+        );
+        foreach($field_list as &$val){
+            $val['form_type']=$type_default[$val['form_type']];
+            $val['child_form_type']=$child_type[$val['child_form_type']];
+        }
         $builder=new AdminListBuilder();
         $builder->title('【'.$profile['profile_name'].'】 字段管理');
         $builder->meta_title =$profile['profile_name'].'字段管理';
         $builder->buttonNew(U('editFieldSetting',array('id'=>'0','profile_group_id'=>$id)))->buttonDelete(U('setFieldSettingStatus',array('status'=>'-1')))->setStatusUrl(U('setFieldSettingStatus'))->buttonSort(U('sortField',array('id'=>$id)))->button('返回',array('href'=>U('profile')));
-        $builder->keyId()->keyText('field_name',"字段名称")->keyBool('visiable','是否公开')->keyBool('required','是否必填')->keyText('sort',"排序")->keyText('form_type','表单类型')->keyText('form_default_value','默认值')->keyText('validation','表单验证方式');
+        $builder->keyId()->keyText('field_name',"字段名称")->keyBool('visiable','是否公开')->keyBool('required','是否必填')->keyText('sort',"排序")->keyText('form_type','表单类型')->keyText('child_form_type','二级表单类型')->keyText('form_default_value','默认值')->keyText('validation','表单验证方式')->keyText('input_tips','用户输入提示');
         $builder->keyTime("createTime","创建时间")->keyStatus()->keyDoAction('User/editFieldSetting?profile_group_id='.$id.'&id=###','编辑');
         $builder->data($field_list);
         $builder->display();
@@ -104,7 +122,7 @@ class UserController extends AdminController {
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function sortField($id){
-        $profile=D('profile_group')->where('id='.$id)->find();
+        $profile=D('field_group')->where('id='.$id)->find();
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
         $list=D('field_setting')->where($map)->order("sort asc")->select();
@@ -118,7 +136,7 @@ class UserController extends AdminController {
         $builder->display();
     }
 
-    /**分组排序实现
+    /**字段排序实现
      * @param $ids
      * @author 郑钟良<zzl@ourstu.com>
      */
@@ -142,17 +160,25 @@ class UserController extends AdminController {
             $builder->title("添加字段");
             $builder->meta_title = '新增字段';
             $field_setting['profile_group_id']=$profile_group_id;
+            $field_setting['visiable']=1;
+            $field_setting['required']=1;
         }
         $type_default=array(
-            'input'=>'input',
-            'radio'=>'radio',
-            'checkbox'=>'checkbox',
-            'select'=>'select',
-            'time'=>'time',
-            'textarea'=>'textarea'
+            'input'=>'单行文本框',
+            'radio'=>'单选按钮',
+            'checkbox'=>'多选框',
+            'select'=>'下拉选择框',
+            'time'=>'日期',
+            'textarea'=>'多行文本框'
         );
-        $builder->keyReadOnly("id","标识")->keyReadOnly('profile_group_id','分组id')->keyText('field_name',"字段名称")->keySelect('form_type',"表单类型",'',$type_default)->keyTextArea('form_default_value','默认值',"多个值用'|'分割开")
-            ->keyText('validation','表单验证方式')->keyBool('visiable','是否公开')->keyBool('required','是否必填');
+        $child_type=array(
+            'string'=>'字符串',
+            'phone'=>'手机号码',
+            'email'=>'邮箱',
+            'number'=>'数字'
+        );
+        $builder->keyReadOnly("id","标识")->keyReadOnly('profile_group_id','分组id')->keyText('field_name',"字段名称")->keySelect('form_type',"表单类型",'',$type_default)->keySelect('child_form_type',"二级表单类型",'',$child_type)->keyTextArea('form_default_value','默认值',"多个值用'|'分割开")
+            ->keyText('validation','表单验证规则','例：min=5&max=10')->keyText('input_tips','用户输入提示','提示用户如何输入该字段信息')->keyBool('visiable','是否公开')->keyBool('required','是否必填');
         $builder->data($field_setting);
         $builder->buttonSubmit(U('doEditFieldSetting'),$id==0?"添加":"修改")->buttonBack();
 
@@ -170,13 +196,20 @@ class UserController extends AdminController {
      * @param $validation
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function doEditFieldSetting($id,$field_name,$profile_group_id,$visiable,$required,$form_type,$form_default_value,$validation){
+    public function doEditFieldSetting($id,$field_name,$profile_group_id,$child_form_type,$visiable,$required,$form_type,$form_default_value,$validation,$input_tips){
 
         $data['field_name']=$field_name;
+        if($data['field_name']==''){
+            $this->error('字段名称不能为空！');
+        }
         $data['profile_group_id']=$profile_group_id;
         $data['visiable']=$visiable;
         $data['required']=$required;
         $data['form_type']=$form_type;
+        $data['input_tips']=$input_tips;
+        if($form_type=='input'){
+            $data['child_form_type']=$child_form_type;
+        }
         $data['form_default_value']=$form_default_value;
         $data['validation']=$validation;
         if($id!=''){
@@ -220,7 +253,7 @@ class UserController extends AdminController {
             $this->error('请选择要操作的数据!');
         }
         $id=is_array($id)?$id:explode(',',$id);
-        D('profile_group')->where(array('id'=>array('in',$id)))->setField('status',$status);
+        D('field_group')->where(array('id'=>array('in',$id)))->setField('status',$status);
         if($status==-1){
             $this->success('删除成功');
         }else if($status==0){
@@ -238,7 +271,7 @@ class UserController extends AdminController {
     public function editProfile($id){
         $builder=new AdminConfigBuilder();
         if($id!=0){
-            $profile=D('profile_group')->where('id='.$id)->find();
+            $profile=D('field_group')->where('id='.$id)->find();
             $builder->title("修改分组信息");
             $builder->meta_title = '修改分组信息';
         }else{
@@ -260,17 +293,20 @@ class UserController extends AdminController {
 
 
         $data['profile_name']=$profile_name;
+        if($data['profile_name']==''){
+            $this->error('分组名称不能为空！');
+        }
         if($id!=''){
-            $res=D('profile_group')->where('id='.$id)->save($data);
+            $res=D('field_group')->where('id='.$id)->save($data);
         }else{
             $map['profile_name']=$profile_name;
             $map['status']=array('egt',0);
-            if(D('profile_group')->where($map)->count()>0){
+            if(D('field_group')->where($map)->count()>0){
                    $this->error('已经有同名分组，请使用其他分组名称！');
             }
             $data['status']=1;
             $data['createTime']=time();
-            $res=D('profile_group')->add($data);
+            $res=D('field_group')->add($data);
         }
         if($res){
             $this->success($id==''?"添加分组成功":"编辑分组成功",U('profile'));

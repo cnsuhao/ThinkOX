@@ -13,7 +13,7 @@ use Think\Model;
 class TalkPushModel extends Model{
 
     public function getAllPush(){
-        $new_talks=$this->where(array('uid'=>get_uid()))->select();
+        $new_talks=$this->where(array('uid'=>get_uid(),'status'=>0))->select();
 
         foreach($new_talks as &$v){
             $v['talk']=D('Talk')->find($v['source_id']);

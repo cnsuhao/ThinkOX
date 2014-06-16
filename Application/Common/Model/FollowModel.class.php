@@ -26,6 +26,10 @@ class FollowModel extends Model
     {
         $follow['who_follow'] = is_login();
         $follow['follow_who'] = $uid;
+        if($follow['who_follow']==$follow['follow_who'] ){
+            //禁止关注和被关注都为同一个人的情况。
+            return 0;
+        }
         if ($this->where($follow)->count() > 0) {
             return 0;
         }

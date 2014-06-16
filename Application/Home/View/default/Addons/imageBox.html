@@ -71,21 +71,21 @@
         onSelectError: function (file, errorCode, errorMsg) {
             switch (errorCode) {
                 case -100:
-                    ui.error('选择的上传数目超过，您还能上传'+errorMsg+'个图片');
+                    op_error('选择的上传数目超过，您还能上传'+errorMsg+'个图片');
                     break;
                 case -110:
-                    ui.error("文件 [" + file.name + "] 大小超出系统限制的" + $('#uploadify_'+unid).uploadify('settings', 'fileSizeLimit') + "大小", 4);
+                    op_error("文件 [" + file.name + "] 大小超出系统限制的" + $('#uploadify_'+unid).uploadify('settings', 'fileSizeLimit') + "大小", 4);
                     break;
                 case -120:
-                    ui.error("文件 [" + file.name + "] 大小异常");
+                    op_error("文件 [" + file.name + "] 大小异常");
                     break;
                 case -130:
-                    ui.error("文件 [" + file.name + "] 类型不正确");
+                    op_error("文件 [" + file.name + "] 类型不正确");
                     break;
             }
         },
         onFallback: function () {
-            ui.error('您未安装FLASH控件，无法上传！请安装FLASH控件后再试');
+            op_error('您未安装FLASH控件，无法上传！请安装FLASH控件后再试');
         }
     });
 </script>

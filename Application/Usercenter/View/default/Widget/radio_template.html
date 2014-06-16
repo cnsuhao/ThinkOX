@@ -6,11 +6,12 @@
         <ul class="expandinfo-ul" style="-webkit-padding-start: 0px;">
             <volist name="items" id="vl">
                 <li class="expandinfo-li">
-                    <input type="radio" name="expand_{$field_id}" value="{$vl.value}" {$vl.checked}>{$vl.value|htmlspecialchars}
+                    <label><input class="radio-inline" style="margin: -2px 3px 0 0" type="radio" name="expand_{$field_id}" value="{$vl.value}" {$vl.checked}>{$vl.value|htmlspecialchars}</label>
                 </li>
             </volist>
         </ul>
         <div class="clearfix"></div>
+        <neq name="input_tips" value=""><span class="input-tips">{$input_tips}</span></neq>
     </dd>
     <else/>
     <dt class="expandinfo-dt">

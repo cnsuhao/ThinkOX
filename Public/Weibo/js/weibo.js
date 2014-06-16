@@ -31,7 +31,23 @@ $(function () {
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             handleAjax(a);
             if (a.status) {
-                reloadWeiboCommentList(weiboCommentList);
+
+                weiboCommentList.attr('data-weibo-comment-loaded', '1');
+                var weiboId = weiboCommentList.attr('data-weibo-id');
+                var weibo = $('#weibo_' + weiboId);
+                var weiboContainer = $('.weibo-comment-container', weiboCommentList);
+                var url = U('Weibo/Index/commentlist');
+                $.post(url, {weibo_id: weiboId}, function (a) {
+
+                    $('#show_comment_'+weiboId).html(a);
+                    $('#btn_showall').hide()
+                    var commentLinkText = $('.operation', weiboContainer).html();
+                    $('.operation', weibo).html(commentLinkText);
+
+                });
+
+
+
             } else {
                 commitButton.text(originalButtonText);
                 commitButton.attr('class', 'btn btn-primary weibo-comment-commit');
@@ -163,5 +179,6 @@ function reloadWeiboCommentList(weiboCommentList) {
         //更新评论数量
         var commentLinkText = $('.operation', weiboContainer).html();
         $('.operation', weibo).html(commentLinkText);
+
     });
 }
