@@ -149,6 +149,28 @@ class WeiboApi extends Api
         return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score));
     }
 
+    public function sendRepostComment($weibo_id,$content){
+        $result = $this->commentModel->addComment(get_uid(), $weibo_id, $content, 0);
+        if (!$result) {
+            return $this->apiError('评论失败：' . $this->commentModel->getError());
+        }
+
+        //写入数据库成功，记录动作，更新最后发送时间
+        $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
+        $this->updateLastSendTime();
+
+        //通知微博作者
+        $weibo = $this->weiboModel->field('uid')->find($weibo_id);
+        $this->sendCommentMessage($weibo['uid'], $weibo_id, "评论内容：$content");
+
+
+
+        //通知被AT的人，除去微博作者、被回复的人，避免通知出现两次。
+        $uids = get_at_uids($content);
+        $uids = array_subtract($uids, array($weibo['uid']));
+        $this->sendAtMessage($uids, $weibo_id, $content);
+    }
+
     public function listComment($weibo_id, $page = 1, $count = 10)
     {
         //从数据库中读取评论列表

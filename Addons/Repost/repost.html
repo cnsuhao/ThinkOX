@@ -1,7 +1,4 @@
-<script src="__ROOT__/Addons/InsertImage/_static/js/insertImage.js"></script>
-<link type="text/css" rel="stylesheet" href="__ROOT__/Addons/InsertImage/_static/css/insertImage.css"/>
-
-<a  class="send_repost" href="{:U('Weibo/Index/sendrepost',array('sourseId'=>$sourseId,'weiboId'=>$weiboId))}" >转发({$repost_count})</a>
+<a title="转发"  class="send_repost" href="{:U('Weibo/Index/sendrepost',array('sourseId'=>$sourseId,'weiboId'=>$weiboId))}" style="margin-left:8px "><i style="margin-right: 5px" class="glyphicon glyphicon-share-alt"></i>{$repost_count}</a>
 
 <script>
     $(function () {
