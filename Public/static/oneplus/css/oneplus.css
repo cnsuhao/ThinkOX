@@ -46,7 +46,7 @@ a:hover {
   border: 1px solid #dddddd;
   border-radius: 0.2em;
 }
-/*澶磋*/
+/*头衔*/
 .rank_html {
   width: 18px;
   height: 18px;
@@ -67,7 +67,7 @@ a:hover {
   border-right: none;
   color: #555;
 }
-/*澶磋end*/
+/*头衔end*/
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -633,7 +633,7 @@ General list for item with image
   position: absolute;
   right: 45px;
 }
-/*娑堟伅涓績*/
+/*消息中心*/
 .talk_bubble {
   border-radius: 4px;
   border: 1px solid white;
@@ -681,7 +681,7 @@ General list for item with image
 .talk-avatar {
   width: 80px;
 }
-/*鍙充晶閲嶅啓*/
+/*右侧重写*/
 .talk_right .bubble_outter {
   text-align: right;
 }
@@ -738,7 +738,7 @@ General list for item with image
 .talk-body .slimScrollDiv .row {
   margin: 0px;
 }
-/*娑堟伅涓績end*/
+/*消息中心end*/
 .login-form-inbox {
   background-color: #fff;
   width: 410px;
@@ -876,11 +876,11 @@ General list for item with image
 .lzl_Reply {
   margin-bottom: 25px;
 }
-/*妤间腑妤糴nd*/
+/*楼中楼end*/
 .qtip-content {
   width: 230px;
 }
-/*琛ㄦ儏*/
+/*表情*/
 .sanjiao {
   float: left;
 }
@@ -906,7 +906,7 @@ General list for item with image
   float: right;
   margin: 4px 0px 0 15px;
 }
-/*琛ㄦ儏end*/
+/*表情end*/
 .thinkox-break-word {
   word-break: break-all;
   word-wrap: break-word;
@@ -935,7 +935,7 @@ General list for item with image
   margin: 20px auto;
 }
 /*
-鍙充晶濂藉弸鐣岄潰*/
+右侧好友界面*/
 .friend_panel {
   position: fixed;
   top: 50%;
