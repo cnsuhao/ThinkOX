@@ -56,7 +56,7 @@ function parse_at_users($content)
     foreach ($at_usernames as $e) {
         $user = D('ucenter_member')->where(array('username' => $e))->find();
         if($user){
-            $query_user = query_user(array('space_url'), $user['uid']);
+            $query_user = query_user(array('space_url'), $user['id']);
             $content = str_replace("@$e ", "<a ucard=\"$user[id]\" href=\"$query_user[space_url]\">@$e </a>", $content);
         }
     }
