@@ -31,7 +31,6 @@ class UserController extends AdminController {
         }else{
             $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
         }
-
         $list   = $this->lists('Member', $map);
         int_to_string($list);
         $this->assign('_list', $list);
