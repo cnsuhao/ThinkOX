@@ -39,6 +39,51 @@ class UserController extends AdminController {
         $this->display();
     }
 
+    public function expandinfo_select($uid=null){
+        if($uid==null){
+            $nickname       =   I('nickname');
+            $map['status']  =   array('egt',0);
+            if(is_numeric($nickname)){
+                $map['uid|nickname']=   array(intval($nickname),array('like','%'.$nickname.'%'),'_multi'=>true);
+            }else{
+                $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
+            }
+        }else{
+            $map['uid']=$uid;
+        }
+        $list   = $this->lists('Member', $map);
+        int_to_string($list);
+        //扩展信息查询
+        $map_profile['status']=1;
+        $field_group=D('field_group')->where($map_profile)->select();
+        $field_group_ids=array_column($field_group,'id');
+        $map_profile['profile_group_id']=array('in',$field_group_ids);
+        $fields_list=D('field_setting')->where($map_profile)->getField('id,field_name,form_type');
+        $fields_list=array_combine(array_column($fields_list,'field_name'),$fields_list);
+        foreach($list as &$tkl){
+            $map_field['uid']=$tkl['uid'];
+            foreach($fields_list as $key=>$val){
+                $map_field['field_id']=$val['id'];
+                $field_data=D('field')->where($map_field)->getField('field_data');
+                if($field_data==null||$field_data==''){
+                    $tkl[$key]='';
+                }else{
+                    $tkl[$key]=$field_data;
+                }
+            }
+        }
+        $builder=new AdminListBuilder();
+        $builder->title("用户扩展信息列表");
+        $builder->meta_title = '用户扩展信息';
+        $builder->setSearchPostUrl(U('Admin/User/expandinfo_select'))->search('搜索','nickname','text');
+        $builder->keyText('uid','ID')->keyText('nickname',"用户名称");
+        foreach($fields_list as $vt){
+            $builder->keyText($vt['field_name'],$vt['field_name']);
+        }
+        $builder->data($list);
+        $builder->display();
+    }
+
     /**扩展用户信息分组列表
      * @author 郑钟良<zzl@ourstu.com>
      */
