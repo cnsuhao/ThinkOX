@@ -62,17 +62,10 @@
                        </p>
                 </div>
                 <div class="col-xs-10 post_content">
-                    <div style="min-height: 10em;">
+                    <div style="min-height: 10em;overflow: hidden">
 
-                        <php>
-                            preg_match_all('/<img src=\"(.*?)\"/',$post['content'], $img_src);
-                            preg_match_all('/<img src=\".*?\/>/',$post['content'], $img_tag);
-                            foreach($img_tag[0] as $k=>&$v){
-                            $post['content']=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$post['content']);
-                            }
-                            $post['content'] = '  <div class="popup-gallery">'.  $post['content'].'</div>';
-                        </php>
-                        {$post.content|parse_at_users}
+          
+                        {$post.content|parse_popup|parse_at_users}
                         <br/>
                         <if condition="$post['create_time'] != $post['update_time']">
                             <p class="text-muted">
@@ -122,19 +115,9 @@
                     </p>
                 </div>
                 <div class="col-xs-10">
-                    <div style="min-height: 10em;" class="post_content">
+                    <div style="min-height: 10em;overflow: hidden" class="post_content">
 
-                        <php>
-                            preg_match_all('/<img src=\"(.*?)\"/',$reply['content'], $img_src);
-                            preg_match_all('/<img src=\".*?\/>/',$reply['content'], $img_tag);
-                            foreach($img_tag[0] as $k=>&$v){
-                            $reply['content']=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$reply['content']);
-                            }
-                            $reply['content'] = '  <div class="popup-gallery">'.  $reply['content'].'</div>';
-                        </php>
-
-
-                        {$reply.content|parse_at_users}
+                        {$reply.content|parse_popup|parse_at_users}
                         <br/>
                     </div>
                     <p class="pull-right text-muted">

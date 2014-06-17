@@ -1214,3 +1214,46 @@ function tox_addons_url($url, $param)
     $param['_action'] = $action;
     return U("Home/Addons/execute", $param);
 }
+
+
+function replace_style($content){
+    $content =  preg_replace("/class=\".*?\"/si","",$content);
+    $content = closetags($content);
+    return $content;
+
+}
+
+function closetags($html) {
+    preg_match_all('#<([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
+    $openedtags = $result[1];
+
+    preg_match_all('#</([a-z]+)>#iU', $html, $result);
+    $closedtags = $result[1];
+    $len_opened = count($openedtags);
+
+    if (count($closedtags) == $len_opened) {
+        return $html;
+    }
+    $openedtags = array_reverse($openedtags);
+
+    for ($i=0; $i < $len_opened; $i++) {
+        if (!in_array($openedtags[$i], $closedtags)){
+            $html .= '</'.$openedtags[$i].'>';
+        } else {
+            unset($closedtags[array_search($openedtags[$i], $closedtags)]);
+        }
+    }
+    return $html;
+}
+
+function parse_popup($content){
+    $content = replace_style($content);
+    preg_match_all('/<img src=\"(.*?)\"/',$content, $img_src);
+    preg_match_all('/<img src=\".*?\/>/',$content, $img_tag);
+    foreach($img_tag[0] as $k=>&$v){
+        $content=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$content);
+    }
+    $content = '  <div class="popup-gallery">'.  $content.'</div>';
+
+    return $content;
+}

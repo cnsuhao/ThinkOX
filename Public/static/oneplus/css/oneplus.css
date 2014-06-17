@@ -1130,3 +1130,6 @@ General list for item with image
   font-weight: 200;
   margin-left: 10px;
 }
+.ad_max {
+  overflow: hidden;
+}
