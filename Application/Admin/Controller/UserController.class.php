@@ -11,6 +11,7 @@ namespace Admin\Controller;
 use Admin\Builder\AdminConfigBuilder;
 use Admin\Builder\AdminListBuilder;
 use Admin\Builder\AdminSortBuilder;
+use Home\Model\MemberModel;
 use User\Api\UserApi;
 
 /**
@@ -38,7 +39,11 @@ class UserController extends AdminController {
         $this->display();
     }
 
-    public function expandinfo_select($uid=null){
+    /**用户扩展资料信息页
+     * @param null $uid
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function expandinfo_select($uid=null,$page=1,$r=20){
         if($uid==null){
             $nickname       =   I('nickname');
             $map['status']  =   array('egt',0);
@@ -50,7 +55,8 @@ class UserController extends AdminController {
         }else{
             $map['uid']=$uid;
         }
-        $list   = $this->lists('Member', $map);
+        $list=M('Member')->where($map)->order('last_login_time desc')->page($page,$r)->select();
+        $totalCount=M('Member')->where($map)->count();
         int_to_string($list);
         //扩展信息查询
         $map_profile['status']=1;
@@ -80,15 +86,17 @@ class UserController extends AdminController {
             $builder->keyText($vt['field_name'],$vt['field_name']);
         }
         $builder->data($list);
+        $builder->pagination($totalCount,$r);
         $builder->display();
     }
 
     /**扩展用户信息分组列表
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function profile(){
+    public function profile($page=1,$r=20){
         $map['status']  =   array('egt',0);
-        $profileList=D('field_group')->where($map)->order("sort asc")->select();
+        $profileList=D('field_group')->where($map)->order("sort asc")->page($page,$r)->select();
+        $totalCount=D('field_group')->where($map)->count();
         $builder=new AdminListBuilder();
         $builder->title("扩展信息分组列表");
         $builder->meta_title = '扩展信息分组';
@@ -96,6 +104,7 @@ class UserController extends AdminController {
         $builder->keyId()->keyText('profile_name',"分组名称")->keyText('sort','排序')->keyTime("createTime","创建时间");
         $builder->keyStatus()->keyDoAction('User/field?id=###','管理字段')->keyDoAction('User/editProfile?id=###','编辑');
         $builder->data($profileList);
+        $builder->pagination($totalCount,$r);
         $builder->display();
     }
 
@@ -124,11 +133,12 @@ class UserController extends AdminController {
      * @param $id
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function field($id){
+    public function field($id,$page=1,$r=20){
         $profile=D('field_group')->where('id='.$id)->find();
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
-        $field_list=D('field_setting')->where($map)->order("sort asc")->select();
+        $field_list=D('field_setting')->where($map)->order("sort asc")->page($page,$r)->select();
+        $totalCount=D('field_setting')->where($map)->count();
         $type_default=array(
             'input'=>'单行文本框',
             'radio'=>'单选按钮',
@@ -154,6 +164,7 @@ class UserController extends AdminController {
         $builder->keyId()->keyText('field_name',"字段名称")->keyBool('visiable','是否公开')->keyBool('required','是否必填')->keyText('sort',"排序")->keyText('form_type','表单类型')->keyText('child_form_type','二级表单类型')->keyText('form_default_value','默认值')->keyText('validation','表单验证方式')->keyText('input_tips','用户输入提示');
         $builder->keyTime("createTime","创建时间")->keyStatus()->keyDoAction('User/editFieldSetting?profile_group_id='.$id.'&id=###','编辑');
         $builder->data($field_list);
+        $builder->pagination($totalCount,$r);
         $builder->display();
     }
 
