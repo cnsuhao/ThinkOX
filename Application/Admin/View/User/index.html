@@ -50,7 +50,7 @@
                     <tr>
                         <td><input class="ids" type="checkbox" name="id[]" value="{$vo.uid}"/></td>
                         <td>{$vo.uid}</td>
-                        <td>{$vo.nickname|op_t}</td>
+                        <td><a href="{:U('Admin/User/expandinfo_select',array('uid'=>$vo['uid']))}" >{$vo.nickname|op_t}</a></td>
                         <td>{$vo.score}</td>
                         <td>{$vo.login}</td>
                         <td><span>{$vo.last_login_time|time_format}</span></td>
