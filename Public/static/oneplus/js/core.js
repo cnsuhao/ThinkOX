@@ -94,7 +94,13 @@ function ucard() {
                         '</div>';
                     var tpl = $(html);
                     api.set('content.text', tpl.html());
-                    api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
+                    if(uid!=MID && MID!=0){
+                        api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片&nbsp;'+'<a onclick="start_talk('+userProfile.id+')"><i title="发起新会话" class="glyphicon glyphicon-send"></i></a>');
+
+                    }else{
+                        api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
+
+                    }
 
                 }, 'json');
                 return '获取数据中...'
