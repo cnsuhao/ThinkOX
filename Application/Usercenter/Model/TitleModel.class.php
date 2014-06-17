@@ -36,6 +36,10 @@ class TitleModel extends Model
         return $config[$max_key];
     }
 
+    /**获取头衔配置
+     * @return array
+     * @auth 陈一枭
+     */
     public function getTitleConfig()
     {
         return array(
@@ -45,9 +49,10 @@ class TitleModel extends Model
             200 => 'Lv 4 助理',
             400 => 'Lv 5 经理',
             800 => 'Lv 6 董事',
+            1600 => 'Lv 7 董事长'
         );
 
-       // return C('TITLE');
+        // return C('TITLE');
     }
 
     public function getScoreTotal($userScore)
