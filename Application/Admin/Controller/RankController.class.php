@@ -57,57 +57,56 @@ class RankController extends AdminController
         }
     }
 
-    public function editRank($id = null)
+    public function editRank($id = null, $title=null, $logo=null)
     {
         //判断是否为编辑模式
         $isEdit = $id ? true : false;
-        //如果是编辑模式
-        if ($isEdit) {
-            $rank = M('rank')->where(array('id' => $id))->find();
+        if(IS_POST){
+            $data = array('title' => $title, 'logo' => $logo);
+            $model = D('rank');
+            if ($isEdit) {
+                $data_old = $model->where('id=' . $id)->find();
+                if ($title != '') {
+                    $data_old['title'] = $data['title'];
+                }
+                if ($logo != '') {
+                    $data_old['logo'] = $data['logo'];
+                }
+                if ($title == '' && $logo == '') {
+                    $this->error('信息不完整');
+                }
+                $result = $model->where('id=' . $id)->save($data_old);
+                if (!$result) {
+                    $this->error('修改失败');
+                }
+            } else {
+                if ($title == '' || $logo == '') {
+                    $this->error('信息不完整');
+                }
+                $data = $model->create($data);
+                $data['uid'] = is_login();
+                $data['create_time'] = time();
+                $result = $model->add($data);
+                if (!$result) {
+                    $this->error('创建失败');
+                }
+            }
+            $this->success($isEdit ? '编辑成功' : '添加成功', U('Rank/index'));
+        }else{
+            //如果是编辑模式
+            if ($isEdit) {
+                $rank = M('rank')->where(array('id' => $id))->find();
+            }
+            //显示页面
+            $builder = new AdminConfigBuilder();
+            $builder
+                ->title($isEdit ? '编辑头衔' : '新增头衔')
+                ->keyId()->keyTitle()->keySingleImage('logo', '头衔图标', '图标')
+                ->data($rank)
+                ->buttonSubmit(U('editRank'))->buttonBack()
+                ->display();
         }
-        //显示页面
-        $builder = new AdminConfigBuilder();
-        $builder
-            ->title($isEdit ? '编辑头衔' : '新增头衔')
-            ->keyId()->keyTitle()->keySingleImage('logo', '头衔图标', '图标')
-            ->data($rank)
-            ->buttonSubmit(U('doEditRank'))->buttonBack()
-            ->display();
-    }
 
-    public function doEditRank($id = null, $title, $logo)
-    {
-        $is_Edit = $id ? true : false;
-        $data = array('title' => $title, 'logo' => $logo);
-        $model = D('rank');
-        if ($is_Edit) {
-            $data_old = $model->where('id=' . $id)->find();
-            if ($title != '') {
-                $data_old['title'] = $data['title'];
-            }
-            if ($logo != '') {
-                $data_old['logo'] = $data['logo'];
-            }
-            if ($title == '' && $logo == '') {
-                $this->error('信息不完整');
-            }
-            $result = $model->where('id=' . $id)->save($data_old);
-            if (!$result) {
-                $this->error('修改失败');
-            }
-        } else {
-            if ($title == '' || $logo == '') {
-                $this->error('信息不完整');
-            }
-            $data = $model->create($data);
-            $data['uid'] = is_login();
-            $data['create_time'] = time();
-            $result = $model->add($data);
-            if (!$result) {
-                $this->error('创建失败');
-            }
-        }
-        $this->success($is_Edit ? '编辑成功' : '添加成功', U('Rank/index'));
     }
 
     public function userList()
@@ -149,94 +148,133 @@ class RankController extends AdminController
             ->display();
     }
 
-    public function userAddRank($id = null)
+    public function userAddRank($id = null, $uid='', $reason='', $is_show='', $rank_id='')
     {
-        if (!$id) {
-            $this->error('请选择用户');
-        }
-        $data['uid'] = $id;
-        $ranks = D('rank')->select();
-        if (!$ranks) {
-            $this->error('还没有头衔，请先添加头衔');
-        }
-        foreach ($ranks as $val) {
-            $rank_ids[$val['id']] = $val['title'];
-        }
-        $data['rank_id'] = $ranks[0]['id'];
-        $data['is_show'] = 1;
-        $builder = new AdminConfigBuilder();
-        $builder
-            ->title('添加头衔关联')
-            ->keyId()->keyReadOnly('uid', '用户ID')->keyText('reason', '关联理由')->keyRadio('is_show', '是否显示在昵称右侧', null, array(1 => '是', 0 => '否'))->keySelect('rank_id', '头衔编号', null, $rank_ids)
-            ->data($data)
-            ->buttonSubmit(U('doUserAddRank'))->buttonBack()
-            ->display();
-    }
-
-    public function userChangeRank($id = null)
-    {
-        if (!$id) {
-            $this->error('请选择要修改的头衔关联');
-        }
-        $data = D('rank_user')->where('id=' . $id)->find();
-        if (!$data) {
-            $this->error('该头衔关联不存在');
-        }
-        $ranks = D('rank')->select();
-        if (!$ranks) {
-            $this->error('还没有头衔，请先添加头衔');
-        }
-        foreach ($ranks as $val) {
-            $rank_ids[$val['id']] = $val['title'];
-        }
-        $builder = new AdminConfigBuilder();
-        $builder
-            ->title('编辑头衔关联')
-            ->keyId()->keyReadOnly('uid', '用户ID')->keyText('reason', '关联理由')->keyRadio('is_show', '是否显示在昵称右侧', null, array(1 => '是', 0 => '否'))->keySelect('rank_id', '头衔编号', null, $rank_ids)
-            ->data($data)
-            ->buttonSubmit(U('doUserAddRank'))->buttonBack()
-            ->display();
-    }
-
-    public function doUserAddRank($id = null, $uid, $reason, $is_show, $rank_id)
-    {
-        $is_Edit = $id ? true : false;
-        $data = array('uid' => $uid, 'reason' => $reason, 'is_show' => $is_show, 'rank_id' => $rank_id);
-        $model = D('rank_user');
-        if ($is_Edit) {
-            $data = $model->create($data);
-            $data['create_time'] = time();
-            $result = $model->where('id=' . $id)->save($data);
-            if (!$result) {
-                $this->error('关联失败');
-            }
-        } else {
-            $rank_user = $model->where(array('uid' => $uid, 'rank_id' => $rank_id))->find();
-            if ($rank_user) {
-                $this->error('该用户已经拥有该头衔，请选着其他头衔');
-            }
-            $data = $model->create($data);
-            $data['create_time'] = time();
-            $result = $model->add($data);
-            if (!$result) {
-                $this->error('关联失败');
+        if(IS_POST){
+            $is_Edit = $id ? true : false;
+            $data = array('uid' => $uid, 'reason' => $reason, 'is_show' => $is_show, 'rank_id' => $rank_id);
+            $model = D('rank_user');
+            if ($is_Edit) {
+                $data = $model->create($data);
+                $data['create_time'] = time();
+                $result = $model->where('id=' . $id)->save($data);
+                if (!$result) {
+                    $this->error('关联失败');
+                }
             } else {
-                $rank = D('rank')->where('id=' . $data['rank_id'])->find();
-                //$logoUrl=getRootUrl().D('picture')->where('id='.$rank['logo'])->getField('path');
-                //$u_name = D('member')->where('uid=' . $uid)->getField('nickname');
-                $content = '管理员给你颁发了头衔：[' . $rank['title'] . ']'; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
+                $rank_user = $model->where(array('uid' => $uid, 'rank_id' => $rank_id))->find();
+                if ($rank_user) {
+                    $this->error('该用户已经拥有该头衔，请选着其他头衔');
+                }
+                $data = $model->create($data);
+                $data['create_time'] = time();
+                $result = $model->add($data);
+                if (!$result) {
+                    $this->error('关联失败');
+                } else {
+                    $rank = D('rank')->where('id=' . $data['rank_id'])->find();
+                    //$logoUrl=getRootUrl().D('picture')->where('id='.$rank['logo'])->getField('path');
+                    //$u_name = D('member')->where('uid=' . $uid)->getField('nickname');
+                    $content = '管理员给你颁发了头衔：[' . $rank['title'] . ']'; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
 
-                $user = query_user(array('username', 'space_link'), $uid);
+                    $user = query_user(array('username', 'space_link'), $uid);
 
-                $content1 = '管理员给@' . $user['username'] . ' 颁发了新的头衔：[' . $rank['title'] . ']，颁发理由：' . $reason; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
-                clean_query_user_cache($uid,array('rank_link'));
-                $this->sendMessage($data, $content);
-                //写入数据库
-                $model = D('Weibo/Weibo');
-                $result = $model->addWeibo(is_login(), $content1);
+                    $content1 = '管理员给@' . $user['username'] . ' 颁发了新的头衔：[' . $rank['title'] . ']，颁发理由：' . $reason; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
+                    clean_query_user_cache($uid,array('rank_link'));
+                    $this->sendMessage($data, $content);
+                    //写入数据库
+                    $model = D('Weibo/Weibo');
+                    $result = $model->addWeibo(is_login(), $content1);
+                }
             }
+            $this->success($is_Edit ? '编辑关联成功' : '添加关联成功', U('Rank/userRankList?id=' . $uid));
+        }else{
+            if (!$id) {
+                $this->error('请选择用户');
+            }
+            $data['uid'] = $id;
+            $ranks = D('rank')->select();
+            if (!$ranks) {
+                $this->error('还没有头衔，请先添加头衔');
+            }
+            foreach ($ranks as $val) {
+                $rank_ids[$val['id']] = $val['title'];
+            }
+            $data['rank_id'] = $ranks[0]['id'];
+            $data['is_show'] = 1;
+            $builder = new AdminConfigBuilder();
+            $builder
+                ->title('添加头衔关联')
+                ->keyId()->keyReadOnly('uid', '用户ID')->keyText('reason', '关联理由')->keyRadio('is_show', '是否显示在昵称右侧', null, array(1 => '是', 0 => '否'))->keySelect('rank_id', '头衔编号', null, $rank_ids)
+                ->data($data)
+                ->buttonSubmit(U('userAddRank'))->buttonBack()
+                ->display();
         }
-        $this->success($is_Edit ? '编辑关联成功' : '添加关联成功', U('Rank/userRankList?id=' . $uid));
+    }
+
+    public function userChangeRank($id = null, $uid='', $reason='', $is_show='', $rank_id='')
+    {
+        if(IS_POST){
+            $is_Edit = $id ? true : false;
+            $data = array('uid' => $uid, 'reason' => $reason, 'is_show' => $is_show, 'rank_id' => $rank_id);
+            $model = D('rank_user');
+            if ($is_Edit) {
+                $data = $model->create($data);
+                $data['create_time'] = time();
+                $result = $model->where('id=' . $id)->save($data);
+                if (!$result) {
+                    $this->error('关联失败');
+                }
+            } else {
+                $rank_user = $model->where(array('uid' => $uid, 'rank_id' => $rank_id))->find();
+                if ($rank_user) {
+                    $this->error('该用户已经拥有该头衔，请选着其他头衔');
+                }
+                $data = $model->create($data);
+                $data['create_time'] = time();
+                $result = $model->add($data);
+                if (!$result) {
+                    $this->error('关联失败');
+                } else {
+                    $rank = D('rank')->where('id=' . $data['rank_id'])->find();
+                    //$logoUrl=getRootUrl().D('picture')->where('id='.$rank['logo'])->getField('path');
+                    //$u_name = D('member')->where('uid=' . $uid)->getField('nickname');
+                    $content = '管理员给你颁发了头衔：[' . $rank['title'] . ']'; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
+
+                    $user = query_user(array('username', 'space_link'), $uid);
+
+                    $content1 = '管理员给@' . $user['username'] . ' 颁发了新的头衔：[' . $rank['title'] . ']，颁发理由：' . $reason; //<img src="'.$logoUrl.'" title="'.$rank['title'].'" alt="'.$rank['title'].'">';
+                    clean_query_user_cache($uid,array('rank_link'));
+                    $this->sendMessage($data, $content);
+                    //写入数据库
+                    $model = D('Weibo/Weibo');
+                    $result = $model->addWeibo(is_login(), $content1);
+                }
+            }
+            $this->success($is_Edit ? '编辑关联成功' : '添加关联成功', U('Rank/userRankList?id=' . $uid));
+        }else{
+            if (!$id) {
+                $this->error('请选择要修改的头衔关联');
+            }
+            $data = D('rank_user')->where('id=' . $id)->find();
+            if (!$data) {
+                $this->error('该头衔关联不存在');
+            }
+            $ranks = D('rank')->select();
+            if (!$ranks) {
+                $this->error('还没有头衔，请先添加头衔');
+            }
+            foreach ($ranks as $val) {
+                $rank_ids[$val['id']] = $val['title'];
+            }
+            $builder = new AdminConfigBuilder();
+            $builder
+                ->title('编辑头衔关联')
+                ->keyId()->keyReadOnly('uid', '用户ID')->keyText('reason', '关联理由')->keyRadio('is_show', '是否显示在昵称右侧', null, array(1 => '是', 0 => '否'))->keySelect('rank_id', '头衔编号', null, $rank_ids)
+                ->data($data)
+                ->buttonSubmit(U('userChangeRank'))->buttonBack()
+                ->display();
+        }
     }
 
     public function deleteUserRank($id = null)
