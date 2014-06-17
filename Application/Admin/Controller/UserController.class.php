@@ -34,6 +34,7 @@ class UserController extends AdminController {
 
         $list   = $this->lists('Member', $map);
         int_to_string($list);
+        
         $this->assign('_list', $list);
         $this->meta_title = '用户信息';
         $this->display();
