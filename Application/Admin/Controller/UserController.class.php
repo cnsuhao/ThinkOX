@@ -43,7 +43,7 @@ class UserController extends AdminController {
      * @param null $uid
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function expandinfo_select($uid=null,$page=1,$r=20){
+    public function expandinfo_select($page=1,$r=20){
         $nickname       =   I('nickname');
         $map['status']  =   array('egt',0);
         if(is_numeric($nickname)){
@@ -92,7 +92,7 @@ class UserController extends AdminController {
      * @param string $uid
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function expandinfo_details($uid=''){
+    public function expandinfo_details($uid=0){
         $map['uid']=$uid;
         $map['status']  =   array('egt',0);
         $member=M('Member')->where($map)->find();
