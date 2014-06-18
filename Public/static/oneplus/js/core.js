@@ -69,6 +69,7 @@ function ucard() {
                     var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
                     if ((MID != uid) && (MID != 0)) {
                         follow = '<div class="row" style="background: #f5f5f5;margin: -10px -15px;margin-top: 10px;padding: 5px 10px">' +
+                            '<button   type="button" class="btn btn-primary" onclick="start_talk('+userProfile.id+')" style="padding: 1px 5px 3px 5px">私信</button>'+
                             '<div class="pull-right">' +
                             '<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="padding: 1px 5px 3px 5px">';
                         if (userProfile.followed == 1) {
@@ -94,13 +95,11 @@ function ucard() {
                         '</div>';
                     var tpl = $(html);
                     api.set('content.text', tpl.html());
-                    if(uid!=MID && MID!=0){
-                        api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片&nbsp;'+'<a onclick="start_talk('+userProfile.id+')"><i title="发起新会话" class="glyphicon glyphicon-send"></i></a>');
 
-                    }else{
+
                         api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
 
-                    }
+
 
                 }, 'json');
                 return '获取数据中...'
