@@ -53,8 +53,8 @@ class IndexController extends Controller
         }else{
             //给评论对象发送消息
             if($uid){
-                $user = D('User/UcenterMember')->find(get_uid());
-                $title = $user['username'] . '评论了您';
+                $user = D('Member')->find(get_uid());
+                $title = $user['nickname'] . '评论了您';
                 $message = '评论内容：' . $content;
                 $url = $_SERVER['HTTP_REFERER'];
                 D('Common/Message')->sendMessage($uid, $message, $title, $url, get_uid(), 0, $app);
@@ -68,8 +68,8 @@ class IndexController extends Controller
         $uids = array_unique($uids);
         $uids = array_subtract($uids, array($uid));
         foreach ($uids as $uid) {
-            $user = D('User/UcenterMember')->find($uid);
-            $title = $user['username'] . '@了您';
+            $user = D('Member')->find($uid);
+            $title = $user['nickname'] . '@了您';
             $message = '评论内容：' . $content;
             $url = $_SERVER['HTTP_REFERER'];
             D('Common/Message')->sendMessage($uid, $message, $title, $url, get_uid(), 0, $app);

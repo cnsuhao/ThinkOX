@@ -97,7 +97,7 @@ function ucard() {
                     api.set('content.text', tpl.html());
 
 
-                        api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.username + '</a></b>的小名片');
+                        api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.nickname + '</a></b>的小名片');
 
 
 
@@ -556,7 +556,7 @@ function op_fetchMessageTpl(message, mid) {
         '<div class="col-md-2 "><img ucard="{uid}" class="avatar-img talk-avatar"' +
         'src="{avatar128}"/>' +
         '</div><div class="col-md-10 bubble_outter">' +
-        '<h3>{username}</h3>' +
+        '<h3>{nickname}</h3>' +
         '<i class="bubble_sharp"></i>' +
         '<div class="talk_bubble">{content}' +
         '</div></div></div></div>';

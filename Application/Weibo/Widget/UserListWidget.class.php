@@ -26,7 +26,7 @@ class UserListWidget extends Action
             $fields = 'id';
             $user = D('ucenter_member')->where($map)->field($fields)->order($order)->limit(6)->select();
             foreach ($user as &$uid) {
-                $uid['user'] = query_user(array('avatar64', 'username', 'space_url', 'space_link'), $uid['id']);
+                $uid['user'] = query_user(array('avatar64', 'nickname', 'space_url', 'space_link'), $uid['id']);
             }
             unset($uid);
             $users = $user;

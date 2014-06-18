@@ -289,7 +289,7 @@ class WeiboApi extends Api
 
     private function sendAtMessage($uids, $weibo_id, $content)
     {
-        $my_username = query_user('username');
+        $my_username = query_user('nickname');
         foreach ($uids as $uid) {
             $message = '内容：' . $content;
             $title = $my_username . '@了您';

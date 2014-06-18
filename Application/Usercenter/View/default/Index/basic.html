@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-xs-6 text-muted">
-            <p><span class="text-muted">用户名：</span> {$user.username|htmlspecialchars}</p>
+            <p><span class="text-muted">昵称：</span> {$user.nickname|op_t}</p>
 
             <p><span class="text-muted">邮箱：</span> {$user.email|htmlspecialchars}</p>
             <if condition="$uid==is_login()">

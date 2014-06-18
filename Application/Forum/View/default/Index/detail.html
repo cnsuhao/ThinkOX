@@ -6,7 +6,7 @@
     <div class="row">
     <div class="col-xs-12 boxShadow" style="background: white">
         <php>
-            $user = query_user(array('avatar128','uid','username','space_url','icons_html','rank_link'), $post['uid']);
+            $user = query_user(array('avatar128','uid','nickname','space_url','icons_html','rank_link'), $post['uid']);
         </php>
         <div class="row">
             <div class="col-xs-6 col-md-8">
@@ -49,7 +49,7 @@
                     </p>
 
                     <p class="text-center">
-                        <a href="{$user.space_url}" ucard="{$user.uid}">{$user.username|htmlspecialchars}</a>
+                        <a href="{$user.space_url}" ucard="{$user.uid}">{$user.nickname|htmlspecialchars}</a>
                         {$user.icons_html}
                     </p>
                     <p class="text-center">
@@ -102,7 +102,7 @@
                     </p>
 
                     <p class="text-center">
-                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.username}</a>
+                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.nickname}</a>
                         {$reply.user.icons_html}
                     </p>
                     <p class="text-center">
@@ -205,7 +205,7 @@
                 at: "@",
                 alias:"at",
                 data: U('Weibo/Index/atWhoJson'),
-                tpl: "<li data-value='@${username}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${username}</li>",
+                tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
                 show_the_at: true,
                 search_key: 'search_key',
                 start_with_space: false,

@@ -23,7 +23,7 @@
             <div style="padding-left: 16px; width: 92%;float: left">
                 <p>
                     <a ucard="{$weibo.user.uid}"
-                       href="{$weibo.user.space_url}">{$weibo.user.username|htmlspecialchars}
+                       href="{$weibo.user.space_url}">{$weibo.user.nickname|htmlspecialchars}
                     </a>
                     {$weibo.user.icons_html}
                     <volist name="weibo['user']['rank_link']" id="vl">
