@@ -47,13 +47,13 @@ class ShopController extends AdminController
         $tree = $this->shop_categoryModel->getTree(0, 'id,title,sort,pid,status');
 
         $builder->title('专辑管理')
-            ->buttonNew(U('Shop/addCategory'))
+            ->buttonNew(U('Shop/add'))
             ->data($tree)
             ->display();
     }
 
 
-    public function addCategory($id = 0, $pid = 0)
+    public function add($id = 0, $pid = 0)
     {
         if (IS_POST) {
             if ($id != 0) {
@@ -92,7 +92,7 @@ class ShopController extends AdminController
             $builder->title('新增分类')->keyId()->keyText('title', '标题')->keySelect('pid', '父分类', '选择父级分类', array('0' => '顶级分类')+$opt)
                 ->keyStatus()->keyCreateTime()->keyUpdateTime()
                 ->data($category)
-                ->buttonSubmit(U('Shop/addCategory'))->buttonBack()->display();
+                ->buttonSubmit(U('Shop/add'))->buttonBack()->display();
         }
 
     }
@@ -128,7 +128,7 @@ class ShopController extends AdminController
         }
         if ($type === 'move') {
 
-            $builder->title('移动分类')->keyId()->keySelect('pid', '父分类', '选择父分类', $opt)->buttonSubmit(U('Shop/addCategory'))->buttonBack()->data($from)->display();
+            $builder->title('移动分类')->keyId()->keySelect('pid', '父分类', '选择父分类', $opt)->buttonSubmit(U('Shop/add'))->buttonBack()->data($from)->display();
         } else {
 
             $builder->title('合并分类')->keyId()->keySelect('toid', '合并至的分类', '选择合并至的分类', $opt)->buttonSubmit(U('Shop/doMerge'))->buttonBack()->data($from)->display();
@@ -173,8 +173,14 @@ class ShopController extends AdminController
         $builder=new AdminListBuilder();
         $builder->title('商品列表');
         $builder->meta_title='商品列表';
+        foreach($goodsList as &$val){
+            $category=$this->shop_categoryModel->where('id='.$val['id'])->getField('title');
+            $val['category']=$category;
+            unset($category);
+        }
+
         $builder->buttonNew(U('Shop/goodsEdit'))->buttonDelete(U('setGoodsStatus'))->setStatusUrl(U('setGoodsStatus'));
-        $builder->keyId()->keyText('goods_name','商品名称')->keyText('goods_introduct','商品简介')
+        $builder->keyId()->keyText('goods_name','商品名称')->keyText('category','商品分类')->keyText('goods_introduct','商品简介')
             ->keyText('tox_money_need','商品价格')->keyText('goods_num','商品余量')->keyStatus('status','出售状态')->keyUpdateTime('changetime')->keyCreateTime('createtime')->keyDoActionEdit('Shop/goodsEdit?id=###')->keyDoAction('Shop/setGoodsStatus?ids=###&status=-1','删除');
         $builder->data($goodsList);
         $builder->pagination($totalCount,$r);
@@ -208,7 +214,7 @@ class ShopController extends AdminController
      * @param $status
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function goodsEdit($id=0,$goods_name='',$goods_ico='',$goods_introduct='',$goods_detail='',$tox_money_need='',$goods_num='',$status=''){
+    public function goodsEdit($id=0,$goods_name='',$goods_ico='',$goods_introduct='',$goods_detail='',$tox_money_need='',$goods_num='',$status='',$category_id=0){
         $isEdit=$id?1:0;
         if(IS_POST){
             $goods['goods_name']=$goods_name;
@@ -218,6 +224,7 @@ class ShopController extends AdminController
             $goods['tox_money_need']=$tox_money_need;
             $goods['goods_num']=$goods_num;
             $goods['status']=$status;
+            $goods['category_id']=$category_id;
             $goods['changetime']=time();
             if($isEdit){
                 $rs=$this->shopModel->where('id='.$id)->save($goods);
@@ -234,18 +241,21 @@ class ShopController extends AdminController
             $builder=new AdminConfigBuilder();
             $builder->title($isEdit?'编辑商品':'添加商品');
             $builder->meta_title=$isEdit?'编辑商品':'添加商品';
+
+            //获取分类列表
+            $category_map['status']=array('egt',0);
+            $goods_category_list=$this->shop_categoryModel->where($category_id)->order('pid desc')->select();
+            $options=array_combine(array_column($goods_category_list,'id'),array_column($goods_category_list,'title'));
+            $builder->keyId()->keyText('goods_name','商品名称')->keySingleImage('goods_ico','商品图标')->keySelect('category_id','商品分类','',$options)->keyText('goods_introduct','商品简介')->keyTextArea('goods_detail','商品详情')
+                ->keyInteger('tox_money_need','商品价格')->keyInteger('goods_num','商品余量')->keyStatus('status','出售状态');
             if($isEdit){
                 $goods=$this->shopModel->where('id='.$id)->find();
-                $builder->keyId()->keyText('goods_name','商品名称')->keySingleImage('goods_ico','商品图标')->keyText('goods_introduct','商品简介')->keyTextArea('goods_detail','商品详情')
-                    ->keyInteger('tox_money_need','商品价格')->keyInteger('goods_num','商品余量')->keyStatus('status','出售状态');
                 $builder->data($goods);
                 $builder->buttonSubmit(U('Shop/goodsEdit'));
                 $builder->buttonBack();
                 $builder->display();
             }else{
                 $goods['status']=1;
-                $builder->keyId()->keyText('goods_name','商品名称')->keySingleImage('goods_ico','商品图标')->keyText('goods_introduct','商品简介')->keyTextArea('goods_detail','商品详情')
-                    ->keyInteger('tox_money_need','商品价格')->keyInteger('goods_num','商品余量')->keyStatus('status','出售状态');
                 $builder->buttonSubmit(U('Shop/goodsEdit'));
                 $builder->buttonBack();
                 $builder->data($goods);
