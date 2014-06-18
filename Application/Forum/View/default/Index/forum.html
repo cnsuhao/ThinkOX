@@ -15,18 +15,37 @@
         </div>
     </if>
 
-    <div class="row fourm-posts">
+    <div class="row fourm-posts forum_block_border">
+        <div class="row forum_block_title">
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                帖子列表
+            </div>
+            <div class="col-md-4 text-right col-sm-4 col-xs-4">
+                排序&nbsp;
+                <select class="forum_order_select" id="forum_order">
+                    <option value="0"
+                    <eq name="order" value='0'>selected</eq>
+                    >
+                    回复时间
+                    </option>
+                    <option value="1"
+                    <eq name="order" value='1'>selected</eq>
+                    >
+                    发表时间
+                    </option>
+                </select>
+                <script>
+                    $('#forum_order').change(function () {
+                        if ($(this).val() == 1) {
+                            location.href = "{:U('forum',array('id'=>intval($_GET['id']),'order'=>'ctime'))}";
+                        } else {
+                            location.href = "{:U('forum',array('id'=>intval($_GET['id']),'order'=>'reply'))}";
+                        }
+                    })
+                </script>
+            </div>
+        </div>
         <div class="col-xs-12">
-			<div class="row">
-				<div class="col-xs-6">
-				    <h2>帖子列表</h2>
-				</div>
-				<div class="col-xs-6">
-				    <div class="pull-right" title="" style="margin-right: 20px">排序 &nbsp;
-				        <a title="按发布时间排序" href="{:U('forum',array('id'=>$_GET['id'],'order'=>'ctime'))}"><i  class="glyphicon glyphicon-time"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;<a
-				      title="按回复数排序"       href="{:U('forum',array('id'=>$_GET['id'],'order'=>'reply'))}"><i  class="glyphicon glyphicon-comment"></i></a></div>
-				</div>
-			</div>
             <section id="contents">
                 <if condition="!$list">
                     <div class="row">
