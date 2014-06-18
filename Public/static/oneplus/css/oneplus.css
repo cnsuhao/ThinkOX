@@ -1,3 +1,11 @@
+/*reset*/
+a {
+  color: #616161;
+}
+a:hover {
+  color: #919191;
+}
+/*resetend*/
 #nav_session .session_head {
   width: 3em;
 }
@@ -82,7 +90,7 @@ a:hover {
   line-height: 28px;
 }
 #main-container {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 .navbar-avatar-img {
   border-radius: 100%;
@@ -1047,3 +1055,104 @@ General list for item with image
 .ad_max {
   overflow: hidden;
 }
+/*新版界面*/
+/*顶栏*/
+.top_bar {
+  background: #434343;
+  color: #6F6F6F;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 14px;
+}
+.top_bar .share_weibo {
+  margin-left: 12px;
+  background: url('../images/icons.png');
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 16px;
+  margin-top: 5px;
+}
+.top_bar .share_weibo:hover {
+  background-position: -24px 0;
+}
+.top_bar a {
+  color: #6F6F6F !important;
+}
+.top_bar a:hover {
+  color: white !important;
+}
+.top_bar .nav > li > a > span.glyphicon {
+  font-size: 14px;
+}
+.top_bar .nav .open > a,
+.top_bar .nav .open > a:hover,
+.top_bar .nav .open > a:focus {
+  background: transparent !important;
+}
+.top_bar .top_spliter {
+  border-left: #585858 solid 1px;
+  border-right: #2B2B2B solid 1px;
+  display: inline-block;
+  height: 28px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.top_bar .navbar-nav > li > a {
+  padding-top: 0;
+  padding-bottom: 0;
+  color: #6F6F6F !important;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.top_bar .navbar-nav > li > a:hover {
+  color: white !important;
+  background: transparent !important;
+}
+.icons {
+  background: url('../images/icons.png');
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+/*顶栏end*/
+/*logo栏*/
+.logo_bar {
+  position: relative;
+}
+.logo_bar .bg {
+  position: absolute;
+  display: block;
+  top: 0;
+  z-index: 1;
+}
+.logo_bar .logo {
+  z-index: 99;
+  position: relative;
+  padding-top: 24px;
+}
+/*logo栏end*/
+/*导航栏*/
+.nav_bar {
+  background: white;
+  border-bottom: 3px solid #48B87A;
+}
+.nav_bar .nav {
+  margin-left: -45px;
+}
+.nav_bar .active a {
+  color: #03AE87;
+}
+.nav_bar .nav > li > a:hover,
+.nav_bar .nav > li > a:focus {
+  text-decoration: none;
+  background-color: transparent;
+  color: #03AE87;
+}
+/*导航栏end*/
+/*底部栏*/
+.footer_bar {
+  background: white;
+  color: #7E7E7E;
+}
+/*底部栏end*/
+/*新版界面end*/

@@ -44,102 +44,12 @@
                 <php>}</php>
 
             </eq>
-
-
         </think:nav>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <!--登录注册-->
-        <php>
-            $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
-        </php>
-        <if condition="is_login()">
-
-
-            <li class="dropdown op_nav_ico hidden-xs hidden-sm">
-                <div></div>
-                <a id="nav_info" class="dropdown-toggle text-left" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-bullhorn"></span>
-                    <span id="nav_bandage_count"
-                    <if condition="count($unreadMessage) eq 0"> style="display: none"</if>
-                    class="badge pull-right">{:count($unreadMessage)}</span>
-                    &nbsp;
-                </a>
-                <ul class="dropdown-menu extended notification" style="">
-                    <li style="padding-left: 15px;padding-right: 15px;">
-                        <div class="row nav_info_center">
-                            <div class="col-xs-9 nav_align_left"><span
-                                    id="nav_hint_count">{:count($unreadMessage)}</span> 条未读
-                            </div>
-                            <div class="col-xs-3"><i onclick="setAllReaded()"
-                                                     class="set_read glyphicon glyphicon-ok" title="全部标为已读"></i></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
-                            <ul id="nav_message" class="dropdown-menu-list scroller "
-                                style=" width: auto;">
-                                <if condition="count($unreadMessage) eq 0">
-                                    <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
-                                        暂无任何消息!
-                                    </div>
-                                    <else/>
-                                    <volist name="unreadMessage" id="message">
-                                        <li>
-                                            <a data-url="{$message.url}" onclick="readMessage(this,{$message.id})">
-                                                <i class="glyphicon glyphicon-bell"></i>
-                                                {$message.title}
-                                            <span class="time">
-                                            {$message.ctime}
-                                            </span>
-                                            </a>
-                                        </li>
-                                    </volist>
-                                </if>
-
-                            </ul>
-                        </div>
-
-                    </li>
-                    <li class="external">
-                        <a href="{:U('Usercenter/Message/message')}">
-                            查看全部 <i class="glyphicon glyphicon-circle-arrow-right"
-                                    style="background: none;color: rgb(72,184,122)"></i>
-                        </a>
-                    </li>
-                </ul>
-
-            </li>
-
-
-            <li class="dropdown">
-                <php>
-                    $common_header_user = query_user(array('avatar64'));
-                </php>
-                <a role="button" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
-                    <img src="{$common_header_user['avatar64']}" class="navbar-avatar-img"/>
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="{:U('UserCenter/Index/index')}"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
-                    </li>
-                    <if condition="is_administrator()">
-                        <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
-                                class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;管理后台</a></li>
-                    </if>
-                    <li><a event-node="logout"><span class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</a>
-                    </li>
-                </ul>
-            </li>
-            <else/>
-            <li>
-                <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
-                </php>
-                <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
-            </li>
-            <li>
-                <a href="{:U('Home/User/register')}">注册</a>
-            </li>
-        </if>
+       <li>
+           <button class="btn-primary btn">发微博</button>
+       </li>
     </ul>
 </div>
 

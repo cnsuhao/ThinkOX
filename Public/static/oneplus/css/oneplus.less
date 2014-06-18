@@ -1,5 +1,15 @@
 @import "../../bootstrap/css/variables";
 
+/*reset*/
+a {
+  color: #616161;
+  &:hover {
+    color: #919191;
+  }
+}
+
+/*resetend*/
+
 #nav_session .session_head {
   width: 3em
 }
@@ -99,7 +109,7 @@ a:hover {
 }
 
 #main-container {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 
 .navbar-avatar-img {
@@ -213,7 +223,6 @@ a:hover {
   }
 }
 
-
 .usercenter-verify-icon-list {
   img {
     width: 18px;
@@ -290,8 +299,6 @@ h2 {
   font-size: 1.5em;
   line-height: 1.75em;
 }
-
-
 
 .link-black {
   color: @text-color;
@@ -1064,12 +1071,12 @@ General list for item with image
         display: inline-block;
         margin-bottom: 10px;
         position: relative;
-        .badge_new{
+        .badge_new {
           position: absolute;
           top: 0;
           right: -15px;
           background: red;
-          border-radius:15px;
+          border-radius: 15px;
           text-align: center;
           color: white;
           width: 10px;
@@ -1179,47 +1186,166 @@ General list for item with image
   }
 }
 
-.expandinfo-noticeinfo{
+.expandinfo-noticeinfo {
   margin-left: 30px;
   color: #A59F9F;
 }
-.expandinfo-dt{
+
+.expandinfo-dt {
   float: left;
   width: 20%;
   margin-right: 10px;;
   text-align: right;
 }
-.expandinfo-dd{
+
+.expandinfo-dd {
   float: left;
   width: 50%;
 }
 
-.expandinfo-error-info{
+.expandinfo-error-info {
   margin-left: 5px;
   width: 20%;
   float: left;
   color: #ff0000;
 }
-.expandinfo-sumbit{
-  margin-left:20%;
+
+.expandinfo-sumbit {
+  margin-left: 20%;
 }
-.expandinfo-ul{
+
+.expandinfo-ul {
   list-style-type: none;
 }
-.expandinfo-li{
+
+.expandinfo-li {
   float: left;
   margin-right: 10px;;
 }
-.expandinfo-list{
+
+.expandinfo-list {
   margin: 20px 5px 20px 5px;
   padding: 0;
 }
-.input-tips{
+
+.input-tips {
   color: #BBB3B5;
   font-weight: 200;
   margin-left: 10px;
 }
 
-.ad_max{
-     overflow: hidden;
-   }
+.ad_max {
+  overflow: hidden;
+}
+
+/*新版界面*/
+
+/*顶栏*/
+.top_bar {
+  background: #434343;
+  color: #6F6F6F;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 14px;
+  .share_weibo {
+    margin-left: 12px;
+    .icons;
+    width: 24px;
+    height: 16px;
+    margin-top: 5px;
+    &:hover {
+      background-position: -24px 0;
+    }
+  }
+  a {
+    color: #6F6F6F !important;
+    &:hover {
+      color: white !important;
+    }
+  }
+  .nav > li > a > span.glyphicon {
+    font-size: 14px;
+  }
+  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background: transparent !important;
+  }
+  .top_spliter {
+    border-left: #585858 solid 1px;
+    border-right: #2B2B2B solid 1px;
+    display: inline-block;
+    height: 28px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .navbar-nav > li > a {
+    padding-top: 0;
+    padding-bottom: 0;
+    color: #6F6F6F !important;
+    padding-left: 5px;
+    padding-right: 5px;
+    &:hover {
+      color: white !important;
+      background: transparent !important;
+    }
+  }
+
+}
+
+.icons {
+  background: url('../images/icons.png');
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+
+/*顶栏end*/
+
+/*logo栏*/
+.logo_bar {
+  position: relative;
+  .bg {
+    position: absolute;
+    display: block;
+    top: 0;
+    z-index: 1;
+  }
+  .logo {
+    z-index: 99;
+    position: relative;
+    padding-top: 24px;
+  }
+}
+
+/*logo栏end*/
+
+/*导航栏*/
+.nav_bar {
+  background: white;
+  border-bottom: 3px solid #48B87A;
+  .nav {
+    margin-left: -45px;
+  }
+  .active {
+    a {
+      color: #03AE87;
+    }
+  }
+  .nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: transparent;
+    color: #03AE87;
+
+  }
+}
+
+/*导航栏end*/
+
+/*底部栏*/
+.footer_bar {
+  background: white;
+  color: #7E7E7E;
+
+}
+
+/*底部栏end*/
+
+/*新版界面end*/
