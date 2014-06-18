@@ -92,7 +92,7 @@ function query_user($fields, $uid = null)
     //读取用户名拼音
     if (in_array('pinyin', $fields)) {
 
-        $result['pinyin'] = D('Pinyin')->pinYin($result['username']);
+        $result['pinyin'] = D('Pinyin')->pinYin($result['nickname']);
     }
 
     //获取个人中心地址
@@ -103,7 +103,7 @@ function query_user($fields, $uid = null)
 
     //获取昵称链接
     if (in_array('space_link', $fields)) {
-        $result['space_link'] = '<a ucard="' . $uid . '" href="' . U('UserCenter/Index/index', array('uid' => $uid)) . '">' . $ucenterResult['username'] . '</a>';
+        $result['space_link'] = '<a ucard="' . $uid . '" href="' . U('UserCenter/Index/index', array('uid' => $uid)) . '">' . $ucenterResult['nickname'] . '</a>';
     }
 
     //获取用户头衔链接

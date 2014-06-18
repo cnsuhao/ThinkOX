@@ -1,0 +1,250 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/event.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+</block>
+
+<block name="body">
+<div class="row">
+    <div class="col-md-12 app_head">
+        <div class="app_title">
+            <i class="app_ico_i glyphicon glyphicon-th-large"> </i>活动
+        </div>
+        <div>
+            <div class="aline"></div>
+        </div>
+        <div class="sub_nav">
+            <ul id="top_nav" class="nav_list clearfix">
+                <li>
+                    <a href="{:U('index')}">全部分类</a>
+                </li>
+                <volist name="tree" id="top">
+                    <li>
+                        <a <eq name="content['type_id']" value="$top['id']">class="cur"</eq> href="{:U('index',array('type_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+                    </li>
+                </volist>
+
+                <li class="pull-right btn-submit">
+
+                    <if condition="is_login() eq 0">
+                        <button class="btn btn-primary " onclick="op_error('请登陆后再投稿。','温馨提示')" ><i
+                                class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                        </button>
+                        <else/><a class="btn btn-primary " href="{:U('Event/Index/add')}" style="padding: 6px 12px;"><i
+                            class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                    </a>
+
+                    </if>
+
+                </li>
+            </ul>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+<div class="content-body">
+        <h2 class="content-title">
+            {$content.title}
+        </h2>
+        <hr/>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img  style="width: 350px;height: 262px" src="{$content.cover_id|getThumbImageById=350,262}"/>
+                </div>
+            </div>
+            <div class="col-md-8 ">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <ul class="operation clearfix">
+                            <li><i class="glyphicon glyphicon-stats"></i>{$content.view_count}</li>
+                            <li>{:Hook('support',array('table'=>'event','row'=>$content['id'],'app'=>'Event','uid'=>$content['uid'],'jump'=>'no'))}</li>
+                            <li><i class="glyphicon glyphicon-comment"></i>{$content.reply_count}</li>
+                        </ul>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pull-right">
+                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 50px">
+                    <div class="col-md-2" style="text-align: center">
+                        <img ucard="{$content.user.id}" src="{$content.user.avatar64}" class="avatar-img" style="width: 64px"/>
+                        <br/>
+
+                           <a href="{$content.user.space_url}"> {$content.user.nickname} </a>
+
+                    </div>
+                    <div class="col-md-8">
+
+                        <div class="signature word-wrap">
+                            <div class="triangle"></div>
+                            <div class="triangle_left"></div>
+                            <eq name="content.user.signature" value="">还没想好O(∩_∩)O</eq>
+                            {$content.user.signature}
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 40px">
+                    <div class="col-md-4">
+                        <if condition="($content['uid'] eq is_login()) OR is_administrator(is_login())">
+                            <a class="btn btn-primary " href="{:U('edit',array('id'=>$content['id']))}" ><i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
+                            <a class="btn btn-primary " href="{:U('member',array('id'=>$content['id']))}" ><i class="glyphicon glyphicon-user"></i>&nbsp;查看成员</a>
+                        </if>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="pull-right" style="color: #999">
+                            发布时间：  {$content.create_time|friendlyDate} &nbsp;&nbsp;
+                            更新时间： {$content.update_time|friendlyDate}
+                        </div>
+                    </div>
+
+               </div>
+
+
+           </div>
+
+
+        </div>
+
+    <div>
+
+    </div>
+    <hr/>
+    <div>
+        <h3>活动信息</h3>
+        <p><div class="info_title">活动时间：</div>  {:date('Y-m-d H:i',$content['sTime'])}--{:date('Y-m-d H:i',$content['eTime'])}</p>
+        <p><div class="info_title">报名截止时间：</div>  {:date('Y-m-d H:i',$content['deadline'])}</p>
+        <p><div class="info_title">人数限制：</div>   {$content.limitCount}</p>
+        <p><div class="info_title">已参加人数：</div>   {$content.attentionCount}</p>
+        <p><div class="info_title">剩余人数：</div>   {$content['limitCount']-$content['attentionCount']}</p>
+        <p><div class="info_title">地点：</div>  {$content.address}</p>
+        <div style="margin-left: 100px;">
+        <php>if(!$check_isSign){</php>
+        <a class="btn btn-primary open-popup-link " href="#frm-post-popup">报名参加 </a>
+        <php>}else{</php>
+        <a class="btn btn-info" href="javascript:" onclick="alert('您已经报过名了')">已报名 </a>
+        <php>}</php>
+            </div>
+    </div>
+    <hr/>
+        <div>
+            <h3>活动介绍</h3>
+            {$content.explain}
+        </div>
+
+    <hr/>
+    <div>
+
+        <h3>参加活动成员 ({$content.attentionCount}人)  <a class="pull-right" href="{:U('member',array('id'=>$content['id']))}" style="font-size: 16px;margin-right: 70px">查看全部</a></h3>
+
+
+        <div style="width: 100%">
+        <volist name="content['member']" id="vo" offset="0" length="20">
+            <div class="" style="text-align: center;width:90px;float: left;">
+                <img ucard="{$vo.id}" src="{$vo.avatar64}" class="avatar-img" style="width: 64px"/>
+                <br/>
+
+                <a href="{$vo.space_url}"> {$vo.nickname} </a>
+            </div>
+        </volist>
+        </div>
+    </div>
+<div class="clearfix"></div>
+    <div>
+    {:hook('localComment', array('path'=>"Event/event/$content[id]", 'uid'=>$content['uid']))}
+    </div>
+</div>
+
+
+
+
+
+<php>if(!$check_isSign){</php>
+<!-- Modal -->
+<div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 745px">
+    <h2>报名</h2>
+
+    <div class="aline" style="margin-bottom: 10px"></div>
+    <div>
+        <div class="row">
+
+
+
+            <p><div class="info_title">活动时间：</div>  {:date('Y-m-d H:i',$content['sTime'])}--{:date('Y-m-d H:i',$content['eTime'])}</p>
+            <p><div class="info_title">报名截止时间：</div>  {:date('Y-m-d H:i',$content['deadline'])}</p>
+            <p><div class="info_title">人数限制：</div>   {$content.limitCount}  </p>
+            <p><div class="info_title">已报名：</div>   {$content.attentionCount}</p>
+            <p><div class="info_title">剩余人数：</div>   {$content['limitCount']-$content['attentionCount']}</p>
+            <p><div class="info_title">地点：</div>  {$content.address}</p>
+
+
+            <div class="col-md-8">
+                <form class="form-horizontal  ajax-form" role="form"  action="{:U('Event/Index/doSign')}" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">姓名</label>
+
+                        <div class="col-sm-10">
+                            <input id="name" name="name" type="" class="form-control" value="" placeholder="请填写姓名"/>
+                            <input id="event_id" name="event_id" type="hidden" class="form-control" value="{$content.id}" />
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-2 control-label">手机</label>
+
+                        <div class="col-sm-10">
+                            <input id="phone" name="phone" type="" class="form-control" value="" placeholder="请填写联系方式"/>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary " href="{:U('Event/Index/doSign')}">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<php>}</php>
+
+
+
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            });
+
+            $('.open-popup-link').magnificPopup({
+                type: 'inline',
+                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                closeOnBgClick:false
+            });
+
+            bindSupport();
+        })
+    </script>
+
+</block>
