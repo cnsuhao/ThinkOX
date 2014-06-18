@@ -20,9 +20,9 @@ class IndexController extends Controller
     {
 
 
-        $peoples = D('UcenterMember')->where('status=1 and last_login_time!=0')->field('id','reg_time','last_login_time')->order('last_login_time desc')->findPage(18);
+        $peoples = D('UcenterMember')->where('status=1 and last_login_time!=0')->field('id', 'reg_time', 'last_login_time')->order('last_login_time desc')->findPage(18);
         foreach ($peoples['data'] as &$v) {
-            $v['user']=query_user(array('avatar128','space_url','username','fans','following','signature'),$v['id']);
+            $v['user'] = query_user(array('avatar128', 'space_url', 'username', 'fans', 'following', 'signature', 'nickname'), $v['id']);
         }
         unset($v);
 
@@ -31,4 +31,19 @@ class IndexController extends Controller
         $this->display();
     }
 
+    public function find($page = 1, $nickname = '')
+    {
+        $nickname = op_t($nickname);
+        if ($nickname != '') {
+            $map['nickname'] = array('like','%'.$nickname.'%');
+        }
+        $list = D('Member')->where($map)->findPage(10);
+        foreach ($list['data'] as &$v) {
+            $v['user'] = query_user(array('avatar128', 'space_url', 'username', 'fans', 'following', 'signature', 'nickname'), $v['uid']);
+        }
+        unset($v);
+        $this->assign('lists', $list);
+        $this->assign('nickname',$nickname);
+        $this->display();
+    }
 }
