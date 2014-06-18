@@ -62,7 +62,6 @@ class CheckinAddon extends Addon
             $data['ischeck'] = $res ? true : false;
 
             $checkinfo = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->limit(1)->find();
-            // dump($checkinfo);exit;
             if ($checkinfo) {
                 if ($checkinfo['ctime'] > (strtotime(date('Ymd')) - 86400)) {
                     $data['con_num'] = $checkinfo['con_num'];
@@ -75,16 +74,11 @@ class CheckinAddon extends Addon
                 $data['total_num'] = 1;
             }
             $data['day'] = date('m.d');
-            //dump($data);exit;
-            //model('Cache')->set('check_info_' . $uid . '_' . date('Ymd'), $data);
             S('a', 'check_info_');
-            //dump(S('a','check_info_'));exit;
         }
 
         $data['tpl'] = 'index';
-        //dump($data);exit;
         $week = date('w');
-        //dump($week);exit;
         switch ($week) {
             case '0':
                 $week = '周日';
@@ -109,8 +103,6 @@ class CheckinAddon extends Addon
                 break;
         }
         $data['week'] = $week;
-        //$content = $this->renderFile(dirname(__FILE__) . "/" . $data['tpl'] . '.html', $data);
-        // return $content;
         $this->assign("check", $data);
 
 
@@ -136,7 +128,6 @@ class CheckinAddon extends Addon
             $this->display('View/checkin');
 
         } else {
-            //$checkinfo= D('Check_info')->where('uid='.$uid)->getField('max(con_num)');
 
             $map['key'] = "check_connum";
             $map['uid'] = $uid;
@@ -144,35 +135,14 @@ class CheckinAddon extends Addon
             $checkinfo = D('Check_info')->where('uid=' . $uid)->order('ctime desc')->find();
             $this->assign("connum", $checkinfo['con_num']);
             $this->assign("totalnum", $checkinfo['total_num']);
-            //$checkcon = D('User_cdata')->where($map)->order('mtime desc')->select();
-            //dump($checkinfo);exit;
             $this->assign("lxqd", $checkcon['0']['value']);
 
             $total['key'] = "check_totalnum";
             $total['uid'] = $uid;
-            //$checktotal = D('User_cdata')->where($total)->order('mtime desc')->select();
 
             $this->assign("zgqd", $checktotal['0']['value']);
 
-            // $this->display('View/testcheck');
-            /*
-             * 显示排名
-             *
 
-
-            $y=date("Y",time());
-            $m=date("m",time());
-            $d=date("d",time());
-            $start_time = mktime( $set_ranktime, 0, 0, $m, $d ,$y);
-            $this->assign("ss",$start_time);
-
-            $rank = D('Check_info')->where('ctime>'.$start_time)->order('ctime asc')->limit(10)->select();
-            //dump($rank);exit;
-            foreach($rank as &$v){
-                $v['userInfo'] = query_user(array('avatar64', 'username', 'uid',), $v['uid']);
-            }
-            //dump($rank);exit;
-            $this->assign("rank",$rank); */
             /*计算超越*/
             $over_rate=S('check_in_over_rate_'.is_login());
             if(empty($over_rate)){
