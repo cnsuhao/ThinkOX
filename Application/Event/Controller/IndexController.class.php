@@ -109,6 +109,7 @@ class IndexController extends Controller
     {
 
         $check_isSign = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $id))->select();
+
         $this->assign('check_isSign', $check_isSign);
 
         $event_content = D('Event')->find($id);
@@ -121,6 +122,7 @@ class IndexController extends Controller
         $menber = D('event_attend')->where(array('event_id' => $id, 'status' => 1))->select();
         foreach ($menber as $k => $v) {
             $event_content['member'][$k] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $v['uid']);
+
         }
 
         $this->assign('content', $event_content);
@@ -236,6 +238,22 @@ class IndexController extends Controller
             }
         } else {
             $this->error('操作失败，非活动发起者操作！');
+        }
+    }
+
+    public function unSign($event_id){
+        $check = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $event_id))->find();
+
+        $res = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $event_id))->delete();
+        if($res){
+            if($check['status']){
+                D('Event')->where(array('id' => $event_id))->setDec('attentionCount');
+            }
+            D('Event')->where(array('id' => $event_id))->setDec('signCount');
+            $this->success('取消报名成功');
+        }
+        else{
+            $this->error('操作失败');
         }
     }
 }

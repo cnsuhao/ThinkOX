@@ -135,7 +135,7 @@
         <php>if(!$check_isSign){</php>
         <a class="btn btn-primary open-popup-link " href="#frm-post-popup">报名参加 </a>
         <php>}else{</php>
-        <a class="btn btn-info" href="javascript:" onclick="alert('您已经报过名了')">已报名 </a>
+        已报名&nbsp;&nbsp;&nbsp;&nbsp;<if condition="$check_isSign[0]['status'] eq 1">已审核<else/>未审核</if>&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-info" href="javascript:" id="unSign" >取消报名 </a>
         <php>}</php>
             </div>
     </div>
@@ -244,6 +244,22 @@
             });
 
             bindSupport();
+
+            $('#unSign').click(function(){
+                var event_id = "{$content['id']}";
+                $.post("{:U('Event/Index/unSign')}", {event_id: event_id}, function (res) {
+                    if (res.status) {
+                        op_success(res.info);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    }
+                    else {
+                        op_error(res.info);
+                    }
+                }, 'json');
+            });
+
         })
     </script>
 
