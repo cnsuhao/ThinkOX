@@ -36,7 +36,7 @@ class TitleModel extends Model
         return $config[$max_key];
     }
 
-    /**获取头衔配置
+    /**获取等级配置
      * @return array
      * @auth 陈一枭
      */
