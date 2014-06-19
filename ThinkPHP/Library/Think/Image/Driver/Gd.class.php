@@ -98,7 +98,12 @@ class Gd{
             $this->gif->save($imgname);
         } else {
             $fun = "image{$type}";
-            $fun($this->img, $imgname);
+            if($type=='jpg' || $type=='jpeg'){
+                $fun($this->img, $imgname,100);
+            }else{
+                $fun($this->img, $imgname);
+            }
+
         }
     }
 
