@@ -1,0 +1,123 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/shop.css" rel="stylesheet" type="text/css"/>
+</block>
+
+<block name="body">
+<div class="row">
+    <div class="col-md-12 app_head">
+        <div id="top_link" class="app_title sub_nav">
+            <i class="app_ico_i glyphicon glyphicon-shopping-cart"> </i>
+            <ul class="nav_list clearfix">
+                <li>
+                    <a href="{:U('index')}" <neq name="type" value="my">class="cur"</neq>>商城</a>
+                </li>
+                <li>
+                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的商品</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="aline"></div>
+        </div>
+        <div class="sub_nav">
+            <ul id="top_nav" class="nav_list clearfix">
+                <li>
+                    <a href="{:U('index')}">全部分类</a>
+                </li>
+                <volist name="tree" id="top">
+                    <li>
+                        <a <eq name="top_category" value="$top['id']">class="cur"</eq> href="{:U('index',array('category_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+                    </li>
+                </volist>
+            </ul>
+
+        </div>
+        <volist name="tree" id="top">
+            <div <eq name="top_category" value="$top['id']">style="display:block;"</eq>  class="children_nav" id="children_{$top.id}">
+                <ul class="nav_list clearfix">
+                    <li><a href="{:U('index',array('category_id'=>$top['id']))}" <eq name="_GET.category_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
+                    <volist name="top._" id="children">
+                        <li><a <if condition="$category_id eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('category_id'=>$children['id']))}">{$children.title}</a></li>
+                    </volist>
+
+                </ul>
+            </div>
+        </volist>
+
+
+    </div>
+
+</div>
+<div class="content-body">
+        <h2 class="content-title">
+            {$content.goods_name}
+        </h2>
+        <hr/>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img  style="width: 350px;height: 262px" src="{$content.goods_ico|getThumbImageById=350,262}"/>
+                </div>
+            </div>
+            <div class="col-md-8 ">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <ul class="operation clearfix">
+                            <li>{$tox_money_cname}：{$content.tox_money_need}</li>
+                            <li>我的{$tox_money_cname}：{$my_tox_money}</li>
+                            <li>剩余量：{$content.goods_num}</li>
+                            <li>所属分类：<a href="{:U('index',array('category_id'=>$category_id))}" target="_blank">{$category_title}</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="pull-right">
+                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
+                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="rowtext-more" style="width: 100%;padding-left: 20px;margin-top: 40px;height: 90px;">
+                    <span>商品简介：{$content.goods_introduct}</span>
+                </div>
+                <div class="row" style="margin-top: 40px">
+                    <div class="col-md-4">
+                        <a class="btn btn-primary " href="{:U('goodsBuy',array('id'=>$content['id'],'num'=>'1'))}" ><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;购买</a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="pull-right" style="color: #999">
+                            发布时间：  {$content.createtime|friendlyDate} &nbsp;&nbsp;
+                            更新时间： {$content.changetime|friendlyDate}
+                        </div>
+                    </div>
+               </div>
+           </div>
+        </div>
+    <div>
+    </div>
+    <hr/>
+        <div style="margin-bottom: 75px;">
+            <h3>商品详情</h3>
+            {$content.goods_detail}
+        </div>
+    <div>
+    </div>
+</div>
+</block>
+
+<block name="script">
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            });
+        })
+    </script>
+</block>

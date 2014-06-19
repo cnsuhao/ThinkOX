@@ -25,34 +25,16 @@
         <div class="sub_nav">
             <ul id="top_nav" class="nav_list clearfix">
                 <li>
-                    <a href="{:U('index')}" <eq name="top_category" value="">class="cur"</eq>>全部分类</a>
+                    <a href="{:U('myGoods',array('status'=>'-1'))}" <eq name="status" value="-1">class="cur"</eq>>未申领</a>
                 </li>
-                <volist name="tree" id="top">
-                    <if condition="$top['status'] eq 1">
-                        <li>
-                            <a <eq name="top_category" value="$top['id']">class="cur"</eq> href="{:U('index',array('category_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
-                        </li>
-                    </if>
-
-                </volist>
+                <li>
+                    <a href="{:U('myGoods',array('status'=>'0'))}" <eq name="status" value="0">class="cur"</eq>>已申领</a>
+                </li>
+                <li>
+                    <a href="{:U('myGoods',array('status'=>'1'))}" <eq name="status" value="1">class="cur"</eq>>已领取</a>
+                </li>
             </ul>
-
         </div>
-        <volist name="tree" id="top">
-            <if condition="$top['status'] eq 1">
-            <div <eq name="top_category" value="$top['id']">style="display:block;"</eq>  class="children_nav" id="children_{$top.id}">
-                <ul class="nav_list clearfix">
-                    <li><a href="{:U('index',array('category_id'=>$top['id']))}" <eq name="category_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
-                    <volist name="top._" id="children">
-                        <li><a <if condition="$category_id eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('category_id'=>$children['id']))}">{$children.title}</a></li>
-                    </volist>
-
-                </ul>
-            </div>
-            </if>
-        </volist>
-
-
     </div>
 
 </div>
@@ -63,34 +45,63 @@
         <div class="item_inner">
             <div class="item_core">
                 <div class="item_type">{$vo.category.title}</div>
-                <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"> <img class="cover" src="{$vo.goods_ico|getThumbImageById=280,210}"/></a>
+                <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}" target="_blank"> <img class="cover" src="{$vo.goods.goods_ico|getThumbImageById=280,210}"/></a>
 
                 <div>
                     <div style="width: 200px;float: left;">
                         <h3  class="text-more" style="width: 100%;line-height: 20px;">
-                            商品名称：<a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">{$vo.goods_name}</a>
+                            商品名称：<a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}"  target="_blank">{$vo.goods.goods_name}</a>
                         </h3>
                     </div>
                     <div style="float: right;margin-right: 10px;margin-top: 10px;">
-                        <a href="{:U('goodsBuy',array('id'=>$vo['id'],'num'=>1))}" ><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;购买</a>
+                        <eq name="status" value="-1">
+                            <a  href="{:U('applyGoods',array('id'=>$vo['id']))}" >&nbsp;申领</a>
+                            <else/>
+                            <eq name="status" value="0"> &nbsp;<font title="已审领，请等待管理员发货">已审领</font>
+                            <else/>
+                                &nbsp;已领取
+                            </eq>
+                        </eq>
                     </div>
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="spliter"></div>
                 <div>
                     <ul class="operation clearfix">
-                        <li>{$tox_money_cname}：{$vo.tox_money_need}</li>
-                        <li>剩余量：{$vo.goods_num}</li>
+                        <li style="width: 90%">{$tox_money_cname}：{$vo.goods.tox_money_need}</li>
+                        <li  style="width: 90%">购买日期：{$vo.createtime|friendlyDate}</li>
+                        <eq name="status" value="0"><li  style="width: 90%">申领日期：{$vo.applytime|friendlyDate}</li></eq>
+                        <eq name="status" value="1">
+                            <li  style="width: 90%">申领日期：{$vo.applytime|friendlyDate}</li>
+                            <li  style="width: 90%">领取日期：{$vo.gettime|friendlyDate}</li>
+                        </eq>
                     </ul>
                 </div>
                 <div class="spliter"></div>
-                <div><div  style="padding: 0 10px;word-break: break-all"><span>商品简介：{$vo.goods_introduct}</span></div></div>
+                <div><div  style="padding: 0 10px;word-break: break-all"><span>商品简介：{$vo.goods.goods_introduct}</span></div></div>
             </div>
 
         </div>
     </volist>
+
 <if condition="count($contents) eq 0">
-    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">此分类下暂无内容哦。O(∩_∩)O~</div>
+    <php>
+        switch($status){
+            case '-1':
+                $select_name='未申请领取';
+                break;
+            case '0':
+                $select_name='已申请领取';
+                break;
+            case '1':
+                $select_name='已领取';
+                break;
+            default:
+                $select_name='未申请领取';
+        }
+    </php>
+    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">你还没有{$select_name}的商品呦！。O(∩_∩)O~</div>
 </if>
 
 </div>
