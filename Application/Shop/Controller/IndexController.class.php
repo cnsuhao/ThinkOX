@@ -5,9 +5,17 @@ namespace Shop\Controller;
 
 use Think\Controller;
 
-
+/**
+ * Class IndexController
+ * @package Shop\Controller
+ * @郑钟良
+ */
 class IndexController extends Controller
 {
+    /**
+     * 商城页初始化
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function _goods_initialize(){
         $tree = D('shopCategory')->getTree();
         $this->assign('tree', $tree);
@@ -15,6 +23,10 @@ class IndexController extends Controller
         $this->assign('tox_money_cname',$tox_money_cname);
     }
 
+    /**
+     * 个人商品页初始化
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function _myGoods_initialize(){
         if(!is_login()){
             $this->error('请先登录！');
@@ -24,6 +36,12 @@ class IndexController extends Controller
         $this->assign('tox_money_cname',$tox_money_cname);
     }
 
+    /**
+     * 商城首页
+     * @param int $page
+     * @param int $category_id
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function index($page = 1, $category_id = 0)
     {
         $this->_goods_initialize();
@@ -52,6 +70,11 @@ class IndexController extends Controller
         $this->display();
     }
 
+    /**
+     * 商品详情页
+     * @param int $id
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function goodsDetail($id = 0)
     {
         $this->_goods_initialize();
@@ -67,6 +90,13 @@ class IndexController extends Controller
         $this->assign('my_tox_money',getMyToxMoney());
         $this->display();
     }
+
+    /**
+     * 购买商品
+     * @param int $id
+     * @param int $num
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function goodsBuy($id=0,$num=1){
         if(!is_login()){
             $this->error('请先登录！');
@@ -102,6 +132,12 @@ class IndexController extends Controller
         }
     }
 
+    /**
+     * 个人商品页
+     * @param int $page
+     * @param $status
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function myGoods($page = 1,$status=-1){
         $this->_myGoods_initialize();
         $map['status'] = $status;
@@ -119,6 +155,11 @@ class IndexController extends Controller
         $this->display();
     }
 
+    /**
+     * 商品申领
+     * @param int $id
+     * @author 郑钟良<zzl@ourstu.com>
+     */
     public function applyGoods($id=0){
         if(!is_login()){
             $this->error('请先登录！');
