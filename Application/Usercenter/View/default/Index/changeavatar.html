@@ -76,7 +76,7 @@
 
         $(function () {
             var crop;
-
+            var jcrop_api;
             //选择图片文件之后立即上传表单
             $('[name=image]').change(function () {
                 $('#avatar_form').submit();
@@ -114,8 +114,15 @@
                 $('#uploaded_image').load(function () {
                     $('#uploaded_image').Jcrop({
                         aspectRatio: 1,
-                        onSelect: updateCoordinate
+                        onSelect: updateCoordinate,
+                        minSize: [64,64],
+                        setSelect: [0,0,366,366]
+                    },function(){
+                        jcrop_api=this;
+                        crop=jcrop_api.tellScaled();
                     });
+
+
                 })
             });
             function updateCoordinate(c) {
