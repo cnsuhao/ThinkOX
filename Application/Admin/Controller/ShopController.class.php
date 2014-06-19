@@ -174,7 +174,7 @@ class ShopController extends AdminController
         $builder->title('商品列表');
         $builder->meta_title='商品列表';
         foreach($goodsList as &$val){
-            $category=$this->shop_categoryModel->where('id='.$val['id'])->getField('title');
+            $category=$this->shop_categoryModel->where('id='.$val['category_id'])->getField('title');
             $val['category']=$category;
             unset($category);
         }
