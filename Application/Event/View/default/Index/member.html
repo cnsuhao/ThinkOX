@@ -62,10 +62,12 @@
                     class="badge">{$all_count}</span></a></li>
                 <li
                 <if condition="$tip eq sign">class="active"</if>
-                ><a href="{:U('member',array('id'=>$content['id'],'tip'=>'sign'))}">未审核 <span id="sign_count" class="badge">{$sign_count}</span></a></li>
+                ><a href="{:U('member',array('id'=>$content['id'],'tip'=>'sign'))}">未审核 <span id="sign_count"
+                                                                                              class="badge">{$sign_count}</span></a></li>
                 <li
                 <if condition="$tip eq attend">class="active"</if>
-                ><a href="{:U('member',array('id'=>$content['id'],'tip'=>'attend'))}">已审核 <span  id="attend_count" class="badge">{$attend_count}</span></a></li>
+                ><a href="{:U('member',array('id'=>$content['id'],'tip'=>'attend'))}">已审核 <span id="attend_count"
+                                                                                                class="badge">{$attend_count}</span></a></li>
             </ul>
 
 
@@ -89,9 +91,9 @@
 
                     <div style="text-align: center;float: left;margin: 20px 0 0px 20px;">
                         <if condition="$vo['status'] eq 0">
-                            <a class="shenhe" data-uid="{$vo.id}" href="javascript:">通过审核 </a>
+                            <a class="" onclick="shenhe($(this))" data-uid="{$vo.id}" href="javascript:">通过审核 </a>
                             <else/>
-                            <a class="qushenhe" data-uid="{$vo.id}" href="javascript:">取消审核 </a>
+                            <a class="" onclick="qushenhe($(this))" data-uid="{$vo.id}" href="javascript:">取消审核 </a>
                         </if>
 
                     </div>
@@ -115,53 +117,44 @@
                 $('.children_nav').hide();
                 $('#children_' + $(this).attr('data')).show();
             });
-
-
-            function shenhe(){
-                $('.shenhe').click(function () {
-                    var uid = $(this).attr('data-uid');
-                    var event_id = "{$content['id']}";
-                    var tip = 1;
-                    var obj = $(this);
-                    $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
-                        if (res.status) {
-                            op_success(res.info);
-                            var html = '<a class="qushenhe" data-uid="'+uid+'" href="javascript:">取消审核 </a>';
-                            obj.parent().html(html);
-                            $('#attend_count').html( parseInt($('#attend_count').text())+1);
-                            $('#sign_count').html( parseInt($('#attend_count').text())-1);
-                            shenhe()
-                        }
-                        else {
-                            op_error(res.info);
-
-                        }
-                    }, 'json');
-                });
-                $('.qushenhe').click(function () {
-                    var uid = $(this).attr('data-uid');
-                    var event_id = "{$content['id']}";
-                    var tip = 0;
-                    var obj = $(this);
-                    $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
-                        if (res.status) {
-                            op_success(res.info);
-                            var html = '<a class="shenhe" data-uid="'+uid+'" href="javascript:">通过审核 </a>';
-                            obj.parent().html(html);
-                            shenhe();
-                            $('#attend_count').html( parseInt($('#attend_count').text())-1);
-                            $('#sign_count').html( parseInt($('#attend_count').text())+1);
-                        }
-                        else {
-                            op_error(res.info);
-                        }
-                    }, 'json');
-
-                });
-            }
-            shenhe();
             bindSupport();
         })
+
+        function shenhe(obj) {
+            var uid = obj.attr('data-uid');
+            var event_id = "{$content['id']}";
+            var tip = 1;
+            $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
+                if (res.status) {
+                    op_success(res.info);
+                    var html = '<a onclick="qushenhe($(this))" data-uid="' + uid + '" href="javascript:">取消审核 </a>';
+                    obj.parent().html(html);
+                    $('#attend_count').html(parseInt($('#attend_count').text()) + 1);
+                    $('#sign_count').html(parseInt($('#sign_count').text()) - 1);
+                }
+                else {
+                    op_error(res.info);
+                }
+            }, 'json');
+        }
+
+        function qushenhe(obj) {
+            var uid = obj.attr('data-uid');
+            var event_id = "{$content['id']}";
+            var tip = 0;
+            $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
+                if (res.status) {
+                    op_success(res.info);
+                    var html = '<a onclick="shenhe($(this))" data-uid="' + uid + '" href="javascript:">通过审核 </a>';
+                    obj.parent().html(html);
+                    $('#attend_count').html(parseInt($('#attend_count').text()) - 1);
+                    $('#sign_count').html(parseInt($('#sign_count').text()) + 1);
+                }
+                else {
+                    op_error(res.info);
+                }
+            }, 'json');
+        }
     </script>
 
 </block>
