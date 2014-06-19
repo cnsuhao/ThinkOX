@@ -5,7 +5,7 @@
  * Date: 14-3-10
  * Time: PM7:40
  */
-
+use \Think\Image;
 
 function getImageUrlByPath($path, $size) {
     $thumb = getThumbImage($path, $size,$size);
@@ -22,7 +22,7 @@ function getImageUrlByPath($path, $size) {
  *  @param  unknown_type  $cut  是否切割  默认不切割
  *  @return  string
  */
-function getThumbImage($filename, $width=100, $height='auto', $cut=false, $replace=false) {
+function getThumbImage($filename, $width=100, $height='auto', $type=2, $replace=true) {
     $UPLOAD_URL='';
     $UPLOAD_PATH='';
     $filename  =  str_ireplace($UPLOAD_URL,  '',  $filename);  //将URL转化为本地地址
@@ -66,9 +66,9 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
             return  $info;
         }  else  {
             //生成缩略图  -  更好的方法
-            if  ($height  ==  "auto")  $height  =  0;
+            if  ($height  ==  "auto")  $height  =  $old_image_height*$width/$old_image_width;
             //import('phpthumb.PhpThumbFactory');
-            require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
+           /* require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
             $thumb  =  PhpThumbFactory::create($UPLOAD_PATH  .  $filename);
             if  ($cut)  {
                 $thumb->adaptiveResize($width,  $height);
@@ -76,8 +76,17 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
                 $thumb->resize($width,  $height);
             }
             $res  =  $thumb->save($UPLOAD_PATH  .  $thumbFile);
+           */
+            $image= new \Think\Image();
+            $image->open($UPLOAD_PATH.$filename);
+            //dump($image);exit;
+            $image->thumb($width,$height,$type);
+            $image->save($UPLOAD_PATH.$thumbFile);
+
+
+
             //缩图失败
-            if  (!$res)  {
+            if  (!$image)  {
                 $thumbFile  =  $oldFile;
             }
             $info['width']  =  $width;
@@ -93,14 +102,14 @@ function getRootUrl() {
 }
 
 
-function getThumbImageById($cover_id, $width = 100, $height = 'auto', $cut = true, $replace = false)
+function getThumbImageById($cover_id, $width = 100, $height = 2, $type=2, $replace = true)
 {
     $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);
     if(empty($picture))
     {
         return 'Public/static/assets/img/nopic.png';
     }
-    $attach = getThumbImage($picture['path'], $width, $height, $cut, $replace);
+    $attach = getThumbImage($picture['path'], $width, $height, $type, $replace);
 
     return $attach['src'];
 }
