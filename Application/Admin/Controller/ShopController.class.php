@@ -212,6 +212,7 @@ class ShopController extends AdminController
      * @param $tox_money_need
      * @param $goods_num
      * @param $status
+     * @param $category_id
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function goodsEdit($id=0,$goods_name='',$goods_ico='',$goods_introduct='',$goods_detail='',$tox_money_need='',$goods_num='',$status='',$category_id=0){
@@ -294,6 +295,111 @@ class ShopController extends AdminController
             $builder->buttonSubmit(U('Shop/toxMoneyConfig'),'保存');
             $builder->display();
         }
+    }
+
+
+    public function goodsBuySuccess($page=1,$r=20){
+        //读取列表
+        $map = array('status' => 1);
+        $model = M('shop_buy');
+        $list = $model->where($map)->page($page, $r)->select();
+        $totalCount = $model->where($map)->count();
+
+        foreach($list as &$val){
+            $val['goods_name']=$this->shopModel->where('id='.$val['goods_id'])->getField('goods_name');
+        }
+        //显示页面
+        $builder = new AdminListBuilder();
+
+        $builder->title('成功的交易');
+        $builder->meta_title='成功的交易';
+
+        $builder->buttonDisable(U('setGoodsBuyStatus'),'取消发货')
+            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyTime('applytime','申领时间')->keyTime('gettime','领取时间')
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+
+    public function verify($page=1,$r=10){
+        //读取列表
+        $map = array('status' => 0);
+        $model = M('shop_buy');
+        $list = $model->where($map)->page($page, $r)->select();
+        $totalCount = $model->where($map)->count();
+        foreach($list as &$val){
+            $val['goods_name']=$this->shopModel->where('id='.$val['goods_id'])->getField('goods_name');
+        }
+        //显示页面
+        $builder = new AdminListBuilder();
+
+        $builder->title('待发货交易');
+        $builder->meta_title='待发货交易';
+
+        $builder->setStatusUrl(U('setGoodsBuyStatus'))->buttonEnable('','发货')
+            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyTime('applytime','申领时间')->keyStatus()
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+
+    public function goodsBuy($page=1,$r=20){
+        //读取列表
+        $map = array('status' => -1);
+        $model = M('shop_buy');
+        $list = $model->where($map)->page($page, $r)->select();
+        $totalCount = $model->where($map)->count();
+        foreach($list as &$val){
+            $val['goods_name']=$this->shopModel->where('id='.$val['goods_id'])->getField('goods_name');
+        }
+        //显示页面
+        $builder = new AdminListBuilder();
+
+        $builder->title('用户购买信息');
+        $builder->meta_title='用户购买信息';
+
+        $builder->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
+    }
+
+    public function setGoodsBuyStatus($ids,$status){
+        $builder = new AdminListBuilder();
+        if($status==1){
+            $gettime=time();
+            foreach($ids as $id){
+                D('shop_buy')->where('id='.$id)->setField('gettime',$gettime);
+                $content=D('shop_buy')->find($id);
+                $message="管理员通过了你的发货申请。现在可以在已领取列表中查看该商品了。";
+                D('Message')->sendMessageWithoutCheckSelf($content['uid'],$message ,'发货通知', U('Shop/Index/myGoods',array('status'=>'1')), is_login(), 1);
+
+                //商城记录
+                $goods_name=D('shop')->field('goods_name')->find($content['goods_id']);
+                $shop_log['message']='在'.time_format($gettime).'['.is_login().']'.query_user('nickname',is_login()).'通过了用户['.$content['uid'].']'.query_user('nickname',$content['uid']).'的商品申领，申领商品：<a href="index.php?s=/Shop/Index/goodsDetail/id/'.$content['goods_id'].'.html" target="_black">'.$goods_name['goods_name'].'</a>';
+                $shop_log['uid']=is_login();
+                $shop_log['create_time']=$gettime;
+                D('shop_log')->add($shop_log);
+            }
+        }
+        $builder->doSetStatus('shop_buy', $ids, $status);
+    }
+
+    public function shopLog($page=1,$r=20){
+        //读取列表
+        $model = M('shop_log');
+        $list = $model->page($page, $r)->order('create_time desc')->select();
+        $totalCount = $model->count();
+        //显示页面
+        $builder = new AdminListBuilder();
+
+        $builder->title('商城信息记录');
+        $builder->meta_title='商城信息记录';
+
+        $builder->keyId()->keyText('message', '信息')->keyUid()->keyCreateTime()
+            ->data($list)
+            ->pagination($totalCount, $r)
+            ->display();
     }
 
 }

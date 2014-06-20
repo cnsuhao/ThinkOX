@@ -1177,7 +1177,7 @@ function getMyToxMoney()
 
 function getToxMoneyName(){
     $tox_money_name="金币";
-    $tox_money_name=D('toxshop_config')->where('ename='."'tox_money'")->getField('cname');
+    $tox_money_name=D('shop_config')->where('ename='."'tox_money'")->getField('cname');
     return $tox_money_name;
 }
 
