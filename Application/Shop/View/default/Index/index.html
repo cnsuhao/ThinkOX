@@ -2,6 +2,7 @@
 
 <block name="style">
     <link href="__CSS__/shop.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
 </block>
 
 <block name="body">
@@ -71,7 +72,7 @@
                         </h3>
                     </div>
                     <div style="float: right;margin-right: 10px;margin-top: 10px;">
-                        <a href="{:U('goodsBuy',array('id'=>$vo['id'],'num'=>1))}" ><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;购买</a>
+                        <a href="#frm-post-popup" class="open-popup-link" goods_id="{$vo['id']}"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;购买</a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -98,14 +99,74 @@
             {:getPagination($totalPageCount,16)}
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
+        <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
+
+        <div class="aline" style="margin-bottom: 10px"></div>
+            <div class="row">
+                    <form class="form-horizontal  ajax-form" role="form"  action="{:U('Shop/Index/goodsBuy')}" method="post">
+                        <input type="hidden" id="goods_id" name="id" value="">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <input id="name" name="name" type="text" class="form-control" value="{$shop_address['name']}" placeholder="姓名"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <textarea id="address" name="address" class="form-control" placeholder="收货地址" style="max-width: 310px">{$shop_address['address']}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <input id="zipcode" name="zipcode" type="text" class="form-control" value="{$shop_address['zipcode']}" placeholder="邮编"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <input id="phone" name="phone" type="text" class="form-control" value="{$shop_address['phone']}" placeholder="手机号码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary ">提交</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+
+
+    </div>
+    <!-- /.modal -->
 </block>
 
 <block name="script">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
         $(function () {
             $('#top_nav >li >a ').mouseenter(function () {
                 $('.children_nav').hide();
                 $('#children_' + $(this).attr('data')).show();
+            });
+            $('.open-popup-link').click(function(){
+                var goods_id=this.getAttribute('goods_id');
+                $('#goods_id').val(goods_id);
+            });
+            $('.open-popup-link').magnificPopup({
+                type: 'inline',
+                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                closeOnBgClick:false
             });
         })
     </script>

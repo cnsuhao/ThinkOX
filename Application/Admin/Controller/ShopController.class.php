@@ -333,6 +333,11 @@ class ShopController extends AdminController
 
         foreach($list as &$val){
             $val['goods_name']=$this->shopModel->where('id='.$val['goods_id'])->getField('goods_name');
+            $address=D('shop_address')->find($val['address_id']);
+            $val['name']=$address['name'];
+            $val['address']=$address['address'];
+            $val['zipcode']=$address['zipcode'];
+            $val['phone']=$address['phone'];
         }
         //显示页面
         $builder = new AdminListBuilder();
@@ -341,7 +346,7 @@ class ShopController extends AdminController
         $builder->meta_title='完成的交易';
 
         $builder->buttonDisable(U('setGoodsBuyStatus'),'取消发货')
-            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyTime('gettime','交易完成时间')
+            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyText('name','收货人姓名')->keyText('address','收货地址')->keyText('zipcode','邮编')->keyText('phone','手机号码')->keyCreateTime('createtime','购买时间')->keyTime('gettime','交易完成时间')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -355,6 +360,11 @@ class ShopController extends AdminController
         $totalCount = $model->where($map)->count();
         foreach($list as &$val){
             $val['goods_name']=$this->shopModel->where('id='.$val['goods_id'])->getField('goods_name');
+            $address=D('shop_address')->find($val['address_id']);
+            $val['name']=$address['name'];
+            $val['address']=$address['address'];
+            $val['zipcode']=$address['zipcode'];
+            $val['phone']=$address['phone'];
         }
         //显示页面
         $builder = new AdminListBuilder();
@@ -363,7 +373,7 @@ class ShopController extends AdminController
         $builder->meta_title='待发货交易';
 
         $builder->setStatusUrl(U('setGoodsBuyStatus'))->buttonEnable('','发货')
-            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyStatus()
+            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyText('name','收货人姓名')->keyText('address','收货地址')->keyText('zipcode','邮编')->keyText('phone','手机号码')->keyCreateTime('createtime','购买时间')->keyStatus()
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();

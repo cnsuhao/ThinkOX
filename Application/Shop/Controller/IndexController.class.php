@@ -23,6 +23,8 @@ class IndexController extends Controller
         $this->assign('tree', $tree);
         $tox_money_cname=getToxMoneyName();
         $this->assign('tox_money_cname',$tox_money_cname);
+        $shop_address=D('shop_address')->where('uid='.is_login())->find();
+        $this->assign('shop_address',$shop_address);
     }
 
     /**
@@ -99,10 +101,43 @@ class IndexController extends Controller
      * @param int $num
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function goodsBuy($id=0,$num=1){
+    public function goodsBuy($id=0,$num=1,$name='',$address='',$zipcode='',$phone=''){
         if(!is_login()){
             $this->error('请先登录！');
         }
+        //用户地址处理
+        if($name==''||!preg_match("/^[\x{4e00}-\x{9fa5}]+$/u",$name)){
+            $this->error('请输入正确的用户名');
+        }
+        if($address==''){
+            $this->error('请填写收货地址');
+        }
+        if($zipcode==''||strlen($zipcode)!=6||!is_numeric($zipcode)){
+            $this->error('请正确填写邮编');
+        }
+        if($phone==''||strlen($phone)!=11||!is_numeric($phone)){
+            $this->error('请正确填写手机号码');
+        }
+        if($old_shop_address=D('shop_address')->where('uid='.is_login())->find()){
+            if(!($old_shop_address['name']==$name&&$old_shop_address['address']==$address&&$old_shop_address['zipcode']==$zipcode&&$old_shop_address['phone']==$phone)){
+                $shop_address['phone']=$phone;
+                $shop_address['name']=$name;
+                $shop_address['address']=$address;
+                $shop_address['zipcode']=$zipcode;
+                $shop_address['change_time']=time();
+                D('shop_address')->where('id='.$old_shop_address['id'])->save($shop_address);
+            }
+            $data['address_id']=$old_shop_address['id'];
+        }else{
+            $shop_address['name']=$name;
+            $shop_address['address']=$address;
+            $shop_address['zipcode']=$zipcode;
+            $shop_address['phone']=$phone;
+            $shop_address['uid']=is_login();
+            $shop_address['create_time']=time();
+            $data['address_id']=D('shop_address')->add($shop_address);
+        }
+
         $goods=D('shop')->where('id='.$id)->find();
         if($goods){
             //判断商品余量
