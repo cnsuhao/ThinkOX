@@ -14,7 +14,7 @@
                     <a href="{:U('index')}" <neq name="type" value="my">class="cur"</neq>>商城</a>
                 </li>
                 <li>
-                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的商品</a>
+                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的订单</a>
                 </li>
             </ul>
         </div>
@@ -67,7 +67,7 @@
                 <div>
                     <div style="width: 200px;float: left;">
                         <h3  class="text-more" style="width: 100%;line-height: 20px;">
-                            商品名称：<a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">{$vo.goods_name}</a>
+                            <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">{$vo.goods_name}</a>
                         </h3>
                     </div>
                     <div style="float: right;margin-right: 10px;margin-top: 10px;">
@@ -83,7 +83,7 @@
                     </ul>
                 </div>
                 <div class="spliter"></div>
-                <div><div  style="padding: 0 10px;word-break: break-all"><span>商品简介：{$vo.goods_introduct}</span></div></div>
+                <div><div class="text-more"  style="padding: 0 10px;word-break: break-all;text-align: center;width: 100%;"><span>{$vo.goods_introduct}</span></div></div>
             </div>
 
         </div>

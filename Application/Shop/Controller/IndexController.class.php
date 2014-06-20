@@ -12,6 +12,8 @@ use Think\Controller;
  */
 class IndexController extends Controller
 {
+    protected $goods_info='id,goods_name,goods_ico,goods_introduct,tox_money_need,goods_num,changetime,status,createtime,category_id';
+
     /**
      * 商城页初始化
      * @author 郑钟良<zzl@ourstu.com>
@@ -57,7 +59,7 @@ class IndexController extends Controller
             $map['category_id'] = array('in', implode(',', $ids));
         }
         $map['status'] = 1;
-        $goods_list = D('shop')->where($map)->order('createtime desc')->page($page, 16)->select();
+        $goods_list = D('shop')->where($map)->order('createtime desc')->page($page, 16)->field($this->goods_info)->select();
         $totalCount = D('shop')->where($map)->count();
         foreach ($goods_list as &$v) {
             $v['category']=D('shopCategory')->field('id,title')->find($v['category_id']);
@@ -109,7 +111,7 @@ class IndexController extends Controller
             }
             $data['goods_id']=$id;
             $data['goods_num']=$num;
-            $data['status']=-1;
+            $data['status']=0;
             $data['uid']=is_login();
             $data['createtime']=time();
 
@@ -125,7 +127,7 @@ class IndexController extends Controller
                 //商品数量减少
                 D('shop')->where('id='.$id)->setDec('goods_num',$num);
                 //发送系统消息
-                $message=$goods['goods_name']."购买成功。现在可以去申领你的商品了。";
+                $message=$goods['goods_name']."购买成功，请等待发货。";
                 D('Message')->sendMessageWithoutCheckSelf(is_login(),$message ,'购买成功通知', U('Shop/Index/myGoods',array('status'=>'0')));
 
                 //商城记录
@@ -134,7 +136,7 @@ class IndexController extends Controller
                 $shop_log['create_time']=$data['createtime'];
                 D('shop_log')->add($shop_log);
 
-                $this->success('购买成功！花费了'.$tox_money_need.getToxMoneyName(),U('Index/myGoods',array('status'=>-1)));
+                $this->success('购买成功！花费了'.$tox_money_need.getToxMoneyName(),U('Index/myGoods',array('status'=>0)));
             }else{
                 $this->error('购买失败！');
             }
@@ -149,14 +151,14 @@ class IndexController extends Controller
      * @param $status
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function myGoods($page = 1,$status=-1){
+    public function myGoods($page = 1,$status=0){
         $this->_myGoods_initialize();
         $map['status'] = $status;
         $map['uid']=is_login();
         $goods_buy_list=D('shop_buy')->where($map)->page($page,16)->order('createtime desc')->select();
         $totalCount =D('shop_buy')->where($map)->count();
         foreach ($goods_buy_list as &$v) {
-            $v['goods']=D('shop')->where('id='.$v['goods_id'])->find();
+            $v['goods']=D('shop')->where('id='.$v['goods_id'])->field($this->goods_info)->find();
             $v['category']=D('shopCategory')->field('id,title')->find($v['goods']['category_id']);
         }
         unset($v);
@@ -164,39 +166,5 @@ class IndexController extends Controller
         $this->assign('totalPageCount', $totalCount);
         $this->assign('status',$status);
         $this->display();
-    }
-
-    /**
-     * 商品申领
-     * @param int $id
-     * @author 郑钟良<zzl@ourstu.com>
-     */
-    public function applyGoods($id=0){
-        if(!is_login()){
-            $this->error('请先登录！');
-        }
-        $goods_buy = D('shop_buy')->find($id);
-        if (!$goods_buy) {
-            $this->error('404 not found');
-        }
-        $data['applytime']=time();
-        $data['status']=0;
-        $res=D('shop_buy')->where('id='.$id)->save($data);
-        if($res){
-            //发送系统消息
-            $message="申领成功，请等待管理员发货。";
-            D('Message')->sendMessageWithoutCheckSelf(is_login(),$message ,'申领成功通知', U('Shop/Index/myGoods',array('status'=>'-1')));
-
-            //商城记录
-            $goods_name=D('shop')->field('goods_name')->find($goods_buy['goods_id']);
-            $shop_log['message']='用户['.is_login().']'.query_user('nickname',is_login()).'在'.time_format($data['applytime']).'申领了商品<a href="index.php?s=/Shop/Index/goodsDetail/id/'.$goods_buy['id'].'.html" target="_black">'.$goods_name['goods_name'].'</a>';
-            $shop_log['uid']=is_login();
-            $shop_log['create_time']=$data['applytime'];
-            D('shop_log')->add($shop_log);
-
-            $this->success('申领成功，请等待管理员发货',U('myGoods'));
-        }else{
-            $this->error('申领失败！');
-        }
     }
 }

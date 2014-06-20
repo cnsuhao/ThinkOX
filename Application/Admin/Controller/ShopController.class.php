@@ -180,7 +180,7 @@ class ShopController extends AdminController
         }
 
         $builder->buttonNew(U('Shop/goodsEdit'))->buttonDelete(U('setGoodsStatus'))->setStatusUrl(U('setGoodsStatus'));
-        $builder->keyId()->keyText('goods_name','商品名称')->keyText('category','商品分类')->keyText('goods_introduct','商品简介')
+        $builder->keyId()->keyText('goods_name','商品名称')->keyText('category','商品分类')->keyText('goods_introduct','商品广告语')
             ->keyText('tox_money_need','商品价格')->keyText('goods_num','商品余量')->keyStatus('status','出售状态')->keyUpdateTime('changetime')->keyCreateTime('createtime')->keyDoActionEdit('Shop/goodsEdit?id=###')->keyDoAction('Shop/setGoodsStatus?ids=###&status=-1','删除');
         $builder->data($goodsList);
         $builder->pagination($totalCount,$r);
@@ -218,6 +218,25 @@ class ShopController extends AdminController
     public function goodsEdit($id=0,$goods_name='',$goods_ico='',$goods_introduct='',$goods_detail='',$tox_money_need='',$goods_num='',$status='',$category_id=0){
         $isEdit=$id?1:0;
         if(IS_POST){
+            if($goods_name==''||$goods_name==null){
+                $this->error('请输入商品名称');
+            }
+            if(!is_numeric($goods_ico)){
+                $this->error('请上传商品图标');
+            }
+            if($goods_introduct==''||$goods_introduct==null){
+                if($goods_detail==''||$goods_detail==null){
+                    $this->error('请输入商品广告语');
+                }else{
+                    $goods_introduct=substr($goods_detail,0,25);
+                }
+            }
+            if(!is_numeric($tox_money_need)&&$tox_money_need>=0){
+                $this->error('请正确输入商品价格');
+            }
+            if(!is_numeric($goods_num)&&$goods_num>=0){
+                $this->error('请正确输入商品剩余量');
+            }
             $goods['goods_name']=$goods_name;
             $goods['goods_ico']=$goods_ico;
             $goods['goods_introduct']=$goods_introduct;
@@ -230,6 +249,13 @@ class ShopController extends AdminController
             if($isEdit){
                 $rs=$this->shopModel->where('id='.$id)->save($goods);
             }else{
+                //商品名存在验证
+                $map['status']=array('egt',0);
+                $map['goods_name']=$goods_name;
+                if($this->shopModel->where($map)->count()){
+                    $this->error('已存在同名商品');
+                }
+
                 $goods['createtime']=time();
                 $rs=$this->shopModel->add($goods);
             }
@@ -247,7 +273,7 @@ class ShopController extends AdminController
             $category_map['status']=array('egt',0);
             $goods_category_list=$this->shop_categoryModel->where($category_id)->order('pid desc')->select();
             $options=array_combine(array_column($goods_category_list,'id'),array_column($goods_category_list,'title'));
-            $builder->keyId()->keyText('goods_name','商品名称')->keySingleImage('goods_ico','商品图标')->keySelect('category_id','商品分类','',$options)->keyText('goods_introduct','商品简介')->keyTextArea('goods_detail','商品详情')
+            $builder->keyId()->keyText('goods_name','商品名称')->keySingleImage('goods_ico','商品图标')->keySelect('category_id','商品分类','',$options)->keyText('goods_introduct','商品广告语')->keyTextArea('goods_detail','商品详情')
                 ->keyInteger('tox_money_need','商品价格')->keyInteger('goods_num','商品余量')->keyStatus('status','出售状态');
             if($isEdit){
                 $goods=$this->shopModel->where('id='.$id)->find();
@@ -311,11 +337,11 @@ class ShopController extends AdminController
         //显示页面
         $builder = new AdminListBuilder();
 
-        $builder->title('成功的交易');
-        $builder->meta_title='成功的交易';
+        $builder->title('完成的交易');
+        $builder->meta_title='完成的交易';
 
         $builder->buttonDisable(U('setGoodsBuyStatus'),'取消发货')
-            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyTime('applytime','申领时间')->keyTime('gettime','领取时间')
+            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyTime('gettime','交易完成时间')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -337,28 +363,7 @@ class ShopController extends AdminController
         $builder->meta_title='待发货交易';
 
         $builder->setStatusUrl(U('setGoodsBuyStatus'))->buttonEnable('','发货')
-            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyTime('applytime','申领时间')->keyStatus()
-            ->data($list)
-            ->pagination($totalCount, $r)
-            ->display();
-    }
-
-    public function goodsBuy($page=1,$r=20){
-        //读取列表
-        $map = array('status' => -1);
-        $model = M('shop_buy');
-        $list = $model->where($map)->page($page, $r)->select();
-        $totalCount = $model->where($map)->count();
-        foreach($list as &$val){
-            $val['goods_name']=$this->shopModel->where('id='.$val['goods_id'])->getField('goods_name');
-        }
-        //显示页面
-        $builder = new AdminListBuilder();
-
-        $builder->title('用户购买信息');
-        $builder->meta_title='用户购买信息';
-
-        $builder->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')
+            ->keyId()->keyText('goods_name', '商品名称')->keyUid()->keyCreateTime('createtime','购买时间')->keyStatus()
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -371,12 +376,12 @@ class ShopController extends AdminController
             foreach($ids as $id){
                 D('shop_buy')->where('id='.$id)->setField('gettime',$gettime);
                 $content=D('shop_buy')->find($id);
-                $message="管理员通过了你的发货申请。现在可以在已领取列表中查看该商品了。";
+                $message="你购买的商品已发货。现在可以在已完成交易列表中查看该交易。";
                 D('Message')->sendMessageWithoutCheckSelf($content['uid'],$message ,'发货通知', U('Shop/Index/myGoods',array('status'=>'1')), is_login(), 1);
 
                 //商城记录
                 $goods_name=D('shop')->field('goods_name')->find($content['goods_id']);
-                $shop_log['message']='在'.time_format($gettime).'['.is_login().']'.query_user('nickname',is_login()).'通过了用户['.$content['uid'].']'.query_user('nickname',$content['uid']).'的商品申领，申领商品：<a href="index.php?s=/Shop/Index/goodsDetail/id/'.$content['goods_id'].'.html" target="_black">'.$goods_name['goods_name'].'</a>';
+                $shop_log['message']='在'.time_format($gettime).'['.is_login().']'.query_user('nickname',is_login()).'发送了用户['.$content['uid'].']'.query_user('nickname',$content['uid']).'购买的商品：<a href="index.php?s=/Shop/Index/goodsDetail/id/'.$content['goods_id'].'.html" target="_black">'.$goods_name['goods_name'].'</a>';
                 $shop_log['uid']=is_login();
                 $shop_log['create_time']=$gettime;
                 D('shop_log')->add($shop_log);

@@ -55,7 +55,7 @@
                     <case value="image">
                         <div class="controls">
                             <input type="file" id="upload_picture_{$field.name}">
-                            <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
+                            <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$field['value']}"/>
                             <div class="upload-img-box">
                                 <notempty name="field.value">
                                     <div class="upload-pre-item"><img src="__ROOT__{$field.value|get_cover='path'}"/></div>
