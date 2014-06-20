@@ -16,7 +16,7 @@ return array(
 
     'PICTURE_UPLOAD_DRIVER' => 'Sae',
     'UPLOAD_SAE_CONFIG' => array(
-        'rootPath' => 'http://' . $_SERVER['HTTP_APPNAME'] . '-uploads.stor.sinaapp.com/Picture/',
+        'rootPath' => 'http://' . $_SERVER['HTTP_APPNAME'] . '-uploads.stor.sinaapp.com/',
         'domain'=>'uploads')
 );
 

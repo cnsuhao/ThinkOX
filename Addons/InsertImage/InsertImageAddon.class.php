@@ -46,6 +46,7 @@ class InsertImageAddon extends Addon
         foreach ($weibo_data['attach_ids'] as $k_i => $v_i) {
             if(strtolower(C('PICTURE_UPLOAD_DRIVER'))=='sae'){
                 $weibo_data['image'][$k_i]['small'] =  getThumbImageById($v_i, 100, 100);
+                // dump( $weibo_data['image'][$k_i]['small']);exit;
                 $bi = M('Picture')->where(array('status' => 1))->getById($v_i);
                 $weibo_data['image'][$k_i]['big'] = $bi['path'];
             }else{
