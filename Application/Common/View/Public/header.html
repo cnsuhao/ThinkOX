@@ -1,11 +1,11 @@
 <php> D('Home/Member')->need_login();</php>
 <div class="top_bar">
     <div class="container">
-        <div class="row">
-            <div class="col-md-1">
-                分享<a id="weibo_shareBtn" target="_blank" class="share_weibo"></a>
+        <div class="row hidden-xs">
+            <div class="col-md-2">
+                分享<a class="share_weibo"></a>
             </div>
-            <div class="col-md-11 text-right">
+            <div class="col-md-10 text-right top_right">
 
 
                 <php>
@@ -79,7 +79,7 @@
 
 
                         <li>
-                            <a title="修改资料" href="{:U('Usercenter/Index/expandInfo')}"><i
+                            <a style="margin-right: 15px;" title="修改资料" href="{:U('Usercenter/Index/expandInfo')}"><i
                                     class="glyphicon glyphicon-cog"></i></a>
                         </li>
                         <li class="top_spliter"></li>
@@ -125,21 +125,43 @@
 
     </div>
 </div>
-<div class="logo_bar">
-    <div class="logo">
-        <div class="container">
-            <a class="logo" href="{:U('Home/Index/index')}"><img class="" src="__STATIC__/oneplus/images/logo.png"/></a>
+
+        <div class="logo_bar">
+            <div class="container">
+                <div class="row logo">
+                    <div class="col-md-5">
+                        <img src="__STATIC__/oneplus/images/logo.png"/>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
-    <a class="bg">
-        <img src="__STATIC__/oneplus/images/logobar_bg.png"/>
-    </a>
-</div>
+
+
 <div class="nav_bar">
     <div class="container">
-        <ul class="nav navbar-nav" style="font-size: 18px">
+        <div class="row">
+
+       <!-- <div class="col-md-7">
+
+            <ul class="menu">
+            <li class="current first"><a href="http://sc.chinaz.com/" target="_self">首页</a></li>
+            <li><a href="#" target="_self">功能</a></li>
+            <li><a href="#" target="_self">下载</a></li>
+            <li class="li_3"><a class="noclick" href="http://sc.chinaz.com/" target="_blank">更多产品</a>
+                <dl class="li_3_content">
+                    <dt></dt>
+                    <dd><a href="http://sc.chinaz.com/" target="_blank"><span>应用商店</span></a></dd>
+                    <dd><a href="http://sc.chinaz.com/" target="_blank"><span>主题商店</span></a></dd>
+                    <dd><a href="http://sc.chinaz.com/" target="_blank"><span>小米桌面</span></a></dd>
+                    <dd class="lastItem"><a href="http://sc.chinaz.com/" target="_blank"><span>懒人图库</span></a></dd>
+                </dl>
+            </li>
+            <li class=""><a class="noborder " href="#" target="_self">论坛</a></li>
+            </ul>
+        </div>-->
             <!--导航栏菜单项-->
+            <ul class="nav navbar-nav col-md-7" style="font-size: 18px">
             <think:nav name="nav">
                 <eq name="nav.pid" value="0">
                     <php>
@@ -158,21 +180,38 @@
                             </volist>
                         </ul>
                     </li>
-
                     <php>}else{</php>
-
                     <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
                         <a href="{$nav.url|get_nav_url}"
                            target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
                     </li>
-
-                    <php>}</php>
-
+                   <php>}</php>
                 </eq>
-
-
             </think:nav>
-        </ul>
+            </ul>
+        <div class="col-md-1" style="padding-top:12px;">
+            <div class="btn-group pull-right">
+             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+               发微博
+                <span class="caret"></span>
+             </button>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="#">发帖子</a></li>
+                <li><a href="#">发活动</a></li>
+            </ul>
+            </div>
+        </div>
+
+            <div class="col-md-4 " style="padding-top:4px;">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+
+    </div>
     </div>
 </div>
 <a id="goTopBtn"></a>
@@ -193,3 +232,40 @@
     weiboShare()
 </script>
 <!--新浪微博分享代码end-->
+        <script>
+
+            $(function () {
+                var $menu = $(".menu"), $menuLi = $menu.find("li"), $current = $menu.find('.current'), $li_3 = $menu.find('li.li_3'), $li_3_content = $li_3.find('.li_3_content');
+                $menuLi.hover(function () {
+                    var $this = $(this), num = $menuLi.index($this), current = $menuLi.index($(".first")), len = current - num;
+                    $menu.css("background-position", (101 * current) + "px" + " bottom");
+                    $current.removeClass("lihover");
+                    $menuLi.removeClass("first");
+                    $this.addClass("first");
+                    if (len <= 0) { len = -len; };
+                    if (num != 4) {
+                        $menu.stop().animate({ backgroundPosition: (101 * num) + "px" + " bottom" }, 100 * len);
+                    }
+                    else {
+                        $menu.stop().animate({ backgroundPosition: (101 * num + 30) + "px" + " bottom" }, 100 * len);
+                    }
+                });
+                $li_3.hover(function () {
+                    $li_3_content.stop(true, true).fadeIn(0);
+                }, function () {
+                    $li_3_content.fadeOut(500, function () {
+                        $li_3_content.css("display", "none");
+                    });
+                });
+                $menu.mouseleave(function () {
+                    var $this = $(this), num = $menuLi.index($this), current = $menuLi.index($current), len = current - num;
+                    $menuLi.removeClass("first");
+                    $current.addClass("first");
+                    if (len <= 0) { len = -len; };
+                    $menu.stop().animate({ backgroundPosition: (100 * current + 1) + "px" + " bottom" }, 100 * len);
+                });
+                $("a.noclick").click(function (event) {
+                    event.preventDefault();
+                });
+            });
+        </script>

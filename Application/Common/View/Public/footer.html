@@ -1,33 +1,46 @@
 <!-- 底部
 ================================================== -->
 <div class="footer-jumbotron footer_bar">
+    <div class="container">
     <div class="row">
-        <div class="col-sm-4 col-xs-12">
-
-        </div>
-        <div class="col-sm-4 col-xs-12">
-            <p>本站由 <a  href="http://www.ourstu.com/" class="link-reverse">ThinkOX开源社交框架</a> 强力驱动
+        <div class="col-md-8">
+               <div class="footer_left"><img src="__STATIC__/oneplus/images/footer-logo.png"/>
+            <p class="han_p">想天软件工作室成立于2013年9月，专业承接各种网站开发项目。运维成本更低，
+                在SAE上的应用无需关心硬件维护、服务监控、数据容灾等操作，SAE会通过其高
+                可靠的架构和方便的监控页面为用户将运维成本降到最低扩展性更强。
+            </p>
+            <p class="han_p">
+                本站由 <a  href="http://www.ourstu.com/" target="_blank">ThinkOX开源社交框架</a> 强力驱动
 
                 <!--//TODO 如未获得thinkox官方许可，请尽量保留一个指向thinkox的链接，非常感谢。-->
-            </p>
-
-            <php> $config = api('Config/lists');
-                C($config); //添加配置
-                $icp=C('WEB_SITE_ICP');
-                $count_code=C('COUNT_CODE');
-            </php>
-            <notempty name="icp">
+                <php> $config = api('Config/lists');
+                    C($config); //添加配置
+                    $icp=C('WEB_SITE_ICP');
+                    $count_code=C('COUNT_CODE');
+                </php>
+                <notempty name="icp">
                 <p>备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank">{$icp}</a></p>
-            </notempty>
-
-            <p>@2014 ThinkSkySoftware Studio. All Rights Reserved&nbsp;
+              </notempty>
+                @2014 ThinkSkySoftware Studio. All Rights Reserved&nbsp;
                 {$count_code}
             </p>
+               </div>
         </div>
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-md-2">
+               <div class="footer_right">
+                    <p><h4><strong>联系</strong></h4></p>
+                   <p><a href="http://tox.ourstu.com" target="_blank">关于我们</a><p>
+                   <p><a href="http://tox.ourstu.com" target="_blank">问题反馈</a></p>
+                   <p><a href="http://tox.ourstu.com" target="_blank">联系我们</a></p>
 
+               </div>
         </div>
+        <div class="col-md-2">
+            <img src="__STATIC__/oneplus/images/erweima.png"/>
+        </div>
+
     </div>
+</div>
 </div>
 <script type="text/javascript" src="__STATIC__/oneplus/js/ext/placeholder/placeholder.js"></script>
         <script>

@@ -2,16 +2,11 @@
 <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
 <volist name="list" id="weibo">
 
-    <div class="row" style="position: relative">
-        <eq name="weibo.is_top" value="1">
-            <div class="ribbion-green">
-                <a>置顶</a>
-            </div>
-        </eq>
-    </div>
+
 
     <div class="row" id="weibo_{$weibo.id}">
-        <div class="col-xs-12">
+        <div class="col-xs-12" style="min-width: 700px;">
+
             <div class="pull-left">
                 <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
                     <img src="{$weibo.user.avatar64}"
@@ -20,10 +15,18 @@
                 </a>
             </div>
 
-            <div style="padding-left: 16px; width: 92%;float: left">
+            <div class="weibo_content" id="weibo_content1">
+                <div class="weibo_content_sj pull-left"></div>
+
+                <eq name="weibo.is_top" value="1">
+                    <div class="ribbion-green">
+
+                    </div>
+                </eq>
+
                 <p>
                     <a ucard="{$weibo.user.uid}"
-                       href="{$weibo.user.space_url}">{$weibo.user.nickname|htmlspecialchars}
+                       href="{$weibo.user.space_url}" class="user_name">{$weibo.user.nickname|htmlspecialchars}
                     </a>
                     {$weibo.user.icons_html}
                     <volist name="weibo['user']['rank_link']" id="vl">
@@ -32,8 +35,24 @@
                                  class="rank_html"/>
                         </if>
                     </volist>
+                    <span  class="pull-right" style="margin-right: 20px;">
+                      <span class="ss" style="display: none">
+                          <img src="__STATIC__/oneplus/images/mark-aw1.png" />
+
+                      </span>
+                        <div class="mark_box" style="display: none">
+                            <ul class="nav text-center mark_aw">
+                                <li><a>收藏</a></li>
+                                <if condition="$weibo['can_delete']">
+                                    <li class="text-primary weibo-comment-del cpointer" data-weibo-id="{$weibo.id}"><a>删除</a></li>
+                                </if>
+                            </ul>
+                        </div>
+                    </span>
                 </p>
+                <div class="weibo_content_p">
                 {$weibo.fetchContent}
+                </div>
 
                 <!--                <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
                                 <if condition="$weibo['type'] eq 'image'">
@@ -44,17 +63,21 @@
                 </div>
                 </if>
                             -->
-
-                <p>
+                <div class="weibo_content_bottom">
+                    <p style="margin: 0px;">
                     <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
                     <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
-                    <span class="pull-right text-primary weibo-comment-link" data-weibo-id="{$weibo.id}">
+
+                        <span class="pull-right text-primary weibo-comment-link" data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
                         <include file="_operation"/>
+
                     </span>
-                </p>
+                    </p>
+                </div>
+
                 <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
                     <div class="col-xs-12">
                         <div class="light-jumbotron" style="padding: 1em 2em;">
@@ -63,11 +86,13 @@
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
+            </div>
+
     </div>
 
-    <hr/>
+
 </volist>
 
 <script>
@@ -99,4 +124,60 @@
             });
         });
     });
+
+    $(document).ready(function(){
+
+
+
+
+
+        $('.ss').mouseover(function(){
+            if($(this).parents('.weibo_content').find('.mark_box').css('display')=='none'){
+                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw2.png');
+
+            }else
+            $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw3.png');
+        })
+
+        $('.ss').mouseleave(function(){
+            if($(this).parents('.weibo_content').find('.mark_box').css('display')=='none'){
+                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw1.png');
+
+            }else
+
+            $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw4.png');
+
+        })
+        $('.weibo_content').mouseover(function(){
+
+
+            $(this).find('.ss').show();
+
+        })
+
+        $('.ss').click(function(){
+
+             $(this).parents('.weibo_content').find('.mark_box').toggle();
+            if($(this).parents('.weibo_content').find('.mark_box').css('display')=='none'){
+                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw2.png');
+
+
+            }else
+                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw3.png');
+        })
+        $('.weibo_content').mouseleave(function(){
+
+            $(this).find('.ss').hide();
+            $(this).find('.mark_box').hide();
+        })
+
+    });
+
+
+
+
+
+
+
+
 </script>

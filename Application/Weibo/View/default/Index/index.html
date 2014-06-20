@@ -5,19 +5,29 @@
 </block>
 
 <block name="body">
-    <div class="col-xs-12">
+    <div class="container">
         <div class="row">
-            <div class="col-md-9 col-sm-8 col-xs-12 weibo_main">
+          <!--  筛选部分-->
+            <div class="col-md-1" style="margin-bottom: 30px;">
+                <select name="cars">
+                    <option value="volvo"
+                    <eq name="tab" value="all"> class="active"</eq>
+                    ><a href="{:U('Weibo/Index/index')}">全站</a></option>
+                    <option value="saab"
+                    <eq name="tab" value="concerned"> class="active"</eq>
+                    ><a href="{:U('Weibo/Index/myconcerned')}">关注</a></option>
+                </select>
+            </div>
+            <!--筛选部分结束-->
+
+            <!--微博内容列表部分-->
+            <div class="weibo_left col-md-8">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" style="padding: 20px;">
                         <br/>
-
-                        <p>记录，就是一种态度！</p>
-
                         <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                      placeholder="写点什么吧～～"></textarea></p>
                         <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
-
                         {:hook('weiboType')}
                         <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
                                                      class="btn btn-primary" data-url="{:U('doSend')}"/></p>
@@ -26,32 +36,7 @@
                 <div id="emot_content" class="emot_content"></div>
                 <div id="hook_show" class="emot_content"></div>
 
-                <div class="row ad_max" >
-                    <div class="col-xs-12">
-                        <p>
-                            <!-- 广告位：微博下方广告位 -->
-                            <script>CNZZ_SLOT_RENDER("269575");</script>
-                        </p>
-                    </div>
-                </div>
 
-                <div class="row" style="padding-top: 10px">
-                    <div class="col-xs-12">
-
-                        <ul class="nav nav-pills ucenter-tab">
-                            <li
-                            <eq name="tab" value="all"> class="active"</eq>
-                            ><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
-                            <if condition="is_login()">
-                                <li
-                                <eq name="tab" value="concerned"> class="active"</eq>
-                                ><a href="{:U('Weibo/Index/myconcerned')}">我关注的</a></li>
-                            </if>
-                        </ul>
-
-                    </div>
-                </div>
-                <hr/>
                 <div id="weibo_list">
                     <include file="loadweibo"/>
                 </div>
@@ -60,62 +45,64 @@
                     <p id="load_more_text">载入更多</p>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-4 col-xs-12">
-                <p class="visible-xs">
-                    <br/><br/><br/>
-                </p>
+            <!--微博内容列表部分结束-->
 
+            <!--首页右侧部分-->
+            <div class="weibo_right col-md-3">
+                <!--登录后显示个人区域-->
                 <if condition="is_login()">
-                    <div class="hot_post" style="margin-top: 0;padding-bottom: 10px">
-                        <div class="row">
-                            <div class="col-xs-5">
-                                <a href="{:U('UserCenter/Index/changeavatar')}"><img src="{$self.avatar128}"
-                                                                                     class="avatar-img"/></a>
-                            </div>
-                            <div class="col-xs-7">
-                                <a style="font-size: 1.2em;width: 100%" title="{$self.username}" class="text-more"
-                                   href="{$self.space_url}">{$self.nickname}</a>
-                                头衔：{$self.icons_html}
-                                <if condition="$self['rank_link'][0]['num']">
-                                    <volist name="self['rank_link']" id="vl">
-                                        <if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}"
-                                                                            alt="{$vl.title}"
-                                                                            style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
-                                        </if>
-                                    </volist>
-                                    <else/>
-                                    无
-                                </if>
-                                <br/>积分：{$self.score}
-                                <br/>等级：{$self.title}
-                            </div>
-                        </div>
+                    <div class="forum_module">
+                        <p>
+                        <span>
+                        <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
+                            <img src="{$weibo.user.avatar128}"
+                                 class="avatar-img"
+                                 style="width: 96px;"/>
+                        </a>
+                       </span>
 
-                        <div class="row" style="margin: 10px;text-align: center">
-                            <div class="col-xs-4">
-                                微博<br/><a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}">{$self.weibocount}</a>
-                            </div>
-                            <div class="col-xs-4">
-                                粉丝<br/><a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a>
-                            </div>
-                            <div class="col-xs-4">
-                                关注<br/><a href="{:U('Usercenter/Index/following')}">{$self.following}</a>
-                            </div>
+                        <span class="name_touxian">
+                        <a ucard="{$weibo.user.uid}"
+                           href="{$weibo.user.space_url}" class="user_name">{$weibo.user.nickname|htmlspecialchars}
+                        </a><br/>
+                             <if condition="$self['rank_link'][0]['num']">
+                                 <volist name="self['rank_link']" id="vl">
+                                     <if condition="$vl['is_show']"><img src="{$vl.logo_url}" title="{$vl.title}"
+                                                                         alt="{$vl.title}"
+                                                                         style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
+                                     </if>
+                                 </volist>
+                                 <else/>
+                                无
+                             </if>
+                        </span>
+                        </p>
+
+                        <span style="color: #8c8c8c">
+                        <div class="col-xs-4 text-center">
+                            <a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}">{$self.weibocount}</a><br/>微博
                         </div>
+                        <div class="col-xs-4 text-center">
+                            <a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a><br/>粉丝
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <a href="{:U('Usercenter/Index/following')}">{$self.following}</a><br/>关注
+                        </div>
+                        </span>
+
+                        <p style="margin-left:20px;margin-top:10px;">
+                            积分：{$self.score}<br/>
+                            等级：{$self.title}
+                        </p>
+
                     </div>
                 </if>
-                <div>
-                    {:hook('checkin')}
-
-                    {:hook('Rank')}
-                    {:W('TopUserList/lists',array(null,'score desc','活跃用户','top'))}
-                    {:W('UserList/lists')}
-
-                </div>
+                <!--登录后显示个人区域部分结束-->
             </div>
+        <!--首页右侧部分结束-->
 
-        </div>
     </div>
+</div>
 </block>
 
 <block name="script">
@@ -124,7 +111,7 @@
     <script src="__JS__/weibo.js"></script>
     <script src="__JS__/insertFace.js"></script>
     <script>
-        var SUPPORT_URL="{:addons_url('Support://Support/doSupport')}"
+        var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}"
         $(function () {
 
             var $inputor = $('#weibo_content').atwho(atwho_config);
@@ -147,14 +134,14 @@
                 var button = $(this);
                 var originalButtonText = button.val();
                 var feedType = 'feed';
-                var  attach_ids = '';
-            if( typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length >0){
-                var feedType = 'image';
-                var attach_ids = $('#attach_ids').val();
-            }
+                var attach_ids = '';
+                if (typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length > 0) {
+                    var feedType = 'image';
+                    var attach_ids = $('#attach_ids').val();
+                }
 
                 //发送到服务器
-                $.post(url, {content: content,type:feedType,attach_ids:attach_ids}, function (a) {
+                $.post(url, {content: content, type: feedType, attach_ids: attach_ids}, function (a) {
                     handleAjax(a);
                     if (a.status) {
                         button.attr('class', 'btn btn-primary');
