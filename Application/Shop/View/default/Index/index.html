@@ -68,7 +68,7 @@
                 <div>
                     <div style="width: 200px;float: left;">
                         <h3  class="text-more" style="width: 100%;line-height: 20px;">
-                            <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">{$vo.goods_name}</a>
+                            <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font></a>
                         </h3>
                     </div>
                     <div style="float: right;margin-right: 10px;margin-top: 10px;">
@@ -84,7 +84,7 @@
                     </ul>
                 </div>
                 <div class="spliter"></div>
-                <div><div class="text-more"  style="padding: 0 10px;word-break: break-all;text-align: center;width: 100%;"><span>{$vo.goods_introduct}</span></div></div>
+                <div><div class="text-more"  style="padding: 0 10px;word-break: break-all;text-align: center;width: 100%;"><span><font title="{$vo.goods_introduct|op_t}">{$vo.goods_introduct}</font></span></div></div>
             </div>
 
         </div>
