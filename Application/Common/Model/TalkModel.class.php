@@ -50,7 +50,7 @@ class TalkModel extends Model
     public function getLastMessage($talk_id)
     {
         $last_message = D('TalkMessage')->where('talk_id=' . $talk_id)->order('create_time desc')->find();
-        $last_message['user'] = query_user(array('username', 'space_url', 'id'), $last_message['uid']);
+        $last_message['user'] = query_user(array('nickname', 'space_url', 'id'), $last_message['uid']);
         $last_message['content'] = op_t($last_message['content']);
         return $last_message;
     }
@@ -81,9 +81,9 @@ class TalkModel extends Model
             $talk = array_merge($messageModel->getSource($message), $talk);
         } else {
             if (count($orin_member) == 1) {
-                $user_one = query_user(array('username'), $orin_member[0]);
-                $user_two = query_user(array('username'));
-                $talk['title'] = $user_one['username'] . ' 和 ' . $user_two['username'] . '的会话';
+                $user_one = query_user(array('nickname'), $orin_member[0]);
+                $user_two = query_user(array('nickname'));
+                $talk['title'] = $user_one['nickname'] . ' 和 ' . $user_two['nickname'] . '的会话';
             }
         }
 
@@ -134,7 +134,7 @@ class TalkModel extends Model
         $uids = $this->getUids($li['uids']);
         foreach ($uids as $uid) {
             if ($uid != is_login()) {
-                $li['first_user'] = query_user(array('avatar64', 'username'), $uid);
+                $li['first_user'] = query_user(array('avatar64', 'nickname'), $uid);
                 break;
             }
             $li['last_message'] = $this->getLastMessage($li['id']);
@@ -151,7 +151,7 @@ class TalkModel extends Model
         $has_got_ico = false;
         foreach ($members as &$mem) {
             if ($mem != is_login() && $has_got_ico == false) {
-                $ico_user = query_user(array('avatar64', 'username'), $mem);
+                $ico_user = query_user(array('avatar64', 'nickname'), $mem);
                 $has_got_ico = true;
             }
         }
