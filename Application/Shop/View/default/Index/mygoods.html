@@ -1,0 +1,113 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/shop.css" rel="stylesheet" type="text/css"/>
+</block>
+
+<block name="body">
+<div class="row">
+    <div class="col-md-12 app_head">
+        <div id="top_link" class="app_title sub_nav">
+            <i class="app_ico_i glyphicon glyphicon-shopping-cart"> </i>
+            <ul class="nav_list clearfix">
+                <li>
+                    <a href="{:U('index')}" <neq name="type" value="my">class="cur"</neq>>商城</a>
+                </li>
+                <li>
+                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的订单</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="aline"></div>
+        </div>
+        <div class="sub_nav">
+            <ul id="top_nav" class="nav_list clearfix">
+                <li>
+                    <a href="{:U('myGoods',array('status'=>'0'))}" <eq name="status" value="0">class="cur"</eq>>未完成订单</a>
+                </li>
+                <li>
+                    <a href="{:U('myGoods',array('status'=>'1'))}" <eq name="status" value="1">class="cur"</eq>>已完成订单</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<div class="row shop_list">
+
+    <volist name="contents" id="vo">
+        <div class="item_inner">
+            <div class="item_core">
+                <div class="item_type">{$vo.category.title}</div>
+                <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}" target="_blank"> <img class="cover" src="{$vo.goods.goods_ico|getThumbImageById=280,210}"/></a>
+
+                <div>
+                    <div style="width: 190px;float: left;">
+                        <h3  class="text-more" style="width: 100%;line-height: 20px;">
+                            <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}"  target="_blank"><font title="{$vo.goods.goods_name}">{$vo.goods.goods_name}</font></a>
+                        </h3>
+                    </div>
+                    <div style="float: right;margin-right: 10px;margin-top: 10px;">
+                        <eq name="status" value="0">
+                                &nbsp;等待发货..
+                            <else/>
+                                &nbsp;已完成交易
+                            </eq>
+                        </eq>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="spliter"></div>
+                <div>
+                    <ul class="operation clearfix">
+                        <li style="width: 90%">{$tox_money_cname}：{$vo.goods.tox_money_need}</li>
+                        <li  style="width: 90%">购买时间：{$vo.createtime|friendlyDate}</li>
+                        <eq name="status" value="1">
+                            <li  style="width: 90%">交易完成时间：{$vo.gettime|friendlyDate}</li>
+                        </eq>
+                    </ul>
+                </div>
+                <div class="spliter"></div>
+                <div><div class="text-more"  style="padding: 0 10px;word-break: break-all;text-align: center;width: 100%;"><span><font title="{$vo.goods.goods_introduct}">{$vo.goods.goods_introduct}</font></span></div></div>
+            </div>
+
+        </div>
+    </volist>
+
+<if condition="count($contents) eq 0">
+    <php>
+        switch($status){
+            case '0':
+                $select_name='等待发货';
+                break;
+            case '1':
+                $select_name='已完成';
+                break;
+            default:
+                $select_name='等待发货';
+        }
+    </php>
+    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">你还没有{$select_name}的交易呦！。O(∩_∩)O~</div>
+</if>
+
+</div>
+    <div>
+        <div class="pull-right">
+            {:getPagination($totalPageCount,16)}
+        </div>
+    </div>
+</block>
+
+<block name="script">
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            });
+        })
+    </script>
+</block>

@@ -1,0 +1,174 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/shop.css" rel="stylesheet" type="text/css"/>
+
+</block>
+
+<block name="body">
+<div class="row">
+    <div class="col-md-12 app_head">
+        <div id="top_link" class="app_title sub_nav">
+            <i class="app_ico_i glyphicon glyphicon-shopping-cart"> </i>
+            <ul class="nav_list clearfix">
+                <li>
+                    <a href="{:U('index')}" <neq name="type" value="my">class="cur"</neq>>商城</a>
+                </li>
+                <li>
+                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的订单</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div class="aline"></div>
+        </div>
+        <div class="sub_nav">
+            <ul id="top_nav" class="nav_list clearfix">
+                <li>
+                    <a href="{:U('index')}" <eq name="top_category" value="">class="cur"</eq>>全部分类</a>
+                </li>
+                <volist name="tree" id="top">
+                    <if condition="$top['status'] eq 1">
+                        <li>
+                            <a <eq name="top_category" value="$top['id']">class="cur"</eq> href="{:U('index',array('category_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+                        </li>
+                    </if>
+
+                </volist>
+            </ul>
+
+        </div>
+        <volist name="tree" id="top">
+            <if condition="$top['status'] eq 1">
+            <div <eq name="top_category" value="$top['id']">style="display:block;"</eq>  class="children_nav" id="children_{$top.id}">
+                <ul class="nav_list clearfix">
+                    <li><a href="{:U('index',array('category_id'=>$top['id']))}" <eq name="category_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
+                    <volist name="top._" id="children">
+                        <li><a <if condition="$category_id eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('category_id'=>$children['id']))}">{$children.title}</a></li>
+                    </volist>
+
+                </ul>
+            </div>
+            </if>
+        </volist>
+
+
+    </div>
+
+</div>
+
+<div class="row shop_list">
+
+    <volist name="contents" id="vo">
+        <div class="item_inner">
+            <div class="item_core">
+                <div class="item_type">{$vo.category.title}</div>
+                <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"> <img class="cover" src="{$vo.goods_ico|getThumbImageById=280,210}"/></a>
+
+                <div>
+                    <div style="width: 200px;float: left;">
+                        <h3  class="text-more" style="width: 100%;line-height: 20px;">
+                            <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">{$vo.goods_name}</a>
+                        </h3>
+                    </div>
+                    <div style="float: right;margin-right: 10px;margin-top: 10px;">
+                        <a href="#frm-post-popup" class="open-popup-link" goods_id="{$vo['id']}"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;购买</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="spliter"></div>
+                <div>
+                    <ul class="operation clearfix">
+                        <li>{$tox_money_cname}：{$vo.tox_money_need}</li>
+                        <li>剩余量：{$vo.goods_num}</li>
+                    </ul>
+                </div>
+                <div class="spliter"></div>
+                <div><div class="text-more"  style="padding: 0 10px;word-break: break-all;text-align: center;width: 100%;"><span>{$vo.goods_introduct}</span></div></div>
+            </div>
+
+        </div>
+    </volist>
+<if condition="count($contents) eq 0">
+    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">此分类下暂无内容哦。O(∩_∩)O~</div>
+</if>
+
+</div>
+    <div>
+        <div class="pull-right">
+            {:getPagination($totalPageCount,16)}
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
+        <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
+
+        <div class="aline" style="margin-bottom: 10px"></div>
+            <div class="row">
+                    <form class="form-horizontal  ajax-form" role="form"  action="{:U('Shop/Index/goodsBuy')}" method="post">
+                        <input type="hidden" id="goods_id" name="id" value="">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <input id="name" name="name" type="text" class="form-control" value="{$shop_address['name']}" placeholder="姓名"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <textarea id="address" name="address" class="form-control" placeholder="收货地址" style="max-width: 310px">{$shop_address['address']}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <input id="zipcode" name="zipcode" type="text" class="form-control" value="{$shop_address['zipcode']}" placeholder="邮编"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
+
+                            <div class="col-sm-10"  style="width: 60%">
+                                <input id="phone" name="phone" type="text" class="form-control" value="{$shop_address['phone']}" placeholder="手机号码"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary ">提交</button>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+
+
+    </div>
+    <!-- /.modal -->
+</block>
+
+<block name="script">
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            });
+            $('.open-popup-link').click(function(){
+                var goods_id=this.getAttribute('goods_id');
+                $('#goods_id').val(goods_id);
+            });
+            $('.open-popup-link').magnificPopup({
+                type: 'inline',
+                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                closeOnBgClick:false
+            });
+        })
+    </script>
+</block>
