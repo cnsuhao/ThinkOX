@@ -16,12 +16,7 @@ class UpdateController extends AdminController
     protected $pack_db_path = 'QuickPacks/db.json';
     protected $pack_sql_dir = 'QuickPacks/sqls';
 
-    public function update()
-    {
 
-
-        $this->success('升级成功。');
-    }
 
     /*OneWX二次开发*/
     private function read_file($filename)
@@ -239,14 +234,11 @@ class UpdateController extends AdminController
 
             //  $db = new Database(array('', $this->pack_sql_dir . "/{$title}.sql"), array(), 'import');
             $error = D('')->executeSqlFile($this->pack_sql_dir . "/{$title}.sql");
-            //dump($error);exit;
-            // $start = $db->import(0);
-            /* if (!$error) {
-                 $this->error('使用补丁出错。');
-                 exit;
-             }*/
-
-            $this->success('使用补丁成功。');
+            if($error['error_code']!=''){
+                $this->error($error['error_code']);exit;
+            }else{
+                $this->success('使用补丁成功。');
+            }
         } else {
             $this->error('请选择补丁。');
         }

@@ -1,4 +1,12 @@
+ALTER TABLE  `thinkox_member` ADD  `tox_money` INT NOT NULL;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_shop`
+--
 DROP TABLE IF EXISTS `thinkox_shop`;
+
 CREATE TABLE IF NOT EXISTS `thinkox_shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_name` varchar(25) NOT NULL COMMENT '商品名称',
@@ -15,7 +23,13 @@ CREATE TABLE IF NOT EXISTS `thinkox_shop` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='商品信息' AUTO_INCREMENT=11 ;
 
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_shop_buy`
+--
 DROP TABLE IF EXISTS `thinkox_shop_buy`;
+
 CREATE TABLE IF NOT EXISTS `thinkox_shop_buy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `goods_id` int(11) NOT NULL COMMENT '商品id',
@@ -28,7 +42,14 @@ CREATE TABLE IF NOT EXISTS `thinkox_shop_buy` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='购买商品信息表' AUTO_INCREMENT=53 ;
 
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_shop_config`
+--
 DROP TABLE IF EXISTS `thinkox_shop_config`;
+
 CREATE TABLE IF NOT EXISTS `thinkox_shop_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ename` varchar(25) NOT NULL COMMENT '英文名称（固定:tox_money）',
@@ -37,9 +58,16 @@ CREATE TABLE IF NOT EXISTS `thinkox_shop_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商店配置' AUTO_INCREMENT=1 ;
 
-INSERT INTO `thinkox_shop_config` ( `ename`, `cname`, `changetime`) VALUES ( 'tox_money', '金币', 1402756941);
+--
+-- 转存表中的数据 `thinkox_shop_config`
+--
 
+INSERT INTO `thinkox_shop_config` ( `ename`, `cname`, `changetime`) VALUES ( 'tox_money', '金币', 1402756941);
+--
+-- 表的结构 `thinkox_shop_category`
+--
 DROP TABLE IF EXISTS `thinkox_shop_category`;
+
 CREATE TABLE IF NOT EXISTS `thinkox_shop_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(25) NOT NULL,
@@ -52,7 +80,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_shop_category` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
+--
+-- 表的结构 `thinkox_shop_log`
+--
 DROP TABLE IF EXISTS `thinkox_shop_log`;
+
 CREATE TABLE IF NOT EXISTS `thinkox_shop_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -61,7 +93,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_shop_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
+--
+-- 表的结构 `thinkox_shop_address`
+--
 DROP TABLE IF EXISTS `thinkox_shop_address`;
+
 CREATE TABLE IF NOT EXISTS `thinkox_shop_address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -73,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_shop_address` (
   `phone` varchar(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED AUTO_INCREMENT=2 ;
+
 
 
 REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
@@ -90,3 +127,6 @@ REPLACE INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`,
 (183, '交易成功记录', 172, 5, 'Shop/goodsBuySuccess', 0, '', '交易管理', 0),
 (184, '待发货交易', 172, 4, 'Shop/verify', 0, '', '交易管理', 0),
 (185, '商城信息记录', 172, 0, 'Shop/shopLog', 0, '', '商城记录', 0);
+
+INSERT INTO `thinkox_channel` (`pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
+(0, '商城', 'Shop/Index/index', 5, 1403056971, 1403085891, 1, 0);

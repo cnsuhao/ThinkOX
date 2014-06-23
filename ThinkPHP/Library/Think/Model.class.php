@@ -1767,23 +1767,24 @@ class Model {
         $sql = fread($fp, filesize($file));
         fclose($fp);
 
-        $sql = str_replace("\r", "\n", str_replace('`' . 'ts_', '`' . $this->tablePrefix, $sql));
+        $sql = str_replace("\r", "\n", str_replace('`' . 'thinkox_', '`' . $this->tablePrefix, $sql));
 
         foreach (explode(";\n", trim($sql)) as $query) {
             $query = trim($query);
             if ($query) {
-                if (substr($query, 0, 12) == 'CREATE TABLE') {
+               // if (substr($query, 0, 12) == 'CREATE TABLE') {
                     //预处理建表语句
-                    $db_charset = (strpos($db_charset, '-') === FALSE) ? $db_charset : str_replace('-', '', $db_charset);
-                    $type = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $query));
-                    $type = in_array($type, array("MYISAM", "HEAP")) ? $type : "MYISAM";
-                    $_temp_query = preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $query) .
-                        (mysql_get_server_info() > "4.1" ? " ENGINE=$type DEFAULT CHARSET=$db_charset" : " TYPE=$type");
+              //      $db_charset = (strpos($db_charset, '-') === FALSE) ? $db_charset : str_replace('-', '', $db_charset);
+             //       $type = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $query));
+            //       $type = in_array($type, array("MYISAM", "HEAP")) ? $type : "MYISAM";
+                   /* $_temp_query = preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $query) .*/
+              //          (mysql_get_server_info() > "4.1" ? " ENGINE=$type DEFAULT CHARSET=$db_charset" : " TYPE=$type");
 
-                    $res = $this->execute($_temp_query);
-                } else {
+                   // dump($_temp_query);exit;
+               //     $res = $this->execute($_temp_query);
+              //  } else {
                     $res = $this->execute($query);
-                }
+              //  }
                 if ($res === false) {
                     $error[] = array(
                         'error_code' => $this->getDbError(),
