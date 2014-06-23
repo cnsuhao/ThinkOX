@@ -171,7 +171,7 @@ class IndexController extends Controller
                 $shop_log['create_time']=$data['createtime'];
                 D('shop_log')->add($shop_log);
 
-                $this->success('购买成功！花费了'.$tox_money_need.getToxMoneyName());
+                $this->success('购买成功！花费了'.$tox_money_need.getToxMoneyName(), $_SERVER['HTTP_REFERER']);
             }else{
                 $this->error('购买失败！');
             }
