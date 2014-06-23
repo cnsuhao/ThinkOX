@@ -178,7 +178,7 @@ class ShopController extends AdminController
             $val['category']=$category;
             unset($category);
         }
-
+        unset($val);
         $builder->buttonNew(U('Shop/goodsEdit'))->buttonDelete(U('setGoodsStatus'))->setStatusUrl(U('setGoodsStatus'));
         $builder->keyId()->keyText('goods_name','商品名称')->keyText('category','商品分类')->keyText('goods_introduct','商品广告语')
             ->keyText('tox_money_need','商品价格')->keyText('goods_num','商品余量')->keyStatus('status','出售状态')->keyUpdateTime('changetime')->keyCreateTime('createtime')->keyDoActionEdit('Shop/goodsEdit?id=###')->keyDoAction('Shop/setGoodsStatus?ids=###&status=-1','删除');
@@ -339,6 +339,7 @@ class ShopController extends AdminController
             $val['zipcode']=$address['zipcode'];
             $val['phone']=$address['phone'];
         }
+        unset($val);
         //显示页面
         $builder = new AdminListBuilder();
 
@@ -366,6 +367,7 @@ class ShopController extends AdminController
             $val['zipcode']=$address['zipcode'];
             $val['phone']=$address['phone'];
         }
+        unset($val);
         //显示页面
         $builder = new AdminListBuilder();
 
