@@ -141,4 +141,9 @@ class UserApi extends Api{
         }
         return $return;
     }
+
+    public function addSyncData($info){
+        return $this->model->addSyncData($info);
+    }
+
 }
