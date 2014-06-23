@@ -21,8 +21,8 @@ class Recorder{
         $config   =   json_decode($config['config'], true);
         $this->inc->appid = $config['QQKEY'];
         $this->inc->appkey = $config['QQSecret'];
-        //  $this->inc->callback = getRootUrl().'/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/QQ/_action/qqlogin.html';
-        $this->inc->callback = ' http://oxqq.ourstu.com/index.php?s=/Home/User/qqlogin.html';
+         $this->inc->callback = getRootUrl().'/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/QQ/_action/qqlogin.html';
+       // $this->inc->callback = ' http://oxqq.ourstu.com/index.php?s=/Home/User/qqlogin.html';
         if(empty($this->inc)){
             $this->error->showError("20001");
         }
