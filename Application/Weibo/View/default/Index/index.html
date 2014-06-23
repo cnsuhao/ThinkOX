@@ -51,7 +51,7 @@
             <div class="weibo_right col-md-3">
                 <!--登录后显示个人区域-->
                 <if condition="is_login()">
-                    <div class="forum_module">
+                    <div class="forum_module"style="font-size: 14px;">
                         <p>
                         <span>
                         <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
@@ -78,7 +78,7 @@
                         </span>
                         </p>
 
-                        <span style="color: #8c8c8c">
+                        <div style="color: #8c8c8c;margin-bottom: 10px;width: 188px;height: 42px;">
                         <div class="col-xs-4 text-center">
                             <a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}">{$self.weibocount}</a><br/>微博
                         </div>
@@ -88,12 +88,13 @@
                         <div class="col-xs-4 text-center">
                             <a href="{:U('Usercenter/Index/following')}">{$self.following}</a><br/>关注
                         </div>
-                        </span>
+                        </div>
 
-                        <p style="margin-left:20px;margin-top:10px;">
-                            积分：{$self.score}<br/>
-                            等级：{$self.title}
+                        <p style="margin-left:16px;margin-top:8px;color: #03ae87">
+                            积分：{$self.score}&nbsp;&nbsp;<a><img src="__STATIC__/oneplus/images/duihuan.png"/></a>
                         </p>
+                            <p style="margin-left:16px;color: #03ae87">等级：{$self.title}</p>
+
 
                     </div>
                 </if>
@@ -103,6 +104,7 @@
 
     </div>
 </div>
+
 </block>
 
 <block name="script">

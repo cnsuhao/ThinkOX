@@ -92,7 +92,7 @@ a:hover {
   line-height: 28px;
 }
 #main-container {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .navbar-avatar-img {
   border-radius: 100%;
@@ -279,8 +279,8 @@ h2 {
 .ribbion-green {
   z-index: 99;
   position: absolute;
-  right:15px;
-top:1px;
+  right:13px;
+top:0px;
   background: url(../../../Forum/images/ribbion.png) no-repeat;
   width: 43px;
   height: 43px;
@@ -1101,6 +1101,8 @@ General list for item with image
 }
 
 .btn-primary{}
+a{color: #848484}
+a:hover{color: #03ae87}
 /*新界面按钮ui风格重写结束*/
 
 /*顶栏*/
@@ -1213,21 +1215,26 @@ General list for item with image
 /*全站右侧模块样式*/
 .forum_module{
     width:233px;
-    font-size: 15px;
+    font-size: 16px;
     padding: 8px;
-    border:1px solid #cbcbcb;
+
     -moz-border-radius:6px;/*仅Firefox支持，实现圆角效果*/
     -webkit-border-radius:6px;/*仅Safari,Chrome支持，实现圆角效果*/
     -khtml-border-radius:6px;/*仅Safari,Chrome支持，实现圆角效果*/
     border-radius:6px;/*仅Opera，Safari,Chrome支持，实现圆角效果*/
-    margin-bottom: 15px;
-    border-bottom: #ddd 3px solid;
-    color: #8c8c8c;
+    margin-bottom: 14px;
+    background-color: #ffffff;
+    color: #333333;
+
+    -webkit-box-shadow: 0px 2px 5px #ccc;/*（这是专对火狐浏览器的支持而设置的）*/
+    -moz-box-shadow: 0px 2px 5px #ccc;/*（这是对Safari和Chrome浏览器而设置的）*/
+    box-shadow: 0px 2px 5px #ccc;
 }
 .forum_module_name{height:20px;margin-bottom: 10px;width: 210px}
 .clearfix{clear: both}
 .forum_module_content{color:#797979 }
-.font_grey{font-size: 14px;color: #9e9e9e}
+.font_grey{color: #848484}
+.font_black{color: #333333}
 .position{margin-right: 20px;margin-bottom: 15px;}
 
 
@@ -1238,7 +1245,7 @@ General list for item with image
     padding:15px;
     width: 86%;
     float: right;
-    border:1px solid #dddddd;
+
     -moz-border-radius:6px;/*仅Firefox支持，实现圆角效果*/
     -webkit-border-radius:6px;/*仅Safari,Chrome支持，实现圆角效果*/
     -khtml-border-radius:6px;/*仅Safari,Chrome支持，实现圆角效果*/
@@ -1260,8 +1267,8 @@ General list for item with image
 .weibo_content_p{
 
     width:555px;
-    font-size: 15px;
-    color: #444444;
+    font-size: 14px;
+    color: #333333;
     line-height: 29px;
 }
 

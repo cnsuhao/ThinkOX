@@ -49,11 +49,14 @@
   background: url('../images/bg.png');
 }
 .forum_block_border {
-  border: #ddd 1px solid;
-  border-bottom: #ddd 3px solid;
+
+  margin-bottom: 20px;
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
+    -webkit-box-shadow: 0px 2px 5px #ccc;/*（这是专对火狐浏览器的支持而设置的）*/
+    -moz-box-shadow: 0px 2px 5px #ccc;/*（这是对Safari和Chrome浏览器而设置的）*/
+    box-shadow: 0px 2px 5px #ccc;
 }
 .forum_block_title {
   background: #F5F5F5;
@@ -70,6 +73,7 @@
 /*通用类end*/
 .forum_header {
   padding-bottom: 20px;
+  margin-bottom: 20px;
   vertical-align: middle;
   background: url(../images/line.png);
   font-size: 16px;
