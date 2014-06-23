@@ -32,20 +32,43 @@ class SyncLoginAddon extends Addon
     }
 
     //实现的repost钩子方法
-    public function repost($param)
+    public function syncLogin($param)
     {
-        $weibo = $this->getweiboDetail($param['weiboId']);
-
-
-        $sourseId = $weibo['data']['sourseId'];
-
-        if (!$sourseId) {
-            $sourseId = $param['weiboId'];
-        }
-        $param['sourseId'] = $sourseId;
-        $this->assign('repost_count', $weibo['repost_count']);
         $this->assign($param);
-        $this->display('repost');
+
+        $config = $this->getConfig();
+        dump($config);
+
+        $this->display('login');
+    }
+
+    public function syncMeta($param)
+    {
+        $platform_options = $this->getConfig();
+
+        echo $platform_options['meta'];
+    }
+
+    public function AdminIndex($param)
+    {
+        $config = $this->getConfig();
+        $this->assign('addons_config', $config);
+        if ($config['display'])
+            $this->display('widget');
+    }
+
+    public function loginWithoutpwd($uid)
+    {
+        if (0 < $uid) { //UC登录成功
+            /* 登录用户 */
+            $Member = D('Member');
+            if ($Member->login($uid, false)) { //登录用户
+                //TODO:跳转到登录前页面
+                $this->success('登录成功！', U('Home/Index/index'));
+            } else {
+                $this->error($Member->getError());
+            }
+        }
     }
 
 }

@@ -10,7 +10,7 @@
 namespace Home\Controller;
 
 use User\Api\UserApi;
-require_once APP_PATH . 'Home/Api/qqConnectAPI.php';
+
 require_once APP_PATH . 'User/Conf/config.php';
 
 /**
@@ -317,87 +317,6 @@ class UserController extends HomeController
         }
     }
 
-
-    /**
-     * qqlogin
-     * QQ同步登陆回调
-     * autor:xjw129xjt
-     */
-
-    public function qqlogin(){
-     $qc = new \QC();
-     $acs  =  $qc->qq_callback();
-     $oid = $qc->get_openid();
-     $qc = new \QC($acs,$oid);
-     $info = $qc->get_user_info();
-     $type = 'qq';
-     if($info1 = D('sync_login')->where ( "`type_uid`='" . $oid . "' AND type='".$type."'" )->find ()){
-         $user = D('UcenterMember')->where ( "id=" . $info1 ['uid'] )->find ();
-         if (empty ( $user )) {
-             D('sync_login')->where ( "type_uid=" . $oid . " AND type='".$type."'" )->delete ();
-             //已经绑定过，执行登录操作，设置token
-         } else {
-             if ($info1 ['oauth_token'] == '') {
-                 $syncdata ['id']  = $info1 ['id'];
-                 $syncdata ['oauth_token'] = $acs;
-                 $syncdata ['oauth_token_secret'] = $oid;
-                 D('sync_login')->save ( $syncdata );
-             }
-            $uid = $info1 ['uid'];
-         }
-     }else{
-
-         $Api = new UserApi();
-         $uid = $Api->addSyncData($info);
-         D('Member')->addSyncData($uid,$info);
-         $this->addSyncLoginData($uid,$acs,$oid,'qq',$oid);
-         $this->saveAvatar($info['figureurl_qq_2'],$oid,$uid);
-     }
-        $this->loginWithoutpwd($uid);
-
-    $this->display();
-}
-
-
-    public function qq(){
-       $qc = new \QC();
-       $qc->qq_login();
-    }
-
-    public function addSyncLoginData($uid,$token,$openID,$type,$oauth_token_secret){
-        $data['uid'] =$uid;
-        $data['type_uid'] =$openID;
-        $data['oauth_token'] =$token;
-        $data['oauth_token_secret'] =$oauth_token_secret;
-        $data['type'] =$type;
-       $res =  D('sync_login')->add($data);
-return $res;
-    }
-public function saveAvatar($url,$oid,$uid){
-    mkdir('./Uploads/Avatar/qqAvatar',0777,true);
-    $img = file_get_contents($url);
-    $filename = './Uploads/Avatar/qqAvatar/'.$oid.'.jpg';
-    file_put_contents($filename,$img);
-    $data['uid']= $uid;
-    $data['path']= 'qqAvatar/'.$oid.'.jpg';
-    $data['create_time']= time();
-    $data['status'] = 1;
-    $data['is_temp'] = 0;
-    D('avatar')->add($data);
-
-}
-public function loginWithoutpwd($uid){
-    if (0 < $uid) { //UC登录成功
-        /* 登录用户 */
-        $Member = D('Member');
-        if ($Member->login($uid,false)) { //登录用户
-            //TODO:跳转到登录前页面
-            $this->success('登录成功！', U('Home/Index/index'));
-        } else {
-            $this->error($Member->getError());
-        }
-    }
-}
 
 
 

@@ -1,2 +1,0 @@
-<?php die('forbidden'); ?>
-{"appid":"101124408","appkey":"7df105d00766569e388f27fc07da1fe4","callback":"http://oxqq.ourstu.com/index.php?s=/Home/User/qqlogin.html","scope":"<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>,<?=$val?>","errorReport":true,"storageType":"file","host":"localhost","user":"root","password":"root","database":"test"}

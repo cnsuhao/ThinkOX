@@ -13,11 +13,16 @@ class Recorder{
 
     public function __construct(){
         $this->error = new ErrorCase();
-
         //-------读取配置文件
         $incFileContents = file(ROOT."comm/inc.php");
         $incFileContents = $incFileContents[1];
         $this->inc = json_decode($incFileContents);
+        $config =  D('addons')->where(array('name'=>'SyncLogin'))->find();
+        $config   =   json_decode($config['config'], true);
+        $this->inc->appid = $config['QQKEY'];
+        $this->inc->appkey = $config['QQSecret'];
+        //  $this->inc->callback = getRootUrl().'/index.php?s=/Home/Addons/execute/_addons/SyncLogin/_controller/QQ/_action/qqlogin.html';
+        $this->inc->callback = ' http://oxqq.ourstu.com/index.php?s=/Home/User/qqlogin.html';
         if(empty($this->inc)){
             $this->error->showError("20001");
         }
