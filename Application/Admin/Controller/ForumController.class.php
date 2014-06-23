@@ -138,21 +138,30 @@ class ForumController extends AdminController
         $this->success($isEdit ? '编辑成功' : '保存成功');
     }
 
-    public function post($page = 1, $forum_id = null, $r = 20,$title='',$content='')
+    public function post($page = 1, $forum_id = null, $r = 20, $title = '', $content = '')
     {
         //读取帖子数据
         $map = array('status' => array('EGT', 0));
-        if($title!=''){
-            $map['title']=array('like','%'.$title.'%');
+        if ($title != '') {
+            $map['title'] = array('like', '%' . $title . '%');
         }
-        if($content!=''){
-            $map['content']=array('like','%'.$content.'%');
+        if ($content != '') {
+            $map['content'] = array('like', '%' . $content . '%');
         }
         if ($forum_id) $map['forum_id'] = $forum_id;
         $model = M('ForumPost');
         $list = $model->where($map)->order('last_reply_time desc')->page($page, $r)->select();
         $totalCount = $model->where($map)->count();
 
+        foreach ($list as &$v) {
+            if ($v['is_top'] == 1) {
+                $v['top'] = '版内置顶';
+            } else if ($v['is_top'] == 2) {
+                $v['top'] = '全局置顶';
+            } else {
+                $v['top'] = '不置顶';
+            }
+        }
         //读取板块基本信息
         if ($forum_id) {
             $forum = M('Forum')->where(array('id' => $forum_id))->find();
@@ -166,8 +175,8 @@ class ForumController extends AdminController
         $builder->title('帖子管理' . $forumTitle)
             ->setStatusUrl(U('Forum/setPostStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyLink('title', '标题', 'Forum/reply?post_id=###')
-            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time', '最后回复时间')->keyBool('is_top', '是否置顶')->keyStatus()->keyDoActionEdit('editPost?id=###')
-            ->setSearchPostUrl()->search('标题', 'title')->search('内容','content')
+            ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time', '最后回复时间')->key('top', '是否置顶')->keyStatus()->keyDoActionEdit('editPost?id=###')
+            ->setSearchPostUrl()->search('标题', 'title')->search('内容', 'content')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
@@ -207,7 +216,7 @@ class ForumController extends AdminController
         //显示页面
         $builder = new AdminConfigBuilder();
         $builder->title($isEdit ? '编辑帖子' : '新建帖子')
-            ->keyId()->keyTitle()->keyEditor('content', '内容')->keyRadio('is_top', '置顶', '选择置顶形式', array(0 => '不指定', 1 => '本版置顶', 2 => '全局置顶'))->keyCreateTime()->keyUpdateTime()
+            ->keyId()->keyTitle()->keyEditor('content', '内容')->keyRadio('is_top', '置顶', '选择置顶形式', array(0 => '不置顶', 1 => '本版置顶', 2 => '全局置顶'))->keyCreateTime()->keyUpdateTime()
             ->keyTime('last_reply_time', '最后回复时间')
             ->buttonSubmit(U('doEditPost'))->buttonBack()
             ->data($post)
