@@ -35,7 +35,7 @@ class IndexController extends Controller
         $content = D('IssueContent')->where($map)->order('create_time desc')->page($page, 16)->select();
         $totalCount = D('IssueContent')->where($map)->count();
         foreach ($content as &$v) {
-            $v['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
+            $v['user'] = query_user(array('id', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
             $v['issue']=D('Issue')->field('id,title')->find($v['issue_id']);
         }
         unset($v);
@@ -88,8 +88,8 @@ class IndexController extends Controller
             {
                 $content['status'] = 0;
                 $tip='但需管理员审核通过后才会显示在列表中，请耐心等待。';
-                $user=query_user(array('username'),is_login());
-                D('Common/Message')->sendMessage(C('USER_ADMINISTRATOR'),"{$user['username']}向专辑投了一份稿件，请到后台审核。" , $title = '专辑投稿提醒', U('Admin/Issue/verify'), is_login(), 2);
+                $user=query_user(array('nickname'),is_login());
+                D('Common/Message')->sendMessage(C('USER_ADMINISTRATOR'),"{$user['nickname']}向专辑投了一份稿件，请到后台审核。" , $title = '专辑投稿提醒', U('Admin/Issue/verify'), is_login(), 2);
             }
             $rs = D('IssueContent')->add($content);
             if ($rs) {
@@ -114,7 +114,7 @@ class IndexController extends Controller
 
         $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
         $this->assign('issue_id', $issue['id']);
-        $issue_content['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
+        $issue_content['user'] = query_user(array('id', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
         $this->assign('content', $issue_content);
         $this->display();
     }
@@ -143,7 +143,7 @@ class IndexController extends Controller
 
         $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
         $this->assign('issue_id', $issue['id']);
-        $issue_content['user'] = query_user(array('id', 'username', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
+        $issue_content['user'] = query_user(array('id', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
         $this->assign('content', $issue_content);
         $this->display();
     }

@@ -61,9 +61,9 @@ class ForumPostReplyModel extends Model
         $count = D('ForumPostReply')->where($map)->count();
         $pageCount = ceil($count / $limit);
         //增加微博的评论数量
-        $user = query_user(array('username', 'space_url'), $uid);
+        $user = query_user(array('nickname', 'space_url'), $uid);
         $post = D('ForumPost')->find($post_id);
-        $title = $user['username'] . '回复了您的帖子。';
+        $title = $user['nickname'] . '回复了您的帖子。';
         $content = '回复内容：' . mb_substr(op_t($content), 0, 20);
         $url = U('Forum/Index/detail', array('id' => $post_id,'page'=>$pageCount)).'#'.$reply_id;
         $from_uid = $uid;
@@ -76,7 +76,7 @@ class ForumPostReplyModel extends Model
          if($replyList == null){
             $replyList = D('ForumPostReply')->where($map)->order($order)->select();
             foreach ($replyList as &$reply) {
-                $reply['user'] = query_user(array('avatar128', 'username', 'space_url', 'icons_html','rank_link'), $reply['uid']);
+                $reply['user'] = query_user(array('avatar128', 'nickname', 'space_url', 'icons_html','rank_link'), $reply['uid']);
                 $reply['lzl_count'] = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $reply['id'])->count();
             }
             unset($reply);

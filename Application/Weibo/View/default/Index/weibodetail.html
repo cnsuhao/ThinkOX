@@ -6,7 +6,7 @@
 <block name="body">
 
     <php>
-        query_user(array('avatar128','username','uid'));
+        query_user(array('avatar128','nickname','uid'));
     </php>
     <div class="col-xs-12">
         <div class="row">
@@ -32,9 +32,9 @@
                                 </div>
 
                                 <div class="col-xs-6">
-                                    <a style="font-size: 1.2em;width: 100%" title="{$weibo.user.username}"
+                                    <a style="font-size: 1.2em;width: 100%" title="{$weibo.user.nickname}"
                                        class="text-more"
-                                       href="{$weibo.user.space_url}">{$weibo.user.username}</a>&nbsp;{$weibo.user.icons_html}
+                                       href="{$weibo.user.space_url}">{$weibo.user.nickname}</a>&nbsp;{$weibo.user.icons_html}
                                     <br/>头衔：
                                     <if condition="$weibo['user']['rank_link'][0]['num']">
                                         <volist name="weibo['user']['rank_link']" id="vl">

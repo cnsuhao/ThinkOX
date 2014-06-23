@@ -197,8 +197,8 @@ class IndexController extends Controller
         //加入拼音检索
         $users = array();
         foreach ($uids as $uid) {
-            $user = query_user(array('username', 'id', 'avatar32'), $uid);
-            $user['search_key'] = $user['username'] . D('PinYin')->Pinyin($user['username']);
+            $user = query_user(array('nickname', 'id', 'avatar32'), $uid);
+            $user['search_key'] = $user['nickname'] . D('PinYin')->Pinyin($user['nickname']);
             $users[] = $user;
         }
 
@@ -219,7 +219,7 @@ class IndexController extends Controller
 
     private function assignSelf()
     {
-        $self = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link'));
+        $self = query_user(array('avatar128', 'nickname', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link'));
         $this->assign('self', $self);
     }
 }

@@ -8,7 +8,7 @@ $(function () {
     atwho_config = {
         at: "@",
         data: U('Weibo/Index/atWhoJson'),
-        tpl: "<li data-value='@${username}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${username}</li>",
+        tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
         show_the_at: true,
         search_key: 'search_key',
         start_with_space: false
@@ -43,7 +43,9 @@ $(function () {
                     $('#btn_showall').hide()
                     var commentLinkText = $('.operation', weiboContainer).html();
                     $('.operation', weibo).html(commentLinkText);
-
+                    commitButton.text(originalButtonText);
+                    commitButton.attr('class', 'btn btn-primary weibo-comment-commit');
+                    $('.weibo-comment-content', weibo).val('');
                 });
 
 

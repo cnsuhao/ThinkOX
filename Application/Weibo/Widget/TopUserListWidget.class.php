@@ -25,7 +25,7 @@ class TopUserListWidget extends Action
         if (empty($users)) {
             $user = D('Member')->where($map)->order($order)->limit(6)->select();
             foreach ($user as &$uid) {
-                $uid['user'] = query_user(array('avatar64', 'username', 'space_url', 'space_link'), $uid['uid']);
+                $uid['user'] = query_user(array('avatar64', 'nickname', 'space_url', 'space_link'), $uid['uid']);
                 $uid['id']=$uid['uid'];
             }
             unset($uid);

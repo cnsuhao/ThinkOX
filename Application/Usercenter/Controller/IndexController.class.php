@@ -19,7 +19,7 @@ class IndexController extends BaseController
     public function index($uid = null)
     {
         //调用API获取基本信息
-        $user = query_user(array('username', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256','rank_link'), $uid);
+        $user = query_user(array('nickname', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256','rank_link'), $uid);
         //显示页面
         $this->defaultTabHash('index');
         $this->assign('user', $user);
@@ -457,7 +457,7 @@ class IndexController extends BaseController
     {
 
         $this->assign('tab', 'fans');
-        $fans = D('Follow')->getFans(is_login(), $page, array('avatar128', 'id', 'username', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
+        $fans = D('Follow')->getFans(is_login(), $page, array('avatar128', 'id', 'nickname', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
         $this->assign('fans', $fans);
         $this->assign('totalCount',$totalCount);
         $this->display();
@@ -465,7 +465,7 @@ class IndexController extends BaseController
 
     public function following($page=1)
     {
-        $following = D('Follow')->getFollowing(is_login(), $page, array('avatar128', 'id', 'username', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
+        $following = D('Follow')->getFollowing(is_login(), $page, array('avatar128', 'id', 'nickname', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
         $this->assign('following',$following);
         $this->assign('totalCount',$totalCount);
         $this->assign('tab', 'following');

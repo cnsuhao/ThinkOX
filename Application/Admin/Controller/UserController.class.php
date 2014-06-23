@@ -350,7 +350,7 @@ class UserController extends AdminController {
      * * @param $profile_name
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function editProfile($id,$profile_name){
+    public function editProfile($id=0,$profile_name=''){
         if(IS_POST){
             $data['profile_name']=$profile_name;
             if($data['profile_name']==''){

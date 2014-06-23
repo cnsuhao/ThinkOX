@@ -1112,9 +1112,9 @@ function op_h($text, $type = 'html'){
     //兼容Form格式
     $form_tags  = $base_tags.'<form><input><textarea><button><select><optgroup><option><label><fieldset><legend>';
     //内容等允许HTML的格式
-    $html_tags  = $base_tags.'<meta><ul><ol><li><dl><dd><dt><table><caption><td><th><tr><thead><tbody><tfoot><col><colgroup><div><span><object><embed><param>';
+    $html_tags  = $base_tags.'<ul><ol><li><dl><dd><dt><table><caption><td><th><tr><thead><tbody><tfoot><col><colgroup><div><span><object><embed><param>';
     //专题等全HTML格式
-    $all_tags   = $form_tags.$html_tags.'<!DOCTYPE><html><head><title><body><base><basefont><script><noscript><applet><object><param><style><frame><frameset><noframes><iframe>';
+    $all_tags   = $form_tags.$html_tags.'<!DOCTYPE><meta><html><head><title><body><base><basefont><script><noscript><applet><object><param><style><frame><frameset><noframes><iframe>';
     //过滤标签
     $text = real_strip_tags($text, ${$type.'_tags'});
     // 过滤攻击代码

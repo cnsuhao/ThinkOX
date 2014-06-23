@@ -201,9 +201,7 @@ INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, 
 (166, '添加、编辑字段', 165, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
 (167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0),
 (168, '全部补丁', 68, 0, 'Admin/Update/quick', 0, '', '升级补丁', 0),
-(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0),
-(170, '用户扩展资料列表', 16, 0, 'Admin/User/expandinfo_select', 0, '', '用户管理', 0),
-(171, '扩展资料详情', 170, 0, 'User/expandinfo_details', 0, '', '', 0);
+(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0);
 
 
 DELETE FROM `thinkox_config` WHERE `thinkox_config`.`id` = 1;

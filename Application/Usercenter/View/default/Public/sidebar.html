@@ -1,5 +1,5 @@
 <php>
-    $sideBarUser = query_user(array('username', 'uid', 'title', 'score', 'avatar128'), $uid);
+    $sideBarUser = query_user(array('nickname', 'uid', 'title', 'score', 'avatar128'), $uid);
     $call = $call ? $call : '我';
 </php>
 
@@ -20,7 +20,7 @@
 
             <!--用户名-->
             <p class="text-center">
-                {$sideBarUser.username|htmlspecialchars}
+                {$sideBarUser.nickname|htmlspecialchars}
                 &nbsp;
             </p>
 

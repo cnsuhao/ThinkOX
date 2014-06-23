@@ -12,15 +12,18 @@
                 <!--//TODO 如未获得thinkox官方许可，请尽量保留一个指向thinkox的链接，非常感谢。-->
             </p>
 
-           <php> $config = api('Config/lists');
-               C($config); //添加配置
-               $icp=C('WEB_SITE_ICP');
-           </php>
+            <php> $config = api('Config/lists');
+                C($config); //添加配置
+                $icp=C('WEB_SITE_ICP');
+                $count_code=C('COUNT_CODE');
+            </php>
             <notempty name="icp">
                 <p>备案号：<a href="http://www.miitbeian.gov.cn/" target="_blank">{$icp}</a></p>
             </notempty>
 
-            <p>@2014 ThinkSkySoftware Studio. All Rights Reserved</p>
+            <p>@2014 ThinkSkySoftware Studio. All Rights Reserved&nbsp;
+                {$count_code}
+            </p>
         </div>
         <div class="col-sm-4 col-xs-12">
 
