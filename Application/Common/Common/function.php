@@ -657,7 +657,6 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
     if (!empty($action_info['rule'])) {
         //解析行为
         $rules = parse_action($action, $user_id);
-
         //执行行为
         $res = execute_action($rules, $action_info['id'], $user_id);
     }
@@ -746,9 +745,13 @@ function execute_action($rules = false, $action_id = null, $user_id = null)
 
         //执行数据库操作
         $Model = M(ucfirst($rule['table']));
-        $field = $rule['field'];
-        $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
-
+        if($rule['tox_money_rule']!=''&&$rule['tox_money_rule']!=null){
+            $change = array($rule['field']=>array('exp', $rule['rule']),$rule['tox_money_field']=>array('exp', $rule['tox_money_rule']));
+            $res = $Model->where($rule['condition'])->setField($change);
+        }else{
+            $field = $rule['field'];
+            $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
+        }
         if (!$res) {
             $return = false;
         }
@@ -1161,6 +1164,29 @@ function getScoreTip($before, $after)
     $tip = '';
     if ($score_change) {
         $tip = '积分' . ($score_change > 0 ? '加&nbsp;' . $score_change : '减&nbsp;' . $score_change) . ' 。';
+    }
+    return $tip;
+}
+
+function getMyToxMoney()
+{
+    $user = query_user(array('tox_money'), is_login());
+    $tox_money = $user['tox_money'];
+    return $tox_money;
+}
+
+function getToxMoneyName(){
+    $tox_money_name="金币";
+    $tox_money_name=D('shop_config')->where('ename='."'tox_money'")->getField('cname');
+    return $tox_money_name;
+}
+
+function getToxMoneyTip($before, $after)
+{
+    $tox_money_change = $after - $before;
+    $tip = '';
+    if ($tox_money_change) {
+        $tip = getToxMoneyName() . ($tox_money_change > 0 ? '加&nbsp;' . $tox_money_change : '减&nbsp;' . $tox_money_change) . ' 。';
     }
     return $tip;
 }

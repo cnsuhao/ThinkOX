@@ -43,7 +43,9 @@ $(function () {
                     $('#btn_showall').hide()
                     var commentLinkText = $('.operation', weiboContainer).html();
                     $('.operation', weibo).html(commentLinkText);
-
+                    commitButton.text(originalButtonText);
+                    commitButton.attr('class', 'btn btn-primary weibo-comment-commit');
+                    $('.weibo-comment-content', weibo).val('');
                 });
 
 

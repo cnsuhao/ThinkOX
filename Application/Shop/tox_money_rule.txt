@@ -1,0 +1,1 @@
+|tox_money_rule:tox_money+5|tox_money_field:tox_money

@@ -62,8 +62,8 @@ class ForumLzlReplyModel extends Model
         $pageCount = ceil($count / $limit);
 
         //增加微博的评论数量
-        $user = query_user(array('username', 'space_url'), $uid);
-        $title = $user['username'] . '回复了您的评论。';
+        $user = query_user(array('nickname', 'space_url'), $uid);
+        $title = $user['nickname'] . '回复了您的评论。';
         $content = '回复内容：' . mb_substr($content, 0, 20);
         $url = U('Forum/Index/detail', array('id' => $post_id,'page'=>$p,'sr'=>$to_f_reply_id,'sp'=>$pageCount)).'#'.$to_f_reply_id;
         $from_uid = $uid;
@@ -89,7 +89,7 @@ class ForumLzlReplyModel extends Model
         if ($list == null) {
             $list = D('forum_lzl_reply')->where('is_del=0 and to_f_reply_id=' . $to_f_reply_id)->order($order)->select();
             foreach ($list as $k => &$v) {
-                $v['userInfo'] = query_user(array('avatar128', 'username', 'uid', 'space_url', 'icons_html'), $v['uid']);
+                $v['userInfo'] = query_user(array('avatar128', 'nickname', 'uid', 'space_url', 'icons_html'), $v['uid']);
                 $v['content'] = op_t($v['content']);
             }
             unset($v);

@@ -102,7 +102,9 @@ class WeiboApi extends Api
         }
 
         //发送成功，记录动作，更新最后发送时间
+        $tox_money_before=getMyToxMoney();
         $score_increase = action_log_and_get_score('add_weibo', 'Weibo', $weibo_id, is_login());
+        $tox_money_after=getMyToxMoney();
         $this->updateLastSendTime();
 
         //给被AT到的人都发送一条消息
@@ -110,7 +112,7 @@ class WeiboApi extends Api
         $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
-        $message = '发表微博成功。' . getScoreTip(0, $score_increase);
+        $message = '发表微博成功。' . getScoreTip(0, $score_increase).getToxMoneyTip($tox_money_before,$tox_money_after);
         return $this->apiSuccess($message, array('score_increase' => $score_increase));
     }
 
@@ -126,7 +128,9 @@ class WeiboApi extends Api
         }
 
         //写入数据库成功，记录动作，更新最后发送时间
+        $tox_money_before=getMyToxMoney();
         $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
+        $tox_money_after=getMyToxMoney();
         $this->updateLastSendTime();
 
         //通知微博作者
@@ -147,7 +151,7 @@ class WeiboApi extends Api
         $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
-        return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score));
+        return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score).getToxMoneyTip($tox_money_before,$tox_money_after));
     }
 
     public function listComment($weibo_id, $page = 1, $count = 10)

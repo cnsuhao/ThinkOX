@@ -32,7 +32,7 @@ class IndexController extends BaseController
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function expandInfo($uid=null){
-        $profile_group_list=$this->_profile_group_list();
+        $profile_group_list=$this->_profile_group_list($uid);
         if($profile_group_list){
             $info_list=$this->_info_list($profile_group_list[0]['id'],$uid);
             $this->assign('info_list',$info_list);
@@ -55,7 +55,7 @@ class IndexController extends BaseController
         if(!$res){
             $this->error('信息出错！');
         }
-        $profile_group_list=$this->_profile_group_list();
+        $profile_group_list=$this->_profile_group_list($uid);
         $info_list=$this->_info_list($profile_group_id,$uid);
         $this->assign('info_list',$info_list);
         $this->assign('profile_group_id',$profile_group_id);
@@ -289,8 +289,12 @@ class IndexController extends BaseController
      * @return mixed
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function _profile_group_list(){
-        $profile_group_list=D('field_group')->where('status=1')->order('sort asc')->select();
+    public function _profile_group_list($uid=null){
+        if(isset($uid)&&$uid!=is_login()){
+            $map['visiable']=1;
+        }
+        $map['status']=1;
+        $profile_group_list=D('field_group')->where($map)->order('sort asc')->select();
 
         return $profile_group_list;
     }

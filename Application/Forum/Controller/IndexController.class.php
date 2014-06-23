@@ -233,8 +233,10 @@ class IndexController extends Controller
             $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
 
             $before = getMyScore();
+            $tox_money_before=getMyToxMoney();
             $result = $model->createPost($data);
             $after = getMyScore();
+            $tox_money_after=getMyToxMoney();
             if (!$result) {
                 $this->error('发表失败：' . $model->getError());
             }
@@ -253,7 +255,7 @@ class IndexController extends Controller
 
 
         //显示成功消息
-        $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after);
+        $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after).getToxMoneyTip($tox_money_before,$tox_money_after);
         $this->success($message, U('Forum/Index/detail', array('id' => $post_id)));
     }
 
@@ -273,13 +275,15 @@ class IndexController extends Controller
             //添加到数据库
             $model = D('ForumPostReply');
             $before = getMyScore();
+            $tox_money_before=getMyToxMoney();
             $result = $model->addReply($post_id, $this->filterPostContent($content));
             $after = getMyScore();
+            $tox_money_after=getMyToxMoney();
             if (!$result) {
                 $this->error('回复失败：' . $model->getError());
             }
             //显示成功消息
-            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh');
+            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh').getToxMoneyTip($tox_money_before,$tox_money_after);
         } else {
             $this->error('请10秒之后再回复');
 

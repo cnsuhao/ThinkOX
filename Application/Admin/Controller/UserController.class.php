@@ -138,7 +138,7 @@ class UserController extends AdminController {
         $builder->title("扩展信息分组列表");
         $builder->meta_title = '扩展信息分组';
         $builder->buttonNew(U('editProfile',array('id'=>'0')))->buttonDelete(U('changeProfileStatus',array('status'=>'-1')))->setStatusUrl(U('changeProfileStatus'))->buttonSort(U('sortProfile'));
-        $builder->keyId()->keyText('profile_name',"分组名称")->keyText('sort','排序')->keyTime("createTime","创建时间");
+        $builder->keyId()->keyText('profile_name',"分组名称")->keyText('sort','排序')->keyTime("createTime","创建时间")->keyBool('visiable','是否公开');
         $builder->keyStatus()->keyDoAction('User/field?id=###','管理字段')->keyDoAction('User/editProfile?id=###','编辑');
         $builder->data($profileList);
         $builder->pagination($totalCount,$r);
@@ -350,9 +350,10 @@ class UserController extends AdminController {
      * * @param $profile_name
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function editProfile($id,$profile_name){
+    public function editProfile($id=0,$profile_name='',$visiable=1){
         if(IS_POST){
             $data['profile_name']=$profile_name;
+            $data['visiable']=$visiable;
             if($data['profile_name']==''){
                 $this->error('分组名称不能为空！');
             }
@@ -383,7 +384,7 @@ class UserController extends AdminController {
                 $builder->title("添加扩展信息分组");
                 $builder->meta_title = '新增分组';
             }
-            $builder->keyReadOnly("id","标识")->keyText('profile_name','分组名称');
+            $builder->keyReadOnly("id","标识")->keyText('profile_name','分组名称')->keyBool('visiable','是否公开');
             $builder->data($profile);
             $builder->buttonSubmit(U('editProfile'),$id==0?"添加":"修改")->buttonBack();
             $builder->display();
