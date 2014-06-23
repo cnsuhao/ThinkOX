@@ -15,7 +15,7 @@
                     <a href="{:U('index')}" <neq name="type" value="my">class="cur"</neq>>商城</a>
                 </li>
                 <li>
-                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的订单</a>
+                    <a onclick="if(MID==0) {op_error('请登录后再访问。','温馨提示'); return false;}" href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的订单</a>
                 </li>
             </ul>
         </div>
