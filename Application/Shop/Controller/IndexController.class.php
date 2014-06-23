@@ -105,50 +105,14 @@ class IndexController extends Controller
         if(!is_login()){
             $this->error('请先登录！');
         }
-        //用户地址处理
-        if($name==''||!preg_match("/^[\x{4e00}-\x{9fa5}]+$/u",$name)){
-            $this->error('请输入正确的用户名');
-        }
-        if($address==''){
-            $this->error('请填写收货地址');
-        }
-        if($zipcode==''||strlen($zipcode)!=6||!is_numeric($zipcode)){
-            $this->error('请正确填写邮编');
-        }
-        if($phone==''||strlen($phone)!=11||!is_numeric($phone)){
-            $this->error('请正确填写手机号码');
-        }
-        if($old_shop_address=D('shop_address')->where('uid='.is_login())->find()){
-            if(!($old_shop_address['name']==$name&&$old_shop_address['address']==$address&&$old_shop_address['zipcode']==$zipcode&&$old_shop_address['phone']==$phone)){
-                $shop_address['phone']=$phone;
-                $shop_address['name']=$name;
-                $shop_address['address']=$address;
-                $shop_address['zipcode']=$zipcode;
-                $shop_address['change_time']=time();
-                D('shop_address')->where('id='.$old_shop_address['id'])->save($shop_address);
-            }
-            $data['address_id']=$old_shop_address['id'];
-        }else{
-            $shop_address['name']=$name;
-            $shop_address['address']=$address;
-            $shop_address['zipcode']=$zipcode;
-            $shop_address['phone']=$phone;
-            $shop_address['uid']=is_login();
-            $shop_address['create_time']=time();
-            $data['address_id']=D('shop_address')->add($shop_address);
-        }
-
         $goods=D('shop')->where('id='.$id)->find();
         if($goods){
+
+            //验证开始
             //判断商品余量
             if($num>$goods['goods_num']){
                 $this->error('商品余量不足');
             }
-            $data['goods_id']=$id;
-            $data['goods_num']=$num;
-            $data['status']=0;
-            $data['uid']=is_login();
-            $data['createtime']=time();
 
             //扣tox_money
             $tox_money_need=$num*$goods['tox_money_need'];
@@ -156,6 +120,49 @@ class IndexController extends Controller
             if($tox_money_need>$my_tox_money){
                 $this->error('你的'.getToxMoneyName().'不足');
             }
+
+            //用户地址处理
+            if($name==''||!preg_match("/^[\x{4e00}-\x{9fa5}]+$/u",$name)){
+                $this->error('请输入正确的用户名');
+            }
+            if($address==''){
+                $this->error('请填写收货地址');
+            }
+            if($zipcode==''||strlen($zipcode)!=6||!is_numeric($zipcode)){
+                $this->error('请正确填写邮编');
+            }
+            if($phone==''||strlen($phone)!=11||!is_numeric($phone)){
+                $this->error('请正确填写手机号码');
+            }
+            if($old_shop_address=D('shop_address')->where('uid='.is_login())->find()){
+                if(!($old_shop_address['name']==$name&&$old_shop_address['address']==$address&&$old_shop_address['zipcode']==$zipcode&&$old_shop_address['phone']==$phone)){
+                    $shop_address['phone']=$phone;
+                    $shop_address['name']=$name;
+                    $shop_address['address']=$address;
+                    $shop_address['zipcode']=$zipcode;
+                    $shop_address['change_time']=time();
+                    D('shop_address')->where('id='.$old_shop_address['id'])->save($shop_address);
+                }
+                $data['address_id']=$old_shop_address['id'];
+            }else{
+                $shop_address['name']=$name;
+                $shop_address['address']=$address;
+                $shop_address['zipcode']=$zipcode;
+                $shop_address['phone']=$phone;
+                $shop_address['uid']=is_login();
+                $shop_address['create_time']=time();
+                $data['address_id']=D('shop_address')->add($shop_address);
+            }
+
+            //验证结束
+
+            $data['goods_id']=$id;
+            $data['goods_num']=$num;
+            $data['status']=0;
+            $data['uid']=is_login();
+            $data['createtime']=time();
+
+
             D('member')->where('uid='.is_login())->setDec('tox_money',$tox_money_need);
             $res=D('shop_buy')->add($data);
             if($res){
