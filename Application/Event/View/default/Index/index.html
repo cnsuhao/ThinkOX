@@ -44,14 +44,17 @@
     </div>
 
 
-
     <div class="col-md-4 pull-right">
         <div class="forum_module " style="width: 345px;float: left;">
             <h2 class="event_type_name">活动分类</h2>
+
             <div class="event_type">
-                <a href="{:U('index')}" <eq name="type_id" value="">class="cur"</eq> >全部分类</a>
+                <a href="{:U('index')}"
+                <eq name="type_id" value="">class="cur"</eq>
+                >全部分类</a>
                 <volist name="tree" id="top">
-                    <a  <eq name="type_id" value="$top['id']">class="cur"</eq>
+                    <a
+                    <eq name="type_id" value="$top['id']">class="cur"</eq>
                     href="{:U('index',array('type_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
                 </volist>
             </div>
@@ -59,56 +62,60 @@
     </div>
 
 
+    <div class="col-md-8">
 
-    <volist name="contents" id="vo">
+        <div class="forum_module" style="min-width: 600px;width: 100%;min-height: 800px;padding: 0;">
 
+            <volist name="contents" id="vo">
 
-        <div class="col-md-8">
+                <div class="clearfix event_list" >
 
-            <div class="forum_module" style="min-width: 600px;width: 100%;height: 187px;padding: 0;">
+                    <if condition="time() lt $vo['eTime']">
+                        <div class="event_state" style="background: #d61f39">
+                            正在进行
+                        </div>
+                        <else/>
+                        <div class="event_state" style="background: #000;">
+                            已结束
+                        </div>
+                    </if>
 
-                <if condition="time() lt $vo['eTime']">
-                    <div style="width: 106px;height: 32px;background: #d61f39;position: absolute;color: #fff;text-align: center;line-height: 32px;margin: 5px 0 0 -5px;">
-                        正在进行
-                    </div>
-                    <else/>
-                    <div style="width: 106px;height: 32px;background: #000;position: absolute;color: #fff;text-align: center;line-height: 32px;margin: 5px 0 0 -5px;">
-                        已结束
-                    </div>
-                </if>
+                    <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img class="cover"
+                                                                                                        src="{$vo.cover_id|getThumbImageById=280,187}"/></a>
 
-                <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img class="cover"
-                                                                                  src="{$vo.cover_id|getThumbImageById=280,187}"/></a>
+                    <div class="pull-left" style="width: 350px;">
+                        <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
+                                                          class="text-more" style="width: 100%">{$vo.title}</a></div>
+                        <div class="event_fq_count pull-left">
 
-                <div class="pull-left" style="width: 400px;">
-                <h3 class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
-                                                 class="text-more" style="width: 100%">{$vo.title}</a></h3>
-                <div class="event_fq_count pull-left" >
+                            <div class="pull-left mgl20" style="width: 175px;">by&nbsp; <a class=""
+                                                                                           href="{$vo.user.space_url}">
+                                <span class="event_count">{$vo.user.nickname}</span></a></div>
+                            <div class="wd60 pull-left">
+                                <div class="event_logo" style=""></div>
+                                <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
+                            <div class="wd60 pull-left">
+                                <div class="event_logo" style="background-position: -20px 0px;"></div>
+                                <span class="event_count">&nbsp;{$vo.view_count}</span></div>
 
-                    <div class="pull-left mgl20" style="width: 175px;">by&nbsp; <a class="" href="{$vo.user.space_url}">
-                        <span class="event_count">{$vo.user.nickname}</span></a></div>
-                    <div class="wd60 pull-left">
-                        <div class="event_logo" style=""></div>
-                        <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
-                    <div class="wd60 pull-left">
-                        <div class="event_logo" style="background-position: -20px 0px;"></div>
-                        <span class="event_count">&nbsp;{$vo.view_count}</span></div>
+                            <div class="pull-left mgl20 mgt10" style="font-size: 14px;">时间：
+                                {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])} &nbsp;&nbsp;
+                                {$vo.type.title}
+                            </div>
 
-                    <div class="pull-left mgl20 mgt10" style="font-size: 14px;">时间：
-                        {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])} &nbsp;&nbsp; {$vo.type.title}
-                    </div>
+                            <div class="pull-left mgl20 mgt10 event_short_explain" >简介：
+                                {$vo.explain|op_h='font'|getShortSp=45}
+                            </div>
+                            <div class="pull-left mgl20 mgt10" style=" ">
+参加活动按钮
+                            </div>
 
-                    <div class="pull-left mgl20 mgt10" style="font-size: 14px;">简介：
-                       {$vo.type.title}
+                        </div>
                     </div>
                 </div>
-            </div>
-            </div>
+            </volist>
         </div>
-
-    </volist>
-
-
+    </div>
 
 
     <div class="row issue_list">

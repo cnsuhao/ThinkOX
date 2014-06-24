@@ -186,7 +186,7 @@ class IndexController extends Controller
     public function doSign($event_id, $name, $phone)
     {
         if (!is_login()) {
-            $this->error('请登陆后再投稿。');
+            $this->error('请登陆后再报名。');
         }
         if (!$event_id) {
             $this->error('参数错误');

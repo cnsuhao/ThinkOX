@@ -1246,6 +1246,12 @@ function closetags($html) {
     return $html;
 }
 
+/**
+ * 添加magnific效果
+ * @param $content
+ * @return mixed|string
+ * autor:xjw129xjt
+ */
 function parse_popup($content){
     $content = replace_style($content);
     preg_match_all('/<img src=\"(.*?)\"/',$content, $img_src);
