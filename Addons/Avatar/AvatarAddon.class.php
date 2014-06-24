@@ -282,8 +282,12 @@ class AvatarAddon extends Addon
                 return false;
             }
 
+     /*       dump('x='.$x);
+            dump('y='.$y);
+            dump('w='.$width);
+            dump('h='.$height);exit;*/
 
-            $img->crop($x / $img_attr[0], ($x + $width) / $img_attr[0], $y / $img_attr[1], ($y + $height) / $height);
+            $img->crop($x / $img_attr[0], ($x+$width) / $img_attr[0], ($y) / $img_attr[1], ($y+$height) /  $img_attr[1]);
             $new_data = $img->exec();
             $storage = new \SaeStorage();
             $thumbFilePath = str_replace(C('UPLOAD_SAE_CONFIG.rootPath'), '', dirname($savePath) . '/' . basename($savePath));

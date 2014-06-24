@@ -9,7 +9,9 @@ use \Think\Image;
 
 function getImageUrlByPath($path, $size)
 {
-    $thumb = getThumbImage($path, $size, $size);
+    //TODO 重新开启缩略
+    //$thumb = getThumbImage($path, $size, $size);
+    $thumb['src']=$path;
     $thumb = $thumb['src'];
     return  $thumb;
 }
