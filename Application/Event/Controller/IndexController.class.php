@@ -29,7 +29,7 @@ class IndexController extends Controller
         $totalCount = D('Event')->where($map)->count();
         foreach ($content as &$v) {
             $v['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
-            $v['type'] = $this->getType($v['type_id']);;
+            $v['type'] = $this->getType($v['type_id']);
 
         }
         unset($v);
@@ -118,6 +118,8 @@ class IndexController extends Controller
         }
         D('Event')->where(array('id' => $id))->setInc('view_count');
         $event_content['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $event_content['uid']);
+        $event_content['type'] = $this->getType($event_content['type_id']);
+
 
         $menber = D('event_attend')->where(array('event_id' => $id, 'status' => 1))->select();
         foreach ($menber as $k => $v) {

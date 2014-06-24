@@ -6,6 +6,112 @@
 </block>
 
 <block name="body">
+
+<div class="forum_module container_nav">
+    <!--二级导航-->
+    <ul class="container_nav_tab">
+        <li class="container_nav_tab_li active">
+            <a href="javascript:">活动首页</a>
+        </li>
+        <li class="container_nav_tab_li">
+            <a title="活动" href="javascript:">我的活动</a>
+        </li>
+
+        <li class="pull-right">
+
+            <if condition="is_login() eq 0">
+                <button class="btn btn-primary event_btn" onclick="op_error('请登陆后再投稿。','温馨提示')"><i
+                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                </button>
+                <else/>
+                <a class="btn btn-primary event_btn" href="{:U('Event/Index/add')}"><i
+                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                </a>
+
+            </if>
+
+        </li>
+    </ul>
+</div>
+
+
+<div class="col-md-4 pull-right">
+    <div class="forum_module " style="width: 345px;float: left;">
+        <h2 class="event_type_name">活动分类</h2>
+        <div class="event_type">
+            <a href="{:U('index')}" <eq name="type_id" value="">class="cur"</eq> >全部分类</a>
+            <volist name="tree" id="top">
+                <a  <eq name="type_id" value="$top['id']">class="cur"</eq>
+                href="{:U('index',array('type_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+            </volist>
+        </div>
+    </div>
+</div>
+
+<div class="forum_module" style="min-width: 600px;width: 66.66666666%;min-height: 500px;padding: 0;">
+<div style="padding: 17px 0 0 10px;">
+    <if condition="time() lt $content['eTime']">
+        <div style="width: 106px;height: 32px;background: #d61f39;position: absolute;color: #fff;text-align: center;line-height: 32px;margin: 5px 0 0 -5px;">
+            正在进行
+        </div>
+        <else/>
+        <div style="width: 106px;height: 32px;background: #000;position: absolute;color: #fff;text-align: center;line-height: 32px;margin: 5px 0 0 -5px;">
+            已结束
+        </div>
+    </if>
+
+    <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$content['id']))}"> <img class="cover"
+                                                                                        src="{$content.cover_id|getThumbImageById=345,233}"/></a>
+
+</div>
+
+    <div class="pull-left" style="width: 400px;">
+        <h3 class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$content['id']))}"
+                                         class="text-more" style="width: 100%">{$content.title}</a></h3>
+
+     <!--   {$content.type.title}-->
+
+
+        <div class="event_fq_count pull-left" >
+            <p>
+            <div class="pull-left mgl20" style="width: 175px;">发起人：&nbsp; <a class="" href="{$content.user.space_url}">
+                <span class="event_count">{$content.user.nickname}</span></a></div>
+            </p>
+
+           <p><div class="pull-left mgl20 mgt10 " style="font-size: 14px;">时间：
+                {:date('Y-m-d',$content['sTime'])}--{:date('Y-m-d',$content['eTime'])}
+            </div></p>
+
+            <p>  <div class="wd60 pull-left mgl20 mgt10">
+                <div class="event_logo" style=""></div>
+                <span class="event_count">&nbsp;{$content.signCount}人</span></div>
+            <div class="wd60 pull-left  mgt10">
+                <div class="event_logo" style="background-position: -20px 0px;"></div>
+                <span class="event_count">&nbsp;{$content.view_count}</span></div>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="row">
     <div class="col-md-12 app_head">
         <div class="app_title">
