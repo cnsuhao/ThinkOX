@@ -153,10 +153,14 @@ use PHPImageWorkshop\ImageWorkshop;
                 $this->error = "写入磁盘失败";
                 return false;
             }
-            $path = $upload['image']['path'];
-                //$upload['image']['savepath'].$upload['image']['savename'];
-           // dump($path);exit;
-            return $path;
+            if(strtolower(APP_MODE)=='sae'){
+               return $path = $upload['image']['path'];//sae上最终取图方式
+
+            }else{
+                //dump($upload);exit;
+                return   $upload['image']['savepath'].$upload['image']['savename'];
+            }
+
         }
 
         private function getFullPath($path) {
@@ -243,9 +247,16 @@ use PHPImageWorkshop\ImageWorkshop;
             //获取用户上传的临时头像
             $model = $this->getAvatarModel();
             $avatar = $model->getTempAvatar($uid);
-            if($avatar) {
-                return $avatar;
+            if(strtolower(APP_MODE)=='sae'){
+                if($avatar) {
+                    return $avatar;
+                }
+            }else{
+                if($avatar) {
+                    return "$prefix/Uploads/Avatar/$avatar";
+                }
             }
+
             return '';
         }
 

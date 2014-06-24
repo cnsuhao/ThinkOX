@@ -22,6 +22,7 @@ class AvatarModel extends Model {
         $avatar = $this->where($map)->find();
         //返回查询结果
         return $avatar['path'];
+
     }
 
     public function saveAvatar($uid, $path) {

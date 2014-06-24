@@ -75,7 +75,7 @@ class FileModel extends Model
                     return false;
                 }
             }
-
+        }else{
 
             $Upload = new \Think\Upload($setting, $driver, $config);
             $info = $Upload->upload($files);
@@ -90,8 +90,11 @@ class FileModel extends Model
                 return false;
             }
 
-
         }
+
+
+
+
     }
 
     /**
