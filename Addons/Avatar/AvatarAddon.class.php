@@ -314,22 +314,35 @@ class AvatarAddon extends Addon
         return getRootUrl() . $path;
     }
 
-    public function getAvatarPath($uid)
+    public function getAvatarPath($uid,$avatarSize)
     {
         $model = D('Addons://Avatar/Avatar');
         $avatar = $model->getAvatar($uid);
 
 
+
         if ($avatar) {
             if (strtolower(APP_MODE) == 'sae') {
+                $avatar_path=$avatar;
 
-                return $avatar;
+            }else{
+                $avatar_path="/Uploads/Avatar/$avatar";
             }
-            return "/Uploads/Avatar/$avatar";
+
+
+           return getImageUrlByPath($avatar_path,$avatarSize);
+        }else{
+            //如果没有头像，返回默认头像
+            if($avatarSize!=0){
+                return "/Addons/Avatar/default_".$avatarSize."_".$avatarSize.".jpg";
+            }else{
+                return "/Addons/Avatar/default.jpg";
+            }
+
         }
-        //如果没有头像，返回默认头像
-        return "/Addons/Avatar/default.jpg";
+
     }
+
 
     public function getTempAvatar($uid)
     {
