@@ -439,6 +439,7 @@ class IndexController extends BaseController
     {
         //调用上传头像接口
         $result = callApi('User/uploadTempAvatar');
+
         $this->ensureApiSuccess($result);
 
         //显示成功消息

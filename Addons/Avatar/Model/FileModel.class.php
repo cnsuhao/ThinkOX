@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Addons\Avatar\Model;
+
 use Think\Model;
 use Exception;
 
@@ -15,8 +16,8 @@ use Exception;
  * 文件模型
  * 负责文件的下载和上传
  */
-
-class FileModel extends Model{
+class FileModel extends Model
+{
     /**
      * 文件模型自动完成
      * @var array
@@ -35,41 +36,77 @@ class FileModel extends Model{
 
     /**
      * 文件上传
-     * @param  array  $files   要上传的文件列表（通常是$_FILES数组）
+     * @param  array  $files 要上传的文件列表（通常是$_FILES数组）
      * @param  array  $setting 文件上传配置
-     * @param  string $driver  上传驱动名称
-     * @param  array  $config  上传驱动配置
+     * @param  string $driver 上传驱动名称
+     * @param  array  $config 上传驱动配置
      * @return array           文件上传成功后的信息
      *
      */
-    public function upload($files, $setting, $driver = 'Local', $config = null){
+    public function upload($files, $setting, $driver = 'Local', $config = null)
+    {
         /* 上传文件 */
         $setting['callback'] = array($this, 'isFile');
-        $Upload = new \Think\Upload($setting, $driver, $config);
-        $info   = $Upload->upload($files);
 
-        /* 设置文件保存位置 */
-        $this->_auto[] = array('location', 'Ftp' === $driver ? 1 : 0, self::MODEL_INSERT);
+        //sae下
+        if (strtolower(APP_MODE)=='sae') {
+            // $config[]
+            C(require_once(APP_PATH . 'Common/Conf/config_sae.php'));
 
-        if($info){ //文件上传成功，不记录文件
-            return $info;
-        } else {
-            $this->error = $Upload->getError();
-            return false;
+            $Upload = new \Think\Upload($setting,C('PICTURE_UPLOAD_DRIVER'), array(C('UPLOAD_SAE_CONFIG')));
+            $info = $Upload->upload($files);
+
+            $config=C('UPLOAD_SAE_CONFIG');
+            if ($info) { //文件上传成功，记录文件信息
+                foreach ($info as $key => &$value) {
+                    $value['path'] = $config['rootPath'] . 'Avatar/' . $value['savepath'] . $value['savename']; //在模板里的url路径
+
+                }
+
+
+                /* 设置文件保存位置 */
+                $this->_auto[] = array('location', 'Ftp' === $driver ? 1 : 0, self::MODEL_INSERT);
+
+                if ($info) { //文件上传成功，不记录文件
+                   // dump($info);exit;
+                    return $info;
+                } else {
+                    $this->error = $Upload->getError();
+                    return false;
+                }
+            }
+
+
+            $Upload = new \Think\Upload($setting, $driver, $config);
+            $info = $Upload->upload($files);
+
+            /* 设置文件保存位置 */
+            $this->_auto[] = array('location', 'Ftp' === $driver ? 1 : 0, self::MODEL_INSERT);
+
+            if ($info) { //文件上传成功，不记录文件
+                return $info;
+            } else {
+                $this->error = $Upload->getError();
+                return false;
+            }
+
+
         }
     }
 
     /**
      * 下载指定文件
      * @param  number  $root 文件存储根目录
-     * @param  integer $id   文件ID
-     * @param  string   $args     回调函数参数
+     * @param  integer $id 文件ID
+     * @param  string  $args 回调函数参数
      * @return boolean       false-下载失败，否则输出下载文件
      */
-    public function download($root, $id, $callback = null, $args = null){
+    public
+    function download($root, $id, $callback = null, $args = null)
+    {
         /* 获取下载文件信息 */
         $file = $this->find($id);
-        if(!$file){
+        if (!$file) {
             $this->error = '不存在该文件！';
             return false;
         }
@@ -91,11 +128,13 @@ class FileModel extends Model{
 
     /**
      * 检测当前上传的文件是否已经存在
-     * @param  array   $file 文件上传数组
+     * @param  array $file 文件上传数组
      * @return boolean       文件信息， false - 不存在该文件
      */
-    public function isFile($file){
-        if(empty($file['md5'])){
+    public
+    function isFile($file)
+    {
+        if (empty($file['md5'])) {
             throw new Exception('缺少参数:md5');
         }
         /* 查找文件 */
@@ -105,13 +144,15 @@ class FileModel extends Model{
 
     /**
      * 下载本地文件
-     * @param  array    $file     文件信息数组
+     * @param  array    $file 文件信息数组
      * @param  callable $callback 下载回调函数，一般用于增加下载次数
-     * @param  string   $args     回调函数参数
+     * @param  string   $args 回调函数参数
      * @return boolean            下载失败返回false
      */
-    private function downLocalFile($file, $callback = null, $args = null){
-        if(is_file($file['rootpath'].$file['savepath'].$file['savename'])){
+    private
+    function downLocalFile($file, $callback = null, $args = null)
+    {
+        if (is_file($file['rootpath'] . $file['savepath'] . $file['savename'])) {
             /* 调用回调函数新增下载数 */
             is_callable($callback) && call_user_func($callback, $args);
 
@@ -124,7 +165,7 @@ class FileModel extends Model{
             } else {
                 header('Content-Disposition: attachment; filename="' . $file['name'] . '"');
             }
-            readfile($file['rootpath'].$file['savepath'].$file['savename']);
+            readfile($file['rootpath'] . $file['savepath'] . $file['savename']);
             exit;
         } else {
             $this->error = '文件已被删除！';

@@ -94,6 +94,7 @@ use PHPImageWorkshop\ImageWorkshop;
                 $this->error = '图像不能为空';
                 return false;
             }
+
             //调用组件上传临时头像
             $path = $this->saveUploadedFile($image);
             //保存临时头像
@@ -152,7 +153,9 @@ use PHPImageWorkshop\ImageWorkshop;
                 $this->error = "写入磁盘失败";
                 return false;
             }
-            $path = $upload['image']['savepath'].$upload['image']['savename'];
+            $path = $upload['image']['path'];
+                //$upload['image']['savepath'].$upload['image']['savename'];
+           // dump($path);exit;
             return $path;
         }
 
@@ -241,7 +244,7 @@ use PHPImageWorkshop\ImageWorkshop;
             $model = $this->getAvatarModel();
             $avatar = $model->getTempAvatar($uid);
             if($avatar) {
-                return "$prefix/Uploads/Avatar/$avatar";
+                return $avatar;
             }
             return '';
         }
