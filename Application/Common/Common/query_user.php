@@ -78,7 +78,8 @@ function query_user($fields, $uid = null)
     foreach ($avatarFields as $e) {
         $avatarSize = intval(substr($e, 6));
         $avatarPath = $avatarAddon->getAvatarPath($uid);
-        $avatarUrl = getImageUrlByPath('.' . $avatarPath, $avatarSize);
+        $avatarUrl =getImageUrlByPath($avatarPath,$avatarSize);
+
         $result[$e] = $avatarUrl;
     }
 

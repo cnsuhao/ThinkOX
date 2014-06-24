@@ -11,8 +11,7 @@ function getImageUrlByPath($path, $size)
 {
     $thumb = getThumbImage($path, $size, $size);
     $thumb = $thumb['src'];
-    $thumb = substr($thumb, 1);
-    return getRootUrl() . $thumb;
+    return  $thumb;
 }
 
 /**兼容SAE
@@ -40,6 +39,7 @@ function getThumbImage($filename, $width = 100, $height = 'auto', $type = 2, $re
     $filename = ltrim($filename, '/');
     $oldFile = ltrim($oldFile, '/');
     $thumbFile = ltrim($thumbFile, '/');
+
 
 
     //兼容SAE的中心裁剪缩略
