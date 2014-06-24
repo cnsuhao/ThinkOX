@@ -82,15 +82,80 @@ class FileController extends HomeController
         if ($info) {
             $return['status'] = 1;
             if ($info['Filedata']) {
-                $return = array_merge($info['Filedata'],  $return);
+                $return = array_merge($info['Filedata'], $return);
             }
             if ($info['download']) {
-                $return =  array_merge($info['download'], $return);
+                $return = array_merge($info['download'], $return);
             }
 
 
         } else {
             $return['status'] = 0;
+            $return['info'] = $Picture->getError();
+        }
+
+
+        /* 返回JSON数据 */
+        $this->ajaxReturn($return);
+    }
+
+    /**用于兼容UM编辑器的图片上传方法
+     * @auth 陈一枭
+     */
+    public function uploadPictureUM()
+    {
+        header("Content-Type:text/html;charset=utf-8");
+        //TODO: 用户登录检测
+        /* 返回标准数据 */
+        $return = array('status' => 1, 'info' => '上传成功', 'data' => '');
+
+        //实际有用的数据只有name和state，这边伪造一堆数据保证格式正确
+        $originalName = 'u=2830036734,2219770442&fm=21&gp=0.jpg';
+        $newFilename = '14035912861705.jpg';
+        $filePath = 'upload\/20140624\/14035912861705.jpg';
+        $size = '7446';
+        $type = '.jpg';
+        $status = 'success';
+        $rs = array(
+            "originalName" => $originalName,
+            'name' => $newFilename,
+            'url' => $filePath,
+            'size' => $size,
+            'type' => $type,
+            'state' => $status
+        );
+        /* 调用文件上传组件上传文件 */
+        $Picture = D('Admin/Picture');
+        $pic_driver = C('PICTURE_UPLOAD_DRIVER');
+        $info = $Picture->upload(
+            $_FILES,
+            C('PICTURE_UPLOAD'),
+            C('PICTURE_UPLOAD_DRIVER'),
+            C("UPLOAD_{$pic_driver}_CONFIG")
+        ); //TODO:上传到远程服务器
+
+        /* 记录图片信息 */
+        if ($info) {
+            $return['status'] = 1;
+            if ($info['Filedata']) {
+                $return = array_merge($info['Filedata'], $return);
+            }
+            if ($info['download']) {
+                $return = array_merge($info['download'], $return);
+            }
+            $rs['state'] = 'SUCCESS';
+            $rs['url'] = $info['upfile']['path'];
+            if ($type == 'ajax') {
+                echo json_encode($rs);
+                exit;
+            } else {
+                echo json_encode($rs);
+                exit;
+            }
+
+
+        } else {
+            $return['state'] = 0;
             $return['info'] = $Picture->getError();
         }
 
