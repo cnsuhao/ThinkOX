@@ -54,8 +54,8 @@
                     <div class="forum_module"style="font-size: 14px;">
                         <p>
                         <span>
-                        <a href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
-                            <img src="{$weibo.user.avatar128}"
+                        <a href="{$self.space_url}" ucard="{$self.uid}">
+                            <img src="{$self.avatar128}"
                                  class="avatar-img"
                                  style="width: 96px;"/>
                         </a>
@@ -63,7 +63,7 @@
 
                         <span class="name_touxian">
                         <a ucard="{$weibo.user.uid}"
-                           href="{$weibo.user.space_url}" class="user_name">{$weibo.user.nickname|htmlspecialchars}
+                           href="{$weibo.user.space_url}" class="user_name">{$self.nickname|htmlspecialchars}
                         </a><br/>
                              <if condition="$self['rank_link'][0]['num']">
                                  <volist name="self['rank_link']" id="vl">
