@@ -83,6 +83,7 @@ function getThumbImage($filename, $width = 100, $height = 'auto', $type = 2, $re
             $img1->resizeRatio($w_scale);
         }
 
+        $img1->improve();
         $new_data = $img1->exec(); // 执行处理并返回处理后的二进制数据
         if ($new_data === false)
             return $oldFile;
