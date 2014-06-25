@@ -1,0 +1,62 @@
+ALTER TABLE  `thinkox_member` ADD  `tox_money` INT NOT NULL
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_toxgoods`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_toxshop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_name` varchar(25) NOT NULL COMMENT '商品名称',
+  `goods_ico` int(11) NOT NULL COMMENT '商品图标',
+  `goods_introduct` varchar(100) NOT NULL COMMENT '商品简介',
+  `goods_detail` varchar(1000) NOT NULL COMMENT '商品详情',
+  `tox_money_need` int(11) NOT NULL COMMENT '需要金币数',
+  `goods_type` tinyint(4) NOT NULL COMMENT '商品类型，0：非抢购；1：抢购',
+  `goods_num` int(11) NOT NULL COMMENT '商品余量',
+  `endtime` int(11) NOT NULL COMMENT '抢购截止时间',
+  `status` tinyint(4) NOT NULL COMMENT '状态，-1：删除；0：禁用；1：启用',
+  `createtime` int(11) NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品信息' AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_toxgoods_buy`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_toxshop_buy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL COMMENT '商品id',
+  `goods_num` int(11) NOT NULL COMMENT '购买数量',
+  `status` tinyint(4) NOT NULL COMMENT '状态，-1：未领取；0：申请领取；1：已领取',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `createtime` int(11) NOT NULL COMMENT '购买时间',
+  `applytime` int(11) NOT NULL COMMENT '申请领取时间',
+  `gettime` int(11) NOT NULL COMMENT '交易结束时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='购买商品信息表' AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `thinkox_toxgoods_config`
+--
+
+CREATE TABLE IF NOT EXISTS `thinkox_toxshop_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ename` varchar(25) NOT NULL COMMENT '英文名称（固定:tox_money）',
+  `cname` varchar(25) NOT NULL COMMENT '中文名称',
+  `changetime` int(11) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商店配置' AUTO_INCREMENT=1 ;
+
+--
+-- 转存表中的数据 `thinkox_toxshop_config`
+--
+
+INSERT INTO `thinkox_toxshop_config` ( `ename`, `cname`, `changetime`) VALUES ( 'tox_money', '金币', 1402756941);

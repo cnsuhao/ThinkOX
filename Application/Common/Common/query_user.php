@@ -36,7 +36,7 @@ function query_user($fields, $uid = null)
     $cachedFields = array();
     $cacheResult = array();
     foreach ($fields as $field) {
-        if (in_array($field, array('icons_html', 'title', 'score'))) {
+        if (in_array($field, array('icons_html', 'title', 'score','tox_money'))) {
             continue;
         }
         $cache = read_query_user_cache($uid, $field);
@@ -196,7 +196,7 @@ function query_user($fields, $uid = null)
 
     //写入缓存
     foreach ($result as $field => $value) {
-        if (in_array($field, array('icons_html', 'title', 'score'))) {
+        if (in_array($field, array('icons_html', 'title', 'score','tox_money'))) {
             continue;
         }
         if (!in_array($field, array('rank_link', 'icons_html', 'space_link','expand_info'))) {

@@ -7,10 +7,11 @@
 $(function () {
     ucard();//绑定用户小名片
     bindGoTop();//回到顶部
-    checkMessage();//检查一次消息
     if (is_login()) {
         bindMessageChecker();//绑定用户消息
     }
+    checkMessage();//检查一次消息
+
     bindLogout();
     $('.scroller').slimScroll({
         height: '150px'
@@ -69,7 +70,7 @@ function ucard() {
                     var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
                     if ((MID != uid) && (MID != 0)) {
                         follow = '<div class="row" style="background: #f5f5f5;margin: -10px -15px;margin-top: 10px;padding: 5px 10px">' +
-                            '<button   type="button" class="btn btn-primary" onclick="start_talk('+userProfile.id+')" style="padding: 1px 5px 3px 5px">私信</button>'+
+                            '<button   type="button" class="btn btn-primary" onclick="start_talk(' + userProfile.id + ')" style="padding: 1px 5px 3px 5px">私信</button>' +
                             '<div class="pull-right">' +
                             '<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="padding: 1px 5px 3px 5px">';
                         if (userProfile.followed == 1) {
@@ -97,8 +98,7 @@ function ucard() {
                     api.set('content.text', tpl.html());
 
 
-                        api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.nickname + '</a></b>的小名片');
-
+                    api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.nickname + '</a></b>的小名片');
 
 
                 }, 'json');
@@ -287,7 +287,7 @@ function checkMessage() {
                 //  var url=msg[index]['url']===''?U('') //设置默认跳转到消息中心
 
 
-                var new_html = $('<span><li><a data-url="' + msg[index]['url'] + '"' + 'onclick="readMessage(this,' + msg['messages'][index]['id'] + ')"><i class="glyphicon glyphicon-bell"></i>' +
+                var new_html = $('<span><li><a data-url="' + msg['messages'][index]['url'] + '"' + 'onclick="readMessage(this,' + msg['messages'][index]['id'] + ')"><i class="glyphicon glyphicon-bell"></i>' +
                     msg['messages'][index]['title'] + '<br/><span class="time">' + msg['messages'][index]['ctime'] +
                     '</span> </a></li></span>');
                 $('#nav_message').prepend(new_html.html());
@@ -295,20 +295,19 @@ function checkMessage() {
 
             }
 
-            $hint_count.text(count + msg.length);
+            $hint_count.text(count + msg.messages.length);
             $nav_bandage_count.show();
-            $nav_bandage_count.text(count + msg.length);
+            $nav_bandage_count.text(count + msg.messages.length);
         }
 
-        if(msg.new_talks){
+        if (msg.new_talks) {
             playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
             //发现有新的会话
-            $.each(msg.new_talks,function(index,talk){
+            $.each(msg.new_talks, function (index, talk) {
                     prependSession(talk.talk);
                 }
             );
         }
-
 
 
     }, 'json');
@@ -653,9 +652,9 @@ function chat_exit(id) {
 function open_chat_box(id) {
     $.get(U('Usercenter/Session/getSession'), {id: id}, function (data) {
         chat_clear_box();
-        $('li','#session_panel_main').removeClass();
-        $('.badge_new','#session_panel_main').remove();
-        $('#chat_li_'+id).addClass('active');
+        $('li', '#session_panel_main').removeClass();
+        $('.badge_new', '#session_panel_main').remove();
+        $('#chat_li_' + id).addClass('active');
         $('#chat_box').show();
         set_current_chat(data);
     }, 'json');

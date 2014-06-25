@@ -31,6 +31,18 @@ $(function () {
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             handleAjax(a);
             if (a.status) {
+                reloadWeiboCommentList(weiboCommentList);
+
+
+
+
+
+
+
+
+
+
+
 
                 weiboCommentList.attr('data-weibo-comment-loaded', '1');
                 var weiboId = weiboCommentList.attr('data-weibo-id');
@@ -43,7 +55,9 @@ $(function () {
                     $('#btn_showall').hide()
                     var commentLinkText = $('.operation', weiboContainer).html();
                     $('.operation', weibo).html(commentLinkText);
-
+                    commitButton.text(originalButtonText);
+                    commitButton.attr('class', 'btn btn-primary weibo-comment-commit');
+                    $('.weibo-comment-content', weibo).val('');
                 });
 
 
@@ -63,8 +77,8 @@ $(function () {
         var $this = $(this);
         $.post(U('Weibo/Index/doDelWeibo'), {weibo_id: weibo_id}, function (msg) {
             if (msg.status) {
-                $this.parent().parent().parent().parent().parent().next().fadeOut();
-                $this.parent().parent().parent().parent().parent().fadeOut();
+                $this.parent().parent().parent().parent().next().fadeOut();
+                $this.parent().parent().parent().parent().fadeOut();
                 op_success('删除微博成功。', '温馨提示');
             }
         }, 'json');
