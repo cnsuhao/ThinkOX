@@ -76,21 +76,21 @@
                     <ul class="friend_list">
                         <volist name="friends" id="friend">
                             <php>
-                                $friend=query_user(array('avatar64','username','space_url','uid'),$friend['follow_who'])
+                                $friend=query_user(array('avatar64','nickname','space_url','uid'),$friend['follow_who'])
                             </php>
                             <li id="friends_li_{$friend.id}">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <a target="_blank" title=" {$friend.username|op_t}"
+                                        <a target="_blank" title=" {$friend.nickname|op_t}"
                                            href="{$friend.space_url}">
                                             <img src="{$friend.avatar64}" class="avatar-img" style="width: 45px;">
                                         </a>
                                     </div>
                                     <div class="col-md-6">
                                         <div>
-                                            <a class="text-center" style="width: 100%" target="_blank" title=" {$friend.username|op_t}"
+                                            <a class="text-center" style="width: 100%" target="_blank" title=" {$friend.nickname|op_t}"
                                                href="{$friend.space_url}">
-                                                {$friend.username}
+                                                {$friend.nickname}
                                             </a>
                                         </div>
                                         <div>

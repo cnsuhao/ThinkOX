@@ -37,7 +37,7 @@ class UserController extends HomeController
             /* 检测验证码 */
             if (C('VERIFY_OPEN') == 1 or C('VERIFY_OPEN') == 2) {
                 if (!check_verify($verify)) {
-                    $this->error('验证码输入错误11');
+                    $this->error('验证码输入错误。');
                 }
             }
             /* 检测密码 */

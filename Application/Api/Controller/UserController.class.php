@@ -176,20 +176,20 @@ class UserController extends ApiController
             $home = $model->create($home);
             $result = $model->where(array('uid' => $uid))->save($home);
             if (!$result) {
-                $this->apiError(0, '写入数据库错误');
+                $this->apiError(0, '设置失败，请检查输入格式!');
             }
         }
         if ($ucenter) {
             $model = D('User/UcenterMember');
             $ucenter['id'] = $uid;
-            $ucenter = $model->create($model);
+            $ucenter = $model->create($ucenter);
             $result = $model->where(array('id' => $uid))->save($ucenter);
             if (!$result) {
-                $this->apiError(0, '写入数据库错误');
+                $this->apiError(0, '设置失败，请检查输入格式!');
             }
         }
         //返回成功信息
-        $this->apiSuccess("设置成功");
+        $this->apiSuccess("设置成功!");
     }
 
     /**

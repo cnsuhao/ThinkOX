@@ -6,32 +6,33 @@
             发表新帖
         </a>
     </div>
-   <!-- <div style="margin-bottom: 20px">
-        <a type="button" class="btn btn-large btn_primary_tieba primary forum_post_btn"
-           href="{:U('Index/edit',array('forum_id'=>$forum_id))}">
+    <!-- <div style="margin-bottom: 20px">
+         <a type="button" class="btn btn-large btn_primary_tieba primary forum_post_btn"
+            href="{:U('Index/edit',array('forum_id'=>$forum_id))}">
 
-            创建板块
-        </a>
-    </div>-->
+             创建板块
+         </a>
+     </div>-->
 </if>
 
 <div class="forum_module">
     <div class="forum_module_name">
-    <div class="pull-left">我的板块</div>
-    <div class="pull-right"><a class="font_grey" style="font-size: 14px;">查看全部</a></div>
+        <div class="pull-left">我的板块</div>
+        <div class="pull-right"><a class="font_grey" style="font-size: 14px;">查看全部</a></div>
     </div>
     <div class="forum_module_content clearfix">
-        <a class="btn btn_primary_bankuai position">技术交流</a>
-        <a class="btn btn_primary_bankuai position">技术交流</a>
-        <a class="btn btn_primary_bankuai position">技术交流</a>
-        <a class="btn btn_primary_bankuai position">技术交流</a>
-        <a class="btn btn_primary_bankuai position">技术交流</a>
-        <a class="btn btn_primary_bankuai position">技术交流</a>
+        <a class="btn btn_primary_bankuai position <eq name="forum_id" value="0"></eq>" href="{:U('Index/forum')}">全部帖子</a>
+        <volist name="forum_list" id="each_forum">
+            <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn_primary_bankuai position">{$each_forum.title|htmlspecialchars}</a>
+        </volist>
+
+
     </div>
 </div>
 <div class="forum_module">
-      <img style="margin-bottom: 10px" src="__STATIC__/oneplus/images/activity.png"/>
-       <span><strong><a>UI原创征集令</a></strong><br><span class="font_grey"style="font-size: 14px;" >2014年6月20日</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="font_grey" style="font-size: 14px;"> 231人参加</span></span>
+    <img style="margin-bottom: 10px" src="__STATIC__/oneplus/images/activity.png"/>
+    <span><strong><a>UI原创征集令</a></strong><br><span class="font_grey" style="font-size: 14px;">2014年6月20日</span>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            class="font_grey" style="font-size: 14px;"> 231人参加</span></span>
 </div>
 
 
