@@ -55,7 +55,11 @@ DROP TABLE IF EXISTS `thinkox_menu`;
 --
 
 DROP TABLE IF EXISTS `thinkox_menu`;
+<<<<<<< HEAD
+>>>>>>> xiao:Database/011/01专辑应用.sql
+=======
 >>>>>>> remotes/私有开发项目/xiao:Database/011/01专辑应用.sql
+>>>>>>> c712dca3efc041ce6c0199389f0c892372bae421
 CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
@@ -79,7 +83,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_menu` (
 -- 转存表中的数据 `thinkox_menu`
 --
 
+<<<<<<< HEAD
+>>>>>>> xiao:Database/011/01专辑应用.sql
+=======
 >>>>>>> remotes/私有开发项目/xiao:Database/011/01专辑应用.sql
+>>>>>>> c712dca3efc041ce6c0199389f0c892372bae421
 INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 (1, '首页', 0, 1, 'Index/index', 0, '', '', 0),
 (2, '博客', 0, 2, 'Article/mydocument', 0, '', '', 0),
@@ -337,4 +345,8 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
 
 =======
 (167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0);
+<<<<<<< HEAD
+>>>>>>> xiao:Database/011/01专辑应用.sql
+=======
 >>>>>>> remotes/私有开发项目/xiao:Database/011/01专辑应用.sql
+>>>>>>> c712dca3efc041ce6c0199389f0c892372bae421

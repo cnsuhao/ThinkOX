@@ -11,10 +11,10 @@
     <div class="forum_module container_nav">
         <!--二级导航-->
         <ul class="container_nav_tab">
-            <li class="container_nav_tab_li active">
+            <li class="container_nav_tab_li">
                 <a href="{:U('index')}">活动首页</a>
             </li>
-            <li class="container_nav_tab_li">
+            <li class="container_nav_tab_li active">
                 <a  href="{:U('myevent')}">我的活动</a>
             </li>
 
@@ -36,10 +36,10 @@
     </div>
 
     <div style="height: 80px;width: 100%;line-height: 80px;font-size: 18px; color: #333333;padding: 0 0 0 5px;">
-        <div class="pull-left">活动首页</div>
+        <div class="pull-left">我的活动</div>
         <div class="btn-group pull-right" style="padding-top: 20px;">
-            <a href="{:U('index',array('norh'=>'new','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh eq 'new'">active</if>">最新</a>
-            <a  href="{:U('index',array('norh'=>'hot','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh eq 'hot'">active</if>">最热</a>
+            <a href="{:U('myevent',array('lora'=>'','type_id'=>$type_id))}" class="btn btn-default <if condition="$lora eq ''">active</if>">我发起的</a>
+            <a  href="{:U('myevent',array('lora'=>'attend','type_id'=>$type_id))}" class="btn btn-default <if condition="$lora eq 'attend'">active</if>">我参加的</a>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
                                     <if condition="($vo['uid'] eq is_login()) OR is_administrator(is_login())">
 
                                         <if condition="time() lt $vo['eTime']">
-                                        <a class="btn btn-default endEvent" data-eventID="{$vo.id}">提前结束</a>
+                                            <a class="btn btn-default endEvent" data-eventID="{$vo.id}">提前结束</a>
                                         </if>
 
                                         <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-default">编辑活动</a>

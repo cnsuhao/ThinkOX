@@ -1,0 +1,8 @@
+<php>if(!empty($config['type'])){</php>
+<div class="login-form-inbox" style="height: 40px;padding: 9px 20px 12px 20px;">您还可以使用以下方式登录：
+    <php>if(in_array('QQ',$config['type'])){</php>
+    <a href="{:addons_url('SyncLogin://QQ/qq')}"><img alt="Connect_logo_1.png"
+                                                      src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_1.png"></a>
+    <php>}</php>
+</div>
+<php>}</php>

@@ -48,12 +48,17 @@ class RepostAddon extends Addon
         $this->display('repost');
     }
 
+    /**
+     * 转发模版渲染
+     * @param $weibo
+     * @return mixed
+     * autor:xjw129xjt
+     */
     public function fetchRepost($weibo)
     {
 
         $weibo_data = unserialize($weibo['data']);
         $weibo_data['attach_ids'] = explode(',', $weibo_data['attach_ids']);
-
         $sourse_weibo = $this->getweiboDetail($weibo_data['sourse']['id']);
         $param['weibo'] = $weibo;
         $param['weibo']['sourse_weibo'] = $sourse_weibo;
@@ -61,7 +66,12 @@ class RepostAddon extends Addon
         return $this->fetch('display');
     }
 
-
+    /**
+     * 获取微博详细信息
+     * @param $weiboId
+     * @return bool
+     * autor:xjw129xjt
+     */
     private function getweiboDetail($weiboId)
     {
         $weibo_check = D('Weibo/Weibo')->where(array('id' => $weiboId, 'status' => 1))->find();

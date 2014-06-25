@@ -1,5 +1,6 @@
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+{:hook('syncMeta')}
 
 <include file="Public/seo"/>
 
@@ -46,13 +47,11 @@
 <!--
 <php>$js[]=urlencode('/static/bootstrap/js/bootstrap.min.js');</php>
 
-<php>$js[]=urlencode('/static/qtip/jquery.qtip.js');</php>
-<php>$js[]=urlencode('/static/oneplus/js/core.js');</php>
-
 &lt;!&ndash; 其他库 &ndash;&gt;
-<php>$js[]=urlencode('/static/oneplus/js/ext/toastr/toastr.min.js');</php>
-<php>$js[]=urlencode('/static/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js');</php>
-<php>$js[]=urlencode('/static/jquery.iframe-transport.js');</php>
+<script src="__STATIC__/qtip/jquery.qtip.js"></script>
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery.iframe-transport.js"></script>
 -->
 <!--CNZZ广告管家，可自行更改-->
 <!--<script type='text/javascript' src='http://js.adm.cnzz.net/js/abase.js'></script>-->
@@ -65,7 +64,7 @@
     //全局内容的定义
     var _ROOT_ = "__ROOT__";
     var MID = "{:is_login()}";
-    var MODULE_NAME = "<php>echo MODULE_NAME;</php>";
+    var MODULE_NAME="<php>echo MODULE_NAME;</php>";
 </script>
 
 <audio id="music" src="" autoplay="autoplay"></audio>
