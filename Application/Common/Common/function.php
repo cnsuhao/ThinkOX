@@ -75,7 +75,7 @@ function str2arr($str, $glue = ',')
 
 /**
  * 数组转换为字符串，主要用于把分隔符调整到第二个参数
- * @param  array $arr 要连接的数组
+ * @param  array  $arr 要连接的数组
  * @param  string $glue 分割符
  * @return string
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
@@ -120,7 +120,7 @@ function msubstr($str, $start = 0, $length, $charset = "utf-8", $suffix = true)
  * 系统加密方法
  * @param string $data 要加密的字符串
  * @param string $key 加密密钥
- * @param int $expire 过期时间 单位 秒
+ * @param int    $expire 过期时间 单位 秒
  * @return string
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
@@ -211,9 +211,9 @@ function data_auth_sign($data)
 /**
  * 对查询结果集进行排序
  * @access public
- * @param array $list 查询结果
+ * @param array  $list 查询结果
  * @param string $field 排序的字段名
- * @param array $sortby 排序类型
+ * @param array  $sortby 排序类型
  * asc正向排序 desc逆向排序 nat自然排序
  * @return array
  */
@@ -243,7 +243,7 @@ function list_sort_by($list, $field, $sortby = 'asc')
 
 /**
  * 把返回的数据集转换成Tree
- * @param array $list 要转换的数据集
+ * @param array  $list 要转换的数据集
  * @param string $pid parent标记字段
  * @param string $level level标记字段
  * @return array
@@ -280,10 +280,10 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
 
 /**
  * 将list_to_tree的树还原成列表
- * @param  array $tree 原来的树
+ * @param  array  $tree 原来的树
  * @param  string $child 孩子节点的键
  * @param  string $order 排序显示的键，一般是主键 升序排列
- * @param  array $list 过渡用的中间数组，
+ * @param  array  $list 过渡用的中间数组，
  * @return array        返回排过序的列表数组
  * @author yangweijie <yangweijiester@gmail.com>
  */
@@ -342,7 +342,7 @@ function get_redirect_url()
 /**
  * 处理插件钩子
  * @param string $hook 钩子名称
- * @param mixed $params 传入参数
+ * @param mixed  $params 传入参数
  * @return void
  */
 function hook($hook, $params = array())
@@ -378,7 +378,7 @@ function get_addon_config($name)
 /**
  * 插件显示内容里生成访问插件的url
  * @param string $url url
- * @param array $param 参数
+ * @param array  $param 参数
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
 function addons_url($url, $param = array())
@@ -500,7 +500,7 @@ function get_nickname($uid = 0)
 /**
  * 获取分类信息并缓存分类
  * @param  integer $id 分类ID
- * @param  string $field 要获取的字段名
+ * @param  string  $field 要获取的字段名
  * @return string         分类信息
  */
 function get_category($id, $field = null)
@@ -544,7 +544,7 @@ function get_category_title($id)
 /**
  * 获取文档模型信息
  * @param  integer $id 模型ID
- * @param  string $field 模型字段
+ * @param  string  $field 模型字段
  * @return array
  */
 function get_document_model($id = null, $field = null)
@@ -597,8 +597,8 @@ function ubb($data)
  * 记录行为日志，并执行该行为的规则
  * @param string $action 行为标识
  * @param string $model 触发行为的模型名
- * @param int $record_id 触发行为的记录id
- * @param int $user_id 执行行为的用户id
+ * @param int    $record_id 触发行为的记录id
+ * @param int    $user_id 执行行为的用户id
  * @return boolean
  * @author huajie <banhuajie@163.com>
  */
@@ -673,7 +673,7 @@ function action_log($action = null, $model = null, $record_id = null, $user_id =
  *              max->单个周期内的最大执行次数（$cycle和$max必须同时定义，否则无效）
  * 单个行为后可加 ； 连接其他规则
  * @param string $action 行为id或者name
- * @param int $self 替换规则里的变量为执行用户的id
+ * @param int    $self 替换规则里的变量为执行用户的id
  * @return boolean|array: false解析出错 ， 成功返回规则数组
  * @author huajie <banhuajie@163.com>
  */
@@ -721,7 +721,7 @@ function parse_action($action = null, $self)
 /**
  * 执行行为
  * @param array $rules 解析后的规则数组
- * @param int $action_id 行为id
+ * @param int   $action_id 行为id
  * @param array $user_id 执行的用户id
  * @return boolean false 失败 ， true 成功
  * @author huajie <banhuajie@163.com>
@@ -745,10 +745,10 @@ function execute_action($rules = false, $action_id = null, $user_id = null)
 
         //执行数据库操作
         $Model = M(ucfirst($rule['table']));
-        if($rule['tox_money_rule']!=''&&$rule['tox_money_rule']!=null){
-            $change = array($rule['field']=>array('exp', $rule['rule']),$rule['tox_money_field']=>array('exp', $rule['tox_money_rule']));
+        if ($rule['tox_money_rule'] != '' && $rule['tox_money_rule'] != null) {
+            $change = array($rule['field'] => array('exp', $rule['rule']), $rule['tox_money_field'] => array('exp', $rule['tox_money_rule']));
             $res = $Model->where($rule['condition'])->setField($change);
-        }else{
+        } else {
             $field = $rule['field'];
             $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
         }
@@ -822,7 +822,7 @@ function get_table_name($model_id = null)
 /**
  * 获取属性信息并缓存
  * @param  integer $id 属性ID
- * @param  string $field 要获取的字段名
+ * @param  string  $field 要获取的字段名
  * @return string         属性信息
  */
 function get_model_attribute($model_id, $group = true)
@@ -886,7 +886,7 @@ function get_model_attribute($model_id, $group = true)
  * 调用系统的API接口方法（静态方法）
  * api('User/getName','id=5'); 调用公共模块的User接口的getName方法
  * api('Admin/User/getName','id=5');  调用Admin模块的User接口
- * @param  string $name 格式 [模块名]/接口名/方法名
+ * @param  string       $name 格式 [模块名]/接口名/方法名
  * @param  array|string $vars 参数
  */
 function api($name, $vars = array())
@@ -904,7 +904,7 @@ function api($name, $vars = array())
 
 /**
  * 根据条件字段获取指定表的数据
- * @param mixed $value 条件，可用常量或者数组
+ * @param mixed  $value 条件，可用常量或者数组
  * @param string $condition 条件字段
  * @param string $field 需要返回的字段，不传则返回整个数据
  * @param string $table 需要查询的表
@@ -929,7 +929,7 @@ function get_table_field($value = null, $condition = 'id', $field = null, $table
 
 /**
  * 获取链接信息
- * @param int $link_id
+ * @param int    $link_id
  * @param string $field
  * @return 完整的链接信息或者某一字段
  * @author huajie <banhuajie@163.com>
@@ -950,7 +950,7 @@ function get_link($link_id = null, $field = 'url')
 
 /**
  * 获取文档封面图片
- * @param int $cover_id
+ * @param int    $cover_id
  * @param string $field
  * @return 完整的数据  或者  指定的$field字段值
  * @author huajie <banhuajie@163.com>
@@ -1042,21 +1042,21 @@ function get_nav_active($url)
 {
     switch ($url) {
         case 'http://' === substr($url, 0, 7):
-            if(strtolower($url)===strtolower($_SERVER['HTTP_REFERER'])){
+            if (strtolower($url) === strtolower($_SERVER['HTTP_REFERER'])) {
                 return 1;
             }
         case '#' === substr($url, 0, 1):
             return 0;
             break;
         default:
-            $url_array=explode('/',$url);
-            if($url_array[0]==''){
-                $MODULE_NAME=$url_array[1];
-            }else{
-                $MODULE_NAME=$url_array[0]; //发现模块就是当前模块即选中。
+            $url_array = explode('/', $url);
+            if ($url_array[0] == '') {
+                $MODULE_NAME = $url_array[1];
+            } else {
+                $MODULE_NAME = $url_array[0]; //发现模块就是当前模块即选中。
 
             }
-            if(strtolower($MODULE_NAME)===strtolower(MODULE_NAME)){
+            if (strtolower($MODULE_NAME) === strtolower(MODULE_NAME)) {
                 return 1;
             };
             break;
@@ -1064,9 +1064,10 @@ function get_nav_active($url)
     }
     return 0;
 }
+
 /**
  * 获取列表总行数
- * @param  string $category 分类ID
+ * @param  string  $category 分类ID
  * @param  integer $status 数据状态
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
  */
@@ -1092,46 +1093,49 @@ function op_t($text)
     $text = trim($text);
     return $text;
 }
+
 /**
  * h函数用于过滤不安全的html标签，输出安全的html
  * @param string $text 待过滤的字符串
  * @param string $type 保留的标签格式
  * @return string 处理后内容
  */
-function op_h($text, $type = 'html'){
+function op_h($text, $type = 'html')
+{
     // 无标签格式
-    $text_tags  = '';
+    $text_tags = '';
     //只保留链接
-    $link_tags  = '<a>';
+    $link_tags = '<a>';
     //只保留图片
     $image_tags = '<img>';
     //只存在字体样式
-    $font_tags  = '<i><b><u><s><em><strong><font><big><small><sup><sub><bdo><h1><h2><h3><h4><h5><h6>';
+    $font_tags = '<i><b><u><s><em><strong><font><big><small><sup><sub><bdo><h1><h2><h3><h4><h5><h6>';
     //标题摘要基本格式
-    $base_tags  = $font_tags.'<p><br><hr><a><img><map><area><pre><code><q><blockquote><acronym><cite><ins><del><center><strike>';
+    $base_tags = $font_tags . '<p><br><hr><a><img><map><area><pre><code><q><blockquote><acronym><cite><ins><del><center><strike>';
     //兼容Form格式
-    $form_tags  = $base_tags.'<form><input><textarea><button><select><optgroup><option><label><fieldset><legend>';
+    $form_tags = $base_tags . '<form><input><textarea><button><select><optgroup><option><label><fieldset><legend>';
     //内容等允许HTML的格式
-    $html_tags  = $base_tags.'<ul><ol><li><dl><dd><dt><table><caption><td><th><tr><thead><tbody><tfoot><col><colgroup><div><span><object><embed><param>';
+    $html_tags = $base_tags . '<ul><ol><li><dl><dd><dt><table><caption><td><th><tr><thead><tbody><tfoot><col><colgroup><div><span><object><embed><param>';
     //专题等全HTML格式
-    $all_tags   = $form_tags.$html_tags.'<!DOCTYPE><meta><html><head><title><body><base><basefont><script><noscript><applet><object><param><style><frame><frameset><noframes><iframe>';
+    $all_tags = $form_tags . $html_tags . '<!DOCTYPE><meta><html><head><title><body><base><basefont><script><noscript><applet><object><param><style><frame><frameset><noframes><iframe>';
     //过滤标签
-    $text = real_strip_tags($text, ${$type.'_tags'});
+    $text = real_strip_tags($text, ${$type . '_tags'});
     // 过滤攻击代码
-    if($type != 'all') {
+    if ($type != 'all') {
         // 过滤危险的属性，如：过滤on事件lang js
-        while(preg_match('/(<[^><]+)(ondblclick|onclick|onload|onerror|unload|onmouseover|onmouseup|onmouseout|onmousedown|onkeydown|onkeypress|onkeyup|onblur|onchange|onfocus|action|background|codebase|dynsrc|lowsrc)([^><]*)/i',$text,$mat)){
-            $text = str_ireplace($mat[0], $mat[1].$mat[3], $text);
+        while (preg_match('/(<[^><]+)(ondblclick|onclick|onload|onerror|unload|onmouseover|onmouseup|onmouseout|onmousedown|onkeydown|onkeypress|onkeyup|onblur|onchange|onfocus|action|background|codebase|dynsrc|lowsrc)([^><]*)/i', $text, $mat)) {
+            $text = str_ireplace($mat[0], $mat[1] . $mat[3], $text);
         }
-        while(preg_match('/(<[^><]+)(window\.|javascript:|js:|about:|file:|document\.|vbs:|cookie)([^><]*)/i',$text,$mat)){
-            $text = str_ireplace($mat[0], $mat[1].$mat[3], $text);
+        while (preg_match('/(<[^><]+)(window\.|javascript:|js:|about:|file:|document\.|vbs:|cookie)([^><]*)/i', $text, $mat)) {
+            $text = str_ireplace($mat[0], $mat[1] . $mat[3], $text);
         }
     }
     return $text;
 }
 
-function real_strip_tags($str, $allowable_tags="") {
-    $str = html_entity_decode($str,ENT_QUOTES,'UTF-8');
+function real_strip_tags($str, $allowable_tags = "")
+{
+    $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
     return strip_tags($str, $allowable_tags);
 }
 
@@ -1175,9 +1179,10 @@ function getMyToxMoney()
     return $tox_money;
 }
 
-function getToxMoneyName(){
-    $tox_money_name="金币";
-    $tox_money_name=D('shop_config')->where('ename='."'tox_money'")->getField('cname');
+function getToxMoneyName()
+{
+    $tox_money_name = "金币";
+    $tox_money_name = D('shop_config')->where('ename=' . "'tox_money'")->getField('cname');
     return $tox_money_name;
 }
 
@@ -1241,15 +1246,26 @@ function tox_addons_url($url, $param)
     return U("Home/Addons/execute", $param);
 }
 
-
-function replace_style($content){
-    $content =  preg_replace("/class=\".*?\"/si","",$content);
+/**替换style
+ * @param $content
+ * @return mixed|string
+ * @auth 肖骏涛
+ */
+function replace_style($content)
+{
+    $content = preg_replace("/class=\".*?\"/si", "", $content);
     $content = closetags($content);
     return $content;
 
 }
 
-function closetags($html) {
+/**闭合标签
+ * @param $html
+ * @return string
+ * @auth 肖骏涛
+ */
+function closetags($html)
+{
     preg_match_all('#<([a-z]+)(?: .*)?(?<![/|/ ])>#iU', $html, $result);
     $openedtags = $result[1];
 
@@ -1262,9 +1278,9 @@ function closetags($html) {
     }
     $openedtags = array_reverse($openedtags);
 
-    for ($i=0; $i < $len_opened; $i++) {
-        if (!in_array($openedtags[$i], $closedtags)){
-            $html .= '</'.$openedtags[$i].'>';
+    for ($i = 0; $i < $len_opened; $i++) {
+        if (!in_array($openedtags[$i], $closedtags)) {
+            $html .= '</' . $openedtags[$i] . '>';
         } else {
             unset($closedtags[array_search($openedtags[$i], $closedtags)]);
         }
@@ -1272,14 +1288,19 @@ function closetags($html) {
     return $html;
 }
 
-function parse_popup($content){
+function parse_popup($content)
+{
     $content = replace_style($content);
-    preg_match_all('/<img src=\"(.*?)\"/',$content, $img_src);
-    preg_match_all('/<img src=\".*?\/>/',$content, $img_tag);
-    foreach($img_tag[0] as $k=>&$v){
-        $content=str_replace($v,'<a class="popup" href="'.$img_src[1][$k].'" title="点击查看大图">'.$v.'</a>',$content);
+    preg_match_all('/<img src=\"(.*?)\"/', $content, $img_src);
+    preg_match_all('/<img src=\".*?\/>/', $content, $img_tag);
+    foreach ($img_tag[0] as $k => &$v) {
+        $content = str_replace($v, '<a class="popup" href="' . $img_src[1][$k] . '" title="点击查看大图">' . $v . '</a>', $content);
     }
-    $content = '  <div class="popup-gallery">'.  $content.'</div>';
+    $content = '  <div class="popup-gallery">' . $content . '</div>';
 
     return $content;
 }
+
+
+
+
