@@ -25,23 +25,40 @@
 <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
 <!--<![endif]-->
 
+<!--合并前的js-->
 <!-- Bootstrap库 -->
+<script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- 其他库-->
+<script src="__STATIC__/qtip/jquery.qtip.js"></script>
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="__STATIC__/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery.iframe-transport.js"></script>
+<!--CNZZ广告管家，可自行更改-->
+<script type='text/javascript' src='http://js.adm.cnzz.net/js/abase.js'></script>
+<!--CNZZ广告管家，可自行更改end
+ 自定义js-->
+<script type="text/javascript" src="__STATIC__/oneplus/js/core.js"></script>
+<!--合并前的js-->
+
+
+<!-- Bootstrap库 -->
+<!--
 <php>$js[]=urlencode('/static/bootstrap/js/bootstrap.min.js');</php>
 
 <php>$js[]=urlencode('/static/qtip/jquery.qtip.js');</php>
 <php>$js[]=urlencode('/static/oneplus/js/core.js');</php>
 
-<!-- 其他库 -->
+&lt;!&ndash; 其他库 &ndash;&gt;
 <php>$js[]=urlencode('/static/oneplus/js/ext/toastr/toastr.min.js');</php>
 <php>$js[]=urlencode('/static/oneplus/js/ext/slimscroll/jquery.slimscroll.min.js');</php>
 <php>$js[]=urlencode('/static/jquery.iframe-transport.js');</php>
+-->
 <!--CNZZ广告管家，可自行更改-->
-<script type='text/javascript' src='http://js.adm.cnzz.net/js/abase.js'></script>
+<!--<script type='text/javascript' src='http://js.adm.cnzz.net/js/abase.js'></script>-->
 <!--CNZZ广告管家，可自行更改end-->
 <!-- 自定义js -->
-<script src="__PUBLIC__/js.php?get={:implode(',',$js)}"></script>
-
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101124408" data-redirecturi="http://ourstu.com" charset="utf-8"></script>
+<!--<script src="__PUBLIC__/js.php?get={:implode(',',$js)}"></script>-->
 
 
 <script>
