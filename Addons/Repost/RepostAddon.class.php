@@ -55,16 +55,7 @@ class RepostAddon extends Addon
         $weibo_data['attach_ids'] = explode(',', $weibo_data['attach_ids']);
 
         $sourse_weibo = $this->getweiboDetail($weibo_data['sourse']['id']);
-
-        foreach ($weibo_data['attach_ids'] as $k_i => $v_i) {
-            $weibo_data['image'][$k_i]['small'] = getRootUrl() . '/' . getThumbImageById($v_i, 100, 100);
-            $bi = M('Picture')->where(array('status' => 1))->getById($v_i);
-            $weibo_data['image'][$k_i]['big'] = getRootUrl() . '/' . $bi['path'];
-
-        }
-
         $param['weibo'] = $weibo;
-        $param['weibo']['weibo_data'] = $weibo_data;
         $param['weibo']['sourse_weibo'] = $sourse_weibo;
         $this->assign($param);
         return $this->fetch('display');
