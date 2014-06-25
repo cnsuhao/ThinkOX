@@ -106,16 +106,8 @@ function getThumbImage($filename, $width=100, $height='auto', $type=2, $replace=
         $info['height'] = intval($height);
         return $info;
         //缩图已存在并且  replace替换为false
-<<<<<<< .mine
     }  elseif  (file_exists($UPLOAD_PATH  .  $thumbFile)  &&  !$replace)  {
-
         $imageinfo  =  getimagesize($UPLOAD_PATH  .  $thumbFile);
-=======
-    } elseif (file_exists($UPLOAD_PATH . $thumbFile) && !$replace) {
-        $imageinfo = getimagesize($UPLOAD_PATH . $thumbFile);
-
->>>>>>> .theirs
-        //dump($imageinfo);exit;
         $info['src'] = $thumbFile;
         $info['width'] = intval($imageinfo[0]);
         $info['height'] = intval($imageinfo[1]);
