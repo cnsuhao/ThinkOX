@@ -46,6 +46,12 @@ class IndexController extends Controller
         redirect(U('forum', array('page' => $page)));
     }
 
+    /**某个版块的帖子列表
+     * @param int    $id
+     * @param int    $page
+     * @param string $order
+     * @auth 陈一枭
+     */
     public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
     {
         if ($order == 'ctime') {
@@ -83,6 +89,9 @@ class IndexController extends Controller
         $this->display();
     }
 
+    public function forums(){
+        $this->display();
+    }
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
         $id = intval($id);
