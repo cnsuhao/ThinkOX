@@ -141,7 +141,8 @@ class Upload{
             $finfo   =  finfo_open ( FILEINFO_MIME_TYPE );
         }
         // 对上传文件数组信息处理
-        $files   =  $this->dealFiles($files);    
+        $files   =  $this->dealFiles($files);
+
         foreach ($files as $key => $file) {
             if(!isset($file['key']))   $file['key']    =   $key;
             /* 通过扩展获取文件类型，可解决FLASH上传$FILES数组返回文件类型错误的问题 */
@@ -165,11 +166,19 @@ class Upload{
 
             /* 调用回调函数检测文件是否存在 */
             $data = call_user_func($this->callback, $file);
+
+
             if( $this->callback && $data ){
+                if(strtolower(C('PICTURE_UPLOAD_DRIVER'))=='sae')
+                {
+                    $info[$key] = $data;
+                    continue;
+                }
                 if ( file_exists('.'.$data['path'])  ) {
                     $info[$key] = $data;
                     continue;
                 }elseif($this->removeTrash){
+                    //dump('oo');exit;
                     call_user_func($this->removeTrash,$data);//删除垃圾据
                 }
             }
@@ -211,6 +220,7 @@ class Upload{
         if(isset($finfo)){
             finfo_close($finfo);
         }
+
         return empty($info) ? false : $info;
     }
 

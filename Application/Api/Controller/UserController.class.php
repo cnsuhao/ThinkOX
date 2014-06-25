@@ -77,6 +77,10 @@ class UserController extends ApiController
         $uid = $this->getUid();
         $addon = new AvatarAddon();
         $result = $addon->uploadTemp($uid, $image);
+
+
+
+
         if (!$result) {
             $this->apiError(0, $addon->getError());
         }

@@ -44,9 +44,17 @@ class InsertImageAddon extends Addon
         $weibo_data['attach_ids'] = explode(',', $weibo_data['attach_ids']);
 
         foreach ($weibo_data['attach_ids'] as $k_i => $v_i) {
-            $weibo_data['image'][$k_i]['small'] = getRootUrl() . '/' . getThumbImageById($v_i, 100, 100);
-            $bi = M('Picture')->where(array('status' => 1))->getById($v_i);
-            $weibo_data['image'][$k_i]['big'] = getRootUrl() . '/' . $bi['path'];
+            if(strtolower(C('PICTURE_UPLOAD_DRIVER'))=='sae'){
+                $weibo_data['image'][$k_i]['small'] =  getThumbImageById($v_i, 100, 100);
+                // dump( $weibo_data['image'][$k_i]['small']);exit;
+                $bi = M('Picture')->where(array('status' => 1))->getById($v_i);
+                $weibo_data['image'][$k_i]['big'] = $bi['path'];
+            }else{
+                $weibo_data['image'][$k_i]['small'] = getRootUrl() . '/' . getThumbImageById($v_i, 100, 100);
+                $bi = M('Picture')->where(array('status' => 1))->getById($v_i);
+                $weibo_data['image'][$k_i]['big'] = getRootUrl() . '/' . $bi['path'];
+            }
+
 
             $param['weibo'] = $weibo;
             $param['weibo']['weibo_data'] = $weibo_data;
