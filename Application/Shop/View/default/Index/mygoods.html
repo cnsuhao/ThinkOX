@@ -58,7 +58,9 @@
                 <volist name="contents" id="vo">
                     <div class="col-md-3 goods">
                         <div class="item_goods position_re">
-                            <i class="ico_new"></i>
+                            <if condition="$vo['goods']['sell_num'] egt $hot_num"><i class="ico_hot"></i>
+                                <else/><if condition="$vo['goods']['is_new'] eq 1"><i class="ico_new"></i></if>
+                            </if>
                             <dl>
                                 <dt>
                                     <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}">

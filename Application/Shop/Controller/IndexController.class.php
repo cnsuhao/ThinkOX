@@ -24,6 +24,8 @@ class IndexController extends Controller
         if(is_login()){
             $this->assign('my_tox_money',getMyToxMoney());
         }
+        $hot_num=D('shop_config')->where(array('ename'=>'min_sell_num'))->getField('cname');
+        $this->assign('hot_num',$hot_num);
     }
 
     /**
@@ -47,6 +49,13 @@ class IndexController extends Controller
         $map['status'] = 1;
         $goods_list_new = D('shop')->where($map)->order('changetime desc')->limit(8)->field($this->goods_info)->select();
         $this->assign('contents_new', $goods_list_new);
+
+        //热销商品
+        $hot_num=D('shop_config')->where(array('ename'=>'min_sell_num'))->getField('cname');
+        $map_hot['sell_num']=array('egt',$hot_num);
+        $map_hot['status']=1;
+        $goods_list_hot = D('shop')->where($map_hot)->order('sell_num desc')->limit(8)->field($this->goods_info)->select();
+        $this->assign('contents_hot', $goods_list_hot);
         $this->display();
     }
 
@@ -61,9 +70,6 @@ class IndexController extends Controller
         $this->_goods_initialize();
         $category_id=intval($category_id);
         $goods_category = D('shopCategory')->find($category_id);
-        if(!$goods_category){
-            $this->error('请选择分类');
-        }
         if ($category_id != 0) {
             $category_id = intval($category_id);
             $goods_categorys = D('shop_category')->where("id=%d OR pid=%d",array($category_id,$category_id))->limit(999)->select();
@@ -107,10 +113,29 @@ class IndexController extends Controller
             $this->error('404 not found');
         }
         $category = D('shopCategory')->find($goods['category_id']);
-        $this->assign('top_category', $category['pid'] == 0 ? $category['id'] : $category['pid']);
-        $this->assign('category_id', $category['id']);
-        $this->assign('category_title',$category['title']);
+        $top_category_id=$category['pid'] == 0 ? $category['id'] : $category['pid'];
+        $this->assign('top_category', $top_category_id);
+        $this->assign('category_id',$category['id']);
+        if($top_category_id==$category['id']){
+            $this->assign('category_name',$category['title']);
+        }else{
+            $this->assign('category_name',D('shopCategory')->where(array('id'=>$top_category_id))->getField('title'));
+            $this->assign('child_category_name',$category['title']);
+        }
+        $this->assign('tox_money_cname',getToxMoneyName());
         $this->assign('content', $goods);
+        //同类对比
+        $goods_categorys_ids = D('shop_category')->where("id=%d OR pid=%d",array($category['id'],$category['id']))->limit(999)->field('id')->select();
+        foreach ($goods_categorys_ids as &$v) {
+            $v = $v['id'];
+        }
+        $map['category_id'] = array('in', $goods_categorys_ids);
+        $map['status']=1;
+        $map['id']=array('neq',$id);
+        $same_category_goods=D('shop')->where($map)->limit(3)->order('sell_num desc')->field($this->goods_info)->select();
+        $this->assign('contents_same_category', $same_category_goods);
+
+
         $this->display();
     }
 
@@ -185,8 +210,9 @@ class IndexController extends Controller
             D('member')->where('uid='.is_login())->setDec('tox_money',$tox_money_need);
             $res=D('shop_buy')->add($data);
             if($res){
-                //商品数量减少
+                //商品数量减少,已售量增加
                 D('shop')->where('id='.$id)->setDec('goods_num',$num);
+                D('shop')->where('id='.$id)->setInc('sell_num',$num);
                 //发送系统消息
                 $message=$goods['goods_name']."购买成功，请等待发货。";
                 D('Message')->sendMessageWithoutCheckSelf(is_login(),$message ,'购买成功通知', U('Shop/Index/myGoods',array('status'=>'0')));

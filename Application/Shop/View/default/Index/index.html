@@ -79,7 +79,7 @@
         </div>
         <div class="row pad_15">
             <h2 class="title_content">最热单品</h2>
-            <volist name="contents" id="vo">
+            <volist name="contents_hot" id="vo">
                 <div class="col-md-3 goods">
                     <div class="item_goods position_re">
                         <i class="ico_hot"></i>
@@ -108,7 +108,7 @@
                     </div>
                 </div>
             </volist>
-            <if condition="count($contents) eq 0">
+            <if condition="count($contents_hot) eq 0">
                 <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">现在还没有最热单品哦。O(∩_∩)O~</div>
             </if>
         </div>
