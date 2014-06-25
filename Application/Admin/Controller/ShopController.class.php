@@ -168,7 +168,7 @@ class ShopController extends AdminController
 
     public function goodsList($page=1,$r=20){
         $map['status']=array('egt',0);
-        $goodsList=$this->shopModel->where($map)->order('changetime desc')->page($page,$r)->select();
+        $goodsList=$this->shopModel->where($map)->order('createtime desc')->page($page,$r)->select();
         $totalCount=$this->shopModel->where($map)->count();
         $builder=new AdminListBuilder();
         $builder->title('商品列表');
@@ -177,14 +177,32 @@ class ShopController extends AdminController
             $category=$this->shop_categoryModel->where('id='.$val['category_id'])->getField('title');
             $val['category']=$category;
             unset($category);
+            $val['is_new']=($val['is_new']==0)?'否':'是';
         }
         unset($val);
         $builder->buttonNew(U('Shop/goodsEdit'))->buttonDelete(U('setGoodsStatus'))->setStatusUrl(U('setGoodsStatus'));
         $builder->keyId()->keyText('goods_name','商品名称')->keyText('category','商品分类')->keyText('goods_introduct','商品广告语')
-            ->keyText('tox_money_need','商品价格')->keyText('goods_num','商品余量')->keyStatus('status','出售状态')->keyUpdateTime('changetime')->keyCreateTime('createtime')->keyDoActionEdit('Shop/goodsEdit?id=###')->keyDoAction('Shop/setGoodsStatus?ids=###&status=-1','删除');
+            ->keyText('tox_money_need','商品价格')->keyText('goods_num','商品余量')->keyText('sell_num','已售出量')->keyLink('is_new','是否为新品','Shop/setNew?id=###')->keyStatus('status','出售状态')->keyUpdateTime('changetime')->keyCreateTime('createtime')->keyDoActionEdit('Shop/goodsEdit?id=###')->keyDoAction('Shop/setGoodsStatus?ids=###&status=-1','删除');
         $builder->data($goodsList);
         $builder->pagination($totalCount,$r);
         $builder->display();
+    }
+
+    /**设置是否为新品
+     * @param int $id
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function setNew($id=0){
+        if($id==0){
+            $this->error('请选择商品');
+        }
+        $is_new=intval(!$this->shopModel->where(array('id'=>$id))->getField('is_new'));
+        $rs=$this->shopModel->where(array('id'=>$id))->setField(array('is_new'=>$is_new,'changetime'=>time()));
+        if($rs){
+            $this->success('设置成功！');
+        }else{
+            $this->error('设置失败！');
+        }
     }
 
     public function goodsTrash($page=1, $r=10){
@@ -215,7 +233,7 @@ class ShopController extends AdminController
      * @param $category_id
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function goodsEdit($id=0,$goods_name='',$goods_ico='',$goods_introduct='',$goods_detail='',$tox_money_need='',$goods_num='',$status='',$category_id=0){
+    public function goodsEdit($id=0,$goods_name='',$goods_ico='',$goods_introduct='',$goods_detail='',$tox_money_need='',$goods_num='',$status='',$category_id=0,$is_new=0,$sell_num=0){
         $isEdit=$id?1:0;
         if(IS_POST){
             if($goods_name==''||$goods_name==null){
@@ -231,11 +249,14 @@ class ShopController extends AdminController
                     $goods_introduct=substr($goods_detail,0,25);
                 }
             }
-            if(!is_numeric($tox_money_need)&&$tox_money_need>=0){
+            if(!(is_numeric($tox_money_need)&&$tox_money_need>=0)){
                 $this->error('请正确输入商品价格');
             }
-            if(!is_numeric($goods_num)&&$goods_num>=0){
+            if(!(is_numeric($goods_num)&&$goods_num>=0)){
                 $this->error('请正确输入商品剩余量');
+            }
+            if(!(is_numeric($sell_num)&&$sell_num>=0)){
+                $this->error('请正确输入商品已售量');
             }
             $goods['goods_name']=$goods_name;
             $goods['goods_ico']=$goods_ico;
@@ -245,6 +266,8 @@ class ShopController extends AdminController
             $goods['goods_num']=$goods_num;
             $goods['status']=$status;
             $goods['category_id']=$category_id;
+            $goods['is_new']=$is_new;
+            $goods['sell_num']=$sell_num;
             $goods['changetime']=time();
             if($isEdit){
                 $rs=$this->shopModel->where('id='.$id)->save($goods);
@@ -274,7 +297,7 @@ class ShopController extends AdminController
             $goods_category_list=$this->shop_categoryModel->where($category_id)->order('pid desc')->select();
             $options=array_combine(array_column($goods_category_list,'id'),array_column($goods_category_list,'title'));
             $builder->keyId()->keyText('goods_name','商品名称')->keySingleImage('goods_ico','商品图标')->keySelect('category_id','商品分类','',$options)->keyText('goods_introduct','商品广告语')->keyTextArea('goods_detail','商品详情')
-                ->keyInteger('tox_money_need','商品价格')->keyInteger('goods_num','商品余量')->keyStatus('status','出售状态');
+                ->keyInteger('tox_money_need','商品价格')->keyInteger('goods_num','商品余量')->keyInteger('sell_num','已售出量')->keyBool('is_new','是否为新品')->keyStatus('status','出售状态');
             if($isEdit){
                 $goods=$this->shopModel->where('id='.$id)->find();
                 $builder->data($goods);

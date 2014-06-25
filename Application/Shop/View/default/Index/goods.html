@@ -56,7 +56,7 @@
                 <volist name="contents" id="vo">
                     <div class="col-md-3 goods">
                         <div class="item_goods position_re">
-                            <i class="ico_new"></i>
+                            <if condition="$vo['is_new'] eq 1"><i class="ico_new"></i></if>
                             <dl>
                                 <dt>
                                     <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">
@@ -158,14 +158,20 @@
     <script>
         $(function () {
             $('.open-popup-link').click(function () {
+                if(MID==0){
+                    op_info('登录后才能兑换商品！','提示消息');
+                    return false;
+                }
                 var goods_id = this.getAttribute('goods_id');
                 $('#goods_id').val(goods_id);
             });
-            $('.open-popup-link').magnificPopup({
-                type: 'inline',
-                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                closeOnBgClick: false
-            });
+            if(MID!=0){
+                $('.open-popup-link').magnificPopup({
+                    type: 'inline',
+                    midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                    closeOnBgClick:false
+                });
+            }
             $('.item_goods').mouseover(function(){
                 $(this).addClass('item_goods_box_shadow');
             });

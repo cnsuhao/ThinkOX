@@ -43,7 +43,7 @@
     <div class="col-md-12  app_block">
         <div class="row pad_15">
             <h2 class="title_content">新品上架</h2>
-            <volist name="contents" id="vo">
+            <volist name="contents_new" id="vo">
                 <div class="col-md-3 goods">
                     <div class="item_goods position_re">
                         <i class="ico_new"></i>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </volist>
-            <if condition="count($contents) eq 0">
+            <if condition="count($contents_new) eq 0">
                 <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">现在还没有新品哦。O(∩_∩)O~</div>
             </if>
         </div>
@@ -170,14 +170,20 @@
     <script>
         $(function () {
             $('.open-popup-link').click(function(){
+                if(MID==0){
+                    op_info('登录后才能兑换商品！','提示消息');
+                    return false;
+                }
                 var goods_id=this.getAttribute('goods_id');
                 $('#goods_id').val(goods_id);
             });
-            $('.open-popup-link').magnificPopup({
-                type: 'inline',
-                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                closeOnBgClick:false
-            });
+            if(MID!=0){
+                $('.open-popup-link').magnificPopup({
+                    type: 'inline',
+                    midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                    closeOnBgClick:false
+                });
+            }
             $('.item_goods').mouseover(function(){
                 $(this).addClass('item_goods_box_shadow');
             });

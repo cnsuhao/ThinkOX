@@ -12,7 +12,7 @@ use Think\Controller;
  */
 class IndexController extends Controller
 {
-    protected $goods_info='id,goods_name,goods_ico,goods_introduct,tox_money_need,goods_num,changetime,status,createtime,category_id';
+    protected $goods_info='id,goods_name,goods_ico,goods_introduct,tox_money_need,goods_num,changetime,status,createtime,category_id,is_new,sell_num';
 
     /**
      * 商城初始化
@@ -37,35 +37,16 @@ class IndexController extends Controller
 
     /**
      * 商城首页
-     * @param int $page
-     * @param int $category_id
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function index($page = 1, $category_id = 0)
+    public function index()
     {
         $this->_goods_initialize();
-        $category_id=intval($category_id);
-        $goods_category = D('shopCategory')->find($category_id);
-        if ($category_id != 0) {
-            $category_id = intval($category_id);
-            $goods_categorys = D('shop_category')->where("id=%d OR pid=%d",array($category_id,$category_id))->limit(999)->select();
-            $ids = array();
-            foreach ($goods_categorys as $v) {
-                $ids[] = $v['id'];
-            }
-            $map['category_id'] = array('in', implode(',', $ids));
-        }
+        //新品上架
+        $map['is_new']=1;
         $map['status'] = 1;
-        $goods_list = D('shop')->where($map)->order('createtime desc')->page($page, 16)->field($this->goods_info)->select();
-        $totalCount = D('shop')->where($map)->count();
-        foreach ($goods_list as &$v) {
-            $v['category']=D('shopCategory')->field('id,title')->find($v['category_id']);
-        }
-        unset($v);
-        $this->assign('contents', $goods_list);
-        $this->assign('totalPageCount', $totalCount);
-        $this->assign('top_category', $goods_category['pid'] == 0 ? $goods_category['id'] : $goods_category['pid']);
-        $this->assign('category_id',$category_id);
+        $goods_list_new = D('shop')->where($map)->order('changetime desc')->limit(8)->field($this->goods_info)->select();
+        $this->assign('contents_new', $goods_list_new);
         $this->display();
     }
 
