@@ -15,29 +15,21 @@ class IndexController extends Controller
     protected $goods_info='id,goods_name,goods_ico,goods_introduct,tox_money_need,goods_num,changetime,status,createtime,category_id';
 
     /**
-     * 商城页初始化
+     * 商城初始化
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function _goods_initialize(){
+    public function _initialize(){
         $tree = D('shopCategory')->getTree();
         $this->assign('tree', $tree);
-        $tox_money_cname=getToxMoneyName();
-        $this->assign('tox_money_cname',$tox_money_cname);
-        $shop_address=D('shop_address')->where('uid='.is_login())->find();
-        $this->assign('shop_address',$shop_address);
     }
 
     /**
-     * 个人商品页初始化
+     * 商品页初始化
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function _myGoods_initialize(){
-        if(!is_login()){
-            $this->error('请先登录！');
-        }
-        $this->assign('type','my');
-        $tox_money_cname=getToxMoneyName();
-        $this->assign('tox_money_cname',$tox_money_cname);
+    public function _goods_initialize(){
+        $shop_address=D('shop_address')->where('uid='.is_login())->find();
+        $this->assign('shop_address',$shop_address);
     }
 
     /**
@@ -71,6 +63,50 @@ class IndexController extends Controller
         $this->assign('totalPageCount', $totalCount);
         $this->assign('top_category', $goods_category['pid'] == 0 ? $goods_category['id'] : $goods_category['pid']);
         $this->assign('category_id',$category_id);
+        $this->display();
+    }
+
+    /**
+     * 商品页
+     * @param int $page
+     * @param int $category_id
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function goods($page = 1, $category_id = 0)
+    {
+        $this->_goods_initialize();
+        $category_id=intval($category_id);
+        $goods_category = D('shopCategory')->find($category_id);
+        if(!$goods_category){
+            $this->error('请选择分类');
+        }
+        if ($category_id != 0) {
+            $category_id = intval($category_id);
+            $goods_categorys = D('shop_category')->where("id=%d OR pid=%d",array($category_id,$category_id))->limit(999)->select();
+            $ids = array();
+            foreach ($goods_categorys as $v) {
+                $ids[] = $v['id'];
+            }
+            $map['category_id'] = array('in', implode(',', $ids));
+        }
+        $map['status'] = 1;
+        $goods_list = D('shop')->where($map)->order('createtime desc')->page($page, 16)->field($this->goods_info)->select();
+        $totalCount = D('shop')->where($map)->count();
+        foreach ($goods_list as &$v) {
+            $v['category']=D('shopCategory')->field('id,title')->find($v['category_id']);
+        }
+        unset($v);
+        $this->assign('contents', $goods_list);
+        $this->assign('totalPageCount', $totalCount);
+        $top_category_id=$goods_category['pid'] == 0 ? $goods_category['id'] : $goods_category['pid'];
+        $this->assign('top_category', $top_category_id);
+        $this->assign('category_id',$category_id);
+        if($top_category_id==$category_id){
+            $this->assign('category_name',$goods_category['title']);
+        }else{
+            $this->assign('category_name',D('shopCategory')->where(array('id'=>$top_category_id))->getField('title'));
+            $this->assign('child_category_name',$goods_category['title']);
+        }
         $this->display();
     }
 
@@ -194,7 +230,6 @@ class IndexController extends Controller
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function myGoods($page = 1,$status=0){
-        $this->_myGoods_initialize();
         $map['status'] = $status;
         $map['uid']=is_login();
         $goods_buy_list=D('shop_buy')->where($map)->page($page,16)->order('createtime desc')->select();

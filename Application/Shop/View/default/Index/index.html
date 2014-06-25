@@ -1,7 +1,6 @@
 <extend name="Base/common"/>
 
 <block name="style">
-    <!--<link href="__CSS__/shop.css" rel="stylesheet" type="text/css"/>-->
     <link href="__CSS__/shops.css" rel="stylesheet" type="text/css"/>
 </block>
 
@@ -15,20 +14,20 @@
     </div>
     <div class="col-md-12  app_block hidden-xs">
         <ul class="row fl_left nav navbar-nav">
-            <li class="current">
-                <a href="{:U('index')}">商城首页</a>
+            <li>
+                <a href="{:U('index')}" class="current">商城首页</a>
             </li>
             <volist name="tree" id="top">
                 <if condition="$top['status'] eq 1">
                     <if condition="$top['_'] eq null">
-                        <li><a href="{:U('index',array('category_id'=>$top['id']))}" <eq name="top_category" value="$top['id']">class="current"</eq>>{$top.title}</a></li>
+                        <li><a href="{:U('goods',array('category_id'=>$top['id']))}">{$top.title}</a></li>
                         <else/>
                         <li class="dropdown">
-                            <a href="#" <eq name="top_category" value="$top['id']">class="current dropdown-toggle"<else/> class="dropdown-toggle"</eq>  data-toggle="dropdown">{$top.title}<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$top.title}<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{:U('index',array('category_id'=>$top['id']))}">全部</a></li>
+                                <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
                                 <volist name="top['_']" id="child_category">
-                                    <li><a href="{:U('index',array('category_id'=>$child_category['id']))}">{$child_category.title}</a></li>
+                                    <li><a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a></li>
                                 </volist>
                             </ul>
                         </li>
