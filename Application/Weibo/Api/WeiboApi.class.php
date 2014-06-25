@@ -94,7 +94,6 @@ class WeiboApi extends Api
     {
         $this->requireSendInterval();
         $this->requireLogin();
-
         //写入数据库
         $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data);
         if (!$weibo_id) {
@@ -152,6 +151,28 @@ class WeiboApi extends Api
 
         //显示成功页面
         return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score).getToxMoneyTip($tox_money_before,$tox_money_after));
+    }
+
+    public function sendRepostComment($weibo_id,$content){
+        $result = $this->commentModel->addComment(get_uid(), $weibo_id, $content, 0);
+        if (!$result) {
+            return $this->apiError('评论失败：' . $this->commentModel->getError());
+        }
+
+        //写入数据库成功，记录动作，更新最后发送时间
+        $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
+        $this->updateLastSendTime();
+
+        //通知微博作者
+        $weibo = $this->weiboModel->field('uid')->find($weibo_id);
+        $this->sendCommentMessage($weibo['uid'], $weibo_id, "评论内容：$content");
+
+
+
+        //通知被AT的人，除去微博作者、被回复的人，避免通知出现两次。
+        $uids = get_at_uids($content);
+        $uids = array_subtract($uids, array($weibo['uid']));
+        $this->sendAtMessage($uids, $weibo_id, $content);
     }
 
     public function listComment($weibo_id, $page = 1, $count = 10)
@@ -213,6 +234,9 @@ class WeiboApi extends Api
         if($weibo['type'] === 'feed' || $weibo['type']==''){
             $fetchContent =    "<p class='word-wrap'>".parse_weibo_content($weibo['content'])."</p>";
 
+        }elseif($weibo['type'] === 'repost'){
+            $result =  Hook::exec('Repost','fetchRepost',$weibo);
+            $fetchContent = $result;
         }else{
             $result =  Hook::exec('Insert'.ucfirst($weibo['type']),'fetch'.ucfirst($weibo['type']),$weibo);
             $fetchContent = $result;
@@ -227,6 +251,7 @@ class WeiboApi extends Api
             'data' => unserialize($weibo['data']),
             'weibo_data'=>$weibo_data,
             'comment_count' => intval($weibo['comment_count']),
+            'repost_count' => intval($weibo['repost_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
             'is_top' => $weibo['is_top'],

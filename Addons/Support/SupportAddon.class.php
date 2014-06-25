@@ -65,7 +65,6 @@ CREATE TABLE IF NOT EXISTS `{$db_prefix}support` (
 
         $this->assign($param);
 
-
         $support['appname'] = $param['app'];
         $support['table'] = $param['table'];
         $support['row'] = $param['row'];

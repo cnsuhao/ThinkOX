@@ -31,6 +31,18 @@ $(function () {
         $.post(url, {weibo_id: weiboId, content: content, comment_id: comment_id}, function (a) {
             handleAjax(a);
             if (a.status) {
+                reloadWeiboCommentList(weiboCommentList);
+
+
+
+
+
+
+
+
+
+
+
 
                 weiboCommentList.attr('data-weibo-comment-loaded', '1');
                 var weiboId = weiboCommentList.attr('data-weibo-id');

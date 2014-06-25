@@ -1,0 +1,160 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/event.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+</block>
+
+<block name="body">
+    <div class="row">
+        <div class="col-md-12 app_head">
+            <div class="app_title">
+                <i class="app_ico_i glyphicon glyphicon-th-large"> </i>活动
+            </div>
+            <div>
+                <div class="aline"></div>
+            </div>
+            <div class="sub_nav">
+                <ul id="top_nav" class="nav_list clearfix">
+                    <li>
+                        <a href="{:U('index')}">全部分类</a>
+                    </li>
+                    <volist name="tree" id="top">
+                        <li>
+                            <a
+                            <eq name="top_issue" value="$top['id']">class="cur"</eq>
+                            href="{:U('index',array('type_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+                        </li>
+                    </volist>
+
+                    <li class="pull-right btn-submit">
+
+                        <if condition="is_login() eq 0">
+                            <button class="btn btn-primary " onclick="op_error('请登陆后再投稿。','温馨提示')"><i
+                                    class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                            </button>
+                            <else/>
+                            <a class="btn btn-primary " href="{:U('Event/Index/add')}" style="padding: 6px 12px;"><i
+                                    class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                            </a>
+
+                        </if>
+                    </li>
+                </ul>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="content-body">
+        <h2 class="content-title">
+            <a class=" " href="{:U('detail',array('id'=>$content['id']))}"> {$content.title} </a>
+        </h2>
+        <hr/>
+        <div class="row">
+
+            <ul class="nav nav-tabs">
+                <li
+                <if condition="$tip eq all">class="active"</if>
+                ><a href="{:U('member',array('id'=>$content['id']))}">全部成员 <span
+                    class="badge">{$all_count}</span></a></li>
+                <li
+                <if condition="$tip eq sign">class="active"</if>
+                ><a href="{:U('member',array('id'=>$content['id'],'tip'=>'sign'))}">未审核 <span id="sign_count"
+                                                                                              class="badge">{$sign_count}</span></a></li>
+                <li
+                <if condition="$tip eq attend">class="active"</if>
+                ><a href="{:U('member',array('id'=>$content['id'],'tip'=>'attend'))}">已审核 <span id="attend_count"
+                                                                                                class="badge">{$attend_count}</span></a></li>
+            </ul>
+
+
+            <h3 style="margin-left: 30px;">
+                <a class="btn btn-primary " href="{:U('detail',array('id'=>$content['id']))}"
+                   style="margin-right: 30px;"><i class="glyphicon glyphicon-user"></i>&nbsp;活动详细信息</a>
+
+            </h3>
+
+            <volist name="content['member']" id="vo">
+                <div style="border: 1px solid #ccc;width: 350px;height: 100px;float: left;margin-left: 30px;margin-top:20px; ">
+                    <div style="text-align: center;width:70px;float: left;line-height: 100px;margin-left: 20px;">
+                        <img ucard="{$vo.id}" src="{$vo.avatar64}" class="avatar-img" style="width: 64px"/>
+                    </div>
+                    <div style="text-align: center;float: left;margin: 20px 0 0px 20px;">
+                        <div><a href="{$vo.space_url}"> {$vo.nickname} </a></div>
+                        <div>姓名： {$vo.name}</div>
+                        <div>联系方式： {$vo.phone}</div>
+                    </div>
+
+
+                    <div style="text-align: center;float: left;margin: 20px 0 0px 20px;">
+                        <if condition="$vo['status'] eq 0">
+                            <a class="" onclick="shenhe($(this))" data-uid="{$vo.id}" href="javascript:">通过审核 </a>
+                            <else/>
+                            <a class="" onclick="qushenhe($(this))" data-uid="{$vo.id}" href="javascript:">取消审核 </a>
+                        </if>
+
+                    </div>
+
+
+                </div>
+            </volist>
+        </div>
+        <div>
+        </div>
+
+    </div>
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            });
+            bindSupport();
+        })
+
+        function shenhe(obj) {
+            var uid = obj.attr('data-uid');
+            var event_id = "{$content['id']}";
+            var tip = 1;
+            $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
+                if (res.status) {
+                    op_success(res.info);
+                    var html = '<a onclick="qushenhe($(this))" data-uid="' + uid + '" href="javascript:">取消审核 </a>';
+                    obj.parent().html(html);
+                    $('#attend_count').html(parseInt($('#attend_count').text()) + 1);
+                    $('#sign_count').html(parseInt($('#sign_count').text()) - 1);
+                }
+                else {
+                    op_error(res.info);
+                }
+            }, 'json');
+        }
+
+        function qushenhe(obj) {
+            var uid = obj.attr('data-uid');
+            var event_id = "{$content['id']}";
+            var tip = 0;
+            $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
+                if (res.status) {
+                    op_success(res.info);
+                    var html = '<a onclick="shenhe($(this))" data-uid="' + uid + '" href="javascript:">通过审核 </a>';
+                    obj.parent().html(html);
+                    $('#attend_count').html(parseInt($('#attend_count').text()) - 1);
+                    $('#sign_count').html(parseInt($('#sign_count').text()) + 1);
+                }
+                else {
+                    op_error(res.info);
+                }
+            }, 'json');
+        }
+    </script>
+
+</block>

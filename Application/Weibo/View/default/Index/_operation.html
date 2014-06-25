@@ -1,5 +1,5 @@
 {:Hook('support',array('table'=>'weibo','row'=>$weibo['id'],'app'=>'Weibo','uid'=>$weibo['uid']))}
-
+{:Hook('repost',array('weiboId'=>$weibo['id']))}
 &nbsp;&nbsp;&nbsp;
 <if condition="$weibo['can_delete']">
     <span class="text-primary weibo-comment-del cpointer" data-weibo-id="{$weibo.id}">

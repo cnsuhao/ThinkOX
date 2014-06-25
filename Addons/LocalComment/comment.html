@@ -81,7 +81,7 @@
 <script>
     $(function () {
         $('#submit-comment').click(function (e) {
-            e.preventDefault();
+            e.preventDefaultprevent();
 
             var url = $(this).attr('data-url');
             var content = $('#comment-content').val();
