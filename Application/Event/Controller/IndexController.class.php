@@ -46,6 +46,49 @@ class IndexController extends Controller
         $this->display();
     }
 
+    /**
+     * 我的活动页面
+     * @param int $page
+     * @param int $type_id
+     * @param string $norh
+     * autor:xjw129xjt
+     */
+    public function myevent($page = 1, $type_id = 0,$lora = '')
+    {
+
+        $type_id = intval($type_id);
+        if ($type_id != 0) {
+            $map['type_id'] = $type_id;
+        }
+
+        $map['status'] = 1;
+        $order = 'create_time desc';
+        if($lora == 'attend'){
+           $attend = D('event_attend')->where(array('uid'=>is_login()))->select();
+           $enentids=getSubByKey($attend,'event_id');
+            $map['id'] = array('in',$enentids);
+        }else{
+            $map['uid']=is_login();
+        }
+        $content = D('Event')->where($map)->order($order)->page($page,10)->select();
+
+        $totalCount = D('Event')->where($map)->count();
+        foreach ($content as &$v) {
+            $v['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
+            $v['type'] = $this->getType($v['type_id']);
+
+            $v['check_isSign'] = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $v['id']))->select();
+
+
+        }
+        unset($v);
+        $this->assign('type_id', $type_id);
+        $this->assign('contents', $content);
+        $this->assign('lora', $lora);
+        $this->assign('totalPageCount', $totalCount);
+        $this->display();
+    }
+
     private function getType($type_id)
     {
         $type = D('EventType')->where('id=' . $type_id)->find();

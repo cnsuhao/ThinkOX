@@ -37,15 +37,6 @@ class WeiboApi extends Api
         foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
 
-  /*          $e['data']['attach_ids'] = explode(',',$e['data']['attach_ids']);
-            if( $e['data']['attach_ids']!=null){
-                foreach($e['data']['attach_ids'] as $k_i =>$v_i ){
-                    $e['image'][$k_i]['small'] =   getRootUrl().'/'.getThumbImageById($v_i,100,100);
-                    $bi =  M('Picture')->where(array('status' => 1))->getById($v_i);
-                    $e['image'][$k_i]['big'] = getRootUrl().'/' .$bi['path'];
-                }
-            }*/
-
         }
         unset($e);
 

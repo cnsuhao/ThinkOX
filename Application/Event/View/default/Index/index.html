@@ -118,7 +118,12 @@
                                         <a class="btn btn-default delEvent" data-eventID="{$vo.id}" >删除活动</a>
                                         <else/>
                                         <php>if(!$vo['check_isSign']){</php>
-                                        <a class="btn btn-default event_sign " href="{:U('ajax_sign',array('event_id'=>$vo['id']))}">报名参加 </a>
+                                        <if condition="is_login() eq 0">
+                                            <a class="btn btn-default  " href="javascript:" onclick="op_error('请登陆后再报名')">报名参加 </a>
+                                            <else/>
+                                            <a class="btn btn-default event_sign " href="{:U('ajax_sign',array('event_id'=>$vo['id']))}">报名参加 </a>
+                                        </if>
+
                                         <php>}else{</php>
                                         &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default unSign" data-eventID="{$vo.id}" href="javascript:" id="unSign">取消报名 </a>
 
