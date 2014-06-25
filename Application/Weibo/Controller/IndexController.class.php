@@ -77,7 +77,7 @@ class IndexController extends Controller
 
         if ($sourseId != $weiboId) {
             $weibo1 = $this->weiboApi->getWeiboDetail($weiboId);
-            $weiboContent = '//@' . $weibo1['weibo']['user']['username'] . ' ：' . $weibo1['weibo']['content'];
+            $weiboContent = '//@' . $weibo1['weibo']['user']['nickname'] . ' ：' . $weibo1['weibo']['content'];
 
         }
         $this->assign('weiboId', $weiboId);

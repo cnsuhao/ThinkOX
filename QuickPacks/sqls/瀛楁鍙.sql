@@ -1,0 +1,1 @@
+ALTER TABLE  `thinkox_field_group` ADD  `visiable` TINYINT( 4 ) NOT NULL DEFAULT  '1';
