@@ -11,10 +11,10 @@
     <!--二级导航-->
     <ul class="container_nav_tab">
         <li class="container_nav_tab_li active">
-            <a href="javascript:">活动首页</a>
+            <a href="{:U('index')}">活动首页</a>
         </li>
         <li class="container_nav_tab_li">
-            <a href="javascript:">我的活动</a>
+            <a href="{:U('myevent')}">我的活动</a>
         </li>
 
         <li class="pull-right">
@@ -64,7 +64,6 @@
 </div>
 
 <div class="forum_module" style="min-width: 600px;width: 66.66666666%;min-height: 500px;padding: 0;">
-
     <div class="clearfix">
         <div style="padding: 17px 0 0 10px;">
             <if condition="time() lt $content['eTime']">
@@ -76,15 +75,11 @@
                     已结束
                 </div>
             </if>
-
             <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$content['id']))}">
                 <img class="cover" src="{$content.cover_id|getThumbImageById=345,250}"/>
-
                 <div class="event_detail_type" >{$content.type.title}</div>
             </a>
-
         </div>
-
         <div class="pull-left" style="width: 400px;">
             <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$content['id']))}"
                                               class="text-more" style="width: 85%;float: left" title="{$content.title}">{$content.title}</a>
@@ -92,10 +87,6 @@
                 <div class="event_logo" style="background-position: -20px 0px;"></div><span class="event_count">&nbsp;{$content.view_count}</span>
                  </div>
             </div>
-
-            <!--   {$content.type.title}-->
-
-
             <div class="event_fq_count pull-left">
                 <p>
 
@@ -118,17 +109,6 @@
                 </div>
                 </p>
 
-           <!--     <p class="pull-left clearfix">
-
-                <div class="wd60 pull-left mgl20 mgt10" title="已参加人数">
-                    <div class="event_logo" style=""></div>
-                    <span class="event_count">&nbsp;{$content.attentionCount}人</span></div>
-                <div class="wd60 pull-left  mgt10">
-                    <div class="event_logo" style="background-position: -20px 0px;"></div>
-                    <span class="event_count">&nbsp;{$content.view_count}</span></div>
-                </p>
-
--->
                 <p>
 
                 <div class="pull-left mgl20 mgt10 " style="font-size: 14px;width: 100%">截止时间：
@@ -150,24 +130,20 @@
                         <span class="event_count">已参加：&nbsp;{$content.attentionCount}人</span>
                     </div>
                 </div>
-
-      <!--          <div class="pull-left clearfix" style="width: 100%">
-
-
-                </div>-->
-
-
                 <div class="pull-left mgl20 mgt10">
                     <div class="btn-group">
                         <if condition="($content['uid'] eq is_login()) OR is_administrator(is_login())">
-                            <a class="btn btn-default">提前结束</a>
+
+                            <if condition="time() lt $content['eTime']">
+                            <a id="endEvent" class="btn btn-default">提前结束</a>
+                            </if>
+
                             <a href="{:U('edit',array('id'=>$content['id']))}" class="btn btn-default">编辑活动</a>
-                            <a class="btn btn-default">删除活动</a>
+                            <a id="delEvent" class="btn btn-default">删除活动</a>
                             <else/>
                             <php>if(!$check_isSign){</php>
-                            <a class="btn btn-default open-popup-link " href="#frm-post-popup">报名参加 </a>
+                            <a class="btn btn-default open-popup-link " href="{:U('ajax_sign',array('event_id'=>$content['id']))}">报名参加 </a>
                             <php>}else{</php>
-
                             &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" href="javascript:" id="unSign">取消报名 </a>
 
                          <span style="line-height: 34px;"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if condition="$check_isSign[0]['status'] eq 1">已审核 <else/> 未审核 </if></span>
@@ -201,79 +177,6 @@
 </div>
 
 
-
-
-
-<php>if(!$check_isSign){</php>
-<!-- Modal -->
-<div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 745px">
-    <h2>报名</h2>
-
-    <div class="aline" style="margin-bottom: 10px"></div>
-    <div>
-        <div class="row">
-
-
-            <p>
-
-            <div class="info_title">活动时间：</div>
-            {:date('Y-m-d',$content['sTime'])}--{:date('Y-m-d',$content['eTime'])}</p>
-            <p>
-
-            <div class="info_title">报名截止时间：</div>
-            {:date('Y-m-d H:i',$content['deadline'])}</p>
-            <p>
-
-            <div class="info_title">人数限制：</div>
-            {$content.limitCount}  </p>
-            <p>
-
-            <div class="info_title">已报名：</div>
-            {$content.attentionCount}</p>
-            <p>
-
-            <div class="info_title">剩余人数：</div>
-            {$content['limitCount']-$content['attentionCount']}</p>
-            <p>
-
-            <div class="info_title">地点：</div>
-            {$content.address}</p>
-
-
-            <div class="col-md-8">
-                <form class="form-horizontal  ajax-form" role="form" action="{:U('Event/Index/doSign')}" method="post">
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label">姓名</label>
-
-                        <div class="col-sm-10">
-                            <input id="name" name="name" type="" class="form-control" value="" placeholder="请填写姓名"/>
-                            <input id="event_id" name="event_id" type="hidden" class="form-control"
-                                   value="{$content.id}"/>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class="col-sm-2 control-label">手机</label>
-
-                        <div class="col-sm-10">
-                            <input id="phone" name="phone" type="" class="form-control" value="" placeholder="请填写联系方式"/>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary " href="{:U('Event/Index/doSign')}">提交</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.modal -->
-<php>}</php>
-
-
 </block>
 
 <block name="script">
@@ -286,19 +189,24 @@
                 $('#children_' + $(this).attr('data')).show();
             });
 
+
             $('.open-popup-link').magnificPopup({
-                type: 'inline',
-                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                closeOnBgClick: false
+                type: 'ajax',
+                overflowY: 'scroll',
+                modal: true,
+                callbacks: {
+                    ajaxContentAdded: function() {
+                             console.log(this.content);
+                    }
+                }
             });
+
 
             bindSupport();
 
             $('#unSign').click(function () {
                 if(confirm('确定要取消报名么？')){
-
-
-                var event_id = "{$content['id']}";
+                 var event_id = "{$content['id']}";
                 $.post("{:U('Event/Index/unSign')}", {event_id: event_id}, function (res) {
                     if (res.status) {
                         op_success(res.info);
@@ -310,10 +218,41 @@
                         op_error(res.info);
                     }
                 }, 'json');
-
             }
             });
 
+            $('#delEvent').click(function () {
+                if(confirm('确定要删除活动么？')){
+                    var event_id = "{$content['id']}";
+                    $.post("{:U('Event/Index/doDelEvent')}", {event_id: event_id}, function (res) {
+                        if (res.status) {
+                            op_success(res.info);
+                            setTimeout(function () {
+                                location.href="{:U('index')}";
+                            }, 1500);
+                        }
+                        else {
+                            op_error(res.info);
+                        }
+                    }, 'json');
+                }
+            });
+            $('#endEvent').click(function () {
+                if(confirm('确定要提前结束活动么？')){
+                    var event_id = "{$content['id']}";
+                    $.post("{:U('Event/Index/doEndEvent')}", {event_id: event_id}, function (res) {
+                        if (res.status) {
+                            op_success(res.info);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1500);
+                        }
+                        else {
+                            op_error(res.info);
+                        }
+                    }, 'json');
+                }
+            });
         })
     </script>
 
