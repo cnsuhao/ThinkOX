@@ -36,8 +36,8 @@
             </volist>
         </ul>
         <div class="fl_right">
-            <a href="{:U('myGoods')}" class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-            <label class="money_show"><i class="ico_to_money"></i>&nbsp;163</label>
+            <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}" class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
+            <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label></if>
         </div>
     </div>
     <div class="col-md-12  app_block">
@@ -177,6 +177,12 @@
                 type: 'inline',
                 midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
                 closeOnBgClick:false
+            });
+            $('.item_goods').mouseover(function(){
+                $(this).addClass('item_goods_box_shadow');
+            });
+            $('.item_goods').mouseleave(function(){
+                $(this).removeClass('item_goods_box_shadow');
             });
         })
     </script>

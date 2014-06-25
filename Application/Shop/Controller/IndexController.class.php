@@ -21,6 +21,9 @@ class IndexController extends Controller
     public function _initialize(){
         $tree = D('shopCategory')->getTree();
         $this->assign('tree', $tree);
+        if(is_login()){
+            $this->assign('my_tox_money',getMyToxMoney());
+        }
     }
 
     /**
@@ -127,7 +130,6 @@ class IndexController extends Controller
         $this->assign('category_id', $category['id']);
         $this->assign('category_title',$category['title']);
         $this->assign('content', $goods);
-        $this->assign('my_tox_money',getMyToxMoney());
         $this->display();
     }
 
@@ -230,6 +232,9 @@ class IndexController extends Controller
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function myGoods($page = 1,$status=0){
+        if(!is_login()){
+            $this->error('你还没有登录，请先登录');
+        }
         $map['status'] = $status;
         $map['uid']=is_login();
         $goods_buy_list=D('shop_buy')->where($map)->page($page,16)->order('createtime desc')->select();
