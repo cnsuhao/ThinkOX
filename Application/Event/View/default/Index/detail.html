@@ -1,0 +1,259 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/event.css" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+</block>
+
+<block name="body">
+
+<div class="forum_module container_nav">
+    <!--二级导航-->
+    <ul class="container_nav_tab">
+        <li class="container_nav_tab_li active">
+            <a href="{:U('index')}">活动首页</a>
+        </li>
+        <li class="container_nav_tab_li">
+            <a href="{:U('myevent')}">我的活动</a>
+        </li>
+
+        <li class="pull-right">
+
+            <if condition="is_login() eq 0">
+                <button class="btn btn-primary event_btn" onclick="op_error('请登陆后再投稿。','温馨提示')"><i
+                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                </button>
+                <else/>
+                <a class="btn btn-primary event_btn" href="{:U('Event/Index/add')}"><i
+                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                </a>
+
+            </if>
+
+        </li>
+    </ul>
+</div>
+
+
+<div class="col-md-4 pull-right">
+    <div class="forum_module " style="width: 345px;float: left;">
+        <h2 class="event_type_name">活动分类</h2>
+
+        <div class="event_type">
+            <a href="{:U('index')}" >全部分类</a>
+            <volist name="tree" id="top">
+                <a href="{:U('index',array('type_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
+            </volist>
+        </div>
+    </div>
+
+    <div class="forum_module " style="width: 345px;float: left;">
+        <h2 class="event_type_name">参与活动的人 ({$content.attentionCount}人) <a class="pull-right" href="{:U('member',array('id'=>$content['id']))}"
+                                                                           style="font-size: 16px;margin-right: 10px;color: #3d3d3d">全部</a></h2>
+        <div style="width: 100%">
+            <volist name="content['member']" id="vo" offset="0" length="20">
+                <div class="" style="text-align: center;width:80px;float: left;height: 80px;line-height: 80px;">
+                    <a href="{$vo.space_url}">
+                    <img ucard="{$vo.id}" src="{$vo.avatar64}" class="avatar-img" style="width: 64px"/>
+                     </a>
+                </div>
+            </volist>
+        </div>
+
+    </div>
+</div>
+
+<div class="forum_module" style="min-width: 600px;width: 66.66666666%;min-height: 500px;padding: 0;">
+    <div class="clearfix">
+        <div style="padding: 17px 0 0 10px;">
+            <if condition="time() lt $content['eTime']">
+                <div class="event_state" style="background: #d61f39;">
+                    正在进行
+                </div>
+                <else/>
+                <div class="event_state" style="background: #000;">
+                    已结束
+                </div>
+            </if>
+            <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$content['id']))}">
+                <img class="cover" src="{$content.cover_id|getThumbImageById=345,250}"/>
+                <div class="event_detail_type" >{$content.type.title}</div>
+            </a>
+        </div>
+        <div class="pull-left" style="width: 400px;">
+            <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$content['id']))}"
+                                              class="text-more" style="width: 85%;float: left" title="{$content.title}">{$content.title}</a>
+                 <div style="float: left;margin-top: 5px;">
+                <div class="event_logo" style="background-position: -20px 0px;"></div><span class="event_count">&nbsp;{$content.view_count}</span>
+                 </div>
+            </div>
+            <div class="event_fq_count pull-left">
+                <p>
+
+                <div class="pull-left mgl20" style="width: 100%;font-size: 14px;">发起人：&nbsp; <a class=""
+                                                                                                href="{$content.user.space_url}">
+                    <span class="event_count">{$content.user.nickname}</span></a></div>
+                </p>
+
+                <p>
+
+                <div class="pull-left mgl20 mgt10 " style="font-size: 14px;width: 100%">时间：
+                    {:date('Y-m-d',$content['sTime'])}--{:date('Y-m-d',$content['eTime'])}
+                </div>
+                </p>
+
+                <p>
+
+                <div class="pull-left mgl20 mgt10 " style="font-size: 14px;width: 90%">地点：
+                    {$content.address}
+                </div>
+                </p>
+
+                <p>
+
+                <div class="pull-left mgl20 mgt10 " style="font-size: 14px;width: 100%">截止时间：
+                    {:date('Y-m-d H:i',$content['deadline'])}
+                </div>
+                </p>
+
+                <div class="pull-left clearfix" style="width: 100%">
+                    <div class=" pull-left mgl20 mgt10">
+                        <span class="event_count">人数限制：&nbsp; {$content.limitCount}人</span>
+                    </div>
+
+
+                    <div class=" pull-left  mgl20 mgt10">
+                        <span class="event_count">已报名：&nbsp;{$content.signCount}人</span>
+                    </div>
+
+                    <div class=" pull-left  mgl20 mgt10">
+                        <span class="event_count">已参加：&nbsp;{$content.attentionCount}人</span>
+                    </div>
+                </div>
+                <div class="pull-left mgl20 mgt10">
+                    <div class="btn-group">
+                        <if condition="($content['uid'] eq is_login()) OR is_administrator(is_login())">
+
+                            <if condition="time() lt $content['eTime']">
+                            <a id="endEvent" class="btn btn-default">提前结束</a>
+                            </if>
+
+                            <a href="{:U('edit',array('id'=>$content['id']))}" class="btn btn-default">编辑活动</a>
+                            <a id="delEvent" class="btn btn-default">删除活动</a>
+                            <else/>
+                            <php>if(!$check_isSign){</php>
+                            <a class="btn btn-default open-popup-link " href="{:U('ajax_sign',array('event_id'=>$content['id']))}">报名参加 </a>
+                            <php>}else{</php>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" href="javascript:" id="unSign">取消报名 </a>
+
+                         <span style="line-height: 34px;"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if condition="$check_isSign[0]['status'] eq 1">已审核 <else/> 未审核 </if></span>
+
+                            <php>}</php>
+
+                        </if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="font-size: 16px;padding: 30px 0 10px 30px;">活动详情</div>
+    <div style="padding: 5px 20px 50px 20px;">
+        {$content.explain}
+
+        <div class="pull-right" style="color: #999">
+            发布时间： {$content.create_time|friendlyDate} &nbsp;&nbsp;
+            更新时间： {$content.update_time|friendlyDate}
+        </div>
+
+    </div>
+
+
+    <div class="clearfix"></div>
+    <div style="padding: 5px 20px 50px 20px;">
+        {:hook('localComment', array('path'=>"Event/event/$content[id]", 'uid'=>$content['uid']))}
+    </div>
+
+</div>
+
+
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <script>
+        $(function () {
+            $('#top_nav >li >a ').mouseenter(function () {
+                $('.children_nav').hide();
+                $('#children_' + $(this).attr('data')).show();
+            });
+
+
+            $('.open-popup-link').magnificPopup({
+                type: 'ajax',
+                overflowY: 'scroll',
+                modal: true,
+                callbacks: {
+                    ajaxContentAdded: function() {
+                             console.log(this.content);
+                    }
+                }
+            });
+
+
+            bindSupport();
+
+            $('#unSign').click(function () {
+                if(confirm('确定要取消报名么？')){
+                 var event_id = "{$content['id']}";
+                $.post("{:U('Event/Index/unSign')}", {event_id: event_id}, function (res) {
+                    if (res.status) {
+                        op_success(res.info);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    }
+                    else {
+                        op_error(res.info);
+                    }
+                }, 'json');
+            }
+            });
+
+            $('#delEvent').click(function () {
+                if(confirm('确定要删除活动么？')){
+                    var event_id = "{$content['id']}";
+                    $.post("{:U('Event/Index/doDelEvent')}", {event_id: event_id}, function (res) {
+                        if (res.status) {
+                            op_success(res.info);
+                            setTimeout(function () {
+                                location.href="{:U('index')}";
+                            }, 1500);
+                        }
+                        else {
+                            op_error(res.info);
+                        }
+                    }, 'json');
+                }
+            });
+            $('#endEvent').click(function () {
+                if(confirm('确定要提前结束活动么？')){
+                    var event_id = "{$content['id']}";
+                    $.post("{:U('Event/Index/doEndEvent')}", {event_id: event_id}, function (res) {
+                        if (res.status) {
+                            op_success(res.info);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 1500);
+                        }
+                        else {
+                            op_error(res.info);
+                        }
+                    }, 'json');
+                }
+            });
+        })
+    </script>
+
+</block>

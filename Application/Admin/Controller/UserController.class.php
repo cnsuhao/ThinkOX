@@ -11,7 +11,6 @@ namespace Admin\Controller;
 use Admin\Builder\AdminConfigBuilder;
 use Admin\Builder\AdminListBuilder;
 use Admin\Builder\AdminSortBuilder;
-use Home\Model\MemberModel;
 use User\Api\UserApi;
 
 /**
@@ -32,6 +31,7 @@ class UserController extends AdminController {
         }else{
             $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
         }
+
         $list   = $this->lists('Member', $map);
         int_to_string($list);
         $this->assign('_list', $list);
@@ -39,101 +39,12 @@ class UserController extends AdminController {
         $this->display();
     }
 
-    /**用户扩展资料信息页
-     * @param null $uid
-     * @author 郑钟良<zzl@ourstu.com>
-     */
-    public function expandinfo_select($page=1,$r=20){
-        $nickname       =   I('nickname');
-        $map['status']  =   array('egt',0);
-        if(is_numeric($nickname)){
-            $map['uid|nickname']=   array(intval($nickname),array('like','%'.$nickname.'%'),'_multi'=>true);
-        }else{
-            $map['nickname']    =   array('like', '%'.(string)$nickname.'%');
-        }
-        $list=M('Member')->where($map)->order('last_login_time desc')->page($page,$r)->select();
-        $totalCount=M('Member')->where($map)->count();
-        int_to_string($list);
-        //扩展信息查询
-        $map_profile['status']=1;
-        $field_group=D('field_group')->where($map_profile)->select();
-        $field_group_ids=array_column($field_group,'id');
-        $map_profile['profile_group_id']=array('in',$field_group_ids);
-        $fields_list=D('field_setting')->where($map_profile)->getField('id,field_name,form_type');
-        $fields_list=array_combine(array_column($fields_list,'field_name'),$fields_list);
-        $fields_list=array_slice($fields_list,0,8);//取出前8条，用户扩展资料默认显示8条
-        foreach($list as &$tkl){
-            $tkl['id']=$tkl['uid'];
-            $map_field['uid']=$tkl['uid'];
-            foreach($fields_list as $key=>$val){
-                $map_field['field_id']=$val['id'];
-                $field_data=D('field')->where($map_field)->getField('field_data');
-                if($field_data==null||$field_data==''){
-                    $tkl[$key]='';
-                }else{
-                    $tkl[$key]=$field_data;
-                }
-            }
-        }
-        $builder=new AdminListBuilder();
-        $builder->title("用户扩展资料列表");
-        $builder->meta_title = '用户扩展资料列表';
-        $builder->setSearchPostUrl(U('Admin/User/expandinfo_select'))->search('搜索','nickname','text','请输入用户昵称或者ID');
-        $builder->keyId()->keyLink('nickname',"昵称",'User/expandinfo_details?uid=###');
-        foreach($fields_list as $vt){
-            $builder->keyText($vt['field_name'],$vt['field_name']);
-        }
-        $builder->data($list);
-        $builder->pagination($totalCount,$r);
-        $builder->display();
-    }
-
-    /**用户扩展资料详情
-     * @param string $uid
-     * @author 郑钟良<zzl@ourstu.com>
-     */
-    public function expandinfo_details($uid=0){
-        $map['uid']=$uid;
-        $map['status']  =   array('egt',0);
-        $member=M('Member')->where($map)->find();
-        $member['id']=$member['uid'];
-        //扩展信息查询
-        $map_profile['status']=1;
-        $field_group=D('field_group')->where($map_profile)->select();
-        $field_group_ids=array_column($field_group,'id');
-        $map_profile['profile_group_id']=array('in',$field_group_ids);
-        $fields_list=D('field_setting')->where($map_profile)->getField('id,field_name,form_type');
-        $fields_list=array_combine(array_column($fields_list,'field_name'),$fields_list);
-        $map_field['uid']=$member['uid'];
-        foreach($fields_list as $key=>$val){
-            $map_field['field_id']=$val['id'];
-            $field_data=D('field')->where($map_field)->getField('field_data');
-            if($field_data==null||$field_data==''){
-                $member[$key]='';
-            }else{
-                $member[$key]=$field_data;
-            }
-            $member[$key]=$field_data;
-        }
-        $builder=new AdminConfigBuilder();
-        $builder->title("用户扩展资料详情");
-        $builder->meta_title = '用户扩展资料详情';
-        $builder->keyId()->keyReadOnly('nickname',"用户名称");
-        foreach($fields_list as $vt){
-            $builder->keyReadOnly($vt['field_name'],$vt['field_name']);
-        }
-        $builder->data($member);
-        $builder->buttonBack();
-        $builder->display();
-    }
-
     /**扩展用户信息分组列表
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function profile($page=1,$r=20){
+    public function profile(){
         $map['status']  =   array('egt',0);
-        $profileList=D('field_group')->where($map)->order("sort asc")->page($page,$r)->select();
-        $totalCount=D('field_group')->where($map)->count();
+        $profileList=D('field_group')->where($map)->order("sort asc")->select();
         $builder=new AdminListBuilder();
         $builder->title("扩展信息分组列表");
         $builder->meta_title = '扩展信息分组';
@@ -141,41 +52,43 @@ class UserController extends AdminController {
         $builder->keyId()->keyText('profile_name',"分组名称")->keyText('sort','排序')->keyTime("createTime","创建时间");
         $builder->keyStatus()->keyDoAction('User/field?id=###','管理字段')->keyDoAction('User/editProfile?id=###','编辑');
         $builder->data($profileList);
-        $builder->pagination($totalCount,$r);
         $builder->display();
     }
 
     /**扩展分组排序
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function sortProfile($ids=null){
-        if(IS_POST){
-            $builder = new AdminSortBuilder();
-            $builder->doSort('Field_group', $ids);
-        }else{
-            $map['status']  =   array('egt',0);
-            $list=D('field_group')->where($map)->order("sort asc")->select();
-            foreach($list as $key=>$val){
-                $list[$key]['title']=$val['profile_name'];
-            }
-            $builder=new AdminSortBuilder();
-            $builder->meta_title = '分组排序';
-            $builder->data($list);
-            $builder->buttonSubmit(U('sortProfile'))->buttonBack();
-            $builder->display();
+    public function sortProfile(){
+        $map['status']  =   array('egt',0);
+        $list=D('field_group')->where($map)->order("sort asc")->select();
+        foreach($list as $key=>$val){
+            $list[$key]['title']=$val['profile_name'];
         }
+        $builder=new AdminSortBuilder();
+        $builder->meta_title = '分组排序';
+        $builder->data($list);
+        $builder->buttonSubmit(U('doSortProfile'))->buttonBack();
+        $builder->display();
+    }
+
+    /**扩展分组排序实现
+     * @param $ids
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function doSortProfile($ids) {
+        $builder = new AdminSortBuilder();
+        $builder->doSort('Field_group', $ids);
     }
 
     /**扩展字段列表
      * @param $id
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function field($id,$page=1,$r=20){
+    public function field($id){
         $profile=D('field_group')->where('id='.$id)->find();
         $map['status']  =   array('egt',0);
         $map['profile_group_id']=$id;
-        $field_list=D('field_setting')->where($map)->order("sort asc")->page($page,$r)->select();
-        $totalCount=D('field_setting')->where($map)->count();
+        $field_list=D('field_setting')->where($map)->order("sort asc")->select();
         $type_default=array(
             'input'=>'单行文本框',
             'radio'=>'单选按钮',
@@ -201,7 +114,6 @@ class UserController extends AdminController {
         $builder->keyId()->keyText('field_name',"字段名称")->keyBool('visiable','是否公开')->keyBool('required','是否必填')->keyText('sort',"排序")->keyText('form_type','表单类型')->keyText('child_form_type','二级表单类型')->keyText('form_default_value','默认值')->keyText('validation','表单验证方式')->keyText('input_tips','用户输入提示');
         $builder->keyTime("createTime","创建时间")->keyStatus()->keyDoAction('User/editFieldSetting?profile_group_id='.$id.'&id=###','编辑');
         $builder->data($field_list);
-        $builder->pagination($totalCount,$r);
         $builder->display();
     }
 
@@ -209,109 +121,116 @@ class UserController extends AdminController {
      * @param $id
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function sortField($id='',$ids=null){
-        if(IS_POST){
-            $builder = new AdminSortBuilder();
-            $builder->doSort('Field_group', $ids);
-        }else{
-            $profile=D('field_group')->where('id='.$id)->find();
-            $map['status']  =   array('egt',0);
-            $map['profile_group_id']=$id;
-            $list=D('field_setting')->where($map)->order("sort asc")->select();
-            foreach($list as $key=>$val){
-                $list[$key]['title']=$val['field_name'];
-            }
-            $builder=new AdminSortBuilder();
-            $builder->meta_title = $profile['profile_name'].'字段排序';
-            $builder->data($list);
-            $builder->buttonSubmit(U('sortField'))->buttonBack();
-            $builder->display();
+    public function sortField($id){
+        $profile=D('field_group')->where('id='.$id)->find();
+        $map['status']  =   array('egt',0);
+        $map['profile_group_id']=$id;
+        $list=D('field_setting')->where($map)->order("sort asc")->select();
+        foreach($list as $key=>$val){
+            $list[$key]['title']=$val['field_name'];
         }
+        $builder=new AdminSortBuilder();
+        $builder->meta_title = $profile['profile_name'].'字段排序';
+        $builder->data($list);
+        $builder->buttonSubmit(U('doSortField'))->buttonBack();
+        $builder->display();
+    }
+
+    /**字段排序实现
+     * @param $ids
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function doSortField($ids) {
+        $builder = new AdminSortBuilder();
+        $builder->doSort('Field_setting', $ids);
     }
 
     /**添加、编辑字段信息
      * @param $id
      * @param $profile_group_id
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function editFieldSetting($id,$profile_group_id){
+        $builder=new AdminConfigBuilder();
+        if($id!=0){
+            $field_setting=D('field_setting')->where('id='.$id)->find();
+            $builder->title("修改字段信息");
+            $builder->meta_title = '修改字段信息';
+        }else{
+            $builder->title("添加字段");
+            $builder->meta_title = '新增字段';
+            $field_setting['profile_group_id']=$profile_group_id;
+            $field_setting['visiable']=1;
+            $field_setting['required']=1;
+        }
+        $type_default=array(
+            'input'=>'单行文本框',
+            'radio'=>'单选按钮',
+            'checkbox'=>'多选框',
+            'select'=>'下拉选择框',
+            'time'=>'日期',
+            'textarea'=>'多行文本框'
+        );
+        $child_type=array(
+            'string'=>'字符串',
+            'phone'=>'手机号码',
+            'email'=>'邮箱',
+            'number'=>'数字'
+        );
+        $builder->keyReadOnly("id","标识")->keyReadOnly('profile_group_id','分组id')->keyText('field_name',"字段名称")->keySelect('form_type',"表单类型",'',$type_default)->keySelect('child_form_type',"二级表单类型",'',$child_type)->keyTextArea('form_default_value','默认值',"多个值用'|'分割开")
+            ->keyText('validation','表单验证规则','例：min=5&max=10')->keyText('input_tips','用户输入提示','提示用户如何输入该字段信息')->keyBool('visiable','是否公开')->keyBool('required','是否必填');
+        $builder->data($field_setting);
+        $builder->buttonSubmit(U('doEditFieldSetting'),$id==0?"添加":"修改")->buttonBack();
+
+        $builder->display();
+    }
+
+    /**字段添加、编辑实现
+     * @param $id
      * @param $field_name
-     * @param $child_form_type
+     * @param $profile_group_id
      * @param $visiable
      * @param $required
      * @param $form_type
      * @param $form_default_value
      * @param $validation
-     * @param $input_tips
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function editFieldSetting($id,$profile_group_id,$field_name,$child_form_type,$visiable,$required,$form_type,$form_default_value,$validation,$input_tips){
-        if(IS_POST){
-            $data['field_name']=$field_name;
-            if($data['field_name']==''){
-                $this->error('字段名称不能为空！');
-            }
-            $data['profile_group_id']=$profile_group_id;
-            $data['visiable']=$visiable;
-            $data['required']=$required;
-            $data['form_type']=$form_type;
-            $data['input_tips']=$input_tips;
-            if($form_type=='input'){
-                $data['child_form_type']=$child_form_type;
-            }
-            $data['form_default_value']=$form_default_value;
-            $data['validation']=$validation;
-            if($id!=''){
-                $res=D('field_setting')->where('id='.$id)->save($data);
-            }else{
-                $map['field_name']=$field_name;
-                $map['status']=array('egt',0);
-                $map['profile_group_id']=$profile_group_id;
-                if(D('field_setting')->where($map)->count()>0){
-                    $this->error('该分组下已经有同名字段，请使用其他名称！');
-                }
-                $data['status']=1;
-                $data['createTime']=time();
-                $data['sort']=0;
-                $res=D('field_setting')->add($data);
-            }
-            if($res){
-                $this->success($id==''?"添加字段成功":"编辑字段成功",U('field',array('id'=>$profile_group_id)));
-            }else{
-                $this->error($id==''?"添加字段失败":"编辑字段失败");
-            }
-        }else{
-            $builder=new AdminConfigBuilder();
-            if($id!=0){
-                $field_setting=D('field_setting')->where('id='.$id)->find();
-                $builder->title("修改字段信息");
-                $builder->meta_title = '修改字段信息';
-            }else{
-                $builder->title("添加字段");
-                $builder->meta_title = '新增字段';
-                $field_setting['profile_group_id']=$profile_group_id;
-                $field_setting['visiable']=1;
-                $field_setting['required']=1;
-            }
-            $type_default=array(
-                'input'=>'单行文本框',
-                'radio'=>'单选按钮',
-                'checkbox'=>'多选框',
-                'select'=>'下拉选择框',
-                'time'=>'日期',
-                'textarea'=>'多行文本框'
-            );
-            $child_type=array(
-                'string'=>'字符串',
-                'phone'=>'手机号码',
-                'email'=>'邮箱',
-                'number'=>'数字'
-            );
-            $builder->keyReadOnly("id","标识")->keyReadOnly('profile_group_id','分组id')->keyText('field_name',"字段名称")->keySelect('form_type',"表单类型",'',$type_default)->keySelect('child_form_type',"二级表单类型",'',$child_type)->keyTextArea('form_default_value','默认值',"多个值用'|'分割开")
-                ->keyText('validation','表单验证规则','例：min=5&max=10')->keyText('input_tips','用户输入提示','提示用户如何输入该字段信息')->keyBool('visiable','是否公开')->keyBool('required','是否必填');
-            $builder->data($field_setting);
-            $builder->buttonSubmit(U('editFieldSetting'),$id==0?"添加":"修改")->buttonBack();
+    public function doEditFieldSetting($id,$field_name,$profile_group_id,$child_form_type,$visiable,$required,$form_type,$form_default_value,$validation,$input_tips){
 
-            $builder->display();
+        $data['field_name']=$field_name;
+        if($data['field_name']==''){
+            $this->error('字段名称不能为空！');
         }
-
+        $data['profile_group_id']=$profile_group_id;
+        $data['visiable']=$visiable;
+        $data['required']=$required;
+        $data['form_type']=$form_type;
+        $data['input_tips']=$input_tips;
+        if($form_type=='input'){
+            $data['child_form_type']=$child_form_type;
+        }
+        $data['form_default_value']=$form_default_value;
+        $data['validation']=$validation;
+        if($id!=''){
+            $res=D('field_setting')->where('id='.$id)->save($data);
+        }else{
+            $map['field_name']=$field_name;
+            $map['status']=array('egt',0);
+            $map['profile_group_id']=$profile_group_id;
+            if(D('field_setting')->where($map)->count()>0){
+                $this->error('该分组下已经有同名字段，请使用其他名称！');
+            }
+            $data['status']=1;
+            $data['createTime']=time();
+            $data['sort']=0;
+            $res=D('field_setting')->add($data);
+        }
+        if($res){
+            $this->success($id==''?"添加字段成功":"编辑字段成功",U('field',array('id'=>$profile_group_id)));
+        }else{
+            $this->error($id==''?"添加字段失败":"编辑字段失败");
+        }
     }
 
     /**设置字段状态：删除=-1，禁用=0，启用=1
@@ -347,48 +266,53 @@ class UserController extends AdminController {
 
     /**添加、编辑分组信息
      * @param $id
-     * * @param $profile_name
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function editProfile($id,$profile_name=''){
-        if(IS_POST){
-            $data['profile_name']=$profile_name;
-            if($data['profile_name']==''){
-                $this->error('分组名称不能为空！');
-            }
-            if($id!=''){
-                $res=D('field_group')->where('id='.$id)->save($data);
-            }else{
-                $map['profile_name']=$profile_name;
-                $map['status']=array('egt',0);
-                if(D('field_group')->where($map)->count()>0){
-                    $this->error('已经有同名分组，请使用其他分组名称！');
-                }
-                $data['status']=1;
-                $data['createTime']=time();
-                $res=D('field_group')->add($data);
-            }
-            if($res){
-                $this->success($id==''?"添加分组成功":"编辑分组成功",U('profile'));
-            }else{
-                $this->error($id==''?"添加分组失败":"编辑分组失败");
-            }
+    public function editProfile($id){
+        $builder=new AdminConfigBuilder();
+        if($id!=0){
+            $profile=D('field_group')->where('id='.$id)->find();
+            $builder->title("修改分组信息");
+            $builder->meta_title = '修改分组信息';
         }else{
-            $builder=new AdminConfigBuilder();
-            if($id!=0){
-                $profile=D('field_group')->where('id='.$id)->find();
-                $builder->title("修改分组信息");
-                $builder->meta_title = '修改分组信息';
-            }else{
-                $builder->title("添加扩展信息分组");
-                $builder->meta_title = '新增分组';
-            }
-            $builder->keyReadOnly("id","标识")->keyText('profile_name','分组名称');
-            $builder->data($profile);
-            $builder->buttonSubmit(U('editProfile'),$id==0?"添加":"修改")->buttonBack();
-            $builder->display();
+            $builder->title("添加扩展信息分组");
+            $builder->meta_title = '新增分组';
         }
+        $builder->keyReadOnly("id","标识")->keyText('profile_name','分组名称');
+        $builder->data($profile);
+        $builder->buttonSubmit(U('doEditProfile'),$id==0?"添加":"修改")->buttonBack();
+        $builder->display();
+    }
 
+    /**添加、编辑分组信息实现
+     * @param $id
+     * @param $profile_name
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function doEditProfile($id,$profile_name){
+
+
+        $data['profile_name']=$profile_name;
+        if($data['profile_name']==''){
+            $this->error('分组名称不能为空！');
+        }
+        if($id!=''){
+            $res=D('field_group')->where('id='.$id)->save($data);
+        }else{
+            $map['profile_name']=$profile_name;
+            $map['status']=array('egt',0);
+            if(D('field_group')->where($map)->count()>0){
+                   $this->error('已经有同名分组，请使用其他分组名称！');
+            }
+            $data['status']=1;
+            $data['createTime']=time();
+            $res=D('field_group')->add($data);
+        }
+        if($res){
+            $this->success($id==''?"添加分组成功":"编辑分组成功",U('profile'));
+        }else{
+            $this->error($id==''?"添加分组失败":"编辑分组失败");
+        }
     }
 
     /**

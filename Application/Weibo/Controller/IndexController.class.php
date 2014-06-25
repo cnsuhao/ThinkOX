@@ -26,19 +26,19 @@ class IndexController extends Controller
         $this->weiboApi = new WeiboApi();
     }
 
-    public function index($uid=0)
+    public function index($uid = 0)
     {
         //载入第一页微博
 
-        if($uid!=0){
-            $result = $this->weiboApi->listAllWeibo(null,null,array('uid'=>$uid));
-        }else{
+        if ($uid != 0) {
+            $result = $this->weiboApi->listAllWeibo(null, null, array('uid' => $uid));
+        } else {
             $result = $this->weiboApi->listAllWeibo();
         }
         //显示页面
         $this->assign('list', $result['list']);
         $this->assign('tab', 'all');
-        $this->assign('loadMoreUrl', U('loadWeibo',array('uid'=>$uid)));
+        $this->assign('loadMoreUrl', U('loadWeibo', array('uid' => $uid)));
         $this->assignSelf();
         $this->display();
     }
@@ -68,13 +68,53 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function loadWeibo($page = 1,$uid=0)
+    public function sendrepost($sourseId, $weiboId)
+    {
+
+
+        $result = $this->weiboApi->getWeiboDetail($sourseId);
+        $this->assign('soueseWeibo', $result['weibo']);
+
+        if ($sourseId != $weiboId) {
+            $weibo1 = $this->weiboApi->getWeiboDetail($weiboId);
+            $weiboContent = '//@' . $weibo1['weibo']['user']['username'] . ' ：' . $weibo1['weibo']['content'];
+
+        }
+        $this->assign('weiboId', $weiboId);
+        $this->assign('weiboContent', $weiboContent);
+        $this->assign('sourseId', $sourseId);
+
+        $this->display();
+    }
+
+    public function doSendRepost($content, $type, $sourseId, $weiboId, $becomment)
+    {
+        $feed_data = '';
+        $sourse = $this->weiboApi->getWeiboDetail($sourseId);
+        $sourseweibo = $sourse['weibo'];
+        $feed_data['sourse'] = $sourseweibo;
+        $feed_data['sourseId'] = $sourseId;
+        //发送微博
+        $result = $this->weiboApi->sendWeibo($content, $type, $feed_data);
+        if ($result) {
+            D('weibo')->where('id=' . $sourseId)->setInc('repost_count');
+            $weiboId != $sourseId && D('weibo')->where('id=' . $weiboId)->setInc('repost_count');
+        }
+
+        if ($becomment == 'true') {
+            $this->weiboApi->sendRepostComment($weiboId, $content);
+        }
+        //返回成功结果
+        $this->ajaxReturn(apiToAjax($result));
+    }
+
+    public function loadWeibo($page = 1, $uid = 0)
     {
         //载入全站微博
-        if($uid!=0){
-            $result = $this->weiboApi->listAllWeibo($page,null,array('uid'=>$uid));
-        }else{
-            $result = $this->weiboApi->listAllWeibo($page,null);
+        if ($uid != 0) {
+            $result = $this->weiboApi->listAllWeibo($page, null, array('uid' => $uid));
+        } else {
+            $result = $this->weiboApi->listAllWeibo($page, null);
         }
         //如果没有微博，则返回错误
         if (!$result['list']) {
@@ -101,13 +141,13 @@ class IndexController extends Controller
         $this->display('loadweibo');
     }
 
-    public function doSend($content,$type,$attach_ids)
+    public function doSend($content, $type = 'feed', $attach_ids = '')
     {
-        $feed_data='';
+        $feed_data = '';
         $feed_data['attach_ids'] = $attach_ids;
 
         //发送微博
-        $result = $this->weiboApi->sendWeibo($content,$type,$feed_data);
+        $result = $this->weiboApi->sendWeibo($content, $type, $feed_data);
 
         //返回成功结果
         $this->ajaxReturn(apiToAjax($result));
@@ -134,8 +174,8 @@ class IndexController extends Controller
         //返回html代码用于ajax显示
         $this->assign('list', $list1);
         $this->assign('weiboId', $weibo_id);
-        $weobo=$this->weiboApi->getWeiboDetail($weibo_id);
-        $this->assign('weibo',$weobo['weibo']);
+        $weobo = $this->weiboApi->getWeiboDetail($weibo_id);
+        $this->assign('weibo', $weobo['weibo']);
         $this->assign('weiboCommentTotalCount', $weiboCommentTotalCount);
         $this->display();
     }

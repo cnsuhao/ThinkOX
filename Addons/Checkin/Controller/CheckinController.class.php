@@ -113,19 +113,24 @@ class CheckinController extends AddonsController{
             }
             if (D('Check_info')->add($data)) {
                 //更新连续签到和累计签到的数据
+                //$connum = D('User_cdata')->where('uid=' . $uid . " and `key`='check_connum'")->find();
                 if ($connum) {
                     $connum = D('Check_info')->where('uid=' . $uid)->getField('max(con_num)');
+                    //D('User_cdata')->setField('value', $connum, "`key`='check_connum' and uid=" . $uid);
+                    //D('User_cdata')->setField('value', $data['total_num'], "`key`='check_totalnum' and uid=" . $uid);
+
                 } else {
                     $connumdata['uid'] = $uid;
                     $connumdata['value'] = $data['con_num'];
                     $connumdata['key'] = 'check_connum';
+                    //D('User_cdata')->add($connumdata);
 
                     $totalnumdata['uid'] = $uid;
                     $totalnumdata['value'] = $data['total_num'];
                     $totalnumdata['key'] = 'check_totalnum';
+                    //D('User_cdata')->add($totalnumdata);
                 }
                 echo $data['con_num'];
-                S('check_rank',null);
             }
         }
 

@@ -212,4 +212,41 @@ class MemberModel extends Model
         return $str1;
     }
 
+    /**
+     * 同步登陆时添加用户信息
+     * @param $uid
+     * @param $info
+     * @return mixed
+     * autor:xjw129xjt
+     */
+    public function addSyncData($uid,$info){
+        $data1['nickname'] = $info['nickname'].'_'.$this->rand_nickname();
+        $data1['sex'] = $info['gender']=='男'? 0:1;
+        $data =  $this->create($data1);
+        $data['uid'] = $uid;
+        $res = $this->add($data);
+        return $res;
+    }
+
+    public function rand_nickname()
+    {
+        $nickname= $this->create_rand(4);
+        if ($this->where(array('nickname' => $nickname))->select()) {
+            $this->rand_nickname();
+        } else {
+            return $nickname;
+        }
+    }
+
+    function create_rand($length = 8)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+        return $password;
+    }
+
+
 }

@@ -1,0 +1,1 @@
+ALTER TABLE  `thinkox_field_setting` ADD  `input_tips` VARCHAR( 100 ) NOT NULL COMMENT  '输入提示'
