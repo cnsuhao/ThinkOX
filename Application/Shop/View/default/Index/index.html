@@ -9,13 +9,16 @@
 
 
 <div class="row shop">
-    <div class="col-md-12  app_block visible-xs">
+    <div class="col-md-12  app_block visible-xs clearfix">
         <!--低于768px，显示-->
     </div>
-    <div class="col-md-12  app_block hidden-xs">
+    <div class="col-md-12  app_block hidden-xs clearfix">
         <ul class="row fl_left nav navbar-nav">
             <li>
                 <a href="{:U('index')}" class="current">商城首页</a>
+            </li>
+            <li>
+                <a href="{:U('goods')}">所有分类</a>
             </li>
             <volist name="tree" id="top">
                 <if condition="$top['status'] eq 1">
@@ -36,33 +39,33 @@
             </volist>
         </ul>
         <div class="fl_right">
-            <a href="{:U('myGoods')}" class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-            <label class="money_show"><i class="ico_to_money"></i>&nbsp;163</label>
+            <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}" class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
+            <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label></if>
         </div>
     </div>
-    <div class="col-md-12  app_block">
+    <div class="col-md-12  app_block clearfix">
         <div class="row pad_15">
             <h2 class="title_content">新品上架</h2>
-            <volist name="contents" id="vo">
+            <volist name="contents_new" id="vo">
                 <div class="col-md-3 goods">
                     <div class="item_goods position_re">
                         <i class="ico_new"></i>
                         <dl>
                             <dt>
                                 <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">
-                                    <img src="{$vo.goods_ico|getThumbImageById=230,150}">
+                                    <img src="{$vo.goods_ico|getThumbImageById=232,150}">
                                 </a>
                             </dt>
-                            <dd class="font_wei_bo">
+                            <dd>
                                 <div class="left" style="width: 140px">
-                                    <a class="text-more" href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}" style="width: 100%;">
+                                    <a class="text-more color_33" href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}" style="width: 100%;">
                                         <font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
                                     </a>
                                 </div>
                                 <div class="right" style="color: #d61f39;">￥{$vo.tox_money_need}</div>
                                 <div class="clearfix"></div>
                             </dd>
-                            <dd class="color_84">
+                            <dd class="color_84 font_s_14">
                                 <div class="left">库存：{$vo.goods_num}</div>
                                 <div class="right">
                                     <a href="#frm-post-popup" class="open-popup-link btn" style="border: 1px solid #E0DBDB" goods_id="{$vo['id']}">兑&nbsp;&nbsp;换</a>
@@ -73,13 +76,13 @@
                     </div>
                 </div>
             </volist>
-            <if condition="count($contents) eq 0">
+            <if condition="count($contents_new) eq 0">
                 <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">现在还没有新品哦。O(∩_∩)O~</div>
             </if>
         </div>
         <div class="row pad_15">
             <h2 class="title_content">最热单品</h2>
-            <volist name="contents" id="vo">
+            <volist name="contents_hot" id="vo">
                 <div class="col-md-3 goods">
                     <div class="item_goods position_re">
                         <i class="ico_hot"></i>
@@ -89,7 +92,7 @@
                                     <img src="{$vo.goods_ico|getThumbImageById=230,150}">
                                 </a>
                             </dt>
-                            <dd class="font_wei_bo">
+                            <dd>
                                 <div class="left" style="width: 140px">
                                     <a class="text-more" href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}" style="width: 100%;">
                                         <font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
@@ -108,7 +111,7 @@
                     </div>
                 </div>
             </volist>
-            <if condition="count($contents) eq 0">
+            <if condition="count($contents_hot) eq 0">
                 <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">现在还没有最热单品哦。O(∩_∩)O~</div>
             </if>
         </div>
@@ -170,13 +173,25 @@
     <script>
         $(function () {
             $('.open-popup-link').click(function(){
+                if(MID==0){
+                    op_info('登录后才能兑换商品！','提示消息');
+                    return false;
+                }
                 var goods_id=this.getAttribute('goods_id');
                 $('#goods_id').val(goods_id);
             });
-            $('.open-popup-link').magnificPopup({
-                type: 'inline',
-                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                closeOnBgClick:false
+            if(MID!=0){
+                $('.open-popup-link').magnificPopup({
+                    type: 'inline',
+                    midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                    closeOnBgClick:false
+                });
+            }
+            $('.item_goods').mouseover(function(){
+                $(this).addClass('item_goods_box_shadow');
+            });
+            $('.item_goods').mouseleave(function(){
+                $(this).removeClass('item_goods_box_shadow');
             });
         })
     </script>

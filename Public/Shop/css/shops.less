@@ -1,63 +1,40 @@
 .shop {
-  .ico_to_cart {
-    background: url("../images/to-cart.png") no-repeat;
-    width: 17px;
-    height: 17px;
-    display: inline-block;
+  .goods_detail {
+    border-right: 1px solid #D8D7D7;min-height: 900px;
+    h3 {
+      margin-top: 0px;
+      color: #333333;
+      line-height: 35px;
+      font-size: 20px;
+    }
+    .mb_34 {
+      margin-bottom: 34px;
+    }
+    .info_item_s {
+      span {
+        float: left;
+        font-size: 15px;
+        color: #848484;
+        margin-right: 40px;
+        aq {
+          color: #ff0000;
+        }
+      }
+    }
+    .intro {
+      width: 100%;
+      padding-left: 0;
+      font-size: 15px;
+    }
+    .time_show {
+      color: #848484;
+      font-size: 13px;
+    }
+    .details {
+      margin-bottom: 75px;
+      padding: 0 14px;
+    }
   }
-  .ico_to_money {
-    background: url("../images/coins.png") no-repeat;
-    width: 18px;
-    height: 12px;
-    display: inline-block;
-  }
-  .ico_new {
-    background: url("../images/goods_new.png") no-repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 800;
-    width: 85px;
-    height: 61px;
-  }
-  .ico_hot {
-    background: url("../images/goods_hot.png") no-repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 800;
-    width: 85px;
-    height: 61px;
-  }
-  .money_show {
-    width: 120px;
-    text-align: left;
-    display: inline-block;
-    margin-bottom: 0;
-    font-weight: 400;
-    vertical-align: middle;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.428571429;
-    border-radius: 4px;
-  }
-  .pad_15 {
-    padding: 15px;
-  }
-  .title_content {
-    margin: 2px 15px 10px;
-    color: #333333;
-    font-size: 18px;
-  }
-
-  .position_re {
-    position: relative;
-  }
-
   .goods {
     margin-bottom: 20px;
     .item_goods {
@@ -65,7 +42,6 @@
       border: 1px solid #E0DEDE;
       height: 260px;
       padding: 8px;
-      box-shadow: 0px 0px 4px #ccc;
     }
     dl {
       margin-bottom: 0;
@@ -81,11 +57,43 @@
           margin-right: 4px
         }
       }
-      .font_wei_bo {
-        font-weight: bold;
+      .font_s_14{
+        font-size: 14px;
       }
       .color_84 {
         color: #848484;
+      }
+    }
+  }
+  .goods_same_category{
+    ul{
+      padding-left: 0;
+      .items{
+        margin-right: 0;margin-bottom: 16px;
+        dl{
+          dt{
+            width: 140px;float: left;
+          }
+          dd{
+            float: left;width: 100px;
+            h3{
+              width: 100%;margin-top: 0;font-size: 17px;
+            }
+            .money{
+              color: #d61f39;margin-bottom: 10px;
+            }
+            div{
+              a{
+                padding: 6px 12px;
+                color: white;
+              }
+              a:hover{
+                color: white;
+                background: #ff0000;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -105,7 +113,7 @@
     padding: 3px;
   }
   .app_block {
-    background: #f8f8f8;
+    background: white;
     padding: 0;
     margin: 0;
     .boxShadowBorder;
@@ -162,5 +170,69 @@
   }
   .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
     background: none;
+  }
+  .item_goods_box_shadow {
+    box-shadow: 0 0 4px #ccc;
+  }
+  .ico_to_cart {
+    background: url("../images/to-cart.png") no-repeat;
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+  }
+  .ico_to_money {
+    background: url("../images/coins.png") no-repeat;
+    width: 18px;
+    height: 12px;
+    display: inline-block;
+  }
+  .ico_new {
+    background: url("../images/goods_new.png") no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 800;
+    width: 85px;
+    height: 61px;
+  }
+  .ico_hot {
+    background: url("../images/goods_hot.png") no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 800;
+    width: 85px;
+    height: 61px;
+  }
+  .money_show {
+    width: 120px;
+    text-align: left;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border-radius: 4px;
+  }
+  .pad_15 {
+    padding: 15px;
+  }
+  .title_content {
+    margin: 2px 15px 10px;
+    color: #333333;
+    font-size: 16px;
+  }
+
+  .position_re {
+    position: relative;
+  }
+  .color_33{
+    color: #333333;
   }
 }

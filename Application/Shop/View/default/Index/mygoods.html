@@ -6,13 +6,16 @@
 
 <block name="body">
     <div class="row shop">
-        <div class="col-md-12  app_block visible-xs">
+        <div class="col-md-12  app_block visible-xs clearfix">
             <!--低于768px，显示-->
         </div>
-        <div class="col-md-12  app_block hidden-xs">
+        <div class="col-md-12  app_block hidden-xs clearfix">
             <ul class="row fl_left nav navbar-nav">
                 <li>
                     <a href="{:U('index')}">商城首页</a>
+                </li>
+                <li>
+                    <a href="{:U('goods')}">所有分类</a>
                 </li>
                 <volist name="tree" id="top">
                     <if condition="$top['status'] eq 1">
@@ -35,12 +38,12 @@
                 </volist>
             </ul>
             <div class="fl_right">
-                <a href="{:U('myGoods')}" class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-                <label class="money_show"><i class="ico_to_money"></i>&nbsp;163</label>
+                <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}" class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
+                <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label></if>
             </div>
         </div>
 
-        <div class="col-md-12  app_block">
+        <div class="col-md-12  app_block clearfix">
             <div class="row pad_15">
                 <h2 class="title_content" style="border-bottom: 1px solid #E9E9E9;">我的订单 </h2>
                 <ul class="nav_list clearfix" style="margin-bottom: 20px;">
@@ -58,26 +61,28 @@
                 <volist name="contents" id="vo">
                     <div class="col-md-3 goods">
                         <div class="item_goods position_re">
-                            <i class="ico_new"></i>
+                            <if condition="$vo['goods']['sell_num'] egt $hot_num"><i class="ico_hot"></i>
+                                <else/><if condition="$vo['goods']['is_new'] eq 1"><i class="ico_new"></i></if>
+                            </if>
                             <dl>
                                 <dt>
                                     <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}">
-                                        <img src="{$vo.goods.goods_ico|getThumbImageById=230,150}">
+                                        <img src="{$vo.goods.goods_ico|getThumbImageById=232,150}">
                                     </a>
                                 </dt>
-                                <dd class="font_wei_bo">
+                                <dd>
                                     <div class="left" style="width: 140px">
-                                        <a class="text-more"
+                                        <a class="text-more color_33"
                                            href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}"
-                                           style="width: 100%;">
+                                           style="width: 100%;" >
                                             <font title="{$vo.goods.goods_name|op_t}">{$vo.goods.goods_name}</font>
                                         </a>
                                     </div>
                                     <div class="right" style="color: #d61f39;">￥{$vo.goods.tox_money_need}</div>
                                     <div class="clearfix"></div>
                                 </dd>
-                                <dd class="color_84">
-                                    <div class="left" style="font-size: 15px;line-height: 22px;">
+                                <dd class="color_84 font_s_14">
+                                    <div class="left" style="font-size: 14px;line-height: 22px;">
                                         库存：{$vo.goods.goods_num}
                                     </div>
                                     <div class="right" style="font-size: 14px;line-height: 22px;">
@@ -120,3 +125,16 @@
 
     </div>
 </block>
+        <block name="script">
+            <script>
+                $(function(){
+                    $('.item_goods').mouseover(function(){
+                        $(this).addClass('item_goods_box_shadow');
+                    });
+                    $('.item_goods').mouseleave(function(){
+                        $(this).removeClass('item_goods_box_shadow');
+                    });
+                });
+            </script>
+
+        </block>
