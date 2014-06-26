@@ -746,9 +746,17 @@ function execute_action($rules = false, $action_id = null, $user_id = null)
 
         //执行数据库操作
         $Model = M(ucfirst($rule['table']));
-        $field = $rule['field'];
-        $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
-
+        /**
+         * 判断是否加入了货币规则
+         * @author 郑钟良<zzl@ourstu.com>
+         */
+        if($rule['tox_money_rule']!=''&&$rule['tox_money_rule']!=null){
+            $change = array($rule['field']=>array('exp', $rule['rule']),$rule['tox_money_field']=>array('exp', $rule['tox_money_rule']));
+            $res = $Model->where($rule['condition'])->setField($change);
+        }else{
+            $field = $rule['field'];
+            $res = $Model->where($rule['condition'])->setField($field, array('exp', $rule['rule']));
+        }
         if (!$res) {
             $return = false;
         }
@@ -1161,6 +1169,43 @@ function getScoreTip($before, $after)
     $tip = '';
     if ($score_change) {
         $tip = '积分' . ($score_change > 0 ? '加&nbsp;' . $score_change : '减&nbsp;' . $score_change) . ' 。';
+    }
+    return $tip;
+}
+
+/**获取我的货币数
+ * @return mixed
+ * @author 郑钟良<zzl@ourstu.com>
+ */
+function getMyToxMoney()
+{
+    $user = query_user(array('tox_money'), is_login());
+    $tox_money = $user['tox_money'];
+    return $tox_money;
+}
+
+/**获取货币名称
+ * @return string
+ * @author 郑钟良<zzl@ourstu.com>
+ */
+function getToxMoneyName(){
+    $tox_money_name="金币";
+    $tox_money_name=D('shop_config')->where('ename='."'tox_money'")->getField('cname');
+    return $tox_money_name;
+}
+
+/**获取货币提示消息
+ * @param $before
+ * @param $after
+ * @return string
+ * @author 郑钟良<zzl@ourstu.com>
+ */
+function getToxMoneyTip($before, $after)
+{
+    $tox_money_change = $after - $before;
+    $tip = '';
+    if ($tox_money_change) {
+        $tip = getToxMoneyName() . ($tox_money_change > 0 ? '加&nbsp;' . $tox_money_change : '减&nbsp;' . $tox_money_change) . ' 。';
     }
     return $tip;
 }
