@@ -738,7 +738,9 @@ function bindSupport() {
                         num++;
                         num_tag.text(num);
                     }
-                    me.attr({'style': 'color:#ccc'});
+                    var ico = me.find('#ico_like');
+                    ico.removeClass();
+                    ico.addClass('support_like');
                     op_success(msg.info, '温馨提示');
 
                 } else {
