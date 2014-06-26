@@ -5,7 +5,7 @@ return array(
         'title'=>'开启同步登录：',
         'type'=>'checkbox',
         'options'=>array(
-            'QQ'=>'QQ',
+            'Qq'=>'Qq',
             'Sina'=>'Sina',
         ),
     ),
@@ -20,16 +20,16 @@ return array(
     'group'=>array(
         'type'=>'group',
         'options'=>array(
-            'QQ'=>array(
+            'Qq'=>array(
                 'title'=>'QQ配置',
                 'options'=>array(
-                    'QQKEY'=>array(
+                    'QqKEY'=>array(
                         'title'=>'QQ互联KEY：',
                         'type'=>'text',
                         'value'=>'',
                         'tip'=>'申请地址：http://connect.qq.com',
                     ),
-                    'QQSecret'=>array(
+                    'QqSecret'=>array(
                         'title'=>'QQ互联密匙：',
                         'type'=>'text',
                         'value'=>'',
