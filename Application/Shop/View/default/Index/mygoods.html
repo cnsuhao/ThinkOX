@@ -6,13 +6,16 @@
 
 <block name="body">
     <div class="row shop">
-        <div class="col-md-12  app_block visible-xs">
+        <div class="col-md-12  app_block visible-xs clearfix">
             <!--低于768px，显示-->
         </div>
-        <div class="col-md-12  app_block hidden-xs">
+        <div class="col-md-12  app_block hidden-xs clearfix">
             <ul class="row fl_left nav navbar-nav">
                 <li>
                     <a href="{:U('index')}">商城首页</a>
+                </li>
+                <li>
+                    <a href="{:U('goods')}">所有分类</a>
                 </li>
                 <volist name="tree" id="top">
                     <if condition="$top['status'] eq 1">
@@ -40,7 +43,7 @@
             </div>
         </div>
 
-        <div class="col-md-12  app_block">
+        <div class="col-md-12  app_block clearfix">
             <div class="row pad_15">
                 <h2 class="title_content" style="border-bottom: 1px solid #E9E9E9;">我的订单 </h2>
                 <ul class="nav_list clearfix" style="margin-bottom: 20px;">

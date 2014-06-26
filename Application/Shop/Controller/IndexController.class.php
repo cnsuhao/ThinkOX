@@ -134,7 +134,25 @@ class IndexController extends Controller
         $map['id']=array('neq',$id);
         $same_category_goods=D('shop')->where($map)->limit(3)->order('sell_num desc')->field($this->goods_info)->select();
         $this->assign('contents_same_category', $same_category_goods);
-
+        //最近浏览
+        if(is_login()){
+            //关联查询最近浏览
+            $sql="SELECT a.".$this->goods_info." FROM `".C('DB_PREFIX')."shop` AS a , `".C('DB_PREFIX')."shop_see` AS b WHERE ( b.`uid` =".is_login()." ) AND ( b.`goods_id` <> '".$id."' ) AND ( a.`status` = 1 )AND(a.`id` =b.`goods_id`) ORDER BY b.update_time desc LIMIT 3";
+            $Model = new \Think\Model();
+            $goods_see_list=$Model->query($sql);
+            $this->assign('goods_see_list',$goods_see_list);
+            //添加最近浏览
+            $map_see['uid']=is_login();
+            $map_see['goods_id']=$id;
+            $rs=D('ShopSee')->where($map)->find();
+            if($rs){
+                $data['update_time']=time();
+                D('ShopSee')->where($map)->save($data);
+            }else{
+                $map_see['create_time']=$map_see['update_time']=time();
+                D('ShopSee')->add($map_see);
+            }
+        }
 
         $this->display();
     }
