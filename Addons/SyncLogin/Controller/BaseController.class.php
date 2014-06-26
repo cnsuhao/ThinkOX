@@ -5,7 +5,8 @@ namespace Addons\SyncLogin\Controller;
 use Think\Hook;
 use User\Api\UserApi;
 use Home\Controller\AddonsController;
-require_once(dirname(dirname(__FILE__))."/QQSDK/qqConnectAPI.php");
+
+require_once(dirname(dirname(__FILE__))."/ThinkSDK/ThinkOauth.class.php");
 
 
 
@@ -13,7 +14,59 @@ require_once(dirname(dirname(__FILE__))."/QQSDK/qqConnectAPI.php");
 class BaseController extends AddonsController
 {
 
-    public function loginWithoutpwd($uid)
+    //登录地址
+    public function login(){
+        $type= I('get.type');
+        empty($type) && $this->error('参数错误');
+        //加载ThinkOauth类并实例化一个对象
+        $sns  = \ThinkOauth::getInstance($type);
+        //跳转到授权页面
+        redirect($sns->getRequestCodeURL());
+    }
+
+
+    //登录地址
+    public function callback(){
+        $code =  I('get.code');
+        $type= I('get.type');
+        $sns  = \ThinkOauth::getInstance($type);
+
+        //腾讯微博需传递的额外参数
+        $extend = null;
+        if($type == 'tencent'){
+            $extend = array('openid' => $this->_get('openid'), 'openkey' => $this->_get('openkey'));
+        }
+
+        $token = $sns->getAccessToken($code , $extend);
+        $access_token = $token['access_token'];
+        $openid =  $token['openid'];
+        $user_info = D('Addons://SyncLogin/Info')->$type($token);
+        if ($info1 = D('sync_login')->where("`type_uid`='" . $openid . "' AND type='" . $type . "'")->find()) {
+            $user = D('UcenterMember')->where("id=" . $info1 ['uid'])->find();
+            if (empty ($user)) {
+                D('sync_login')->where("type_uid=" . $openid . " AND type='" . $type . "'")->delete();
+                //已经绑定过，执行登录操作，设置token
+            } else {
+                if ($info1 ['oauth_token'] == '') {
+
+                    $syncdata ['id'] = $info1 ['id'];
+                    $syncdata ['oauth_token'] = $access_token;
+                    $syncdata ['oauth_token_secret'] = $openid;
+                    D('sync_login')->save($syncdata);
+                }
+                $uid = $info1 ['uid'];
+            }
+        } else {
+            $Api = new UserApi();
+            $uid = $Api->addSyncData();
+            D('Member')->addSyncData($uid, $user_info);
+            $this->addSyncLoginData($uid, $access_token, $openid, $type, $openid);
+            $this->saveAvatar($user_info['head'], $openid, $uid,$type);
+        }
+        $this->loginWithoutpwd($uid);
+    }
+
+    protected  function loginWithoutpwd($uid)
     {
         if (0 < $uid) { //UC登录成功
             /* 登录用户 */
@@ -38,7 +91,7 @@ class BaseController extends AddonsController
      * @return mixed
      * autor:xjw129xjt
      */
-    public function addSyncLoginData($uid, $token, $openID, $type, $oauth_token_secret)
+    protected  function addSyncLoginData($uid, $token, $openID, $type, $oauth_token_secret)
     {
         $data['uid'] = $uid;
         $data['type_uid'] = $openID;
@@ -56,7 +109,7 @@ class BaseController extends AddonsController
      * @param $uid
      * autor:xjw129xjt
      */
-    public function saveAvatar($url, $oid, $uid,$type)
+    protected function saveAvatar($url, $oid, $uid,$type)
     {
         mkdir('./Uploads/Avatar/'.$type.'Avatar', 0777, true);
         $img = file_get_contents($url);

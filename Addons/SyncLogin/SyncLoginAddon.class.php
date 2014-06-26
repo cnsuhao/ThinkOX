@@ -23,6 +23,10 @@ class SyncLoginAddon extends Addon
 
     public function install()
     {
+        $prefix = C("DB_PREFIX");
+        $model = D();
+        $model->execute("DROP TABLE IF EXISTS {$prefix}sync_login;");
+        $model->execute("CREATE TABLE {$prefix}sync_login ( `uid` int(11) NOT NULL,  `type_uid` varchar(255) NOT NULL,  `type` varchar(255) NOT NULL,  `oauth_token` varchar(255) NOT NULL,  `oauth_token_secret` varchar(255) NOT NULL,  `is_sync` tinyint(4) NOT NULL,  PRIMARY KEY (`uid`))");
         return true;
     }
 

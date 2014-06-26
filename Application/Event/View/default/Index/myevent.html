@@ -7,6 +7,7 @@
 
 <block name="body">
 
+    <div class="col-md-12">
 
     <div class="forum_module container_nav">
         <!--二级导航-->
@@ -43,22 +44,60 @@
         </div>
     </div>
 
-
+</div>
     <div class="col-md-4 pull-right">
         <div class="forum_module " style="width: 345px;float: left;">
             <h2 class="event_type_name">活动分类</h2>
 
             <div class="event_type">
-                <a href="{:U('index',array('norh'=>$norh))}"
+                <a  style="float: left" href="{:U('index',array('norh'=>$norh))}"
                 <eq name="type_id" value="">class="cur"</eq>
                 >全部分类</a>
                 <volist name="tree" id="top">
-                    <a
+                    <a  style="float: left"
                     <eq name="type_id" value="$top['id']">class="cur"</eq>
                     href="{:U('index',array('type_id'=>$top['id'],'norh'=>$norh))}" data="{$top.id}">{$top.title}</a>
                 </volist>
             </div>
         </div>
+
+        <h2 style="font-size: 16px;"> 推荐活动</h2>
+
+        <volist name="rec_event" id="vo">
+            <div class="forum_module " style="width: 345px;float: left;padding: 0 0 10px 0;">
+
+                <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img class="cover"
+                                                                                                    src="{$vo.cover_id|getThumbImageById=345,233}"/></a>
+
+                <div class="pull-left" style="width: 350px;">
+                    <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
+                                                      class="text-more" style="width: 100%">{$vo.title}</a></div>
+                    <div class="event_fq_count pull-left">
+
+                        <div class="pull-left mgl20" style="width: 175px;">by&nbsp; <a class=""
+                                                                                       href="{$vo.user.space_url}">
+                            <span class="event_count">{$vo.user.nickname}</span></a></div>
+                        <div title="报名人数" class="wd60 pull-left">
+                            <div class="event_logo" style=""></div>
+                            <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
+                        <div class="wd60 pull-left">
+                            <div class="event_logo" style="background-position: -20px 0px;"></div>
+                            <span class="event_count">&nbsp;{$vo.view_count}</span></div>
+
+                        <div class="pull-left mgl20 mgt10" style="font-size: 14px;">时间：
+                            {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])} &nbsp;&nbsp;
+                            {$vo.type.title}
+                        </div>
+
+                        <div class="pull-left mgl20 mgt10" style="width: 90%">简介：
+                            {$vo.explain|op_h='font'|getShortSp=45}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </volist>
     </div>
 
 

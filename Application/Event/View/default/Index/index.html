@@ -6,7 +6,7 @@
 </block>
 
 <block name="body">
-
+<div class="col-md-12">
 
     <div class="forum_module container_nav">
         <!--二级导航-->
@@ -15,7 +15,7 @@
                 <a href="{:U('index')}">活动首页</a>
             </li>
             <li class="container_nav_tab_li">
-                <a  href="{:U('myevent')}">我的活动</a>
+                <a href="{:U('myevent')}">我的活动</a>
             </li>
 
             <li class="pull-right">
@@ -38,27 +38,68 @@
     <div style="height: 80px;width: 100%;line-height: 80px;font-size: 18px; color: #333333;padding: 0 0 0 5px;">
         <div class="pull-left">活动首页</div>
         <div class="btn-group pull-right" style="padding-top: 20px;">
-            <a href="{:U('index',array('norh'=>'new','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh eq 'new'">active</if>">最新</a>
-            <a  href="{:U('index',array('norh'=>'hot','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh eq 'hot'">active</if>">最热</a>
+            <a href="{:U('index',array('norh'=>'new','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh
+            eq 'new'">active</if>">最新</a>
+            <a href="{:U('index',array('norh'=>'hot','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh
+            eq 'hot'">active</if>">最热</a>
         </div>
     </div>
-
+</div>
 
     <div class="col-md-4 pull-right">
-        <div class="forum_module " style="width: 345px;float: left;">
+        <div class="forum_module " style="width: 100%;float: left;">
             <h2 class="event_type_name">活动分类</h2>
 
             <div class="event_type">
-                <a href="{:U('index',array('norh'=>$norh))}"
+                <a style="float: left" href="{:U('index',array('norh'=>$norh))}"
                 <eq name="type_id" value="">class="cur"</eq>
                 >全部分类</a>
                 <volist name="tree" id="top">
-                    <a
+                    <a style="float: left"
                     <eq name="type_id" value="$top['id']">class="cur"</eq>
                     href="{:U('index',array('type_id'=>$top['id'],'norh'=>$norh))}" data="{$top.id}">{$top.title}</a>
                 </volist>
             </div>
         </div>
+
+
+        <h2 style="font-size: 16px;"> 推荐活动</h2>
+
+        <volist name="rec_event" id="vo">
+            <div class="forum_module " style="width: 100%;float: left;padding: 0 0 10px 0;">
+
+                <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img class="cover"
+                                                                                                    src="{$vo.cover_id|getThumbImageById=345,233,3,true}"/></a>
+
+                <div class="pull-left" style="width: 350px;">
+                    <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
+                                                      class="text-more" style="width: 100%">{$vo.title}</a></div>
+                    <div class="event_fq_count pull-left">
+
+                        <div class="pull-left mgl20" style="width: 175px;">by&nbsp; <a class=""
+                                                                                       href="{$vo.user.space_url}">
+                            <span class="event_count">{$vo.user.nickname}</span></a></div>
+                        <div title="报名人数" class="wd60 pull-left">
+                            <div class="event_logo" style=""></div>
+                            <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
+                        <div class="wd60 pull-left">
+                            <div class="event_logo" style="background-position: -20px 0px;"></div>
+                            <span class="event_count">&nbsp;{$vo.view_count}</span></div>
+
+                        <div class="pull-left mgl20 mgt10" style="font-size: 14px;">时间：
+                            {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])} &nbsp;&nbsp;
+                            {$vo.type.title}
+                        </div>
+
+                        <div class="pull-left mgl20 mgt10" style="width: 90%">简介：
+                            {$vo.explain|op_h='font'|getShortSp=45}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </volist>
     </div>
 
 
@@ -68,7 +109,7 @@
 
             <volist name="contents" id="vo">
 
-                <div class="clearfix event_list" >
+                <div class="clearfix event_list">
 
                     <if condition="time() lt $vo['eTime']">
                         <div class="event_state" style="background: #d61f39">
@@ -93,7 +134,7 @@
                                 <span class="event_count">{$vo.user.nickname}</span></a></div>
                             <div title="报名人数" class="wd60 pull-left">
                                 <div class="event_logo" style=""></div>
-                                <span  class="event_count">&nbsp;{$vo.signCount}人</span></div>
+                                <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
                             <div class="wd60 pull-left">
                                 <div class="event_logo" style="background-position: -20px 0px;"></div>
                                 <span class="event_count">&nbsp;{$vo.view_count}</span></div>
@@ -103,7 +144,7 @@
                                 {$vo.type.title}
                             </div>
 
-                            <div class="pull-left mgl20 mgt10 event_short_explain" >简介：
+                            <div class="pull-left mgl20 mgt10 event_short_explain">简介：
                                 {$vo.explain|op_h='font'|getShortSp=45}
                             </div>
                             <div class="pull-left mgl20 mgt10" style=" ">
@@ -111,23 +152,31 @@
                                     <if condition="($vo['uid'] eq is_login()) OR is_administrator(is_login())">
 
                                         <if condition="time() lt $vo['eTime']">
-                                        <a class="btn btn-default endEvent" data-eventID="{$vo.id}">提前结束</a>
+                                            <a class="btn btn-default endEvent" data-eventID="{$vo.id}">提前结束</a>
                                         </if>
 
                                         <a href="{:U('edit',array('id'=>$vo['id']))}" class="btn btn-default">编辑活动</a>
-                                        <a class="btn btn-default delEvent" data-eventID="{$vo.id}" >删除活动</a>
+                                        <a class="btn btn-default delEvent" data-eventID="{$vo.id}">删除活动</a>
                                         <else/>
                                         <php>if(!$vo['check_isSign']){</php>
                                         <if condition="is_login() eq 0">
-                                            <a class="btn btn-default  " href="javascript:" onclick="op_error('请登陆后再报名')">报名参加 </a>
+                                            <a class="btn btn-default  " href="javascript:"
+                                               onclick="op_error('请登陆后再报名')">报名参加 </a>
                                             <else/>
-                                            <a class="btn btn-default event_sign " href="{:U('ajax_sign',array('event_id'=>$vo['id']))}">报名参加 </a>
+                                            <a class="btn btn-default event_sign "
+                                               href="{:U('ajax_sign',array('event_id'=>$vo['id']))}">报名参加 </a>
                                         </if>
 
                                         <php>}else{</php>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default unSign" data-eventID="{$vo.id}" href="javascript:" id="unSign">取消报名 </a>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default unSign"
+                                                                   data-eventID="{$vo.id}" href="javascript:"
+                                                                   id="unSign">取消报名 </a>
 
-                                        <span style="line-height: 34px;"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if condition="$vo['check_isSign'][0]['status'] eq 1">已审核 <else/> 未审核 </if></span>
+                                        <span style="line-height: 34px;"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if
+                                                condition="$vo['check_isSign'][0]['status'] eq 1">已审核
+                                            <else/>
+                                            未审核
+                                        </if></span>
 
                                         <php>}</php>
 
@@ -176,7 +225,7 @@
                 overflowY: 'scroll',
                 modal: true,
                 callbacks: {
-                    ajaxContentAdded: function() {
+                    ajaxContentAdded: function () {
                         // Ajax content is loaded and appended to DOM
 
                         console.log(this.content);
@@ -186,7 +235,7 @@
             bindSupport();
 
             $('.unSign').click(function () {
-                if(confirm('确定要取消报名么？')){
+                if (confirm('确定要取消报名么？')) {
                     var event_id = $(this).attr('data-eventID');
                     $.post("{:U('Event/Index/unSign')}", {event_id: event_id}, function (res) {
                         if (res.status) {
@@ -204,13 +253,13 @@
 
 
             $('.delEvent').click(function () {
-                if(confirm('确定要删除活动么？')){
+                if (confirm('确定要删除活动么？')) {
                     var event_id = $(this).attr('data-eventID');
                     $.post("{:U('Event/Index/doDelEvent')}", {event_id: event_id}, function (res) {
                         if (res.status) {
                             op_success(res.info);
                             setTimeout(function () {
-                                location.href="{:U('index')}";
+                                location.href = "{:U('index')}";
                             }, 1500);
                         }
                         else {
@@ -221,7 +270,7 @@
             });
 
             $('.endEvent').click(function () {
-                if(confirm('确定要提前结束活动么？')){
+                if (confirm('确定要提前结束活动么？')) {
                     var event_id = $(this).attr('data-eventID');
                     $.post("{:U('Event/Index/doEndEvent')}", {event_id: event_id}, function (res) {
                         if (res.status) {
@@ -237,8 +286,6 @@
                 }
             });
         })
-
-
 
 
     </script>

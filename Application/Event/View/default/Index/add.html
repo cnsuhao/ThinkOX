@@ -32,6 +32,25 @@
                             <input type="hidden" name="id" id="id" value=""/>
                             <input type="hidden" name="cover_id" id="cover_id_cover" value=""/>
                         </div>
+
+
+                        <div class="form-group">
+                            <label for="type_id" class="col-sm-2 control-label">分类</label>
+
+                            <div class="col-sm-5">
+                                <select id="type_id" name="type_id" class="form-control">
+                                    <volist name="tree" id="top">
+                                        <option value="{$top.id}" >
+                                        {$top.title}
+                                        </option>
+                                    </volist>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">时间</label>
 

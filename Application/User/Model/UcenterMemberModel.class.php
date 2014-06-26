@@ -379,20 +379,19 @@ class UcenterMemberModel extends Model
     }
 
 
-    public function addSyncData($info)
+    public function addSyncData()
     {
 
         $data['username'] =$this->rand_username();
         $data['email'] = $this->rand_email();
         $data1 = $this->create($data);
         $uid = $this->add($data1);
-
         return $uid;
     }
 
     public function rand_email()
     {
-        $email = $this->create_rand(10) . '@qq.com';
+        $email = $this->create_rand(10) . '@thinkox.com';
         if ($this->where(array('email' => $email))->select()) {
             $this->rand_email();
         } else {
