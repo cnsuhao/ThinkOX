@@ -94,7 +94,7 @@
                             {$vo.type.title}
                         </div>
 
-                        <div class="pull-left mgl20 mgt10" style="width: 90%">简介：
+                        <div class="word-wrap pull-left mgl20 mgt10" style="width: 90%">简介：
                             {$vo.explain|op_h='font'|getShortSp=45}
                         </div>
 
@@ -124,7 +124,7 @@
                     <div class="event_detail_type">{$content.type.title}</div>
                 </a>
             </div>
-            <div class="pull-left" style="width: 400px;">
+            <div class="pull-left" style="width: 48%;">
                 <div class="mgl20 event_title"><a href="javascript:" onclick="location.href='{:U('Event/Index/detail',array('id'=>$content['id']))}'"
                                                   class="text-more" style="width: 85%;float: left"
                                                   title="{$content.title}">{$content.title}</a>
@@ -179,7 +179,8 @@
                     </div>
                     <div class="pull-left mgl20 mgt10">
                         <div class="btn-group">
-                            <if condition="($content['uid'] eq is_login()) OR is_administrator(is_login())">
+
+                                <php>if($content['uid'] == is_login() || is_administrator(is_login())){</php>
 
                                 <if condition="time() lt $content['eTime']">
                                     <a id="endEvent" class="btn btn-default">提前结束</a>
@@ -187,12 +188,12 @@
 
                                 <a href="{:U('edit',array('id'=>$content['id']))}" class="btn btn-default">编辑活动</a>
                                 <a id="delEvent" class="btn btn-default">删除活动</a>
-                                <else/>
+                            <php>}if($content['uid'] != is_login() || is_administrator(is_login())){</php>
                                 <php>if(!$check_isSign){</php>
                                 <a class="btn btn-default open-popup-link "
                                    href="{:U('ajax_sign',array('event_id'=>$content['id']))}">报名参加 </a>
                                 <php>}else{</php>
-                                &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" href="javascript:"
+                              <a class="btn btn-default" href="javascript:"
                                                            id="unSign">取消报名 </a>
 
                                 <span style="line-height: 34px;"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if
@@ -200,10 +201,11 @@
                                     <else/>
                                     未审核
                                 </if></span>
+                                <php>}
+                                    }</php>
 
-                                <php>}</php>
 
-                            </if>
+
                         </div>
                     </div>
                 </div>
@@ -211,7 +213,7 @@
         </div>
 
         <div style="font-size: 16px;padding: 30px 0 10px 30px;">活动详情</div>
-        <div style="padding: 5px 20px 50px 20px;">
+        <div class="word-wrap" style="padding: 5px 20px 50px 20px;">
             {$content.explain}
 
             <div class="pull-right" style="color: #999">
