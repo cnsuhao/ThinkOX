@@ -940,6 +940,9 @@ General list for item with image
 .friend_panel .session_more .active {
   background: #ffffff;
 }
+#chat_box {
+  z-index: 999;
+}
 .chat_panel {
   box-shadow: 0 0 5px #cccccc;
   -moz-box-shadow: 0 0 5px #CCCCCC;
