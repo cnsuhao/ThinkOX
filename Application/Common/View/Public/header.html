@@ -1,8 +1,272 @@
+<include file="Public/right_chat_panel"/>
 <php> D('Home/Member')->need_login();</php>
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-<div class="container">
+<div class="top_bar">
+    <div class="container">
+        <div class="row hidden-xs">
+            <div class="col-md-2">
+                分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
+            </div>
+            <div class="col-md-10 text-right top_right">
 
-<include file="Public/navbar"/>
+
+                <php>
+                    $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
+                </php>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li>
+                         &lt;!&ndash;换肤功能预留&ndash;&gt;
+                        <a>换肤</a>
+                        &lt;!&ndash;换肤功能预留end&ndash;&gt;
+                    </li>-->
+
+                    <!--登陆面板-->
+                    <if condition="is_login()">
+                        <li class="dropdown op_nav_ico hidden-xs hidden-sm">
+                            <div></div>
+                            <a id="nav_info" class="dropdown-toggle text-left" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-bell"></span>
+                                <span id="nav_bandage_count"
+                                <if condition="count($unreadMessage) eq 0"> style="display: none"</if>
+                                class="badge pull-right">{:count($unreadMessage)}</span>
+                                &nbsp;
+                            </a>
+                            <ul class="dropdown-menu extended notification" style="">
+                                <li style="padding-left: 15px;padding-right: 15px;">
+                                    <div class="row nav_info_center">
+                                        <div class="col-xs-9 nav_align_left"><span
+                                                id="nav_hint_count">{:count($unreadMessage)}</span> 条未读
+                                        </div>
+                                        <div class="col-xs-3"><i onclick="setAllReaded()"
+                                                                 class="set_read glyphicon glyphicon-ok"
+                                                                 title="全部标为已读"></i></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div style="position: relative;width: auto;overflow: hidden;max-height: 250px ">
+                                        <ul id="nav_message" class="dropdown-menu-list scroller "
+                                            style=" width: auto;">
+                                            <if condition="count($unreadMessage) eq 0">
+                                                <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
+                                                    暂无任何消息!
+                                                </div>
+                                                <else/>
+                                                <volist name="unreadMessage" id="message">
+                                                    <li>
+                                                        <a data-url="{$message.url}"
+                                                           onclick="readMessage(this,{$message.id})">
+                                                            <i class="glyphicon glyphicon-bell"></i>
+                                                            {$message.title}
+                                            <span class="time">
+                                            {$message.ctime}
+                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </volist>
+                                            </if>
+
+                                        </ul>
+                                    </div>
+
+                                </li>
+                                <li class="external">
+                                    <a href="{:U('Usercenter/Message/message')}">
+                                        查看全部 <i class="glyphicon glyphicon-circle-arrow-right"
+                                                style="background: none;color: rgb(72,184,122)"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+
+                        <li>
+                            <a style="margin-right: 15px;" title="修改资料" href="{:U('Usercenter/Index/expandInfo')}"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                        </li>
+                        <li class="top_spliter"></li>
+                        <li class="dropdown">
+                            <php>
+                                $common_header_user = query_user(array('nickname'));
+                            </php>
+                            <a role="button" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
+                                {$common_header_user.nickname}&nbsp;<i style="font-size: 12px"
+                                                                       class="glyphicon glyphicon-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{:U('UserCenter/Index/index')}"><span
+                                        class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
+                                </li>
+                                <if condition="is_administrator()">
+                                    <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
+                                            class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;管理后台</a></li>
+                                </if>
+                                <li><a event-node="logout"><span
+                                        class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;注销</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="top_spliter"></li>
+                        <else/>
+                        <li class="top_spliter"></li>
+                        <li>
+                            <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
+                            </php>
+                            <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
+                        </li>
+                        <li>
+                            <a href="{:U('Home/User/register')}">注册</a>
+                        </li>
+                        <li class="spliter"></li>
+                    </if>
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
 </div>
+
+        <div class="logo_bar">
+            <div class="container">
+                <div class="row logo">
+                    <div class="col-md-5">
+                        <img src="__STATIC__/oneplus/images/logo.png"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+<div class="nav_bar">
+    <div class="container">
+        <div class="row">
+
+       <!-- <div class="col-md-7">
+
+            <ul class="menu">
+            <li class="current first"><a href="http://sc.chinaz.com/" target="_self">首页</a></li>
+            <li><a href="#" target="_self">功能</a></li>
+            <li><a href="#" target="_self">下载</a></li>
+            <li class="li_3"><a class="noclick" href="http://sc.chinaz.com/" target="_blank">更多产品</a>
+                <dl class="li_3_content">
+                    <dt></dt>
+                    <dd><a href="http://sc.chinaz.com/" target="_blank"><span>应用商店</span></a></dd>
+                    <dd><a href="http://sc.chinaz.com/" target="_blank"><span>主题商店</span></a></dd>
+                    <dd><a href="http://sc.chinaz.com/" target="_blank"><span>小米桌面</span></a></dd>
+                    <dd class="lastItem"><a href="http://sc.chinaz.com/" target="_blank"><span>懒人图库</span></a></dd>
+                </dl>
+            </li>
+            <li class=""><a class="noborder " href="#" target="_self">论坛</a></li>
+            </ul>
+        </div>-->
+            <!--导航栏菜单项-->
+            <ul class="nav navbar-nav col-md-7" style="font-size: 18px">
+            <think:nav name="nav">
+                <eq name="nav.pid" value="0">
+                    <php>
+                        $children=D('Channel')->where(array('pid'=>$nav['id']))->order('sort asc')->select();
+                        if($children){
+                    </php>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            {$nav.title} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <volist name="children" id="subnav">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{$subnav.url|get_nav_url}"
+                                                           target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}</a>
+                                </li>
+                            </volist>
+                        </ul>
+                    </li>
+                    <php>}else{</php>
+                    <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
+                        <a href="{$nav.url|get_nav_url}"
+                           target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
+                    </li>
+                   <php>}</php>
+                </eq>
+            </think:nav>
+            </ul>
+        <div class="col-md-1" style="padding-top:12px;">
+            <div class="btn-group pull-right">
+             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+               发微博
+                <span class="caret"></span>
+             </button>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
+                <li><a href="#">发活动</a></li>
+            </ul>
+            </div>
+        </div>
+
+            <div class="col-md-4 " style="padding-top:4px;">
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+
+    </div>
+    </div>
 </div>
 <a id="goTopBtn"></a>
+<!--新浪微博分享代码-->
+<script>
+    /* weiboShare */
+    function weiboShare() {
+        var wb_shareBtn = document.getElementById("weibo_shareBtn")
+        wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
+                wb_appkey = "",
+                wb_title = document.title,
+                wb_ralateUid = "{:C('SHARE_WEIBO_ID')}",
+                wb_pic = "",
+                wb_language = "zh_cn";
+
+        wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
+    }
+    weiboShare()
+</script>
+<!--新浪微博分享代码end-->
+        <script>
+
+            $(function () {
+                var $menu = $(".menu"), $menuLi = $menu.find("li"), $current = $menu.find('.current'), $li_3 = $menu.find('li.li_3'), $li_3_content = $li_3.find('.li_3_content');
+                $menuLi.hover(function () {
+                    var $this = $(this), num = $menuLi.index($this), current = $menuLi.index($(".first")), len = current - num;
+                    $menu.css("background-position", (101 * current) + "px" + " bottom");
+                    $current.removeClass("lihover");
+                    $menuLi.removeClass("first");
+                    $this.addClass("first");
+                    if (len <= 0) { len = -len; };
+                    if (num != 4) {
+                        $menu.stop().animate({ backgroundPosition: (101 * num) + "px" + " bottom" }, 100 * len);
+                    }
+                    else {
+                        $menu.stop().animate({ backgroundPosition: (101 * num + 30) + "px" + " bottom" }, 100 * len);
+                    }
+                });
+                $li_3.hover(function () {
+                    $li_3_content.stop(true, true).fadeIn(0);
+                }, function () {
+                    $li_3_content.fadeOut(500, function () {
+                        $li_3_content.css("display", "none");
+                    });
+                });
+                $menu.mouseleave(function () {
+                    var $this = $(this), num = $menuLi.index($this), current = $menuLi.index($current), len = current - num;
+                    $menuLi.removeClass("first");
+                    $current.addClass("first");
+                    if (len <= 0) { len = -len; };
+                    $menu.stop().animate({ backgroundPosition: (100 * current + 1) + "px" + " bottom" }, 100 * len);
+                });
+                $("a.noclick").click(function (event) {
+                    event.preventDefault();
+                });
+            });
+        </script>

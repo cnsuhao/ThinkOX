@@ -1,22 +1,31 @@
-<header>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-4 col-sm-2">
-                <img class="hidden-xs" src="__PUBLIC__/Forum/images/header-rabbit.png"/>
-                <img class="visible-xs" style="width: 100px;padding-top: 32px;"  src="__PUBLIC__/Forum/images/header-rabbit.png"/>
-            </div>
-            <div class="col-xs-8 col-sm-10">
-                <p style="height: 5em;">&nbsp;</p>
+<link type="text/css" rel="stylesheet" href="__CSS__/forum.css"/>
 
-                <h3 class="text-success">讨论区</h3>
-
-                <p class="text-muted">一晃眼，我们都将垂垂老去，所以勇敢去做自己想做的事。</p>
-            </div>
+<div class="forum_header forum_block_border text-center">
+    <div class="row">
+        <div class="col-md-12">
+            <i class="forum_logo"></i>
         </div>
-        <div class="row">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            板块总数：{$count.forum}
+        </div>
+        <div class="col-md-4">
+            主题总数：{$count.post}
+        </div>
+        <div class="col-md-4">
+            帖子总数：{$count.all}
+        </div>
+    </div>
+    <div class="forum_left_tip">统计</div>
+</div>
+
+<!--
+
+<div class="row">
+     <nav class="navbar navbar-default" role="navigation">
+         <div class="container-fluid">
+             &lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse"
                                 data-target="#bs-example-navbar-collapse-2">
@@ -27,7 +36,7 @@
                         </button>
                     </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    &lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                         <ul class="nav navbar-nav">
                             </php>
@@ -62,10 +71,8 @@
                             })
                         </script>
                     </div>
-                    <!-- /.navbar-collapse -->
+                    &lt;!&ndash; /.navbar-collapse &ndash;&gt;
                 </div>
-                <!-- /.container-fluid -->
+                &lt;!&ndash; /.container-fluid &ndash;&gt;
             </nav>
-        </div>
-    </div>
-</header>
+        </div>-->

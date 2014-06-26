@@ -14,12 +14,15 @@ use Admin\Builder\AdminSortBuilder;
 
 class WeiboController extends AdminController
 {
-    public function weibo($page = 1, $r = 20)
+    public function weibo($page = 1, $r = 20,$content='')
     {
         //读取微博列表
         $map = array('status' => array('EGT', 0));
         $model = M('Weibo');
-        $list = $model->where($map)->page($page, $r)->select();
+        if($content!='')
+        $map['content']=array('like','%'.$content.'%');
+
+        $list = $model->where($map)->order('create_time desc')->page($page, $r)->select();
         unset($li);
         $totalCount = $model->where($map)->count();
 
@@ -36,6 +39,7 @@ class WeiboController extends AdminController
             ->setStatusUrl(U('setWeiboStatus'))->buttonEnable()->buttonDisable()->buttonDelete()->button('置顶', $attr1)->button('取消置顶', $attr0)
             ->keyId()->keyLink('content', '内容', 'comment?weibo_id=###')->keyUid()->keyCreateTime()->keyStatus()
             ->keyDoActionEdit('editWeibo?id=###')->keyMap('is_top', '置顶', array(0 => '不置顶', 1 => '置顶'))
+            ->search('内容','content')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();

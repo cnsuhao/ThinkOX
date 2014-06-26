@@ -30,6 +30,15 @@ class IndexController extends Controller
         $this->assign('myInfo', $myInfo);
         //赋予贴吧列表
         $this->assign('forum_list', $forum_list);
+
+        $count = S('forum_count');
+        if (empty($count)) {
+            $count['forum'] = D('Forum')->where(array('status' => 1))->count();
+            $count['post'] = D('ForumPost')->where(array('status' => 1))->count();
+            $count['all'] = $count['post'] + D('ForumPostReply')->where(array('status' => 1))->count() + D('ForumLzlReply')->where(array('status' => 1))->count();
+            S('forum_count', $count, 60);
+        }
+        $this->assign('count', $count);
     }
 
     public function index($page = 1)
@@ -37,6 +46,12 @@ class IndexController extends Controller
         redirect(U('forum', array('page' => $page)));
     }
 
+    /**某个版块的帖子列表
+     * @param int    $id
+     * @param int    $page
+     * @param string $order
+     * @auth 陈一枭
+     */
     public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
     {
         if ($order == 'ctime') {
@@ -66,9 +81,17 @@ class IndexController extends Controller
         $this->assign('list', $list);
         $this->assign('list_top', $list_top);
         $this->assign('totalCount', $totalCount);
+        if ($_GET['order'] == 'ctime') {
+            $this->assign('order', 1);
+        } else {
+            $this->assign('order', 0);
+        }
         $this->display();
     }
 
+    public function forums(){
+        $this->display();
+    }
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
         $id = intval($id);
@@ -79,7 +102,7 @@ class IndexController extends Controller
         if (!$post) {
             $this->error('找不到该帖子');
         }
-        $post['content'] = op_h($post['content'],'html');
+        $post['content'] = op_h($post['content'], 'html');
         //增加浏览次数
         D('ForumPost')->where(array('id' => $id))->setInc('view_count');
         //读取回复列表
@@ -94,9 +117,8 @@ class IndexController extends Controller
             $showMainPost = false;
         }
 
-        foreach($replyList as &$reply)
-        {
-            $reply['content']=op_h($reply['content'],'html');
+        foreach ($replyList as &$reply) {
+            $reply['content'] = op_h($reply['content'], 'html');
         }
 
         unset($reply);
