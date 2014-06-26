@@ -22,7 +22,7 @@ function getImageUrlByPath($path, $size) {
  *  @param  unknown_type  $cut  是否切割  默认不切割
  *  @return  string
  */
-function getThumbImage($filename, $width=100, $height='auto', $type=2, $replace=false) {
+function getThumbImage($filename, $width=100, $height='auto', $type=3, $replace=false) {
     $UPLOAD_URL='';
     $UPLOAD_PATH='';
     $filename  =  str_ireplace($UPLOAD_URL,  '',  $filename);  //将URL转化为本地地址
@@ -103,8 +103,9 @@ function getRootUrl() {
 }
 
 
-function getThumbImageById($cover_id, $width = 100, $height = 2, $type=2, $replace = false)
+function getThumbImageById($cover_id, $width = 100, $height = 2, $type=3, $replace = false)
 {
+
     $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);
     if(empty($picture))
     {

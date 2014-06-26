@@ -4,7 +4,7 @@
 namespace Event\Controller;
 
 use Think\Controller;
-
+use Weibo\Api\WeiboApi;
 
 class IndexController extends Controller
 {
@@ -18,6 +18,13 @@ class IndexController extends Controller
         $this->assign('tree', $tree);
     }
 
+    /**
+     * 活动首页
+     * @param int $page
+     * @param int $type_id
+     * @param string $norh
+     * autor:xjw129xjt
+     */
     public function index($page = 1, $type_id = 0,$norh = 'new')
     {
         $type_id = intval($type_id);
@@ -33,19 +40,31 @@ class IndexController extends Controller
         foreach ($content as &$v) {
             $v['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
             $v['type'] = $this->getType($v['type_id']);
-
             $v['check_isSign'] = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $v['id']))->select();
-
-
         }
         unset($v);
         $this->assign('type_id', $type_id);
         $this->assign('contents', $content);
         $this->assign('norh', $norh);
         $this->assign('totalPageCount', $totalCount);
+        $this->getRecommend();
         $this->display();
     }
 
+    public function getRecommend(){
+        $rec_event = D('Event')->where(array('is_recommend'=>1))->limit(2)->order('rand()')->select();
+        foreach ($rec_event as &$v) {
+            $v['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
+            $v['type'] = $this->getType($v['type_id']);
+            $v['check_isSign'] = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $v['id']))->select();
+        }
+        unset($v);
+
+        $this->assign('rec_event',$rec_event);
+
+
+
+    }
     /**
      * 我的活动页面
      * @param int $page
@@ -86,15 +105,35 @@ class IndexController extends Controller
         $this->assign('contents', $content);
         $this->assign('lora', $lora);
         $this->assign('totalPageCount', $totalCount);
+        $this->getRecommend();
         $this->display();
     }
 
+    /**
+     * 获取活动类型
+     * @param $type_id
+     * @return mixed
+     * autor:xjw129xjt
+     */
     private function getType($type_id)
     {
         $type = D('EventType')->where('id=' . $type_id)->find();
         return $type;
     }
 
+    /**
+     * 发布活动
+     * @param int $id
+     * @param int $cover_id
+     * @param string $title
+     * @param string $explain
+     * @param string $sTime
+     * @param string $eTime
+     * @param string $address
+     * @param int $limitCount
+     * @param string $deadline
+     * autor:xjw129xjt
+     */
     public function doPost($id = 0, $cover_id = 0, $title = '', $explain = '', $sTime = '', $eTime = '', $address = '', $limitCount = 0, $deadline = '')
     {
         if (!is_login()) {
@@ -133,6 +172,14 @@ class IndexController extends Controller
             }
             $content['uid'] = $content_temp['uid']; //权限矫正，防止被改为管理员
             $rs = D('Event')->save($content);
+
+            $postUrl = "http://$_SERVER[HTTP_HOST]" . U('Event/Index/detail', array('id' => $id));
+            $weiboApi = new WeiboApi();
+            $weiboApi->resetLastSendTime();
+            $weiboApi->sendWeibo("我修改了活动【" . $title . "】：" . $postUrl);
+
+
+
             if ($rs) {
                 $this->success('编辑成功。', U('detail', array('id' => $content['id'])));
             } else {
@@ -147,6 +194,18 @@ class IndexController extends Controller
                 D('Common/Message')->sendMessage(C('USER_ADMINISTRATOR'), "{$user['nickname']}发布了一个活动，请到后台审核。", $title = '活动发布提醒', U('Admin/Event/verify'), is_login(), 2);
             }
             $rs = D('Event')->add($content);
+
+
+//同步到微博
+            $postUrl = "http://$_SERVER[HTTP_HOST]" . U('Event/Index/detail', array('id' => $rs));
+            $weiboApi = new WeiboApi();
+            $weiboApi->resetLastSendTime();
+            $weiboApi->sendWeibo("我发布了一个新的活动【" . $title . "】：" . $postUrl);
+
+
+
+
+
             if ($rs) {
                 $this->success('发布成功。' . $tip, U('index'));
             } else {
@@ -155,6 +214,11 @@ class IndexController extends Controller
         }
     }
 
+    /**
+     * 活动详情
+     * @param int $id
+     * autor:xjw129xjt
+     */
     public function detail($id = 0)
     {
 
@@ -167,6 +231,7 @@ class IndexController extends Controller
             $this->error('404 not found');
         }
         D('Event')->where(array('id' => $id))->setInc('view_count');
+
         $event_content['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $event_content['uid']);
         $event_content['type'] = $this->getType($event_content['type_id']);
 
@@ -178,9 +243,16 @@ class IndexController extends Controller
         }
 
         $this->assign('content', $event_content);
+        $this->getRecommend();
         $this->display();
     }
 
+    /**
+     * 活动成员
+     * @param int $id
+     * @param string $tip
+     * autor:xjw129xjt
+     */
     public function member($id = 0, $tip = 'all')
     {
         if ($tip == 'sign') {
@@ -215,7 +287,11 @@ class IndexController extends Controller
         $this->display();
     }
 
-
+    /**
+     * 编辑活动
+     * @param $id
+     * autor:xjw129xjt
+     */
     public function edit($id)
     {
         $event_content = D('Event')->where(array('status'=>1,'id'=>$id))->find();
@@ -232,7 +308,13 @@ class IndexController extends Controller
         $this->display();
     }
 
-
+    /**
+     * 报名参加活动
+     * @param $event_id
+     * @param $name
+     * @param $phone
+     * autor:xjw129xjt
+     */
     public function doSign($event_id, $name, $phone)
     {
         if (!is_login()) {
@@ -276,6 +358,13 @@ class IndexController extends Controller
         }
     }
 
+    /**
+     * 审核
+     * @param $uid
+     * @param $event_id
+     * @param $tip
+     * autor:xjw129xjt
+     */
     public function shenhe($uid, $event_id, $tip)
     {
         $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
@@ -299,6 +388,11 @@ class IndexController extends Controller
         }
     }
 
+    /**
+     * 取消报名
+     * @param $event_id
+     * autor:xjw129xjt
+     */
     public function unSign($event_id){
 
         $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
@@ -320,6 +414,12 @@ class IndexController extends Controller
             $this->error('操作失败');
         }
     }
+
+    /**
+     * 报名弹出框页面
+     * @param $event_id
+     * autor:xjw129xjt
+     */
     public function ajax_sign($event_id){
 
         $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();

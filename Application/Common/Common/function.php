@@ -1165,6 +1165,29 @@ function getScoreTip($before, $after)
     return $tip;
 }
 
+function getMyToxMoney()
+{
+    $user = query_user(array('tox_money'), is_login());
+    $tox_money = $user['tox_money'];
+    return $tox_money;
+}
+
+function getToxMoneyName(){
+    $tox_money_name="金币";
+    $tox_money_name=D('shop_config')->where('ename='."'tox_money'")->getField('cname');
+    return $tox_money_name;
+}
+
+function getToxMoneyTip($before, $after)
+{
+    $tox_money_change = $after - $before;
+    $tip = '';
+    if ($tox_money_change) {
+        $tip = getToxMoneyName() . ($tox_money_change > 0 ? '加&nbsp;' . $tox_money_change : '减&nbsp;' . $tox_money_change) . ' 。';
+    }
+    return $tip;
+}
+
 function action_log_and_get_score($action = null, $model = null, $record_id = null, $user_id = null)
 {
     $score_before = getMyScore();
