@@ -1096,6 +1096,9 @@ General list for item with image
   padding: 13px 20px;
   text-align: left;
 }
+.nav > li > a:first-child {
+  padding-left: 0;
+}
 /*贴吧板块分类*/
 .btn_primary_bankuai {
   background-color: #ffffff;
