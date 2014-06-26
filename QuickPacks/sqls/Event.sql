@@ -47,3 +47,13 @@ CREATE TABLE IF NOT EXISTS `thinkox_event_type` (
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+INSERT INTO `thinkox_channel` ( `pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
+( 0, '活动', 'Event/index/index', 4, 1403682332, 1403682347, 1, 0);
+
+INSERT INTO `thinkox_menu` ( `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
+( '活动', 0, 21, 'EventType/index', 0, '', '', 0),
+( '活动分类管理', 10000, 0, 'EventType/index', 0, '', '活动分类管理', 0),
+( '内容管理', 10000, 0, 'Event/event', 0, '', '内容管理', 0),
+( '活动分类回收站', 10000, 0, 'EventType/eventTypeTrash', 0, '', '活动分类管理', 0),
+( '内容审核', 10000, 0, 'Event/verify', 0, '', '内容管理', 0),
+( '内容回收站', 10000, 0, 'Event/contentTrash', 0, '', '内容管理', 0);
