@@ -47,7 +47,7 @@
 
 
     <div class="col-md-4 pull-right">
-        <div class="forum_module " style="width: 345px;float: left;">
+        <div class="forum_module " style="width: 100%;float: left;">
             <h2 class="event_type_name">活动分类</h2>
 
             <div class="event_type">
@@ -66,7 +66,7 @@
         <h2 style="font-size: 16px;"> 推荐活动</h2>
 
         <volist name="rec_event" id="vo">
-            <div class="forum_module " style="width: 345px;float: left;padding: 0 0 10px 0;">
+            <div class="forum_module " style="width: 100%;float: left;padding: 0 0 10px 0;">
 
                 <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img class="cover"
                                                                                                     src="{$vo.cover_id|getThumbImageById=345,233,3,true}"/></a>

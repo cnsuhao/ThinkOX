@@ -220,8 +220,8 @@ class MemberModel extends Model
      * autor:xjw129xjt
      */
     public function addSyncData($uid,$info){
-        $data1['nickname'] = $info['nickname'].'_'.$this->rand_nickname();
-        $data1['sex'] = $info['gender']=='男'? 0:1;
+        $data1['nickname'] = mb_substr($info['nick'],0,11, 'utf-8').'_'.$this->rand_nickname();
+        $data1['sex'] = $info['sex'];
         $data =  $this->create($data1);
         $data['uid'] = $uid;
         $res = $this->add($data);
