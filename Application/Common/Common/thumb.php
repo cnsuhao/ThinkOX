@@ -128,24 +128,26 @@ function getThumbImage($filename, $width=100, $height='auto', $type=2, $replace=
             //生成缩略图  -  更好的方法
             if ($height == "auto") $height = $old_image_height * $width / $old_image_width;
             //import('phpthumb.PhpThumbFactory');
-            /* require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
+             require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
              $thumb  =  PhpThumbFactory::create($UPLOAD_PATH  .  $filename);
-             if  ($cut)  {
+             if  ($type!=3)  {
                  $thumb->adaptiveResize($width,  $height);
              }  else  {
                  $thumb->resize($width,  $height);
              }
              $res  =  $thumb->save($UPLOAD_PATH  .  $thumbFile);
-            */
 
+            $info['src'] = $UPLOAD_PATH  .  $thumbFile;
+            $info['width'] = $old_image_width;
+            $info['height'] = $old_image_height;
+            return $info;
 
-            $image = new \Think\Image();
+            //内置库缩略
+          /*  $image = new \Think\Image();
             $image->open($UPLOAD_PATH . $filename);
             //dump($image);exit;
             $image->thumb($width, $height, $type);
             $image->save($UPLOAD_PATH . $thumbFile);
-
-
             //缩图失败
             if (!$image) {
                 $thumbFile = $oldFile;
@@ -153,7 +155,9 @@ function getThumbImage($filename, $width=100, $height='auto', $type=2, $replace=
             $info['width'] = $width;
             $info['height'] = $height;
             $info['src'] = $thumbFile;
-            return $info;
+            return $info;*/
+
+
         }
     }
 }
