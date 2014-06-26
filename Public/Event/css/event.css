@@ -20,7 +20,7 @@
   border: 1px solid #dddddd;
   border-radius: 0.2em;
 }
-/*indexé¡µé¢*/
+/*indexÒ³Ãæ*/
 .issue_list .item_inner {
   width: 1180px;
   float: left;
@@ -113,8 +113,8 @@
   -ms-user-select: none;
   position: absolute;
 }
-/*indexé¡µé¢end*/
-/*è¯¦æƒ…é¡µé¢*/
+/*indexÒ³Ãæend*/
+/*ÏêÇéÒ³Ãæ*/
 .content-title {
   font-size: 2em;
   font-weight: 300;
@@ -188,8 +188,8 @@ hr {
   background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   margin: 10px 0 10px 0;
 }
-/*è¯¦æƒ…é¡µé¢END*/
-/*åº”ç”¨å…¬å…±css*/
+/*ÏêÇéÒ³ÃæEND*/
+/*Ó¦ÓÃ¹«¹²css*/
 .app_head {
   background: #f8f8f8;
   padding: 0;
@@ -269,9 +269,9 @@ hr {
   background-color: #ffffff;
   color: #333333;
   -webkit-box-shadow: 0px 2px 5px #ccc;
-  /*ï¼ˆè¿™æ˜¯ä¸“å¯¹ç«ç‹æµè§ˆå™¨çš„æ”¯æŒè€Œè®¾ç½®çš„ï¼‰*/
+  /*£¨ÕâÊÇ×¨¶Ô»ğºüä¯ÀÀÆ÷µÄÖ§³Ö¶øÉèÖÃµÄ£©*/
   -moz-box-shadow: 0px 2px 5px #ccc;
-  /*ï¼ˆè¿™æ˜¯å¯¹Safariå’ŒChromeæµè§ˆå™¨è€Œè®¾ç½®çš„ï¼‰*/
+  /*£¨ÕâÊÇ¶ÔSafariºÍChromeä¯ÀÀÆ÷¶øÉèÖÃµÄ£©*/
   box-shadow: 0px 2px 5px #ccc;
 }
 .container_nav {

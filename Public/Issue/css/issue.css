@@ -20,7 +20,7 @@
   border: 1px solid #dddddd;
   border-radius: 0.2em;
 }
-/*index椤甸潰*/
+/*index页面*/
 .issue_list .item_inner {
   width: 280px;
   float: left;
@@ -113,8 +113,8 @@
   -ms-user-select: none;
   position: absolute;
 }
-/*index椤甸潰end*/
-/*璇︽儏椤甸潰*/
+/*index页面end*/
+/*详情页面*/
 .content-title {
   font-size: 2em;
   font-weight: 300;
@@ -188,8 +188,8 @@ hr {
   background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   margin: 10px 0 10px 0;
 }
-/*璇︽儏椤甸潰END*/
-/*搴旂敤鍏叡css*/
+/*详情页面END*/
+/*应用公共css*/
 .app_head {
   background: #f8f8f8;
   padding: 0;
