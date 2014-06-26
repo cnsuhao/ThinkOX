@@ -31,7 +31,7 @@
                                         D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$vo['id']))->find();
                                     </php>
                                     <p class="text-center">
-                                        <a class="btn btn-primary" onclick="ufollow(this,{$vo.id})">
+                                        <a class="btn btn-primary" onclick="ufollow(this,{$vo.uid})">
                                             <if condition="$vo['is_following']">
                                                 已关注
                                                 <else/>

@@ -1,5 +1,15 @@
 @import "../../bootstrap/css/variables";
 
+/*reset*/
+a {
+  color: #616161;
+  &:hover {
+    color: #919191;
+  }
+}
+
+/*resetend*/
+
 #nav_session .session_head {
   width: 3em
 }
@@ -99,7 +109,7 @@ a:hover {
 }
 
 #main-container {
-  margin-top: 80px;
+  margin-top: 20px;
 }
 
 .navbar-avatar-img {
@@ -213,60 +223,6 @@ a:hover {
   }
 }
 
-.forum-first-block, .forum-last-block, .forum-middle-block {
-  padding: @grid-gutter-width/2 @grid-gutter-width/2;
-  margin-left: -@grid-gutter-width/2;
-  word-break: break-all;
-
-}
-
-.fourm-top, .fourm-posts {
-  padding-top: 15px;
-  background-color: @forum-block-bg;
-  margin-bottom: 1em;
-  border-radius: 0.2em;
-  .boxShadow;
-  h2 {
-    margin: 0 10px 10px 10px;
-  }
-  .author {
-    margin-bottom: 0;
-  }
-  hr {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-}
-
-.form-first-block {
-  margin-left: -@grid-gutter-width/2;
-}
-
-.forum-last-block {
-  margin-right: -@grid-gutter-width;
-}
-
-.forum-middle-block {
-}
-
-.forum-list-title-link {
-  font-size: 1.2em;
-  color: @text-color;
-}
-
-.forum-list-title-link:hover {
-  text-decoration: none;
-}
-
-.forum-list-hr {
-  margin-left: -@grid-gutter-width/2;
-  margin-right: -@grid-gutter-width/2;
-}
-
-.forum-list-no-hr {
-  padding: 10px;
-}
-
 .usercenter-verify-icon-list {
   img {
     width: 18px;
@@ -344,46 +300,6 @@ h2 {
   line-height: 1.75em;
 }
 
-.hot_post {
-  background: white;
-  margin-bottom: 10px;
-  padding: 15px;
-  padding-bottom: 0;
-  dt:last-child {
-    border: none;
-
-  }
-
-  .boxShadow;
-
-  dt {
-    font-weight: 1em;
-    line-height: 1.7em;
-    margin-bottom: .8em;
-    padding-bottom: .8em;
-    border-bottom: 1px dashed #ccc;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    .hot_num {
-      background: rgb(78, 184, 122);
-      padding: 0 0.5em;
-      font-style: normal;
-      color: white;
-      border-radius: 0.3em;
-      font-size: .9em;
-      display: inline-block;
-    }
-    a {
-      color: #333;
-      font-weight: normal;
-    }
-
-  }
-}
-
 .link-black {
   color: @text-color;
 }
@@ -419,11 +335,11 @@ h2 {
 .ribbion-green {
   z-index: 99;
   position: absolute;
-  right: -9px;
-  top: -30px;
-  background: url(../../../Forum/images/ribbion.png);
+  right: -18px;
+  top: 0;
+  background: url(../../../Forum/images/ribbion.png) no-repeat;
   width: 75px;
-  height: 35px;
+  height: 43px;
   text-align: center;
   a {
     color: white;
@@ -1155,12 +1071,12 @@ General list for item with image
         display: inline-block;
         margin-bottom: 10px;
         position: relative;
-        .badge_new{
+        .badge_new {
           position: absolute;
           top: 0;
           right: -15px;
           background: red;
-          border-radius:15px;
+          border-radius: 15px;
           text-align: center;
           color: white;
           width: 10px;
@@ -1270,47 +1186,409 @@ General list for item with image
   }
 }
 
-.expandinfo-noticeinfo{
+.expandinfo-noticeinfo {
   margin-left: 30px;
   color: #A59F9F;
 }
-.expandinfo-dt{
+
+.expandinfo-dt {
   float: left;
   width: 20%;
   margin-right: 10px;;
   text-align: right;
 }
-.expandinfo-dd{
+
+.expandinfo-dd {
   float: left;
   width: 50%;
 }
 
-.expandinfo-error-info{
+.expandinfo-error-info {
   margin-left: 5px;
   width: 20%;
   float: left;
   color: #ff0000;
 }
-.expandinfo-sumbit{
-  margin-left:20%;
+
+.expandinfo-sumbit {
+  margin-left: 20%;
 }
-.expandinfo-ul{
+
+.expandinfo-ul {
   list-style-type: none;
 }
-.expandinfo-li{
+
+.expandinfo-li {
   float: left;
   margin-right: 10px;;
 }
-.expandinfo-list{
+
+.expandinfo-list {
   margin: 20px 5px 20px 5px;
   padding: 0;
 }
-.input-tips{
+
+.input-tips {
   color: #BBB3B5;
   font-weight: 200;
   margin-left: 10px;
 }
 
-.ad_max{
-     overflow: hidden;
-   }
+.ad_max {
+  overflow: hidden;
+}
+
+/*新版界面*/
+/*新界面按钮ui风格重写*/
+/*贴吧发布按钮*/
+.btn_primary_tieba {
+  color: #fff;
+  background-color: #008cc9;
+  border-color: #0079ae;
+}
+
+.btn_primary_tieba:hover, .btn-primary_tieba:focus, .btn-primary_tieba:active, .btn-primary_tieba.active, .open .dropdown-toggle.btn-primary_tieba {
+  color: #fff;
+  background-color: #0091d2;
+  border-color: #0087c0;
+}
+
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 13px 20px;
+  text-align: left;
+}
+
+
+/*贴吧板块分类*/
+.btn_primary_bankuai {
+
+  background-color: #ffffff;
+  border-color: #cecece;
+}
+
+.btn_primary_bankuai:hover, .btn-primary_bankuai:focus, .btn-primary_bankuai:active, .btn-primary_bankuai.active, .open .dropdown-toggle.btn-primary_bankuai {
+  color: #fff;
+  background-color: #0091d2;
+  border-color: #0087c0;
+}
+
+.btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+  background-image: none
+}
+
+.btn-primary .badge {
+  color: #48b87a;
+  background-color: #fff
+}
+
+.btn-primary {
+}
+
+a {
+  color: #848484
+}
+
+a:hover {
+  color: #03ae87
+}
+
+/*新界面按钮ui风格重写结束*/
+
+/*顶栏*/
+.top_bar {
+  background: #434343;
+  color: #6F6F6F;
+  font-size: 14px;
+  width: 100%;
+}
+
+.top_right {
+  padding-right: 37px;
+}
+
+/*社交分享*/
+.top_bar .share_weibo {
+  margin-left: 10px;
+  background: url('../images/weibo1.png');
+  display: inline-block;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 16px;
+  margin-top: 5px;
+
+}
+
+.top_bar .share_weibo:hover {
+  background-position: 0px -16px;
+}
+
+.top_bar a {
+  color: #6F6F6F !important;
+}
+
+.top_bar a:hover {
+  color: white !important;
+}
+
+.top_bar .nav > li > a > span.glyphicon {
+  font-size: 14px;
+}
+
+.top_bar .nav .open > a,
+.top_bar .nav .open > a:hover,
+.top_bar .nav .open > a:focus {
+  background: transparent !important;
+}
+
+.top_bar .top_spliter {
+  border-left: #585858 solid 1px;
+  border-right: #2B2B2B solid 1px;
+  display: inline-block;
+  height: 28px;
+
+}
+
+.top_bar .navbar-nav > li > a {
+  padding-top: 0;
+  padding-bottom: 0;
+  color: #6F6F6F !important;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.top_bar .navbar-nav > li > a:hover {
+  color: white !important;
+  background: transparent !important;
+}
+
+.icons {
+  background: url('../images/icons.png');
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+
+/*顶栏end*/
+/*logo栏*/
+.logo_bar {
+  position: relative;
+  width: 100%;
+  height: 84px;
+  background: url('../images/logobar_bg.png');
+}
+
+.logo {
+  margin-top: 25px;
+}
+
+/*logo栏end*/
+/*导航栏*/
+.nav_bar {
+  background: white;
+
+  box-shadow: #666 0px 0px 8px;
+}
+
+.nav_bar .nav {
+  margin-left: -6px;
+}
+
+.nav_bar .active a {
+  color: #03AE87;
+}
+
+.nav_bar .nav > li > a:hover,
+.nav_bar .nav > li > a:focus {
+  text-decoration: none;
+  background-color: transparent;
+  color: #03AE87;
+}
+
+/*导航栏end*/
+/*底部栏*/
+.footer_bar {
+  background: white;
+  color: #7E7E7E;
+}
+
+.footer_left {
+  width: 510px;
+}
+
+.han_p {
+  margin-top: 20px;
+  line-height: 1.8;
+}
+
+.footer_right {
+
+}
+
+/*底部栏end*/
+
+/*全站右侧模块样式*/
+.forum_module {
+  width: 233px;
+  font-size: 16px;
+  padding: 8px;
+
+  -moz-border-radius: 6px; /*仅Firefox支持，实现圆角效果*/
+  -webkit-border-radius: 6px; /*仅Safari,Chrome支持，实现圆角效果*/
+  -khtml-border-radius: 6px; /*仅Safari,Chrome支持，实现圆角效果*/
+  border-radius: 6px; /*仅Opera，Safari,Chrome支持，实现圆角效果*/
+  margin-bottom: 14px;
+  background-color: #ffffff;
+  color: #333333;
+
+  -webkit-box-shadow: 0px 2px 5px #ccc; /*（这是专对火狐浏览器的支持而设置的）*/
+  -moz-box-shadow: 0px 2px 5px #ccc; /*（这是对Safari和Chrome浏览器而设置的）*/
+  box-shadow: 0px 2px 5px #ccc;
+}
+
+.forum_module_name {
+  height: 20px;
+  margin-bottom: 10px;
+  width: 210px
+}
+
+.clearfix {
+  clear: both
+}
+
+.forum_module_content {
+  color: #797979
+}
+
+.font_grey {
+  color: #848484
+}
+
+.font_black {
+  color: #333333
+}
+
+.position {
+  margin-right: 20px;
+  margin-bottom: 15px;
+}
+
+/*微博首页样式*/
+.weibo_left {
+}
+
+.weibo_content {
+  background-color: #ffffff;
+  padding: 15px;
+  width: 86%;
+  float: right;
+
+  -moz-border-radius: 6px; /*仅Firefox支持，实现圆角效果*/
+  -webkit-border-radius: 6px; /*仅Safari,Chrome支持，实现圆角效果*/
+  -khtml-border-radius: 6px; /*仅Safari,Chrome支持，实现圆角效果*/
+  border-radius: 6px; /*仅Opera，Safari,Chrome支持，实现圆角效果*/
+  margin-bottom: 20px;
+  border-bottom: #f5f5f5 38px solid;
+  -webkit-box-shadow: 0px 2px 5px #ccc; /*（这是专对火狐浏览器的支持而设置的）*/
+  -moz-box-shadow: 0px 2px 5px #ccc; /*（这是对Safari和Chrome浏览器而设置的）*/
+  box-shadow: 0px 2px 5px #ccc;
+}
+
+.weibo_content_sj {
+  width: 16px;
+  height: 17px;
+  margin-left: -31px;
+  margin-top: 9px;
+  background: url(../../../Weibo/images/weibo_content_sj.png);
+  position: absolute;
+}
+
+.weibo_content_p {
+
+  width: 555px;
+  font-size: 14px;
+  color: #333333;
+  line-height: 29px;
+}
+
+.weibo_content_bottom {
+  width: 568px;
+  z-index: 99;
+  position: absolute;
+  bottom: 28px;
+  color: #8c8c8c;
+
+}
+
+.user_name {
+  font-size: 16px;
+  color: #8c8c8c;
+
+}
+
+.like {
+  width: 20px;
+  height: 30px;
+  background: url(../images/nolike.png) no-repeat;
+  display: block;
+
+}
+
+.mark_box {
+  width: 50px;
+  background-color: #f5f5f5;
+  border: 1px #E6E6E6 solid;
+  z-index: 99;
+  clear: both;
+  position: absolute;
+  top: 37px;
+  right: 51px;
+}
+
+.mark_aw > li > a {
+  position: relative;
+  display: block;
+  padding: 6px 3px;
+  text-align: center;
+}
+
+.name_touxian {
+  margin-left: 12px;
+  margin-top: 0px;
+  display: inline-block;
+  width: 101px;
+  height: 60px;
+}
+
+/*微博首页样式结束*/
+
+/*新版界面end*/
+/*
+* { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+a:link, a:visited, ins { text-decoration: none; }
+img{border:none}
+*/
+
+/*
+.menu { height: 40px; background: url(../images/menu_bg_1.gif) no-repeat -99px bottom; z-index: 100; background-position: 0px 100%; position: absolute; top: 50px; right: 0; padding-right: 1px; }
+.menu li { float: left; font-size: 14px; text-align: center; line-height: 18px; padding: 0; }
+.menu li.lihover, .menu li.licurrent { padding-bottom: 15px; border-bottom: 3px solid #FE7700; }
+.menu li a { padding: 2px 35px; border-right: 1px solid #D7D7D7; color: #242424; font-weight: bold; margin: 0; border-left: none;  font-size: 14px; width: 30px; }
+.menu li a.noborder { border-right: none; }
+.li_3 { position: relative; z-index: 100; }
+.li_3 a.noclick { width: 60px; }
+.li_3_content { position: absolute; top: 20px; left: 0px; line-height: 40px; z-index: 99; display: none; height: 188px; *top: 18px; width: 130px; }
+.li_3_content a:hover { color: #f18336 !important; }
+.li_3_content dt { height: 17px; border-bottom: 3px solid #FE7700; *height: 19px; line-height: 17px; }
+.li_3_content dd { border-left: 1px solid #E6E4E3; border-right: 1px solid #E6E4E3; padding: 0 8px; background: #ffffff url(../images/menu.gif) no-repeat bottom; }
+.li_3_content dd a { text-align: center; padding: 0; border-right: none; color: #666; font-weight: normal; width: auto; }
+.li_3_content dd.lastItem { background-image: none; border-bottom: 1px solid #E6E4E3; }
+.li_3_content dd.lastItem a { border-bottom: none; }
+
+.miui_logo { position: absolute; top: 29px; left: 0; }
+.language { position: absolute; right: 0; top: 10px; line-height: 20px; height: 20px; font-size: 12px; color: #6D6D6D; text-align: right; }
+.language span { color: #A6A6A6; padding: 0 3px; }
+.language a { color: #A6A6A6; }
+.language a:hover { text-decoration: underline; }*/
+

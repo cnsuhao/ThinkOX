@@ -1,163 +1,206 @@
 <extend name="Base/common"/>
 
 <block name="style">
-    <link href="__CSS__/shop.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/shops.css" rel="stylesheet" type="text/css"/>
 
 </block>
 
 <block name="body">
-<div class="row">
-    <div class="col-md-12 app_head">
-        <div id="top_link" class="app_title sub_nav">
-            <i class="app_ico_i glyphicon glyphicon-shopping-cart"> </i>
-            <ul class="nav_list clearfix">
-                <li>
-                    <a href="{:U('index')}" <neq name="type" value="my">class="cur"</neq>>商城</a>
-                </li>
-                <li>
-                    <a href="{:U('myGoods')}" <eq name="type" value="my">class="cur"</eq>>我的订单</a>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <div class="aline"></div>
-        </div>
-        <div class="sub_nav">
-            <ul id="top_nav" class="nav_list clearfix">
-                <li>
-                    <a href="{:U('index')}">全部分类</a>
-                </li>
-                <volist name="tree" id="top">
-                    <li>
-                        <a <eq name="top_category" value="$top['id']">class="cur"</eq> href="{:U('index',array('category_id'=>$top['id']))}" data="{$top.id}">{$top.title}</a>
-                    </li>
-                </volist>
-            </ul>
-
-        </div>
-        <volist name="tree" id="top">
-            <div <eq name="top_category" value="$top['id']">style="display:block;"</eq>  class="children_nav" id="children_{$top.id}">
-                <ul class="nav_list clearfix">
-                    <li><a href="{:U('index',array('category_id'=>$top['id']))}" <eq name="_GET.category_id" value="$top['id']">style="font-weight:bold;color:#000"</eq> class="cur">全部分类</a></li>
-                    <volist name="top._" id="children">
-                        <li><a <if condition="$category_id eq $children['id']"> style='color:#000;font-weight:bold' </if> href="{:U('index',array('category_id'=>$children['id']))}">{$children.title}</a></li>
-                    </volist>
-
-                </ul>
-            </div>
-        </volist>
-
-
+<div class="row shop">
+    <div class="col-md-12  app_block visible-xs clearfix">
+        <!--低于768px，显示-->
     </div>
+    <div class="col-md-12  app_block hidden-xs clearfix">
+        <ul class="row fl_left nav navbar-nav">
+            <li>
+                <a href="{:U('index')}">商城首页</a>
+            </li>
+            <li>
+                <a href="{:U('goods')}"
+                <eq name="top_category" value="">class="current"</eq>
+                >所有分类</a>
+            </li>
+            <volist name="tree" id="top">
+                <if condition="$top['status'] eq 1">
+                    <if condition="$top['_'] eq null">
+                        <li><a href="{:U('goods',array('category_id'=>$top['id']))}"
+                            <eq name="top_category" value="$top['id']">class="current"</eq>
+                            >{$top.title}</a></li>
+                        <else/>
+                        <li class="dropdown">
+                            <a href="#"
+                            <eq name="top_category" value="$top['id']">class="current dropdown-toggle"
+                                <else/>
+                                class="dropdown-toggle"
+                            </eq>
+                            data-toggle="dropdown">{$top.title}<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
+                                <volist name="top['_']" id="child_category">
+                                    <li><a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </li>
+                    </if>
+                </if>
+            </volist>
+        </ul>
+        <div class="fl_right">
+            <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
+               class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
+            <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label>
+            </if>
+        </div>
+    </div>
+    <div class="col-md-12  app_block clearfix">
+        <div class="col-md-9 fl_left goods_detail">
+            <div class="row pad_15">
+                <h2 class="title_content">分类&nbsp;->&nbsp;<a
+                        href="{:U('goods',array('category_id'=>$top_category))}">{$category_name}</a>
+                    <if condition="$child_category_name neq '' && $child_category_name neq null">&nbsp;->&nbsp;<a
+                            href="{:U('goods',array('category_id'=>$category_id))}">{$child_category_name}</a></if>
+                    &nbsp;->&nbsp;<a
+                            href="{:U('goodsDetail',array('id'=>$content['id']))}">{$content.goods_name}</a>
+                </h2>
+                <div class="col-md-6">
+                    <img src="{$content.goods_ico|getThumbImageById=360,270}"/>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="text-more mb_34" style="width: 100%"><font title="{$content.goods_name|op_t}">{$content.goods_name}</font>
+                    </h3>
 
-</div>
-<div class="content-body">
-        <h2 class="content-title">
-            {$content.goods_name}
-        </h2>
-        <hr/>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="thumbnail">
-                    <img  style="width: 350px;height: 262px" src="{$content.goods_ico|getThumbImageById=350,262}"/>
+                    <div class="clearfix mb_34 info_item_s">
+                        <if condition="is_login() neq 0">
+                            <font title="我的{$tox_money_cname}：{$my_tox_money}"><span>所需{$tox_money_cname}：<aq>
+                                {$content.tox_money_need}
+                            </aq></span></font>
+                            <else/>
+                            <span>所需{$tox_money_cname}：<aq>{$content.tox_money_need}</aq></span>
+                        </if>
+                        <span>库存：<aq>{$content.goods_num}</aq></span>
+                    </div>
+                    <div class="mb_34"><a href="#frm-post-popup" class="open-popup-link btn btn-primary " goods_id="{$content['id']}">&nbsp;&nbsp;兑&nbsp;&nbsp;换&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="text-more mb_34 intro">
+                        <span><font title="{$content.goods_introduct|op_t}">{$content.goods_introduct}</font></span>
+                    </div>
+                    <div class="time_show">
+                        发布时间： {:date('Y-m-d',$content['createtime'])}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        更新时间： {:date('Y-m-d',$content['changetime'])}
+                    </div>
                 </div>
             </div>
-            <div class="col-md-8 ">
-                <div class="row">
+            <div class="details">
+                <h3>商品详情</h3>
+                {$content.goods_detail}
+            </div>
+        </div>
+        <div class="col-md-3 fl_left">
+            <if condition="is_login() neq 0">
+                <div class="row pad_15">
+                    <h2 style="font-size: 16px;">最近浏览</h2>
 
-                    <div class="col-md-8">
-                        <ul class="operation clearfix">
-                            <li>{$tox_money_cname}：{$content.tox_money_need}</li>
-                            <li>我的{$tox_money_cname}：{$my_tox_money}</li>
-                            <li>剩余量：{$content.goods_num}</li>
-                            <li>所属分类：<a href="{:U('index',array('category_id'=>$category_id))}" target="_blank">{$category_title}</a></li>
+                    <div class="goods_same_category clearfix">
+                        <ul>
+                            <volist name="goods_see_list" id="vo">
+                                <li class="items clearfix">
+                                    <dl>
+                                        <dt><a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><img src="{$vo.goods_ico|getThumbImageById=140,100}"></a></dt>
+                                        <dd>
+                                            <h3 class="text-more"><font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font></h3>
+                                            <div class="money">￥{$vo.tox_money_need}</div>
+                                            <div><a href="#frm-post-popup" class="open-popup-link btn btn-primary" goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </volist>
                         </ul>
-
                     </div>
-                    <div class="col-md-4">
-                        <div class="pull-right">
-                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a></div>
-                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></p>
-
-                        </div>
-
-                    </div>
-
+                    <if condition="count($goods_see_list) eq 0">
+                        <div style="font-size: 16px;padding:2em 0;color: #ccc;text-align: center">你还没有浏览过其他商品哦。O(∩_∩)O~</div>
+                    </if>
                 </div>
-                <div class="rowtext-more" style="width: 100%;padding-left: 20px;margin-top: 40px;height: 90px;">
-                    <span>{$content.goods_introduct}</span>
+            </if>
+            <div class="row pad_15">
+                <h2 style="font-size: 16px;">同类对比</h2>
+
+                <div class="goods_same_category clearfix">
+                    <ul>
+                        <volist name="contents_same_category" id="vo">
+                            <li class="items clearfix">
+                                <dl>
+                                    <dt><a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><img src="{$vo.goods_ico|getThumbImageById=140,100}"></a></dt>
+                                    <dd>
+                                        <h3 class="text-more"><font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font></h3>
+                                        <div class="money">￥{$vo.tox_money_need}</div>
+                                        <div><a href="#frm-post-popup" class="open-popup-link btn btn-primary" goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
+                                    </dd>
+                                </dl>
+                            </li>
+                        </volist>
+                    </ul>
                 </div>
-                <div class="row" style="margin-top: 40px">
-                    <div class="col-md-4">
-                        <a href="#frm-post-popup" class="open-popup-link btn btn-primary "><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;购买</a>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="pull-right" style="color: #999">
-                            发布时间：  {$content.createtime|friendlyDate} &nbsp;&nbsp;
-                            更新时间： {$content.changetime|friendlyDate}
-                        </div>
-                    </div>
-               </div>
-           </div>
+                <if condition="count($contents_same_category) eq 0">
+                    <div style="font-size: 16px;padding:2em 0;color: #ccc;text-align: center">该商品没有同类商品哦。O(∩_∩)O~</div>
+                </if>
+            </div>
         </div>
-    <div>
-    </div>
-    <hr/>
-        <div style="margin-bottom: 75px;">
-            <h3>商品详情</h3>
-            {$content.goods_detail}
-        </div>
-    <div>
     </div>
 </div>
 
-    <!-- Modal -->
-    <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
-        <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
+<!-- Modal -->
+<div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
+    <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
 
-        <div class="aline" style="margin-bottom: 10px"></div>
-        <div class="row">
-            <form class="form-horizontal  ajax-form" role="form"  action="{:U('Shop/Index/goodsBuy')}" method="post">
-                <input type="hidden" id="goods_id" name="id" value="{$content['id']}">
-                <div class="form-group">
-                    <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
+    <div class="aline" style="margin-bottom: 10px"></div>
+    <div class="row">
+        <form class="form-horizontal  ajax-form" role="form" action="{:U('Shop/Index/goodsBuy')}" method="post">
+            <input type="hidden" id="goods_id" name="id" value="">
 
-                    <div class="col-sm-10"  style="width: 60%">
-                        <input id="name" name="name" type="text" class="form-control" value="{$shop_address['name']}" placeholder="姓名"/>
-                    </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
+
+                <div class="col-sm-10" style="width: 60%">
+                    <input id="name" name="name" type="text" class="form-control" value="{$shop_address['name']}"
+                           placeholder="姓名"/>
                 </div>
-                <div class="form-group">
-                    <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
+            </div>
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
 
-                    <div class="col-sm-10"  style="width: 60%">
-                        <textarea id="address" name="address" class="form-control" placeholder="收货地址" style="max-width: 310px">{$shop_address['address']}</textarea>
-                    </div>
+                <div class="col-sm-10" style="width: 60%">
+                    <textarea id="address" name="address" class="form-control" placeholder="收货地址"
+                              style="max-width: 310px">{$shop_address['address']}</textarea>
                 </div>
-                <div class="form-group">
-                    <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
+            </div>
+            <div class="form-group">
+                <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
 
-                    <div class="col-sm-10"  style="width: 60%">
-                        <input id="zipcode" name="zipcode" type="text" class="form-control" value="{$shop_address['zipcode']}" placeholder="邮编"/>
-                    </div>
+                <div class="col-sm-10" style="width: 60%">
+                    <input id="zipcode" name="zipcode" type="text" class="form-control"
+                           value="{$shop_address['zipcode']}" placeholder="邮编"/>
                 </div>
-                <div class="form-group">
-                    <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
 
-                    <div class="col-sm-10"  style="width: 60%">
-                        <input id="phone" name="phone" type="text" class="form-control" value="{$shop_address['phone']}" placeholder="手机号码"/>
-                    </div>
+                <div class="col-sm-10" style="width: 60%">
+                    <input id="phone" name="phone" type="text" class="form-control" value="{$shop_address['phone']}"
+                           placeholder="手机号码"/>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary ">提交</button>
-                    </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary ">提交</button>
                 </div>
-            </form>
-        </div>
-
-
+            </div>
+        </form>
     </div>
-    <!-- /.modal -->
+
+
+</div>
+<!-- /.modal -->
 </block>
 
 <block name="script">
@@ -166,15 +209,21 @@
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
         $(function () {
-            $('#top_nav >li >a ').mouseenter(function () {
-                $('.children_nav').hide();
-                $('#children_' + $(this).attr('data')).show();
+            $('.open-popup-link').click(function () {
+                if (MID == 0) {
+                    op_info('登录后才能兑换商品！', '提示消息');
+                    return false;
+                }
+                var goods_id = this.getAttribute('goods_id');
+                $('#goods_id').val(goods_id);
             });
-            $('.open-popup-link').magnificPopup({
-                type: 'inline',
-                midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                closeOnBgClick:false
-            });
+            if (MID != 0) {
+                $('.open-popup-link').magnificPopup({
+                    type: 'inline',
+                    midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                    closeOnBgClick: false
+                });
+            }
         })
     </script>
 </block>
