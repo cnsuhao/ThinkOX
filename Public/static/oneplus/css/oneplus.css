@@ -341,11 +341,12 @@ h2 {
   font-size: 20px;
 }
 .op_nav_ico .badge {
-  border-radius: 74%;
+  border-radius: 84%;
   background: #4e9be0;
   position: absolute;
-  right: 20px;
-  top: 8px;
+  right: 8px;
+  top: 1px;
+  padding: 1px 3px;
 }
 /* extended dropdowns */
 .dropdown-menu .extended:before {
@@ -1175,7 +1176,19 @@ a:hover {
 /*导航栏*/
 .nav_bar {
   background: white;
+  z-index: 999;
   box-shadow: #666 0px 0px 8px;
+}
+.nav_bar .navbar-collapse {
+  width: 75%;
+}
+.nav_bar .navbar-toggle {
+  background-color: #da203a;
+  color: white;
+  margin-top: 12px;
+}
+.nav_bar .navbar-toggle .icon-bar {
+  background: white;
 }
 .nav_bar .nav {
   margin-left: -6px;

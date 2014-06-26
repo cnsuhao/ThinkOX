@@ -1,12 +1,12 @@
 <include file="Public/right_chat_panel"/>
 <php> D('Home/Member')->need_login();</php>
-<div class="top_bar">
+<div id="top_bar" class="top_bar">
     <div class="container">
         <div class="row hidden-xs">
-            <div class="col-md-2">
+            <div class="col-md-6 col-sm-6">
                 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
             </div>
-            <div class="col-md-10 text-right top_right">
+            <div class="col-md-6 col-sm-6 text-right top_right">
 
 
                 <php>
@@ -127,7 +127,7 @@
     </div>
 </div>
 
-<div class="logo_bar">
+<div id="logo_bar" class="logo_bar">
     <div class="container">
         <div class="row logo">
             <div class="col-md-5">
@@ -136,13 +136,34 @@
         </div>
     </div>
 </div>
+<style>
+    .nav_scroll {
+        position: fixed;
+        width: 100%;
+        margin: 0;
+        left: 0;
+        top: 0;
+    }
+
+    .nav:after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+
+</style>
 
 
-<div class="nav_bar">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-9">
-                <ul class="nav navbar-nav col-md-10" style="font-size: 18px">
+
+<div id="nav_bar" class="nav_bar ">
+    <div class="row">
+        <nav class="container" role="navigation">
+
+            <div class="col-md-9 collapse navbar-collapse col-sm-12 " id="nav_bar_main">
+
+                <ul class="nav navbar-nav col-md-10 col-sm-12" style="font-size: 18px">
                     <think:nav name="nav">
                         <eq name="nav.pid" value="0">
                             <php>
@@ -171,7 +192,9 @@
                         </eq>
                     </think:nav>
                 </ul>
-                <div class="col-md-2 navbar-right text-right row" style="padding-top:12px;">
+
+
+                <div class="col-md-2 navbar-right text-right row hidden-xs" style="padding-top:12px;min-width: 132px">
                     <div class="btn-group text-left">
                         <a type="button" class="btn btn-primary open-popup-link" href="#frm-post-popup">发微博</a>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -189,8 +212,9 @@
 
                     <div class="aline" style="margin-bottom: 10px"></div>
                     <div class="row">
-                        <div class="col-xs-12" >
+                        <div class="col-xs-12">
                             <br/>
+
                             <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                          placeholder="写点什么吧～～"></textarea></p>
                             <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
@@ -203,17 +227,16 @@
                     <div id="hook_show" class="emot_content"></div>
                 </div>
                 <script>
-                    $(function(){
+                    $(function () {
                         $('.open-popup-link').magnificPopup({
                             type: 'inline',
                             midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                            closeOnBgClick:false
+                            closeOnBgClick: false
                         });
+
                     });
 
                 </script>
-
-
             </div>
 
             <!-- <div class="col-md-7">
@@ -235,15 +258,43 @@
                  </ul>
              </div>-->
             <!--导航栏菜单项-->
-            <div class="col-md-3">
+            <div class="row visible-xs">
+                <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
+                     style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
+                    <div class="btn-group text-left">
+                        <a type="button" class="btn btn-primary open-popup-link" href="#frm-post-popup">发微博</a>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
+                            <li><a href="#">发活动</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-header col-xs-3 pull-right text-left">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xs-12">
 
                 <div class="pull-right text-right" style="padding-top:4px;">
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="查找">
+
                                 <div class="input-group-btn text-left">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span></button>
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
+                                    </button>
                                     <ul class="dropdown-menu pull-right" role="menu">
                                         <li><a href="#">微博</a></li>
                                         <li><a href="#">贴吧</a></li>
@@ -261,8 +312,10 @@
                 </div>
             </div>
 
-        </div>
+
+        </nav>
     </div>
+
 </div>
 <a id="goTopBtn"></a>
 <!--新浪微博分享代码-->

@@ -406,11 +406,12 @@ h2 {
     font-size: 20px;
   }
   .badge {
-    border-radius: 74%;
-    background: rgb(78, 155, 224);
+    border-radius: 84%;
+    background: #4e9be0;
     position: absolute;
-    right: 20px;
-    top: 8px;
+    right: 8px;
+    top: 1px;
+    padding: 1px 3px;
   }
 }
 
@@ -1382,8 +1383,20 @@ a:hover {
 /*导航栏*/
 .nav_bar {
   background: white;
-
+  z-index: 999;
   box-shadow: #666 0px 0px 8px;
+  .navbar-collapse{
+    width: 75%;
+
+  }
+  .navbar-toggle{
+    background-color: rgb(218, 32, 58);
+    color: white;
+    margin-top: 12px;
+    .icon-bar{
+      background: white;
+    }
+  }
 }
 
 .nav_bar .nav {
