@@ -1174,6 +1174,15 @@ a:hover {
 }
 /*logo栏end*/
 /*导航栏*/
+/*悬浮样式*/
+.nav_scroll {
+  position: fixed;
+  width: 100%;
+  margin: 0;
+  left: 0;
+  top: 0;
+}
+/*悬浮样式end*/
 .nav_bar {
   background: white;
   z-index: 999;
