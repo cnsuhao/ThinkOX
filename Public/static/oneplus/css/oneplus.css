@@ -277,11 +277,11 @@ h2 {
 .ribbion-green {
   z-index: 99;
   position: absolute;
-  right: -18px;
-  top: 0;
-  background: url(../../../Forum/images/ribbion.png) no-repeat;
+  right: -9px;
+  top: -30px;
+  background: url(../../../Forum/images/ribbion.png);
   width: 75px;
-  height: 43px;
+  height: 35px;
   text-align: center;
 }
 .ribbion-green a {

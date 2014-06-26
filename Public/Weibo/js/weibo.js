@@ -77,8 +77,8 @@ $(function () {
         var $this = $(this);
         $.post(U('Weibo/Index/doDelWeibo'), {weibo_id: weibo_id}, function (msg) {
             if (msg.status) {
-                $this.parent().parent().parent().parent().next().fadeOut();
-                $this.parent().parent().parent().parent().fadeOut();
+                $this.parent().parent().parent().parent().parent().next().fadeOut();
+                $this.parent().parent().parent().parent().parent().fadeOut();
                 op_success('删除微博成功。', '温馨提示');
             }
         }, 'json');
