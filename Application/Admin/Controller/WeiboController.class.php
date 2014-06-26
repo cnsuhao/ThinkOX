@@ -22,7 +22,7 @@ class WeiboController extends AdminController
         if($content!='')
         $map['content']=array('like','%'.$content.'%');
 
-        $list = $model->where($map)->page($page, $r)->select();
+        $list = $model->where($map)->order('create_time desc')->page($page, $r)->select();
         unset($li);
         $totalCount = $model->where($map)->count();
 
