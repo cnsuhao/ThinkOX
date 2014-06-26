@@ -67,22 +67,22 @@
                             <dl>
                                 <dt>
                                     <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}">
-                                        <img src="{$vo.goods.goods_ico|getThumbImageById=230,150}">
+                                        <img src="{$vo.goods.goods_ico|getThumbImageById=232,150}">
                                     </a>
                                 </dt>
-                                <dd class="font_wei_bo">
+                                <dd>
                                     <div class="left" style="width: 140px">
-                                        <a class="text-more"
+                                        <a class="text-more color_33"
                                            href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['goods']['id']))}"
-                                           style="width: 100%;">
+                                           style="width: 100%;" >
                                             <font title="{$vo.goods.goods_name|op_t}">{$vo.goods.goods_name}</font>
                                         </a>
                                     </div>
                                     <div class="right" style="color: #d61f39;">￥{$vo.goods.tox_money_need}</div>
                                     <div class="clearfix"></div>
                                 </dd>
-                                <dd class="color_84">
-                                    <div class="left" style="font-size: 15px;line-height: 22px;">
+                                <dd class="color_84 font_s_14">
+                                    <div class="left" style="font-size: 14px;line-height: 22px;">
                                         库存：{$vo.goods.goods_num}
                                     </div>
                                     <div class="right" style="font-size: 14px;line-height: 22px;">

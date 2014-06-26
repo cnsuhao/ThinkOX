@@ -86,8 +86,8 @@
                         <span><font title="{$content.goods_introduct|op_t}">{$content.goods_introduct}</font></span>
                     </div>
                     <div class="time_show">
-                        发布时间： {$content.createtime|friendlyDate} <br>
-                        更新时间： {$content.changetime|friendlyDate}
+                        发布时间： {:date('Y-m-d',$content['createtime'])}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        更新时间： {:date('Y-m-d',$content['changetime'])}
                     </div>
                 </div>
             </div>

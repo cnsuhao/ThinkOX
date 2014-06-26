@@ -53,19 +53,19 @@
                         <dl>
                             <dt>
                                 <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">
-                                    <img src="{$vo.goods_ico|getThumbImageById=230,150}">
+                                    <img src="{$vo.goods_ico|getThumbImageById=232,150}">
                                 </a>
                             </dt>
-                            <dd class="font_wei_bo">
+                            <dd>
                                 <div class="left" style="width: 140px">
-                                    <a class="text-more" href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}" style="width: 100%;">
+                                    <a class="text-more color_33" href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}" style="width: 100%;">
                                         <font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
                                     </a>
                                 </div>
                                 <div class="right" style="color: #d61f39;">￥{$vo.tox_money_need}</div>
                                 <div class="clearfix"></div>
                             </dd>
-                            <dd class="color_84">
+                            <dd class="color_84 font_s_14">
                                 <div class="left">库存：{$vo.goods_num}</div>
                                 <div class="right">
                                     <a href="#frm-post-popup" class="open-popup-link btn" style="border: 1px solid #E0DBDB" goods_id="{$vo['id']}">兑&nbsp;&nbsp;换</a>
@@ -92,7 +92,7 @@
                                     <img src="{$vo.goods_ico|getThumbImageById=230,150}">
                                 </a>
                             </dt>
-                            <dd class="font_wei_bo">
+                            <dd>
                                 <div class="left" style="width: 140px">
                                     <a class="text-more" href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}" style="width: 100%;">
                                         <font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
