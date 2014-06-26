@@ -41,7 +41,7 @@ class UpdateController extends AdminController
         $db = $this->toArray($db);
         foreach ($db['packs'] as &$pack) {
             $file = $this->pack_sql_dir . '/' . $pack['title'] . '.sql';
-            $pack['mtime'] = date('Y-m-d H:i:s', filemtime($file));
+            $pack['mtime'] = date('Y-m-d H:i:s', $pack['mtime']);
             $pack['size'] = filesize($file) . ' bytes';
         }
         unset($pack);
@@ -154,6 +154,7 @@ class UpdateController extends AdminController
             $pack['sql'] = $sql;
             $pack['des'] = $des;
             $pack['auth'] = $auth;
+            $pack['mtime']=time();
             if (trim($title_old) != '') {
                 foreach ($db['packs'] as $key => $pack_t) {
                     if ($pack_t['title'] == $title_old) {

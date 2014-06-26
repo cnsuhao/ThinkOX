@@ -1,7 +1,7 @@
 ALTER TABLE  `thinkox_shop` ADD  `is_new` TINYINT( 4 ) NOT NULL DEFAULT  '0' COMMENT  '是否为新品';
 ALTER TABLE  `thinkox_shop` ADD  `sell_num` INT( 11 ) NOT NULL DEFAULT  '0' COMMENT  '已出售量';
 ALTER TABLE  `thinkox_shop_config` CHANGE  `ename`  `ename` VARCHAR( 25 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  '标识';
-INSERT INTO  `thinkox_shop_config` (`id` ,`ename` ,`cname` ,`changetime`)VALUES ('2' ,  'min_sell_num',  '10',  '1403489181');
+INSERT INTO  `tox`.`thinkox_shop_config` (`id` ,`ename` ,`cname` ,`changetime`)VALUES ('2' ,  'min_sell_num',  '10',  '1403489181');
 
 INSERT INTO `thinkox_menu` (`title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 ('热销商品阀值配置', 172, 0, 'Shop/hotSellConfig', 0, '', '商城配置', 0),

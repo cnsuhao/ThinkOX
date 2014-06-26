@@ -25,41 +25,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_issue_content` (
   `status` tinyint(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='专辑内容表' AUTO_INCREMENT=20 ;
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- 主机: 127.0.0.1
--- 生成日期: 2014 年 06 月 12 日 03:13
--- 服务器版本: 5.5.24-log
--- PHP 版本: 5.3.13
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
---
--- 数据库: `rc6`
---
-
--- --------------------------------------------------------
-
-<<<<<<< HEAD:QuickPacks/sqls/V05鍛ㄥ勾搴嗗崌绾у寘.sql
 
 DROP TABLE IF EXISTS `thinkox_menu`;
 
 
 
-=======
---
--- 表的结构 `thinkox_menu`
---
-
-DROP TABLE IF EXISTS `thinkox_menu`;
-<<<<<<< HEAD
->>>>>>> xiao:Database/011/01专辑应用.sql
-=======
->>>>>>> remotes/私有开发项目/xiao:Database/011/01专辑应用.sql
->>>>>>> c712dca3efc041ce6c0199389f0c892372bae421
 CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
@@ -72,22 +43,9 @@ CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-<<<<<<< HEAD:QuickPacks/sqls/V05鍛ㄥ勾搴嗗崌绾у寘.sql
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=170 ;
 
 
-=======
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10006 ;
-
---
--- 转存表中的数据 `thinkox_menu`
---
-
-<<<<<<< HEAD
->>>>>>> xiao:Database/011/01专辑应用.sql
-=======
->>>>>>> remotes/私有开发项目/xiao:Database/011/01专辑应用.sql
->>>>>>> c712dca3efc041ce6c0199389f0c892372bae421
 INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 (1, '首页', 0, 1, 'Index/index', 0, '', '', 0),
 (2, '博客', 0, 2, 'Article/mydocument', 0, '', '', 0),
@@ -241,10 +199,11 @@ INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, 
 (164, '分组排序', 162, 0, 'Admin/User/sortProfile', 0, '', '', 0),
 (165, '字段列表', 162, 0, 'Admin/User/field', 0, '', '', 0),
 (166, '添加、编辑字段', 165, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
-<<<<<<< HEAD:QuickPacks/sqls/V05鍛ㄥ勾搴嗗崌绾у寘.sql
 (167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0),
 (168, '全部补丁', 68, 0, 'Admin/Update/quick', 0, '', '升级补丁', 0),
-(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0);
+(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0),
+(170, '用户扩展资料列表', 16, 0, 'Admin/User/expandinfo_select', 0, '', '用户管理', 0),
+(171, '扩展资料详情', 170, 0, 'User/expandinfo_details', 0, '', '', 0);
 
 
 DELETE FROM `thinkox_config` WHERE `thinkox_config`.`id` = 1;
@@ -343,10 +302,3 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
-=======
-(167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0);
-<<<<<<< HEAD
->>>>>>> xiao:Database/011/01专辑应用.sql
-=======
->>>>>>> remotes/私有开发项目/xiao:Database/011/01专辑应用.sql
->>>>>>> c712dca3efc041ce6c0199389f0c892372bae421
