@@ -54,7 +54,7 @@ a:hover {
   border: 1px solid #dddddd;
   border-radius: 0.2em;
 }
-/*ͷ��*/
+/*头衔*/
 .rank_html {
   width: 18px;
   height: 18px;
@@ -75,7 +75,7 @@ a:hover {
   border-right: none;
   color: #555;
 }
-/*ͷ��end*/
+/*头衔end*/
 .oneuser-title-hr {
   margin-top: 0px;
   margin-right: 0px;
@@ -291,13 +291,6 @@ h2 {
 }
 .ribbion-green a:hover {
   text-decoration: none;
-}
-.weibo_main {
-  box-shadow: 0 0 5px #cccccc;
-  -moz-box-shadow: 0 0 5px #CCCCCC;
-  -khtml-box-shadow: 0 0 5px #CCCCCC;
-  background: white;
-  border-radius: 0.2em;
 }
 #goTopBtn {
   z-index: 999;
@@ -555,7 +548,7 @@ General list for item with image
   position: absolute;
   right: 45px;
 }
-/*��Ϣ����*/
+/*消息中心*/
 .talk_bubble {
   border-radius: 4px;
   border: 1px solid white;
@@ -603,7 +596,7 @@ General list for item with image
 .talk-avatar {
   width: 80px;
 }
-/*�Ҳ���д*/
+/*右侧重写*/
 .talk_right .bubble_outter {
   text-align: right;
 }
@@ -660,7 +653,7 @@ General list for item with image
 .talk-body .slimScrollDiv .row {
   margin: 0px;
 }
-/*��Ϣ����end*/
+/*消息中心end*/
 .login-form-inbox {
   background-color: #fff;
   width: 410px;
@@ -798,11 +791,11 @@ General list for item with image
 .lzl_Reply {
   margin-bottom: 25px;
 }
-/*¥��¥end*/
+/*楼中楼end*/
 .qtip-content {
   width: 230px;
 }
-/*����*/
+/*表情*/
 .sanjiao {
   float: left;
 }
@@ -828,7 +821,7 @@ General list for item with image
   float: right;
   margin: 4px 0px 0 15px;
 }
-/*����end*/
+/*表情end*/
 .thinkox-break-word {
   word-break: break-all;
   word-wrap: break-word;
@@ -857,7 +850,7 @@ General list for item with image
   margin: 20px auto;
 }
 /*
-�Ҳ���ѽ���*/
+右侧好友界面*/
 .friend_panel {
   position: fixed;
   top: 50%;
@@ -1252,82 +1245,6 @@ a:hover {
 .position {
   margin-right: 20px;
   margin-bottom: 15px;
-}
-/*微博首页样式*/
-.weibo_content {
-  background-color: #ffffff;
-  padding: 15px;
-  width: 86%;
-  float: right;
-  -moz-border-radius: 6px;
-  /*仅Firefox支持，实现圆角效果*/
-  -webkit-border-radius: 6px;
-  /*仅Safari,Chrome支持，实现圆角效果*/
-  -khtml-border-radius: 6px;
-  /*仅Safari,Chrome支持，实现圆角效果*/
-  border-radius: 6px;
-  /*仅Opera，Safari,Chrome支持，实现圆角效果*/
-  margin-bottom: 20px;
-  border-bottom: #f5f5f5 38px solid;
-  -webkit-box-shadow: 0px 2px 5px #ccc;
-  /*（这是专对火狐浏览器的支持而设置的）*/
-  -moz-box-shadow: 0px 2px 5px #ccc;
-  /*（这是对Safari和Chrome浏览器而设置的）*/
-  box-shadow: 0px 2px 5px #ccc;
-}
-.weibo_content_sj {
-  width: 16px;
-  height: 17px;
-  margin-left: -31px;
-  margin-top: 9px;
-  background: url(../../../Weibo/images/weibo_content_sj.png);
-  position: absolute;
-}
-.weibo_content_p {
-  width: 555px;
-  font-size: 14px;
-  color: #333333;
-  line-height: 29px;
-}
-.weibo_content_bottom {
-  width: 568px;
-  z-index: 99;
-  position: absolute;
-  bottom: 28px;
-  color: #8c8c8c;
-}
-.user_name {
-  font-size: 16px;
-  color: #8c8c8c;
-}
-.like {
-  width: 20px;
-  height: 30px;
-  background: url(../images/nolike.png) no-repeat;
-  display: block;
-}
-.mark_box {
-  width: 50px;
-  background-color: #f5f5f5;
-  border: 1px #E6E6E6 solid;
-  z-index: 99;
-  clear: both;
-  position: absolute;
-  top: 37px;
-  right: 51px;
-}
-.mark_aw > li > a {
-  position: relative;
-  display: block;
-  padding: 6px 3px;
-  text-align: center;
-}
-.name_touxian {
-  margin-left: 12px;
-  margin-top: 0px;
-  display: inline-block;
-  width: 101px;
-  height: 60px;
 }
 /*微博首页样式结束*/
 /*新版界面end*/

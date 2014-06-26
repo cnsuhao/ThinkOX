@@ -171,18 +171,47 @@
                         </eq>
                     </think:nav>
                 </ul>
-                <div class="col-md-2 navbar-right text-right" style="padding-top:12px;">
+                <div class="col-md-2 navbar-right text-right row" style="padding-top:12px;">
                     <div class="btn-group text-left">
+                        <a type="button" class="btn btn-primary open-popup-link" href="#frm-post-popup">发微博</a>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            发微博
                             <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
                         </button>
-                        <ul class="dropdown-menu pull-right">
+                        <ul class="dropdown-menu" role="menu">
                             <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
                             <li><a href="#">发活动</a></li>
                         </ul>
                     </div>
                 </div>
+                <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 745px">
+                    <h2>发布微博</h2>
+
+                    <div class="aline" style="margin-bottom: 10px"></div>
+                    <div class="row">
+                        <div class="col-xs-12" >
+                            <br/>
+                            <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
+                                         placeholder="写点什么吧～～"></textarea></p>
+                            <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                            {:hook('weiboType')}
+                            <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
+                                                         class="btn btn-primary" data-url="{:U('doSend')}"/></p>
+                        </div>
+                    </div>
+
+                </div>
+                <script>
+                    $(function(){
+                        $('.open-popup-link').magnificPopup({
+                            type: 'inline',
+                            midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+                            closeOnBgClick:false
+                        });
+                    });
+
+                </script>
+
 
             </div>
 
@@ -207,10 +236,24 @@
             <!--导航栏菜单项-->
             <div class="col-md-3">
 
-                <div class="col-md-4 pull-right text-right" style="padding-top:4px;">
+                <div class="pull-right text-right" style="padding-top:4px;">
                     <form class="navbar-form navbar-right" role="search">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="查找">
+                                <div class="input-group-btn text-left">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span></button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="#">微博</a></li>
+                                        <li><a href="#">贴吧</a></li>
+                                        <li><a href="#">活动</a></li>
+                                        <li><a href="#">商城</a></li>
+                                        <li><a href="#">会员</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </form>
