@@ -25,7 +25,7 @@ function getImageUrlByPath($path, $size)
  * @return mixed|string
  * @auth 陈一枭
  */
-function getThumbImage($filename, $width=100, $height='auto', $type=3, $replace=false) {
+function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=false) {
     $UPLOAD_URL='';
     $UPLOAD_PATH='';
     $filename  =  str_ireplace($UPLOAD_URL,  '',  $filename);  //将URL转化为本地地址
@@ -130,7 +130,7 @@ function getThumbImage($filename, $width=100, $height='auto', $type=3, $replace=
             //import('phpthumb.PhpThumbFactory');
              require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
              $thumb  =  PhpThumbFactory::create($UPLOAD_PATH  .  $filename);
-             if  ($type!=3)  {
+             if  ($type==0)  {
                  $thumb->adaptiveResize($width,  $height);
              }  else  {
                  $thumb->resize($width,  $height);
@@ -168,7 +168,7 @@ function getRootUrl()
 }
 
 
-function getThumbImageById($cover_id, $width = 100, $height = 2, $type=3, $replace = false)
+function getThumbImageById($cover_id, $width = 100, $height = 2, $type=0, $replace = false)
 {
 
     $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);

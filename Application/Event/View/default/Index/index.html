@@ -6,7 +6,7 @@
 </block>
 
 <block name="body">
-<div class="col-md-12">
+
 
     <div class="forum_module container_nav">
         <!--二级导航-->
@@ -44,10 +44,10 @@
             eq 'hot'">active</if>">最热</a>
         </div>
     </div>
-</div>
+
 
     <div class="col-md-4 pull-right">
-        <div class="forum_module " style="width: 100%;float: left;">
+        <div class="forum_module " style="width: 345px;float: left;">
             <h2 class="event_type_name">活动分类</h2>
 
             <div class="event_type">
@@ -66,10 +66,10 @@
         <h2 style="font-size: 16px;"> 推荐活动</h2>
 
         <volist name="rec_event" id="vo">
-            <div class="forum_module " style="width: 100%;float: left;padding: 0 0 10px 0;">
+            <div class="forum_module " style="width: 345px;float: left;padding: 0 0 10px 0;">
 
                 <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img class="cover"
-                                                                                                    src="{$vo.cover_id|getThumbImageById=345,233,3,true}"/></a>
+                                                                                                    src="{$vo.cover_id|getThumbImageById=345,233}"/></a>
 
                 <div class="pull-left" style="width: 350px;">
                     <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
@@ -91,7 +91,7 @@
                             {$vo.type.title}
                         </div>
 
-                        <div class="pull-left mgl20 mgt10" style="width: 90%">简介：
+                        <div class="pull-left mgl20 mgt10 word-wrap" style="width: 90%">简介：
                             {$vo.explain|op_h='font'|getShortSp=45}
                         </div>
 
@@ -144,7 +144,7 @@
                                 {$vo.type.title}
                             </div>
 
-                            <div class="pull-left mgl20 mgt10 event_short_explain">简介：
+                            <div class=" word-wrap pull-left mgl20 mgt10 event_short_explain">简介：
                                 {$vo.explain|op_h='font'|getShortSp=45}
                             </div>
                             <div class="pull-left mgl20 mgt10" style=" ">
