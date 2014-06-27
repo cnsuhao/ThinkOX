@@ -138,40 +138,45 @@
     border: 1px solid #dddddd;
     border-radius: 0.2em;
   }
-  ul {
-    margin-bottom: 0px;
-    padding-left: 20px;
+  ul{
     list-style-type: none;
-    li {
-      float: left;
-      margin-right: 55px;
-      position: relative;
-      a {
-        font-size: 14px;
-        color: #848484;
-        line-height: 18px;
-        padding: 11px 0;
-      }
-      a:hover {
-        color: #333333;
-        background: none;
-      }
-      .dropdown-menu {
-        padding: 0;
-        min-width: 100px;
-        li {
-          float: none;
-          margin-right: 0;
-          a {
-            padding: 5px;
-          }
+  }
+  .not_nav_bar{
+    ul {
+      margin-bottom: 0px;
+      padding-left: 20px;
+      list-style-type: none;
+      li {
+        float: left;
+        margin-right: 55px;
+        position: relative;
+        a {
+          font-size: 14px;
+          color: #848484;
+          line-height: 18px;
+          padding: 11px 0;
+        }
+        a:hover {
+          color: #333333;
+          background: none;
+        }
+        .dropdown-menu {
+          padding: 0;
+          min-width: 100px;
+          li {
+            float: none;
+            margin-right: 0;
+            a {
+              padding: 5px;
+            }
 
+          }
         }
       }
-    }
-    .current {
-      color: #333333;
-      border-bottom: 3px solid #03ae87;
+      .current {
+        color: #333333!important;
+        border-bottom: 3px solid #03ae87;
+      }
     }
   }
   .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
@@ -241,4 +246,46 @@
   .color_33 {
     color: #333333;
   }
+  .shop_navbar{
+    min-height: 35px;
+    .navbar-nav > li > a{
+      color: #848484;
+      padding: 6px 25px;
+    }
+    .navbar-nav{
+      li{
+        a:hover{
+          background: none;
+          color:#333333;
+        }
+      }
+    }
+    .navbar-header{
+      float: none;
+    }
+    .current {
+      color: #333333!important;
+      border-bottom: 3px solid #03ae87;
+    }
+    .dropdown-menu > li > a{
+      display: block;
+      clear: both;
+      color: #848484;
+      white-space: nowrap;
+    }
+    .navbar-nav > .open > a{
+      color: #848484;
+    }
+
+    @media (max-width:767px ) {
+      .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus{
+        color: #333333;
+        background: none;
+      }
+      .navbar-nav .open .dropdown-menu > li > a{
+        color: #848484;
+      }
+    }
+  }
+
 }
