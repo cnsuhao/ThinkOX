@@ -166,7 +166,7 @@ function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=
 
 function getRootUrl()
 {
-    return "http://$_SERVER[HTTP_HOST]$GLOBALS[_root]";
+    return str_replace('\\','/',"http://$_SERVER[HTTP_HOST]$GLOBALS[_root]");
 }
 
 
