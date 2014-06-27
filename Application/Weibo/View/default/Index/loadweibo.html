@@ -6,7 +6,7 @@
     <div class="row" id="weibo_{$weibo.id}">
         <div class="col-xs-12" >
 
-            <div class="col-md-2 col-sm-2 col-xs-12">
+            <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative">
                 <a class="s_avatar" href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
                     <img src="{$weibo.user.avatar64}"
                          class="avatar-img"
@@ -83,7 +83,7 @@
 
                         </div>
                         <div class="col-md-8">
-                                  <span class="pull-right text-primary weibo-comment-link" data-weibo-id="{$weibo.id}">
+                                  <span class="pull-right text-primary" data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
