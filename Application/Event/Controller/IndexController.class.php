@@ -51,6 +51,10 @@ class IndexController extends Controller
         $this->display();
     }
 
+    /**
+     * 获取推荐活动数据
+     * autor:xjw129xjt
+     */
     public function getRecommend()
     {
         $rec_event = D('Event')->where(array('is_recommend' => 1))->limit(2)->order('rand()')->select();
@@ -454,10 +458,12 @@ class IndexController extends Controller
         if ($event_content['uid'] == is_login()) {
             $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('status', 0);
             if ($res) {
-                $this->success('删除成功');
+                $this->success('删除成功！');
             } else {
-                $this->error('操作失败');
+                $this->error('操作失败！');
             }
+        }else{
+            $this->error('非活动发起者操作！');
         }
 
     }
@@ -477,10 +483,13 @@ class IndexController extends Controller
         if ($event_content['uid'] == is_login()) {
             $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('eTime', time());
             if ($res) {
-                $this->success('操作成功');
+                $this->success('操作成功！');
             } else {
-                $this->error('操作失败');
+                $this->error('操作失败！');
             }
+        }
+        else{
+            $this->error('非活动发起者操作！');
         }
 
     }
