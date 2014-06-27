@@ -111,8 +111,7 @@ function ucard() {
             delay: 500}, style: {
             classes: 'qtip-bootstrap'
 
-        }, hide: {
-            event: 'unfocus'
+        }, hide: {delay: 500,  fixed: true
         }
     })
 }
