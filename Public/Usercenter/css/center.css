@@ -3,6 +3,13 @@
   margin-right: 0px;
   border-top: 1px dashed #ccc;
 }
+#center h4 {
+  font-size: 16px;
+  cursor: pointer;
+}
+#center h4 a {
+  font-weight: normal;
+}
 .position select {
   width: auto;
   float: left;
@@ -23,8 +30,11 @@
   background-position: 18px 0px;
 }
 .center_info input[type=text],
+#center_password input[type=text],
 .center_info input[type=email],
-.center_info [type=password] {
+#center_password input[type=email],
+.center_info [type=password],
+#center_password [type=password] {
   max-width: 200px;
 }
 .usercenter-verify-icon-list img {

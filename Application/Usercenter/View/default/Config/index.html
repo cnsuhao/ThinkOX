@@ -2,158 +2,186 @@
 
 <block name="body">
     <script>
-        function center_toggle(name){
-            $('#'+name+'_panel').toggle();$('#'+name+'_toggle_right').toggle();$('#'+name+'_toggle_bottom').toggle()
+        function center_toggle(name) {
+            var show=$('#' + name + '_panel').css('display');
+            $('.center_panel').hide();
+            $('.center_arrow_right').show();
+            $('.center_arrow_bottom').hide()
+            if(show=='none'){
+                $('#' + name + '_panel').show();
+                $('#' + name + '_toggle_right').hide();
+                $('#' + name + '_toggle_bottom').show()
+            }else{
+                $('#' + name + '_toggle_right').show();
+                $('#' + name + '_toggle_bottom').hide()
+            }
+
         }
     </script>
-    <div id="center_base">
-        <div class="row">
-            <div class="col-xs-12">
-                <h4>基本资料
-                    <a class="pull-right" id="toggle_base"
-                       onclick="center_toggle('base')">
-                        编辑
-                        <i id="base_toggle_right" title="展开" class="center_arrow_right" style="display: none"></i>
-                        <i id="base_toggle_bottom" title="收起" class="center_arrow_bottom" ></i>
-                    </a>
-
-                </h4>
-                <hr class="center_line"/>
-            </div>
-        </div>
-
-        <div class="row" id="base_panel">
-            <div class="col-md-8">
-                <form class="form-horizontal center_info" role="form">
-                    <div class="form-group">
-                        <label for="nickname" class="col-sm-2 control-label">昵称</label>
-
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nickname" value="{$user.nickname|op_t}"
-                                   placeholder="昵称">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">性别</label>
-
-                        <div class="col-sm-10">
-                            <label class="radio-inline">
-                                <input name="sex" type="radio"
-                                <eq name="user.sex" value="1"> checked</eq>
-                                > 男
-                            </label>
-                            <label class="radio-inline">
-                                <input name="sex" type="radio"
-                                <eq name="user.sex" value="2"> checked</eq>
-                                > 女
-                            </label>
-                            <label class="radio-inline">
-                                <input name="sex" type="radio"
-                                <eq name="user.sex" value="0"> checked</eq>
-                                > 保密
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="col-sm-2 control-label">邮箱</label>
-
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email" placeholder="邮箱"
-                                   value="{$user.email|htmlspecialchars}">
-                        </div>
-                    </div>
-
-
-                    <div class="form-group position">
-                        <label for="email" class="col-sm-2 control-label">所在地</label>
-
-                        <div class="col-sm-10">
-                            {:hook('J_China_City')}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="signature" class="col-sm-2 control-label">个性签名</label>
-
-                        <div class="col-sm-10">
-                            <textarea id="signature" name="signature" class="form-control"
-                                      style="width: 100%; height: 6em;">{$user.signature|htmlspecialchars}</textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary">保存</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="center_expandinfo">
-        <div class="row">
-            <div class="col-xs-12">
-                <h4>扩展资料
-
-                    <a class="pull-right" id="toggle_info"
-                       onclick="center_toggle('expand')">
-                        编辑
-                        <i id="expand_toggle_right" title="展开" class="center_arrow_right"></i>
-                        <i id="expand_toggle_bottom" title="收起" class="center_arrow_bottom" style="display: none"></i>
-                    </a>
-                </h4>
-                <script type="text/javascript" src="__JS__/expandinfo-form.js"></script>
-                <hr class="center_line"/>
-            </div>
-        </div>
-
-        <div  id="expand_panel" style="display: none">
-            <ul class="nav nav-pills ucenter_tab">
-                <volist name="profile_group_list" id="vl">
-                    <li
-                    <eq name="vl.id" value="$profile_group_id">class="active"</eq>
-                    ><a onclick="$('#expandinfo_list').load($(this).attr('url'));$('.ucenter_tab li').removeClass('active');$(this).parent().addClass('active');"
-                        url="{:U('UserCenter/Config/showExpandInfo',array('profile_group_id'=>$vl['id'],'uid'=>$uid))}">{$vl.profile_name}</a></li>
-                </volist>
-            </ul>
+    <div id="center">
+        <div id="center_base">
             <div class="row">
-                <div class="col-md-8">
-                    <div id="expandinfo_list" class="row expandinfo-list">
-                        <if condition="$uid == is_login()">
-                            <form action="{:U('Config/edit_expandinfo')}" method="post" class="ajax-form">
-                                <input type="hidden" name="profile_group_id" value="{$profile_group_id}">
+                <div class="col-xs-12">
+                    <h4 onclick="center_toggle('base')"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;基本资料
+                        <a class="pull-right" id="toggle_base">
+                            编辑
+                            <i id="base_toggle_right" title="展开" class="center_arrow_right" style="display: none"></i>
+                            <i id="base_toggle_bottom" title="收起" class="center_arrow_bottom"></i>
+                        </a>
 
-                                <div>
-                                    <volist name="info_list" id="vl">
-                                        <dl>
-                                            {:W('InputRender/inputRender',array($vl,'personal'))}
-                                        </dl>
-                                    </volist>
-                                </div>
-                                <if condition="$info_list neq null">
-                                    <input type="submit" value="保存" id="submit_btn"
-                                           class="btn btn-primary expandinfo-sumbit">
-                                    <else/>
-                                    <span class="expandinfo-noticeinfo">该扩展信息分组没有信息！</span>
-                                </if>
-                            </form>
-                            <else/>
-                            <div>
-                                <volist name="info_list" id="vll">
-                                    <dl>
-                                        {:W('InputRender/inputRender',array($vll,'other'))}
-                                    </dl>
-                                </volist>
-                                <if condition="$info_list eq null">
-                                    <span class="expandinfo-noticeinfo">该扩展信息分组没有信息！</span>
-                                </if>
-                            </div>
-                        </if>
-                    </div>
+                    </h4>
+                    <hr class="center_line"/>
                 </div>
             </div>
 
+            <div class="row center_panel" id="base_panel">
+                <div class="col-md-8">
+                    <form class="form-horizontal center_info" role="form">
+                        <div class="form-group">
+                            <label for="nickname" class="col-sm-2 control-label">昵称</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nickname" value="{$user.nickname|op_t}"
+                                       placeholder="昵称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">性别</label>
+
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input name="sex" type="radio"
+                                    <eq name="user.sex" value="1"> checked</eq>
+                                    > 男
+                                </label>
+                                <label class="radio-inline">
+                                    <input name="sex" type="radio"
+                                    <eq name="user.sex" value="2"> checked</eq>
+                                    > 女
+                                </label>
+                                <label class="radio-inline">
+                                    <input name="sex" type="radio"
+                                    <eq name="user.sex" value="0"> checked</eq>
+                                    > 保密
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">邮箱</label>
+
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" placeholder="邮箱"
+                                       value="{$user.email|htmlspecialchars}">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group position">
+                            <label for="email" class="col-sm-2 control-label">所在地</label>
+
+                            <div class="col-sm-10">
+                                {:hook('J_China_City')}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signature" class="col-sm-2 control-label">个性签名</label>
+
+                            <div class="col-sm-10">
+                                <textarea id="signature" name="signature" class="form-control"
+                                          style="width: 100%; height: 6em;">{$user.signature|htmlspecialchars}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="center_expandinfo">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4 onclick="center_toggle('expand')"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;扩展资料
+
+                        <a class="pull-right" id="toggle_expand"
+                                >
+                            编辑
+                            <i id="expand_toggle_right" title="展开" class="center_arrow_right"></i>
+                            <i id="expand_toggle_bottom" title="收起" class="center_arrow_bottom"
+                               style="display: none"></i>
+                        </a>
+                    </h4>
+                    <script type="text/javascript" src="__JS__/expandinfo-form.js"></script>
+                    <hr class="center_line"/>
+                </div>
             </div>
 
+            <div id="expand_panel" class="center_panel" style="display: none">
+                <ul class="nav nav-pills ucenter_tab">
+                    <volist name="profile_group_list" id="vl">
+                        <li
+                        <eq name="vl.id" value="$profile_group_id">class="active"</eq>
+                        ><a onclick="$('#expandinfo_list').load($(this).attr('url'));$('.ucenter_tab li').removeClass('active');$(this).parent().addClass('active');"
+                            url="{:U('UserCenter/Config/showExpandInfo',array('profile_group_id'=>$vl['id'],'uid'=>$uid))}">{$vl.profile_name}</a></li>
+                    </volist>
+                </ul>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="expandinfo_list" class="row expandinfo-list">
+                            <include file="Config/expandInfo"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="center_avatar">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4 onclick="center_toggle('avatar')"><i class="glyphicon glyphicon-user"></i>&nbsp;修改头像
+                        <a class="pull-right" id="toggle_avatar">
+                            编辑
+                            <i id="avatar_toggle_right" title="展开" class="center_arrow_right"></i>
+                            <i id="avatar_toggle_bottom" title="收起" class="center_arrow_bottom"
+                               style="display: none"></i>
+                        </a>
+                    </h4>
+                    <hr class="center_line"/>
+                    </h4>
+                </div>
+            </div>
+            <div id="avatar_panel" class="center_panel" style="display: none">
+                <include file="Config/changeavatar"/>
+            </div>
+        </div>
+
+
+        <div id="center_password">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h4 onclick="center_toggle('password')"><i class="glyphicon glyphicon-lock"></i>&nbsp;修改密码
+                        <a class="pull-right" id="toggle_password"
+                                >
+                            编辑
+                            <i id="password_toggle_right" title="展开" class="center_arrow_right"></i>
+                            <i id="password_toggle_bottom" title="收起" class="center_arrow_bottom"
+                               style="display: none"></i>
+                        </a>
+                    </h4>
+                    <hr class="center_line"/>
+                    </h4>
+                </div>
+            </div>
+            <div id="password_panel" class="center_panel" style="display: none">
+                <include file="Config/changepassword"/>
+            </div>
+        </div>
+
     </div>
-    </div>
+
 </block>
