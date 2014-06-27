@@ -25,7 +25,7 @@ class IndexController extends Controller
      * @param string $norh
      * autor:xjw129xjt
      */
-    public function index($page = 1, $type_id = 0,$norh = 'new')
+    public function index($page = 1, $type_id = 0, $norh = 'new')
     {
         $type_id = intval($type_id);
         if ($type_id != 0) {
@@ -34,7 +34,7 @@ class IndexController extends Controller
         $map['status'] = 1;
         $order = 'create_time desc';
         $norh == 'hot' && $order = 'signCount desc';
-        $content = D('Event')->where($map)->order($order)->page($page,10)->select();
+        $content = D('Event')->where($map)->order($order)->page($page, 10)->select();
 
         $totalCount = D('Event')->where($map)->count();
         foreach ($content as &$v) {
@@ -51,8 +51,9 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function getRecommend(){
-        $rec_event = D('Event')->where(array('is_recommend'=>1))->limit(2)->order('rand()')->select();
+    public function getRecommend()
+    {
+        $rec_event = D('Event')->where(array('is_recommend' => 1))->limit(2)->order('rand()')->select();
         foreach ($rec_event as &$v) {
             $v['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
             $v['type'] = $this->getType($v['type_id']);
@@ -60,11 +61,11 @@ class IndexController extends Controller
         }
         unset($v);
 
-        $this->assign('rec_event',$rec_event);
-
+        $this->assign('rec_event', $rec_event);
 
 
     }
+
     /**
      * 我的活动页面
      * @param int $page
@@ -72,7 +73,7 @@ class IndexController extends Controller
      * @param string $norh
      * autor:xjw129xjt
      */
-    public function myevent($page = 1, $type_id = 0,$lora = '')
+    public function myevent($page = 1, $type_id = 0, $lora = '')
     {
 
         $type_id = intval($type_id);
@@ -82,14 +83,14 @@ class IndexController extends Controller
 
         $map['status'] = 1;
         $order = 'create_time desc';
-        if($lora == 'attend'){
-           $attend = D('event_attend')->where(array('uid'=>is_login()))->select();
-           $enentids=getSubByKey($attend,'event_id');
-            $map['id'] = array('in',$enentids);
-        }else{
-            $map['uid']=is_login();
+        if ($lora == 'attend') {
+            $attend = D('event_attend')->where(array('uid' => is_login()))->select();
+            $enentids = getSubByKey($attend, 'event_id');
+            $map['id'] = array('in', $enentids);
+        } else {
+            $map['uid'] = is_login();
         }
-        $content = D('Event')->where($map)->order($order)->page($page,10)->select();
+        $content = D('Event')->where($map)->order($order)->page($page, 10)->select();
 
         $totalCount = D('Event')->where($map)->count();
         foreach ($content as &$v) {
@@ -179,7 +180,6 @@ class IndexController extends Controller
             $weiboApi->sendWeibo("我修改了活动【" . $title . "】：" . $postUrl);
 
 
-
             if ($rs) {
                 $this->success('编辑成功。', U('detail', array('id' => $content['id'])));
             } else {
@@ -203,9 +203,6 @@ class IndexController extends Controller
             $weiboApi->sendWeibo("我发布了一个新的活动【" . $title . "】：" . $postUrl);
 
 
-
-
-
             if ($rs) {
                 $this->success('发布成功。' . $tip, U('index'));
             } else {
@@ -226,7 +223,7 @@ class IndexController extends Controller
 
         $this->assign('check_isSign', $check_isSign);
 
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$id))->find();
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $id))->find();
         if (!$event_content) {
             $this->error('404 not found');
         }
@@ -264,7 +261,7 @@ class IndexController extends Controller
         $check_isSign = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $id))->select();
         $this->assign('check_isSign', $check_isSign);
 
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$id))->find();
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $id))->find();
         if (!$event_content) {
             $this->error('404 not found');
         }
@@ -272,7 +269,7 @@ class IndexController extends Controller
         $event_content['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $event_content['uid']);
         $menber = D('event_attend')->where($map)->select();
         foreach ($menber as $k => $v) {
-            $event_content['member'][$k] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64','avatar128', 'rank_html', 'signature'), $v['uid']);
+            $event_content['member'][$k] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'avatar128', 'rank_html', 'signature'), $v['uid']);
             $event_content['member'][$k]['name'] = $v['name'];
             $event_content['member'][$k]['phone'] = $v['phone'];
             $event_content['member'][$k]['status'] = $v['status'];
@@ -294,7 +291,7 @@ class IndexController extends Controller
      */
     public function edit($id)
     {
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$id))->find();
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $id))->find();
         if (!$event_content) {
             $this->error('404 not found');
         }
@@ -330,13 +327,13 @@ class IndexController extends Controller
             $this->error('请输入手机号码。');
         }
         $check = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $event_id))->select();
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
-        if(!$event_content){
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $event_id))->find();
+        if (!$event_content) {
             $this->error('活动不存在！');
         }
-  /*      if ($event_content['attentionCount'] + 1 > $event_content['limitCount']) {
-            $this->error('超过限制人数，报名失败');
-        }*/
+        /*      if ($event_content['attentionCount'] + 1 > $event_content['limitCount']) {
+                  $this->error('超过限制人数，报名失败');
+              }*/
         if (time() > $event_content['deadline']) {
             $this->error('报名已经截止');
         }
@@ -367,15 +364,15 @@ class IndexController extends Controller
      */
     public function shenhe($uid, $event_id, $tip)
     {
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
-        if(!$event_content){
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $event_id))->find();
+        if (!$event_content) {
             $this->error('活动不存在！');
         }
         if ($event_content['uid'] == is_login()) {
             $res = D('event_attend')->where(array('uid' => $uid, 'event_id' => $event_id))->setField('status', $tip);
-            if($tip){
+            if ($tip) {
                 D('Event')->where(array('id' => $event_id))->setInc('attentionCount');
-            }else{
+            } else {
                 D('Event')->where(array('id' => $event_id))->setDec('attentionCount');
             }
             if ($res) {
@@ -393,24 +390,24 @@ class IndexController extends Controller
      * @param $event_id
      * autor:xjw129xjt
      */
-    public function unSign($event_id){
+    public function unSign($event_id)
+    {
 
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
-        if(!$event_content){
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $event_id))->find();
+        if (!$event_content) {
             $this->error('活动不存在！');
         }
 
         $check = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $event_id))->find();
 
         $res = D('event_attend')->where(array('uid' => is_login(), 'event_id' => $event_id))->delete();
-        if($res){
-            if($check['status']){
+        if ($res) {
+            if ($check['status']) {
                 D('Event')->where(array('id' => $event_id))->setDec('attentionCount');
             }
             D('Event')->where(array('id' => $event_id))->setDec('signCount');
             $this->success('取消报名成功');
-        }
-        else{
+        } else {
             $this->error('操作失败');
         }
     }
@@ -420,10 +417,11 @@ class IndexController extends Controller
      * @param $event_id
      * autor:xjw129xjt
      */
-    public function ajax_sign($event_id){
+    public function ajax_sign($event_id)
+    {
 
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
-        if(!$event_content){
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $event_id))->find();
+        if (!$event_content) {
             $this->error('活动不存在！');
         }
 
@@ -446,21 +444,21 @@ class IndexController extends Controller
      * @param $event_id
      * autor:xjw129xjt
      */
-    public function doDelEvent($event_id){
+    public function doDelEvent($event_id)
+    {
 
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
-        if(!$event_content){
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $event_id))->find();
+        if (!$event_content) {
             $this->error('活动不存在！');
         }
-       if($event_content['uid'] == is_login()){
-          $res =  D('Event')->where(array('status'=>1,'id'=>$event_id))->setField('status',0);
-           if($res){
-               $this->success('删除成功');
-           }
-           else{
-               $this->error('操作失败');
-           }
-       }
+        if ($event_content['uid'] == is_login()) {
+            $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('status', 0);
+            if ($res) {
+                $this->success('删除成功');
+            } else {
+                $this->error('操作失败');
+            }
+        }
 
     }
 
@@ -469,18 +467,18 @@ class IndexController extends Controller
      * @param $event_id
      * autor:xjw129xjt
      */
-    public function doEndEvent($event_id){
+    public function doEndEvent($event_id)
+    {
 
-        $event_content = D('Event')->where(array('status'=>1,'id'=>$event_id))->find();
-        if(!$event_content){
+        $event_content = D('Event')->where(array('status' => 1, 'id' => $event_id))->find();
+        if (!$event_content) {
             $this->error('活动不存在！');
         }
-        if($event_content['uid'] == is_login()){
-            $res =  D('Event')->where(array('status'=>1,'id'=>$event_id))->setField('eTime',time());
-            if($res){
+        if ($event_content['uid'] == is_login()) {
+            $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('eTime', time());
+            if ($res) {
                 $this->success('操作成功');
-            }
-            else{
+            } else {
                 $this->error('操作失败');
             }
         }

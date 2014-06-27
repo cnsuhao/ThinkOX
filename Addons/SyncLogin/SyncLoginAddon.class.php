@@ -35,7 +35,7 @@ class SyncLoginAddon extends Addon
         return true;
     }
 
-    //实现的repost钩子方法
+    //登录按钮钩子
     public function syncLogin($param)
     {
         $this->assign($param);
@@ -44,6 +44,11 @@ class SyncLoginAddon extends Addon
         $this->display('login');
     }
 
+    /**
+     * meta代码钩子
+     * @param $param
+     * autor:xjw129xjt
+     */
     public function syncMeta($param)
     {
         $platform_options = $this->getConfig();

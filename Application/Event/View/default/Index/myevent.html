@@ -178,24 +178,26 @@
                     </div>
                 </div>
             </volist>
+            <div class="row issue_list">
+
+
+                <if condition="count($contents) eq 0">
+                    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">此分类下暂无内容哦。O(∩_∩)O~</div>
+                </if>
+
+            </div>
         </div>
-    </div>
 
 
-    <div class="row issue_list">
+        <div>
+            <div class="pull-right">
 
-
-        <if condition="count($contents) eq 0">
-            <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">此分类下暂无内容哦。O(∩_∩)O~</div>
-        </if>
-
-    </div>
-    <div>
-        <div class="pull-right">
-
-            {:getPagination($totalPageCount,10)}
+                {:getPagination($totalPageCount,10)}
+            </div>
         </div>
+
     </div>
+
 
 
 </block>

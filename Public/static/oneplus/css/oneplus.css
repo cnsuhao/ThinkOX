@@ -849,6 +849,15 @@ General list for item with image
   max-width: 500px;
   margin: 20px auto;
 }
+
+.white-popup1 {
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    width: auto;
+
+    margin: 20px auto;
+}
 /*
 右侧好友界面*/
 .friend_panel {
