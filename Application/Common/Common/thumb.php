@@ -125,9 +125,11 @@ function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=
             $info['height'] = $old_image_height;
             return $info;
         } else {
-            //生成缩略图  -  更好的方法
             if ($height == "auto") $height = $old_image_height * $width / $old_image_width;
-            //import('phpthumb.PhpThumbFactory');
+            if ($width == "auto") $width = $old_image_width * $width / $old_image_height;
+            if(intval($height)==0 || intval($width)==0){
+                return 0;
+            }
              require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
              $thumb  =  PhpThumbFactory::create($UPLOAD_PATH  .  $filename);
              if  ($type==0)  {
