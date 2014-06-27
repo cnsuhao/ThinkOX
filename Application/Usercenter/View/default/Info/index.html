@@ -1,87 +1,195 @@
-<extend name="Public/usercenter"/>
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/usercenter.css" rel="stylesheet" type="text/css"/>
+</block>
 
 <block name="body">
-    <div class="row">
-        <div class="col-xs-12">
-            <p>&nbsp;</p>
-            <h4>基本资料</h4>
-            <hr class="oneuser-title-hr"/>
+    <div class="col-md-12 usercenter">
+        <div class="uc">
+            <div class="uc_top_bg">
+                <img class="img-responsive" src="__IMG__/fractional.png">
+            </div>
+            <div class="row uc_info">
+                <div class="col-md-3 col-xs-6">
+                    <dl>
+                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                        <dd>
+                            <div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="/tox/index.php?s=/Weibo/Index/index/uid/1.html">44</a><br>微博
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="/tox/index.php?s=/Usercenter/Index/fans.html">0</a><br>粉丝
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="/tox/index.php?s=/Usercenter/Index/following.html">2</a><br>关注
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="uc_main_info">
+                        <div class="uc_m_t_12 uc_m_b_12 uc_uname"><span>Think OX</span></div>
+                        <div class="uc_m_b_12">个性签名：<span>我真的不知道写啥</span></div>
+                        <div class="uc_m_b_12"><span class="uc_m_r_36">积分：22</span><span>等级：入门</span></div>
+                        <div><span>头衔：网页设计师</span></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="uc_follow">
+                        <a class="btn btn-primary">关注</a>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-default uc_navbar" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#" class="uc_current">微博</a>
+                        </li>
+                        <li>
+                            <a href="#">讨论区</a>
+                        </li>
+                        <li>
+                            <a href="#">资料</a>
+                        </li>
+                        <li>
+                            <a href="#">讨论区</a>
+                        </li>
+                        <li>
+                            <a href="#">资料</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </nav>
+            <div class="row uc_content">
+                <div class="col-md-7 col-xs-12">
+                    <div style="padding: 100px;font-size: 24px;color: #848484">变动内容</div>
+                </div>
+                <div class="col-md-5 col-sm-9 col-xs-12 uc_other_link">
+                    <div>
+                        <div class="uc_link_block clearfix">
+                            <div class="uc_link_top clearfix">
+                                <div class="uc_title">TA的粉丝(34)</div>
+                                <div class="uc_fl_right uc_more_link"><a href="#">更多</a></div>
+                            </div>
+                            <div class="col-md-12 uc_link_info">
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                        </div>
+                        <div class="uc_link_block clearfix">
+                            <div class="uc_link_top clearfix">
+                                <div class="uc_title">TA的粉丝(34)</div>
+                                <div class="uc_fl_right uc_more_link"><a href="#">更多</a></div>
+                            </div>
+                            <div class="col-md-12 uc_link_info">
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uc_link_block clearfix">
+                            <div class="uc_link_top clearfix">
+                                <div class="uc_title">TA的粉丝(34)</div>
+                                <div class="uc_fl_right uc_more_link"><a href="#">更多</a></div>
+                            </div>
+                            <div class="col-md-12 uc_link_info">
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-3 col-xs-4">
+                                    <dl>
+                                        <dt><img src="__IMG__/touxiang.jpg" class="avatar-img img-responsive"></dt>
+                                        <dd>商业经典</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</block>
 
-    <div class="row">
-        <div class="col-xs-6 text-muted">
-            <p><span class="text-muted">昵称：</span> {$user.nickname|op_t}</p>
+<block name="script">
 
-            <p><span class="text-muted">邮箱：</span> {$user.email|htmlspecialchars}</p>
-            <if condition="$uid==is_login()">
-                <p><span class="text-muted">最近登录：</span> {$user.last_login_time|time_format}</p>
+    <script type="text/javascript" src=""></script>
+    <script type="text/javascript" src=""></script>
+    <script>
 
-                <p><span class="text-muted">最近登录IP：</span> {$user.last_login_ip|long2ip}</p>
-
-                <p><span class="text-muted">注册时间：</span> {$user.reg_time|time_format}</p>
-
-                <p><span class="text-muted">手机：</span> {$user.mobile|htmlspecialchars}
-                    <if condition="$user['mobile']">
-                        <a href="{:U('UserCenter/Index/unbindMobile')}">解除绑定</a>
-                        <else/>
-                        <a href="{:U('UserCenter/Index/bindMobile')}">立即绑定</a>
-                    </if>
-                </p>
-            </if>
-            <p><span class="text-muted">积分：</span> {$user.score}</p>
-
-            <p><span class="text-muted">等级：</span> {$user.title|htmlspecialchars}</p>
-
-        </div>
-        <div class="col-xs-4">
-            <img class="avatar-img" src="{$user.avatar256}"/>
-        </div>
-
-        <div class="col-xs-2">
-            &nbsp;
-        </div>
-    </div>
-    <div>
-
-        <p><span class="text-muted">头衔：</span>
-            <if condition="$user['rank_link']">
-                <table class="tb_rank">
-                    <thead>
-                    <tr>
-                        <th>图标</th>
-                        <th>头衔名称</th>
-                        <th>颁发理由</th>
-                        <th>是否显示</th>
-                        <th>颁发时间</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <volist name="user['rank_link']" id="vl">
-                        <tr>
-                            <td><img src="{$vl.logo_url}" title="{$vl.title}"
-                                     alt="{$vl.title}"
-                                     style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/></td>
-                            <td>{$vl.title}</td>
-                            <td>{$vl.reason}</td>
-                            <td>
-                                <eq name="vl.is_show" value="1">显示
-                                    <else/>
-                                    不显示
-                                </eq>
-                            </td>
-                            <td>{$vl.create_time|friendlyDate}</td>
-
-                        </tr>
-                    </volist>
-
-                    </tbody>
-                </table>
-
-
-                <else/>
-                暂无头衔，努力为社区做点贡献吧！O(∩_∩)O~
-            </if>
-        </p>
-    </div>
+    </script>
 </block>
