@@ -25,7 +25,7 @@
                                          ucard="{$vo.id}">
                                 </a>
                                 <br/> <br/>
-                                <if condition="is_login() && $vo['id'] != get_uid()">
+                                <if condition="is_login() && $vo['uid'] != get_uid()">
                                     <php>
                                         $vo['is_following'] =
                                         D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$vo['id']))->find();
@@ -40,7 +40,7 @@
                                         </a>
                                     </p>
                                     <else/>
-                                    <if condition="$vo['id'] == get_uid()">
+                                    <if condition="$vo['uid'] == get_uid()">
                                         <p class="text-center">
                                             <a class="btn btn-primary" disabled="disabled">
                                                 自己
