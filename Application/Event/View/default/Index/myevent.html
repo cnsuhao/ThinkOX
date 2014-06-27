@@ -54,20 +54,6 @@
 </div>
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="event_header_title" >
-            <div class="pull-left">我的活动</div>
-            <div class="btn-group pull-right" style="padding-top: 20px;">
-                <a href="{:U('myevent',array('lora'=>'','type_id'=>$type_id))}" class="btn btn-default <if condition="$lora
-                eq ''">active</if>">我发起的</a>
-                <a href="{:U('myevent',array('lora'=>'attend','type_id'=>$type_id))}"
-                   class="btn btn-default <if condition="$lora eq 'attend'">active</if>">我参加的</a>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 
 
@@ -133,6 +119,20 @@
 
 <div class="col-md-8">
 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="event_header_title" >
+                <div class="pull-left">我的活动</div>
+                <div class="btn-group btn-group-sm  pull-right" style="margin-bottom:5px;">
+                    <a href="{:U('myevent',array('lora'=>'','type_id'=>$type_id))}" class="btn btn-default <if condition="$lora
+                    eq ''">active</if>">我发起的</a>
+                    <a href="{:U('myevent',array('lora'=>'attend','type_id'=>$type_id))}"
+                       class="btn btn-default <if condition="$lora eq 'attend'">active</if>">我参加的</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <div class="forum_module" style="width: 100%;min-height: 800px;padding: 0;">
 
         <volist name="contents" id="vo">

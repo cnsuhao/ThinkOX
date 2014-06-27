@@ -57,21 +57,6 @@
 </div>
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="event_header_title">
-            <div class="pull-left">活动首页</div>
-            <div class="btn-group pull-right" style="padding-top: 20px;">
-                <a href="{:U('index',array('norh'=>'new','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh
-                eq 'new'">active</if>">最新</a>
-                <a href="{:U('index',array('norh'=>'hot','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh
-                eq 'hot'">active</if>">最热</a>
-            </div>
-        </div>
-
-    </div>
-
-</div>
 
 <div class="row">
     <div class="col-md-4 pull-right" style="z-index: 99">
@@ -135,6 +120,22 @@
 
 
     <div class="col-md-8">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="event_header_title">
+                    <div class="pull-left">活动首页</div>
+                    <div class="btn-group btn-group-sm pull-right" style="margin-bottom:5px;">
+                        <a href="{:U('index',array('norh'=>'new','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh
+                        eq 'new'">active</if>">最新</a>
+                        <a href="{:U('index',array('norh'=>'hot','type_id'=>$type_id))}" class="btn btn-default <if condition="$norh
+                        eq 'hot'">active</if>">最热</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
         <div class="forum_module" style="width: 100%;min-height: 800px;padding: 0;">
 

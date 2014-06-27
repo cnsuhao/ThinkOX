@@ -88,7 +88,7 @@
   top: 0;
 }
 .upload-pre-item img {
-  min-width: 250px;
+  min-width: 350px;
   max-width: 250px;
   max-height: 300px;
   border: 1px solid #ccc;
@@ -385,9 +385,9 @@ hr {
   border-color: #fff;
 }
 .event_header_title {
-  height: 70px;
+  height: 20px;
   width: 100%;
-  line-height: 70px;
+  line-height: 30px;
   font-size: 18px;
   color: #333333;
   padding: 0 0 0 5px;
@@ -395,4 +395,8 @@ hr {
 .event_right {
   width: 100%;
   float: left;
+}
+.white-popup1 {
+  background: #fff;
+  padding-top: 20px;
 }
