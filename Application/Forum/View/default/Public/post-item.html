@@ -14,15 +14,15 @@
     <div class="col-md-11 col-xs-10">
 
         <p>
-            <a class="forum-list-title-link" title="{$document.title|htmlspecialchars}"
-               href="{:U('Index/detail',array('id'=>$document['id']))}">
-                <a href="{:U('Forum/Index/forum',array('id'=>$document['forum_id']))}">[{$document.forum.title}]</a>{$document.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
-                <eq name="document.is_top" value="2"><i class="post_top">全站</i>
+
+                <a class="forum_forum_name" href="{:U('Forum/Index/forum',array('id'=>$document['forum_id']))}">[{$document.forum.title}]</a><a class="forum-list-title-link" title="{$document.title|htmlspecialchars}"
+                                                                                                                       href="{:U('Index/detail',array('id'=>$document['id']))}">{$document.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
+        </a><eq name="document.is_top" value="2"><i class="post_top">全站</i>
                     <else/>
                     <eq name="document.is_top" value="1"><i class="post_top_forum">版块</i></eq>
                 </eq>
 
-            </a>
+
         </p>
 
         <p class="pull-right text-muted">
