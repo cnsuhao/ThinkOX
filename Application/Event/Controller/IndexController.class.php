@@ -455,7 +455,7 @@ class IndexController extends Controller
         if (!$event_content) {
             $this->error('活动不存在！');
         }
-        if ($event_content['uid'] == is_login()) {
+        if ($event_content['uid'] == is_login() || is_administrator(is_login())) {
             $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('status', 0);
             if ($res) {
                 $this->success('删除成功！');
@@ -480,7 +480,7 @@ class IndexController extends Controller
         if (!$event_content) {
             $this->error('活动不存在！');
         }
-        if ($event_content['uid'] == is_login()) {
+        if ($event_content['uid'] == is_login() || is_administrator(is_login())) {
             $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('eTime', time());
             if ($res) {
                 $this->success('操作成功！');
