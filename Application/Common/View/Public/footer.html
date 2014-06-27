@@ -48,7 +48,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    var topMain = $("#top_bar").height() + $('#logo_bar').height() + 20;//是头部的高度加头部与nav导航之间的距离
+    var topMain = $("#top_bar").height() + $('#logo_bar').height() ;//是头部的高度加头部与nav导航之间的距离
     $(function () {
         var nav = $("#nav_bar");
         $(window).scroll(function () {
@@ -60,6 +60,8 @@
             }
         });
     })
+
+    //FIXME tox 修正短页面滚至底部弹回
 </script>
 <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="__STATIC__/oneplus/js/ext/placeholder/placeholder.js"></script>
