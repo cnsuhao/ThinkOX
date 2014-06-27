@@ -129,3 +129,6 @@ input::-moz-focus-inner {
 	outline: none;
 	border-bottom: 0 none;
 }
+.data-table tr:hover{
+    background: #ccc !important;
+}

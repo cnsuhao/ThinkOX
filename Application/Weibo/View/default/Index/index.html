@@ -1,10 +1,8 @@
 <extend name="Base/common"/>
 
-<block name="side">
-
-</block>
 
 <block name="body">
+    <link href="__PUBLIC__/Weibo/css/weibo.css" rel="stylesheet"/>
     <div class="container">
         <div class="row">
           <!--  筛选部分-->
@@ -24,18 +22,9 @@
             <!--微博内容列表部分-->
             <div class="weibo_left col-md-9">
                 <div class="row">
-                    <div class="col-xs-12" style="padding: 20px;">
-                        <br/>
-                        <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
-                                     placeholder="写点什么吧～～"></textarea></p>
-                        <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
-                        {:hook('weiboType')}
-                        <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
-                                                     class="btn btn-primary" data-url="{:U('doSend')}"/></p>
-                    </div>
+
                 </div>
-                <div id="emot_content" class="emot_content"></div>
-                <div id="hook_show" class="emot_content"></div>
+
 
 
                 <div id="weibo_list">
@@ -162,6 +151,7 @@
                         clearWeibo();
                         $('.XT_face').remove();
                         insert_image.close();
+                        $('.mfp-close').click();
                     }
                 });
             });

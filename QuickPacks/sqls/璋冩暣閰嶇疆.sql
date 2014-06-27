@@ -1,2 +1,2 @@
 REPLACE INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
-(56, 'COUNT_CODE', 2, '统计代码', 1, '', '用于统计网站访问量的第三方代码，推荐CNZZ统计', 1403058890, 1403058890, 1, '', 0);
+(56, 'COUNT_CODE', 2, '统计代码', 1, '', '用于统计网站访问量的第三方代码，推荐CNZZ统计', 1403058890, 1403058890, 1, '  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id=''cnzz_stat_icon_5849549''%3E%3C/span%3E%3Cscript src=''" + cnzz_protocol + "s5.cnzz.com/stat.php%3Fid%3D5849549%26show%3Dpic1'' type=''text/javascript''%3E%3C/script%3E"));</script>\r\n', 0);

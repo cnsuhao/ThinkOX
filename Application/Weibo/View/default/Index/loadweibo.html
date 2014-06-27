@@ -3,95 +3,101 @@
 <volist name="list" id="weibo">
 
 
-
     <div class="row" id="weibo_{$weibo.id}">
-        <div class="col-xs-12" style="min-width: 700px;">
+        <div class="col-xs-12" >
 
-            <div class="pull-left">
+            <div class="col-md-2 col-sm-2 col-xs-12" style="position: relative">
                 <a class="s_avatar" href="{$weibo.user.space_url}" ucard="{$weibo.user.uid}">
                     <img src="{$weibo.user.avatar64}"
                          class="avatar-img"
                          style="width: 64px;"/>
                 </a>
-
-
-
             </div>
 
-            <div class="weibo_content" id="weibo_content1">
-                <div class="weibo_content_sj pull-left"></div>
+            <div class="col-md-10 col-sm-8 col-xs-12">
+                <div class="weibo_content" id="weibo_content1">
+                    <div class="weibo_content_sj pull-left hidden-xs"></div>
 
-                <eq name="weibo.is_top" value="1">
-                    <div class="ribbion-green">
+                    <eq name="weibo.is_top" value="1">
+                        <div class="ribbion-green">
 
-                    </div>
-                </eq>
+                        </div>
+                    </eq>
 
-                <p>
-                    <a ucard="{$weibo.user.uid}"
-                       href="{$weibo.user.space_url}" class="user_name">{$weibo.user.nickname|htmlspecialchars}
-                    </a>
-                    {$weibo.user.icons_html}
-                    <volist name="weibo['user']['rank_link']" id="vl">
-                        <if condition="$vl['is_show']">
-                            <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
-                                 class="rank_html"/>
-                        </if>
-                    </volist>
-                    <span  class="pull-right" style="margin-right: 20px;">
+                    <p>
+                        <a ucard="{$weibo.user.uid}"
+                           href="{$weibo.user.space_url}" class="user_name">{$weibo.user.nickname|htmlspecialchars}
+                        </a>
+                        {$weibo.user.icons_html}
+                        <volist name="weibo['user']['rank_link']" id="vl">
+                            <if condition="$vl['is_show']">
+                                <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
+                                     class="rank_html"/>
+                            </if>
+                        </volist>
+                    <span class="pull-right" style="margin-right: 20px;">
                       <span class="ss" style="display: none">
-                          <img src="__STATIC__/oneplus/images/mark-aw1.png" />
+                          <img src="__STATIC__/oneplus/images/mark-aw1.png"/>
 
                       </span>
                         <div class="mark_box" style="display: none">
                             <ul class="nav text-center mark_aw">
-                                <li><a>收藏</a></li>
+                                <!--  <li><a>收藏</a></li>-->
                                 <if condition="$weibo['can_delete']">
-                                    <li class="text-primary weibo-comment-del cpointer" data-weibo-id="{$weibo.id}"><a>删除</a></li>
+                                    <li class="text-primary weibo-comment-del cpointer" data-weibo-id="{$weibo.id}"><a>删除</a>
+                                    </li>
                                 </if>
                             </ul>
                         </div>
                     </span>
-                </p>
-                <div class="weibo_content_p">
-                {$weibo.fetchContent}
-                </div>
+                    </p>
+                    <div class="weibo_content_p">
+                        {$weibo.fetchContent}
+                    </div>
 
-                <!--                <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
-                                <if condition="$weibo['type'] eq 'image'">
-                                    <div class="popup-gallery"  style="width: 550px;">
-                                <volist name="weibo['weibo_data']['image']" id="vo">
-                                        <a href="{$vo.big}" title="点击查看大图"><img src="{$vo.small}" width="100" height="100"></a>
-                                </volist>
-                </div>
-                </if>
-                            -->
-                <div class="weibo_content_bottom">
-                    <p style="margin: 0px;">
-                    <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
-                    <span class="text-primary"><a href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
+                    <!--                <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
+                                    <if condition="$weibo['type'] eq 'image'">
+                                        <div class="popup-gallery"  style="width: 550px;">
+                                    <volist name="weibo['weibo_data']['image']" id="vo">
+                                            <a href="{$vo.big}" title="点击查看大图"><img src="{$vo.small}" width="100" height="100"></a>
+                                    </volist>
+                    </div>
+                    </if>
+                                -->
 
-                        <span class="pull-right text-primary weibo-comment-link" data-weibo-id="{$weibo.id}">
+
+                    <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
+                        <div class="col-xs-12">
+                            <div class="light-jumbotron" style="padding: 1em 2em;">
+                                <div class="weibo-comment-container">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weibo_content_bottom row">
+                        <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
+
+                        <div class="col-md-4">
+                            <span class="text-primary"><a
+                                    href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
+
+                        </div>
+                        <div class="col-md-8">
+                                  <span class="pull-right text-primary" data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
-                        <include file="_operation"/>
-
-                    </span>
-                    </p>
-                </div>
-
-                <div class="row weibo-comment-list" style="display: none;" data-weibo-id="{$weibo.id}">
-                    <div class="col-xs-12">
-                        <div class="light-jumbotron" style="padding: 1em 2em;">
-                            <div class="weibo-comment-container">
-                            </div>
+                        <include file="_operation"/>   </span>
                         </div>
+
+
                     </div>
                 </div>
 
             </div>
-            </div>
+
+
+        </div>
 
     </div>
 
@@ -128,59 +134,50 @@
         });
     });
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
 
+        $('.ss').mouseover(function () {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw2.png');
 
-
-
-        $('.ss').mouseover(function(){
-            if($(this).parents('.weibo_content').find('.mark_box').css('display')=='none'){
-                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw2.png');
-
-            }else
-            $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw3.png');
+            } else
+                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw3.png');
         })
 
-        $('.ss').mouseleave(function(){
-            if($(this).parents('.weibo_content').find('.mark_box').css('display')=='none'){
-                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw1.png');
+        $('.ss').mouseleave(function () {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw1.png');
 
-            }else
+            } else
 
-            $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw4.png');
+                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw4.png');
 
         })
-        $('.weibo_content').mouseover(function(){
+        $('.weibo_content').mouseover(function () {
 
 
             $(this).find('.ss').show();
 
         })
 
-        $('.ss').click(function(){
+        $('.ss').click(function () {
 
-             $(this).parents('.weibo_content').find('.mark_box').toggle();
-            if($(this).parents('.weibo_content').find('.mark_box').css('display')=='none'){
-                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw2.png');
+            $(this).parents('.weibo_content').find('.mark_box').toggle();
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw2.png');
 
 
-            }else
-                $(this).find('img').attr('src','__STATIC__/oneplus/images/mark-aw3.png');
+            } else
+                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw3.png');
         })
-        $('.weibo_content').mouseleave(function(){
+        $('.weibo_content').mouseleave(function () {
 
             $(this).find('.ss').hide();
             $(this).find('.mark_box').hide();
         })
 
     });
-
-
-
-
-
-
 
 
 </script>

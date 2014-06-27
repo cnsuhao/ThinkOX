@@ -35,7 +35,6 @@ class SupportAddon extends Addon
 
     public function install()
     {
-
         $db_prefix = C('DB_PREFIX');
         $sql = "
 CREATE TABLE IF NOT EXISTS `{$db_prefix}support` (
@@ -48,9 +47,7 @@ CREATE TABLE IF NOT EXISTS `{$db_prefix}support` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='支持的表'  ;
         ";
-
-        D('')->execute($sql);
-
+         $rs=D('')->execute($sql);
         return true;
     }
 
