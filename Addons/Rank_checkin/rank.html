@@ -1,32 +1,35 @@
-<!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="Addons/Rank_checkin/Css/rank.css">
-<div class="box" style="margin-top: 10px">
-    <div class="titlerank">签到牛人榜</div>
+<div class="check_rank ">
     <if condition="count($rank) eq 0">
         <div class="default">虚位以待，赶紧签到。</div>
         <else/>
-        <volist name="rank" id="v">
-            <div class="paiming" style="width: 70px">
-                <switch name="i">
-                    <case value="1">牛A</case>
-                    <case value="2">牛B</case>
-                    <case value="3">牛C</case>
-                    <case value="4">牛D</case>
-                    <case value="5">牛F</case>
-                    <default/>
-                    第{$i}名
-                </switch>
-            </div>
-            <div class="list">
-                 <div> <img src="{$v.userInfo.avatar32}"></div>
-                <div class="listitem">
-                    <div class="text_more" style="width:80px;"><a  ucard="{$v.uid}" href="{$v.userInfo.space_url}"> {$v.userInfo.nickname}</a></div>
-                     <div>
-                        <php> echo(date('H:i:s',$v[ctime]))</php>
+        <ul class="check_rank_list">
+            <volist name="rank" id="v">
+                <li class="row">
+                    <div class="paiming col-md-2">
+                        <switch name="i">
+                            <case value="1">1</case>
+                            <case value="2">2</case>
+                            <case value="3">3</case>
+                            <case value="4">4</case>
+                            <case value="5">5</case>
+                            <default/>
+                            {$i}
+                        </switch>
                     </div>
-                </div>
-            </div>
-        </volist>
+                    <div class="list col-md-6">
+                        <img class="avatar-img" style="width: 32px" src="{$v.userInfo.avatar32}">
+                        <a ucard="{$v.uid}" class="text_more " style="width: 100%" href="{$v.userInfo.space_url}">
+                            {$v.userInfo.nickname}</a>
+                    </div>
+
+                    <div class="col-md-4">
+                        {:date('H:i:s',$v[ctime])}
+                    </div>
+                </li>
+            </volist>
+        </ul>
     </if>
+
 </div>
-<div style="height: 10px"></div>
+<div style="margin-bottom: 10px"></div>

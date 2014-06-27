@@ -242,7 +242,7 @@ class UserController extends AdminController {
      * @param $input_tips
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function editFieldSetting($id,$profile_group_id,$field_name,$child_form_type,$visiable,$required,$form_type,$form_default_value,$validation,$input_tips){
+    public function editFieldSetting($id=0,$profile_group_id=0,$field_name='',$child_form_type=0,$visiable=0,$required=0,$form_type=0,$form_default_value='',$validation=0,$input_tips=''){
         if(IS_POST){
             $data['field_name']=$field_name;
             if($data['field_name']==''){

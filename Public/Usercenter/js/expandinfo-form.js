@@ -65,16 +65,28 @@ function check(args,id){
                     if(max_length==0){
                         max_length='';
                     }
-                    document.getElementById("label_"+id).innerHTML="字符串长度必须在"+min_length+"-"+max_length+"之间";
-                    $('#canSubmit_'+id).val(0);
+                    check_error(id,"长度必须在"+min_length+"-"+max_length+"之间")
                     return false;
                 }
-                document.getElementById("label_"+id).innerHTML="";
-                $('#canSubmit_'+id).val(1);
+                check_success(id);
+
                 return true;
         }
     }
 }
+
+function check_error(id,info){
+    $('#alert_'+id).show();
+    document.getElementById("label_"+id).innerHTML=info;
+    $('#canSubmit_'+id).val(0);
+}
+function check_success(id){
+    $('#alert_'+id).hide();
+    document.getElementById("label_"+id).innerHTML="";
+    $('#canSubmit_'+id).val(1);
+}
+
+
 function check_textarea(args,id){
     var value=document.getElementById("expand_"+id).value;
     var required=args.getAttribute("require");
@@ -111,6 +123,7 @@ $(document).ready(function(){
         });
         if(!canSubmit){
             check.preventDefault();
+            return false;
         }
     });
 });
