@@ -1,30 +1,19 @@
-.box{
-    height: auto;background-color: white;box-shadow: 0 0 5px #cccccc;
+.check_rank {
+  background-color: white;
+  box-shadow: 0 0 5px #cccccc;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom: #dddddd 3px solid;
+  line-height: 42px;
+  color: #D61F39;
 }
-.titlerank{
-    font-size: 1.4em;margin-left: 15px;padding-top: 15px;
+.check_rank .check_rank_list {
+  padding: 0 15px;
+  display: block;
 }
-.list{
-    padding-bottom: 15px;padding-top: 10px;padding-left: 10px
-
+.check_rank .check_rank_list li {
+  list-style: none;
 }
-.list img{
-    border-radius: 100%
-}
-.listitem{
-    margin-top: -35px;margin-left: 50px;
-    ;color: #48b87a
-}
-
-.paiming{
-    float: right;margin-top: 10px;margin-right: 10px;text-align: center;width: 50px;color: #48b87a
-}
-.text_more{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.default{
-    font-size: 15px;text-align: center;margin-top: 20px;padding-bottom: 10px
+.check_rank a {
+  color: #D61F39;
 }

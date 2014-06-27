@@ -1,30 +1,34 @@
-<!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="Addons/Checkin/View/Css/check.css">
 
 <div class="<php>if($check['ischeck']==1){</php>checked<php>}</php> box1 " id="checkdiv">
     <div class="row">
-        <div class="col-xs-3 col-sm-4 col-md-3 col-lg-4 text-center">
-            <span style="font-size: 48px;padding: 10px 0 0 10px;"
-                  class="glyphicon glyphicon-calendar"></span>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+            <i class="ico_calendar"></i>
+
         </div>
 
-        <div class="col-xs-2 hidden-sm hidden-md hidden-lg text-center" style="color: #fff; padding-top: 14px;">
-            <div>{$check.week}</div>
-            <div>{$check.day}</div>
-        </div>
 
-        <div class="col-xs-2 col-md-4 col-lg-3 hidden-sm text-center" style="color: #fff; padding-top: 14px;background: transparent">
-            <div>DAYS</div>
-            <div>{$connum}</div>
-        </div>
+        <eq name="check.ischeck" value="1">
 
-        <div class="col-xs-5 col-sm-8 col-md-5 col-lg-5">
-            <br/>
+            <div class="col-xs-4 col-md-4 col-lg-4 hidden-sm text-center" style="color: #fff; padding-top:2px;line-height: 16px">
+                <div>连签</div>
+                <div>{$connum}</div>
+            </div>
+
+            <else/>
+            <div class="col-xs-4  text-center" style="color: #fff; padding-top:2px;line-height: 16px">
+                <div>{$check.day}</div>
+                <div>{$check.week}</div>
+
+            </div>
+
+        </eq>
 
 
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             <php>if($check['ischeck']==1){</php>
 
-            <span id="checkin" class="btn-sign-h" style="font-size: 20px;padding-top: 10px">已签到</span>
+            <span id="checkin" class="btn-sign">已签到</span>
 
             <php>}else{</php>
 
