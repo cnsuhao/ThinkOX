@@ -25,7 +25,10 @@ class BaseController extends AddonsController
     }
 
 
-    //登录地址
+    /**
+     * 登陆后回调地址
+     * autor:xjw129xjt
+     */
     public function callback(){
         $code =  I('get.code');
         $type= I('get.type');
@@ -58,14 +61,23 @@ class BaseController extends AddonsController
             }
         } else {
             $Api = new UserApi();
+            //usercenter表新增数据
             $uid = $Api->addSyncData();
+            //member表新增数据
             D('Member')->addSyncData($uid, $user_info);
+            // 记录数据到sync_login表中
             $this->addSyncLoginData($uid, $access_token, $openid, $type, $openid);
+            //保存头像
             $this->saveAvatar($user_info['head'], $openid, $uid,$type);
         }
         $this->loginWithoutpwd($uid);
     }
 
+    /**
+     * 利用uid登录
+     * @param $uid
+     * autor:xjw129xjt
+     */
     protected  function loginWithoutpwd($uid)
     {
         if (0 < $uid) { //UC登录成功

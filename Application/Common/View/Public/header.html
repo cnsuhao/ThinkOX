@@ -206,7 +206,7 @@
                             <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
                             {:hook('weiboType')}
                             <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
-                                                         class="btn btn-primary" data-url="{:U('doSend')}"/></p>
+                                                         class="btn btn-primary" data-url="{:U('Weibo/Index/doSend')}"/></p>
                         </div>
                     </div>
                     <div id="emot_content" class="emot_content"></div>
@@ -364,3 +364,4 @@
         });
     });
 </script>
+<script src="__PUBLIC__/Weibo/js/insertFace.js"></script>

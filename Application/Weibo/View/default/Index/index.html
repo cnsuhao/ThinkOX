@@ -120,41 +120,6 @@
             var isLoadingWeibo = false;
             var currentPage = 1;
 
-            $('#weibo_content').keypress(function (e) {
-                if (e.ctrlKey && e.which == 13 || e.which == 10) {
-                    $("#send_weibo_button").click();
-                }
-            });
-
-
-            //点击发表微博按钮之后
-            $('#send_weibo_button').click(function () {
-                //获取参数
-                var url = $(this).attr('data-url');
-                var content = $('#weibo_content').val();
-                var button = $(this);
-                var originalButtonText = button.val();
-                var feedType = 'feed';
-                var attach_ids = '';
-                if (typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length > 0) {
-                    var feedType = 'image';
-                    var attach_ids = $('#attach_ids').val();
-                }
-
-                //发送到服务器
-                $.post(url, {content: content, type: feedType, attach_ids: attach_ids}, function (a) {
-                    handleAjax(a);
-                    if (a.status) {
-                        button.attr('class', 'btn btn-primary');
-                        button.val(originalButtonText);
-                        reloadWeiboList();
-                        clearWeibo();
-                        $('.XT_face').remove();
-                        insert_image.close();
-                        $('.mfp-close').click();
-                    }
-                });
-            });
 
             //当屏幕滚动到底部时
             $(window).on('scroll', function () {
@@ -170,55 +135,55 @@
             });
             $(window).trigger('scroll');
 
-            function isLoadMoreVisible() {
-                var visibleHeight = $(window.top).height();
-                var loadMoreOffset = $('#load_more').offset();
-                return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
-            }
 
-            function loadNextPage() {
-                currentPage = currentPage + 1;
-                loadWeiboList(currentPage);
-            }
-
-            function reloadWeiboList() {
-                loadWeiboList(1, function () {
-                    clearWeiboList();
-                    currentPage = 1;
-                });
-            }
-
-            function clearWeibo() {
-                $('#weibo_content').val('');
-            }
-
-            function loadWeiboList(page, onBeforePrepend) {
-                //默认载入第1页
-                if (page == undefined) {
-                    page = 1;
-                }
-
-                //通过服务器载入微博列表
-                var url = "{$loadMoreUrl}";
-                isLoadingWeibo = true;
-                $('#load_more_text').text('正在载入...');
-                $.post(url, {page: page}, function (a) {
-                    if (a.status == 0) {
-                        noMoreNextPage = true;
-                        $('#load_more_text').text('没有了');
-                    }
-                    if (onBeforePrepend != undefined) {
-                        onBeforePrepend();
-                    }
-                    $('#weibo_list').append(a);
-                    isLoadingWeibo = false;
-                });
-            }
-
-            function clearWeiboList() {
-                currentPage = 0;
-                $('#weibo_list').html('');
-            }
         })
+
+        function isLoadMoreVisible() {
+            var visibleHeight = $(window.top).height();
+            var loadMoreOffset = $('#load_more').offset();
+            return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
+        }
+
+        function loadNextPage() {
+            currentPage = currentPage + 1;
+            loadWeiboList(currentPage);
+        }
+
+        function reloadWeiboList() {
+            loadWeiboList(1, function () {
+                clearWeiboList();
+                currentPage = 1;
+            });
+        }
+
+
+
+        function loadWeiboList(page, onBeforePrepend) {
+            //默认载入第1页
+            if (page == undefined) {
+                page = 1;
+            }
+
+            //通过服务器载入微博列表
+            var url = "{$loadMoreUrl}";
+            isLoadingWeibo = true;
+            $('#load_more_text').text('正在载入...');
+            $.post(url, {page: page}, function (a) {
+                if (a.status == 0) {
+                    noMoreNextPage = true;
+                    $('#load_more_text').text('没有了');
+                }
+                if (onBeforePrepend != undefined) {
+                    onBeforePrepend();
+                }
+                $('#weibo_list').append(a);
+                isLoadingWeibo = false;
+            });
+        }
+
+        function clearWeiboList() {
+            currentPage = 0;
+            $('#weibo_list').html('');
+        }
     </script>
 </block>
