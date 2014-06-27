@@ -107,7 +107,8 @@ function ucard() {
 
         }, position: {
             viewport: $(window)
-        }, show: {solo: true}, style: {
+        }, show: {solo: true,
+            delay: 500}, style: {
             classes: 'qtip-bootstrap'
 
         }, hide: {
