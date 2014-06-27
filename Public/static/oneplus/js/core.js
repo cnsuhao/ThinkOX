@@ -752,3 +752,50 @@ function bindSupport() {
 
     });
 }
+
+
+$(function () {
+    $('#weibo_content').keypress(function (e) {
+        if (e.ctrlKey && e.which == 13 || e.which == 10) {
+            $("#send_weibo_button").click();
+        }
+    });
+
+
+    //点击发表微博按钮之后
+    $('#send_weibo_button').click(function () {
+        //获取参数
+        var url = $(this).attr('data-url');
+        var content = $('#weibo_content').val();
+        var button = $(this);
+        var originalButtonText = button.val();
+        var feedType = 'feed';
+        var attach_ids = '';
+        if (typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length > 0) {
+            var feedType = 'image';
+            var attach_ids = $('#attach_ids').val();
+        }
+
+        //发送到服务器
+        $.post(url, {content: content, type: feedType, attach_ids: attach_ids}, function (a) {
+            handleAjax(a);
+            if (a.status) {
+                button.attr('class', 'btn btn-primary');
+                button.val(originalButtonText);
+                //alert(MODULE_NAME);
+                if (MODULE_NAME == 'Weibo' && ACTION_NAME == 'index') {
+                    reloadWeiboList();
+                }
+
+                clearWeibo();
+                $('.XT_face').remove();
+                insert_image.close();
+                $('.mfp-close').click();
+            }
+        });
+    });
+})
+
+function clearWeibo() {
+    $('#weibo_content').val('');
+}

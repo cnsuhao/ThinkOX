@@ -11,19 +11,19 @@
                               class="form-control insert-face-textarea"
                               placeholder="说点什么吧～"></textarea>
                 </p>
+                <a class="col-md-10" style="padding: 0;" href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button class="btn btn-block btn-primary" id="submit-comment"
+                                data-url="{:tox_addons_url('LocalComment/Index/addComment', array('app'=>$app,'mod'=>$mod, 'row_id'=>$row_id,'uid'=>$uid))}">
+                            发表
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-10">
-                <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-block btn-primary" id="submit-comment"
-                        data-url="{:tox_addons_url('LocalComment/Index/addComment', array('app'=>$app,'mod'=>$mod, 'row_id'=>$row_id,'uid'=>$uid))}">
-                    发表
-                </button>
-            </div>
-        </div>
+        <div id="emot_content" class="emot_content"></div>
+
         <div class="row">
             <div class="col-md-12">
                 <hr/>
@@ -92,7 +92,7 @@
     })
 </script>
 
-<script src="__PUBLIC__/static/oneplus/js/insertFace.js"></script>
+<script src="__PUBLIC__/Weibo/js/insertFace.js"></script>
 
 <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
 <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho/atwho.css"/>
