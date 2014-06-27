@@ -112,13 +112,14 @@
     <script src="__JS__/weibo.js"></script>
     <script src="__JS__/insertFace.js"></script>
     <script>
-        var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}"
+        var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
+
+        var noMoreNextPage = false;
+        var isLoadingWeibo = false;
+        var currentPage = 1;
         $(function () {
 
             var $inputor = $('#weibo_content').atwho(atwho_config);
-            var noMoreNextPage = false;
-            var isLoadingWeibo = false;
-            var currentPage = 1;
 
 
             //当屏幕滚动到底部时
