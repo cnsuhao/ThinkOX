@@ -7,48 +7,62 @@
 <block name="body">
     <div class="container">
         <div class="row shop">
-            <div class="col-md-12  app_block visible-xs clearfix">
-                <!--低于768px，显示-->
-            </div>
-            <div class="col-md-12  app_block hidden-xs clearfix">
-                <ul class="row fl_left nav navbar-nav">
-                    <li>
-                        <a href="{:U('index')}">商城首页</a>
-                    </li>
-                    <li>
-                        <a href="{:U('goods')}">所有分类</a>
-                    </li>
-                    <volist name="tree" id="top">
-                        <if condition="$top['status'] eq 1">
-                            <if condition="$top['_'] eq null">
-                                <li><a href="{:U('goods',array('category_id'=>$top['id']))}">{$top.title}</a></li>
-                                <else/>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$top.title}<b
-                                            class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
-                                        <volist name="top['_']" id="child_category">
-                                            <li><a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a>
-                                            </li>
-                                        </volist>
-                                    </ul>
-                                </li>
-                            </if>
-                        </if>
-                    </volist>
-                </ul>
-                <div class="fl_right">
-                    <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
-                       class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-                    <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label>
-                    </if>
+            <nav class="navbar navbar-default app_block shop_navbar" role="navigation">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                 </div>
-            </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{:U('index')}">商城首页</a>
+                        </li>
+                        <li>
+                            <a href="{:U('goods')}">所有分类</a>
+                        </li>
+                        <volist name="tree" id="top">
+                            <if condition="$top['status'] eq 1">
+                                <if condition="$top['_'] eq null">
+                                    <li><a href="{:U('goods',array('category_id'=>$top['id']))}">{$top.title}</a>
+                                    </li>
+                                    <else/>
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" data-toggle="dropdown">{$top.title}<b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
+                                            <volist name="top['_']" id="child_category">
+                                                <li>
+                                                    <a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a>
+                                                </li>
+                                            </volist>
+                                        </ul>
+                                    </li>
+                                </if>
+                            </if>
+                        </volist>
+                    </ul>
+                    <div class="fl_right">
+                        <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
+                           class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
+                        <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label>
+                        </if>
+                    </div>
+                </div>
+                <!-- /.navbar-collapse -->
+            </nav>
 
             <div class="col-md-12  app_block clearfix">
                 <div class="row pad_15">
                     <h2 class="title_content" style="border-bottom: 1px solid #E9E9E9;">我的订单 </h2>
+                    <div class="not_nav_bar">
                     <ul class="nav_list clearfix" style="margin-bottom: 20px;">
                         <li>
                             <a href="{:U('myGoods',array('status'=>'0'))}" style="padding: 3px 0;"
@@ -61,8 +75,9 @@
                             >已完成订单</a>
                         </li>
                     </ul>
+                    </div>
                     <volist name="contents" id="vo">
-                        <div class="col-md-3 goods">
+                        <div class="col-lg-3 col-md-4  goods">
                             <div class="item_goods position_re">
                                 <if condition="$vo['goods']['sell_num'] egt $hot_num"><i class="ico_hot"></i>
                                     <else/>

@@ -363,11 +363,12 @@ h2 {
 }
 .op_nav_ico .badge {
   border-radius: 84%;
-  background: #4e9be0;
+  background: #EA7863;
   position: absolute;
   right: 8px;
   top: 1px;
   padding: 1px 3px;
+  font-weight: normal;
 }
 /* extended dropdowns */
 .dropdown-menu .extended:before {
