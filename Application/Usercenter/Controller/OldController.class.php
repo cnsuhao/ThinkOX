@@ -152,40 +152,7 @@ class IndexController extends BaseController
         $this->success($result['message']);
     }
 
-    public function changeAvatar()
-    {
-        $this->defaultTabHash('change-avatar');
-        $this->display();
-    }
 
-    public function doCropAvatar($crop)
-    {
-        //调用上传头像接口改变用户的头像
-        $result = callApi('User/applyAvatar', array($crop));
-        $this->ensureApiSuccess($result);
-
-        //显示成功消息
-        $this->success($result['message']);
-    }
-
-    public function doUploadAvatar()
-    {
-        //调用上传头像接口
-        $result = callApi('User/uploadTempAvatar');
-
-        $this->ensureApiSuccess($result);
-
-        //显示成功消息
-        $this->iframeReturn(apiToAjax($result));
-    }
-
-    private function iframeReturn($result) {
-        $json = json_encode($result);
-        $json = htmlspecialchars($json);
-        $html = "<textarea data-type=\"application/json\">$json</textarea>";
-        echo $html;
-        exit;
-    }
 
     public function fans($page = 1)
     {

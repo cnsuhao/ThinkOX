@@ -29,7 +29,7 @@
 
             <p class="text-muted">支持jpg，png，gif，bmp等格式，可以在大照片中裁剪比较满意的部分</p>
 
-            <form action="{:U('UserCenter/Index/doUploadAvatar')}" id="avatar_form" method="post"
+            <form action="{:U('UserCenter/Config/doUploadAvatar')}" id="avatar_form" method="post"
                   enctype="multipart/form-data">
                 <if condition="is_ie()">
                     <input type="file" class="btn btn-default" name="image"/>
@@ -50,7 +50,7 @@
                 </div>
                 <p class="text-danger" id="save_avatar_tip"></p>
                 <p>
-                    <a class="btn btn-primary" id="save_avatar_button" data-url="{:U('UserCenter/Index/doCropAvatar')}">选区裁剪后保存头像</a>
+                    <a class="btn btn-primary" id="save_avatar_button" data-url="{:U('UserCenter/Config/doCropAvatar')}">选区裁剪后保存头像</a>
                 </p>
             </div>
         </div>
