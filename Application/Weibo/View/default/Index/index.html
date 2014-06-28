@@ -44,11 +44,12 @@
                     <div class="forum_module" style="font-size: 14px;">
                         <p>
                         <span>
-                        <a href="{$self.space_url}" ucard="{$self.uid}">
-                            <img src="{$self.avatar128}"
+                        <div class="weibo_avatar">
+                            <a href="{$self.space_url}" ucard="{$self.uid}"><img src="{$self.avatar128}"
                                  class="avatar-img"
-                                 style="width: 96px;"/>
-                        </a>
+                                 style="width: 96px;"/></a>
+                            <a href="{:U('Usercenter/Config/index',array('tab'=>'avatar'))}" class="weibo_change_avatar">修改头像</a>
+                        </div>
                        </span>
 
                         <span class="name_touxian">
@@ -63,7 +64,7 @@
                                      </if>
                                  </volist>
                                  <else/>
-                                无
+                                暂无头衔
                              </if>
                         </span>
                         </p>

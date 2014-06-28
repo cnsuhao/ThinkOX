@@ -16,7 +16,7 @@ class ConfigController extends BaseController
         parent::_initialize();
 
     }
-    public function index($uid = null)
+    public function index($uid = null,$tab='')
     {
         //调用API获取基本信息
         $user = query_user(array('nickname','signature', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256','rank_link','sex'), $uid);
@@ -25,6 +25,8 @@ class ConfigController extends BaseController
         $this->assign('user', $user);
         $this->assign('call', $this->getCall($uid));
 
+        $tab=op_t($tab);
+        $this->assign('tab',$tab);
         $this->getExpandInfo();
         $this->display();
     }

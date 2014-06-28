@@ -17,6 +17,7 @@
   font-size: 1.2em;
   margin: 0;
   margin-bottom: 10px;
+  padding-left: 15px;
 }
 /*布局样式end*/
 /*reset*/
@@ -1031,11 +1032,8 @@ General list for item with image
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 13px 50px;
+  padding: 13px 15px;
   text-align: left;
-}
-.nav > li > a:first-child {
-  padding-left: 0;
 }
 /*贴吧板块分类*/
 .btn_primary_bankuai {
