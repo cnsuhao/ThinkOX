@@ -19,7 +19,7 @@
             <p style="color:  #ccc;">{$vo.ctime|time_format}
 
                 <a class="pull-right reply_btn"
-                   args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_username={$vo.userInfo.username}&p={$p}"
+                   args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_nickname={$vo.userInfo.nickname}&p={$p}"
                    href="javascript:">回复</a>
 
                 <if condition="CheckPermission(array($vo['uid']))">
