@@ -11,23 +11,20 @@
 
 <!-- 主体 -->
 <div id="main-container" class="conatiner">
-    <div class="row">
-        <div class="container">
-            <div class="col-md-9">
-                <include file="Public/forum-header"/>
-                <div class="container-fluid">
+    <div class="container">
+        <div class="col-md-9">
+            <include file="Public/forum-header"/>
+            <div class="container-fluid">
                 <block name="body"></block>
             </div>
-            </div>
-            <div class="col-md-3">
-                <block name="side"></block>
-                <block name="side">
-                    <include file="Public/forum-side"/>
-                </block>
-
-            </div>
         </div>
+        <div class="col-md-3">
+            <block name="side"></block>
+            <block name="side">
+                <include file="Public/forum-side"/>
+            </block>
 
+        </div>
     </div>
 
     <block name="header"></block>
