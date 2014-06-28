@@ -338,4 +338,16 @@ class ConfigController extends BaseController
         echo $html;
         exit;
     }
+
+
+    public function doChangePassword($old_password, $new_password)
+    {
+        //调用接口
+        $result = callApi('User/changePassword', array($old_password, $new_password));
+        $this->ensureApiSuccess($result);
+
+        //显示成功信息
+        $this->success($result['message']);
+    }
+
 }
