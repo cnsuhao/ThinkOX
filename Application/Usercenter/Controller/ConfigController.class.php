@@ -317,7 +317,7 @@ class ConfigController extends BaseController
         $this->ensureApiSuccess($result);
 
         //显示成功消息
-        $this->success($result['message']);
+        $this->success($result['message'],U('Usercenter/Config/index',array('tab'=>'avatar')));
     }
 
     public function doUploadAvatar()

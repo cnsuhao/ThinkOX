@@ -150,8 +150,9 @@
                 var crop2 = crop.x / imageWidth + ',' + crop.y / imageHeight + ',' + crop.w / imageWidth + ',' + crop.h / imageHeight;
                 $.post(url, {crop: crop2}, function (a) {
                     if (a.status) {
-                        location.href = location.href;
-                        location.reload();
+                        if(a.url){
+                            location.href = a.url;
+                        }
                     } else {
                         showAvatarTip(a.info);
 
