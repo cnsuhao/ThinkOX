@@ -140,6 +140,9 @@
   margin-bottom: 10px;
   padding-bottom: 0;
 }
+.hot_post dl {
+  margin-bottom: 0;
+}
 .hot_post dt:last-child {
   border: none;
 }
@@ -148,21 +151,19 @@
   font-weight: 1em;
   line-height: 1.7em;
   margin-bottom: .8em;
-  padding-bottom: .8em;
-  border-bottom: 1px dashed #ccc;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .hot_post dt .hot_num {
-  background: #4eb87a;
   padding: 0 0.5em;
   font-style: normal;
-  color: white;
   border-radius: 0.3em;
-  font-size: .9em;
+  font-size: 1em;
   display: inline-block;
+  color: #da203a;
+  font-weight: normal;
 }
 .hot_post dt a {
   color: #333;
