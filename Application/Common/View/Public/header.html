@@ -103,7 +103,7 @@
                         <li>
                             <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
                             </php>
-                            <a href="{:U('Home/User/login')}">登录</a>
+                            <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
                         </li>
                         <li>
                             <a href="{:U('Home/User/register')}">注册</a>
@@ -124,7 +124,7 @@
         </div>
     </div>
 </div>
-<div id="nav_bar" class="nav_bar ">
+<div id="nav_bar" class="nav_bar " style="margin-bottom: 40px;">
     <nav class="container" role="navigation">
         <div class="col-md-9 collapse navbar-collapse col-sm-12 " id="nav_bar_main">
 

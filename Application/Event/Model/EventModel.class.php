@@ -12,7 +12,10 @@ use Think\Model;
 use Think\Page;
 
 /**
- * 文档基础模型
+ * 活动模型
+ * Class EventModel
+ * @package Event\Model
+ * autor:xjw129xjt
  */
 class EventModel extends Model{
     protected $_validate = array(
