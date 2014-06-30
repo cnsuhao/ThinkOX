@@ -274,12 +274,12 @@
                             <input type="text" class="form-control" name="keywords" placeholder="查找">
 
                             <div class="input-group-btn text-left">
-                                <button type="button" class="btn btn-default dropdown-toggle"
+                                <button type="button" class="btn btn-default dropdown-toggle" style="border-left: none;border-top-left-radius: 0;border-bottom-left-radius: 0"
                                         data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <!--<li><a class="submit_search">微博</a></li>-->
-                                    <li><a class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
+                                    <li><a  class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
                                    <!-- <li><a class="submit_search">活动</a></li>-->
                                     <li><a class="submit_search" url="{:U('People/Index/find')}">会员</a></li>
                                 </ul>
@@ -291,7 +291,6 @@
                                         $('#forum_search').submit();
                                     });
                                 })
-
                             </script>
                         </div>
 
