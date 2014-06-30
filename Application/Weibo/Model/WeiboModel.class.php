@@ -24,7 +24,6 @@ class WeiboModel extends Model
 
     public function addWeibo($uid, $content,$type,$feed_data)
     {
-
         //写入数据库
         $data = array('uid'=>$uid,'content'=>$content,'type'=>$type,'data'=>serialize($feed_data));
         $data = $this->create($data);
