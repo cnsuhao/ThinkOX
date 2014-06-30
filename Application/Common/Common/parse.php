@@ -50,6 +50,7 @@ function parse_expression_callback($data)
 
 function parse_at_users($content)
 {
+    $content=$content.' ';
     //找出被AT的用户
     $at_usernames = get_at_usernames($content);
 

@@ -3,48 +3,47 @@
 
 <block name="body">
     <link href="__PUBLIC__/Weibo/css/weibo.css" rel="stylesheet"/>
-    <div class="container">
-        <div class="row">
-          <!--  筛选部分-->
+    <!--  筛选部分-->
 
-         <!--   <div class="" style="margin-bottom: 30px;">
-                <select name="cars">
-                    <option value="volvo"
-                    <eq name="tab" value="all"> class="active"</eq>
-                    ><a href="{:U('Weibo/Index/index')}">全站</a></option>
-                    <option value="saab"
-                    <eq name="tab" value="concerned"> class="active"</eq>
-                    ><a href="{:U('Weibo/Index/myconcerned')}">关注</a></option>
-                </select>
-            </div>-->
-            <!--筛选部分结束-->
+    <!--   <div class="" style="margin-bottom: 30px;">
+           <select name="cars">
+               <option value="volvo"
+               <eq name="tab" value="all"> class="active"</eq>
+               ><a href="{:U('Weibo/Index/index')}">全站</a></option>
+               <option value="saab"
+               <eq name="tab" value="concerned"> class="active"</eq>
+               ><a href="{:U('Weibo/Index/myconcerned')}">关注</a></option>
+           </select>
+       </div>-->
+    <!--筛选部分结束-->
 
-            <!--微博内容列表部分-->
-            <div class="weibo_left col-md-9">
+    <!--微博内容列表部分-->
+    <div class="weibo_left col-md-9">
 
-                <div id="weibo_list">
-                    <include file="loadweibo"/>
-                </div>
+        <div id="weibo_list">
+            <include file="loadweibo"/>
+        </div>
 
-                <div id="load_more" class="text-center text-muted">
-                    <p id="load_more_text">载入更多</p>
-                </div>
+        <div id="load_more" class="text-center text-muted">
+            <p id="load_more_text">载入更多</p>
+        </div>
 
-            </div>
-            <!--微博内容列表部分结束-->
+    </div>
+    <!--微博内容列表部分结束-->
 
-            <!--首页右侧部分-->
-            <div class="weibo_right col-md-3">
-                <!--登录后显示个人区域-->
-                <if condition="is_login()">
-                    <div class="forum_module" style="font-size: 14px;">
-                        <p>
+    <!--首页右侧部分-->
+    <div class="weibo_right col-md-3">
+        <!--登录后显示个人区域-->
+        <if condition="is_login()">
+            <div class="forum_module" style="font-size: 14px;">
+                <p>
                         <span>
                         <div class="weibo_avatar">
                             <a href="{$self.space_url}" ucard="{$self.uid}"><img src="{$self.avatar128}"
-                                 class="avatar-img"
-                                 style="width: 96px;"/></a>
-                            <a href="{:U('Usercenter/Config/index',array('tab'=>'avatar'))}" class="weibo_change_avatar">修改头像</a>
+                                                                                 class="avatar-img"
+                                                                                 style="width: 96px;"/></a>
+                            <a href="{:U('Usercenter/Config/index',array('tab'=>'avatar'))}"
+                               class="weibo_change_avatar">修改头像</a>
                         </div>
                        </span>
 
@@ -60,64 +59,59 @@
                                      </if>
                                  </volist>
                                  <else/>
-                                暂无头衔
+                                 暂无头衔
                              </if>
                         </span>
-                        </p>
+                </p>
 
-                        <div style="color: #8c8c8c;margin-bottom: 10px;width: 188px;height: 42px;">
-                        <div class="col-xs-4 text-center">
-                            <a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}">{$self.weibocount}</a><br/>微博
-                        </div>
-                        <div class="col-xs-4 text-center">
-                            <a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a><br/>粉丝
-                        </div>
-                        <div class="col-xs-4 text-center">
-                            <a href="{:U('Usercenter/Index/following')}">{$self.following}</a><br/>关注
-                        </div>
-                        </div>
-
-                        <p style="margin-left:16px;margin-top:8px;color: #03ae87">
-                            积分：{$self.score}&nbsp;&nbsp;<a href="{:U('Shop/Index/index')}"><img src="__STATIC__/oneplus/images/duihuan.png"/></a>
-                        </p>
-                            <p style="margin-left:16px;color: #03ae87">等级：{$self.title}</p>
-
-
+                <div style="color: #8c8c8c;margin-bottom: 10px;width: 188px;height: 42px;">
+                    <div class="col-xs-4 text-center">
+                        <a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}">{$self.weibocount}</a><br/>微博
                     </div>
-                </if>
-                <!--登录后显示个人区域部分结束-->
-
-                <div>
-                    {:hook('checkin')}
-
-                    {:hook('Rank')}
-                    {:W('TopUserList/lists',array(null,'score desc','活跃用户','top'))}
-                    {:W('UserList/lists')}
-
+                    <div class="col-xs-4 text-center">
+                        <a href="{:U('Usercenter/Index/fans')}">{$self.fans}</a><br/>粉丝
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <a href="{:U('Usercenter/Index/following')}">{$self.following}</a><br/>关注
+                    </div>
                 </div>
-            </div>
-        <!--首页右侧部分结束-->
 
+                <p style="margin-left:16px;margin-top:8px;color: #03ae87">
+                    积分：{$self.score}&nbsp;&nbsp;<a href="{:U('Shop/Index/index')}"><img
+                        src="__PUBLIC__/Core/images/duihuan.png"/></a>
+                </p>
+
+                <p style="margin-left:16px;color: #03ae87">等级：{$self.title}</p>
+
+
+            </div>
+        </if>
+        <!--登录后显示个人区域部分结束-->
+
+        <div>
+            {:hook('checkin')}
+
+            {:hook('Rank')}
+            {:W('TopUserList/lists',array(null,'score desc','活跃用户','top'))}
+            {:W('UserList/lists')}
+
+        </div>
     </div>
-</div>
+    <!--首页右侧部分结束-->
+
 
 </block>
 
 <block name="script">
-    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
-    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
+
     <script src="__JS__/weibo.js"></script>
     <script>
         var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
-
         var noMoreNextPage = false;
         var isLoadingWeibo = false;
         var currentPage = 1;
+        var url = "{$loadMoreUrl}";
         $(function () {
-
-            var $inputor = $('#weibo_content').atwho(atwho_config);
-
-
             //当屏幕滚动到底部时
             $(window).on('scroll', function () {
                 if (noMoreNextPage) {
@@ -131,56 +125,6 @@
                 }
             });
             $(window).trigger('scroll');
-
-
-        })
-
-        function isLoadMoreVisible() {
-            var visibleHeight = $(window.top).height();
-            var loadMoreOffset = $('#load_more').offset();
-            return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
-        }
-
-        function loadNextPage() {
-            currentPage = currentPage + 1;
-            loadWeiboList(currentPage);
-        }
-
-        function reloadWeiboList() {
-            loadWeiboList(1, function () {
-                clearWeiboList();
-                currentPage = 1;
-            });
-        }
-
-
-
-        function loadWeiboList(page, onBeforePrepend) {
-            //默认载入第1页
-            if (page == undefined) {
-                page = 1;
-            }
-
-            //通过服务器载入微博列表
-            var url = "{$loadMoreUrl}";
-            isLoadingWeibo = true;
-            $('#load_more_text').text('正在载入...');
-            $.post(url, {page: page}, function (a) {
-                if (a.status == 0) {
-                    noMoreNextPage = true;
-                    $('#load_more_text').text('没有了');
-                }
-                if (onBeforePrepend != undefined) {
-                    onBeforePrepend();
-                }
-                $('#weibo_list').append(a);
-                isLoadingWeibo = false;
-            });
-        }
-
-        function clearWeiboList() {
-            currentPage = 0;
-            $('#weibo_list').html('');
-        }
+        });
     </script>
 </block>

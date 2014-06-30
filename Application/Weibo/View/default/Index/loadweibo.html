@@ -1,5 +1,3 @@
-<script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
-<link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
 <volist name="list" id="weibo">
 
 
@@ -37,7 +35,7 @@
                         </volist>
                     <span class="pull-right" style="margin-right: 20px;">
                       <span class="ss" style="display: none">
-                          <img src="__STATIC__/oneplus/images/mark-aw1.png"/>
+                          <img src="__PUBLIC__/Core/images/mark-aw1.png"/>
 
                       </span>
                         <div class="mark_box" style="display: none">
@@ -136,19 +134,19 @@
 
         $('.ss').mouseover(function () {
             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw2.png');
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
 
             } else
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw3.png');
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
         });
 
         $('.ss').mouseleave(function () {
             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw1.png');
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw1.png');
 
             } else
 
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw4.png');
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw4.png');
 
         });
         $('.weibo_content').mouseover(function () {
@@ -162,11 +160,11 @@
 
             $(this).parents('.weibo_content').find('.mark_box').toggle();
             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw2.png');
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
 
 
             } else
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw3.png');
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
         });
         $('.weibo_content').mouseleave(function () {
 

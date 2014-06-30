@@ -1,18 +1,63 @@
 /**
  * Created by 95 on 3/21/14.
  */
+/*从index拿过来的*/
 
-var atwho_config;
+
+function isLoadMoreVisible() {
+    var visibleHeight = $(window.top).height();
+    var loadMoreOffset = $('#load_more').offset();
+    return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
+}
+
+function loadNextPage() {
+    currentPage = currentPage + 1;
+    loadWeiboList(currentPage);
+}
+
+function reloadWeiboList() {
+    loadWeiboList(1, function () {
+        clearWeiboList();
+        currentPage = 1;
+    });
+}
+
+
+function loadWeiboList(page, onBeforePrepend) {
+    //默认载入第1页
+    if (page == undefined) {
+        page = 1;
+    }
+
+    //通过服务器载入微博列表
+
+    isLoadingWeibo = true;
+    $('#load_more_text').text('正在载入...');
+    $.post(url, {page: page}, function (a) {
+        if (a.status == 0) {
+            noMoreNextPage = true;
+            $('#load_more_text').text('没有了');
+        }
+        if (onBeforePrepend != undefined) {
+            onBeforePrepend();
+        }
+        $('#weibo_list').append(a);
+        isLoadingWeibo = false;
+        bindRepost();
+    });
+}
+
+function clearWeiboList() {
+    currentPage = 0;
+    $('#weibo_list').html('');
+}
+/*从index拿过来的end*/
+
+
+
 
 $(function () {
-    atwho_config = {
-        at: "@",
-        data: U('Weibo/Index/atWhoJson'),
-        tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
-        show_the_at: true,
-        search_key: 'search_key',
-        start_with_space: false
-    };
+
 
     /**
      * 点击评论按钮后提交评论
@@ -32,18 +77,6 @@ $(function () {
             handleAjax(a);
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);
-
-
-
-
-
-
-
-
-
-
-
-
                 weiboCommentList.attr('data-weibo-comment-loaded', '1');
                 var weiboId = weiboCommentList.attr('data-weibo-id');
                 var weibo = $('#weibo_' + weiboId);
@@ -271,3 +304,22 @@ function setCaretPosition(ctrl, pos){//设置光标位置函数
 }
 
 /*微博表情end*/
+
+
+$(function () {
+    bindRepost();
+});
+function bindRepost(){
+    $('.send_repost').magnificPopup({
+        type: 'ajax',
+        overflowY: 'scroll',
+        modal: true,
+        callbacks: {
+            ajaxContentAdded: function() {
+                // Ajax content is loaded and appended to DOM
+                $('#repost_content').focus();
+                console.log(this.content);
+            }
+        }
+    });
+}

@@ -2,74 +2,13 @@
 
 <block name="style">
     <link href="__CSS__/event.css" rel="stylesheet" type="text/css"/>
-    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/Core/js/ext/magnific/magnific-popup.css"/>
 </block>
 
 <block name="body">
 
 
-
-    <div class="row">
-        <div class="col-md-12">
-
-            <nav class="navbar navbar-default app_block event_navbar forum_module container_nav" role="navigation">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-
-                    <if condition="is_login() eq 0">
-                        <button class="btn btn-primary event_btn event_btn_tog" onclick="op_error('请登陆后再发布。','温馨提示')"><i
-                                class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                        </button>
-                        <else/>
-                        <a class="btn btn-primary event_btn event_btn_tog" href="{:U('Event/Index/add')}"><i
-                                class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                        </a>
-
-                    </if>
-
-
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1" style="margin-top: 0px;">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class=" collapse navbar-collapse " id="bs-example-navbar-collapse-1"
-                     style="  border-color: #fff;background: #FFFFFF;overflow-y: inherit;z-index: 99;">
-                    <!--二级导航-->
-                    <ul class=" container_nav_tab " style="margin-top: 5px;">
-                        <div class="col-md-4">
-                            <li class="container_nav_tab_li active col-xs-12 col-md-4 event_li_show_xs" >
-                                <a href="{:U('index')}" style="padding: 0">活动首页</a>
-                            </li>
-                            <li class="container_nav_tab_li col-xs-12 col-md-4 event_li_show_xs">
-                                <a href="{:U('myevent')}" style="padding: 0">我的活动</a>
-                            </li>
-                        </div>
-                        <li class="pull-right">
-
-                            <if condition="is_login() eq 0">
-                                <button class="btn btn-primary event_btn hidden-xs" onclick="op_error('请登陆后再发布。','温馨提示')"><i
-                                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                                </button>
-                                <else/>
-                                <a class="btn btn-primary event_btn hidden-xs" href="{:U('Event/Index/add')}"><i
-                                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                                </a>
-
-                            </if>
-
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </nav>
-        </div>
-    </div>
+    <include file="_nav"/>
 
     <div class="btn-group btn-group-sm">
         <a class="btn btn-default  <if condition="$tip eq all">active</if>" href="{:U('member',array('id'=>$content['id']))}">全部成员 <span class="badge">{$all_count}</span></a>
@@ -127,8 +66,12 @@
 
 <block name="script">
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<<<<<<< HEAD
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script type="text/javascript" src="__JS__/event.js"></script>
+=======
+    <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+>>>>>>> 928ca778de0a3c4b6f037f7ffc6128b238f5721f
     <script>
         $(function () {
             $('#top_nav >li >a ').mouseenter(function () {

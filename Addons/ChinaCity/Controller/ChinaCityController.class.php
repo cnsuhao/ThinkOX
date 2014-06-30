@@ -24,7 +24,7 @@ class ChinaCityController extends AddonsController{
 			$pid = I('pid');  //默认的省份id
 
 			if( !empty($pid) ){
-				$map['id'] = $pid;
+				//$map['id'] = $pid;
 			}
 			$map['level'] = 1;
 			$map['upid'] = 0;
@@ -49,7 +49,7 @@ class ChinaCityController extends AddonsController{
 			$pid = I('pid');  //传过来的省份id
 
 			if( !empty($cid) ){
-				$map['id'] = $cid;
+				//$map['id'] = $cid;
 			}
 			$map['level'] = 2;
 			$map['upid'] = $pid;
@@ -75,7 +75,7 @@ class ChinaCityController extends AddonsController{
 			$cid = I('cid');  //传过来的城市id
 
 			if( !empty($did) ){
-				$map['id'] = $did;
+				//$map['id'] = $did;
 			}
 			$map['level'] = 3;
 			$map['upid'] = $cid;
@@ -100,10 +100,10 @@ class ChinaCityController extends AddonsController{
 			$coid = I('coid');  //默认的乡镇id
 			$did = I('did');  //传过来的区县市id
 
-			$where['city_id'] = $cid;
+			$where['city_id'] = $did;
 
 			if( !empty($coid) ){
-				$map['id'] = $coid;
+				//$map['id'] = $coid;
 			}
 			$map['level'] = 4;
 			$map['upid'] = $did;
@@ -113,7 +113,7 @@ class ChinaCityController extends AddonsController{
 			$data = "<option value =''>-乡镇-</option>";
 			foreach ($list as $k => $vo) {
 				$data .= "<option ";
-				if( $did == $vo['id'] ){
+				if( $coid == $vo['id'] ){
 					$data .= " selected ";
 				}
 				$data .= " value ='" . $vo['id'] . "'>" . $vo['name'] . "</option>";
