@@ -1,16 +1,7 @@
 <!--微博内容列表部分-->
-<script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
-<script type="text/javascript" src="__STATIC__/oneplus/js/ext/atwho/atwho.js"></script>
-<link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/atwho//atwho.css"/>
-<script src="__JS__/weibo.js"></script>
-<script src="__JS__/insertFace.js"></script>
-<link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
 <link href="__PUBLIC__/Weibo/css/weibo.css" rel="stylesheet"/>
+<script src="__PUBLIC__/Weibo/js/weibo.js"></script>
 <div class="weibo_left">
-    <div class="row">
-
-    </div>
-
 
     <div id="weibo_list">
         <volist name="list" id="weibo">
@@ -28,6 +19,11 @@
                     </div>
 
                     <div class="col-md-10 col-sm-8 col-xs-12">
+                        <style>
+                            .weibo_content{
+                                border-top: #f5f5f5 1px solid;
+                            }
+                        </style>
                         <div class="weibo_content" id="weibo_content1">
                             <div class="weibo_content_sj pull-left hidden-xs"></div>
 
@@ -50,7 +46,7 @@
                                 </volist>
                     <span class="pull-right" style="margin-right: 20px;">
                       <span class="ss" style="display: none">
-                          <img src="__STATIC__/oneplus/images/mark-aw1.png"/>
+                          <img src="__PUBLIC__/Core/images/mark-aw1.png"/>
 
                       </span>
                         <div class="mark_box" style="display: none">
@@ -106,7 +102,7 @@
 
 <span class="text-primary weibo-comment-link cpointer" data-weibo-id="{$weibo.id}">
     评论<if condition="$weiboCommentTotalCount">（{$weiboCommentTotalCount}）</if>
-</span>
+</span>   </span>
                                 </div>
 
 
@@ -127,84 +123,22 @@
     <div id="load_more" class="text-center text-muted">
         <p id="load_more_text">载入更多</p>
     </div>
-</div>
 
+</div>
 
 <script>
     ucard();
     bindSupport();
+    bind_weibo_managment();
 
-    var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}"
+
+    var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
+    var noMoreNextPage = false;
+    var isLoadingWeibo = false;
+    var currentPage = 1;
+    var url = "{$loadMoreUrl}";
+
     $(document).ready(function () {
-
-        $('.popup-gallery').each(function () { // the containers for all your galleries
-            $(this).magnificPopup({
-                delegate: 'a',
-                type: 'image',
-                tLoading: 'Loading image #%curr%...',
-                mainClass: 'mfp-img-mobile',
-                gallery: {
-                    enabled: true,
-                    navigateByImgClick: true,
-                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
-                },
-                image: {
-                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-                    titleSrc: function (item) {
-                        /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
-                        return '';
-                    }
-                }
-            });
-        });
-
-        $('.ss').mouseover(function () {
-            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw2.png');
-
-            } else
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw3.png');
-        })
-
-        $('.ss').mouseleave(function () {
-            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw1.png');
-
-            } else
-
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw4.png');
-
-        })
-        $('.weibo_content').mouseover(function () {
-
-
-            $(this).find('.ss').show();
-
-        })
-
-        $('.ss').click(function () {
-
-            $(this).parents('.weibo_content').find('.mark_box').toggle();
-            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw2.png');
-
-
-            } else
-                $(this).find('img').attr('src', '__STATIC__/oneplus/images/mark-aw3.png');
-        })
-        $('.weibo_content').mouseleave(function () {
-
-            $(this).find('.ss').hide();
-            $(this).find('.mark_box').hide();
-        })
-
-
-        var $inputor = $('#weibo_content').atwho(atwho_config);
-        var noMoreNextPage = false;
-        var isLoadingWeibo = false;
-        var currentPage = 1;
-
-
         //当屏幕滚动到底部时
         $(window).on('scroll', function () {
             if (noMoreNextPage) {
@@ -219,54 +153,69 @@
         });
         $(window).trigger('scroll');
 
+        $('.popup-gallery').each(function () { // the containers for all your galleries
+            $(this).magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                tLoading: '正在载入 #%curr%...',
+                mainClass: 'mfp-img-mobile',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                },
+                image: {
+                    tError: '<a href="%url%">图片 #%curr%</a> 无法被载入.',
+                    titleSrc: function (item) {
+                        /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
+                        return '';
+                    }
+                }
+            });
+        });
     });
 
-    function isLoadMoreVisible() {
-        var visibleHeight = $(window.top).height();
-        var loadMoreOffset = $('#load_more').offset();
-        return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
-    }
+    function bind_weibo_managment() {
 
-    function loadNextPage() {
-        currentPage = currentPage + 1;
-        loadWeiboList(currentPage);
-    }
+        $('.ss').mouseover(function () {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
 
-    function reloadWeiboList() {
-        loadWeiboList(1, function () {
-            clearWeiboList();
-            currentPage = 1;
+            } else
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
         });
-    }
 
+        $('.ss').mouseleave(function () {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw1.png');
 
+            } else
 
-    function loadWeiboList(page, onBeforePrepend) {
-        //默认载入第1页
-        if (page == undefined) {
-            page = 1;
-        }
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw4.png');
 
-        //通过服务器载入微博列表
-        var url = "{$loadMoreUrl}";
-        isLoadingWeibo = true;
-        $('#load_more_text').text('正在载入...');
-        $.post(url, {page: page}, function (a) {
-            if (a.status == 0) {
-                noMoreNextPage = true;
-                $('#load_more_text').text('没有了');
-            }
-            if (onBeforePrepend != undefined) {
-                onBeforePrepend();
-            }
-            $('#weibo_list').append(a);
-            isLoadingWeibo = false;
         });
-    }
+        $('.weibo_content').mouseover(function () {
 
-    function clearWeiboList() {
-        currentPage = 0;
-        $('#weibo_list').html('');
+
+            $(this).find('.ss').show();
+
+        });
+
+        $('.ss').click(function () {
+
+            $(this).parents('.weibo_content').find('.mark_box').toggle();
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
+
+
+            } else
+                $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
+        });
+        $('.weibo_content').mouseleave(function () {
+
+            $(this).find('.ss').hide();
+            $(this).find('.mark_box').hide();
+        })
     }
 </script>
 <!--微博内容列表部分结束-->

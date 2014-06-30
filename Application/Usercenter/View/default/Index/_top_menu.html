@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
             <li>
-                <a href="{:U(Info/index)}" class="{$tabClass.public}">微博</a>
+                <a href="{:U(Index/index)}" class="{$tabClass.public}">微博</a>
             </li>
             <volist name='appArr' id='vo'>
                 <li><a href="{:U('appList',array('type'=>$key,'uid'=>$uid))}"  class="{$tabClass[$key]}">{$vo}</a></li>

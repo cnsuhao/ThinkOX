@@ -32,6 +32,18 @@
                 <span>
                     <a ucard="{$user_info.uid}" href="{$user_info.space_url}" title="">{$user_info.nickname|htmlspecialchars}</a>
                 </span>
+                    <span>
+                <if condition="$user_info['rank_link'][0]['num']">
+                    <volist name="user_info['rank_link']" id="vl">
+                        <if condition="$vl['is_show']">
+                            <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
+                                 style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
+                        </if>
+                    </volist>
+                    <else/>
+                    无
+                </if>
+            </span>
                 </div>
                 <div class="uc_m_b_12 text-more" style="width: 100%">个性签名：<span>
                 <if condition="$user_info['signature'] eq ''">
@@ -48,18 +60,6 @@
                 </span>
                 </div>
                 <div class="uc_m_b_12"><span>等级：{$user_info.title}</span></div>
-                <div><span>头衔：
-                <if condition="$user_info['rank_link'][0]['num']">
-                    <volist name="user_info['rank_link']" id="vl">
-                        <if condition="$vl['is_show']">
-                            <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
-                                 style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
-                        </if>
-                    </volist>
-                    <else/>
-                    无
-                </if>
-            </span></div>
             </div>
         </div>
         <if condition="is_login() && $user_info['uid'] != get_uid()">

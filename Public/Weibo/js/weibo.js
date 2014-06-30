@@ -3,7 +3,6 @@
  */
 /*从index拿过来的*/
 
-
 function isLoadMoreVisible() {
     var visibleHeight = $(window.top).height();
     var loadMoreOffset = $('#load_more').offset();
