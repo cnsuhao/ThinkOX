@@ -52,7 +52,7 @@ class InsertImageAddon extends Addon
             }else{
                 $weibo_data['image'][$k_i]['small'] = getThumbImageById($v_i, 100, 100);
                 $bi = M('Picture')->where(array('status' => 1))->getById($v_i);
-                $weibo_data['image'][$k_i]['big'] =getRootUrl().  $bi['path'];
+                $weibo_data['image'][$k_i]['big'] =getRootUrl(). substr( $bi['path'],1);
             }
 
 
