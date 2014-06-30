@@ -70,7 +70,7 @@ class ConfigController extends BaseController
         } else {
             //调用API获取基本信息
             //TODO tox 获取省市区数据
-            $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256', 'rank_link', 'sex','pos_province','pos_city','pos_district','pos_community'), $uid);
+            $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'avatar128', 'rank_link', 'sex','pos_province','pos_city','pos_district','pos_community'), $uid);
             //显示页面
             $this->assign('user', $user);
             $tab = op_t($tab);
