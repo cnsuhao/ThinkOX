@@ -43,6 +43,7 @@ function loadWeiboList(page, onBeforePrepend) {
         }
         $('#weibo_list').append(a);
         isLoadingWeibo = false;
+        bindRepost();
     });
 }
 
@@ -323,3 +324,22 @@ function setCaretPosition(ctrl, pos){//设置光标位置函数
 }
 
 /*微博表情end*/
+
+
+$(function () {
+    bindRepost();
+});
+function bindRepost(){
+    $('.send_repost').magnificPopup({
+        type: 'ajax',
+        overflowY: 'scroll',
+        modal: true,
+        callbacks: {
+            ajaxContentAdded: function() {
+                // Ajax content is loaded and appended to DOM
+                $('#repost_content').focus();
+                console.log(this.content);
+            }
+        }
+    });
+}

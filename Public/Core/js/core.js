@@ -8,6 +8,7 @@ $(function () {
     ucard();//绑定用户小名片
     bindGoTop();//回到顶部
     weiboShare();//处理微博分享
+    $('input,area').placeholder();//修复ieplace holder
     if (is_login()) {
         bindMessageChecker();//绑定用户消息
     }
@@ -800,8 +801,7 @@ $(function () {
 function clearWeibo() {
     $('#weibo_content').val('');
 }
-
-/* weiboShare */
+<!--新浪微博分享代码-->
 function weiboShare() {
     var wb_shareBtn = document.getElementById("weibo_shareBtn")
     wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
@@ -812,3 +812,23 @@ function weiboShare() {
         wb_language = "zh_cn";
     wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
 }
+<!--新浪微博分享代码end-->
+
+
+
+
+/*导航栏*/
+var topMain = $("#top_bar").height() + $('#logo_bar').height() ;//是头部的高度加头部与nav导航之间的距离
+$(function () {
+    var nav = $("#nav_bar");
+    $(window).scroll(function () {
+        var top = $(document).scrollTop();
+        if (top > topMain) {
+            nav.addClass("nav_scroll");
+        } else {
+            nav.removeClass("nav_scroll");
+        }
+    });
+})
+//FIXME tox 修正短页面滚至底部弹回
+/*导航栏end*/

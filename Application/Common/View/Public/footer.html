@@ -6,13 +6,10 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="footer_left"><img src="__PUBLIC__/Core/images/footer-logo.png"/>
-
                     <p class="han_p">想天软件工作室成立于2013年6月，专业承接社交网站开发。承接ThinkOX、ThinkSNS等二次开发，企业网站建设，网站UI视觉设计。
                     </p>
-
                     <p class="han_p">
                         本站由 <a href="http://tox.ourstu.com/" target="_blank">ThinkOX开源社交框架</a> 强力驱动
-
                         <!--//TODO 如未获得thinkox官方许可，请尽量保留一个指向thinkox的链接，非常感谢。-->
                         <php> $config = api('Config/lists');
                             C($config); //添加配置
@@ -31,57 +28,22 @@
                 <div class="footer_right">
                     <p><h4><strong>联系</strong></h4></p>
                     <p><a href="http://www.ourstu.com/index.php?s=/home/index/about.html" target="_blank">关于我们</a>
-
                     <p>
-
                     <p><a href="http://tox.ourstu.com/tox/index.php?s=/Forum/Index/forum/id/3.html" target="_blank">问题反馈</a></p>
-
                     <p><a href="http://www.ourstu.com/index.php?s=/home/index/contact.html" target="_blank">联系我们</a></p>
-
                 </div>
             </div>
             <div class="col-md-2">
                 <img src="__PUBLIC__/Core/images/erweima.png"/>
             </div>
-
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var topMain = $("#top_bar").height() + $('#logo_bar').height() ;//是头部的高度加头部与nav导航之间的距离
-    $(function () {
-        var nav = $("#nav_bar");
-        $(window).scroll(function () {
-            var top = $(document).scrollTop();
-            if (top > topMain) {
-                nav.addClass("nav_scroll");
-            } else {
-                nav.removeClass("nav_scroll");
-            }
-        });
-    })
-
-    //FIXME tox 修正短页面滚至底部弹回
-</script>
 <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/Core/js/ext/placeholder/placeholder.js"></script>
-<script>
-    $(function () {
-        $('input,area').placeholder();
-    })
-</script>
-
-<script type="text/javascript" src="__PUBLIC__/Core/js/ext/placeholder/placeholder.js"></script>
-<script>
-    $(function () {
-        $('input,area').placeholder();
-    })
-</script>
 <include file="Public/var"/>
 <block name="script">
 </block> <!-- 用于加载js代码 -->
-
-
 <!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
 {:hook('pageFooter', 'widget')}
 <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->

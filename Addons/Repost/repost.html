@@ -1,20 +1,2 @@
 <a title="转发"  class="send_repost" href="{:U('Weibo/Index/sendrepost',array('sourseId'=>$sourseId,'weiboId'=>$weiboId))}" style="margin-left:8px ">转发 {$repost_count}</a>
 
-<script>
-    $(function () {
-        $('.send_repost').magnificPopup({
-            type: 'ajax',
-            overflowY: 'scroll',
-            modal: true,
-            callbacks: {
-              ajaxContentAdded: function() {
-                    // Ajax content is loaded and appended to DOM
-                     $('#repost_content').focus();
-                    console.log(this.content);
-                }
-        }
-        });
-    })
-</script>
-
-
