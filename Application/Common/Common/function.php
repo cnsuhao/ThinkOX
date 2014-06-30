@@ -1332,3 +1332,4 @@ function getSubByKey($pArray, $pKey="", $pCondition=""){
         return false;
     }
 }
+

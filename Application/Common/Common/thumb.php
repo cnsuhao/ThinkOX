@@ -11,9 +11,10 @@ function getImageUrlByPath($path, $size)
 {
     //TODO 重新开启缩略
     $thumb = getThumbImage($path, $size, $size);
-   // $thumb['src']=$path;
+    // $thumb['src']=$path;
     $thumb = $thumb['src'];
-    return  $thumb;
+
+    return $thumb;
 }
 
 /**兼容SAE
@@ -25,13 +26,14 @@ function getImageUrlByPath($path, $size)
  * @return mixed|string
  * @auth 陈一枭
  */
-function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=false) {
-    $UPLOAD_URL='';
-    $UPLOAD_PATH='';
-    $filename  =  str_ireplace($UPLOAD_URL,  '',  $filename);  //将URL转化为本地地址
-    $info  =  pathinfo($filename);
-    $oldFile  =  $info['dirname']  .  DIRECTORY_SEPARATOR  .  $info['filename']  .  '.'  .  $info['extension'];
-    $thumbFile  =  $info['dirname']  .  DIRECTORY_SEPARATOR  .  $info['filename']  .  '_'  .  $width  .  '_'  .  $height  .  '.'  .  $info['extension'];
+function getThumbImage($filename, $width = 100, $height = 'auto', $type = 0, $replace = false)
+{
+    $UPLOAD_URL = '';
+    $UPLOAD_PATH = '';
+    $filename = str_ireplace($UPLOAD_URL, '', $filename); //将URL转化为本地地址
+    $info = pathinfo($filename);
+    $oldFile = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '.' . $info['extension'];
+    $thumbFile = $info['dirname'] . DIRECTORY_SEPARATOR . $info['filename'] . '_' . $width . '_' . $height . '.' . $info['extension'];
 
     $oldFile = str_replace('\\', '/', $oldFile);
     $thumbFile = str_replace('\\', '/', $thumbFile);
@@ -40,7 +42,6 @@ function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=
     $filename = ltrim($filename, '/');
     $oldFile = ltrim($oldFile, '/');
     $thumbFile = ltrim($thumbFile, '/');
-
 
 
     //兼容SAE的中心裁剪缩略
@@ -106,8 +107,8 @@ function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=
         $info['height'] = intval($height);
         return $info;
         //缩图已存在并且  replace替换为false
-    }  elseif  (file_exists($UPLOAD_PATH  .  $thumbFile)  &&  !$replace)  {
-        $imageinfo  =  getimagesize($UPLOAD_PATH  .  $thumbFile);
+    } elseif (file_exists($UPLOAD_PATH . $thumbFile) && !$replace) {
+        $imageinfo = getimagesize($UPLOAD_PATH . $thumbFile);
         $info['src'] = $thumbFile;
         $info['width'] = intval($imageinfo[0]);
         $info['height'] = intval($imageinfo[1]);
@@ -127,37 +128,37 @@ function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=
         } else {
             if ($height == "auto") $height = $old_image_height * $width / $old_image_width;
             if ($width == "auto") $width = $old_image_width * $width / $old_image_height;
-            if(intval($height)==0 || intval($width)==0){
+            if (intval($height) == 0 || intval($width) == 0) {
                 return 0;
             }
-             require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
-             $thumb  =  PhpThumbFactory::create($UPLOAD_PATH  .  $filename);
-             if  ($type==0)  {
-                 $thumb->adaptiveResize($width,  $height);
-             }  else  {
-                 $thumb->resize($width,  $height);
-             }
-             $res  =  $thumb->save($UPLOAD_PATH  .  $thumbFile);
+            require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
+            $thumb = PhpThumbFactory::create($UPLOAD_PATH . $filename);
+            if ($type == 0) {
+                $thumb->adaptiveResize($width, $height);
+            } else {
+                $thumb->resize($width, $height);
+            }
+            $res = $thumb->save($UPLOAD_PATH . $thumbFile);
 
-            $info['src'] = $UPLOAD_PATH  .  $thumbFile;
+            $info['src'] = $UPLOAD_PATH . $thumbFile;
             $info['width'] = $old_image_width;
             $info['height'] = $old_image_height;
             return $info;
 
             //内置库缩略
-          /*  $image = new \Think\Image();
-            $image->open($UPLOAD_PATH . $filename);
-            //dump($image);exit;
-            $image->thumb($width, $height, $type);
-            $image->save($UPLOAD_PATH . $thumbFile);
-            //缩图失败
-            if (!$image) {
-                $thumbFile = $oldFile;
-            }
-            $info['width'] = $width;
-            $info['height'] = $height;
-            $info['src'] = $thumbFile;
-            return $info;*/
+            /*  $image = new \Think\Image();
+              $image->open($UPLOAD_PATH . $filename);
+              //dump($image);exit;
+              $image->thumb($width, $height, $type);
+              $image->save($UPLOAD_PATH . $thumbFile);
+              //缩图失败
+              if (!$image) {
+                  $thumbFile = $oldFile;
+              }
+              $info['width'] = $width;
+              $info['height'] = $height;
+              $info['src'] = $thumbFile;
+              return $info;*/
 
 
         }
@@ -166,11 +167,11 @@ function getThumbImage($filename, $width=100, $height='auto', $type=0, $replace=
 
 function getRootUrl()
 {
-    return str_replace('\\','/',"http://$_SERVER[HTTP_HOST]$GLOBALS[_root]");
+    return str_replace('\\', '/', "http://$_SERVER[HTTP_HOST]$GLOBALS[_root]");
 }
 
 
-function getThumbImageById($cover_id, $width = 100, $height = 2, $type=0, $replace = false)
+function getThumbImageById($cover_id, $width = 100, $height = 2, $type = 0, $replace = false)
 {
 
     $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);
@@ -178,6 +179,8 @@ function getThumbImageById($cover_id, $width = 100, $height = 2, $type=0, $repla
         return 'Public/static/assets/img/nopic.png';
     }
     $attach = getThumbImage($picture['path'], $width, $height, $type, $replace);
-
+    if (!is_sae()) {
+        $attach['src']=getRootUrl(). $attach['src'];
+    }
     return $attach['src'];
 }
