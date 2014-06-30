@@ -7,6 +7,7 @@
 $(function () {
     ucard();//绑定用户小名片
     bindGoTop();//回到顶部
+    weiboShare();//处理微博分享
     if (is_login()) {
         bindMessageChecker();//绑定用户消息
     }
@@ -798,4 +799,16 @@ $(function () {
 
 function clearWeibo() {
     $('#weibo_content').val('');
+}
+
+/* weiboShare */
+function weiboShare() {
+    var wb_shareBtn = document.getElementById("weibo_shareBtn")
+    wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
+        wb_appkey = "",
+        wb_title = document.title,
+        wb_ralateUid = "{:C('SHARE_WEIBO_ID')}",
+        wb_pic = "",
+        wb_language = "zh_cn";
+    wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
 }
