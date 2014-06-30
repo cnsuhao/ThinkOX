@@ -7,7 +7,7 @@ $(function () {
         var to_f_reply_id = args['to_f_reply_id'];
         $('#show_textarea_' + to_f_reply_id).show();
 
-        $('#reply_' + to_f_reply_id).val('回复@' + args['to_username'] + ' ：');
+        $('#reply_' + to_f_reply_id).val('回复@' + args['to_nickname'] + ' ：');
         $('#submit_' + to_f_reply_id).attr('args', $(this).attr('args'));
 
     })

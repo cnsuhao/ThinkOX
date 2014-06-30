@@ -16,7 +16,7 @@ class ConfigController extends BaseController
         parent::_initialize();
 
     }
-    public function index($uid = null)
+    public function index($uid = null,$tab='')
     {
         //调用API获取基本信息
         $user = query_user(array('nickname','signature', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256','rank_link','sex'), $uid);
@@ -25,6 +25,8 @@ class ConfigController extends BaseController
         $this->assign('user', $user);
         $this->assign('call', $this->getCall($uid));
 
+        $tab=op_t($tab);
+        $this->assign('tab',$tab);
         $this->getExpandInfo();
         $this->display();
     }
@@ -297,6 +299,55 @@ class ConfigController extends BaseController
         $profile_group_list=D('field_group')->where($map)->order('sort asc')->select();
 
         return $profile_group_list;
+    }
+
+
+
+
+    public function changeAvatar()
+    {
+        $this->defaultTabHash('change-avatar');
+        $this->display();
+    }
+
+    public function doCropAvatar($crop)
+    {
+        //调用上传头像接口改变用户的头像
+        $result = callApi('User/applyAvatar', array($crop));
+        $this->ensureApiSuccess($result);
+
+        //显示成功消息
+        $this->success($result['message'],U('Usercenter/Config/index',array('tab'=>'avatar')));
+    }
+
+    public function doUploadAvatar()
+    {
+        //调用上传头像接口
+        $result = callApi('User/uploadTempAvatar');
+
+        $this->ensureApiSuccess($result);
+
+        //显示成功消息
+        $this->iframeReturn(apiToAjax($result));
+    }
+
+    private function iframeReturn($result) {
+        $json = json_encode($result);
+        $json = htmlspecialchars($json);
+        $html = "<textarea data-type=\"application/json\">$json</textarea>";
+        echo $html;
+        exit;
+    }
+
+
+    public function doChangePassword($old_password, $new_password)
+    {
+        //调用接口
+        $result = callApi('User/changePassword', array($old_password, $new_password));
+        $this->ensureApiSuccess($result);
+
+        //显示成功信息
+        $this->success($result['message']);
     }
 
 }

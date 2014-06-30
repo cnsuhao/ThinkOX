@@ -28,7 +28,7 @@
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             <php>if($check['ischeck']==1){</php>
 
-            <span id="checkin" class="btn-sign">已签到</span>
+            <span id="checkin" class="btn-sign">查看</span>
 
             <php>}else{</php>
 
@@ -97,7 +97,6 @@
     function checkin() {
         $('#checkin').text('已签到');
         $('#checkin').attr('onclick', '');
-        $('#checkin').attr('class', 'btn-sign-h');
         $('#checkinfo').text('签到成功');
 
         $.post("{:addons_url('Checkin://Checkin/check_in')}", {}, function (res) {

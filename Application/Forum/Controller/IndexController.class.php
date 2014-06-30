@@ -16,11 +16,21 @@ define('TOP_FORUM', 1);
 
 class IndexController extends Controller
 {
+    private function getForumList()
+    {
+        $forum_list = S('forum_list');
+        if (empty($forum_list)) {
+            //读取板块列表
+            $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
+            S('forum_list', $forum_list, 300);
+        }
+        return $forum_list;
+    }
+
     public function _initialize()
     {
-        //读取板块列表
-        $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
 
+        $forum_list = $this->getForumList();
         //判断板块能否发帖
         foreach ($forum_list as &$e) {
             $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
@@ -60,6 +70,12 @@ class IndexController extends Controller
             $order = 'reply_count desc';
         }
         $this->requireForumAllowView($id);
+        $forums =$this->getForumList();
+        $forum_key_value=array();
+        foreach($forums as $f){
+            $forum_key_value[$f['id']]=$f;
+        }
+
 
         //读取帖子列表
         if ($id == 0) {
@@ -70,9 +86,16 @@ class IndexController extends Controller
             $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
         }
 
+        foreach($list_top as &$v){
+            $v['forum']=$forum_key_value[$v['forum_id']];
+        }
+        unset($v);
         $list = D('ForumPost')->where($map)->order($order)->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
-
+        foreach($list as &$v){
+            $v['forum']=$forum_key_value[$v['forum_id']];
+        }
+        unset($v);
         //读取置顶列表
 
         //显示页面
@@ -89,9 +112,11 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function forums(){
+    public function forums()
+    {
         $this->display();
     }
+
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
         $id = intval($id);
@@ -242,10 +267,10 @@ class IndexController extends Controller
             $data = array('uid' => is_login(), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => $forum_id);
 
             $before = getMyScore();
-            $tox_money_before=getMyToxMoney();
+            $tox_money_before = getMyToxMoney();
             $result = $model->createPost($data);
             $after = getMyScore();
-            $tox_money_after=getMyToxMoney();
+            $tox_money_after = getMyToxMoney();
             if (!$result) {
                 $this->error('发表失败：' . $model->getError());
             }
@@ -264,7 +289,7 @@ class IndexController extends Controller
 
 
         //显示成功消息
-        $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after).getToxMoneyTip($tox_money_before,$tox_money_after);
+        $message = $isEdit ? '编辑成功。' : '发表成功。' . getScoreTip($before, $after) . getToxMoneyTip($tox_money_before, $tox_money_after);
         $this->success($message, U('Forum/Index/detail', array('id' => $post_id)));
     }
 
@@ -284,15 +309,15 @@ class IndexController extends Controller
             //添加到数据库
             $model = D('ForumPostReply');
             $before = getMyScore();
-            $tox_money_before=getMyToxMoney();
+            $tox_money_before = getMyToxMoney();
             $result = $model->addReply($post_id, $this->filterPostContent($content));
             $after = getMyScore();
-            $tox_money_after=getMyToxMoney();
+            $tox_money_after = getMyToxMoney();
             if (!$result) {
                 $this->error('回复失败：' . $model->getError());
             }
             //显示成功消息
-            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh').getToxMoneyTip($tox_money_before,$tox_money_after);
+            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh') . getToxMoneyTip($tox_money_before, $tox_money_after);
         } else {
             $this->error('请10秒之后再回复');
 

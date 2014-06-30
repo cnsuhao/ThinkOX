@@ -88,7 +88,7 @@
 
                             <div class="col-sm-10">
                                 <textarea id="signature" name="signature" class="form-control"
-                                          style="width: 100%; height: 6em;">{$user.signature|htmlspecialchars}</textarea>
+                                          style="width: 100%; height: 6em;resize: none">{$user.signature|htmlspecialchars}</textarea>
                             </div>
                         </div>
 
@@ -183,5 +183,13 @@
         </div>
 
     </div>
+<neq name="tab" value="">
+    <script>
+        $(function () {
+
+            center_toggle("{$tab}");
+        })
+    </script>
+</neq>
 
 </block>

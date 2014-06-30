@@ -7,11 +7,13 @@
 
 .weibo_left {
 }
+
 .weibo_main {
   .boxShadow;
   background: white;
   border-radius: 0.2em;
 }
+
 .weibo_content {
   background-color: #ffffff;
   padding: 15px;
@@ -93,7 +95,6 @@
   height: 60px;
 }
 
-
 .ribbion-green {
   z-index: 99;
   position: absolute;
@@ -112,4 +113,26 @@
   a:hover {
     text-decoration: none;
   }
+}
+
+.weibo_avatar {
+  .weibo_change_avatar {
+    display: none;
+    color: white;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    text-align: center;
+    bottom:0;
+    left: 0;
+    line-height: 24px;
+  }
+  &:hover {
+    .weibo_change_avatar {
+      display: block;
+    }
+  }
+  position: relative;
+
+  display: inline-block;
 }
