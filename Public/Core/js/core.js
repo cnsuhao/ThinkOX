@@ -56,21 +56,45 @@ function is_login() {
  * @constructor
  */
 function U(url, params, rewrite) {
-    var website = _ROOT_ + '/index.php';
-    url = url.split('/');
-    if (url[0] == '' || url[0] == '@')
-        url[0] = APPNAME;
-    if (!url[1])
-        url[1] = 'Index';
-    if (!url[2])
-        url[2] = 'index';
-    website = website + '?s=/' + url[0] + '/' + url[1] + '/' + url[2];
-    if (params) {
-        params = params.join('/');
-        website = website + '/' + params;
-    }
-    if (!rewrite) {
-        website = website + '.html';
+
+
+
+
+    if(window.Think['URL_MODEL']==2){
+        var website = _ROOT_ + '/';
+        url = url.split('/');
+        if (url[0] == '' || url[0] == '@')
+            url[0] = APPNAME;
+        if (!url[1])
+            url[1] = 'Index';
+        if (!url[2])
+            url[2] = 'index';
+        website = website + '' + url[0] + '/' + url[1] + '/' + url[2];
+        if (params) {
+            params = params.join('/');
+            website = website + '/' + params;
+        }
+        if (!rewrite) {
+            website = website + '.html';
+        }
+
+    }else{
+        var website = _ROOT_ + '/index.php';
+        url = url.split('/');
+        if (url[0] == '' || url[0] == '@')
+            url[0] = APPNAME;
+        if (!url[1])
+            url[1] = 'Index';
+        if (!url[2])
+            url[2] = 'index';
+        website = website + '?s=/' + url[0] + '/' + url[1] + '/' + url[2];
+        if (params) {
+            params = params.join('/');
+            website = website + '/' + params;
+        }
+        if (!rewrite) {
+            website = website + '.html';
+        }
     }
     return website;
 }
@@ -721,7 +745,7 @@ function set_current_chat(chat) {
  */
 function bindLogout() {
     $('[event-node=logout]').click(function () {
-        $.get(U('userCenter/Index/logout'), function (msg) {
+        $.get(U('Usercenter/System/logout'), function (msg) {
             op_success(msg.message + '。', '温馨提示');
             setTimeout(function () {
                 location.href = msg.url;
