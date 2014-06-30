@@ -105,7 +105,6 @@ a:hover {
 }
 .avatar-img {
   border-radius: 100%;
-  width: 100%;
   max-width: 128px;
 }
 .navbar-nav > li > a {
@@ -116,7 +115,6 @@ a:hover {
 }
 .navbar-avatar-img {
   border-radius: 100%;
-  width: 100%;
   max-width: 128px;
   border: solid 2px #fff;
   margin-top: -20px;
@@ -1237,6 +1235,7 @@ a:hover {
   width: 15px;
   height: 14px;
   vertical-align: middle;
+  margin-top: -4px;
 }
 .support_like {
   display: inline-block;
@@ -1244,6 +1243,7 @@ a:hover {
   width: 16px;
   height: 14px;
   vertical-align: middle;
+  margin-top: -4px;
 }
 /*赞end*/
 /*微博首页样式结束*/

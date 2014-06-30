@@ -36,7 +36,7 @@ class IndexController extends Controller
             $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
         }
         unset($e);
-        $myInfo = query_user(array('avatar128', 'nickname', 'uid', 'space_url', 'icons_html'), is_login());
+        $myInfo = query_user(array('avatar128','avatar64', 'nickname', 'uid', 'space_url', 'icons_html'), is_login());
         $this->assign('myInfo', $myInfo);
         //赋予贴吧列表
         $this->assign('forum_list', $forum_list);

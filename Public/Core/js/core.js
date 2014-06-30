@@ -756,7 +756,7 @@ function bindLogout() {
 function bindSupport() {
     $('.support_btn').unbind('click');
     $('.support_btn').click(function () {
-        event.stopPropagation();
+       // event.stopPropagation();
         var me = $(this);
         if (MID == 0) {
             op_error('请在登陆后再点赞。即将跳转到登陆页。', '温馨提示');
