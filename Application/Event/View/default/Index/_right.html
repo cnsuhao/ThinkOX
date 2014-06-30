@@ -1,0 +1,82 @@
+<div class="forum_module event_right">
+    <h2 class="event_type_name">活动分类</h2>
+
+    <div class="event_type">
+        <a style="float: left" href="{:U('index',array('norh'=>$norh))}"
+        <eq name="type_id" value="">class="cur"</eq>
+        >全部分类</a>
+        <volist name="tree" id="top">
+            <a style="float: left"
+            <eq name="type_id" value="$top['id']">class="cur"</eq>
+            href="{:U('index',array('type_id'=>$top['id'],'norh'=>$norh))}" data="{$top.id}">{$top.title}</a>
+        </volist>
+    </div>
+</div>
+
+
+
+
+<php>if(ACTION_NAME == 'detail' ){</php>
+<div class="forum_module " style="width:100%;float: left;">
+    <h2 class="event_type_name">参与活动的人 ({$content.attentionCount}人) <a class="pull-right"
+                                                                       href="{:U('member',array('id'=>$content['id']))}"
+                                                                       style="font-size: 16px;margin-right: 10px;color: #3d3d3d">全部</a>
+    </h2>
+
+    <div style="width: 100%">
+        <volist name="content['member']" id="vo" offset="0" length="20">
+            <div class="" style="text-align: center;width:80px;float: left;height: 80px;line-height: 80px;">
+                <a href="{$vo.space_url}">
+                    <img ucard="{$vo.id}" src="{$vo.avatar64}" class="avatar-img" style="width: 64px"/>
+                </a>
+            </div>
+        </volist>
+    </div>
+
+</div>
+<php>}</php>
+
+<h2 style="font-size: 16px;"> 推荐活动</h2>
+
+<volist name="rec_event" id="vo">
+    <div class="forum_module event_right " style="padding: 0 0 10px 0;">
+
+        <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img
+                class="cover img-responsive"
+                src="{$vo.cover_id|getThumbImageById=345,233}" /></a>
+
+        <div class="pull-left" style="width: 100%;">
+            <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
+                                              class="text-more" style="width: 100%">{$vo.title}</a></div>
+            <div class="event_fq_count pull-left">
+                <div class="pull-left mgb10 col-md-12">
+                    <div class="pull-left col-md-6" style="padding-left: 5px;">by&nbsp; <a class=""
+                                                                                           href="{$vo.user.space_url}">
+                        <span class="event_count">{$vo.user.nickname}</span></a></div>
+
+                </div>
+                <div class="pull-left mgb10 col-md-12" style="padding-left: 5px;">
+
+                    <div title="报名人数" class=" pull-left col-md-4">
+                        <div class="event_logo" style=""></div>
+                        <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
+                    <div class=" pull-left col-md-4">
+                        <div class="event_logo" style="background-position: -20px 0px;"></div>
+                        <span class="event_count">&nbsp;{$vo.view_count}</span></div>
+                </div>
+
+                <div class="pull-left mgb10">
+                    <div class="pull-left mgl20 " style="font-size: 14px;">时间：
+                        {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])} &nbsp;&nbsp;
+
+                    </div>
+                </div>
+                <div class="pull-left mgl20 word-wrap" style="width: 90%;font-size: 14px;">简介：
+                    {$vo.explain|op_h='font'|getShortSp=20}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</volist>

@@ -70,3 +70,39 @@ $(function () {
     });
 })
 
+function shenhe(obj) {
+    var uid = obj.attr('data-uid');
+    var event_id = obj.attr('data-eventID');
+    var tip = 1;
+    $.post(U('Event/Index/shenhe'), {uid: uid, event_id: event_id, tip: tip}, function (res) {
+        if (res.status) {
+            op_success(res.info);
+
+            var html = '<a data-eventID="'+event_id+'" data-uid="' + uid + '" onclick="qushenhe($(this))" title="取消审核"><span class="glyphicon glyphicon-remove"></span></a>';
+            obj.parent().html(html);
+            $('#attend_count').html(parseInt($('#attend_count').text()) + 1);
+            $('#sign_count').html(parseInt($('#sign_count').text()) - 1);
+        }
+        else {
+            op_error(res.info);
+        }
+    }, 'json');
+}
+
+function qushenhe(obj) {
+    var uid = obj.attr('data-uid');
+    var event_id = obj.attr('data-eventID');
+    var tip = 0;
+    $.post(U('Event/Index/shenhe'), {uid: uid, event_id: event_id, tip: tip}, function (res) {
+        if (res.status) {
+            op_success(res.info);
+            var html = '<a data-eventID="'+event_id+'" data-uid="' + uid + '" onclick="shenhe($(this))" title="通过审核"><span class="glyphicon glyphicon-ok"></span></a>';
+            obj.parent().html(html);
+            $('#attend_count').html(parseInt($('#attend_count').text()) - 1);
+            $('#sign_count').html(parseInt($('#sign_count').text()) + 1);
+        }
+        else {
+            op_error(res.info);
+        }
+    }, 'json');
+}

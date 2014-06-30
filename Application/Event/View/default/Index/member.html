@@ -15,6 +15,19 @@
             <nav class="navbar navbar-default app_block event_navbar forum_module container_nav" role="navigation">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
+
+                    <if condition="is_login() eq 0">
+                        <button class="btn btn-primary event_btn event_btn_tog" onclick="op_error('请登陆后再发布。','温馨提示')"><i
+                                class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                        </button>
+                        <else/>
+                        <a class="btn btn-primary event_btn event_btn_tog" href="{:U('Event/Index/add')}"><i
+                                class="glyphicon glyphicon-send"></i>&nbsp;发起活动
+                        </a>
+
+                    </if>
+
+
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
                             data-target="#bs-example-navbar-collapse-1" style="margin-top: 0px;">
                         <span class="sr-only">Toggle navigation</span>
@@ -28,23 +41,23 @@
                 <div class=" collapse navbar-collapse " id="bs-example-navbar-collapse-1"
                      style="  border-color: #fff;background: #FFFFFF;overflow-y: inherit;z-index: 99;">
                     <!--二级导航-->
-                    <ul class="container_nav_tab" style="margin-top: 5px;">
+                    <ul class=" container_nav_tab " style="margin-top: 5px;">
                         <div class="col-md-4">
-                            <li class="container_nav_tab_li active col-xs-4 col-md-4">
-                                <a href="{:U('index')}">活动首页</a>
+                            <li class="container_nav_tab_li active col-xs-12 col-md-4 event_li_show_xs" >
+                                <a href="{:U('index')}" style="padding: 0">活动首页</a>
                             </li>
-                            <li class="container_nav_tab_li col-xs-4 col-md-4">
-                                <a href="{:U('myevent')}">我的活动</a>
+                            <li class="container_nav_tab_li col-xs-12 col-md-4 event_li_show_xs">
+                                <a href="{:U('myevent')}" style="padding: 0">我的活动</a>
                             </li>
                         </div>
                         <li class="pull-right">
 
                             <if condition="is_login() eq 0">
-                                <button class="btn btn-primary event_btn" onclick="op_error('请登陆后再发布。','温馨提示')"><i
+                                <button class="btn btn-primary event_btn hidden-xs" onclick="op_error('请登陆后再发布。','温馨提示')"><i
                                         class="glyphicon glyphicon-send"></i>&nbsp;发起活动
                                 </button>
                                 <else/>
-                                <a class="btn btn-primary event_btn" href="{:U('Event/Index/add')}"><i
+                                <a class="btn btn-primary event_btn hidden-xs" href="{:U('Event/Index/add')}"><i
                                         class="glyphicon glyphicon-send"></i>&nbsp;发起活动
                                 </a>
 
@@ -77,15 +90,15 @@
 
                 <div style="text-align: center;">
                     <div><a href="{$vo.space_url}"> {$vo.nickname} </a></div>
-                    <php>if($content['uid'] == is_login() || is_administrator(is_login()) ){</php>
+                    <php>if($content['uid'] == is_login()  ){</php>
 
                     <a class="event_see_info" title="查看姓名联系方式"><span class="glyphicon glyphicon-hand-up"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span>
                     <if condition="$vo['status'] eq 0">
-                        <a data-uid="{$vo.id}" onclick="shenhe($(this))" title="通过审核"><span class="glyphicon glyphicon-ok"></span></a>
+                        <a data-eventID="{$content['id']}" data-uid="{$vo.id}" onclick="shenhe($(this))" title="通过审核"><span class="glyphicon glyphicon-ok"></span></a>
                         <else/>
-                         <a data-uid="{$vo.id}"  onclick="qushenhe($(this))"  title="取消审核"><span class="glyphicon glyphicon-remove"></span></a>
+                         <a data-eventID="{$content['id']}" data-uid="{$vo.id}"  onclick="qushenhe($(this))"  title="取消审核"><span class="glyphicon glyphicon-remove"></span></a>
                     </if>
 
                 </span>
@@ -115,6 +128,7 @@
 <block name="script">
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="__JS__/event.js"></script>
     <script>
         $(function () {
             $('#top_nav >li >a ').mouseenter(function () {
@@ -134,42 +148,7 @@
 
         })
 
-        function shenhe(obj) {
-            var uid = obj.attr('data-uid');
-            var event_id = "{$content['id']}";
-            var tip = 1;
-            $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
-                if (res.status) {
-                    op_success(res.info);
 
-                    var html = '<a data-uid="' + uid + '" onclick="qushenhe($(this))" title="取消审核"><span class="glyphicon glyphicon-remove"></span></a>';
-                    obj.parent().html(html);
-                    $('#attend_count').html(parseInt($('#attend_count').text()) + 1);
-                    $('#sign_count').html(parseInt($('#sign_count').text()) - 1);
-                }
-                else {
-                    op_error(res.info);
-                }
-            }, 'json');
-        }
-
-        function qushenhe(obj) {
-            var uid = obj.attr('data-uid');
-            var event_id = "{$content['id']}";
-            var tip = 0;
-            $.post("{:U('Event/Index/shenhe')}", {uid: uid, event_id: event_id, tip: tip}, function (res) {
-                if (res.status) {
-                    op_success(res.info);
-                    var html = '<a data-uid="' + uid + '" onclick="shenhe($(this))" title="通过审核"><span class="glyphicon glyphicon-ok"></span></a>';
-                    obj.parent().html(html);
-                    $('#attend_count').html(parseInt($('#attend_count').text()) - 1);
-                    $('#sign_count').html(parseInt($('#sign_count').text()) + 1);
-                }
-                else {
-                    op_error(res.info);
-                }
-            }, 'json');
-        }
     </script>
 
 </block>

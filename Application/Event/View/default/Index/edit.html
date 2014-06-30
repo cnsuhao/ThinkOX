@@ -23,11 +23,11 @@
                 <div class="col-md-8">
                     <form class="form-horizontal  ajax-form" role="form" action="{:U('Event/Index/doPost')}"
                           method="post">
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label for="title" class="col-sm-2 control-label">标题</label>
 
                             <div class="col-sm-6">
-                                <input id="title" name="title" class="form-control" value="{$content.title}" placeholder="标题"/>
+                                <input id="title" name="title" class="form-control form_check" check-type="Text" value="{$content.title}" placeholder="标题"/>
                             </div>
                             <input type="hidden" name="id" id="id" value="{$content.id}"/>
                             <input type="hidden" name="cover_id" id="cover_id_cover" value="{$content.cover_id}"/>
@@ -50,38 +50,38 @@
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label for="" class="col-sm-2 control-label">时间</label>
 
                             <div class="col-sm-3">
-                                <input id="sTime" name="sTime" class="time_d form-control" value="{:date('Y-m-d H:i',$content['sTime'])}" placeholder="开始时间"/>
+                                <input id="sTime" name="sTime" class="time_d form-control form_check" check-type="Date" value="{:date('Y-m-d',$content['sTime'])}" placeholder="开始时间"/>
                             </div>
 
                             <div class="col-sm-3">
-                                <input id="eTime" name="eTime" class="time_d form-control" value="{:date('Y-m-d H:i',$content['eTime'])}" placeholder="结束时间"/>
+                                <input id="eTime" name="eTime" class="time_d form-control form_check" check-type="Date" value="{:date('Y-m-d',$content['eTime'])}" placeholder="结束时间"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label for="address" class="col-sm-2 control-label">地址</label>
 
                             <div class="col-sm-6">
-                                <input id="address" name="address" class="form-control" value="{$content.address}" placeholder="地址"/>
+                                <input id="address" name="address" class="form-control form_check" check-type="Text" value="{$content.address}" placeholder="地址"/>
                             </div>
 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label for="limitCount" class="col-sm-2 control-label">人数</label>
 
                             <div class="col-sm-3">
-                                <input id="limitCount" name="limitCount" class="form-control" value="{$content.limitCount}" placeholder="人数"/>
+                                <input id="limitCount" name="limitCount" class="form-control form_check" check-type="Num" value="{$content.limitCount}" placeholder="人数"/>
                             </div>
 
                         </div>
-                        <div class="form-group">
+                        <div class="form-group has-feedback">
                             <label for="deadline" class="col-sm-2 control-label">截止</label>
 
-                            <div class="col-sm-3">
-                                <input id="deadline" name="deadline" class="time form-control" value="{:date('Y-m-d H:i',$content['deadline'])}" placeholder="报名截止"/>
+                            <div class="col-sm-4">
+                                <input id="deadline" name="deadline" class="time form-control form_check" check-type="Text" value="{:date('Y-m-d H:i',$content['deadline'])}" placeholder="报名截止"/>
                             </div>
 
                         </div>
@@ -96,13 +96,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-2">
+                            <div class="col-sm-offset-2 col-sm-1">
                                 <button type="submit" class="btn btn-primary " href="{:U('Event/Index/doPost')}">提交
                                 </button>
 
                             </div>
                             <div class="col-sm-8">
-                                <button onclick="history.go(-1);" class="btn btn-primary " href="{:U('Event/Index/doPost')}">返回
+                                <button onclick="history.go(-1);" class="btn btn-default " href="{:U('Event/Index/doPost')}">返回
                                 </button>
                             </div>
 
@@ -114,6 +114,7 @@
         </div>
     </div>
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src="__JS__/form_check.js"></script>
     <script type="text/javascript" src="__STATIC__/datetimepickerV3/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript" src="__STATIC__/datetimepickerV3/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
     <script>

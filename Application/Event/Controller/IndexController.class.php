@@ -159,6 +159,9 @@ class IndexController extends Controller
         if ($sTime < $deadline) {
             $this->error('报名截止不能大于活动开始时间');
         }
+        if ( $deadline == '') {
+            $this->error('请输入截止日期');
+        }
         if ($sTime > $eTime) {
             $this->error('活动开始时间不能大于活动结束时间');
         }
