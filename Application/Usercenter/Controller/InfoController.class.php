@@ -21,10 +21,86 @@ class InfoController extends BaseController{
     public function index($uid = null)
     {
         //调用API获取基本信息
-        $user = query_user(array('nickname', 'email', 'mobile', 'last_login_time', 'last_login_ip', 'score', 'reg_time', 'title', 'avatar256','rank_link'), $uid);
-        $this->assign('user', $user);
-        $this->assign('call', $this->getCall($uid));
+        $user_info=$this->userInfo($uid);
+
+        $appArr=$this->_tab_menu();
+
+        $type = 'weibo';
+        if (! isset ( $appArr [$type] )) {
+            $this->error ( '参数出错！！' );
+        }
+        $this->assign('type', $type);
+        $className = ucfirst($type).'Protocol';
+        $content = D(ucfirst($type).'/'.$className)->profileContent($uid);
+        if (empty($content)) {
+            $content = '暂无内容';
+        }
+        $this->assign('content', $content);
         $this->display();
     }
 
+    private function userInfo($uid=null)
+    {
+        $user_info = query_user(array('avatar128', 'nickname', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link','signature'),$uid);
+        $this->assign('user_info', $user_info);
+        return $user_info;
+    }
+
+
+    public function appList ($uid=null) {
+        //调用API获取基本信息
+        $user_info=$this->userInfo($uid);
+        $this->assign('user_info', $user_info);
+        //获取导航列表
+        $this->_tab_menu();
+
+        $type = op_t( $_GET ['type'] );
+        if (! isset ( $appArr [$type] )) {
+            $this->error ( '参数出错！！' );
+        }
+        $this->assign('type', $type);
+        $className = ucfirst($type).'Protocol';
+        $content = D(ucfirst($type).'/'.$className)->profileContent($uid);
+        if (empty($content)) {
+            $content = '暂无内容';
+        }
+        $this->assign('content', $content);
+
+        $this->display ();
+    }
+
+    /**
+     * 个人主页标签导航
+     * @return void
+     */
+    public function _tab_menu () {
+        // 取全部APP信息
+        $map['status'] = 1;
+        $dir = APP_PATH;
+        $appList=null;
+        if (is_dir($dir))
+        {
+            if ($dh = opendir($dir))
+            {
+                while (($file = readdir($dh)) !== false)
+                {
+                    $appList[]['app_name']= $file;
+                }
+                closedir($dh);
+            }
+        }
+        // 获取APP的HASH数组
+        foreach ($appList as $app) {
+            $appName = strtolower($app['app_name']);
+            $className = ucfirst($appName);
+            $dao = D($className.'/'.$className.'Protocol');
+            if (method_exists($dao, 'profileContent')) {
+                $appArr [$appName] = L (  $appName );
+            }
+            unset ( $dao );
+        }
+        $this->assign ( 'appArr', $appArr );
+
+        return $appArr;
+    }
 } 
