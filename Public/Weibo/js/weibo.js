@@ -1,6 +1,58 @@
 /**
  * Created by 95 on 3/21/14.
  */
+/*从index拿过来的*/
+
+
+function isLoadMoreVisible() {
+    var visibleHeight = $(window.top).height();
+    var loadMoreOffset = $('#load_more').offset();
+    return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
+}
+
+function loadNextPage() {
+    currentPage = currentPage + 1;
+    loadWeiboList(currentPage);
+}
+
+function reloadWeiboList() {
+    loadWeiboList(1, function () {
+        clearWeiboList();
+        currentPage = 1;
+    });
+}
+
+
+function loadWeiboList(page, onBeforePrepend) {
+    //默认载入第1页
+    if (page == undefined) {
+        page = 1;
+    }
+
+    //通过服务器载入微博列表
+
+    isLoadingWeibo = true;
+    $('#load_more_text').text('正在载入...');
+    $.post(url, {page: page}, function (a) {
+        if (a.status == 0) {
+            noMoreNextPage = true;
+            $('#load_more_text').text('没有了');
+        }
+        if (onBeforePrepend != undefined) {
+            onBeforePrepend();
+        }
+        $('#weibo_list').append(a);
+        isLoadingWeibo = false;
+    });
+}
+
+function clearWeiboList() {
+    currentPage = 0;
+    $('#weibo_list').html('');
+}
+/*从index拿过来的end*/
+
+
 
 var atwho_config;
 

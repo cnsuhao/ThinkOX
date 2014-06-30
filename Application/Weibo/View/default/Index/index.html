@@ -112,11 +112,10 @@
         var noMoreNextPage = false;
         var isLoadingWeibo = false;
         var currentPage = 1;
+
+        var url = "{$loadMoreUrl}";
         $(function () {
-
             var $inputor = $('#weibo_content').atwho(atwho_config);
-
-
             //当屏幕滚动到底部时
             $(window).on('scroll', function () {
                 if (noMoreNextPage) {
@@ -130,55 +129,6 @@
                 }
             });
             $(window).trigger('scroll');
-
-
-        })
-
-        function isLoadMoreVisible() {
-            var visibleHeight = $(window.top).height();
-            var loadMoreOffset = $('#load_more').offset();
-            return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
-        }
-
-        function loadNextPage() {
-            currentPage = currentPage + 1;
-            loadWeiboList(currentPage);
-        }
-
-        function reloadWeiboList() {
-            loadWeiboList(1, function () {
-                clearWeiboList();
-                currentPage = 1;
-            });
-        }
-
-
-        function loadWeiboList(page, onBeforePrepend) {
-            //默认载入第1页
-            if (page == undefined) {
-                page = 1;
-            }
-
-            //通过服务器载入微博列表
-            var url = "{$loadMoreUrl}";
-            isLoadingWeibo = true;
-            $('#load_more_text').text('正在载入...');
-            $.post(url, {page: page}, function (a) {
-                if (a.status == 0) {
-                    noMoreNextPage = true;
-                    $('#load_more_text').text('没有了');
-                }
-                if (onBeforePrepend != undefined) {
-                    onBeforePrepend();
-                }
-                $('#weibo_list').append(a);
-                isLoadingWeibo = false;
-            });
-        }
-
-        function clearWeiboList() {
-            currentPage = 0;
-            $('#weibo_list').html('');
-        }
+        });
     </script>
 </block>
