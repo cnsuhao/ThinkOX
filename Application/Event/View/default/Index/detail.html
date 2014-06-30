@@ -7,146 +7,18 @@
 
 <block name="body">
 
-
-
-<div class="row">
-    <div class="col-md-12">
-
-        <nav class="navbar navbar-default app_block event_navbar forum_module container_nav" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" style="margin-top: 0px;">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class=" collapse navbar-collapse " id="bs-example-navbar-collapse-1"
-                 style="  border-color: #fff;background: #FFFFFF;overflow-y: inherit;z-index: 99;">
-                <!--二级导航-->
-                <ul class="container_nav_tab" style="margin-top: 5px;">
-                    <div class="col-md-4">
-                        <li class="container_nav_tab_li active col-xs-4 col-md-4">
-                            <a href="{:U('index')}">活动首页</a>
-                        </li>
-                        <li class="container_nav_tab_li col-xs-4 col-md-4">
-                            <a href="{:U('myevent')}">我的活动</a>
-                        </li>
-                    </div>
-                    <li class="pull-right">
-
-                        <if condition="is_login() eq 0">
-                            <button class="btn btn-primary event_btn" onclick="op_error('请登陆后再投稿。','温馨提示')"><i
-                                    class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                            </button>
-                            <else/>
-                            <a class="btn btn-primary event_btn" href="{:U('Event/Index/add')}"><i
-                                    class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                            </a>
-
-                        </if>
-
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </nav>
-    </div>
-</div>
-
-
+<!--导航-->
+<include file="_nav"/>
 
 
 <div class="row">
 
-    <div class="col-md-4 pull-right" style="z-index: 99">
-        <div class="forum_module event_right">
-            <h2 class="event_type_name">活动分类</h2>
-
-            <div class="event_type">
-                <a style="float: left" href="{:U('index',array('norh'=>$norh))}"
-                <eq name="type_id" value="">class="cur"</eq>
-                >全部分类</a>
-                <volist name="tree" id="top">
-                    <a style="float: left"
-                    <eq name="type_id" value="$top['id']">class="cur"</eq>
-                    href="{:U('index',array('type_id'=>$top['id'],'norh'=>$norh))}" data="{$top.id}">{$top.title}</a>
-                </volist>
-            </div>
-        </div>
-
-
-
-
-
-
-        <div class="forum_module " style="width: 345px;float: left;">
-            <h2 class="event_type_name">参与活动的人 ({$content.attentionCount}人) <a class="pull-right"
-                                                                               href="{:U('member',array('id'=>$content['id']))}"
-                                                                               style="font-size: 16px;margin-right: 10px;color: #3d3d3d">全部</a>
-            </h2>
-
-            <div style="width: 100%">
-                <volist name="content['member']" id="vo" offset="0" length="20">
-                    <div class="" style="text-align: center;width:80px;float: left;height: 80px;line-height: 80px;">
-                        <a href="{$vo.space_url}">
-                            <img ucard="{$vo.id}" src="{$vo.avatar64}" class="avatar-img" style="width: 64px"/>
-                        </a>
-                    </div>
-                </volist>
-            </div>
-
-        </div>
-
-
-        <h2 style="font-size: 16px;"> 推荐活动</h2>
-
-        <volist name="rec_event" id="vo">
-            <div class="forum_module event_right " style="padding: 0 0 10px 0;">
-
-                <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img
-                        class="cover img-responsive"
-                        src="{$vo.cover_id|getThumbImageById=345,233}"/></a>
-
-                <div class="pull-left" style="width: 100%;">
-                    <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
-                                                      class="text-more" style="width: 100%">{$vo.title}</a></div>
-                    <div class="event_fq_count pull-left">
-                        <div class="pull-left mgb10 col-md-12">
-                            <div class="pull-left col-md-6" style="padding-left: 5px;">by&nbsp; <a class=""
-                                                                                                   href="{$vo.user.space_url}">
-                                <span class="event_count">{$vo.user.nickname}</span></a></div>
-                            <div title="报名人数" class=" pull-left col-md-3">
-                                <div class="event_logo" style=""></div>
-                                <span class="event_count">&nbsp;{$vo.signCount}人</span></div>
-                            <div class=" pull-left col-md-3">
-                                <div class="event_logo" style="background-position: -20px 0px;"></div>
-                                <span class="event_count">&nbsp;{$vo.view_count}</span></div>
-                        </div>
-
-                        <div class="pull-left mgb10">
-                            <div class="pull-left mgl20 " style="font-size: 14px;">时间：
-                                {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])} &nbsp;&nbsp;
-                                {$vo.type.title}
-                            </div>
-                        </div>
-                        <div class="pull-left mgl20 word-wrap" style="width: 90%">简介：
-                            {$vo.explain|op_h='font'|getShortSp=45}
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </volist>
+    <div class="col-md-3 pull-right" style="z-index: 99">
+        <include file="_right"/>
     </div>
 
 
-    <div class="col-md-8">
+    <div class="col-md-9">
 
         <div class="forum_module pull-left" style="width: 100%; min-height: 500px;padding: 0;">
             <div class="clearfix">
@@ -161,7 +33,7 @@
                         </div>
                     </if>
                     <a class="pull-left" href="javascript:" onclick="location.href='{:U('Event/Index/detail',array('id'=>$content['id']))}'">
-                        <img class="cover img-responsive" src="{$content.cover_id|getThumbImageById=345,250}"/>
+                        <img class="cover img-responsive " style="width: 345px;" src="{$content.cover_id|getThumbImageById=345,250}"/>
 
                         <div class="event_detail_type">{$content.type.title}</div>
                     </a>
@@ -248,7 +120,7 @@
                                 <a class="btn btn-default" href="javascript:"
                                    id="unSign">取消报名 </a>
 
-                                <span style="line-height: 34px;"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if
+                                <span style="line-height: 34px;float: left"> 已报名&nbsp;&nbsp;&nbsp;&nbsp;<if
                                         condition="$check_isSign[0]['status'] eq 1">已审核
                                     <else/>
                                     未审核
@@ -268,7 +140,7 @@
             <div class="word-wrap" style="padding: 5px 20px 50px 20px;">
                 {$content.explain}
 
-                <div class="pull-right" style="color: #999">
+                <div class="pull-right" style="color: #999;font-size: 12px;">
                     发布时间： {$content.create_time|friendlyDate} &nbsp;&nbsp;
                     更新时间： {$content.update_time|friendlyDate}
                 </div>
