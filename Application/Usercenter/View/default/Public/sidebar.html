@@ -6,31 +6,6 @@
 <div class="row">
     <div class="col-xs-12">
         <div>
-            <p>&nbsp;</p>
-            <!--头像-->
-            <p class="text-center">
-                <if condition="$uid == is_login()">
-                    <a href="{:U('UserCenter/Index/changeAvatar')}">
-                        <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
-                    </a>
-                    <else/>
-                    <img style="width: 55%;" class="avatar-img" src="{$sideBarUser.avatar128}"/>
-                </if>
-            </p>
-
-            <!--用户名-->
-            <p class="text-center">
-                {$sideBarUser.nickname|htmlspecialchars}
-                &nbsp;
-            </p>
-
-            <!--积分 等级-->
-            <p class="text-center text-muted">
-                积分：{$sideBarUser.score}
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                等级：{$sideBarUser.title}
-            </p>
-
             <!--关注按钮，在登录状态-->
             <if condition="is_login() && $uid != get_uid()">
                 <php>
@@ -46,35 +21,18 @@
                     </a>
                 </p>
             </if>
-
-            <p>&nbsp;</p>
-
             <!--导航栏-->
             <php>
                 //各列字段的含义分别是：标签名称，图标，链接，tabHash
                 if($uid==is_login()) {
                 $oneuser_navbar_items = array(
-                array('个人资料'),
-                array('基本资料','list-alt',U('UserCenter/Index/index'),'index'),
-                array('修改邮箱','envelope',U('UserCenter/Index/changeemail'),'change-email'),
-                array('修改个性签名','edit',U('UserCenter/Index/changesignature'),'change-signature'),
                 array('系统相关'),
                 array('我的会话','send',U('UserCenter/Message/session'),'session'),
                 array('消息中心','bullhorn',U('UserCenter/Message/message'),'message'),
-                array('讨论区'),
-                array('我的主题','book',U('UserCenter/Forum/myTopic'),'my-topic'),
-                array('我的参与','comment',U('UserCenter/Forum/myTakePartIn'),'my-take-part-in'),
-                array('我的收藏','bookmark',U('UserCenter/Forum/myBookmark'),'my-bookmark'),
-                );
+                 );
                 } else {
                 $oneuser_navbar_items = array(
-                array('个人资料'),
-                array('基本资料','list-alt',U('UserCenter/Index/index',array('uid'=>$uid)),'index'),
-                array('扩展资料','expand',U('UserCenter/Index/expandInfo',array('uid'=>$uid)),'expand-info'),
-                array('讨论区'),
-                array($call.'的主题','book',U('UserCenter/Forum/myTopic',array('uid'=>$uid)),'my-topic'),
-                array($call.'的参与','comment',U('/UserCenter/Forum/myTakePartIn',array('uid'=>$uid)),'my-take-part-in'),
-                );
+               );
                 }
             </php>
             <ul class="nav nav-pills nav-stacked">

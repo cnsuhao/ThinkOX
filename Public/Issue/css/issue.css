@@ -78,7 +78,7 @@
   height: 210px;
 }
 .item_type {
-  background: rgba(72, 184, 122, 0.8);
+  background: rgba(0, 0, 0, 0.4);
   color: white;
   position: absolute;
   padding: 3px 5px;

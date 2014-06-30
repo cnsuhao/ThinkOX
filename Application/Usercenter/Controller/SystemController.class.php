@@ -10,7 +10,7 @@ namespace Usercenter\Controller;
 
 use Think\Controller;
 
-class IndexController extends BaseController
+class SystemController extends BaseController
 {
     public function _initialize(){
         parent::_initialize();
