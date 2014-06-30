@@ -21,11 +21,9 @@
 
 <div class="event_member_list" style="margin-top: 15px;">
     <volist name="content['member']" id="vo">
-
         <div class="col-md-2" style="height: 180px;">
             <div style="width: 128px;">
                 <img ucard="{$vo.id}" src="{$vo.avatar128}" class="avatar-img" style="width: 128px;float: left"/>
-
                 <div style="text-align: center;">
                     <div><a href="{$vo.space_url}"> {$vo.nickname} </a></div>
                     <php>if($content['uid'] == is_login()  ){</php>
@@ -40,25 +38,17 @@
                     </if>
 
                 </span>
-
                     <div class="event_member_info"
                          style="position: absolute;z-index: 999;border: 1px solid #ccc ;background: #FFFFFF;text-align: left;width: 99%;padding: 5px 0 5px 10px;display: none">
                         <a class="event_member_info_close" style="float: right;margin-top: -5px;margin-right: 5px">X</a>
                         <div> {$vo.name}</div>
                         <div> {$vo.phone}</div>
                     </div>
-
-
                     <php>}</php>
-
                 </div>
             </div>
-
         </div>
-
-
     </volist>
-
 </div>
 
 </block>

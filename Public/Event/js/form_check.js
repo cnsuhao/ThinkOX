@@ -1,7 +1,9 @@
 /**
  * Created by Administrator on 14-6-30.
  */
-
+/**
+ * 表单验证
+ */
 var obj;
 var checkCan = new Array();
 var patterns = new Object();
@@ -48,7 +50,9 @@ $(function () {
     $('.form_check').change(function () {
         $(this).blur();
     })
-
+    /**
+     * 表单提交操作
+     */
     $(":submit").click(function(e){
         var canDubmit = true;
     for(var key in checkCan){
@@ -63,6 +67,10 @@ $(function () {
     })
 
 })
+/**
+ * 检查是否为空
+ * @returns {boolean}
+ */
 var checkEmpty = function () {
     if (obj.val().length == 0) {
         return false;
@@ -70,10 +78,18 @@ var checkEmpty = function () {
         return true;
     }
 }
+/**
+ * 验证文本框
+ * @returns {{status: number, info: string}}
+ */
 var checkText = function () {
     var res = {status: 1, info: ''}
     return res;
 }
+/**
+ * 验证日期
+ * @returns {{status: number, info: string}|{status: number, info: string}}
+ */
 var checkDate = function () {
     var str = obj.val();
     if (patterns['Date'].test(str)) {
@@ -84,6 +100,10 @@ var checkDate = function () {
     }
     return res;
 }
+/**
+ * 验证数字
+ * @returns {{status: number, info: string}|{status: number, info: string}}
+ */
 var checkNum = function () {
     var str = obj.val();
     if (patterns['Num'].test(parseInt(str))) {
@@ -94,6 +114,10 @@ var checkNum = function () {
     }
     return res;
 }
+/**
+ * 显示提示信息
+ * @param str
+ */
 var showInfo = function (str) {
     var html = '<div class="send"><div class="arrow"></div>' + str + '</div>';
     obj.parent().find('.show_info').html(html);
