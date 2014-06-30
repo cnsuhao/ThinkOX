@@ -18,22 +18,27 @@ class IndexController extends BaseController{
         parent::_initialize();
     }
 
-    public function index($uid = null)
+    public function index($uid = null,$page=1)
     {
         //调用API获取基本信息
         $this->userInfo($uid);
 
         $appArr=$this->_tab_menu();
-
-        $type = 'weibo';
+        foreach($appArr as $key=>$val){
+            $type=$key;
+            break;
+        }
         if (! isset ( $appArr [$type] )) {
             $this->error ( '参数出错！！' );
         }
         $this->assign('type', $type);
         $className = ucfirst($type).'Protocol';
-        $content = D(ucfirst($type).'/'.$className)->profileContent($uid);
+        $content = D(ucfirst($type).'/'.$className)->profileContent($uid,$page);
         if (empty($content)) {
             $content = '暂无内容';
+        }else{
+            $totalCount=D(ucfirst($type).'/'.$className)->getTotalCount($uid);
+            $this->assign('totalCount',$totalCount);
         }
         $this->assign('content', $content);
         $this->display();
@@ -93,7 +98,7 @@ class IndexController extends BaseController{
             $className = ucfirst($appName);
             $dao = D($className.'/'.$className.'Protocol');
             if (method_exists($dao, 'profileContent')) {
-                $appArr [$appName] = L (  $appName );
+                $appArr [$appName] = D($className.'/'.$className.'Protocol')->getModel_CN_Name();
             }
             unset ( $dao );
         }

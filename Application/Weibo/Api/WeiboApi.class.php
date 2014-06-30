@@ -43,6 +43,13 @@ class WeiboApi extends Api
         //返回微博列表
         return $this->apiSuccess('获取成功', array('list' => arrayval($list)));
     }
+    public function listAllWeiboCount($map=array()){
+        //获取微博列表
+        $map[] = array('status' => 1);
+        $model = $this->weiboModel;
+        $totalCount = $model->where($map)->count();
+        return $this->apiSuccess('获取成功', array('total_count'=>$totalCount));
+    }
 
     public function listMyFollowingWeibo($page = 1, $count = 10)
     {
