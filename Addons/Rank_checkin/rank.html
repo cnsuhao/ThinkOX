@@ -1,7 +1,7 @@
-<link rel="stylesheet" type="text/css" href="Addons/Rank_checkin/Css/rank.css">
+<link rel="stylesheet" type="text/css" href="{:getRootUrl()}Addons/Rank_checkin/Css/rank.css">
 <div class="check_rank ">
     <if condition="count($rank) eq 0">
-        <div class="default">虚位以待，赶紧签到。</div>
+        <div class="default" style="text-align: center">虚位以待，赶紧签到。</div>
         <else/>
         <ul class="check_rank_list">
             <volist name="rank" id="v">
@@ -19,7 +19,7 @@
                     </div>
                     <div class="list col-md-6">
                         <img class="avatar-img" style="width: 32px" src="{$v.userInfo.avatar32}">
-                        <a ucard="{$v.uid}" class="text_more " style="width: 100%" href="{$v.userInfo.space_url}">
+                        <a ucard="{$v.uid}" class="text-more " style="width: 60%;vertical-align: middle" href="{$v.userInfo.space_url}">
                             {$v.userInfo.nickname}</a>
                     </div>
 

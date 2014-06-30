@@ -1,9 +1,8 @@
 <extend name="Public/forum"/>
 
 <block name="body">
-    <div class="row fourm-posts">
-        <h2>查找结果 —— 关键词 <span style="color: red">{$_REQUEST.keywords}</span></h2>
-
+    <div class="row common_block_border">
+        <div class="common_block_title">查找结果 —— 关键词 <span style="color: red">{$_REQUEST.keywords}</span></div>
         <div class="col-xs-12">
             <section id="contents">
                 <if condition="!$list">

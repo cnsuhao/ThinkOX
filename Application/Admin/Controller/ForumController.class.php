@@ -134,6 +134,7 @@ class ForumController extends AdminController
             }
         }
 
+        S('forum_list',null);
         //返回成功信息
         $this->success($isEdit ? '编辑成功' : '保存成功');
     }

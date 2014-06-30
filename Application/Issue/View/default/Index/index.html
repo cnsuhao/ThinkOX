@@ -2,11 +2,10 @@
 
 <block name="style">
     <link href="__CSS__/issue.css" rel="stylesheet" type="text/css"/>
-    <link type="text/css" rel="stylesheet" href="__STATIC__/oneplus/js/ext/magnific/magnific-popup.css"/>
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/Core/js/ext/magnific/magnific-popup.css"/>
 </block>
 
 <block name="body">
-<div class="row">
     <div class="col-md-12 app_head">
         <div class="app_title">
             <i class="app_ico_i glyphicon glyphicon-th-large"> </i>专辑
@@ -60,12 +59,10 @@
 
     </div>
 
-</div>
 
-<div class="row issue_list">
-
+<div class=" issue_list">
     <volist name="contents" id="vo">
-        <div class="item_inner">
+        <div class="item_inner " <if condition="$i % 4 eq 0">style="margin-right:0"</if>' >
             <div class="item_core">
                 <div class="item_type">{$vo.issue.title}</div>
                 <a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}"> <img class="cover" src="{$vo.cover_id|getThumbImageById=280,210}"/></a>
@@ -84,11 +81,12 @@
                     <img src="{$vo.user.avatar128}"
                          ucard="{$vo.user.uid}" class="avatar-img" >{$vo.user.nickname}
                 </a>
-                <div class="pull-right ctime">{$vo.create_time|friendlyDate}</div></div>
+                    <div class="pull-right ctime">{$vo.create_time|friendlyDate}</div></div>
             </div>
 
         </div>
     </volist>
+
 <if condition="count($contents) eq 0">
     <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">此分类下暂无内容哦。O(∩_∩)O~</div>
 </if>
@@ -198,7 +196,7 @@
 
 <block name="script">
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
-    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
         $(function () {
             $('#top_nav >li >a ').mouseenter(function () {

@@ -31,9 +31,9 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function find($page = 1, $nickname = '')
+    public function find($page = 1, $keywords = '')
     {
-        $nickname = op_t($nickname);
+        $nickname = op_t($keywords);
         if ($nickname != '') {
             $map['nickname'] = array('like','%'.$nickname.'%');
         }

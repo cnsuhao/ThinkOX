@@ -1,18 +1,63 @@
 /**
  * Created by 95 on 3/21/14.
  */
+/*从index拿过来的*/
 
-var atwho_config;
+
+function isLoadMoreVisible() {
+    var visibleHeight = $(window.top).height();
+    var loadMoreOffset = $('#load_more').offset();
+    return visibleHeight + $(window).scrollTop() > loadMoreOffset.top;
+}
+
+function loadNextPage() {
+    currentPage = currentPage + 1;
+    loadWeiboList(currentPage);
+}
+
+function reloadWeiboList() {
+    loadWeiboList(1, function () {
+        clearWeiboList();
+        currentPage = 1;
+    });
+}
+
+
+function loadWeiboList(page, onBeforePrepend) {
+    //默认载入第1页
+    if (page == undefined) {
+        page = 1;
+    }
+
+    //通过服务器载入微博列表
+
+    isLoadingWeibo = true;
+    $('#load_more_text').text('正在载入...');
+    $.post(url, {page: page}, function (a) {
+        if (a.status == 0) {
+            noMoreNextPage = true;
+            $('#load_more_text').text('没有了');
+        }
+        if (onBeforePrepend != undefined) {
+            onBeforePrepend();
+        }
+        $('#weibo_list').append(a);
+        isLoadingWeibo = false;
+        bindRepost();
+    });
+}
+
+function clearWeiboList() {
+    currentPage = 0;
+    $('#weibo_list').html('');
+}
+/*从index拿过来的end*/
+
+
+
 
 $(function () {
-    atwho_config = {
-        at: "@",
-        data: U('Weibo/Index/atWhoJson'),
-        tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
-        show_the_at: true,
-        search_key: 'search_key',
-        start_with_space: false
-    };
+
 
     /**
      * 点击评论按钮后提交评论
@@ -32,18 +77,6 @@ $(function () {
             handleAjax(a);
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);
-
-
-
-
-
-
-
-
-
-
-
-
                 weiboCommentList.attr('data-weibo-comment-loaded', '1');
                 var weiboId = weiboCommentList.attr('data-weibo-id');
                 var weibo = $('#weibo_' + weiboId);
@@ -194,5 +227,99 @@ function reloadWeiboCommentList(weiboCommentList) {
         var commentLinkText = $('.operation', weiboContainer).html();
         $('.operation', weibo).html(commentLinkText);
 
+    });
+}
+
+
+
+
+/*微博表情*/
+
+var insertFace = function(obj){
+    $('.XT_insert').css('z-index','1000');
+    $('.XT_face').remove();
+    var html ='<div class="XT_face  XT_insert"><div class="triangle sanjiao"></div><div class="triangle_up sanjiao"></div>' +
+        '<div class="XT_face_main"><div class="XT_face_title"><span class="XT_face_bt" style="float: left">常用表情</span>' +
+        '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
+    obj.parent().parent().next().html(html);
+    getFace(obj);
+}
+
+var face_chose =function(obj){
+    var textarea  =obj.parents('.emot_content').prev().find('textarea');
+    textarea.focus();
+    //textarea.val(textarea.val()+'['+obj.attr('title')+']');
+
+    pos = getCursortPosition(textarea[0]);
+    s = textarea.val();
+    textarea.val(s.substring(0, pos)+'['+obj.attr('title')+']'+s.substring(pos));
+    setCaretPosition(textarea[0],pos+2+obj.attr('title').length);
+}
+
+var getFace=function(obj){
+    $.post(U('Weibo/Index/getSmile'), {}, function(data) {
+        var _imgHtml='';
+        for(var k in data) {
+            _imgHtml += '<a href="javascript:void(0)" title="'+data[k].title+'" onclick="face_chose($(this))";><img src="'+data[k].src+'" width="24" height="24" /></a>';
+        }
+        _imgHtml += '<div class="c"></div>';
+        obj.parent().parent().next().find('#face').html(_imgHtml);
+
+    }, 'json');
+}
+
+var close_face = function(){
+    $('.XT_face').remove();
+}
+
+
+function getCursortPosition (ctrl) {//获取光标位置函数
+
+    var CaretPos = 0;	// IE Support
+    if (document.selection) {
+        ctrl.focus ();
+        var Sel = document.selection.createRange ();
+        Sel.moveStart ('character', -ctrl.value.length);
+        CaretPos = Sel.text.length;
+    }
+    // Firefox support
+    else if (ctrl.selectionStart || ctrl.selectionStart == '0')
+        CaretPos = ctrl.selectionStart;
+    return (CaretPos);
+}
+
+function setCaretPosition(ctrl, pos){//设置光标位置函数
+    if(ctrl.setSelectionRange)
+    {
+        ctrl.focus();
+        ctrl.setSelectionRange(pos,pos);
+    }
+    else if (ctrl.createTextRange) {
+        var range = ctrl.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
+    }
+}
+
+/*微博表情end*/
+
+
+$(function () {
+    bindRepost();
+});
+function bindRepost(){
+    $('.send_repost').magnificPopup({
+        type: 'ajax',
+        overflowY: 'scroll',
+        modal: true,
+        callbacks: {
+            ajaxContentAdded: function() {
+                // Ajax content is loaded and appended to DOM
+                $('#repost_content').focus();
+                console.log(this.content);
+            }
+        }
     });
 }
