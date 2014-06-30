@@ -14,7 +14,7 @@ function getImageUrlByPath($path, $size)
     // $thumb['src']=$path;
     $thumb = $thumb['src'];
     if (!is_sae()) {
-        $thumb=getRootUrl().$thumb;
+        $thumb = getRootUrl() . $thumb;
     }
     return $thumb;
 }
@@ -169,7 +169,12 @@ function getThumbImage($filename, $width = 100, $height = 'auto', $type = 0, $re
 
 function getRootUrl()
 {
-    return str_replace('\\', '/', "http://$_SERVER[HTTP_HOST]$GLOBALS[_root]");
+    if (__ROOT__ != '') {
+        return __ROOT__ . '/';
+    }
+    if (C('URL_MODEL') == 2)
+        return __ROOT__ . '/';
+    return __ROOT__;
 }
 
 
@@ -178,11 +183,11 @@ function getThumbImageById($cover_id, $width = 100, $height = 2, $type = 0, $rep
 
     $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);
     if (empty($picture)) {
-        return 'Public/static/assets/img/nopic.png';
+        return getRootUrl() . 'Public/static/assets/img/nopic.png';
     }
     $attach = getThumbImage($picture['path'], $width, $height, $type, $replace);
     if (!is_sae()) {
-        $attach['src']=getRootUrl(). $attach['src'];
+        $attach['src'] = getRootUrl() . $attach['src'];
     }
     return $attach['src'];
 }
