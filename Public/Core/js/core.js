@@ -4,7 +4,14 @@
 
 /**应用初始化
  */
+
+var atwho_config;
 $(function () {
+    $('.open-popup-link').magnificPopup({
+        type: 'inline',
+        midClick: true,
+        closeOnBgClick: false
+    });//绑定发微博弹窗
     ucard();//绑定用户小名片
     bindGoTop();//回到顶部
     weiboShare();//处理微博分享
@@ -24,7 +31,18 @@ $(function () {
         alwaysVisible: true,
         start: 'bottom'
     });
+    atwho_config = {
+        at: "@",
+        data: U('Weibo/Index/atWhoJson'),
+        tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
+        show_the_at: true,
+        search_key: 'search_key',
+        start_with_space: false
+    };
+    var $inputor = $('#weibo_content').atwho(atwho_config);
+
 });
+
 
 function is_login() {
     return parseInt(MID);

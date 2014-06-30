@@ -55,17 +55,9 @@ function clearWeiboList() {
 
 
 
-var atwho_config;
 
 $(function () {
-    atwho_config = {
-        at: "@",
-        data: U('Weibo/Index/atWhoJson'),
-        tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
-        show_the_at: true,
-        search_key: 'search_key',
-        start_with_space: false
-    };
+
 
     /**
      * 点击评论按钮后提交评论
@@ -85,18 +77,6 @@ $(function () {
             handleAjax(a);
             if (a.status) {
                 reloadWeiboCommentList(weiboCommentList);
-
-
-
-
-
-
-
-
-
-
-
-
                 weiboCommentList.attr('data-weibo-comment-loaded', '1');
                 var weiboId = weiboCommentList.attr('data-weibo-id');
                 var weibo = $('#weibo_' + weiboId);

@@ -103,19 +103,15 @@
 </block>
 
 <block name="script">
-    <script type="text/javascript" src="__PUBLIC__/Core/js/ext/atwho/atwho.js"></script>
-    <link type="text/css" rel="stylesheet" href="__PUBLIC__/Core/js/ext/atwho//atwho.css"/>
+
     <script src="__JS__/weibo.js"></script>
     <script>
         var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
-
         var noMoreNextPage = false;
         var isLoadingWeibo = false;
         var currentPage = 1;
-
         var url = "{$loadMoreUrl}";
         $(function () {
-            var $inputor = $('#weibo_content').atwho(atwho_config);
             //当屏幕滚动到底部时
             $(window).on('scroll', function () {
                 if (noMoreNextPage) {
