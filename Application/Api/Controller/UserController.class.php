@@ -172,9 +172,9 @@ class UserController extends ApiController
         $ucenter = $split['ucenter'];
         //分别将数据保存到不同的数据表中
         if ($home) {
-            if (isset($home['sex'])) {
+            /*if (isset($home['sex'])) {
                 $home['sex'] = $this->decodeSex($home['sex']);
-            }
+            }*/
             $home['uid'] = $uid;
             $model = D('Home/Member');
             $home = $model->create($home);
