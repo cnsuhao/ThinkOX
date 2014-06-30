@@ -484,10 +484,15 @@ class IndexController extends Controller
 
         $list = D('ForumPost')->where($where)->order('last_reply_time desc')->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($where)->count();
-
+        $forums =$this->getForumList();
+        $forum_key_value=array();
+        foreach($forums as $f){
+            $forum_key_value[$f['id']]=$f;
+        }
         foreach ($list as &$post) {
             $post['colored_title'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
             $post['colored_content'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
+            $post['forum']=$forum_key_value[$post['forum_id']];
         }
         unset($post);
 
