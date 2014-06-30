@@ -277,7 +277,7 @@ h2 {
   position: absolute;
   right: -9px;
   top: -30px;
-  background: url(../../../Forum/images/ribbion.png);
+  background: url(../images/ribbion.png);
   width: 75px;
   height: 35px;
   text-align: center;
@@ -299,7 +299,7 @@ h2 {
   height: 49px;
   cursor: pointer;
   display: none;
-  background: url(../../../Home/images/oneplus/gotop.png);
+  background: url(../images/gotop.png);
 }
 #goTopBtn:hover {
   background-position: 48px 0;
