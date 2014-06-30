@@ -136,7 +136,7 @@ function getThumbImage($filename, $width = 100, $height = 'auto', $type = 0, $re
             require_once('ThinkPHP/Library/Vendor/phpthumb/PhpThumbFactory.class.php');
             $thumb = PhpThumbFactory::create($UPLOAD_PATH . $filename);
             if ($type == 0) {
-                $thumb->cropFromCenter($width, $height);
+                $thumb->adaptiveResize($width, $height);
             } else {
                 $thumb->resize($width, $height);
             }
