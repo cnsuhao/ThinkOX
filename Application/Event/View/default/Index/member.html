@@ -7,9 +7,8 @@
 
 <block name="body">
 
-
     <include file="_nav"/>
-
+    
     <div class="btn-group btn-group-sm">
         <a class="btn btn-default  <if condition="$tip eq all">active</if>" href="{:U('member',array('id'=>$content['id']))}">全部成员 <span class="badge">{$all_count}</span></a>
         <a class="btn btn-default  <if condition="$tip eq sign">active</if>"  href="{:U('member',array('id'=>$content['id'],'tip'=>'sign'))}">未审核 <span id="sign_count" class="badge">{$sign_count}</span></a>
@@ -66,12 +65,8 @@
 
 <block name="script">
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
-<<<<<<< HEAD
-    <script type="text/javascript" src="__STATIC__/oneplus/js/ext/magnific/jquery.magnific-popup.min.js"></script>
-    <script type="text/javascript" src="__JS__/event.js"></script>
-=======
     <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
->>>>>>> 928ca778de0a3c4b6f037f7ffc6128b238f5721f
+    <script type="text/javascript" src="__JS__/event.js"></script>
     <script>
         $(function () {
             $('#top_nav >li >a ').mouseenter(function () {

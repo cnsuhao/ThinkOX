@@ -7,8 +7,6 @@
                 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
             </div>
             <div class="col-md-6 col-sm-6 text-right top_right">
-
-
                 <php>
                     $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
                 </php>
@@ -18,7 +16,6 @@
                         <a>换肤</a>
                         &lt;!&ndash;换肤功能预留end&ndash;&gt;
                     </li>-->
-
                     <!--登陆面板-->
                     <if condition="is_login()">
                         <li class="dropdown op_nav_ico hidden-xs hidden-sm">
@@ -66,7 +63,6 @@
 
                                         </ul>
                                     </div>
-
                                 </li>
                                 <li class="external">
                                     <a href="{:U('Usercenter/Message/message')}">
@@ -74,10 +70,7 @@
                                     </a>
                                 </li>
                             </ul>
-
                         </li>
-
-
                         <li>
                             <a style="margin-right: 15px;" title="修改资料" href="{:U('Usercenter/Config/index')}"><i
                                     class="glyphicon glyphicon-cog"></i></a>
@@ -110,7 +103,7 @@
                         <li>
                             <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
                             </php>
-                            <a href="{:U('Home/User/login')}">登录</a>
+                            <a href="{:U('Home/User/login',array('back'=>urlencode($url)))}">登录</a>
                         </li>
                         <li>
                             <a href="{:U('Home/User/register')}">注册</a>
@@ -119,248 +112,137 @@
                     </if>
                 </ul>
             </div>
-
         </div>
-
-
     </div>
 </div>
-
 <div id="logo_bar" class="logo_bar">
     <div class="container">
         <div class="row logo">
             <div class="col-md-5">
-                <a href="{:U('Home/Index/index')}"><img src="__STATIC__/oneplus/images/logo.png"/></a>
+                <a href="{:U('Home/Index/index')}"><img src="__PUBLIC__/Core/images/logo.png"/></a>
             </div>
         </div>
     </div>
 </div>
-<style>
-
-
-</style>
-
-
-
 <div id="nav_bar" class="nav_bar " style="margin-bottom: 40px;">
+    <nav class="container" role="navigation">
+        <div class="col-md-9 collapse navbar-collapse col-sm-12 " id="nav_bar_main">
 
-        <nav class="container" role="navigation">
-
-            <div class="col-md-9 collapse navbar-collapse col-sm-12 " id="nav_bar_main">
-
-                <ul class="nav navbar-nav col-md-10 col-sm-12" style="font-size: 16px">
-                    <think:nav name="nav">
-                        <eq name="nav.pid" value="0">
-                            <php>
-                                $children=D('Channel')->where(array('pid'=>$nav['id']))->order('sort asc')->select();
-                                if($children){
-                            </php>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    {$nav.title} <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <volist name="children" id="subnav">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1"
-                                                                   href="{$subnav.url|get_nav_url}"
-                                                                   target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}</a>
-                                        </li>
-                                    </volist>
-                                </ul>
-                            </li>
-                            <php>}else{</php>
-                            <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
-                                <a href="{$nav.url|get_nav_url}"
-                                   target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
-                            </li>
-                            <php>}</php>
-                        </eq>
-                    </think:nav>
-                </ul>
-
-
-                <div class="col-md-2 navbar-right text-right row hidden-xs" style="padding-top:12px;min-width: 132px">
-                    <div class="btn-group text-left">
-                        <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
-                            <li><a href="{:U('Event/Index/add')}">发活动</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="frm_post_weibo_popup" class="white-popup mfp-hide" style="max-width: 745px">
-                    <h2>发布微博</h2>
-
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <br/>
-
-                            <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
-                                         placeholder="写点什么吧～～"></textarea></p>
-                            <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
-                            {:hook('weiboType')}
-                            <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
-                                                         class="btn btn-primary" data-url="{:U('Weibo/Index/doSend')}"/></p>
-                        </div>
-                    </div>
-                    <div id="emot_content" class="emot_content"></div>
-                    <div id="hook_show" class="emot_content"></div>
-                </div>
-                <script>
-                    $(function () {
-                        $('.open-popup-link').magnificPopup({
-                            type: 'inline',
-                            midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
-                            closeOnBgClick: false
-                        });
-
-                    });
-
-                </script>
-            </div>
-
-            <!-- <div class="col-md-7">
-
-                 <ul class="menu">
-                 <li class="current first"><a href="http://sc.chinaz.com/" target="_self">首页</a></li>
-                 <li><a href="#" target="_self">功能</a></li>
-                 <li><a href="#" target="_self">下载</a></li>
-                 <li class="li_3"><a class="noclick" href="http://sc.chinaz.com/" target="_blank">更多产品</a>
-                     <dl class="li_3_content">
-                         <dt></dt>
-                         <dd><a href="http://sc.chinaz.com/" target="_blank"><span>应用商店</span></a></dd>
-                         <dd><a href="http://sc.chinaz.com/" target="_blank"><span>主题商店</span></a></dd>
-                         <dd><a href="http://sc.chinaz.com/" target="_blank"><span>小米桌面</span></a></dd>
-                         <dd class="lastItem"><a href="http://sc.chinaz.com/" target="_blank"><span>懒人图库</span></a></dd>
-                     </dl>
-                 </li>
-                 <li class=""><a class="noborder " href="#" target="_self">论坛</a></li>
-                 </ul>
-             </div>-->
-            <!--导航栏菜单项-->
-            <div class="row visible-xs">
-                <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
-                     style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
-                    <div class="btn-group text-left">
-                        <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
-                            <li><a href="{:U('Event/Index/add')}">发活动</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="navbar-header col-xs-3 pull-right text-left">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+            <ul class="nav navbar-nav col-md-10 col-sm-12" style="font-size: 16px">
+                <think:nav name="nav">
+                    <eq name="nav.pid" value="0">
+                        <php>
+                            $children=D('Channel')->where(array('pid'=>$nav['id']))->order('sort asc')->select();
+                            if($children){
+                        </php>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                {$nav.title} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <volist name="children" id="subnav">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                               href="{$subnav.url|get_nav_url}"
+                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}</a>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </li>
+                        <php>}else{</php>
+                        <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
+                            <a href="{$nav.url|get_nav_url}"
+                               target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
+                        </li>
+                        <php>}</php>
+                    </eq>
+                </think:nav>
+            </ul>
+            <div class="col-md-2 navbar-right text-right row hidden-xs" style="padding-top:12px;min-width: 132px">
+                <div class="btn-group text-left">
+                    <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
                     </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
+                        <li><a href="{:U('Event/Index/add')}">发活动</a></li>
+                    </ul>
                 </div>
             </div>
+            <div id="frm_post_weibo_popup" class="white-popup mfp-hide" style="max-width: 745px">
+                <h2>发布微博</h2>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <br/>
+                        <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
+                                     placeholder="写点什么吧～～"></textarea></p>
+                        <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                        {:hook('weiboType')}
+                        <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
+                                                     class="btn btn-primary" data-url="{:U('Weibo/Index/doSend')}"/></p>
+                    </div>
+                </div>
+                <div id="emot_content" class="emot_content"></div>
+                <div id="hook_show" class="emot_content"></div>
+            </div>
+        </div>
+        <!--导航栏菜单项-->
+        <div class="row visible-xs">
+            <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
+                 style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
+                <div class="btn-group text-left">
+                    <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
+                        <li><a href="{:U('Event/Index/add')}">发活动</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="navbar-header col-xs-3 pull-right text-left">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            <div class="pull-right text-right" style="padding-top:4px;">
+                <form class="navbar-form navbar-right" role="search" id="forum_search" method="post">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="keywords" placeholder="查找">
 
-            <div class="col-md-3 col-xs-12">
-
-                <div class="pull-right text-right" style="padding-top:4px;">
-                    <form class="navbar-form navbar-right" role="search">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="查找">
-
-                                <div class="input-group-btn text-left">
-                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                            data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">微博</a></li>
-                                        <li><a href="#">贴吧</a></li>
-                                        <li><a href="#">活动</a></li>
-                                        <li><a href="#">商城</a></li>
-                                        <li><a href="#">会员</a></li>
-                                    </ul>
-                                </div>
-
+                            <div class="input-group-btn text-left">
+                                <button type="button" class="btn btn-default dropdown-toggle" style="border-left: none;border-top-left-radius: 0;border-bottom-left-radius: 0"
+                                        data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <!--<li><a class="submit_search">微博</a></li>-->
+                                    <li><a  class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
+                                   <!-- <li><a class="submit_search">活动</a></li>-->
+                                    <li><a class="submit_search" url="{:U('People/Index/find')}">会员</a></li>
+                                </ul>
                             </div>
-
+                            <script>
+                                $(function () {
+                                    $('.submit_search').click(function () {
+                                        $('#forum_search').attr('action', $(this).attr('url'));
+                                        $('#forum_search').submit();
+                                    });
+                                })
+                            </script>
                         </div>
-
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-
-
-        </nav>
-
-
+        </div>
+    </nav>
 </div>
 <a id="goTopBtn"></a>
-<!--新浪微博分享代码-->
-<script>
-    /* weiboShare */
-    function weiboShare() {
-        var wb_shareBtn = document.getElementById("weibo_shareBtn")
-        wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
-                wb_appkey = "",
-                wb_title = document.title,
-                wb_ralateUid = "{:C('SHARE_WEIBO_ID')}",
-                wb_pic = "",
-                wb_language = "zh_cn";
-
-        wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
-    }
-    weiboShare()
-</script>
-<!--新浪微博分享代码end-->
-<!--//TODO tox 以下代码？-->
-<script>
-
-    $(function () {
-        var $menu = $(".menu"), $menuLi = $menu.find("li"), $current = $menu.find('.current'), $li_3 = $menu.find('li.li_3'), $li_3_content = $li_3.find('.li_3_content');
-        $menuLi.hover(function () {
-            var $this = $(this), num = $menuLi.index($this), current = $menuLi.index($(".first")), len = current - num;
-            $menu.css("background-position", (101 * current) + "px" + " bottom");
-            $current.removeClass("lihover");
-            $menuLi.removeClass("first");
-            $this.addClass("first");
-            if (len <= 0) {
-                len = -len;
-            }
-            ;
-            if (num != 4) {
-                $menu.stop().animate({ backgroundPosition: (101 * num) + "px" + " bottom" }, 100 * len);
-            }
-            else {
-                $menu.stop().animate({ backgroundPosition: (101 * num + 30) + "px" + " bottom" }, 100 * len);
-            }
-        });
-        $li_3.hover(function () {
-            $li_3_content.stop(true, true).fadeIn(0);
-        }, function () {
-            $li_3_content.fadeOut(500, function () {
-                $li_3_content.css("display", "none");
-            });
-        });
-        $menu.mouseleave(function () {
-            var $this = $(this), num = $menuLi.index($this), current = $menuLi.index($current), len = current - num;
-            $menuLi.removeClass("first");
-            $current.addClass("first");
-            if (len <= 0) {
-                len = -len;
-            }
-            ;
-            $menu.stop().animate({ backgroundPosition: (100 * current + 1) + "px" + " bottom" }, 100 * len);
-        });
-        $("a.noclick").click(function (event) {
-            event.preventDefault();
-        });
-    });
-</script>
-<!--end-->
