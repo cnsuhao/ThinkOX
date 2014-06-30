@@ -32,7 +32,7 @@ class WeiboProtocolModel extends Model
         $tpl = APP_PATH.'/weibo/View/default/Index/profile_content.html';
         $view=new \Think\View();
         $view->assign($result);
-        $view->assign('loadMoreUrl', U('loadWeibo', array('uid' => $uid)));
+        $view->assign('loadMoreUrl', U('loadWeibo',array('uid' => $uid)));
         $content='';
         $content=$view->fetch($tpl,$content);
         return $content;

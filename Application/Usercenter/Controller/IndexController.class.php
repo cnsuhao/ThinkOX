@@ -53,7 +53,7 @@ class IndexController extends BaseController{
 
         $appArr=$this->_tab_menu();
 
-        $type = 'weibo';
+        $type = op_t($_GET['']);
         if (! isset ( $appArr [$type] )) {
             $this->error ( '参数出错！！' );
         }

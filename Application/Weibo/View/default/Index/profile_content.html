@@ -96,7 +96,7 @@
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
-                        {:Hook('support',array('table'=>'weibo','row'=>$weibo['id'],'app'=>'Weibo','uid'=>$weibo['uid']))}
+                        {:Hook('support',array('table'=>'weibo','row'=>$weibo['id'],'app'=>'Usercenter','uid'=>$weibo['uid']))}
 {:Hook('repost',array('weiboId'=>$weibo['id']))}
 &nbsp;&nbsp;&nbsp;
 
