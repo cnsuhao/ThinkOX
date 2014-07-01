@@ -157,61 +157,70 @@
                     </eq>
                 </think:nav>
             </ul>
-            <div class="col-md-2 navbar-right text-right row hidden-xs" style="padding-top:12px;min-width: 132px">
-                <div class="btn-group text-left">
-                    <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
-                        <li><a href="{:U('Event/Index/add')}">发活动</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div id="frm_post_weibo_popup" class="white-popup mfp-hide" style="max-width: 745px">
-                <h2>发布微博</h2>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <br/>
-                        <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
-                                     placeholder="写点什么吧～～"></textarea></p>
-                        <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
-                        {:hook('weiboType')}
-                        <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
-                                                     class="btn btn-primary" data-url="{:U('Weibo/Index/doSend')}"/></p>
+            <if condition="is_login()">
+                <div class="col-md-2 navbar-right text-right row hidden-xs" style="padding-top:12px;min-width: 132px">
+                    <div class="btn-group text-left">
+                        <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">发布</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
+                            <li><a href="{:U('Event/Index/add')}">发活动</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div id="emot_content" class="emot_content"></div>
-                <div id="hook_show" class="emot_content"></div>
-            </div>
+                <div id="frm_post_weibo_popup" class="white-popup mfp-hide" style="max-width: 745px">
+                    <h2>发布微博</h2>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <br/>
+
+                            <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
+                                         placeholder="写点什么吧～～"></textarea></p>
+                            <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                            {:hook('weiboType')}
+                            <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
+                                                         class="btn btn-primary" data-url="{:U('Weibo/Index/doSend')}"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="emot_content" class="emot_content"></div>
+                    <div id="hook_show" class="emot_content"></div>
+                </div>
+            </if>
+
+
         </div>
         <!--导航栏菜单项-->
-        <div class="row visible-xs">
-            <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
-                 style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
-                <div class="btn-group text-left">
-                    <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
+        <if condition="is_login()">
+            <div class="row visible-xs">
+                <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
+                     style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
+                    <div class="btn-group text-left">
+                        <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
+                            <li><a href="{:U('Event/Index/add')}">发活动</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="navbar-header col-xs-3 pull-right text-left">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{:U('Forum/Index/edit')}">发帖子</a></li>
-                        <li><a href="{:U('Event/Index/add')}">发活动</a></li>
-                    </ul>
                 </div>
             </div>
-            <div class="navbar-header col-xs-3 pull-right text-left">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-        </div>
+        </if>
         <div class="col-md-3 col-xs-12">
             <div class="pull-right text-right" style="padding-top:4px;">
                 <form class="navbar-form navbar-right" role="search" id="forum_search" method="post">
@@ -220,13 +229,14 @@
                             <input type="text" class="form-control" name="keywords" placeholder="查找">
 
                             <div class="input-group-btn text-left">
-                                <button type="button" class="btn btn-default dropdown-toggle" style="border-left: none;border-top-left-radius: 0;border-bottom-left-radius: 0"
+                                <button type="button" class="btn btn-default dropdown-toggle"
+                                        style="border-left: none;border-top-left-radius: 0;border-bottom-left-radius: 0"
                                         data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <!--<li><a class="submit_search">微博</a></li>-->
-                                    <li><a  class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
-                                   <!-- <li><a class="submit_search">活动</a></li>-->
+                                    <li><a class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
+                                    <!-- <li><a class="submit_search">活动</a></li>-->
                                     <li><a class="submit_search" url="{:U('People/Index/find')}">会员</a></li>
                                 </ul>
                             </div>
