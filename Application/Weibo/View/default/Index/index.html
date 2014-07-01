@@ -28,7 +28,14 @@
             <p id="load_more_text">载入更多</p>
         </div>
 
+        <div id="index_weibo_page" style=" <if condition='$page eq 1'>display:none</if>">
+            <div class="pull-right">
+                {:getPagination($total_count,40)}
+            </div>
+        </div>
     </div>
+
+
     <!--微博内容列表部分结束-->
 
     <!--首页右侧部分-->
@@ -109,10 +116,14 @@
         var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
         var noMoreNextPage = false;
         var isLoadingWeibo = false;
-        var currentPage = 1;
+        var currentPage = '{$page}';
+        var loadCount = 1;
+        var lastId = '{$lastId}';
         var url = "{$loadMoreUrl}";
         $(function () {
             //当屏幕滚动到底部时
+
+            if(currentPage == 1){
             $(window).on('scroll', function () {
                 if (noMoreNextPage) {
                     return;
@@ -125,6 +136,11 @@
                 }
             });
             $(window).trigger('scroll');
+        }
+            else{
+                loadNextPage();
+            }
+
         });
     </script>
 </block>

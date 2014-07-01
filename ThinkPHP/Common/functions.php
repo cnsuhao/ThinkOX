@@ -539,9 +539,11 @@ function A($name,$layer='',$level='') {
     if(isset($_action[$name.$layer]))
         return $_action[$name.$layer];
     $class  =   parse_res_name($name,$layer,$level);
+
     if(class_exists($class)) {
         $action             =   new $class();
         $_action[$name.$layer]     =   $action;
+
         return $action;
     }else {
         return false;

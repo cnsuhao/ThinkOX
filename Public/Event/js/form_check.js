@@ -19,7 +19,7 @@ patterns.Time = new RegExp("^([0-1]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$");
 patterns.Num = /^[0-9]*$/;
 patterns.DateAndTime = /^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2]\d|3[0-1])$/;
 $(function () {
-    $('.form_check').after('<span class="glyphicon form-control-feedback"></span><div class=" show_info"></div>');
+    $('.form_check').after('<span class="glyphicon form-control-feedback"></span><div class=" show_info" ></div>');
     $('.form_check').click(function () {
     })
     $('.form_check').focus(function () {

@@ -38,6 +38,7 @@
                           <img src="__PUBLIC__/Core/images/mark-aw1.png"/>
 
                       </span>
+                        <php>if(is_administrator(is_login())){</php>
                         <div class="mark_box" style="display: none">
                             <ul class="nav text-center mark_aw">
                                 <!--  <li><a>收藏</a></li>-->
@@ -47,6 +48,7 @@
                                 </if>
                             </ul>
                         </div>
+                        <php>}</php>
                     </span>
                     </p>
                     <div class="weibo_content_p">
@@ -106,7 +108,7 @@
     ucard();
     bindSupport();
     bind_weibo_managment();
-
+    lastId = '{$lastId}';
     $(document).ready(function () {
         $('.popup-gallery').each(function () { // the containers for all your galleries
             $(this).magnificPopup({
@@ -133,7 +135,7 @@
     function bind_weibo_managment() {
 
         $('.ss').mouseover(function () {
-            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none'|| typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined' ) {
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
 
             } else
@@ -141,7 +143,7 @@
         });
 
         $('.ss').mouseleave(function () {
-            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none'|| typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined') {
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw1.png');
 
             } else
@@ -159,9 +161,8 @@
         $('.ss').click(function () {
 
             $(this).parents('.weibo_content').find('.mark_box').toggle();
-            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none') {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none' || typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined') {
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
-
 
             } else
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
