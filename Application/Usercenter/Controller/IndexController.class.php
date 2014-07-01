@@ -32,7 +32,7 @@ class IndexController extends BaseController
     {
         $appArr = $this->_tab_menu();
         if (!$appArr) {
-            $this->redirect('Usercenter/Index/fans', array('uid' => $uid));
+            $this->redirect('Usercenter/Index/information', array('uid' => $uid));
         }
         foreach ($appArr as $key => $val) {
             $type = $key;
@@ -61,21 +61,28 @@ class IndexController extends BaseController
         return $user_info;
     }
 
-    public function information($uid = null, $profile_group_id =null)
+    public function information($uid = null, $info_type ="base_info")
     {
-        //调用API获取基本信息
-        //TODO tox 获取省市区数据
-        $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'rank_link', 'sex', 'pos_province', 'pos_city', 'pos_district', 'pos_community'), $uid);
-        if($user['pos_province']!=0){
-            $user['pos_province']=D('district')->where(array('id'=>$user['pos_province']))->getField('name');
-            $user['pos_city']=D('district')->where(array('id'=>$user['pos_city']))->getField('name');
-            $user['pos_district']=D('district')->where(array('id'=>$user['pos_district']))->getField('name');
-            $user['pos_community']=D('district')->where(array('id'=>$user['pos_community']))->getField('name');
+        $info_type=op_t($info_type);
+        if($info_type=="base_info"){
+            //调用API获取基本信息
+            //TODO tox 获取省市区数据
+            $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'rank_link', 'sex', 'pos_province', 'pos_city', 'pos_district', 'pos_community'), $uid);
+            if($user['pos_province']!=0){
+                $user['pos_province']=D('district')->where(array('id'=>$user['pos_province']))->getField('name');
+                $user['pos_city']=D('district')->where(array('id'=>$user['pos_city']))->getField('name');
+                $user['pos_district']=D('district')->where(array('id'=>$user['pos_district']))->getField('name');
+                $user['pos_community']=D('district')->where(array('id'=>$user['pos_community']))->getField('name');
+            }
+            //显示页面
+            $this->assign('user', $user);
+        }else{
+            $info_type="expand_info";
+
+            $this->getExpandInfo($uid);
         }
-        //显示页面
-        $this->assign('user', $user);
-        $profile_group_id=op_t($profile_group_id);
-        $this->getExpandInfo($uid,$profile_group_id);
+
+        $this->assign('info_type',$info_type);
         $this->display();
     }
 
@@ -86,16 +93,8 @@ class IndexController extends BaseController
     public function getExpandInfo($uid = null,$profile_group_id=null)
     {
         $profile_group_list = $this->_profile_group_list($uid);
-        if ($profile_group_list) {
-            if($profile_group_id==null){
-                $info_list = $this->_info_list($profile_group_list[0]['id'], $uid);
-                $this->assign('profile_group_id', $profile_group_list[0]['id']);
-            }else{
-                $info_list = $this->_info_list($profile_group_id, $uid);
-                $this->assign('profile_group_id', $profile_group_id);
-            }
-            $this->assign('info_list', $info_list);
-            //dump($info_list);exit;
+        foreach($profile_group_list as &$val){
+            $val['info_list'] = $this->_info_list($val['id'], $uid);
         }
         $this->assign('profile_group_list', $profile_group_list);
     }

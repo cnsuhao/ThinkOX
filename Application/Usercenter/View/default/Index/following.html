@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col-xs-12 uc_fans" style="margin-left: 10px;">
                         <ul class="nav nav-pills ucenter-tab">
-                            <li><a href="{:U('Usercenter/Index/fans',array('uid'=>$uid))}" <eq name="tab" value="fans"> class="uc_current"</eq>><eq name="uid" value="is_login()">我<else/>Ta</eq>的粉丝</a></li>
-                            <li><a href="{:U('Usercenter/Index/following',array('uid'=>$uid))}" <eq name="tab" value="following"> class="uc_current"</eq>><eq name="uid" value="is_login()">我<else/>Ta</eq>我的关注</a></li>
+                            <li><a href="{:U('Usercenter/Index/following',array('uid'=>$uid))}" <eq name="tab" value="following"> class="uc_current"</eq>><if condition="$uid eq is_login()">我<else/>Ta</if>的关注</a></li>
+                            <li><a href="{:U('Usercenter/Index/fans',array('uid'=>$uid))}" <eq name="tab" value="fans"> class="uc_current"</eq>><if condition="$uid eq is_login()">我<else/>Ta</if>的粉丝</a></li>
                         </ul>
 
                     </div>
