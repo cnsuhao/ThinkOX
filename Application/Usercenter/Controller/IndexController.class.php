@@ -61,14 +61,21 @@ class IndexController extends BaseController
         return $user_info;
     }
 
-    public function information($uid = null, $tab = '')
+    public function information($uid = null, $profile_group_id =null)
     {
         //调用API获取基本信息
         //TODO tox 获取省市区数据
         $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'rank_link', 'sex', 'pos_province', 'pos_city', 'pos_district', 'pos_community'), $uid);
+        if($user['pos_province']!=0){
+            $user['pos_province']=D('district')->where(array('id'=>$user['pos_province']))->getField('name');
+            $user['pos_city']=D('district')->where(array('id'=>$user['pos_city']))->getField('name');
+            $user['pos_district']=D('district')->where(array('id'=>$user['pos_district']))->getField('name');
+            $user['pos_community']=D('district')->where(array('id'=>$user['pos_community']))->getField('name');
+        }
         //显示页面
         $this->assign('user', $user);
-        //$this->getExpandInfo();
+        $profile_group_id=op_t($profile_group_id);
+        $this->getExpandInfo($uid,$profile_group_id);
         $this->display();
     }
 
@@ -76,17 +83,97 @@ class IndexController extends BaseController
      * @param null $uid
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function getExpandInfo($uid = null)
+    public function getExpandInfo($uid = null,$profile_group_id=null)
     {
         $profile_group_list = $this->_profile_group_list($uid);
         if ($profile_group_list) {
-            $info_list = $this->_info_list($profile_group_list[0]['id'], $uid);
+            if($profile_group_id==null){
+                $info_list = $this->_info_list($profile_group_list[0]['id'], $uid);
+                $this->assign('profile_group_id', $profile_group_list[0]['id']);
+            }else{
+                $info_list = $this->_info_list($profile_group_id, $uid);
+                $this->assign('profile_group_id', $profile_group_id);
+            }
             $this->assign('info_list', $info_list);
-            $this->assign('profile_group_id', $profile_group_list[0]['id']);
             //dump($info_list);exit;
         }
-
         $this->assign('profile_group_list', $profile_group_list);
+    }
+
+    /**扩展信息分组列表获取
+     * @param null $uid
+     * @return mixed
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function _profile_group_list($uid = null)
+    {
+        if (isset($uid) && $uid != is_login()) {
+            $map['visiable'] = 1;
+        }
+        $map['status'] = 1;
+        $profile_group_list = D('field_group')->where($map)->order('sort asc')->select();
+
+        return $profile_group_list;
+    }
+
+    /**分组下的字段信息及相应内容
+     * @param null $id
+     * @param null $uid
+     * @return null
+     * @author 郑钟良<zzl@ourstu.com>
+     */
+    public function _info_list($id = null, $uid = null)
+    {
+        $info_list = null;
+
+        if (isset($uid) && $uid != is_login()) {
+            //查看别人的扩展信息
+            $field_setting_list = D('field_setting')->where(array('profile_group_id' => $id, 'status' => '1', 'visiable' => '1'))->order('sort asc')->select();
+
+            if (!$field_setting_list) {
+                return null;
+            }
+            $map['uid'] = $uid;
+        } else if (is_login()) {
+            $field_setting_list = D('field_setting')->where(array('profile_group_id' => $id, 'status' => '1'))->order('sort asc')->select();
+
+            if (!$field_setting_list) {
+                return null;
+            }
+            $map['uid'] = is_login();
+
+        } else {
+            $this->error('请先登录！');
+        }
+        foreach ($field_setting_list as &$val) {
+            $map['field_id'] = $val['id'];
+            $field = D('field')->where($map)->find();
+            $val['field_content'] = $field;
+            unset($map['field_id']);
+            $info_list[$val['id']]=$this->_set_field_data($val);
+        }
+        return $info_list;
+    }
+    public function _set_field_data($data=null){
+        $result=null;
+        $result['field_name']=$data['field_name'];
+        $result['field_data']="还未设置";
+        switch($data['form_type']){
+            case 'input':
+            case 'radio':
+            case 'textarea':
+            case 'select':
+                $result['field_data']=isset($data['field_content']['field_data'])?$data['field_content']['field_data']:"还未设置";
+                break;
+            case 'checkbox':
+                $result['field_data']=isset($data['field_content']['field_data'])?implode(' ',explode('|',$data['field_content']['field_data'])):"还未设置";
+                break;
+            case 'time':
+                $result['field_data']=isset($data['field_content']['field_data'])?date("Y-m-d",$data['field_content']['field_data']):"还未设置";
+                break;
+        }
+        $result['field_data']=op_t($result['field_data']);
+        return $result;
     }
 
     public function appList($uid = null, $page = 1, $count = 10)

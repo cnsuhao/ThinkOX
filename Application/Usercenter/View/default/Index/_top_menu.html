@@ -22,7 +22,7 @@
                 <li><a href="{:U('appList',array('type'=>$key,'uid'=>$uid))}"  class="{$tabClass[$key]}">{$vo}</a></li>
             </volist>
             <li>
-                <a href="{:U('information')}" class="{$tabClass.user_data}">资料</a>
+                <a href="{:U('information',array('uid'=>$uid))}" class="{$tabClass.user_data}">资料</a>
             </li>
             <li>
                 <a href="{:U('fans',array('uid'=>$uid))}" class="{$tabClass.user_fans}">粉丝/关注</a>

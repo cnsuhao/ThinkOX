@@ -34,7 +34,12 @@
                         </dl>
                         <dl class="dl-horizontal">
                             <dt>所在地：</dt>
-                            <dd>{$pos_province}&nbsp;&nbsp;{$pos_city}&nbsp;&nbsp;{$pos_district}&nbsp;&nbsp;{$pos_community}</dd>
+                            <dd>
+                                <eq name="user.pos_province" value="0">还未设置
+                                    <else/>
+                                    {$user.pos_province}&nbsp;&nbsp;{$user.pos_city}&nbsp;&nbsp;{$user.pos_district}&nbsp;&nbsp;{$user.pos_community}
+                                </eq>
+                            </dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt>个性签名：</dt>
@@ -46,8 +51,37 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">扩展资料</h3>
                     </div>
-                    <div class="panel-body">
-                        Panel content
+                    <div class="panel-body expand_info">
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-xs-12 uc_information" style="margin-left: 10px;">
+                                <ul class="nav nav-pills ucenter-tab">
+                                    <volist name="profile_group_list" id="group_vl">
+                                        <li>
+                                            <a href="{:U('Usercenter/Index/information',array('uid'=>$uid,'profile_group_id'=>$group_vl['id']))}"
+                                            <eq name="profile_group_id" value="$group_vl.id"> class="uc_current"</eq>
+                                            >{$group_vl.profile_name}</a></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <volist name="info_list" id="info_vl">
+                            <dl class="dl-horizontal">
+                                <dt>{$info_vl.field_name}：</dt>
+                                <dd>{$info_vl.field_data}</dd>
+                            </dl>
+                        </volist>
+                        <if condition="count($profile_group_list) eq 0"><p class="text-muted" style="text-align: center; font-size: 24px;">
+                            <br><br>
+                            还没有扩展信息！
+                            <br><br><br>
+                        </p>
+                        <else/>
+                            <if condition="count($info_list) eq 0"><p class="text-muted" style="text-align: center; font-size: 24px;">
+                                <br><br>
+                                该扩展信息分组没有信息！
+                                <br><br><br>
+                            </p></if>
+                        </if>
                     </div>
                 </div>
             </div>
