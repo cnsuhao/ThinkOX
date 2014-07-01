@@ -55,8 +55,8 @@
                        </span>
 
                         <span class="name_touxian">
-                        <a ucard="{$weibo.user.uid}"
-                           href="{$weibo.user.space_url}" class="user_name">{$self.nickname|htmlspecialchars}
+                        <a ucard="{$self.user.uid}"
+                           href="{$self.space_url}" class="user_name">{$self.nickname|htmlspecialchars}
                         </a><br/>
                              <if condition="$self['rank_link'][0]['num']">
                                  <volist name="self['rank_link']" id="vl">
