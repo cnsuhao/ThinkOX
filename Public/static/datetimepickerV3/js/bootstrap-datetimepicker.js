@@ -466,7 +466,7 @@
 			left = left - containerOffset.left;
 
 			this.picker.css({
-				top:    top+86,
+				top:    top,
 				left:   left,
 				zIndex: zIndex
 			});
