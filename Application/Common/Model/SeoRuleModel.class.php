@@ -12,20 +12,20 @@ use Think\Model;
 
 class SeoRuleModel extends Model
 {
-    public function getMetaOfCurrentPage()
+    public function getMetaOfCurrentPage($seo)
     {
-        $result = $this->getMeta(MODULE_NAME, CONTROLLER_NAME, ACTION_NAME);
+        $result = $this->getMeta(MODULE_NAME, CONTROLLER_NAME, ACTION_NAME, $seo);
         return $result;
     }
 
-    private function getMeta($module, $controller, $action)
+    private function getMeta($module, $controller, $action, $seo)
     {
         //查询缓存，如果已有，则直接返回
         $cacheKey = "oneplus_seo_meta_{$module}_{$controller}_{$action}";
-        $cache = S($cacheKey);
-        if($cache !== false) {
-            return $cache;
-        }
+           $cache = S($cacheKey);
+           if($cache !== false) {
+               return $cache;
+           }
 
         //获取相关的规则
         $rules = $this->getRelatedRules($module, $controller, $action);
@@ -34,7 +34,13 @@ class SeoRuleModel extends Model
         $title = '';
         $keywords = '';
         $description = '';
+
+        $need_seo = 1;
         foreach ($rules as $e) {
+            //如果存在完全匹配的seo配置，则不用程序设置的seo资料
+            if ($e['app'] && $e['controller'] && $e['action']) {
+                $need_seo = 0;
+            }
             if (!$title && $e['seo_title']) {
                 $title = $e['seo_title'];
             }
@@ -45,7 +51,17 @@ class SeoRuleModel extends Model
                 $description = $e['seo_description'];
             }
         }
-
+        if ($need_seo) { //默认让全站的seo规则优先级小于$this->setTitle等方式设置的规则。
+            if ($seo['title']) {
+                $title = $seo['title'];
+            }
+            if ($seo['keywords']) {
+                $keywords = $seo['keywords'];
+            }
+            if ($seo['description']) {
+                $description = $seo['description'];
+            }
+        }
         //生成结果
         $result = array('title' => $title, 'keywords' => $keywords, 'description' => $description);
 

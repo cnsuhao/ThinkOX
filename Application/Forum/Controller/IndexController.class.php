@@ -100,6 +100,14 @@ class IndexController extends Controller
 
         //显示页面
         $this->assign('forum_id', $id);
+        if($id!=0){
+            $forum=$forum_key_value[$id];
+            $this->setTitle($forum['title']);
+        }else{
+            $this->setTitle('贴吧');
+        }
+
+
         $this->assignAllowPublish();
         $this->assign('list', $list);
         $this->assign('list_top', $list_top);
@@ -119,6 +127,7 @@ class IndexController extends Controller
 
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
+
         $id = intval($id);
         $limit = 10;
         //读取帖子内容
@@ -154,6 +163,8 @@ class IndexController extends Controller
         $this->assignAllowPublish();
         $this->assign('isBookmark', $isBookmark);
         $this->assign('post', $post);
+        $this->setTitle(op_t($post['title']).' —— 贴吧');
+
         $this->assign('limit', $limit);
         $this->assign('sr', $sr);
         $this->assign('sp', $sp);

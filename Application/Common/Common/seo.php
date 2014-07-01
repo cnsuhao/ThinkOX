@@ -7,10 +7,11 @@
  */
 
 //读取SEO规则
-function get_seo_meta($vars)
+function get_seo_meta($vars,$seo)
 {
+
     //获取还没有经过变量替换的META信息
-    $meta = D('Common/SeoRule')->getMetaOfCurrentPage();
+    $meta = D('Common/SeoRule')->getMetaOfCurrentPage($seo);
 
     //替换META中的变量
     foreach ($meta as $key => &$value) {
