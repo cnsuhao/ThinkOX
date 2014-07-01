@@ -28,11 +28,10 @@ class WeiboProtocolModel extends Model
         } else {
             $result = $this->weiboApi->listAllWeibo($page, $count, array('uid' => is_login()));
         }
-        $tpl=T('Application://weibo@Index/profile_content');
         $view=new \Think\View();
         $view->assign($result);
         $content='';
-        $content=$view->fetch($tpl,$content);
+        $content=$view->fetch(T('Application://Weibo@Index/profile_content'),$content);
         return $content;
     }
     //返回列表项总数，分页用
