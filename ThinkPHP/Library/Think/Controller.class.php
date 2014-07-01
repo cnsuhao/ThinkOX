@@ -18,15 +18,39 @@ abstract class Controller {
      * 视图实例对象
      * @var view
      * @access protected
-     */    
+     */
     protected $view     =  null;
 
     /**
      * 控制器参数
      * @var config
      * @access protected
-     */      
+     */
     protected $config   =   array();
+
+    /*ThinkOX新增部分*/
+    /**seo参数  陈一枭  ThinkOX
+     * @var array
+     */
+    public $_seo=array();
+
+    public function setTitle($title){
+        $this->_seo['title']=     $title;
+        $this->assign('seo',$this->_seo);
+    }
+    public function setKeywords($keywords){
+        $this->_seo['keywords']=     $keywords;
+        $this->assign('seo',$this->_seo);
+    }
+    public function setDescription($description){
+        $this->_seo['description']=     $description;
+        $this->assign('seo',$this->_seo);
+    }
+
+
+
+    /*ThinkOX新增部分end*/
+
 
    /**
      * 架构函数 取得模板对象实例
@@ -76,7 +100,7 @@ abstract class Controller {
      * @param string $templateFile 指定要调用的模板文件
      * 默认为空 由系统自动定位模板文件
      * @param string $content 模板输出内容
-     * @param string $prefix 模板缓存前缀* 
+     * @param string $prefix 模板缓存前缀*
      * @return string
      */
     protected function fetch($templateFile='',$content='',$prefix='') {
@@ -134,7 +158,7 @@ abstract class Controller {
      * @return mixed
      */
     public function get($name='') {
-        return $this->view->get($name);      
+        return $this->view->get($name);
     }
 
     public function __get($name) {
@@ -221,11 +245,11 @@ abstract class Controller {
                 // 返回JSON数据格式到客户端 包含状态信息
                 header('Content-Type:application/json; charset=utf-8');
                 $handler  =   isset($_GET[C('VAR_JSONP_HANDLER')]) ? $_GET[C('VAR_JSONP_HANDLER')] : C('DEFAULT_JSONP_HANDLER');
-                exit($handler.'('.json_encode($data).');');  
+                exit($handler.'('.json_encode($data).');');
             case 'EVAL' :
                 // 返回可执行的js脚本
                 header('Content-Type:text/html; charset=utf-8');
-                exit($data);            
+                exit($data);
             default     :
                 // 用于扩展其他返回格式数据
                 Hook::listen('ajax_return',$data);

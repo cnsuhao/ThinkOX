@@ -26,6 +26,7 @@ class IndexController extends Controller
         }
         $hot_num=D('shop_config')->where(array('ename'=>'min_sell_num'))->getField('cname');
         $this->assign('hot_num',$hot_num);
+        $this->setTitle('商城');
     }
 
     /**
@@ -112,6 +113,7 @@ class IndexController extends Controller
         if (!$goods) {
             $this->error('404 not found');
         }
+        $this->setTitle($goods['goods_name'].'——商城');
         $category = D('shopCategory')->find($goods['category_id']);
         $top_category_id=$category['pid'] == 0 ? $category['id'] : $category['pid'];
         $this->assign('top_category', $top_category_id);
