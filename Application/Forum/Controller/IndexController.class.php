@@ -100,6 +100,14 @@ class IndexController extends Controller
 
         //显示页面
         $this->assign('forum_id', $id);
+        if($id!=0){
+            $forum=$forum_key_value[$id];
+            $this->setTitle($forum['title']);
+        }else{
+            $this->setTitle('贴吧');
+        }
+
+
         $this->assignAllowPublish();
         $this->assign('list', $list);
         $this->assign('list_top', $list_top);
