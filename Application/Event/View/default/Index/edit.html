@@ -137,6 +137,9 @@
             }, 'onUploadComplete': function (file) {
                 //alert('The file ' + file.name + ' finished processing.');
             }, 'onUploadStart': function (file) {
+                $('.upload-img-box').html(
+                        '<div class="upload-pre-item">上传中...</div>'
+                );
                 //alert('Starting to upload ' + file.name);
             }, 'onQueueComplete': function (queueData) {
                 // alert(queueData.uploadsSuccessful + ' files were successfully uploaded.');

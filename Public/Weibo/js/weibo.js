@@ -10,8 +10,20 @@ function isLoadMoreVisible() {
 }
 
 function loadNextPage() {
-    currentPage = currentPage + 1;
-    loadWeiboList(currentPage);
+    if(loadCount ==4){
+        $('#index_weibo_page').show();
+    }
+    if(currentPage==1 && loadCount < 4){
+        loadCount++;
+        loadWeiboList(currentPage);
+    }
+
+    if(currentPage>1){
+        loadWeiboList(currentPage);
+    }
+
+
+
 }
 
 function reloadWeiboList() {
@@ -27,12 +39,10 @@ function loadWeiboList(page, onBeforePrepend) {
     if (page == undefined) {
         page = 1;
     }
-
     //通过服务器载入微博列表
-
     isLoadingWeibo = true;
     $('#load_more_text').text('正在载入...');
-    $.post(url, {page: page}, function (a) {
+    $.post(url, {page: page,loadCount:loadCount,lastId:lastId}, function (a) {
         if (a.status == 0) {
             noMoreNextPage = true;
             $('#load_more_text').text('没有了');
@@ -41,6 +51,7 @@ function loadWeiboList(page, onBeforePrepend) {
             onBeforePrepend();
         }
         $('#weibo_list').append(a);
+        $('#load_more_text').text('');
         isLoadingWeibo = false;
         bindRepost();
     });
@@ -171,7 +182,9 @@ function comment_del(obj, comment_id) {
             var weiboId = $this.attr('data-weibo-id');
             var weibo = $('#weibo_' + weiboId);
             var weiboCommentList = $('.weibo-comment-list', weibo);
-            reloadWeiboCommentList(weiboCommentList);
+/*      reloadWeiboCommentList(weiboCommentList);*/
+            $this.parents('.weibo_comment').prev().fadeOut()
+            $this.parents('.weibo_comment').fadeOut()
             op_success('删除微博成功。', '温馨提示');
         } else {
             op_error(msg.info, '温馨提示');

@@ -25,20 +25,24 @@ class IndexController extends Controller
     {
         $this->weiboApi = new WeiboApi();
     }
-
-    public function index($uid = 0)
+    public function index($uid = 0,$page=1,$lastId=0)
     {
         //载入第一页微博
-
         if ($uid != 0) {
-            $result = $this->weiboApi->listAllWeibo(null, null, array('uid' => $uid));
+            $result = $this->weiboApi->listAllWeibo($page, null, array('uid' => $uid),1,$lastId);
         } else {
-            $result = $this->weiboApi->listAllWeibo();
+            $result = $this->weiboApi->listAllWeibo($page,0,'',1,$lastId);
         }
         //显示页面
         $this->assign('list', $result['list']);
+        $this->assign('lastId', $result['lastId']);
+        $this->assign('page', $page);
         $this->assign('tab', 'all');
         $this->assign('loadMoreUrl', U('loadWeibo', array('uid' => $uid)));
+
+      $total_count =  $this->weiboApi->listAllWeiboCount();
+
+        $this->assign('total_count',$total_count['total_count'] );
         $this->assignSelf();
         $this->display();
     }
@@ -108,13 +112,14 @@ class IndexController extends Controller
         $this->ajaxReturn(apiToAjax($result));
     }
 
-    public function loadWeibo($page = 1, $uid = 0)
+    public function loadWeibo($page = 1, $uid = 0,$loadCount=1,$lastId = 0)
     {
+        $count = 40;
         //载入全站微博
         if ($uid != 0) {
-            $result = $this->weiboApi->listAllWeibo($page, null, array('uid' => $uid));
+            $result = $this->weiboApi->listAllWeibo($page, $count, array('uid' => $uid),$loadCount,$lastId);
         } else {
-            $result = $this->weiboApi->listAllWeibo($page, null);
+            $result = $this->weiboApi->listAllWeibo($page, $count,'',$loadCount,$lastId);
         }
         //如果没有微博，则返回错误
         if (!$result['list']) {
@@ -123,6 +128,7 @@ class IndexController extends Controller
 
         //返回html代码用于ajax显示
         $this->assign('list', $result['list']);
+        $this->assign('lastId', $result['lastId']);
         $this->display();
     }
 

@@ -27,21 +27,34 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 10,$map=array())
+    public function listAllWeibo($page = 1, $count = 40,$map=array(),$loadCount=1,$lastId=0)
     {
+
         //获取微博列表
         $map[] = array('status' => 1);
         $model = $this->weiboModel;
-        $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
+
+        if($page ==1  && $loadCount==1){
+
+            $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+        }elseif($loadCount > 1 && $loadCount<= 4){
+            $map['id'] = array('lt',$lastId);
+            $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+        }
+        elseif($page>1){
+            $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
+        }
+
+
+
         //获取每个微博详情
         foreach ($list as &$e) {
             $e = $this->getWeiboStructure($e['id']);
 
         }
         unset($e);
-
         //返回微博列表
-        return $this->apiSuccess('获取成功', array('list' => arrayval($list)));
+        return $this->apiSuccess('获取成功', array('list' => arrayval($list),'lastId'=>$list[count($list)-1]['id']));
     }
     public function listAllWeiboCount($map=array()){
         //获取微博列表
