@@ -48,6 +48,8 @@ class IndexController extends Controller
         $this->assign('norh', $norh);
         $this->assign('totalPageCount', $totalCount);
         $this->getRecommend();
+        $this->setTitle('活动首页');
+        $this->setKeywords('活动');
         $this->display();
     }
 
@@ -111,6 +113,7 @@ class IndexController extends Controller
         $this->assign('lora', $lora);
         $this->assign('totalPageCount', $totalCount);
         $this->getRecommend();
+        $this->setTitle('我的活动——活动');
         $this->display();
     }
 
@@ -247,6 +250,8 @@ class IndexController extends Controller
         }
 
         $this->assign('content', $event_content);
+        $this->setTitle('{$content.title|op_t}'.'——活动');
+        $this->setKeywords('{$content.title|op_t}'.',活动');
         $this->getRecommend();
         $this->display();
     }
