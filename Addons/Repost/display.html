@@ -1,9 +1,9 @@
 
     <p class="word-wrap">{$weibo.content|parse_weibo_content}</p>
 
-    <div class="triangle sanjiao" style="margin-left: 20px;"></div>
-    <div class="triangle_up sanjiao" style="margin-left: 20px;border-bottom: 10px solid #fcfcfc;"></div>
-    <div  style="border: 1px solid #cccccc;padding: 10px;margin-bottom: 10px; border-radius: 6px;background: #fcfcfc">
+    <div class="triangle sanjiao" style="margin-left: 20px;border-bottom: 10px solid #e8e8e8;"></div>
+    <div class="triangle_up sanjiao" style="margin-left: 20px;border-bottom: 10px solid #f1f1f1;"></div>
+    <div  style="border: 1px solid #e8e8e8;padding: 10px;margin-bottom: 20px; border-radius: 6px;background: #f1f1f1">
     <php>if($weibo['sourse_weibo']){</php>
 
         <div>  <a ucard="{$weibo.sourse_weibo.user.uid}"     href="{$weibo.sourse_weibo.user.space_url}">@{$weibo.sourse_weibo.user.nickname|htmlspecialchars}</a></div>
