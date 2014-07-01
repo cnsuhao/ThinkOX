@@ -29,6 +29,9 @@ class IndexController extends BaseController{
 
 
         $appArr=$this->_tab_menu();
+        if(!$appArr){
+            $this->redirect('Usercenter/Index/fans',array('uid'=>$uid));
+        }
         foreach($appArr as $key=>$val){
             $type=$key;
             break;
@@ -137,7 +140,6 @@ class IndexController extends BaseController{
         unset($user);
         $this->assign('follow_totalCount',$follow_totalCount);
         $this->assign('follow_default',$follow_default);
-        dump($fans_default);
     }
 
     public function fans($uid=null,$page = 1)
