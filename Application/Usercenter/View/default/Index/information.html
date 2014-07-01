@@ -11,11 +11,23 @@
 
         <div class="row uc_content">
             <div class="col-md-7 col-xs-12">
-                <div class="panel panel-default" style="margin-left: 10px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">基本资料：</h3>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-xs-12 uc_information" style="margin-left: 10px;">
+                        <ul class="nav nav-pills ucenter-tab">
+                            <li>
+                                <a href="{:U('Usercenter/Index/information',array('uid'=>$uid,'info_type'=>'base_info'))}"
+                                <eq name="info_type" value="base_info"> class="uc_current"</eq>
+                                >基本资料</a></li>
+                            <li>
+                                <a href="{:U('Usercenter/Index/information',array('uid'=>$uid,'info_type'=>'expand_info'))}"
+                                <eq name="info_type" value="expand_info"> class="uc_current"</eq>
+                                >扩展资料</a></li>
+                        </ul>
+
                     </div>
-                    <div class="panel-body base_info">
+                </div>
+                <eq name="info_type" value="base_info">
+                    <div class="base_info">
                         <dl class="dl-horizontal">
                             <dt>昵称：</dt>
                             <dd>{$user.nickname}</dd>
@@ -46,44 +58,37 @@
                             <dd>{$user.signature|htmlspecialchars}</dd>
                         </dl>
                     </div>
-                </div>
-                <div class="panel panel-default" style="margin-left: 10px">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">扩展资料</h3>
-                    </div>
-                    <div class="panel-body expand_info">
-                        <div class="row" style="margin-bottom: 20px;">
-                            <div class="col-xs-12 uc_information" style="margin-left: 10px;">
-                                <ul class="nav nav-pills ucenter-tab">
-                                    <volist name="profile_group_list" id="group_vl">
-                                        <li>
-                                            <a href="{:U('Usercenter/Index/information',array('uid'=>$uid,'profile_group_id'=>$group_vl['id']))}"
-                                            <eq name="profile_group_id" value="$group_vl.id"> class="uc_current"</eq>
-                                            >{$group_vl.profile_name}</a></li>
-                                    </volist>
-                                </ul>
+                </eq>
+                <eq name="info_type" value="expand_info">
+                    <volist name="profile_group_list" id="group_vl">
+                        <div class="panel panel-default" style="margin-left: 10px">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{$group_vl.profile_name}</h3>
+                            </div>
+                            <div class="panel-body expand_info">
+                                <volist name="group_vl['info_list']" id="info_vl">
+                                    <dl class="dl-horizontal">
+                                        <dt>{$info_vl.field_name}：</dt>
+                                        <dd>{$info_vl.field_data}</dd>
+                                    </dl>
+                                </volist>
+                                    <if condition="count($group_vl['info_list']) eq 0"><p class="text-muted"
+                                                                              style="text-align: center; font-size: 15px;margin: 15px;">
+
+                                        该扩展信息分组没有信息！
+                                    </p></if>
+
                             </div>
                         </div>
-                        <volist name="info_list" id="info_vl">
-                            <dl class="dl-horizontal">
-                                <dt>{$info_vl.field_name}：</dt>
-                                <dd>{$info_vl.field_data}</dd>
-                            </dl>
-                        </volist>
-                        <if condition="count($profile_group_list) eq 0"><p class="text-muted" style="text-align: center; font-size: 24px;">
-                            <br><br>
-                            还没有扩展信息！
-                            <br><br><br>
-                        </p>
-                        <else/>
-                            <if condition="count($info_list) eq 0"><p class="text-muted" style="text-align: center; font-size: 24px;">
-                                <br><br>
-                                该扩展信息分组没有信息！
-                                <br><br><br>
-                            </p></if>
-                        </if>
-                    </div>
-                </div>
+                    </volist>
+                    <if condition="count($profile_group_list) eq 0"><p class="text-muted"
+                                                                       style="text-align: center; font-size: 24px;">
+                        <br><br>
+                        还没有扩展信息！
+                        <br><br><br>
+                    </p></if>
+
+                </eq>
             </div>
             <div class="col-md-5 col-sm-9 col-xs-12 uc_other_link">
                 <include file="_right_link"/>

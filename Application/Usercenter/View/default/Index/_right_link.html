@@ -1,7 +1,7 @@
 <div>
     <div class="uc_link_block clearfix">
         <div class="uc_link_top clearfix">
-            <div class="uc_title"><if condition="$uid eq is_login()">WO<else/>TA</if>的关注({$follow_totalCount|default=0})</div>
+            <div class="uc_title"><if condition="$uid eq is_login()">我<else/>TA</if>的关注({$follow_totalCount|default=0})</div>
             <div class="uc_fl_right uc_more_link"><a href="{:U('following')}">更多</a></div>
         </div>
         <div class="col-md-12 uc_link_info">
@@ -21,7 +21,7 @@
         </div>
         <div class="uc_link_block clearfix">
             <div class="uc_link_top clearfix">
-                <div class="uc_title"><if condition="$uid eq is_login()">WO<else/>TA</if>的粉丝({$fans_totalCount|default=0})</div>
+                <div class="uc_title"><if condition="$uid eq is_login()">我<else/>TA</if>的粉丝({$fans_totalCount|default=0})</div>
                 <div class="uc_fl_right uc_more_link"><a href="{:U('fans')}">更多</a></div>
             </div>
             <div class="col-md-12 uc_link_info">
