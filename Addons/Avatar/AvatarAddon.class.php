@@ -322,7 +322,7 @@ class AvatarAddon extends Addon
 
 
         if ($avatar) {
-            if (strtolower(APP_MODE) == 'sae') {
+            if (is_sae()) {
                 $avatar_path=$avatar;
 
             }else{
@@ -346,8 +346,6 @@ class AvatarAddon extends Addon
 
     public function getTempAvatar($uid)
     {
-        //获取网站前缀
-        $prefix = getRootUrl();
         //获取用户上传的临时头像
         $model = $this->getAvatarModel();
         $avatar = $model->getTempAvatar($uid);
@@ -356,7 +354,7 @@ class AvatarAddon extends Addon
             if (strtolower(APP_MODE) == 'sae') {
                 return $avatar;
             }
-            return "$prefix/Uploads/Avatar/$avatar";
+            return getRootUrl()."Uploads/Avatar/$avatar";
         }
 
         return '';
