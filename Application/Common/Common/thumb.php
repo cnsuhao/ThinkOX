@@ -191,3 +191,18 @@ function getThumbImageById($cover_id, $width = 100, $height = 2, $type = 0, $rep
     }
     return $attach['src'];
 }
+
+/**对于附件来修正其url，兼容urlmodel2,sae
+ * @param $url
+ * @return string
+ * @auth 陈一枭
+ */
+function fixAttachUrl($url)
+{
+    if(!is_sae()){
+        return getRootUrl() . substr($url, 1);
+    }else{
+        return $url;
+    }
+
+}

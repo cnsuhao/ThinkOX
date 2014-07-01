@@ -51,7 +51,7 @@ $(function () {
         $(this).blur();
     })
     /**
-     * 表单提交操作
+     *
      */
     $(":submit").click(function(e){
         var canDubmit = true;
