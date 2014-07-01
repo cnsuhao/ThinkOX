@@ -135,19 +135,6 @@
     var url = "{$loadMoreUrl}";
 
     $(document).ready(function () {
-        //当屏幕滚动到底部时
-        $(window).on('scroll', function () {
-            if (noMoreNextPage) {
-                return;
-            }
-            if (isLoadingWeibo) {
-                return;
-            }
-            if (isLoadMoreVisible()) {
-                loadNextPage();
-            }
-        });
-        $(window).trigger('scroll');
 
         $('.popup-gallery').each(function () { // the containers for all your galleries
             $(this).magnificPopup({
