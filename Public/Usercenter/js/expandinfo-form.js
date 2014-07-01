@@ -14,8 +14,7 @@ function check(args,id){
     var required=args.getAttribute("require");
     if(value.length==0){
         if(required=="1"){
-            document.getElementById("label_"+id).innerHTML="该项不能为空";
-            $('#canSubmit_'+id).val(0);
+            check_error(id,"该项不能为空");
             return false;
         }
     }else{
@@ -26,37 +25,30 @@ function check(args,id){
                 var max_length=args.getAttribute("max_length");
                 if(reg.test(value)){
                     if((min_length!=0&&value.length<min_length)||(max_length!=0&&value.length>max_length)){
-                        document.getElementById("label_"+id).innerHTML="数字长度必须在"+min_length+"-"+max_length+"之间";
-                        $('#canSubmit_'+id).val(0);
+                        check_error(id,"数字长度必须在"+min_length+"-"+max_length+"之间");
                         return false;
                     }
                 }else{
-                    document.getElementById("label_"+id).innerHTML="输入内容必须为数字";
-                    $('#canSubmit_'+id).val(0);
+                    check_error(id,"输入内容必须为数字");
                     return false;
                 }
-                document.getElementById("label_"+id).innerHTML="";
-                $('#canSubmit_'+id).val(1);
+                check_success(id);
                 return true;
             case "phone":
                 var reg = new RegExp("^[0-9]{11}$");
                 if(!reg.test(value)){
-                    document.getElementById("label_"+id).innerHTML="请输入正确的手机号码";
-                    $('#canSubmit_'+id).val(0);
+                    check_error(id,"请输入正确的手机号码");
                     return false;
                 }
-                document.getElementById("label_"+id).innerHTML="";
-                $('#canSubmit_'+id).val(1);
+                check_success(id);
                 return true;
             case "email":
                 var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
                 if(!reg.test(value)){
-                    document.getElementById("label_"+id).innerHTML="请输入正确的邮箱地址";
-                    $('#canSubmit_'+id).val(0);
+                    check_error(id,"请输入正确的邮箱地址");
                     return false;
                 }
-                document.getElementById("label_"+id).innerHTML="";
-                $('#canSubmit_'+id).val(1);
+                check_success(id);
                 return true;
             case "string":
                 var min_length=args.getAttribute("min_length");
@@ -65,7 +57,7 @@ function check(args,id){
                     if(max_length==0){
                         max_length='';
                     }
-                    check_error(id,"长度必须在"+min_length+"-"+max_length+"之间")
+                    check_error(id,"长度必须在"+min_length+"-"+max_length+"之间");
                     return false;
                 }
                 check_success(id);
@@ -92,8 +84,7 @@ function check_textarea(args,id){
     var required=args.getAttribute("require");
     if(value.length==0){
         if(required=="1"){
-            document.getElementById("label_"+id).innerHTML="该项不能为空";
-            $('#canSubmit_'+id).val(0);
+            check_error(id,"该项不能为空");
             return false;
         }
     }else{
@@ -103,18 +94,16 @@ function check_textarea(args,id){
             if(max_length==0){
                 max_length='';
             }
-            document.getElementById("label_"+id).innerHTML="文本长度必须在"+min_length+"-"+max_length+"之间";
-            $('#canSubmit_'+id).val(0);
+            check_error(id,"文本长度必须在"+min_length+"-"+max_length+"之间");
             return false;
         }
+
     }
-    document.getElementById("label_"+id).innerHTML="";
-    $('#canSubmit_'+id).val(1);
+    check_success(id);
     return true;
 }
 $(document).ready(function(){
-    $(":submit[id=submit_btn]").click(function(check){
-
+    $('#submit_btn').click(function(){
         var canSubmit=true;
         $('.canSubmit').each(function(){
             if($(this).val()==0){
@@ -122,7 +111,7 @@ $(document).ready(function(){
             }
         });
         if(!canSubmit){
-            check.preventDefault();
+            $(this).preventDefault();
             return false;
         }
     });
