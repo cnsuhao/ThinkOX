@@ -39,10 +39,10 @@ class WeiboApi extends Api
             $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
         }elseif($loadCount > 1 && $loadCount<= 4){
             $map['id'] = array('lt',$lastId);
-            $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+            $list = $model->where($map)->order('create_time desc')->limit(10)->select();
         }
         elseif($page>1){
-            $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
+            $list = $model->where($map)->order('create_time desc')->page($page, $count)->select();
         }
 
 
