@@ -18,6 +18,8 @@ patterns.Date = /^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2]\d|3[0-1])$/;
 patterns.Time = new RegExp("^([0-1]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$");
 patterns.Num = /^[0-9]*$/;
 patterns.DateAndTime = /^\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2]\d|3[0-1])$/;
+patterns.Phone =/^(1[3|4|5|8])[0-9]{9}$/ ;
+
 $(function () {
     $('.form_check').after('<span class="glyphicon form-control-feedback"></span><div class=" show_info" ></div>');
     $('.form_check').click(function () {
@@ -111,6 +113,22 @@ var checkNum = function () {
     }
     else {
         var res = {status: 0, info: '请填写数字！'}
+    }
+    return res;
+}
+
+
+/**
+ * 验证手机
+ * @returns {{status: number, info: string}|{status: number, info: string}}
+ */
+var checkPhone = function () {
+    var str = obj.val();
+    if (patterns['Phone'].test(parseInt(str))) {
+        var res = {status: 1, info: ''}
+    }
+    else {
+        var res = {status: 0, info: '请填写手机号码！'}
     }
     return res;
 }
