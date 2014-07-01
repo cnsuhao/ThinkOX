@@ -2,11 +2,11 @@
 <php> D('Home/Member')->need_login();</php>
 <div id="top_bar" class="top_bar">
     <div class="container">
-        <div class="row hidden-xs">
-            <div class="col-md-6 col-sm-6">
+        <div class="row  ">
+            <div class="col-md-6 col-sm-6 hidden-xs">
                 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
             </div>
-            <div class="col-md-6 col-sm-6 text-right top_right">
+            <div class="col-md-6 col-sm-6  text-right top_right">
                 <php>
                     $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
                 </php>
@@ -75,7 +75,7 @@
                             <a style="margin-right: 15px;" title="修改资料" href="{:U('Usercenter/Config/index')}"><i
                                     class="glyphicon glyphicon-cog"></i></a>
                         </li>
-                        <li class="top_spliter"></li>
+                        <li class="top_spliter hidden-xs"></li>
                         <li class="dropdown">
                             <php>
                                 $common_header_user = query_user(array('nickname'));
@@ -97,9 +97,9 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="top_spliter"></li>
+                        <li class="top_spliter hidden-xs"></li>
                         <else/>
-                        <li class="top_spliter"></li>
+                        <li class="top_spliter hidden-xs"></li>
                         <li>
                             <php>$url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'];
                             </php>
@@ -195,11 +195,12 @@
 
         </div>
         <!--导航栏菜单项-->
-        <if condition="is_login()">
+
             <div class="row visible-xs">
-                <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
+                <if condition="is_login()">
+            <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
                      style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
-                    <div class="btn-group text-left">
+                   <div class="btn-group text-left">
                         <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -210,7 +211,8 @@
                             <li><a href="{:U('Event/Index/add')}">发活动</a></li>
                         </ul>
                     </div>
-                </div>
+
+                </div> </if>
                 <div class="navbar-header col-xs-3 pull-right text-left">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
                         <span class="sr-only">Toggle navigation</span>
@@ -220,7 +222,7 @@
                     </button>
                 </div>
             </div>
-        </if>
+
         <div class="col-md-3 col-xs-12">
             <div class="pull-right text-right" style="padding-top:4px;">
                 <form class="navbar-form navbar-right" role="search" id="forum_search" method="post">
