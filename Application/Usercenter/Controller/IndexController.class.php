@@ -18,7 +18,7 @@ class IndexController extends BaseController{
         parent::_initialize();
     }
 
-    public function index($uid = null,$page=1)
+    public function index($uid = null,$page=1,$count=10)
     {
         //调用API获取基本信息
         $this->userInfo($uid);
@@ -33,7 +33,7 @@ class IndexController extends BaseController{
         }
         $this->assign('type', $type);
         $className = ucfirst($type).'Protocol';
-        $content = D(ucfirst($type).'/'.$className)->profileContent($uid,$page);
+        $content = D(ucfirst($type).'/'.$className)->profileContent($uid,$page,$count);
         if (empty($content)) {
             $content = '暂无内容';
         }else{
@@ -52,7 +52,7 @@ class IndexController extends BaseController{
     }
 
 
-    public function appList ($uid=null) {
+    public function appList ($uid=null,$page=1,$count=10) {
         //调用API获取基本信息
         $this->userInfo($uid);
 
@@ -64,9 +64,12 @@ class IndexController extends BaseController{
         }
         $this->assign('type', $type);
         $className = ucfirst($type).'Protocol';
-        $content = D(ucfirst($type).'/'.$className)->profileContent($uid);
+        $content = D(ucfirst($type).'/'.$className)->profileContent($uid,$page,$count);
         if (empty($content)) {
             $content = '暂无内容';
+        }else{
+            $totalCount=D(ucfirst($type).'/'.$className)->getTotalCount($uid);
+            $this->assign('totalCount',$totalCount);
         }
         $this->assign('content', $content);
         $this->display('index');
@@ -105,5 +108,32 @@ class IndexController extends BaseController{
         $this->assign ( 'appArr', $appArr );
 
         return $appArr;
+    }
+
+    public function fans($uid=null,$page = 1)
+    {
+        //调用API获取基本信息
+        $this->userInfo($uid);
+        $this->_tab_menu();
+
+
+        $this->assign('tab', 'fans');
+        $fans = D('Follow')->getFans(is_login(), $page, array('avatar128', 'id', 'nickname', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
+        $this->assign('fans', $fans);
+        $this->assign('totalCount',$totalCount);
+        $this->display();
+    }
+
+    public function following($uid=null,$page=1)
+    {
+        //调用API获取基本信息
+        $this->userInfo($uid);
+        $this->_tab_menu();
+
+        $following = D('Follow')->getFollowing(is_login(), $page, array('avatar128', 'id', 'nickname', 'fans', 'following', 'weibocount', 'space_url','title'),$totalCount);
+        $this->assign('following',$following);
+        $this->assign('totalCount',$totalCount);
+        $this->assign('tab', 'following');
+        $this->display();
     }
 } 
