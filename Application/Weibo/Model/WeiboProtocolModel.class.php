@@ -28,7 +28,7 @@ class WeiboProtocolModel extends Model
         } else {
             $result = $this->weiboApi->listAllWeibo($page, $count, array('uid' => is_login()));
         }
-        $tpl = APP_PATH.'/weibo/View/default/Index/profile_content.html';
+        $tpl=T('Application://weibo@Index/profile_content');
         $view=new \Think\View();
         $view->assign($result);
         $content='';
