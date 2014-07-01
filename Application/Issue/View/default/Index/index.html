@@ -62,7 +62,7 @@
 
 <div class=" issue_list">
     <volist name="contents" id="vo">
-        <div class="item_inner " <if condition="$i % 4 eq 0">style="margin-right:0"</if>' >
+        <div class="item_inner" <if condition="$i % 4 eq 0">style="margin-right:0"</if> >
             <div class="item_core">
                 <div class="item_type">{$vo.issue.title}</div>
                 <a href="{:U('Issue/Index/issueContentDetail',array('id'=>$vo['id']))}"> <img class="cover" src="{$vo.cover_id|getThumbImageById=280,210}"/></a>
