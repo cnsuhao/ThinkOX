@@ -1,6 +1,6 @@
 <php>
-    if(ACTION_NAME=='data'){ $tabClass['user_data'] = 'uc_current'; }
-    elseif(ACTION_NAME=='fans'){ $tabClass['user_fans'] = 'uc_current'; }
+    if(ACTION_NAME=='information'){ $tabClass['user_data'] = 'uc_current'; }
+    elseif(ACTION_NAME=='fans'||ACTION_NAME=='following'){ $tabClass['user_fans'] = 'uc_current'; }
     else{ $tabClass[$type] = 'uc_current'; }
 </php>
 <nav class="navbar navbar-default uc_navbar" role="navigation">
@@ -22,10 +22,10 @@
                 <li><a href="{:U('appList',array('type'=>$key,'uid'=>$uid))}"  class="{$tabClass[$key]}">{$vo}</a></li>
             </volist>
             <li>
-                <a href="#" class="{$tabClass.user_data}">资料</a>
+                <a href="{:U('information',array('uid'=>$uid))}" class="{$tabClass.user_data}">资料</a>
             </li>
             <li>
-                <a href="#" class="{$tabClass.user_fans}">粉丝/关注</a>
+                <a href="{:U('fans',array('uid'=>$uid))}" class="{$tabClass.user_fans}">粉丝/关注</a>
             </li>
         </ul>
     </div>
