@@ -1,17 +1,16 @@
 <php>
-    $user = query_user(array('avatar128','nickname','uid','space_url','icons_html'),
+    $user = query_user(array('avatar128','avatar64','nickname','uid','space_url','icons_html'),
     $document['uid']);
 </php>
 <div class="row">
-    <div class="col-md-1 col-xs-2">
+    <div class="col-md-2 col-xs-2">
         <p>
             <a href="{$user.space_url}">
-                <img src="{$user.avatar128}" ucard="{$user.uid}" class="avatar-img"
-                     style="width:100%;"/>
+                <img src="{$user.avatar64}" ucard="{$user.uid}" class="avatar-img" />
             </a>
         </p>
     </div>
-    <div class="col-md-11 col-xs-10">
+    <div class="col-md-10 col-xs-10" style="margin-left: -40px;">
 
         <p>
 

@@ -14,7 +14,7 @@
  * 个人中心地址：space_url
  * 认证图标：icons_html
  *
- * @param $fields array|string 如果是数组，则返回数组。如果不是数组，则返回对应的值
+ * @param      $fields array|string 如果是数组，则返回数组。如果不是数组，则返回对应的值
  * @param null $uid
  * @return array|null
  */
@@ -36,7 +36,7 @@ function query_user($fields, $uid = null)
     $cachedFields = array();
     $cacheResult = array();
     foreach ($fields as $field) {
-        if (in_array($field, array('icons_html', 'title', 'score','tox_money'))) {
+        if (in_array($field, array('icons_html', 'title', 'score', 'tox_money'))) {
             continue;
         }
         $cache = read_query_user_cache($uid, $field);
@@ -77,7 +77,7 @@ function query_user($fields, $uid = null)
     $avatarAddon = new \Addons\Avatar\AvatarAddon();
     foreach ($avatarFields as $e) {
         $avatarSize = intval(substr($e, 6));
-        $avatarUrl = $avatarAddon->getAvatarPath($uid,$avatarSize);
+        $avatarUrl = $avatarAddon->getAvatarPath($uid, $avatarSize);
 
         $result[$e] = $avatarUrl;
     }
@@ -113,7 +113,7 @@ function query_user($fields, $uid = null)
         foreach ($rank_List as &$val) {
             $rank = D('rank')->where('id=' . $val['rank_id'])->find();
             $val['title'] = $rank['title'];
-            $val['logo_url'] = getRootUrl() . D('picture')->where('id=' . $rank['logo'])->getField('path');
+            $val['logo_url'] = fixAttachUrl(D('picture')->where('id=' . $rank['logo'])->getField('path'));
             if ($val['is_show']) {
                 $num = 1;
             }
@@ -145,27 +145,27 @@ function query_user($fields, $uid = null)
         $result['icons_html'] .= '</span>';
     }
     //expand_info:用户扩展字段信息
-    if(in_array('expand_info',$fields)){
-        $map['status']=1;
-        $field_group=D('field_group')->where($map)->select();
-        $field_group_ids=array_column($field_group,'id');
-        $map['profile_group_id']=array('in',$field_group_ids);
-        $fields_list=D('field_setting')->where($map)->getField('id,field_name,form_type,visiable');
-        $fields_list=array_combine(array_column($fields_list,'field_name'),$fields_list);
-        $map_field['uid']=$uid;
-        foreach($fields_list as $key=>$val){
-            $map_field['field_id']=$val['id'];
-            $field_data=D('field')->where($map_field)->getField('field_data');
-            if($field_data==null||$field_data==''){
+    if (in_array('expand_info', $fields)) {
+        $map['status'] = 1;
+        $field_group = D('field_group')->where($map)->select();
+        $field_group_ids = array_column($field_group, 'id');
+        $map['profile_group_id'] = array('in', $field_group_ids);
+        $fields_list = D('field_setting')->where($map)->getField('id,field_name,form_type,visiable');
+        $fields_list = array_combine(array_column($fields_list, 'field_name'), $fields_list);
+        $map_field['uid'] = $uid;
+        foreach ($fields_list as $key => $val) {
+            $map_field['field_id'] = $val['id'];
+            $field_data = D('field')->where($map_field)->getField('field_data');
+            if ($field_data == null || $field_data == '') {
                 unset($fields_list[$key]);
-            }else{
-                if($val['form_type']=="checkbox"){
-                    $field_data=explode('|',$field_data);
+            } else {
+                if ($val['form_type'] == "checkbox") {
+                    $field_data = explode('|', $field_data);
                 }
-                $fields_list[$key]['data']=$field_data;
+                $fields_list[$key]['data'] = $field_data;
             }
         }
-        $result['expand_info']=$fields_list;
+        $result['expand_info'] = $fields_list;
     }
 
     //粉丝数、关注数、微博数
@@ -180,12 +180,12 @@ function query_user($fields, $uid = null)
     }
 
     //是否关注、是否被关注
-    if(in_array('is_following', $fields)) {
-        $follow = D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$uid))->find();
+    if (in_array('is_following', $fields)) {
+        $follow = D('Follow')->where(array('who_follow' => get_uid(), 'follow_who' => $uid))->find();
         $result['is_following'] = $follow ? true : false;
     }
-    if(in_array('is_followed', $fields)) {
-        $follow = D('Follow')->where(array('who_follow'=>$uid,'follow_who'=>get_uid()))->find();
+    if (in_array('is_followed', $fields)) {
+        $follow = D('Follow')->where(array('who_follow' => $uid, 'follow_who' => get_uid()))->find();
         $result['is_followed'] = $follow ? true : false;
     }
 
@@ -196,10 +196,10 @@ function query_user($fields, $uid = null)
 
     //写入缓存
     foreach ($result as $field => $value) {
-        if (in_array($field, array('icons_html', 'title', 'score','tox_money'))) {
+        if (in_array($field, array('icons_html', 'title', 'score', 'tox_money'))) {
             continue;
         }
-        if (!in_array($field, array('rank_link', 'icons_html', 'space_link','expand_info'))) {
+        if (!in_array($field, array('rank_link', 'icons_html', 'space_link', 'expand_info'))) {
             $value = str_replace('"', '', op_t($value));
         }
 

@@ -26,6 +26,7 @@ class IndexController extends Controller
         }
         $hot_num=D('shop_config')->where(array('ename'=>'min_sell_num'))->getField('cname');
         $this->assign('hot_num',$hot_num);
+        $this->setTitle('商城');
     }
 
     /**
@@ -92,11 +93,16 @@ class IndexController extends Controller
         $this->assign('top_category', $top_category_id);
         $this->assign('category_id',$category_id);
         if($top_category_id==$category_id){
-            $this->assign('category_name',$goods_category['title']);
+            $cate_name=$goods_category['title'];
+            $this->assign('category_name',$cate_name);
         }else{
-            $this->assign('category_name',D('shopCategory')->where(array('id'=>$top_category_id))->getField('title'));
+            $cate_name=D('shopCategory')->where(array('id'=>$top_category_id))->getField('title');
+            $this->assign('category_name',$cate_name);
             $this->assign('child_category_name',$goods_category['title']);
         }
+        $this->setTitle('{$category_name|op_t}'.' 商城');
+        $this->setKeywords('{$category_name|op_t}'.', 商城');
+
         $this->display();
     }
 
@@ -112,6 +118,7 @@ class IndexController extends Controller
         if (!$goods) {
             $this->error('404 not found');
         }
+
         $category = D('shopCategory')->find($goods['category_id']);
         $top_category_id=$category['pid'] == 0 ? $category['id'] : $category['pid'];
         $this->assign('top_category', $top_category_id);
@@ -154,6 +161,8 @@ class IndexController extends Controller
             }
         }
 
+        $this->setTitle('{$content.goods_name|op_t}'.' 商城');
+        $this->setKeywords('{$content.goods_name|op_t}'.', 商城');
         $this->display();
     }
 

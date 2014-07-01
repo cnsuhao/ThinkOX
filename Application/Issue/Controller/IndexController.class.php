@@ -44,6 +44,7 @@ class IndexController extends Controller
         $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
 
         $this->assign('issue_id',$issue_id);
+        $this->setTitle('专辑');
         $this->display();
     }
 
@@ -105,6 +106,7 @@ class IndexController extends Controller
     public function issueContentDetail($id = 0)
     {
 
+
         $issue_content = D('IssueContent')->find($id);
         if (!$issue_content) {
             $this->error('404 not found');
@@ -116,6 +118,8 @@ class IndexController extends Controller
         $this->assign('issue_id', $issue['id']);
         $issue_content['user'] = query_user(array('id', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
         $this->assign('content', $issue_content);
+        $this->setTitle('{$content.title|op_t}'.'——专辑');
+        $this->setKeywords($issue_content['title']);
         $this->display();
     }
 

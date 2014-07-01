@@ -49,6 +49,7 @@
             <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
                                               class="text-more" style="width: 100%">{$vo.title}</a></div>
             <div class="event_fq_count pull-left">
+<!--
                 <div class="pull-left mgb10 col-md-12">
                     <div class="pull-left col-md-6" style="padding-left: 5px;">by&nbsp; <a class=""
                                                                                            href="{$vo.user.space_url}">
@@ -64,6 +65,7 @@
                         <div class="event_logo" style="background-position: -20px 0px;"></div>
                         <span class="event_count">&nbsp;{$vo.view_count}</span></div>
                 </div>
+-->
 
                 <div class="pull-left mgb10">
                     <div class="pull-left mgl20 " style="font-size: 14px;">时间：
@@ -71,9 +73,9 @@
 
                     </div>
                 </div>
-                <div class="pull-left mgl20 word-wrap" style="width: 90%;font-size: 14px;">简介：
+     <!--           <div class="pull-left mgl20 word-wrap" style="width: 90%;font-size: 14px;">简介：
                     {$vo.explain|op_h='font'|getShortSp=20}
-                </div>
+                </div>-->
 
             </div>
         </div>
