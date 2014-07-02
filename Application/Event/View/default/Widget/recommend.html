@@ -1,11 +1,16 @@
+<if condition="!empty($rec_event)">
 
-<h2 style="font-size: 16px;"> 推荐活动</h2>
-
-<volist name="rec_event" id="vo">
     <div class="forum_module event_right">
-        <img class="cover img-responsive" style="margin-bottom: 10px" src="{$vo.cover_id|getThumbImageById=345,233}"/>
+    <h2 style="font-size: 16px;"> 推荐活动</h2>
+
+
+    <volist name="rec_event" id="vo">
+        <div style="border-top: #ccc 1px solid;padding-top: 10px;padding-bottom: 10px;">
+            <img class="cover img-responsive" style="margin-bottom: 10px" src="{$vo.cover_id|getThumbImageById=345,233}"/>
     <span><strong><a  href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
                       class="text-more" >{$vo.title}</a></strong><br><span class="font_grey" style="font-size: 14px;">  {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span
             class="font_grey" style="font-size: 14px;"> </span></span>
     </div>
-</volist>
+    </volist>
+    </div>
+</if>

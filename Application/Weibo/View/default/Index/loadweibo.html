@@ -33,12 +33,15 @@
                                      class="rank_html"/>
                             </if>
                         </volist>
-                    <span class="pull-right" style="margin-right: 20px;">
-                      <span class="ss" style="display: none">
-                          <img src="__PUBLIC__/Core/images/mark-aw1.png"/>
 
+                  <php>if(is_administrator(is_login()) || $weibo['user']['uid'] == is_login() ){</php>
+
+                    <span class="pull-right" style="margin-right: 20px;">
+
+                      <span class="weibo_admin_btn" style="display: none">
+                          <img src="__PUBLIC__/Core/images/mark-aw1.png"/>
                       </span>
-                        <php>if(is_administrator(is_login())){</php>
+
                         <div class="mark_box" style="display: none">
                             <ul class="nav text-center mark_aw">
                                 <!--  <li><a>收藏</a></li>-->
@@ -48,8 +51,11 @@
                                 </if>
                             </ul>
                         </div>
+                        </span>
+
                         <php>}</php>
-                    </span>
+
+
                     </p>
                     <div class="weibo_content_p">
                         {$weibo.fetchContent}
@@ -105,12 +111,12 @@
 </volist>
 
 <script>
-
+    ucard();
+    bindSupport();
+    bind_weibo_managment();
     lastId = '{$lastId}';
     $(document).ready(function () {
-        ucard();
-        bindSupport();
-        bind_weibo_managment();
+
         $('.popup-gallery').each(function () { // the containers for all your galleries
             $(this).magnificPopup({
                 delegate: 'a',
@@ -133,49 +139,47 @@
         });
     });
 
+
     function bind_weibo_managment() {
-
-        $('.ss').mouseover(function () {
-             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none'|| typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined' ) {
+        $('.weibo_admin_btn').unbind('click');
+        $('.weibo_admin_btn').mouseover(function () {
+            if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none'|| typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined' ) {
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
-
             } else{
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
-        }
+            }
         });
 
-        $('.ss').mouseleave(function () {
+        $('.weibo_admin_btn').mouseleave(function () {
             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none'|| typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined') {
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw1.png');
-
             } else{
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw4.png');
             }
         });
         $('.weibo_content').mouseover(function () {
-
-
-            $(this).find('.ss').show();
+            $(this).find('.weibo_admin_btn').show();
 
         });
 
-        $('.ss').click(function (e) {
-
+        $('.weibo_admin_btn').click(function (e) {
             $(this).parents('.weibo_content').find('.mark_box').toggle();
             if ($(this).parents('.weibo_content').find('.mark_box').css('display') == 'none' || typeof ($(this).parents('.weibo_content').find('.mark_box').css('display')) == 'undefined') {
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw2.png');
 
             } else{
                 $(this).find('img').attr('src', '__PUBLIC__/Core/images/mark-aw3.png');
-        }
-            e.preventDefault()
+            }
+            return false;
+
         });
         $('.weibo_content').mouseleave(function () {
-
-            $(this).find('.ss').hide();
+            $(this).find('.weibo_admin_btn').find('img').attr('src', '__PUBLIC__/Core/images/mark-aw1.png');
+            $(this).find('.weibo_admin_btn').hide();
             $(this).find('.mark_box').hide();
-        })
-    }
 
+        })
+
+    }
 
 </script>
