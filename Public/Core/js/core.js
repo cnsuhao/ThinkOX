@@ -334,7 +334,7 @@ function checkMessage() {
             if (count == 0) {
                 $('#nav_message').html('');
             }
-            playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
+            playsound('/Public/Core/js/ext/toastr/tip.mp3');
             for (var index in msg.messages) {
 
                 tip_message(msg['messages'][index]['content'] + '<div style="text-align: right"> ' + msg['messages'][index]['ctime'] + '</div>', msg['messages'][index]['title']);
@@ -359,6 +359,16 @@ function checkMessage() {
             //发现有新的会话
             $.each(msg.new_talks, function (index, talk) {
                     prependSession(talk.talk);
+                }
+            );
+        }
+
+
+        if(msg.new_talk_messages){
+            playsound('/Public/Core/js/ext/toastr/message.wav');
+            //发现有新的会话
+            $.each(msg.new_talk_messages, function (index, talk_message) {
+                   setSessionUnread(talk_message.talk_message.talk_id);
                 }
             );
         }
@@ -716,7 +726,7 @@ function open_chat_box(id) {
 
 function prependSession(data) {
     var tpl = '<li id="chat_li_' +
-        data.id + '"><div class="row"><div class="col-md-6"><a title="' +
+        data.id + '"><div class="row"><div class="col-md-6"><a class="session_ico" title="' +
         data.title + '" onclick="open_chat_box(' + data.id + ')"><img src="' +
         data.ico + '" class="avatar-img" style="width: 45px;"><span class="badge_new">&nbsp;</span></a></div><div class="col-md-6"><div><a class="text-more" style="width: 100%" target="_blank" title="' +
         data.title + '">' +
@@ -725,6 +735,24 @@ function prependSession(data) {
         '"><i style="color: red" title="退出会话" class="glyphicon glyphicon-off"></i></a></div></div></div></li>';
     $('#session_panel_main .friend_list').prepend(tpl);
 }
+/**
+ * 设置某个消息为未读
+ * @param talk_id
+ */
+function setSessionUnread(talk_id){
+    if(typeof ($('#chat_li_'+talk_id).html())!='undefined'){//当会话面板已经载入了
+        if( typeof ($('#chat_li_'+talk_id).find('.badge_new').html()) !='undefined'){//检测是否已经存在新标记
+            //如果已经存在新标记
+            return true;
+        }else{
+            $('#chat_li_'+talk_id).find('.session_ico').append('<span class="badge_new">&nbsp;</span>');
+        }
+
+    }
+
+    //TODO tox设置某个session未读
+}
+
 function start_talk(uid) {
     if (confirm('确定要和该用户发起会话？')) {
         $.post(U('Usercenter/Session/createTalk'), {uids: uid}, function (data) {

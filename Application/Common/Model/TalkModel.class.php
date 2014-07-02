@@ -37,13 +37,24 @@ class TalkModel extends Model
     public function getCurrentSessions()
     {
         //每次获取到所有的id，就对这些做delete处理。防止反复提示。
-
         $new_talks=D('TalkPush')->where(array('uid'=>get_uid(),'status'=>array('NEQ',-1)))->select();
         $new_ids = array();
         foreach ($new_talks as $push) {
             D('TalkPush')->where(array('id' => $push['id']))->setField('status', 1);//全部置为已提示
             $new_ids[] = $push['source_id'];
         }
+
+
+        //每次获取到所有的id，就对这些做delete处理。防止反复提示。
+        $new_talk_messages=D('TalkMessagePush')->where(array('uid'=>get_uid(),'status'=>array('NEQ',-1)))->select();
+        foreach ($new_talk_messages as $v) {
+            D('TalkMessagePush')->where(array('id' => $v['id']))->setField('status', 1);//全部置为已提示
+           $message= D('TalkMessage')->find($v['source_id']);
+            if(!in_array($message['talk_id'],$new_ids)){
+                $new_ids[]=$message['talk_id'];
+            };
+        }
+
         $list = $this->where('uids like' . '"%[' . is_login() . ']%"' . ' and status=1')->order('update_time desc')->select();
         foreach ($list as $key => &$li) {
 

@@ -81,6 +81,7 @@ class TalkMessageModel extends Model
                 $push['uid'] = $mem;
                 $push['source_id'] = $message['id'];
                 $push['create_time'] = time();
+                $push['talk_id']=$talk['id'];
                 D('TalkMessagePush')->add($push);
             }
         }

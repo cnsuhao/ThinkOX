@@ -20,7 +20,7 @@
                     <li id="chat_li_{$session.id}">
                         <div class="row">
                             <div class="col-md-6">
-                                <a title=" {$session.title|op_t}" onclick="open_chat_box({$session.id})">
+                                <a title=" {$session.title|op_t} " class="session_ico" onclick="open_chat_box({$session.id})">
                                     <img src="{$session.first_user.avatar64}" class="avatar-img" style="width: 45px;">
                                     <eq name="session.new" value="1">
                                         <span class="badge_new">&nbsp;</span>
@@ -29,8 +29,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <a class="text-more" style="width: 100%" target="_blank"
-                                       title="{$session.title|op_t}">
+                                    <a class="text-more " style="width: 100%" target="_blank"
+                                       title="{$session.title|op_t}" >
                                         {$session.title}
                                     </a>
                                 </div>
