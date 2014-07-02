@@ -31,13 +31,7 @@
                                         D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$vo['uid']))->find();
                                     </php>
                                     <p class="text-center">
-                                        <a class="btn btn-primary" onclick="ufollow(this,{$vo.uid})">
-                                            <if condition="$vo['is_following']">
-                                                已关注
-                                                <else/>
-                                                关注
-                                            </if>
-                                        </a>
+                                        {:W('Common/Ufollow/render',array('is_following'=>$vo['is_following'],'uid'=>$vo['uid']))}
                                     </p>
                                     <else/>
                                     <if condition="$vo['uid'] == get_uid()">

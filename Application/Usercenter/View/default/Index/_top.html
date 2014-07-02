@@ -1,13 +1,12 @@
-<div class="uc">
     <div class="uc_top_bg">
         <img class="img-responsive" src="__IMG__/fractional.png" style="display: none">
     </div>
     <div class="row uc_info">
-        <div class="col-md-3 col-xs-5">
+        <div class="col-md-3 col-xs-4">
             <dl>
                 <dt>
                     <a href="{$user_info.space_url}" title="">
-                        <img src="{$user_info.avatar128}"  class="avatar-img img-responsive top_img"/>
+                        <img src="{$user_info.avatar128}" class="avatar-img img-responsive top_img"/>
                     </a>
                 </dt>
                 <dd>
@@ -26,7 +25,7 @@
                 </dd>
             </dl>
         </div>
-        <div class="col-md-4 col-xs-7">
+        <div class="col-md-6 col-xs-8">
             <div class="uc_main_info">
                 <div class="uc_m_t_12 uc_m_b_12 uc_uname">
                 <span>
@@ -60,19 +59,13 @@
             </div>
         </div>
         <if condition="is_login() && $user_info['uid'] != get_uid()">
-            <div class="col-md-5 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <div class="uc_follow">
                     <php>
                         $user_info['is_following'] =
                         D('Follow')->where(array('who_follow'=>get_uid(),'follow_who'=>$user_info['uid']))->find();
                     </php>
-                    <button type="button" class="btn btn-primary" onclick="ufollow(this,{$user_info['uid']})">
-                        <if condition="$user_info['is_following']">
-                            已关注
-                            <else/>
-                            关注
-                        </if>
-                    </button>
+                    {:W('Common/Ufollow/render',array('is_following'=>$user_info['is_following'],'uid'=>$user_info['uid']))}
                 </div>
             </div>
         </if>

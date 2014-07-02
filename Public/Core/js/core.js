@@ -168,8 +168,11 @@ function ufollow(obj, uid) {
     if ($(obj).text().trim() == '已关注') {
         $.post(U('UserCenter/Public/unfollow'), {uid: uid}, function (msg) {
             if (msg.status) {
+                obj.removeClass('btn-default');
+                obj.addClass('btn-primary');
                 op_success('取消关注成功。', '温馨提示');
                 obj.text('关注');
+
             } else {
                 op_error('取消关注失败。', '温馨提示');
             }
@@ -177,8 +180,11 @@ function ufollow(obj, uid) {
     } else {
         $.post(U('UserCenter/Public/follow'), {uid: uid}, function (msg) {
             if (msg.status) {
+                obj.removeClass('btn-primary');
+                obj.addClass('btn-default');
                 op_success('关注成功。', '温馨提示');
                 obj.text('已关注');
+
             } else {
                 op_error('关注失败。', '温馨提示');
             }
