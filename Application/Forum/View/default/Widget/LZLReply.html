@@ -22,7 +22,7 @@
 
 <script>
 $(function(){
-    $('#lzl_reply_list_{$to_f_reply_id}').load(U('Forum/LZL/lzllist&to_f_reply_id={$to_f_reply_id}', '', true),function(){
+    $('#lzl_reply_list_{$to_f_reply_id}').load(U('Forum/LZL/lzllist',['to_f_reply_id',"{$to_f_reply_id}"], true),function(){
         ucard()
     });
 })
