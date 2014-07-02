@@ -115,7 +115,7 @@ function ucard() {
                     if ((MID != uid) && (MID != 0)) {
                         follow ='<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
                         if (userProfile.followed == 1) {
-                            follow +='<button type="button" class="btn btn-default ufollow_focus_change" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
+                            follow +='<button type="button" class="btn btn-default" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
                         } else {
                             follow +='<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
                         }
@@ -134,7 +134,7 @@ function ucard() {
                         '<div>'+
                         '关注：{$userProfile.following}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{$userProfile.fans}&nbsp;&nbsp;&nbsp;&nbsp;微博：{$userProfile.weibocount}'+
                     '</div>'+
-                        '<div>'+
+                        '<div style="margin-bottom: 15px">'+
                         '个性签名：'+
                             '<span>'+
                                 '{$userProfile.signature}'+
@@ -170,6 +170,7 @@ function ucard() {
     })
 }
 function ufollow(obj, uid) {
+    objt=obj;
     obj = $(obj);
     if ($(obj).text().trim() == '已关注') {
         $.post(U('UserCenter/Public/unfollow'), {uid: uid}, function (msg) {
@@ -178,7 +179,6 @@ function ufollow(obj, uid) {
                 obj.addClass('btn-primary');
                 op_success('取消关注成功。', '温馨提示');
                 obj.text('关注');
-
             } else {
                 op_error('取消关注失败。', '温馨提示');
             }
@@ -189,8 +189,7 @@ function ufollow(obj, uid) {
                 obj.removeClass('btn-primary');
                 obj.addClass('btn-default');
                 op_success('关注成功。', '温馨提示');
-                obj.text('已关注');
-
+                objt.innerHTML="<font title='取消关注'>已关注</font>";
             } else {
                 op_error('关注失败。', '温馨提示');
             }

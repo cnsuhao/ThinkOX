@@ -290,13 +290,13 @@ hr {
   font-size: 16px;
   padding: 8px;
 
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   background-color: #ffffff;
   color: #333333;
-
-  -webkit-box-shadow: 0px 2px 5px #ccc;/*（这是专对火狐浏览器的支持而设置的）*/
-  -moz-box-shadow: 0px 2px 5px #ccc;/*（这是对Safari和Chrome浏览器而设置的）*/
-  box-shadow: 0px 2px 5px #ccc;
+ border: 1px solid #ddd;
+/*  -webkit-box-shadow: 0px 2px 5px #ccc;*//*（这是专对火狐浏览器的支持而设置的）*//*
+  -moz-box-shadow: 0px 2px 5px #ccc;*//*（这是对Safari和Chrome浏览器而设置的）*//*
+  box-shadow: 0px 2px 5px #ccc;*/
 }
 .container_nav{
   width: 100%;
@@ -316,7 +316,7 @@ hr {
 
 .container_nav .container_nav_tab_li a{
   color: #848484;
-  padding-bottom: 10px;
+  padding-bottom:8px;
 }
 
 .container_nav .container_nav_tab_li a:hover,.container_nav_tab .active a{
@@ -377,8 +377,9 @@ font-size: 14px;
 }
 
 .event_type .cur{
-background: lightskyblue;
+background: #008CC9;
   color: #fff;
+  border-radius: 3px;
 }
 
 .event_type_name{
@@ -406,7 +407,7 @@ background: lightskyblue;
 .event_navbar{
 min-height: 45px;
   background-color: #fff;
-  border-color: #fff;
+  border-color: #ddd;
 }
 
 .event_header_title{
@@ -472,3 +473,10 @@ padding: 0px 10px;
 
 }
 /*form_check.js 所用到的css end */
+
+
+.btn-info {
+  color: #fff;
+  background-color: #008CC9;
+  border-color: #008CC9;
+}
