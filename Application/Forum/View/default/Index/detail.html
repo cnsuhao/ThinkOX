@@ -275,7 +275,7 @@
         }
 
         if ("{$sr}" != "") {
-            $('#lzl_reply_list_{$sr}').load(U('Forum/LZL/lzllist&to_f_reply_id={$sr}&page={$sp}', '', true), function () {
+            $('#lzl_reply_list_{$sr}').load(U('Forum/LZL/lzllist',['to_f_reply_id','{$sr}','page','{$sp}'], true), function () {
                 ucard();
             });
         }

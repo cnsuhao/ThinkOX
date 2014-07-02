@@ -34,7 +34,7 @@ $(function () {
         $.post(url, {post_id: post_id, to_f_reply_id: to_f_reply_id, to_reply_id: to_reply_id, to_uid: to_uid, content: content,p:p}, function (msg) {
             if (msg.status) {
                 op_success(msg.info, '温馨提示');
-                $('#lzl_reply_list_' + to_f_reply_id).load(U('Forum/LZL/lzlList&to_f_reply_id=' + to_f_reply_id + '&page=' + msg.url, '', true), function () {
+                $('#lzl_reply_list_' + to_f_reply_id).load(U('Forum/LZL/lzlList',['to_f_reply_id',to_f_reply_id,'page',msg.url], true), function () {
                     ucard()
                 })
                 $('#reply_' + to_f_reply_id).val('');
