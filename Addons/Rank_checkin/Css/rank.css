@@ -1,1 +1,20 @@
-.check_rank{background-color:#fff;box-shadow:0 0 5px #ccc;border-bottom-left-radius:6px;border-bottom-right-radius:6px;border-bottom:#ddd 3px solid;line-height:42px;color:#D61F39}.check_rank .check_rank_list{padding:0 15px;display:block}.check_rank .check_rank_list li{list-style:none}.check_rank a{color:#D61F39}
+.check_rank {
+  background-color: white;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  line-height: 42px;
+  color: #D61F39;
+}
+.check_rank .check_rank_list {
+  padding: 0 15px;
+  display: block;
+}
+.check_rank .check_rank_list li {
+  list-style: none;
+}
+.check_rank a {
+  color: #D61F39;
+}
