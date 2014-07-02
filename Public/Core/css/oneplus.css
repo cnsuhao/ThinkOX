@@ -789,8 +789,12 @@ General list for item with image
   margin-bottom: 25px;
 }
 /*楼中楼end*/
-.qtip-content {
-  width: 230px;
+.qtip {
+  max-width: 352px;
+}
+.qtip-bootstrap .qtip-content {
+  width: 346px;
+  padding: 0;
 }
 /*表情*/
 .sanjiao {

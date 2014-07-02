@@ -72,6 +72,7 @@ function query_user($fields, $uid = null)
         $ucenterResult = $model->where(array('id' => $uid))->field($ucenterFields)->find();
     }
 
+
     //读取头像数据
     $result = array();
     $avatarAddon = new \Addons\Avatar\AvatarAddon();
@@ -101,6 +102,7 @@ function query_user($fields, $uid = null)
         $result['space_url'] = U('UserCenter/Index/index', array('uid' => $uid));
     }
 
+   $ucenterResult['nickname']=op_t($ucenterResult['nickname']);
     //获取昵称链接
     if (in_array('space_link', $fields)) {
         $result['space_link'] = '<a ucard="' . $uid . '" href="' . U('UserCenter/Index/index', array('uid' => $uid)) . '">' . $ucenterResult['nickname'] . '</a>';

@@ -112,39 +112,47 @@ function ucard() {
                 var uid = $(this).attr('ucard');
                 $.get(U('UserCenter/Public/getProfile'), {uid: uid}, function (userProfile) {
                     var follow = '';
-                    var progress = userProfile.score * 1.0 / userProfile.total * 100;
-                    var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
                     if ((MID != uid) && (MID != 0)) {
-                        follow = '<div class="row" style="background: #f5f5f5;margin: -10px -15px;margin-top: 10px;padding: 5px 10px">' +
-                            '<button   type="button" class="btn btn-primary" onclick="start_talk(' + userProfile.id + ')" style="padding: 1px 5px 3px 5px">私信</button>' +
-                            '<div class="pull-right">' +
-                            '<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="padding: 1px 5px 3px 5px">';
+                        follow ='<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
                         if (userProfile.followed == 1) {
-                            follow += '已关注';
+                            follow +='<button type="button" class="btn btn-default ufollow_focus_change" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
                         } else {
-                            follow += '关注';
-                        }
-                        follow += '</button></div></div>';
-                    }
-                    var html = '<div ><p>等级：' + userProfile.title + '</p><p>头衔：';
-
-                    for (var i = 0; i < userProfile.rank_link.length; i++) {
-                        if (userProfile.rank_link[i].is_show == 1) {
-                            html = html + '<img src="' + userProfile.rank_link[i].logo_url + '" title="' + userProfile.rank_link[i].title + '" alt="' + userProfile.rank_link[i].title + '" style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>'
+                            follow +='<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
                         }
                     }
-                    if (userProfile.rank_link.length == 0 || !userProfile.rank_link[0].num) {
-                        html = html + '无';
+                    var html = '<div class="row" style="width: 350px;width: 350px;font-size: 13px;line-height: 23px;">'+
+                        '<div class="col-xs-12" style="padding: 2px;">'+
+                        '<img class="img-responsive" src="'+window.Think.ROOT+'/Public/Core/images/qtip_bg.png">'+
+                        '</div>'+
+                        '<div class="col-xs-12" style="padding: 2px;margin-top: -25px;">'+
+                        '<div class="col-xs-3">'+
+                            '<img src="{$userProfile.avatar64}" class="avatar-img img-responsive" style="-webkit-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);-moz-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);box-shadow: 0 3px 4px rgba(173, 173, 173, 0.54);border: solid 2px #fff;"/>'+
+                        '</div>'+
+                        '<div class="col-xs-9" style="padding-top: 25px;">'+
+                        '<div style="font-size: 16px;font-weight: bold;"><a href="{$userProfile.space_url}" title="">{$userProfile.nickname}</a>'+
+                        '</div>'+
+                        '<div>'+
+                        '关注：{$userProfile.following}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{$userProfile.fans}&nbsp;&nbsp;&nbsp;&nbsp;微博：{$userProfile.weibocount}'+
+                    '</div>'+
+                        '<div>'+
+                        '个性签名：'+
+                            '<span>'+
+                                '{$userProfile.signature}'+
+                            '</span>'+
+                        '</div>'+
+                    '</div>'+
+                    '</div>'+
+                        '<div class="col-xs-12" style="background: #f1f1f1;">'+
+                        follow+
+                        '</div>'+
+                    '</div>';
+                    userProfile.signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
+                    for(var key in userProfile){
+                        html=html.replace('{$userProfile.'+key+'}',userProfile[key]);
                     }
-                    html = html + '</p><p>积分：' + userProfile.score + '</p>' +
-                        '<div style="width: 200px" class="progress progress-striped active"><div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: ' + progress + '%"><span class="sr-only">' + progress + '%</span></div></div>'
-                        + '<p style="width: 217px;">微博：' + userProfile.weibocount + '&nbsp;&nbsp;粉丝：' + userProfile.fans + '&nbsp;&nbsp;' + '关注：' + userProfile.following + '</p><p>个性签名：' + signature + '</p>' + follow +
-                        '</div>';
+                    //alert(html);
                     var tpl = $(html);
                     api.set('content.text', tpl.html());
-
-
-                    api.set('content.title', '<b><a href="' + userProfile.space_url + '">' + userProfile.nickname + '</a></b>的小名片');
 
 
                 }, 'json');
