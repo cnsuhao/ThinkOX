@@ -114,7 +114,7 @@ class IndexController extends Controller
 
     public function loadWeibo($page = 1, $uid = 0,$loadCount=1,$lastId = 0)
     {
-        $count = 40;
+        $count = 30;
         //载入全站微博
         if ($uid != 0) {
             $result = $this->weiboApi->listAllWeibo($page, $count, array('uid' => $uid),$loadCount,$lastId);

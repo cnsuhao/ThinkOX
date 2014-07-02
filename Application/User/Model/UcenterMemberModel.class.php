@@ -35,7 +35,7 @@ class UcenterMemberModel extends Model
         /* 验证用户名 */
         array('username', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //用户名长度不合法
         array('username', 'checkDenyMember', -2, self::EXISTS_VALIDATE, 'callback'), //用户名禁止注册
-        array('username', 'checkUsername', -2, self::EXISTS_VALIDATE, 'callback'),
+        array('username', 'checkUsername', -20, self::EXISTS_VALIDATE, 'callback'),
         array('username', '', -3, self::EXISTS_VALIDATE, 'unique'), //用户名被占用
 
         /* 验证密码 */
@@ -84,11 +84,16 @@ class UcenterMemberModel extends Model
 
     protected function checkUsername($username)
     {
+
         //如果用户名中有空格，不允许注册
         if (strpos($username, ' ') !== false) {
             return false;
         }
+        preg_match("/^[a-zA-Z0-9_]{1,30}$/",$username,$result);
 
+if(!$result ){
+    return false;
+}
         return true;
     }
 

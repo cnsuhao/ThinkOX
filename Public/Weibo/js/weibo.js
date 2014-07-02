@@ -10,10 +10,10 @@ function isLoadMoreVisible() {
 }
 
 function loadNextPage() {
-    if(loadCount ==4){
+    if(loadCount ==3){
         $('#index_weibo_page').show();
     }
-    if(currentPage==1 && loadCount < 4){
+    if(currentPage==1 && loadCount < 3){
         loadCount++;
         loadWeiboList(currentPage);
     }

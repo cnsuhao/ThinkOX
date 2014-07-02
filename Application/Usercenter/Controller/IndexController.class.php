@@ -14,14 +14,12 @@ use Think\Controller;
 
 class IndexController extends BaseController
 {
-
     public function _initialize()
     {
         parent::_initialize();
         $uid = isset($_GET['uid']) ? op_t($_GET['uid']) : is_login();
         //调用API获取基本信息
         $this->userInfo($uid);
-
         $this->_fans_and_following($uid);
 
         $this->_tab_menu();
@@ -51,6 +49,13 @@ class IndexController extends BaseController
             $this->assign('totalCount', $totalCount);
         }
         $this->assign('content', $content);
+        //四处一词 seo
+        $str='{$user_info.nickname|op_t}';
+        $str_app='{$appArr[$type]|op_t}';
+        $this->setTitle($str."的个人主页");
+        $this->setKeywords($str."，个人主页，Think OX，个人".$str_app);
+        $this->setDescription($str."的个人".$str_app."页");
+        //四处一词 seo end
         $this->display();
     }
 
@@ -81,6 +86,12 @@ class IndexController extends BaseController
 
             $this->getExpandInfo($uid);
         }
+        //四处一词 seo
+        $str='{$user_info.nickname|op_t}';
+        $this->setTitle($str."的个人资料页");
+        $this->setKeywords($str."，个人资料，Think OX");
+        $this->setDescription($str."的个人资料页");
+        //四处一词 seo end
 
         $this->assign('info_type',$info_type);
         $this->display();
@@ -149,11 +160,11 @@ class IndexController extends BaseController
             $field = D('field')->where($map)->find();
             $val['field_content'] = $field;
             unset($map['field_id']);
-            $info_list[$val['id']]=$this->_set_field_data($val);
+            $info_list[$val['id']]=$this->_get_field_data($val);
         }
         return $info_list;
     }
-    public function _set_field_data($data=null){
+    public function _get_field_data($data=null){
         $result=null;
         $result['field_name']=$data['field_name'];
         $result['field_data']="还未设置";
@@ -194,6 +205,15 @@ class IndexController extends BaseController
             $this->assign('totalCount', $totalCount);
         }
         $this->assign('content', $content);
+
+        //四处一词 seo
+        $str='{$user_info.nickname|op_t}';
+        $str_app='{$appArr[$type]|op_t}';
+        $this->setTitle($str."的个人".$str_app."页");
+        $this->setKeywords($str."，个人主页，Think OX，个人".$str_app);
+        $this->setDescription($str."的个人".$str_app."页");
+        //四处一词 seo end
+
         $this->display('index');
     }
 
@@ -203,7 +223,7 @@ class IndexController extends BaseController
      */
     public function _tab_menu()
     {
-        // 取全部APP信息
+        // 根据应用目录取全部APP信息
         $map['status'] = 1;
         $dir = APP_PATH;
         $appList = null;
@@ -269,6 +289,14 @@ class IndexController extends BaseController
         $fans = D('Follow')->getFans($uid, $page, array('avatar128', 'uid', 'nickname', 'fans', 'following', 'weibocount', 'space_url', 'title'), $totalCount);
         $this->assign('fans', $fans);
         $this->assign('totalCount', $totalCount);
+
+        //四处一词 seo
+        $str='{$user_info.nickname|op_t}';
+        $this->setTitle($str."的个人粉丝页");
+        $this->setKeywords($str."，个人粉丝，Think OX");
+        $this->setDescription($str."的个人粉丝页");
+        //四处一词 seo end
+
         $this->display();
     }
 
@@ -283,6 +311,14 @@ class IndexController extends BaseController
         $this->assign('following', $following);
         $this->assign('totalCount', $totalCount);
         $this->assign('tab', 'following');
+
+        //四处一词 seo
+        $str='{$user_info.nickname|op_t}';
+        $this->setTitle($str."的个人关注页");
+        $this->setKeywords($str."，个人关注，Think OX");
+        $this->setDescription($str."的个人关注页");
+        //四处一词 seo end
+
         $this->display();
     }
 } 

@@ -27,7 +27,7 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 40,$map=array(),$loadCount=1,$lastId=0)
+    public function listAllWeibo($page = 1, $count = 30,$map=array(),$loadCount=1,$lastId=0)
     {
 
         //获取微博列表
@@ -37,12 +37,24 @@ class WeiboApi extends Api
         if($page ==1  && $loadCount==1){
 
             $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
-        }elseif($loadCount > 1 && $loadCount<= 4){
-            $map['id'] = array('lt',$lastId);
-            $list = $model->where($map)->order('create_time desc')->limit(10)->select();
+        }elseif($loadCount > 1 && $loadCount<= 3){
+
+            $is_top = D('weibo')->where(array('id'=>$lastId))->getField('is_top');
+            if(!$is_top){
+                $map['id'] = array('lt',$lastId);
+                $list = $model->where($map)->order('create_time desc')->limit(10)->select();
+            }else{
+                $ids = $model->where(array('id'=>array('egt',$lastId),'is_top'=>1))->field('id')->select();
+                $ids = getSubByKey($ids,'id');
+                $ids = implode(",",$ids);
+                $map['_string'] = '(id < '.$lastId.' AND is_top =1 ) OR (id > 0  AND (id NOT IN ('.$ids.'))) ';
+                $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+            }
+
+
         }
         elseif($page>1){
-            $list = $model->where($map)->order('create_time desc')->page($page, $count)->select();
+            $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
         }
 
 
