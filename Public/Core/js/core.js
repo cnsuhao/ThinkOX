@@ -355,7 +355,7 @@ function checkMessage() {
         }
 
         if (msg.new_talks) {
-            playsound('Public/static/oneplus/js/ext/toastr/tip.mp3');
+            playsound('/Public/Core/js/ext/toastr/tip.mp3');
             //发现有新的会话
             $.each(msg.new_talks, function (index, talk) {
                     prependSession(talk.talk);
