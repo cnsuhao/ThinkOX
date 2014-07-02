@@ -61,8 +61,10 @@ function U(url, params, rewrite) {
 
 
     if(window.Think['URL_MODEL']==2){
+
         var website = _ROOT_ + '/';
         url = url.split('/');
+
         if (url[0] == '' || url[0] == '@')
             url[0] = APPNAME;
         if (!url[1])
@@ -70,6 +72,7 @@ function U(url, params, rewrite) {
         if (!url[2])
             url[2] = 'index';
         website = website + '' + url[0] + '/' + url[1] + '/' + url[2];
+
         if (params) {
             params = params.join('/');
             website = website + '/' + params;
@@ -96,6 +99,7 @@ function U(url, params, rewrite) {
             website = website + '.html';
         }
     }
+
     return website;
 }
 

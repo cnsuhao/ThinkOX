@@ -92,8 +92,8 @@ class ConfigController extends BaseController
             $this->error('请输入昵称。');
         } else if ($length >= 10) {
             $this->error('昵称不能超过10个字。');
-        } else if ($length <= 2) {
-            $this->error('昵称不能少于2个字。');
+        } else if ($length <= 1) {
+            $this->error('昵称不能少于1个字。');
         }
         $match = preg_match('/^(?!_|\s\')[A-Za-z0-9_\x80-\xff\s\']+$/', $nickname);
         if (!$match) {
