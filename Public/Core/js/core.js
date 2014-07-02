@@ -134,7 +134,7 @@ function ucard() {
                         '<div>'+
                         '关注：{$userProfile.following}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{$userProfile.fans}&nbsp;&nbsp;&nbsp;&nbsp;微博：{$userProfile.weibocount}'+
                     '</div>'+
-                        '<div>'+
+                        '<div style="margin-bottom: 15px">'+
                         '个性签名：'+
                             '<span>'+
                                 '{$userProfile.signature}'+
