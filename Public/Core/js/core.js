@@ -58,9 +58,7 @@ function is_login() {
 function U(url, params, rewrite) {
 
 
-
-
-    if(window.Think['URL_MODEL']==2){
+    if (window.Think['URL_MODEL'] == 2) {
 
         var website = _ROOT_ + '/';
         url = url.split('/');
@@ -81,7 +79,7 @@ function U(url, params, rewrite) {
             website = website + '.html';
         }
 
-    }else{
+    } else {
         var website = _ROOT_ + '/index.php';
         url = url.split('/');
         if (url[0] == '' || url[0] == '@')
@@ -159,7 +157,7 @@ function ucard() {
             delay: 500}, style: {
             classes: 'qtip-bootstrap'
 
-        }, hide: {delay: 500,  fixed: true
+        }, hide: {delay: 500, fixed: true
         }
     })
 }
@@ -217,6 +215,11 @@ function bindGoTop() {
  * @param file 文件路径
  */
 function playsound(file) {
+    if (window.Think.ROOT == '') {
+        file = '/' + file;
+    }else{
+        file=window.Think.ROOT+'/'+file;
+    }
     $('embed').remove();
     $('body').append('<embed src="' + file + '" autostart="true" hidden="true" loop="false">');
     var div = document.getElementById('music');
@@ -334,7 +337,7 @@ function checkMessage() {
             if (count == 0) {
                 $('#nav_message').html('');
             }
-            playsound('/Public/Core/js/ext/toastr/tip.mp3');
+            playsound('Public/Core/js/ext/toastr/tip.mp3');
             for (var index in msg.messages) {
 
                 tip_message(msg['messages'][index]['content'] + '<div style="text-align: right"> ' + msg['messages'][index]['ctime'] + '</div>', msg['messages'][index]['title']);
@@ -355,7 +358,7 @@ function checkMessage() {
         }
 
         if (msg.new_talks) {
-            playsound('/Public/Core/js/ext/toastr/tip.mp3');
+            playsound('Public/Core/js/ext/toastr/tip.mp3');
             //发现有新的会话
             $.each(msg.new_talks, function (index, talk) {
                     prependSession(talk.talk);
@@ -364,11 +367,11 @@ function checkMessage() {
         }
 
 
-        if(msg.new_talk_messages){
-            playsound('/Public/Core/js/ext/toastr/message.wav');
+        if (msg.new_talk_messages) {
+            playsound('Public/Core/js/ext/toastr/message.wav');
             //发现有新的会话
             $.each(msg.new_talk_messages, function (index, talk_message) {
-                   setSessionUnread(talk_message.talk_message.talk_id);
+                    setSessionUnread(talk_message.talk_message.talk_id);
                 }
             );
         }
@@ -739,13 +742,13 @@ function prependSession(data) {
  * 设置某个消息为未读
  * @param talk_id
  */
-function setSessionUnread(talk_id){
-    if(typeof ($('#chat_li_'+talk_id).html())!='undefined'){//当会话面板已经载入了
-        if( typeof ($('#chat_li_'+talk_id).find('.badge_new').html()) !='undefined'){//检测是否已经存在新标记
+function setSessionUnread(talk_id) {
+    if (typeof ($('#chat_li_' + talk_id).html()) != 'undefined') {//当会话面板已经载入了
+        if (typeof ($('#chat_li_' + talk_id).find('.badge_new').html()) != 'undefined') {//检测是否已经存在新标记
             //如果已经存在新标记
             return true;
-        }else{
-            $('#chat_li_'+talk_id).find('.session_ico').append('<span class="badge_new">&nbsp;</span>');
+        } else {
+            $('#chat_li_' + talk_id).find('.session_ico').append('<span class="badge_new">&nbsp;</span>');
         }
 
     }
@@ -794,7 +797,7 @@ function bindLogout() {
 function bindSupport() {
     $('.support_btn').unbind('click');
     $('.support_btn').click(function () {
-       // event.stopPropagation();
+        // event.stopPropagation();
         var me = $(this);
         if (MID == 0) {
             op_error('请在登陆后再点赞。即将跳转到登陆页。', '温馨提示');
@@ -898,7 +901,7 @@ function weiboShare() {
 
 
 /*导航栏*/
-var topMain = $("#top_bar").height() + $('#logo_bar').height() ;//是头部的高度加头部与nav导航之间的距离
+var topMain = $("#top_bar").height() + $('#logo_bar').height();//是头部的高度加头部与nav导航之间的距离
 $(function () {
     var nav = $("#nav_bar");
     $(window).scroll(function () {
