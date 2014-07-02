@@ -293,6 +293,8 @@ class IndexController extends Controller
 
         $this->assign('content', $event_content);
         $this->assign('tip', $tip);
+        $this->setTitle('{$content.title|op_t}'.'——活动');
+        $this->setKeywords('{$content.title|op_t}'.',活动');
         $this->display();
     }
 
@@ -314,9 +316,15 @@ class IndexController extends Controller
         }
         $event_content['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $event_content['uid']);
         $this->assign('content', $event_content);
+        $this->setTitle('编辑活动'.'——活动');
+        $this->setKeywords('编辑'.',活动');
         $this->display();
     }
-
+public function add(){
+    $this->setTitle('添加活动'.'——活动');
+    $this->setKeywords('添加'.',活动');
+    $this->display();
+}
     /**
      * 报名参加活动
      * @param $event_id
@@ -357,6 +365,9 @@ class IndexController extends Controller
             $data['creat_time'] = time();
             $res = D('event_attend')->add($data);
             if ($res) {
+
+                D('Message')->sendMessageWithoutCheckSelf($event_content['uid'],query_user('nickname',is_login()).'报名参加了活动]'.$event_content['title'].']，请速去审核！' ,'报名通知', U('Event/Index/member',array('id'=>$event_id)),is_login());
+
                 D('Event')->where(array('id' => $event_id))->setInc('signCount');
                 $this->success('报名成功。', 'refresh');
             } else {
@@ -384,8 +395,10 @@ class IndexController extends Controller
             $res = D('event_attend')->where(array('uid' => $uid, 'event_id' => $event_id))->setField('status', $tip);
             if ($tip) {
                 D('Event')->where(array('id' => $event_id))->setInc('attentionCount');
+                D('Message')->sendMessageWithoutCheckSelf($uid,query_user('nickname',is_login()).'已经通过了您对活动'.$event_content['title'].'的报名请求' ,'审核通知', U('Event/Index/detail',array('id'=>$event_id)),is_login());
             } else {
                 D('Event')->where(array('id' => $event_id))->setDec('attentionCount');
+                D('Message')->sendMessageWithoutCheckSelf($uid,query_user('nickname',is_login()).'取消了您对活动['.$event_content['title'].']的报名请求' ,'取消审核通知', U('Event/Index/member',array('id'=>$event_id)),is_login());
             }
             if ($res) {
                 $this->success('操作成功');
@@ -418,6 +431,9 @@ class IndexController extends Controller
                 D('Event')->where(array('id' => $event_id))->setDec('attentionCount');
             }
             D('Event')->where(array('id' => $event_id))->setDec('signCount');
+
+            D('Message')->sendMessageWithoutCheckSelf($event_content['uid'],query_user('nickname',is_login()).'取消了对活动['.$event_content['title'].']的报名' ,'取消报名通知', U('Event/Index/detail',array('id'=>$event_id)),is_login());
+
             $this->success('取消报名成功');
         } else {
             $this->error('操作失败');

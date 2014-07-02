@@ -275,6 +275,9 @@ class UserController extends HomeController
             case -11:
                 $error = '手机号被占用！';
                 break;
+            case -20:
+                $error = '用户名只能由数字、字母和"_"组成！';
+                break;
             default:
                 $error = '未知错误24';
         }
