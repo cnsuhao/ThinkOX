@@ -58,7 +58,7 @@ function is_login() {
 function U(url, params, rewrite) {
 
 
-    if (window.Think['URL_MODEL'] == 2) {
+    if (window.Think.MODEL[0] == 2) {
 
         var website = _ROOT_ + '/';
         url = url.split('/');

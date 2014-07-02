@@ -7,34 +7,6 @@
         <php>
             $user = query_user(array('avatar128','uid','nickname','space_url','icons_html','rank_link'), $post['uid']);
         </php>
-        <div class="row">
-            <div class="row forum_block_title">
-                <div class="col-md-8">
-                    <h2 style="margin-bottom: 0">标题：{$post.title|op_t}</h2>
-                </div>
-                <div class="col-md-4 text-right">
-                    <if condition="$post['uid']==is_login()">
-                        <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
-                    </if>
-                    <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
-                    <php>
-                        $hideStyle = 'display: none;';
-                        $bookmarkStyle = $isBookmark ? $hideStyle : '';
-                        $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
-                    </php>
-                <span style="{$unbookmarkStyle}" id="unbookmark_button">
-                    <a class="btn btn-default"
-                       href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">取消收藏</a>&nbsp;
-                </span>
-                <span style="{$bookmarkStyle}" id="bookmark_button">
-                    <a class="btn btn-default" href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}">收藏</a>&nbsp;
-                </span>
-                </div>
-            </div>
-        </div>
-
-        <hr/>
-
         <if condition="$showMainPost" style="position: relative">
             <div class="row" style="position: relative">
 
@@ -61,6 +33,32 @@
                     </p>
                 </div>
                 <div class="col-xs-10 post_content">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h2 style="margin-bottom: 0">标题：{$post.title|op_t}</h2>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <if condition="$post['uid']==is_login()">
+                                    <a class="btn btn-default" href="{:U('Index/edit',array('post_id'=>$post['id']))}">编辑</a>&nbsp;
+                                </if>
+                                <a class="btn btn-default" href="#reply_form">回复</a>&nbsp;
+                                <php>
+                                    $hideStyle = 'display: none;';
+                                    $bookmarkStyle = $isBookmark ? $hideStyle : '';
+                                    $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
+                                </php>
+                <span style="{$unbookmarkStyle}" id="unbookmark_button">
+                    <a class="btn btn-default"
+                       href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">取消收藏</a>&nbsp;
+                </span>
+                <span style="{$bookmarkStyle}" id="bookmark_button">
+                    <a class="btn btn-default" href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}">收藏</a>&nbsp;
+                </span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="min-height: 10em;overflow: hidden">
 
 
@@ -211,10 +209,6 @@
     </if>
 </div>
 </div>
-<script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
-<link type="text/css" rel="stylesheet" href="__PUBLIC__/Core/js/ext/magnific/magnific-popup.css"/>
-<script type="text/javascript" src="__PUBLIC__/Core/js/ext/atwho/atwho.js"></script>
-<link type="text/css" rel="stylesheet" href="__PUBLIC__/Core/js/ext/atwho//atwho.css"/>
 <script>
     var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
     //点击收藏/取消收藏按钮
@@ -228,16 +222,6 @@
         });
 
 
-        atwho_config = {
-            at: "@",
-            alias: "at",
-            data: U('Weibo/Index/atWhoJson'),
-            tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
-            show_the_at: true,
-            search_key: 'search_key',
-            start_with_space: false,
-            insert_tpl: '${atwho-data-value} '
-        };
         var $inputor = $('#contentEditor').atwho(atwho_config);
 
         bindSupport();
