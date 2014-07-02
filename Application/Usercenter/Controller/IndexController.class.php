@@ -61,8 +61,7 @@ class IndexController extends BaseController
 
     private function userInfo($uid = null)
     {
-        //todo 删掉avatar64
-        $user_info = query_user(array('avatar128','avatar64', 'nickname', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link', 'signature'), $uid);
+        $user_info = query_user(array('avatar128', 'nickname', 'uid', 'space_url', 'icons_html', 'score', 'title', 'fans', 'following', 'weibocount', 'rank_link', 'signature'), $uid);
         $this->assign('user_info', $user_info);
         return $user_info;
     }

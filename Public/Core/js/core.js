@@ -114,7 +114,14 @@ function ucard() {
                 var uid = $(this).attr('ucard');
                 $.get(U('UserCenter/Public/getProfile'), {uid: uid}, function (userProfile) {
                     var follow = '';
-                    var signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
+                    if ((MID != uid) && (MID != 0)) {
+                        follow ='<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
+                        if (userProfile.followed == 1) {
+                            follow +='<button type="button" class="btn btn-default ufollow_focus_change" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
+                        } else {
+                            follow +='<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
+                        }
+                    }
                     var html = '<div class="row" style="width: 350px;width: 350px;font-size: 13px;line-height: 23px;">'+
                         '<div class="col-xs-12" style="padding: 2px;">'+
                         '<img class="img-responsive" src="./Public/Core/images/qtip_bg.png">'+
@@ -138,11 +145,10 @@ function ucard() {
                     '</div>'+
                     '</div>'+
                         '<div class="col-xs-12" style="background: #f1f1f1;">'+
-                            '<button class="btn btn-default" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">关&nbsp;注</button>'+
-                            '<button class="btn btn-default" style="float: right;margin: 5px 0;padding: 2px 12px;">私&nbsp;信</button>'+
+                        follow+
                         '</div>'+
                     '</div>';
-
+                    userProfile.signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
                     for(var key in userProfile){
                         html=html.replace('{$userProfile.'+key+'}',userProfile[key]);
                     }

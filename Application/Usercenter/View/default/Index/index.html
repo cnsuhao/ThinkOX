@@ -19,45 +19,6 @@
                 </div>
                 <div class="col-md-5 col-sm-9 col-xs-12 uc_other_link">
                     <include file="_right_link"/>
-                    <!--测试开始-->
-                    <div class="row" style="width: 350px;width: 350px;font-size: 13px;line-height: 23px;">
-                        <div class="col-xs-12" style="padding: 2px;">
-                            <img class="img-responsive" src="__STATIC__/image/qtip_bg.png">
-                        </div>
-                        <div class="col-xs-12" style="padding: 2px;margin-top: -25px;">
-                            <div class="col-xs-3">
-
-                                <img src="{$user_info.avatar64}" class="avatar-img img-responsive"
-                                     style="-webkit-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);-moz-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);box-shadow: 0 3px 4px rgba(173, 173, 173, 0.54);border: solid 2px #fff;"/>
-
-                            </div>
-                            <div class="col-xs-9" style="padding-top: 25px;">
-                                <div style="font-size: 16px;font-weight: bold;"><a href="{$user_info.space_url}"
-                                                                                   title="">{$user_info.nickname|htmlspecialchars}</a>
-                                </div>
-                                <div>
-                                    关注：{$user_info.following}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{$user_info.fans}&nbsp;&nbsp;&nbsp;&nbsp;微博：{$user_info.weibocount}
-                                </div>
-                                <div>
-                                    个性签名：
-                                    <span>
-                                        <if condition="$user_info['signature'] eq ''">
-                                            还没想好O(∩_∩)O
-                                            <else/>
-                                            {$user_info.signature}
-                                        </if>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12" style="background: #f1f1f1;">
-                            <button class="btn btn-default"
-                                    style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">关&nbsp;注
-                            </button>
-                            <button class="btn btn-default" style="float: right;margin: 5px 0;padding: 2px 12px;">私&nbsp;信</button>
-                        </div>
-                    </div>
-                    <!--测试结束-->
                 </div>
             </div>
         </div>
