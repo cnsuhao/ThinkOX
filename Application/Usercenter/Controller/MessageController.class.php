@@ -153,7 +153,6 @@ class MessageController extends BaseController
 
              $messageModel->postMessage($message, $talk, $content, is_login());
         }
-       D('TalkMessage')->sendMessage($content, $this->mTalkModel->getUids($talk['uids']), $talk_id);
         exit(json_encode(array('status' => 1, 'content' => $content)));
         $this->success("发送成功");
     }

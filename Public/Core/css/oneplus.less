@@ -1,5 +1,6 @@
 @import "../../static/bootstrap/css/variables";
 @import "layout";
+
 /*reset*/
 a {
   color: #616161;
@@ -89,6 +90,7 @@ a:hover {
   border-right: none;
   color: #555;
 }
+
 /*头衔end*/
 
 .oneuser-title-hr {
@@ -220,8 +222,6 @@ a:hover {
     border: 1px solid #5CB85C;
   }
 }
-
-
 
 .message-body {
   margin-top: 2em;
@@ -899,8 +899,12 @@ General list for item with image
 
 /*楼中楼end*/
 
-.qtip-content {
-  width: 230px;
+.qtip{
+  max-width: 352px;
+}
+.qtip-bootstrap .qtip-content {
+  width: 346px;
+  padding: 0;
 }
 
 /*表情*/
@@ -980,12 +984,12 @@ General list for item with image
   z-index: 999;
   .btn-pull {
     position: absolute;
-    background: white;
-    padding: 20px 8px;
-    border: 1px solid #ccc;
+    background: rgb(255, 255, 255);
+    padding: 37px 0px;
+    border: 1px solid rgb(204, 204, 204);
     border-right: 0;
     margin-right: 0;
-    left: -35px;
+    left: -15px;
     margin-top: -31px;
     i {
     }
@@ -1000,23 +1004,21 @@ General list for item with image
       width: 132px;
     }
     h2 {
+      border-top-left-radius: 3px;
       font-size: 16px;
-      color: #666;
+      color: #797979;
       text-align: center;
       padding-top: 5px;
-      background: #eee;
-      border-bottom: 1px solid #ccc;
+      background: #434343;
       margin-bottom: 0;
     }
     border: 1px solid #ccc;
     border-right: 0;
-    height: 492px;
-
+    height: 520px;
     margin-top: -250px;
     background: white;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    .boxShadow;
   }
 
   .friend_list {
@@ -1051,18 +1053,32 @@ General list for item with image
     }
   }
   .session_more {
-
+    height: 38px;
+    .active {
+      border: 0 !important;
+    }
+    .tab_chat {
+      border: 1px solid #BABABA;
+      border-top: 0;
+      border-left: 0;
+    }
+    .tab_friend {
+      border: 1px solid #BABABA;
+      border-top: 0;
+      border-right: 0;
+    }
     .btn_session_more {
-      background: rgb(242, 242, 242);
+      background: #D2D2D2;
       text-align: center;
-      padding: 4px 0;
+      padding: 8px 0;
       margin-left: 0;
       margin-right: 0;
       display: block;
       float: left;
-      border-top: 1px solid #ccc;
+      color: #5F5F5F;
       &:hover {
         background: rgb(255, 255, 255);
+        border: 0 !important;
       }
     }
     .active {
@@ -1070,9 +1086,11 @@ General list for item with image
     }
   }
 }
-#chat_box{
+
+#chat_box {
   z-index: 999;
 }
+
 .chat_panel {
 
   .boxShadow;
@@ -1148,7 +1166,6 @@ General list for item with image
     padding-bottom: 20px;
   }
 }
-
 
 .ad_max {
   overflow: hidden;
@@ -1350,7 +1367,6 @@ a:hover {
   color: #7E7E7E;
 }
 
-
 .han_p {
   margin-top: 20px;
   line-height: 1.8;
@@ -1425,9 +1441,6 @@ a:hover {
   vertical-align: middle;
   margin-top: -4px;
 }
-
-
-
 
 /*赞end*/
 

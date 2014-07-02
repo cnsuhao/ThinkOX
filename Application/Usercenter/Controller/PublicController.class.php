@@ -14,11 +14,13 @@ use Think\Controller;
 
 class PublicController extends Controller
 {
+    /**获取个人资料，用以支持小名片
+     * @auth 陈一枭
+     */
     public function getProfile()
     {
         $uid = intval($_REQUEST['uid']);
-        $userProfile = query_user(array('id', 'nickname', 'score', 'signature', 'weibocount', 'fans', 'following', 'space_url', 'title', 'rank_link'), $uid);
-        $userProfile['total'] = D('Title')->getScoreTotal($userProfile['score']);
+        $userProfile = query_user(array('id', 'nickname','avatar64','space_url','following', 'fans','weibocount','signature'), $uid);
         $follow['follow_who'] = $userProfile['id'];
         $follow['who_follow'] = is_login();
         $userProfile['followed'] = D('Follow')->where($follow)->count();
@@ -26,6 +28,10 @@ class PublicController extends Controller
         echo json_encode($userProfile);
     }
 
+    /**关注某人
+     * @param int $uid
+     * @auth 陈一枭
+     */
     public function follow($uid = 0)
     {
 
@@ -36,6 +42,10 @@ class PublicController extends Controller
         }
     }
 
+    /**取消对某人的关注
+     * @param int $uid
+     * @auth 陈一枭
+     */
     public function unfollow($uid = 0)
     {
         if (D('Follow')->unfollow($uid)) {
@@ -62,15 +72,24 @@ class PublicController extends Controller
         $new_talks = D('TalkPush')->getAllPush();//会话推送
         D('TalkPush')->where(array('uid' => get_uid(),'status'=>0))->setField('status',1);//读取到推送之后，自动删除此推送来防止反复推送。
 
+        $new_talk_messages = D('TalkMessagePush')->getAllPush();//会话消息推送
+        D('TalkMessagePush')->where(array('uid' => get_uid(),'status'=>0))->setField('status',1);//读取到推送之后，自动删除此推送来防止反复推送。
 
-        exit(json_encode(array('messages' => $haventToastMessages, 'talk_messages' => $talk_messages, 'new_talks' => $new_talks)));
+        exit(json_encode(array('messages' => $haventToastMessages, 'new_talk_messages' => $new_talk_messages, 'new_talks' => $new_talks)));
     }
 
+    /**设置全部的系统消息为已读
+     * @auth 陈一枭
+     */
     public function setAllMessageReaded()
     {
         D('Message')->setAllReaded(is_login());
     }
 
+    /**设置某条系统消息为已读
+     * @param $message_id
+     * @auth 陈一枭
+     */
     public function readMessage($message_id)
     {
         exit(json_encode(array('status' => D('Common/Message')->readMessage($message_id))));
