@@ -19,6 +19,13 @@ class TalkMessageModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
 
+    /**添加消息
+     * @param $content 内容
+     * @param $uid 用户ID
+     * @param $talk_id 会话ID
+     * @return bool|mixed
+     * @auth 陈一枭
+     */
     public function addMessage($content, $uid, $talk_id)
     {
         $message['content'] = op_t($content);
@@ -26,7 +33,16 @@ class TalkMessageModel extends Model
         $message['talk_id'] = $talk_id;
         $message = $this->create($message);
         D('Talk')->where(array('id'=>intval($talk_id)))->setField('update_time',time());
-        return $this->add($message);
+        $talk=D('Talk')->find($talk_id);
+        $message['id']=$this->add($message);
+
+        if(!$message){
+            return false;
+        }
+        $this->sendMessagePush($talk, $message);
+
+
+        return $message;
     }
 
     /**发小系统提示消息
@@ -51,6 +67,24 @@ class TalkMessageModel extends Model
         }
     }
 
+    /**
+     * @param $talk
+     * @param $message
+     * @auth 陈一枭
+     */
+    private function sendMessagePush($talk, $message)
+    {
+        $origin_member = D('Talk')->decodeArrayByRec(explode(',', $talk['uids']));
+        foreach ($origin_member as $mem) {
+            if ($mem != is_login()) {
+                //不是自己则建立一个push
+                $push['uid'] = $mem;
+                $push['source_id'] = $message['id'];
+                $push['create_time'] = time();
+                D('TalkMessagePush')->add($push);
+            }
+        }
+    }
 
 
-} 
+}

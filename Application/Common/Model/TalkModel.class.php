@@ -19,12 +19,21 @@ class TalkModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
 
+    /**自动匹配出用户
+     * @param $uids
+     * @return mixed
+     * @auth 陈一枭
+     */
     public function getUids($uids)
     {
         preg_match_all('/\[(.*?)\]/', $uids, $uids_array);
         return $uids_array[1];
     }
 
+    /**获取当前存在的消息
+     * @return mixed
+     * @auth 陈一枭
+     */
     public function getCurrentSessions()
     {
         //每次获取到所有的id，就对这些做delete处理。防止反复提示。
@@ -47,6 +56,11 @@ class TalkModel extends Model
         return $list;
     }
 
+    /**获取最后一条消息
+     * @param $talk_id
+     * @return mixed
+     * @auth 陈一枭
+     */
     public function getLastMessage($talk_id)
     {
         $last_message = D('TalkMessage')->where('talk_id=' . $talk_id)->order('create_time desc')->find();
@@ -55,6 +69,12 @@ class TalkModel extends Model
         return $last_message;
     }
 
+    /**创建会话
+     * @param        $members
+     * @param string $message
+     * @return array
+     * @auth 陈一枭
+     */
     public function createTalk($members, $message = '')
     {
 
@@ -102,7 +122,6 @@ class TalkModel extends Model
             }
         }
 
-        //TODO 发送会话建立消息
 
 
         //获取图标用于输出
@@ -112,7 +131,7 @@ class TalkModel extends Model
 
     }
 
-    /**
+    /**获取来源应用对应的消息模型
      * @param $message
      * @return \Model
      */
@@ -142,8 +161,9 @@ class TalkModel extends Model
         return $li;
     }
 
-    /**
+    /**获取第一个非自己的用户
      * @param $members
+     * @return array|null
      * @auth 陈一枭
      */
     public function getFirstOtherUser($members)
