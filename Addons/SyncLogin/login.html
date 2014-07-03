@@ -1,11 +1,17 @@
 <php>if(!empty($config['type'])){</php>
-<div class="login-form-inbox" style="height: 40px;padding: 9px 20px 12px 20px;">您还可以使用以下方式登录：
+<span class="other_login_title">合作登录：</span>
+<div class="other_login_link">
     <php>if(in_array('Qq',$config['type'])){</php>
-    <a href="{:addons_url('SyncLogin://Base/login',array('type'=>'qq'))}"><img alt="Connect_logo_1.png" src="http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_1.png"></a>
+    <a href="{:addons_url('SyncLogin://Base/login',array('type'=>'qq'))}" class="other_login other_login_qq"></a>
     <php>}</php>
     <php>if(in_array('Sina',$config['type'])){</php>
-    <a href="{:addons_url('SyncLogin://Base/login',array('type'=>'sina'))}"><img alt="Connect_logo_1.png" src="http://img.t.sinajs.cn/t4/appstyle/open/images/website/loginbtn/loginbtn_06.png"></a>
+    <a href="{:addons_url('SyncLogin://Base/login',array('type'=>'sina'))}" class="other_login other_login_sina"></a>
     <php>}</php>
-
+    <php>if(in_array('Douban',$config['type'])){</php>
+    <a href="{:addons_url('SyncLogin://Base/login',array('type'=>'douban'))}" class="other_login other_login_douban"></a>
+    <php>}</php>
+    <php>if(in_array('RenRen',$config['type'])){</php>
+    <a href="{:addons_url('SyncLogin://Base/login',array('type'=>'renren'))}" class="other_login other_login_renren"></a>
+    <php>}</php>
 </div>
 <php>}</php>
