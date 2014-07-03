@@ -69,13 +69,16 @@ function check(args,id){
 
 function check_error(id,info){
     $('#alert_'+id).show();
-    document.getElementById("label_"+id).innerHTML=info;
+    $('#label_'+id).html(info)
     $('#canSubmit_'+id).val(0);
+    $('#submit_btn').removeClass("btn-primary");
+    $('#submit_btn').addClass("btn-default");
 }
 function check_success(id){
     $('#alert_'+id).hide();
-    document.getElementById("label_"+id).innerHTML="";
+    $('#label_'+id).html('')
     $('#canSubmit_'+id).val(1);
+    checkCanSubmit();
 }
 
 
@@ -102,16 +105,28 @@ function check_textarea(args,id){
     check_success(id);
     return true;
 }
+
+function checkCanSubmit(){
+    var canSubmit=true;
+    $('.canSubmit').each(function(){
+        if($(this).val()==0){
+            canSubmit=false;
+        }
+    });
+    if(!canSubmit){
+        $('#submit_btn').removeClass("btn-primary");
+        $('#submit_btn').addClass("btn-default");
+        return false;
+    }
+    $('#submit_btn').removeClass("btn-default");
+    $('#submit_btn').addClass("btn-primary");
+    return true;
+}
+
 $(document).ready(function(){
-    $('#submit_btn').click(function(){
-        var canSubmit=true;
-        $('.canSubmit').each(function(){
-            if($(this).val()==0){
-                canSubmit=false;
-            }
-        });
-        if(!canSubmit){
-            $(this).preventDefault();
+    $('#submit_btn').click(function(check){
+        if(!checkCanSubmit()){
+            check.preventDefault();
             return false;
         }
     });

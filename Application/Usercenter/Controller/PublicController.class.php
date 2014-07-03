@@ -20,10 +20,13 @@ class PublicController extends Controller
     public function getProfile()
     {
         $uid = intval($_REQUEST['uid']);
-        $userProfile = query_user(array('id', 'nickname','avatar64','space_url','following', 'fans','weibocount','signature'), $uid);
-        $follow['follow_who'] = $userProfile['id'];
+        $userProfile = query_user(array('uid', 'nickname','avatar64','space_url','following', 'fans','weibocount','signature'), $uid);
+        $follow['follow_who'] = $userProfile['uid'];
         $follow['who_follow'] = is_login();
         $userProfile['followed'] = D('Follow')->where($follow)->count();
+        $userProfile['following_url']=U('Usercenter/Index/following',array('uid'=>$uid));
+        $userProfile['fans_url']=U('Usercenter/Index/fans',array('uid'=>$uid));
+        $userProfile['weibo_url']=U('Usercenter/Index/appList',array('uid'=>$uid,'type'=>"weibo"));
 
         echo json_encode($userProfile);
     }

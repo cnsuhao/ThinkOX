@@ -24,6 +24,7 @@ class IndexController extends Controller
         if(is_login()){
             $this->assign('my_tox_money',getMyToxMoney());
         }
+        $this->assign('tox_money_name',getToxMoneyName());
         $hot_num=D('shop_config')->where(array('ename'=>'min_sell_num'))->getField('cname');
         $this->assign('hot_num',$hot_num);
         $this->setTitle('商城');
@@ -129,7 +130,6 @@ class IndexController extends Controller
             $this->assign('category_name',D('shopCategory')->where(array('id'=>$top_category_id))->getField('title'));
             $this->assign('child_category_name',$category['title']);
         }
-        $this->assign('tox_money_cname',getToxMoneyName());
         $this->assign('content', $goods);
         //同类对比
         $goods_categorys_ids = D('shop_category')->where("id=%d OR pid=%d",array($category['id'],$category['id']))->limit(999)->field('id')->select();

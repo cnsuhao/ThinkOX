@@ -59,7 +59,7 @@
                     <div class="fl_right">
                         <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
                            class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-                        <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label>
+                        <if condition="is_login() neq 0"><label class="money_show"><font title="我的{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</font></label>
                         </if>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                                 <dl>
                                     <dt>
                                         <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">
-                                            <img src="{$vo.goods_ico|getThumbImageById=222,150}">
+                                            <img class="img-responsive" src="{$vo.goods_ico|getThumbImageById=222,150}">
                                         </a>
                                     </dt>
                                     <dd>
@@ -99,7 +99,7 @@
                                                 <font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
                                             </a>
                                         </div>
-                                        <div class="right" style="color: #d61f39;">￥{$vo.tox_money_need}</div>
+                                        <div class="right" style="color: #d61f39;"><a><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.goods.tox_money_need}</font></a></div>
                                         <div class="clearfix"></div>
                                     </dd>
                                     <dd class="color_84  font_s_14">
