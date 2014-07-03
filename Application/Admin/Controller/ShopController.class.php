@@ -327,7 +327,7 @@ class ShopController extends AdminController
             $category_map['status'] = array('egt', 0);
             $goods_category_list = $this->shop_categoryModel->where($category_id)->order('pid desc')->select();
             $options = array_combine(array_column($goods_category_list, 'id'), array_column($goods_category_list, 'title'));
-            $builder->keyId()->keyText('goods_name', '商品名称')->keySingleImage('goods_ico', '商品图标')->keySelect('category_id', '商品分类', '', $options)->keyText('goods_introduct', '商品广告语')->keyTextArea('goods_detail', '商品详情')
+            $builder->keyId()->keyText('goods_name', '商品名称')->keySingleImage('goods_ico', '商品图标')->keySelect('category_id', '商品分类', '', $options)->keyText('goods_introduct', '商品广告语')->keyEditor('goods_detail', '商品详情')
                 ->keyInteger('tox_money_need', '商品价格')->keyInteger('goods_num', '商品余量')->keyInteger('sell_num', '已售出量')->keyBool('is_new', '是否为新品')->keyStatus('status', '出售状态');
             if ($isEdit) {
                 $goods = $this->shopModel->where('id=' . $id)->find();
@@ -344,7 +344,6 @@ class ShopController extends AdminController
             }
         }
     }
-
 
     /**tox_money中文名称配置
      * @param int $id
