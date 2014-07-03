@@ -5,13 +5,14 @@
   border-radius: 5px;
   margin-bottom: 20px;
   background: white;
-  box-shadow: 0 0 5px #cccccc;
-  -moz-box-shadow: 0 0 5px #CCCCCC;
-  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .common_block_title {
   background: #F5F5F5;
   padding: 8px 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   color: #7A7A7A;
   font-size: 1.2em;
   margin: 0;
@@ -1215,11 +1216,7 @@ a:hover {
   margin-bottom: 20px;
   background-color: #ffffff;
   color: #333333;
-  -webkit-box-shadow: 0px 2px 5px #ccc;
-  /*（这是专对火狐浏览器的支持而设置的）*/
-  -moz-box-shadow: 0px 2px 5px #ccc;
-  /*（这是对Safari和Chrome浏览器而设置的）*/
-  box-shadow: 0px 2px 5px #ccc;
+  border: #dddddd 1px solid;
 }
 .forum_module_name {
   height: 20px;

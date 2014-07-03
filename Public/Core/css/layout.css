@@ -3,16 +3,20 @@
   border: #ddd 1px solid;
   border-bottom: #ddd 3px solid;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   background: white;
-  overflow: hidden;
 }
 .common_block_title {
   background: #F5F5F5;
   padding: 8px 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   color: #7A7A7A;
   font-size: 1.2em;
   margin: 0;
   margin-bottom: 10px;
+  padding-left: 15px;
 }
 /*布局样式end*/
