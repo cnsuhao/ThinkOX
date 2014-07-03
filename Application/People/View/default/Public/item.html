@@ -3,7 +3,7 @@
         <div class="col-md-6 col-xs-12 col-sm-3 text-center">
             <a target="_blank" href="{$vo.user.space_url}">
                 <img src="{$vo.user.avatar128}" class="avatar-img"
-                     ucard="{$vo.id}">
+                     ucard="{$vo.uid}">
             </a>
             <br/> <br/>
             <if condition="is_login() && $vo['uid'] != get_uid()">
