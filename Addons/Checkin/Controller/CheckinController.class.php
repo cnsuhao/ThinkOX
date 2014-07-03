@@ -131,6 +131,7 @@ class CheckinController extends AddonsController{
                     //D('User_cdata')->add($totalnumdata);
                 }
                 echo $data['con_num'];
+                S('check_rank',null);
             }
         }
 
