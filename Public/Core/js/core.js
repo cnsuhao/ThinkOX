@@ -113,11 +113,11 @@ function ucard() {
                 $.get(U('UserCenter/Public/getProfile'), {uid: uid}, function (userProfile) {
                     var follow = '';
                     if ((MID != uid) && (MID != 0)) {
-                        follow ='<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
+                        follow ='<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
                         if (userProfile.followed == 1) {
-                            follow +='<button type="button" class="btn btn-default" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
+                            follow +='<button type="button" class="btn btn-default" onclick="ufollow(this,' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
                         } else {
-                            follow +='<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
+                            follow +='<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
                         }
                     }
                     var html = '<div class="row" style="width: 350px;width: 350px;font-size: 13px;line-height: 23px;">'+
@@ -132,7 +132,9 @@ function ucard() {
                         '<div style="font-size: 16px;font-weight: bold;"><a href="{$userProfile.space_url}" title="">{$userProfile.nickname}</a>'+
                         '</div>'+
                         '<div>'+
-                        '关注：{$userProfile.following}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{$userProfile.fans}&nbsp;&nbsp;&nbsp;&nbsp;微博：{$userProfile.weibocount}'+
+                        '<a href="{$userProfile.following_url}" title="我的关注" target="_black">关注：{$userProfile.following}</a>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<a href="{$userProfile.fans_url}" title="我的关注" target="_black">粉丝：{$userProfile.fans}</a>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<a href="{$userProfile.weibo_url}" title="我的关注" target="_black">微博：{$userProfile.weibocount}</a>'+
                     '</div>'+
                         '<div style="margin-bottom: 15px">'+
                         '个性签名：'+
