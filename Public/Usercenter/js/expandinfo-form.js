@@ -69,12 +69,12 @@ function check(args,id){
 
 function check_error(id,info){
     $('#alert_'+id).show();
-    document.getElementById("label_"+id).innerHTML=info;
+    $('#label_'+id).html(info)
     $('#canSubmit_'+id).val(0);
 }
 function check_success(id){
     $('#alert_'+id).hide();
-    document.getElementById("label_"+id).innerHTML="";
+    $('#label_'+id).html('')
     $('#canSubmit_'+id).val(1);
 }
 
@@ -104,8 +104,11 @@ function check_textarea(args,id){
 }
 $(document).ready(function(){
     $('#submit_btn').click(function(){
+        op_error('nia',"上到几点");
         var canSubmit=true;
+        alert(canSubmit);
         $('.canSubmit').each(function(){
+            alert(canSubmit);
             if($(this).val()==0){
                 canSubmit=false;
             }

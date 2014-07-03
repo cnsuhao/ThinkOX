@@ -306,13 +306,13 @@ class ConfigController extends BaseController
                     }
                     break;
                 case 'email':
-                    if (!preg_match("/([a-z0-9]*[-_\.]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})?/i", $data['value'])) {
+                    if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$data['value'])){
                         $info['succ'] = 0;
                         $info['msg'] = $data['field_name'] . "格式不正确，必需为邮箱格式";
                     }
                     break;
                 case 'phone':
-                    if (!preg_match("/^\d{11}$/", $data['value'])) {
+                    if (!preg_match("/^\d{11}$/", $data['value'])){
                         $info['succ'] = 0;
                         $info['msg'] = $data['field_name'] . "格式不正确，必须为手机号码格式";
                     }

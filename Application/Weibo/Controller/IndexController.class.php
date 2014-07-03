@@ -43,6 +43,9 @@ class IndexController extends Controller
       $total_count =  $this->weiboApi->listAllWeiboCount();
 
         $this->assign('total_count',$total_count['total_count'] );
+
+        $this->assign('tox_money_name',getToxMoneyName());
+        $this->assign('tox_money',getMyToxMoney());
         $this->assignSelf();
         $this->display();
     }
