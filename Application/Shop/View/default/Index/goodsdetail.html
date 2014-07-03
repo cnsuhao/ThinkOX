@@ -138,7 +138,7 @@
                                                     title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
                                             </h3>
 
-                                            <div class="money"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}
+                                            <div class="money"><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font>
                                             </div>
                                             <div><a href="#frm-post-popup"
                                                     class="open-popup-link btn btn-primary"
@@ -172,8 +172,7 @@
                                                 title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
                                         </h3>
 
-                                        <div class="money"><a><font title="所需{$tox_money_name}"><i
-                                                class="ico_to_money"></i>&nbsp;{$vo.goods.tox_money_need}</font></a>
+                                        <div class="money"><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font>
                                         </div>
                                         <div><a href="#frm-post-popup" class="open-popup-link btn btn-primary"
                                                 goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
