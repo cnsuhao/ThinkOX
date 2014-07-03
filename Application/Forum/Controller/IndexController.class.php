@@ -133,6 +133,7 @@ class IndexController extends Controller
         //读取帖子内容
         $post = D('ForumPost')->where(array('id' => $id, 'status' => 1))->find();
 
+        $post['forum']=D('Forum')->find($post['forum_id']);
         if (!$post) {
             $this->error('找不到该帖子');
         }

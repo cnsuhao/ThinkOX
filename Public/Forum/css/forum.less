@@ -1,4 +1,5 @@
 @import "../../static/bootstrap/css/variables";
+
 .boxShadow {
   box-shadow: 0 0 5px rgb(204, 204, 204);
   -moz-box-shadow: 0 0 5px #CCCCCC;
@@ -10,6 +11,7 @@
   border: 1px solid #dddddd;
   border-radius: 0.2em;
 }
+
 .forum-first-block, .forum-last-block, .forum-middle-block {
   padding: @grid-gutter-width/2 @grid-gutter-width/2;
   margin-left: -@grid-gutter-width/2;
@@ -77,7 +79,6 @@
 
   border-radius: 3px;
   margin-bottom: 10px;
-  overflow: hidden;
 
 }
 
@@ -160,7 +161,7 @@
   background: white;
   margin-bottom: 10px;
   padding-bottom: 0;
-  dl{
+  dl {
     margin-bottom: 0;
   }
   dt:last-child {
@@ -192,6 +193,90 @@
   }
 }
 
-.forum_forum_name{
+.forum_forum_name {
   font-size: 1.2em;
 }
+
+/*帖子详情页*/
+.post_content {
+  h2 {
+    color: #333333;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .post_line {
+    margin: 15px -15px;
+  }
+  .ribbion-green {
+    z-index: 99;
+    position: absolute;
+    right: 0px;
+    background: #00ab84;
+    width: 50px;
+    top: 0;
+    height: 25px;
+    text-align: center;
+    padding-left: 0;
+    vertical-align: middle;
+    color: white;
+    font-size: 12px;
+    line-height: 25px;
+  }
+  .post_title {
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+  .sub_title {
+    color: #ccc;
+    font-size: 14px;
+  }
+  .forum_left_operation {
+    position: absolute;
+    left: -42px;
+    background: white;
+    border-radius: 3px;
+    top: -15px;
+    .btn{
+      padding: 10px;
+
+      padding-bottom: 0;
+      &:active{
+        box-shadow: none;
+        background: transparent;
+      }
+      &:hover{
+
+        .forum_reply{
+          background-position: 20px 0px !important;
+        }
+        .forum_edit{
+          background-position: 18px 77px !important;
+        }
+      }
+      i{
+        background: url(../images/tiezi.png);
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+      }
+    }
+    .forum_uncollect{
+      background-position: 20px 39px !important;
+    }
+    .forum_collect{
+      background-position: 0px 39px !important;
+    }
+    .forum_reply{
+      background-position: 0px 0px !important;
+    }
+    .forum_edit{
+      background-position: -2px 77px !important;
+    }
+  }
+  .main_content{
+    min-height: 250px;
+  }
+}
+
+/*帖子详情页*/
