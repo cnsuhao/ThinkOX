@@ -1242,6 +1242,15 @@ a:hover {
   margin-right: 20px;
   margin-bottom: 15px;
 }
+.btn_exchange a {
+  color: #fff;
+  background-color: #03ae87;
+  border-color: #13b38f;
+  padding: 1px 10px;
+}
+.btn_exchange a:hover {
+  color: #fff;
+}
 /*赞*/
 .support_nolike {
   display: inline-block;
