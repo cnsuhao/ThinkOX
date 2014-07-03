@@ -64,7 +64,6 @@
   border: #ddd 1px solid;
   border-radius: 3px;
   margin-bottom: 10px;
-  overflow: hidden;
 }
 .forum_block_title {
   background: #F5F5F5;
@@ -169,3 +168,77 @@
 .forum_forum_name {
   font-size: 1.2em;
 }
+/*帖子详情页*/
+.post_content h2 {
+  color: #333333;
+  font-size: 18px;
+  font-weight: bold;
+}
+.post_content .post_line {
+  margin: 15px -15px;
+}
+.post_content .ribbion-green {
+  z-index: 99;
+  position: absolute;
+  right: 0px;
+  background: #00ab84;
+  width: 50px;
+  top: 0;
+  height: 25px;
+  text-align: center;
+  padding-left: 0;
+  vertical-align: middle;
+  color: white;
+  font-size: 12px;
+  line-height: 25px;
+}
+.post_content .post_title h2 {
+  margin-bottom: 0;
+}
+.post_content .sub_title {
+  color: #ccc;
+  font-size: 14px;
+}
+.post_content .forum_left_operation {
+  position: absolute;
+  left: -42px;
+  background: white;
+  border-radius: 3px;
+  top: -15px;
+}
+.post_content .forum_left_operation .btn {
+  padding: 10px;
+  padding-bottom: 0;
+}
+.post_content .forum_left_operation .btn:active {
+  box-shadow: none;
+  background: transparent;
+}
+.post_content .forum_left_operation .btn:hover .forum_reply {
+  background-position: 20px 0px !important;
+}
+.post_content .forum_left_operation .btn:hover .forum_edit {
+  background-position: 18px 77px !important;
+}
+.post_content .forum_left_operation .btn i {
+  background: url(../images/tiezi.png);
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+}
+.post_content .forum_left_operation .forum_uncollect {
+  background-position: 20px 39px !important;
+}
+.post_content .forum_left_operation .forum_collect {
+  background-position: 0px 39px !important;
+}
+.post_content .forum_left_operation .forum_reply {
+  background-position: 0px 0px !important;
+}
+.post_content .forum_left_operation .forum_edit {
+  background-position: -2px 77px !important;
+}
+.post_content .main_content {
+  min-height: 250px;
+}
+/*帖子详情页*/
