@@ -294,7 +294,7 @@ class IndexController extends Controller
         $weiboApi = new WeiboApi();
         $weiboApi->resetLastSendTime();
         if ($isEdit) {
-            $weiboApi->sendWeibo("我修改了帖子【" . $title . "】：" . $postUrl);
+            $weiboApi->sendWeibo("我更新了帖子【" . $title . "】：" . $postUrl);
         } else {
             $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
         }
