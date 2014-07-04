@@ -202,7 +202,7 @@ class IndexController extends Controller
             if($zipcode==''||strlen($zipcode)!=6||!is_numeric($zipcode)){
                 $this->error('请正确填写邮编');
             }
-            if($phone==''||strlen($phone)!=11||!is_numeric($phone)){
+            if($phone==''||!preg_match("/^1[3458][0-9]{9}$/",$phone)){
                 $this->error('请正确填写手机号码');
             }
             if($old_shop_address=D('shop_address')->where('uid='.is_login())->find()){

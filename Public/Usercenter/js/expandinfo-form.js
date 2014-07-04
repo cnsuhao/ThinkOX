@@ -35,7 +35,7 @@ function check(args,id){
                 check_success(id);
                 return true;
             case "phone":
-                var reg = new RegExp("^[0-9]{11}$");
+                var reg =/^(1[3|4|5|8])[0-9]{9}$/;
                 if(!reg.test(value)){
                     check_error(id,"请输入正确的手机号码");
                     return false;
