@@ -1,7 +1,6 @@
 /*布局样式*/
 .common_block_border {
   border: #ddd 1px solid;
-  border-bottom: #ddd 3px solid;
   border-radius: 5px;
   margin-bottom: 20px;
   background: white;
@@ -223,13 +222,13 @@ a:hover {
   font-style: normal;
   font-size: 0.7em;
   color: white;
-  background: #48b87a;
+  background: #ffffff;
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
 }
 .post_top_forum {
-  background: dodgerblue;
+  background: #333333;
 }
 .post_content img {
   max-width: 100%;
@@ -250,7 +249,7 @@ h2 {
   color: #333333;
 }
 .link-primary {
-  color: #da203a;
+  color: #428bca;
 }
 .link-muted {
   color: #555555;
@@ -1171,7 +1170,7 @@ a:hover {
   width: 75%;
 }
 .nav_bar .navbar-toggle {
-  background-color: #da203a;
+  background-color: #428bca;
   color: white;
   margin-top: 12px;
 }
@@ -1241,8 +1240,6 @@ a:hover {
 }
 .btn_exchange a {
   color: #fff;
-  background-color: #03ae87;
-  border-color: #13b38f;
   padding: 1px 10px;
 }
 .btn_exchange a:hover {

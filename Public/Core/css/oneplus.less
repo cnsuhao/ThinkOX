@@ -1,6 +1,5 @@
 @import "../../static/bootstrap/css/variables";
 @import "layout";
-
 /*reset*/
 a {
   color: #616161;
@@ -236,14 +235,14 @@ a:hover {
   font-style: normal;
   font-size: 0.7em;
   color: white;
-  background: rgb(72, 184, 122);
+  background: @btn-primary-color;
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
 }
 
 .post_top_forum {
-  background: dodgerblue;
+  background: @btn-default-color;
 }
 
 .post_content {
@@ -1337,7 +1336,7 @@ a:hover {
 
   }
   .navbar-toggle {
-    background-color: rgb(218, 32, 58);
+    background-color: rgb(66, 139, 202);;
     color: white;
     margin-top: 12px;
     .icon-bar {
@@ -1424,8 +1423,6 @@ a:hover {
 .btn_exchange {
   a {
     color: #fff;
-    background-color: #03ae87;
-    border-color: #13b38f;
     padding: 1px 10px;
   }
   a:hover {
