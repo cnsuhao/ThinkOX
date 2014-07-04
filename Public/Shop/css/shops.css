@@ -33,8 +33,12 @@
   font-size: 13px;
 }
 .shop .goods_detail .details {
+  overflow: hidden;
   margin-bottom: 75px;
   padding: 0 14px;
+}
+.shop .goods_detail .details img {
+  max-width: 95%;
 }
 .shop .goods {
   margin-bottom: 20px;
