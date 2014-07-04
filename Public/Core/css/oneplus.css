@@ -249,7 +249,7 @@ h2 {
   color: #333333;
 }
 .link-primary {
-  color: #428bca;
+  color: #03ae87;
 }
 .link-muted {
   color: #555555;
@@ -1170,7 +1170,7 @@ a:hover {
   width: 75%;
 }
 .nav_bar .navbar-toggle {
-  background-color: #428bca;
+  background-color: #03ae87;
   color: white;
   margin-top: 12px;
 }
@@ -1181,13 +1181,13 @@ a:hover {
   margin-left: -6px;
 }
 .nav_bar .active a {
-  color: #428bca;
+  color: #03ae87;
 }
 .nav_bar .nav > li > a:hover,
 .nav_bar .nav > li > a:focus {
   text-decoration: none;
   background-color: transparent;
-  color: #428bca;
+  color: #03ae87;
 }
 /*导航栏end*/
 /*底部栏*/

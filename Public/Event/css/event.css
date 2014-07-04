@@ -291,7 +291,7 @@ hr {
   color: #333333;
   border: 3px solid transparent;
   border-width: 3px 0;
-  border-bottom-color: #428bca;
+  border-bottom-color: #03ae87;
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -338,7 +338,7 @@ hr {
   padding: 5px 10px;
 }
 .event_type .cur {
-  background: #008CC9;
+  background: #03ae87;
   color: #fff;
   border-radius: 3px;
 }
