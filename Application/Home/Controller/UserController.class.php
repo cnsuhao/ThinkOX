@@ -27,9 +27,9 @@ class UserController extends HomeController
     }
 
     /* 注册页面 */
-    public function register($username = '', $password = '', $repassword = '', $email = '', $verify = '')
+    public function register($username = '', $password = '', $email = '', $verify = '', $type = 'start')
     {
-
+        $type = op_t($type);
         if (!C('USER_ALLOW_REGISTER')) {
             $this->error('注册已关闭');
         }
@@ -41,31 +41,48 @@ class UserController extends HomeController
                 }
             }
             /* 检测密码 */
-            if ($password != $repassword) {
-                $this->error('密码和重复密码不一致！');
-            }
 
             /* 调用注册接口注册用户 */
             $User = new UserApi;
             $uid = $User->register($username, $password, $email);
             if (0 < $uid) { //注册成功
                 $uid = $User->login($username, $password);
-                D('Member')->login($uid,false);
-                $this->success('成功注册！', U('Weibo/Index/index'));
+                D('Member')->login($uid, false);
+                $this->success('', U('Home/User/step2'));
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));
             }
-
         } else { //显示注册表单
             if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
+            $this->assign('type', $type);
             $this->display();
         }
+
+    }
+
+    /* 注册页面step2 */
+    public function step2( $type = 'upload')
+    {
+        $type = op_t($type);
+        if (IS_POST) { //上传头像
+            $this->redirect("Home/User/step3");
+        } else { //显示上传头像页面
+            $this->assign('type', $type);
+            $this->display('register');
+        }
+    }
+    /* 注册页面step3 */
+    public function step3( $type = 'finish')
+    {
+        $type = op_t($type);
+        $this->assign('type', $type);
+        $this->display('register');
     }
 
     /* 登录页面 */
-    public function login($username = '', $password = '', $verify = '',$remember='')
+    public function login($username = '', $password = '', $verify = '', $remember = '')
     {
         if (IS_POST) { //登录验证
             /* 检测验证码 */
@@ -81,7 +98,7 @@ class UserController extends HomeController
             if (0 < $uid) { //UC登录成功
                 /* 登录用户 */
                 $Member = D('Member');
-                if ($Member->login($uid,$remember=='on')) { //登录用户
+                if ($Member->login($uid, $remember == 'on')) { //登录用户
                     //TODO:跳转到登录前页面
                     $this->success('登录成功！', U('Home/Index/index'));
                 } else {
@@ -319,8 +336,6 @@ class UserController extends HomeController
             $this->display();
         }
     }
-
-
 
 
 }
