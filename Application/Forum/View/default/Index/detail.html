@@ -67,13 +67,13 @@
 
                         <div style="padding: 10px"></div>
                         <div class="col-md-12 post_title">
-                            <h2>标题：{$post.title|op_t}
+                            <h2>{$post.title|op_t}
                             </h2>
 
                             <div class="small sub_title">   <br/>
                                 <a href="{$user.space_url}" ucard="{$user.uid}"
-                                   class="text-primary">{$user.nickname}</a> 于 {$post.create_time|time_format} 发表在<a
-                                    href="{:U('Forum/Index/forum',array('id'=>$post['forum_id']))}">【{$post.forum.title}】</a>板块 {:Hook('support',array('app'=>'Forum',table=>'post','row'=>$post['id'],'uid'=>$post['uid'],'jump'=>'no'))}
+                                   class="text-primary">{$user.nickname}</a>  {$post.create_time|time_format} 发表在<a
+                                    href="{:U('Forum/Index/forum',array('id'=>$post['forum_id']))}">【{$post.forum.title}】</a>  {:Hook('support',array('app'=>'Forum',table=>'post','row'=>$post['id'],'uid'=>$post['uid'],'jump'=>'no'))}
                             </div>
                         </div>
 
@@ -147,8 +147,8 @@
                 </p>
             </div>
             <div class="col-xs-10">
-                <div style="min-height: 10em;overflow: hidden" class="post_content">
-
+                <div style="min-height: 10em;overflow: hidden;word-break: break-all" class="post_content">
+                    <div style="padding: 15px"></div>
                     {$reply.content|parse_popup|parse_at_users}
                     <br/>
                 </div>

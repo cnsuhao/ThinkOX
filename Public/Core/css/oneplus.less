@@ -1,6 +1,5 @@
 @import "../../static/bootstrap/css/variables";
 @import "layout";
-
 /*reset*/
 a {
   color: #616161;
@@ -236,14 +235,14 @@ a:hover {
   font-style: normal;
   font-size: 0.7em;
   color: white;
-  background: rgb(72, 184, 122);
+  background: @btn-primary-color;
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
 }
 
 .post_top_forum {
-  background: dodgerblue;
+  background: @btn-default-color;
 }
 
 .post_content {
@@ -1337,7 +1336,7 @@ a:hover {
 
   }
   .navbar-toggle {
-    background-color: rgb(218, 32, 58);
+    background-color: rgb(66, 139, 202);;
     color: white;
     margin-top: 12px;
     .icon-bar {
@@ -1351,14 +1350,14 @@ a:hover {
 }
 
 .nav_bar .active a {
-  color: #03AE87;
+  color: rgb(66, 139, 202);;
 }
 
 .nav_bar .nav > li > a:hover,
 .nav_bar .nav > li > a:focus {
   text-decoration: none;
   background-color: transparent;
-  color: #03AE87;
+  color: rgb(66, 139, 202);;
 }
 
 /*导航栏end*/
@@ -1391,10 +1390,7 @@ a:hover {
   margin-bottom: 20px;
   background-color: #ffffff;
   color: #333333;
-
-  -webkit-box-shadow: 0px 2px 5px #ccc; /*（这是专对火狐浏览器的支持而设置的）*/
-  -moz-box-shadow: 0px 2px 5px #ccc; /*（这是对Safari和Chrome浏览器而设置的）*/
-  box-shadow: 0px 2px 5px #ccc;
+  border: rgb(221, 221, 221) 1px solid;
 }
 
 .forum_module_name {
@@ -1427,8 +1423,6 @@ a:hover {
 .btn_exchange {
   a {
     color: #fff;
-    background-color: #03ae87;
-    border-color: #13b38f;
     padding: 1px 10px;
   }
   a:hover {

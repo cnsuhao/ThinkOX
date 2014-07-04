@@ -67,7 +67,7 @@ class IndexController extends Controller
         if ($order == 'ctime') {
             $order = 'create_time desc';
         } else if ($order == 'reply') {
-            $order = 'reply_count desc';
+            $order = 'last_reply_time desc';
         }
         $this->requireForumAllowView($id);
         $forums =$this->getForumList();
