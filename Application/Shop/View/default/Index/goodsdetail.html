@@ -230,6 +230,7 @@
     <div class="row">
         <form class="form-horizontal  ajax-form" role="form" action="{:U('Shop/Index/goodsBuy')}" method="post">
             <input type="hidden" id="goods_id" name="id" value="">
+            <input type="hidden" name="address_id" value="{$shop_address['id']}">
 
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
