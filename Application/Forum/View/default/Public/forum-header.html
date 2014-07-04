@@ -1,24 +1,36 @@
 <link type="text/css" rel="stylesheet" href="__CSS__/forum.css"/>
-
-
-        <if condition="ACTION_NAME neq 'detail'">
-<div class="forum_header forum_block_border text-center">
-    <div class="row">
-        <div class="col-md-12">
-            <i class="forum_logo"></i>
+<if condition="ACTION_NAME neq 'detail'">
+    <if condition="$forum_id eq 0">
+        <div class="forum_header  text-center">
+            <div class="row">
+                <div class="col-md-12">
+                    <i class="forum_logo_i"></i>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 35px">
+                <div class="col-md-4">
+                    板块总数：{$count.forum}
+                </div>
+                <div class="col-md-4">
+                    主题总数：{$count.post}
+                </div>
+                <div class="col-md-4">
+                    帖子总数：{$count.all}
+                </div>
+            </div>
+            <div class="forum_left_tip">统计</div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            板块总数：{$count.forum}
+        <else/>
+        <div class="forum_header  text-center"
+        <php>if($forum['logo']){</php>
+        style="background: url({$forum.logo|getThumbImageById=755,195}) no-repeat center !important"
+        <php>}</php>
+        >
+        <div class="row">
+            <div class="col-md-12">
+                <a href="__SELF__" class="forum_logo">{$forum.title}</a>
+            </div>
         </div>
-        <div class="col-md-4">
-            主题总数：{$count.post}
         </div>
-        <div class="col-md-4">
-            帖子总数：{$count.all}
-        </div>
-    </div>
-    <div class="forum_left_tip">统计</div>
-</div>
+    </if>
 </if>

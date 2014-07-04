@@ -3,11 +3,9 @@
 <extend name="Public/forum"/>
 <block name="body">
     <if condition="$list_top">
-        <div class="row fourm-posts forum_block_border">
-            <div class="row forum_block_title">
-                <div class="col-md-8 col-sm-8 col-xs-8">
+        <div class="row fourm-posts common_block_border">
+            <div class="row common_block_title">
                     置顶帖子
-                </div>
             </div>
             <div class="col-xs-12">
                 <section id="contents">
@@ -31,10 +29,8 @@
     <div class="row fourm-posts common_block_border">
 
         <div class="row common_block_title">
-            <div class="col-md-8 col-sm-8 col-xs-8">
                 帖子列表
-            </div>
-            <div class="col-md-4 text-right col-sm-4 col-xs-4">
+            <div class="pull-right text-right" style="margin-right: 15px">
                 <div class="btn-group forum_order">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                        <eq name="order" value="0">回复时间<else/>发表时间</eq> <span class="caret"></span>
