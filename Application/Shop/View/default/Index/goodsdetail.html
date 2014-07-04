@@ -91,7 +91,7 @@
 
                     <div class="clearfix mb_34 info_item_s">
                         <if condition="is_login() neq 0">
-                            <font title="我的{$tox_money_cname}：{$my_tox_money}"><span>所需{$tox_money_cname}：<aq>
+                            <font title="我的{$tox_money_cname}：{$my_tox_money}"><span>所需{$tox_money_name}：<aq>
                                 {$content.tox_money_need}
                             </aq></span></font>
                             <else/>
@@ -99,7 +99,17 @@
                         </if>
                         <span>库存：<aq>{$content.goods_num}</aq></span>
                     </div>
-                    <div class="mb_34"><a href="#frm-post-popup" class="open-popup-link btn btn-primary "
+                    <php>
+                        $class='';
+                        if(is_login()){
+                        if($my_tox_money>=$vo['tox_money_need']){
+                        $class='open-popup-link';
+                        }else{
+                        $class='money_not_enough ';
+                        }
+                        }
+                    </php>
+                    <div class="mb_34"><a href="#frm-post-popup" class="{$class} btn exchange_goods btn-primary "
                                           goods_id="{$content['id']}">&nbsp;&nbsp;兑&nbsp;&nbsp;换&nbsp;&nbsp;</a>
                     </div>
                     <div class="text-more mb_34 intro">
@@ -140,8 +150,18 @@
 
                                             <div class="money"><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font>
                                             </div>
+                                            <php>
+                                                $class='';
+                                                if(is_login()){
+                                                if($my_tox_money>=$vo['tox_money_need']){
+                                                $class='open-popup-link';
+                                                }else{
+                                                $class='money_not_enough ';
+                                                }
+                                                }
+                                            </php>
                                             <div><a href="#frm-post-popup"
-                                                    class="open-popup-link btn btn-primary"
+                                                    class="{$class} btn exchange_goods btn-primary"
                                                     goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
                                         </dd>
                                     </dl>
@@ -174,7 +194,17 @@
 
                                         <div class="money"><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font>
                                         </div>
-                                        <div><a href="#frm-post-popup" class="open-popup-link btn btn-primary"
+                                        <php>
+                                            $class='';
+                                            if(is_login()){
+                                            if($my_tox_money>=$vo['tox_money_need']){
+                                            $class='open-popup-link';
+                                            }else{
+                                            $class='money_not_enough ';
+                                            }
+                                            }
+                                        </php>
+                                        <div><a href="#frm-post-popup" class="{$class} btn exchange_goods btn-primary"
                                                 goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
                                     </dd>
                                 </dl>
@@ -191,7 +221,7 @@
         </div>
     </div>
 </div>
-
+<if condition="is_login()">
 <!-- Modal -->
 <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
     <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
@@ -245,8 +275,10 @@
 
 
 </div>
-</div>
 <!-- /.modal -->
+</if>
+</div>
+<input type="hidden" id="tox_money_name" value="{$tox_money_name}"/>
 </block>
 
 <block name="script">
@@ -254,8 +286,9 @@
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
+        var tox_money_name=$('#tox_money_name').val().trim();
         $(function () {
-            $('.open-popup-link').click(function () {
+            $('.exchange_goods').click(function () {
                 if (MID == 0) {
                     op_info('登录后才能兑换商品！', '提示消息');
                     return false;
@@ -264,6 +297,10 @@
                 $('#goods_id').val(goods_id);
             });
             if (MID != 0) {
+                $('.money_not_enough').click(function(){
+                    op_info('你的'+tox_money_name+'不足！', '提示消息');
+                    return false;
+                });
                 $('.open-popup-link').magnificPopup({
                     type: 'inline',
                     midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
