@@ -1,16 +1,7 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <include file="Public/head"/>
-</head>
-<body>
-<!-- 头部 -->
-<!-- /头部 -->
+<extend name="Base/common"/>
 
-<!-- 主体 -->
-<div id="main-container" class="container">
-    <div class="row" >
 
+<block name="body">
     <section>
         <div class="col-xs-10 col-xs-offset-1 register" style="margin-top: 120px;margin-bottom: 120px;">
             <div class="col-xs-12"><h1 style="font-size: 18px;color: #333333;">欢迎注册{:C('WEB_SITE')}账号</h1></div>
@@ -118,73 +109,69 @@
             </if>
         </div>
     </section>
-    </div>
-</div>
-<include file="Public/js"/>
-<!-- /主体 -->
+</block>
 
-<!-- 底部 -->
-<!-- /底部 -->
-<script type="text/javascript">
-    if(MID==0){
-        $(document)
-                .ajaxStart(function () {
-                    $("button:submit").addClass("log-in").attr("disabled", true);
-                })
-                .ajaxStop(function () {
-                    $("button:submit").removeClass("log-in").attr("disabled", false);
-                });
-        $("form").submit(function () {
-            var self = $(this);
-            $.post(self.attr("action"), self.serialize(), success, "json");
-            return false;
+<block name="side"></block>
+<block name="script">
+    <script type="text/javascript">
+        if(MID==0){
+            $(document)
+                    .ajaxStart(function () {
+                        $("button:submit").addClass("log-in").attr("disabled", true);
+                    })
+                    .ajaxStop(function () {
+                        $("button:submit").removeClass("log-in").attr("disabled", false);
+                    });
+            $("form").submit(function () {
+                var self = $(this);
+                $.post(self.attr("action"), self.serialize(), success, "json");
+                return false;
 
-            function success(data) {
-                if (data.status) {
-                    setTimeout(function () {
-                        window.location.href = data.url
-                    }, 10);
-                } else {
-                    op_error(data.info, '温馨提示');
-                    //self.find(".Validform_checktip").text(data.info);
-                    //刷新验证码
-                    $(".reloadverify").click();
-                }
-            }
-        });
-
-        function change_show(obj) {
-            if ($(obj).text().trim() == 'show') {
-                var value = $('#inputPassword').val().trim();
-                var html = '<input type="text" value="' + value + '" id="inputPassword" class="form-control" placeholder="请输入密码" errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">' +
-                        '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">hide</a></div>';
-                $('#password_block').html(html);
-            } else {
-                var value = $('#inputPassword').val().trim();
-                var html = '<input type="password" value="' + value + '" id="inputPassword" class="form-control" placeholder="请输入密码" errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">' +
-                        '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">show</a></div>';
-                $('#password_block').html(html);
-            }
-        }
-
-        function setNickname(obj){
-            var text=$(obj).val().trim();
-            if(text!=null&&text!=''){
-                $('#nickname').val(text);
-            }
-        }
-
-        $(function () {
-            var verifyimg = $(".verifyimg").attr("src");
-            $(".reloadverify").click(function () {
-                if (verifyimg.indexOf('?') > 0) {
-                    $(".verifyimg").attr("src", verifyimg + '&random=' + Math.random());
-                } else {
-                    $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+                function success(data) {
+                    if (data.status) {
+                        setTimeout(function () {
+                            window.location.href = data.url
+                        }, 10);
+                    } else {
+                        op_error(data.info, '温馨提示');
+                        //self.find(".Validform_checktip").text(data.info);
+                        //刷新验证码
+                        $(".reloadverify").click();
+                    }
                 }
             });
-        });
-    }
-</script>
-</body>
-</html>
+
+            function change_show(obj) {
+                if ($(obj).text().trim() == 'show') {
+                    var value = $('#inputPassword').val().trim();
+                    var html = '<input type="text" value="' + value + '" id="inputPassword" class="form-control" placeholder="请输入密码" errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">' +
+                            '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">hide</a></div>';
+                    $('#password_block').html(html);
+                } else {
+                    var value = $('#inputPassword').val().trim();
+                    var html = '<input type="password" value="' + value + '" id="inputPassword" class="form-control" placeholder="请输入密码" errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">' +
+                            '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">show</a></div>';
+                    $('#password_block').html(html);
+                }
+            }
+
+            function setNickname(obj){
+                var text=$(obj).val().trim();
+                if(text!=null&&text!=''){
+                    $('#nickname').val(text);
+                }
+            }
+
+            $(function () {
+                var verifyimg = $(".verifyimg").attr("src");
+                $(".reloadverify").click(function () {
+                    if (verifyimg.indexOf('?') > 0) {
+                        $(".verifyimg").attr("src", verifyimg + '&random=' + Math.random());
+                    } else {
+                        $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+                    }
+                });
+            });
+        }
+    </script>
+</block>
