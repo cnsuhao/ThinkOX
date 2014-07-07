@@ -24,12 +24,12 @@
     <div class="forum_module_content clearfix">
         <div class="col-md-6">
             <a
-               class="btn btn-primary position <eq name="forum_id" value="0"> active</eq>" href="{:U('Index/forum')}">全部帖子</a>
+               class="btn btn-default position <eq name="forum_id" value="0"> btn-primary</eq>" href="{:U('Index/forum')}">全部帖子</a>
 
         </div>
         <volist name="forum_list" id="each_forum">
             <div class="col-md-6">
-                <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn-primary  position <eq name="forum_id" value="$each_forum['id']">active</eq>">{$each_forum.title|htmlspecialchars}</a>
+                <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn-default  position <eq name="forum_id" value="$each_forum['id']">btn-primary</eq>">{$each_forum.title|htmlspecialchars}</a>
             </div>
         </volist>
 
