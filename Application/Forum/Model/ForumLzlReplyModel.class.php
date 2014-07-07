@@ -26,6 +26,7 @@ class ForumLzlReplyModel extends Model
     {
         //新增一条回复
         $data = array('uid' => is_login(), 'post_id' => $post_id, 'to_f_reply_id' => $to_f_reply_id, 'to_reply_id' => $to_reply_id, 'to_uid' => $to_uid, 'content' => $content);
+
         $data = $this->create($data);
         if (!$data) return false;
         $result = $this->add($data);
@@ -41,6 +42,7 @@ class ForumLzlReplyModel extends Model
             $this->sendReplyMessage(is_login(), $post_id, $content, $to_uid, $to_f_reply_id,$result,$p);
         }
 
+        $this->handleAt($post_id, $to_f_reply_id, $content, $p, $map);
         //返回结果
         return $result;
     }
@@ -97,6 +99,26 @@ class ForumLzlReplyModel extends Model
         }
         $list = getPage($list, $limit, $page);
         return $list;
+    }
+
+    /**
+     * @param $post_id
+     * @param $to_f_reply_id
+     * @param $content
+     * @param $p
+     * @param $map
+     * @auth 陈一枭
+     */
+    private function handleAt($post_id, $to_f_reply_id, $content, $p, $map)
+    {
+        $limit = 5;
+        $map['is_del'] = 0;
+        $map['to_f_reply_id'] = $to_f_reply_id;
+        $count = D('ForumLzlReply')->where($map)->count();
+        $pageCount = ceil($count / $limit);
+        //增加微博的评论数量
+        $url = U('Forum/Index/detail', array('id' => $post_id, 'page' => $p, 'sr' => $to_f_reply_id, 'sp' => $pageCount)) . '#' . $to_f_reply_id;
+        D('ContentHandler')->handleAtWho($content, $url);
     }
 
 

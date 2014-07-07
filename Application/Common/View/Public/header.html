@@ -33,7 +33,7 @@
                                 class="badge pull-right">{:count($unreadMessage)}</span>
                                 &nbsp;
                             </a>
-                            <ul class="dropdown-menu extended notification" style="">
+                            <ul class="dropdown-menu extended notification" >
                                 <li style="padding-left: 15px;padding-right: 15px;">
                                     <div class="row nav_info_center">
                                         <div class="col-xs-9 nav_align_left"><span
@@ -92,7 +92,7 @@
                             </a>
                             <ul class="dropdown-menu text-left" role="menu">
                                 <li><a href="{:U('UserCenter/Index/index')}"><span
-                                        class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人中心</a>
+                                        class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;个人主页</a>
                                 </li>
                                 <if condition="is_administrator()">
                                     <li><a href="{:U('Admin/Index/index')}" target="_blank"><span

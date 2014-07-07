@@ -48,10 +48,14 @@ class ForumPostReplyModel extends Model
     public function handleAt($content,$url){
         D('ContentHandler')->handleAtWho($content,$url);
     }
+
     /**
      * @param $uid
-     * @param $weibo_id
+     * @param $post_id
      * @param $content
+     * @param $reply_id
+     * @return string
+     * @auth 陈一枭
      */
     private function sendReplyMessage($uid, $post_id, $content,$reply_id)
     {
@@ -68,6 +72,7 @@ class ForumPostReplyModel extends Model
         $url = U('Forum/Index/detail', array('id' => $post_id,'page'=>$pageCount)).'#'.$reply_id;
         $from_uid = $uid;
         D('Message')->sendMessage($post['uid'], $content, $title, $url, $from_uid, 2, null, 'reply', $post_id,$reply_id);
+
         return $url;
     }
 
