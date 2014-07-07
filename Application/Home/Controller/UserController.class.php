@@ -27,7 +27,7 @@ class UserController extends HomeController
     }
 
     /* 注册页面 */
-    public function register($username = '', $password = '', $email = '', $verify = '', $type = 'start')
+    public function register($username = '',$nickname='', $password = '', $email = '', $verify = '', $type = 'start')
     {
         $type = op_t($type);
         if (!C('USER_ALLOW_REGISTER')) {
@@ -40,11 +40,10 @@ class UserController extends HomeController
                     $this->error('验证码输入错误。');
                 }
             }
-            /* 检测密码 */
 
             /* 调用注册接口注册用户 */
             $User = new UserApi;
-            $uid = $User->register($username, $password, $email);
+            $uid = $User->register($username,$nickname, $password, $email);
             if (0 < $uid) { //注册成功
                 $uid = $User->login($username, $password);
                 D('Member')->login($uid, false);
@@ -59,22 +58,28 @@ class UserController extends HomeController
             $this->assign('type', $type);
             $this->display();
         }
-
     }
 
     /* 注册页面step2 */
-    public function step2( $type = 'upload')
+    public function step2($type = 'upload')
     {
-        $type = op_t($type);
-        if (IS_POST) { //上传头像
-            $this->redirect("Home/User/step3");
-        } else { //显示上传头像页面
-            $this->assign('type', $type);
-            $this->display('register');
-        }
+        $type = op_t($type); //显示上传头像页面
+        $this->assign('type', $type);
+        $this->display('register');
     }
+
+    public function doCropAvatar($crop)
+    {
+        //调用上传头像接口改变用户的头像
+        $result = callApi('User/applyAvatar', array($crop));
+        $this->ensureApiSuccess($result);
+
+        //显示成功消息
+        $this->success($result['message'], U('Home/User/step3'));
+    }
+
     /* 注册页面step3 */
-    public function step3( $type = 'finish')
+    public function step3($type = 'finish')
     {
         $type = op_t($type);
         $this->assign('type', $type);
@@ -294,6 +299,15 @@ class UserController extends HomeController
                 break;
             case -20:
                 $error = '用户名只能由数字、字母和"_"组成！';
+                break;
+            case -30:
+                $error = '昵称被占用！';
+                break;
+            case -31:
+                $error = '昵称被禁止注册！';
+                break;
+            case -32:
+                $error = '昵称只能由数字、字母、汉字和"_"组成！';
                 break;
             default:
                 $error = '未知错误24';
