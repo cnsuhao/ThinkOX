@@ -59,7 +59,6 @@ $(function () {
         var canDubmit = true;
     for(var key in checkCan){
         canDubmit = canDubmit & checkCan[key];
-
     }
         if(!canDubmit){
             op_error('请填写完整且正确的信息后再提交！')

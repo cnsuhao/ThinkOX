@@ -1140,7 +1140,7 @@ function real_strip_tags($str, $allowable_tags="") {
     return strip_tags($str, $allowable_tags);
 }
 
-/**
+/**span
  * 获取楼层信息
  * @param $k
  */
