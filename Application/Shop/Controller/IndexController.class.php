@@ -153,10 +153,10 @@ class IndexController extends Controller
             //添加最近浏览
             $map_see['uid'] = is_login();
             $map_see['goods_id'] = $id;
-            $rs = D('ShopSee')->where($map)->find();
+            $rs = D('ShopSee')->where($map_see)->find();
             if ($rs) {
                 $data['update_time'] = time();
-                D('ShopSee')->where($map)->save($data);
+                D('ShopSee')->where($map_see)->save($data);
             } else {
                 $map_see['create_time'] = $map_see['update_time'] = time();
                 D('ShopSee')->add($map_see);
