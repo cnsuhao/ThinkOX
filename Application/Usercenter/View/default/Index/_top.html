@@ -12,14 +12,14 @@
                 <dd>
                     <div>
                         <div class="col-xs-4 text-center">
-                            <a href="{:U('Weibo/Index/index',array('uid'=>is_login()))}"
-                               title="">{$user_info.weibocount}</a><br>微博
+                            <a href="{:U('Weibo/Index/index',array('uid'=>$user_info['uid']))}"
+                               title="微博数">{$user_info.weibocount}</a><br>微博
                         </div>
                         <div class="col-xs-4 text-center">
-                            <a href="{:U('Usercenter/Index/fans')}" title="">{$user_info.fans}</a><br>粉丝
+                            <a href="{:U('Usercenter/Index/fans',array('uid'=>$user_info['uid']))}" title="粉丝数">{$user_info.fans}</a><br>粉丝
                         </div>
                         <div class="col-xs-4 text-center">
-                            <a href="{:U('Usercenter/Index/following')}" title="">{$user_info.following}</a><br>关注
+                            <a href="{:U('Usercenter/Index/following',array('uid'=>$user_info['uid']))}" title="关注数">{$user_info.following}</a><br>关注
                         </div>
                     </div>
                 </dd>
@@ -34,13 +34,9 @@
                     <span>
                 <if condition="$user_info['rank_link'][0]['num']">
                     <volist name="user_info['rank_link']" id="vl">
-                        <if condition="$vl['is_show']">
                             <img src="{$vl.logo_url}" title="{$vl.title}" alt="{$vl.title}"
                                  style="width: 18px;height: 18px;vertical-align: middle;margin-left: 2px;"/>
-                        </if>
                     </volist>
-                    <else/>
-
                 </if>
             </span>
                 </div>

@@ -14,7 +14,7 @@ $(function () {
     });//绑定发微博弹窗
     ucard();//绑定用户小名片
     bindGoTop();//回到顶部
-    weiboShare();//处理微博分享
+
     $('input,area').placeholder();//修复ieplace holder
     if (is_login()) {
         bindMessageChecker();//绑定用户消息
@@ -42,7 +42,82 @@ $(function () {
     var $inputor = $('#weibo_content').atwho(atwho_config);
 
 });
+$(function () {
+    /**
+     * ajax-post
+     * 将链接转换为ajax请求，并交给handleAjax处理
+     * 参数：
+     * data-confirm：如果存在，则点击后发出提示。
+     * 示例：<a href="xxx" class="ajax-post">Test</a>
+     */
+    $(document).on('click', '.ajax-post', function (e) {
+        //取消默认动作，防止跳转页面
+        e.preventDefault();
 
+        //获取参数（属性）
+        var url = $(this).attr('href');
+        var confirmText = $(this).attr('data-confirm');
+
+        //如果需要的话，发出确认提示信息
+        if (confirmText) {
+            var result = confirm(confirmText);
+            if (!result) {
+                return false;
+            }
+        }
+
+        //发送AJAX请求
+        $.post(url, {}, function (a, b, c) {
+            handleAjax(a);
+        });
+    });
+
+    /**
+     * ajax-form
+     * 通过ajax提交表单，通过oneplus提示消息
+     * 示例：<form class="ajax-form" method="post" action="xxx">
+     */
+    $(document).on('submit', 'form.ajax-form', function (e) {
+        //取消默认动作，防止表单两次提交
+        e.preventDefault();
+
+        //禁用提交按钮，防止重复提交
+        var form = $(this);
+        $('[type=submit]', form).addClass('disabled');
+
+        //获取提交地址，方式
+        var action = $(this).attr('action');
+        var method = $(this).attr('method');
+
+        //检测提交地址
+        if (!action) {
+            return false;
+        }
+
+        //默认提交方式为get
+        if (!method) {
+            method = 'get';
+        }
+
+        //获取表单内容
+        var formContent = $(this).serialize();
+
+        //发送提交请求
+        var callable;
+        if (method == 'post') {
+            callable = $.post;
+        } else {
+            callable = $.get;
+        }
+        callable(action, formContent, function (a) {
+            handleAjax(a);
+            $('[type=submit]', form).removeClass('disabled');
+        });
+
+        //返回
+        return false;
+    });
+});
 
 function is_login() {
     return parseInt(MID);
@@ -58,7 +133,7 @@ function is_login() {
 function U(url, params, rewrite) {
 
 
-    if (window.Think['URL_MODEL'] == 2) {
+    if (window.Think.MODEL[0] == 2) {
 
         var website = _ROOT_ + '/';
         url = url.split('/');
@@ -113,43 +188,47 @@ function ucard() {
                 $.get(U('UserCenter/Public/getProfile'), {uid: uid}, function (userProfile) {
                     var follow = '';
                     if ((MID != uid) && (MID != 0)) {
-                        follow ='<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
+                        follow = '<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
                         if (userProfile.followed == 1) {
-                            follow +='<button type="button" class="btn btn-default" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
+                            follow += '<button type="button" class="btn btn-default" onclick="ufollow(this,' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
                         } else {
-                            follow +='<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.id + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
+                            follow += '<button type="button" class="btn btn-primary" onclick="ufollow(this,' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;">关&nbsp;注</button>';
                         }
                     }
-                    var html = '<div class="row" style="width: 350px;width: 350px;font-size: 13px;line-height: 23px;">'+
-                        '<div class="col-xs-12" style="padding: 2px;">'+
-                        '<img class="img-responsive" src="'+window.Think.ROOT+'/Public/Core/images/qtip_bg.png">'+
-                        '</div>'+
-                        '<div class="col-xs-12" style="padding: 2px;margin-top: -25px;">'+
-                        '<div class="col-xs-3">'+
-                            '<img src="{$userProfile.avatar64}" class="avatar-img img-responsive" style="-webkit-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);-moz-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);box-shadow: 0 3px 4px rgba(173, 173, 173, 0.54);border: solid 2px #fff;"/>'+
-                        '</div>'+
-                        '<div class="col-xs-9" style="padding-top: 25px;">'+
-                        '<div style="font-size: 16px;font-weight: bold;"><a href="{$userProfile.space_url}" title="">{$userProfile.nickname}</a>'+
-                        '</div>'+
-                        '<div>'+
-                        '关注：{$userProfile.following}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{$userProfile.fans}&nbsp;&nbsp;&nbsp;&nbsp;微博：{$userProfile.weibocount}'+
-                    '</div>'+
-                        '<div style="margin-bottom: 15px">'+
-                        '个性签名：'+
-                            '<span>'+
-                                '{$userProfile.signature}'+
-                            '</span>'+
-                        '</div>'+
-                    '</div>'+
-                    '</div>'+
-                        '<div class="col-xs-12" style="background: #f1f1f1;">'+
-                        follow+
-                        '</div>'+
-                    '</div>';
+                    var html = '<div class="row" style="width: 350px;width: 350px;font-size: 13px;line-height: 23px;">' +
+                        '<div class="col-xs-12" style="padding: 2px;">' +
+                        '<img class="img-responsive" src="' + window.Think.ROOT + '/Public/Core/images/qtip_bg.png">' +
+                        '</div>' +
+                        '<div class="col-xs-12" style="padding: 2px;margin-top: -25px;">' +
+                        '<div class="col-xs-3">' +
+                        '<img src="{$userProfile.avatar64}" class="avatar-img img-responsive" style="-webkit-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);-moz-box-shadow: 0 3px 4px rgba(11, 2, 5, 0.54);box-shadow: 0 3px 4px rgba(173, 173, 173, 0.54);border: solid 2px #fff;"/>' +
+                        '</div>' +
+                        '<div class="col-xs-9" style="padding-top: 25px;padding-right:0px;font-size: 12px;">' +
+                        '<div style="font-size: 16px;font-weight: bold;"><a href="{$userProfile.space_url}" title="">{$userProfile.nickname}</a>{$userProfile.rank_link}' +
+                        '</div>' +
+                        '<div>' +
+                        '<a href="{$userProfile.following_url}" title="我的关注" target="_black">关注：{$userProfile.following}</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
+                        '<a href="{$userProfile.fans_url}" title="我的关注" target="_black">粉丝：{$userProfile.fans}</a>&nbsp;&nbsp;&nbsp;&nbsp;' +
+                        '<a href="{$userProfile.weibo_url}" title="我的关注" target="_black">微博：{$userProfile.weibocount}</a>' +
+                        '</div>' +
+                        '<div style="margin-bottom: 15px;color: #848484">' +
+                        '个性签名：' +
+                        '<span>' +
+                        '{$userProfile.signature}' +
+                        '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-xs-12" style="background: #f1f1f1;">' +
+                        follow +
+                        '</div>' +
+                        '</div>';
+
                     userProfile.signature = userProfile.signature === '' ? '还没想好O(∩_∩)O' : userProfile.signature;
-                    for(var key in userProfile){
-                        html=html.replace('{$userProfile.'+key+'}',userProfile[key]);
+                    for (var key in userProfile) {
+                        html = html.replace('{$userProfile.' + key + '}', userProfile[key]);
                     }
+                    //alert(html);
                     var tpl = $(html);
                     api.set('content.text', tpl.html());
 
@@ -169,7 +248,7 @@ function ucard() {
     })
 }
 function ufollow(obj, uid) {
-    objt=obj;
+    objt = obj;
     obj = $(obj);
     if ($(obj).text().trim() == '已关注') {
         $.post(U('UserCenter/Public/unfollow'), {uid: uid}, function (msg) {
@@ -188,7 +267,7 @@ function ufollow(obj, uid) {
                 obj.removeClass('btn-primary');
                 obj.addClass('btn-default');
                 op_success('关注成功。', '温馨提示');
-                objt.innerHTML="<font title='取消关注'>已关注</font>";
+                objt.innerHTML = "<font title='取消关注'>已关注</font>";
             } else {
                 op_error('关注失败。', '温馨提示');
             }
@@ -223,8 +302,8 @@ function bindGoTop() {
 function playsound(file) {
     if (window.Think.ROOT == '') {
         file = '/' + file;
-    }else{
-        file=window.Think.ROOT+'/'+file;
+    } else {
+        file = window.Think.ROOT + '/' + file;
     }
     $('embed').remove();
     $('body').append('<embed src="' + file + '" autostart="true" hidden="true" loop="false">');
@@ -377,7 +456,16 @@ function checkMessage() {
             playsound('Public/Core/js/ext/toastr/message.wav');
             //发现有新的会话
             $.each(msg.new_talk_messages, function (index, talk_message) {
-                    setSessionUnread(talk_message.talk_message.talk_id);
+                    if ( ($('#chat_id').val() == talk_message.talk_id) && ($('#chat_box').is(":visible"))) {
+                        chat_appendMessage(chat_fetchMessageTpl(talk_message, MID));
+                        $.get(U('Usercenter/Session/getSession'), {id: talk_message.talk_id},function(){
+
+                        },'json');
+
+                    }
+                    else {
+                        setSessionUnread(talk_message.talk_id);
+                    }
                 }
             );
         }
@@ -502,83 +590,6 @@ function handleAjax(a) {
         }, interval);
     }
 }
-
-$(function () {
-    /**
-     * ajax-post
-     * 将链接转换为ajax请求，并交给handleAjax处理
-     * 参数：
-     * data-confirm：如果存在，则点击后发出提示。
-     * 示例：<a href="xxx" class="ajax-post">Test</a>
-     */
-    $(document).on('click', '.ajax-post', function (e) {
-        //取消默认动作，防止跳转页面
-        e.preventDefault();
-
-        //获取参数（属性）
-        var url = $(this).attr('href');
-        var confirmText = $(this).attr('data-confirm');
-
-        //如果需要的话，发出确认提示信息
-        if (confirmText) {
-            var result = confirm(confirmText);
-            if (!result) {
-                return false;
-            }
-        }
-
-        //发送AJAX请求
-        $.post(url, {}, function (a, b, c) {
-            handleAjax(a);
-        });
-    });
-
-    /**
-     * ajax-form
-     * 通过ajax提交表单，通过oneplus提示消息
-     * 示例：<form class="ajax-form" method="post" action="xxx">
-     */
-    $(document).on('submit', 'form.ajax-form', function (e) {
-        //取消默认动作，防止表单两次提交
-        e.preventDefault();
-
-        //禁用提交按钮，防止重复提交
-        var form = $(this);
-        $('[type=submit]', form).addClass('disabled');
-
-        //获取提交地址，方式
-        var action = $(this).attr('action');
-        var method = $(this).attr('method');
-
-        //检测提交地址
-        if (!action) {
-            return false;
-        }
-
-        //默认提交方式为get
-        if (!method) {
-            method = 'get';
-        }
-
-        //获取表单内容
-        var formContent = $(this).serialize();
-
-        //发送提交请求
-        var callable;
-        if (method == 'post') {
-            callable = $.post;
-        } else {
-            callable = $.get;
-        }
-        callable(action, formContent, function (a) {
-            handleAjax(a);
-            $('[type=submit]', form).removeClass('disabled');
-        });
-
-        //返回
-        return false;
-    });
-});
 
 
 /**
@@ -726,7 +737,7 @@ function open_chat_box(id) {
     $.get(U('Usercenter/Session/getSession'), {id: id}, function (data) {
         chat_clear_box();
         $('li', '#session_panel_main').removeClass();
-        $('.badge_new', '#session_panel_main').remove();
+        $('.badge_new', '#chat_li_' + id).remove();
         $('#chat_li_' + id).addClass('active');
         $('#chat_box').show();
         set_current_chat(data);
@@ -921,3 +932,74 @@ $(function () {
 })
 //FIXME tox 修正短页面滚至底部弹回
 /*导航栏end*/
+
+/*微博表情*/
+
+var insertFace = function (obj) {
+    $('.XT_insert').css('z-index', '1000');
+    $('.XT_face').remove();
+    var html = '<div class="XT_face  XT_insert"><div class="triangle sanjiao"></div><div class="triangle_up sanjiao"></div>' +
+        '<div class="XT_face_main"><div class="XT_face_title"><span class="XT_face_bt" style="float: left">常用表情</span>' +
+        '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
+    obj.parent().parent().next().html(html);
+    getFace(obj);
+}
+
+var face_chose = function (obj) {
+    var textarea = obj.parents('.emot_content').prev().find('textarea');
+    textarea.focus();
+    //textarea.val(textarea.val()+'['+obj.attr('title')+']');
+
+    pos = getCursortPosition(textarea[0]);
+    s = textarea.val();
+    textarea.val(s.substring(0, pos) + '[' + obj.attr('title') + ']' + s.substring(pos));
+    setCaretPosition(textarea[0], pos + 2 + obj.attr('title').length);
+}
+
+var getFace = function (obj) {
+    $.post(U('Weibo/Index/getSmile'), {}, function (data) {
+        var _imgHtml = '';
+        for (var k in data) {
+            _imgHtml += '<a href="javascript:void(0)" title="' + data[k].title + '" onclick="face_chose($(this))";><img src="' + data[k].src + '" width="24" height="24" /></a>';
+        }
+        _imgHtml += '<div class="c"></div>';
+        obj.parent().parent().next().find('#face').html(_imgHtml);
+
+    }, 'json');
+}
+
+var close_face = function () {
+    $('.XT_face').remove();
+}
+
+
+function getCursortPosition(ctrl) {//获取光标位置函数
+
+    var CaretPos = 0;	// IE Support
+    if (document.selection) {
+        ctrl.focus();
+        var Sel = document.selection.createRange();
+        Sel.moveStart('character', -ctrl.value.length);
+        CaretPos = Sel.text.length;
+    }
+    // Firefox support
+    else if (ctrl.selectionStart || ctrl.selectionStart == '0')
+        CaretPos = ctrl.selectionStart;
+    return (CaretPos);
+}
+
+function setCaretPosition(ctrl, pos) {//设置光标位置函数
+    if (ctrl.setSelectionRange) {
+        ctrl.focus();
+        ctrl.setSelectionRange(pos, pos);
+    }
+    else if (ctrl.createTextRange) {
+        var range = ctrl.createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', pos);
+        range.moveStart('character', pos);
+        range.select();
+    }
+}
+
+/*微博表情end*/

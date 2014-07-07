@@ -19,11 +19,11 @@
                     </div>
                     <div class="list col-md-6">
                         <img class="avatar-img" style="width: 32px" src="{$v.userInfo.avatar32}">
-                        <a ucard="{$v.uid}" class="text-more " style="width: 60%;vertical-align: middle" href="{$v.userInfo.space_url}">
+                        <a ucard="{$v.uid}" class="text-more " style="width: 50%;vertical-align: middle" href="{$v.userInfo.space_url}">
                             {$v.userInfo.nickname}</a>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4 check_date">
                         {:date('H:i:s',$v[ctime])}
                     </div>
                 </li>

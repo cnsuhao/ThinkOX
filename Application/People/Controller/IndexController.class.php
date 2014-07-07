@@ -37,7 +37,7 @@ class IndexController extends Controller
         if ($nickname != '') {
             $map['nickname'] = array('like','%'.$nickname.'%');
         }
-        $list = D('Member')->where($map)->findPage(10);
+        $list = D('Member')->where($map)->findPage(18);
         foreach ($list['data'] as &$v) {
             $v['user'] = query_user(array('avatar128', 'space_url', 'username', 'fans', 'following', 'signature', 'nickname'), $v['uid']);
         }

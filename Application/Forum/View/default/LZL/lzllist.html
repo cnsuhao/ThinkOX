@@ -14,7 +14,7 @@
         <div class="XT_list_content">
             <p><a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}"> {$vo.userInfo.nickname}</a></p>
 
-            <p>{$vo.content}</p>
+            <p>{$vo.content|parse_at_users}</p>
 
             <p style="color:  #ccc;">{$vo.ctime|time_format}
 

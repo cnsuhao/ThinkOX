@@ -3,14 +3,14 @@ $(function () {
     var reply_btn = $('.reply_btn');
     reply_btn.click(function () {
 
-        var args = getArgs($(this).attr('args'))
+        var args = getArgs($(this).attr('args'));
         var to_f_reply_id = args['to_f_reply_id'];
         $('#show_textarea_' + to_f_reply_id).show();
 
         $('#reply_' + to_f_reply_id).val('回复@' + args['to_nickname'] + ' ：');
         $('#submit_' + to_f_reply_id).attr('args', $(this).attr('args'));
 
-    })
+    });
 
 
     $('.input_tips').keypress(function (e) {
@@ -25,7 +25,7 @@ $(function () {
             var to_uid = args['to_uid'];
             submitLZLReply(post_id, to_f_reply_id, to_reply_id, to_uid, content);
         }
-        this.preventDefault();
+       // this.preventDefault();
     });
 
     var submitLZLReply = function (post_id, to_f_reply_id, to_reply_id, to_uid, content,p) {
@@ -57,9 +57,10 @@ $(function () {
         this.preventDefault();
     });
 
-    $('.reply_btn').click(function () {
+    $('.reply_btn').click(function (event) {
         var args = $(this).attr('args');
         $('#lzl_reply_div_' + args).toggle();
+        //event.preventDefault();
         this.preventDefault();
     });
 

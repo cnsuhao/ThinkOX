@@ -104,7 +104,7 @@
                                 <a id="delEvent" class="btn btn-default">删除活动</a>
                                 <php>}if($content['uid'] != is_login() || is_administrator(is_login())){</php>
                                 <php>if(!$check_isSign){</php>
-                                <php>if($vo['deadline'] < time()){</php>
+                                <php>if($content['deadline'] < time()){</php>
                                 <a class="btn btn-default  " href="javascript:"
                                    onclick="op_error('报名已截止')">报名已截止 </a>
                                 <php>}else{</php>
@@ -113,7 +113,7 @@
                                        onclick="op_error('请登陆后再报名')">报名参加 </a>
                                     <else/>
                                     <a class="btn  btn-info  event_sign "style="color: #fff"
-                                       href="{:U('ajax_sign',array('event_id'=>$vo['id']))}">报名参加 </a>
+                                       href="{:U('ajax_sign',array('event_id'=>$content['id']))}">报名参加 </a>
                                 </if>
                                 <php>}</php>
                                 <php>}else{</php>

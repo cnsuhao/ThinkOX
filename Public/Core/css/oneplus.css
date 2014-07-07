@@ -1,26 +1,25 @@
 /*布局样式*/
 .common_block_border {
   border: #ddd 1px solid;
-  border-bottom: #ddd 3px solid;
   border-radius: 5px;
   margin-bottom: 20px;
   background: white;
-  overflow: hidden;
-  box-shadow: 0 0 5px #cccccc;
-  -moz-box-shadow: 0 0 5px #CCCCCC;
-  -khtml-box-shadow: 0 0 5px #CCCCCC;
 }
 .common_block_title {
-  background: #F5F5F5;
   padding: 8px 5px;
-  color: #7A7A7A;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #333333;
   font-size: 1.2em;
-  margin: 0;
-  margin-bottom: 10px;
-  padding-left: 15px;
+  margin: 5px 0 10px 15px;
 }
 /*布局样式end*/
 /*reset*/
+body {
+  word-break: break-word;
+}
 a {
   color: #616161;
 }
@@ -105,7 +104,7 @@ a:hover {
 }
 .avatar-img {
   border-radius: 100%;
-  max-width: 128px;
+  max-width: 100%;
 }
 .navbar-nav > li > a {
   line-height: 28px;
@@ -115,7 +114,7 @@ a:hover {
 }
 .navbar-avatar-img {
   border-radius: 100%;
-  max-width: 128px;
+  max-width: 100%;
   border: solid 2px #fff;
   margin-top: -20px;
   margin-bottom: -15px;
@@ -223,13 +222,13 @@ a:hover {
   font-style: normal;
   font-size: 0.7em;
   color: white;
-  background: #48b87a;
+  background: #ffffff;
   padding: 0.25em 0.5em;
   border-radius: 0.3em;
   vertical-align: middle;
 }
 .post_top_forum {
-  background: dodgerblue;
+  background: #333333;
 }
 .post_content img {
   max-width: 100%;
@@ -250,7 +249,7 @@ h2 {
   color: #333333;
 }
 .link-primary {
-  color: #da203a;
+  color: #03ae87;
 }
 .link-muted {
   color: #555555;
@@ -397,7 +396,7 @@ h2 {
 .dropdown-menu.extended li a:hover {
   background-image: none;
   background-color: #f5f5f5;
-  color: #000;
+  color: #000 !important;
   filter: none;
 }
 .dropdown-menu.extended li p {
@@ -448,6 +447,9 @@ h2 {
   cursor: pointer;
   background: none;
   margin-left: 24px;
+}
+.dropdown-menu.notification .set_read:hover {
+  color: #000;
 }
 .dropdown .nav_align_left {
   margin-left: -12px;
@@ -1171,7 +1173,7 @@ a:hover {
   width: 75%;
 }
 .nav_bar .navbar-toggle {
-  background-color: #da203a;
+  background-color: #03ae87;
   color: white;
   margin-top: 12px;
 }
@@ -1182,13 +1184,13 @@ a:hover {
   margin-left: -6px;
 }
 .nav_bar .active a {
-  color: #03AE87;
+  color: #03ae87;
 }
 .nav_bar .nav > li > a:hover,
 .nav_bar .nav > li > a:focus {
   text-decoration: none;
   background-color: transparent;
-  color: #03AE87;
+  color: #03ae87;
 }
 /*导航栏end*/
 /*底部栏*/
@@ -1216,11 +1218,7 @@ a:hover {
   margin-bottom: 20px;
   background-color: #ffffff;
   color: #333333;
-  -webkit-box-shadow: 0px 2px 5px #ccc;
-  /*（这是专对火狐浏览器的支持而设置的）*/
-  -moz-box-shadow: 0px 2px 5px #ccc;
-  /*（这是对Safari和Chrome浏览器而设置的）*/
-  box-shadow: 0px 2px 5px #ccc;
+  border: #dddddd 1px solid;
 }
 .forum_module_name {
   height: 20px;
@@ -1243,6 +1241,13 @@ a:hover {
   margin-right: 20px;
   margin-bottom: 15px;
 }
+.btn_exchange a {
+  color: #fff;
+  padding: 1px 10px;
+}
+.btn_exchange a:hover {
+  color: #fff;
+}
 /*赞*/
 .support_nolike {
   display: inline-block;
@@ -1262,4 +1267,115 @@ a:hover {
 }
 /*赞end*/
 /*微博首页样式结束*/
+/*同步登录页*/
+.other_login_title {
+  line-height: 41px;
+  width: 115px;
+  float: left;
+  text-align: right;
+}
+.other_login_link {
+  margin-left: 115px;
+}
+.other_login_link .other_login {
+  background: url(../images/other_login.png) no-repeat;
+  height: 41px;
+  width: 41px;
+  display: block;
+  float: left;
+  margin-left: 13px;
+  margin-bottom: 2px;
+}
+.other_login_link .other_login_qq {
+  background-position: -4px -4px;
+}
+.other_login_link .other_login_sina {
+  background-position: -4px -59px;
+}
+.other_login_link .other_login_douban {
+  background-position: -4px -117px;
+}
+.other_login_link .other_login_renren {
+  background-position: -4px -175px;
+}
+.other_login_link a.other_login_qq:hover {
+  background-position: -66px -4px;
+}
+.other_login_link a.other_login_sina:hover {
+  background-position: -66px -60px;
+}
+.other_login_link a.other_login_douban:hover {
+  background-position: -66px -117px;
+}
+.other_login_link a.other_login_renren:hover {
+  background-position: -66px -175px;
+}
+.other_login_link a.other_login_qq:active {
+  background-position: -129px -4px;
+}
+.other_login_link a.other_login_sina:active {
+  background-position: -129px -60px;
+}
+.other_login_link a.other_login_douban:active {
+  background-position: -129px -117px;
+}
+.other_login_link a.other_login_renren:active {
+  background-position: -129px -175px;
+}
+/*同步登录页end*/
+/*登录页面*/
+.login {
+  margin-top: 220px;
+  margin-bottom: 150px;
+  margin-left: 12.5%;
+}
+.login .lg_left .lg_lf_top {
+  margin: 15px 0px 15px 25px;
+}
+.login .lg_left .lg_lf_form .lg_lf_fm_verify {
+  margin-bottom: 6px;
+}
+.login .lg_left .lg_lf_form .lg_lf_fm_tip {
+  color: red;
+}
+.login .lg_left .lg_lf_form .lg_lf_fm_checkbox {
+  padding-left: 36px;
+  float: left;
+  color: #848484;
+}
+.login .lg_center {
+  border-left: 1px solid #D8D9DB;
+  border-right: 1px solid #ffffff;
+  float: left;
+  width: 1px;
+  height: 240px;
+  margin: 40px 0 10px -3px;
+}
+.login .lg_middle {
+  border-top: 1px solid #D8D9DB;
+  border-bottom: 1px solid #ffffff;
+  height: 0;
+  margin-top: 20px;
+}
+.login .lg_bottom_top {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #A09FA0;
+  text-align: center;
+  line-height: 30px;
+}
+.login .lg_bottom_bottom {
+  font-size: 12px;
+  color: #848484;
+  text-align: center;
+  line-height: 30px;
+}
+/*登录页面end*/
+/*注册页面*/
+@media (min-width: 1200px) {
+  .register .rg_go div {
+    margin-right: -17px;
+  }
+}
+/*注册页面end*/
 /*新版界面end*/

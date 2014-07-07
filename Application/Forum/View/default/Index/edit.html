@@ -4,7 +4,7 @@
     <div class="row">
 
         <div class="col-xs-12">
-            <div class="fourm-top" style="padding: 15px 20px;margin: -15px;margin-top: 0;margin-bottom: 15px">
+            <div class="fourm-top common_block_border" style="padding: 15px 20px;margin: -15px;margin-top: 0;margin-bottom: 15px">
                 <h4>
                     <if condition="$isEdit">
                         编辑帖子
@@ -66,7 +66,7 @@
                             <input type="hidden" id="isEdit" value="{$isEdit}">
                         </p>
                         <p>
-                            <a class="btn btn-large btn-primary" href="{:U('forum',array('id'=>$forum_id))}">
+                            <a class="btn btn-large btn-primary" onclick="history.go(-1)">
                                 <span class="glyphicon glyphicon-home"></span>
                                 返回帖子列表
                             </a>
@@ -99,16 +99,7 @@
                     $("#submit-button").click();
                 }
             });
-            atwho_config = {
-                at: "@",
-                alias:"at",
-                data: U('Weibo/Index/atWhoJson'),
-                tpl: "<li data-value='@${nickname}'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
-                show_the_at: true,
-                search_key: 'search_key',
-                start_with_space: false,
-                insert_tpl:'${atwho-data-value} '
-            };
+
            var $inputor = $('#contentEditor').atwho(atwho_config);
 
             var submitCount = 0;

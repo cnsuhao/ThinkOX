@@ -1,6 +1,6 @@
 <if condition="$allow_publish">
     <div style="margin-bottom: 12px">
-        <a type="button" class="btn btn-large btn_primary_tieba forum_post_btn"
+        <a type="button" class="btn btn-large btn-primary forum_post_btn"
            href="{:U('Index/edit',array('forum_id'=>$forum_id))}">
 
             发表新帖
@@ -23,13 +23,13 @@
     </div>
     <div class="forum_module_content clearfix">
         <div class="col-md-6">
-            <a style="background: #5bb7c3;border-color: #5bb7c3;color: white"
-               class="btn btn_primary_bankuai position <eq name="forum_id" value="0"></eq>" href="{:U('Index/forum')}">全部帖子</a>
+            <a
+               class="btn btn-default position <eq name="forum_id" value="0"> btn-primary</eq>" href="{:U('Index/forum')}">全部帖子</a>
 
         </div>
         <volist name="forum_list" id="each_forum">
             <div class="col-md-6">
-                <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn_primary_bankuai position <eq name="forum_id" value="$each_forum['id']">active</eq>">{$each_forum.title|htmlspecialchars}</a>
+                <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn-default  position <eq name="forum_id" value="$each_forum['id']">btn-primary</eq>">{$each_forum.title|htmlspecialchars}</a>
             </div>
         </volist>
 

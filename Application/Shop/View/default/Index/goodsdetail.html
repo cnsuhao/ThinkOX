@@ -6,233 +6,280 @@
 </block>
 
 <block name="body">
-    <div class="container">
-        <div class="row shop">
-        <nav class="navbar navbar-default app_block shop_navbar" role="navigation">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
+<div class="container">
+<div class="row shop">
+    <nav class="navbar navbar-default app_block shop_navbar" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="{:U('index')}">商城首页</a>
-                    </li>
-                    <li>
-                        <a href="{:U('goods')}" <eq name="top_category" value="">class="current"</eq>>所有分类</a>
-                    </li>
-                    <volist name="tree" id="top">
-                        <if condition="$top['status'] eq 1">
-                            <if condition="$top['_'] eq null">
-                                <li><a href="{:U('goods',array('category_id'=>$top['id']))}" <eq name="top_category" value="$top['id']">class="current"</eq>
-                                    >{$top.title}</a>
-                                </li>
-                                <else/>
-                                <li class="dropdown">
-                                    <a href="#" data-toggle="dropdown" <eq name="top_category" value="$top['id']">class="current dropdown-toggle"
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{:U('index')}">商城首页</a>
+                </li>
+                <li>
+                    <a href="{:U('goods')}"
+                    <eq name="top_category" value="">class="current"</eq>
+                    >所有分类</a>
+                </li>
+                <volist name="tree" id="top">
+                    <if condition="$top['status'] eq 1">
+                        <if condition="$top['_'] eq null">
+                            <li><a href="{:U('goods',array('category_id'=>$top['id']))}"
+                                <eq name="top_category" value="$top['id']">class="current"</eq>
+                                >{$top.title}</a>
+                            </li>
+                            <else/>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown"
+                                <eq name="top_category" value="$top['id']">class="current dropdown-toggle"
                                     <else/>
                                     class="dropdown-toggle"
                                 </eq>
-                                    data-toggle="dropdown">{$top.title}<b
-                                        class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
-                                        <volist name="top['_']" id="child_category">
-                                            <li>
-                                                <a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a>
-                                            </li>
-                                        </volist>
-                                    </ul>
-                                </li>
-                            </if>
-                        </if>
-                    </volist>
-                </ul>
-                <div class="fl_right">
-                    <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
-                       class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-                    <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label>
-                    </if>
-                </div>
-            </div>
-            <!-- /.navbar-collapse -->
-        </nav>
-            <div class="col-md-12  app_block clearfix">
-                <div class="col-md-9 fl_left goods_detail">
-                    <div class="row pad_15">
-                        <h2 class="title_content">分类&nbsp;->&nbsp;<a
-                                href="{:U('goods',array('category_id'=>$top_category))}">{$category_name}</a>
-                            <if condition="$child_category_name neq '' && $child_category_name neq null">
-                                &nbsp;->&nbsp;<a
-                                    href="{:U('goods',array('category_id'=>$category_id))}">{$child_category_name}</a>
-                            </if>
-                            &nbsp;->&nbsp;<a
-                                    href="{:U('goodsDetail',array('id'=>$content['id']))}">{$content.goods_name}</a>
-                        </h2>
-                        <div class="col-md-6">
-                            <img src="{$content.goods_ico|getThumbImageById=359,270}"/>
-                        </div>
-                        <div class="col-md-6">
-                            <h3 class="text-more mb_34" style="width: 100%"><font title="{$content.goods_name|op_t}">{$content.goods_name}</font>
-                            </h3>
-
-                            <div class="clearfix mb_34 info_item_s">
-                                <if condition="is_login() neq 0">
-                                    <font title="我的{$tox_money_cname}：{$my_tox_money}"><span>所需{$tox_money_cname}：<aq>
-                                        {$content.tox_money_need}
-                                    </aq></span></font>
-                                    <else/>
-                                    <span>所需{$tox_money_cname}：<aq>{$content.tox_money_need}</aq></span>
-                                </if>
-                                <span>库存：<aq>{$content.goods_num}</aq></span>
-                            </div>
-                            <div class="mb_34"><a href="#frm-post-popup" class="open-popup-link btn btn-primary "
-                                                  goods_id="{$content['id']}">&nbsp;&nbsp;兑&nbsp;&nbsp;换&nbsp;&nbsp;</a>
-                            </div>
-                            <div class="text-more mb_34 intro">
-                                <span><font
-                                        title="{$content.goods_introduct|op_t}">{$content.goods_introduct}</font></span>
-                            </div>
-                            <div class="time_show">
-                                发布时间： {:date('Y-m-d',$content['createtime'])}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                更新时间： {:date('Y-m-d',$content['changetime'])}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details">
-                        <h3>商品详情</h3>
-                        {$content.goods_detail}
-                    </div>
-                </div>
-                <div class="col-md-3 fl_left">
-                    <if condition="is_login() neq 0">
-                        <div class="row pad_15">
-                            <h2 style="font-size: 16px;">最近浏览</h2>
-
-                            <div class="goods_same_category clearfix">
-                                <ul>
-                                    <volist name="goods_see_list" id="vo">
-                                        <li class="items clearfix">
-                                            <dl>
-                                                <dt><a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><img
-                                                        src="{$vo.goods_ico|getThumbImageById=135,100}"></a></dt>
-                                                <dd>
-                                                    <h3 class="text-more"><font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
-                                                    </h3>
-
-                                                    <div class="money">￥{$vo.tox_money_need}</div>
-                                                    <div><a href="#frm-post-popup"
-                                                            class="open-popup-link btn btn-primary"
-                                                            goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
-                                                </dd>
-                                            </dl>
+                                data-toggle="dropdown">{$top.title}<b
+                                    class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
+                                    <volist name="top['_']" id="child_category">
+                                        <li>
+                                            <a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a>
                                         </li>
                                     </volist>
                                 </ul>
-                            </div>
-                            <if condition="count($goods_see_list) eq 0">
-                                <div style="font-size: 16px;padding:2em 0;color: #ccc;text-align: center">
-                                    你还没有浏览过其他商品哦。O(∩_∩)O~
-                                </div>
-                            </if>
-                        </div>
-                    </if>
-                    <div class="row pad_15">
-                        <h2 style="font-size: 16px;">同类对比</h2>
-
-                        <div class="goods_same_category clearfix">
-                            <ul>
-                                <volist name="contents_same_category" id="vo">
-                                    <li class="items clearfix">
-                                        <dl>
-                                            <dt><a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><img
-                                                    src="{$vo.goods_ico|getThumbImageById=135,100}"></a></dt>
-                                            <dd>
-                                                <h3 class="text-more"><font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
-                                                </h3>
-
-                                                <div class="money">￥{$vo.tox_money_need}</div>
-                                                <div><a href="#frm-post-popup" class="open-popup-link btn btn-primary"
-                                                        goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
-                                            </dd>
-                                        </dl>
-                                    </li>
-                                </volist>
-                            </ul>
-                        </div>
-                        <if condition="count($contents_same_category) eq 0">
-                            <div style="font-size: 16px;padding:2em 0;color: #ccc;text-align: center">
-                                该商品没有同类商品哦。O(∩_∩)O~
-                            </div>
+                            </li>
                         </if>
+                    </if>
+                </volist>
+            </ul>
+            <div class="fl_right">
+                <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
+                   class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
+                <if condition="is_login() neq 0"><label class="money_show"><font title="我的{$tox_money_name}"><i
+                        class="ico_to_money"></i>&nbsp;{$my_tox_money}</font></label>
+                </if>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+    <div class="col-md-12  app_block clearfix">
+        <div class="col-md-9 fl_left goods_detail">
+            <div class="row pad_15">
+                <h2 class="title_content">分类&nbsp;->&nbsp;<a
+                        href="{:U('goods',array('category_id'=>$top_category))}">{$category_name}</a>
+                    <if condition="$child_category_name neq '' && $child_category_name neq null">
+                        &nbsp;->&nbsp;<a
+                            href="{:U('goods',array('category_id'=>$category_id))}">{$child_category_name}</a>
+                    </if>
+                    &nbsp;->&nbsp;<a
+                            href="{:U('goodsDetail',array('id'=>$content['id']))}">{$content.goods_name}</a>
+                </h2>
+                <div class="col-md-6">
+                    <img class="img-responsive" src="{$content.goods_ico|getThumbImageById=359,270}"/>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="text-more mb_34" style="width: 100%"><font title="{$content.goods_name|op_t}">{$content.goods_name}</font>
+                    </h3>
+
+                    <div class="clearfix mb_34 info_item_s">
+                        <if condition="is_login() neq 0">
+                            <font title="我的{$tox_money_cname}：{$my_tox_money}"><span>所需{$tox_money_name}：<aq>
+                                {$content.tox_money_need}
+                            </aq></span></font>
+                            <else/>
+                            <span>所需{$tox_money_name}：<aq>{$content.tox_money_need}</aq></span>
+                        </if>
+                        <span>库存：<aq>{$content.goods_num}</aq></span>
+                    </div>
+                    <php>
+                        $class='';
+                        if(is_login()){
+                        if($my_tox_money>=$vo['tox_money_need']){
+                        $class='open-popup-link';
+                        }else{
+                        $class='money_not_enough ';
+                        }
+                        }
+                    </php>
+                    <div class="mb_34"><a href="#frm-post-popup" class="{$class} btn exchange_goods btn-primary "
+                                          goods_id="{$content['id']}">&nbsp;&nbsp;兑&nbsp;&nbsp;换&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="text-more mb_34 intro">
+                                <span><font
+                                        title="{$content.goods_introduct|op_t}">{$content.goods_introduct}</font></span>
+                    </div>
+                    <div class="time_show">
+                        发布时间： {:date('Y-m-d',$content['createtime'])}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        更新时间： {:date('Y-m-d',$content['changetime'])}
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Modal -->
-        <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
-            <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
-
-            <div class="aline" style="margin-bottom: 10px"></div>
-            <div class="row">
-                <form class="form-horizontal  ajax-form" role="form" action="{:U('Shop/Index/goodsBuy')}" method="post">
-                    <input type="hidden" id="goods_id" name="id" value="">
-
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
-
-                        <div class="col-sm-10" style="width: 60%">
-                            <input id="name" name="name" type="text" class="form-control"
-                                   value="{$shop_address['name']}"
-                                   placeholder="姓名"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
-
-                        <div class="col-sm-10" style="width: 60%">
-                            <textarea id="address" name="address" class="form-control" placeholder="收货地址"
-                                      style="max-width: 310px">{$shop_address['address']}</textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
-
-                        <div class="col-sm-10" style="width: 60%">
-                            <input id="zipcode" name="zipcode" type="text" class="form-control"
-                                   value="{$shop_address['zipcode']}" placeholder="邮编"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
-
-                        <div class="col-sm-10" style="width: 60%">
-                            <input id="phone" name="phone" type="text" class="form-control"
-                                   value="{$shop_address['phone']}"
-                                   placeholder="手机号码"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary ">提交</button>
-                        </div>
-                    </div>
-                </form>
+            <div class="details">
+                <h3>商品详情</h3>
+                {$content.goods_detail}
             </div>
+            <div style="padding: 5px 20px 50px 20px;">
+                {:hook('localComment', array('path'=>"Shop/index/$content[id]", 'uid'=>$content['uid']))}
+            </div>
+        </div>
+        <div class="col-md-3 fl_left">
+            <if condition="is_login() neq 0">
+                <div class="row pad_15">
+                    <h2 style="font-size: 16px;">最近浏览</h2>
 
+                    <div class="goods_same_category clearfix">
+                        <ul>
+                            <volist name="goods_see_list" id="vo">
+                                <li class="items clearfix">
+                                    <dl>
+                                        <dt><a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><img
+                                                class="img-responsive"
+                                                src="{$vo.goods_ico|getThumbImageById=135,100}"></a></dt>
+                                        <dd>
+                                            <h3 class="text-more"><font
+                                                    title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
+                                            </h3>
 
+                                            <div class="money"><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font>
+                                            </div>
+                                            <php>
+                                                $class='';
+                                                if(is_login()){
+                                                if($my_tox_money>=$vo['tox_money_need']){
+                                                $class='open-popup-link';
+                                                }else{
+                                                $class='money_not_enough ';
+                                                }
+                                                }
+                                            </php>
+                                            <div><a href="#frm-post-popup"
+                                                    class="{$class} btn exchange_goods btn-primary"
+                                                    goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
+                                        </dd>
+                                    </dl>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+                    <if condition="count($goods_see_list) eq 0">
+                        <div style="font-size: 16px;padding:2em 0;color: #ccc;text-align: center">
+                            你还没有浏览过其他商品哦。O(∩_∩)O~
+                        </div>
+                    </if>
+                </div>
+            </if>
+            <div class="row pad_15">
+                <h2 style="font-size: 16px;">同类对比</h2>
+
+                <div class="goods_same_category clearfix">
+                    <ul>
+                        <volist name="contents_same_category" id="vo">
+                            <li class="items clearfix">
+                                <dl>
+                                    <dt><a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}"><img
+                                            class="img-responsive"
+                                            src="{$vo.goods_ico|getThumbImageById=135,100}"></a></dt>
+                                    <dd>
+                                        <h3 class="text-more"><font
+                                                title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
+                                        </h3>
+
+                                        <div class="money"><font title="所需{$tox_money_name}"><i class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font>
+                                        </div>
+                                        <php>
+                                            $class='';
+                                            if(is_login()){
+                                            if($my_tox_money>=$vo['tox_money_need']){
+                                            $class='open-popup-link';
+                                            }else{
+                                            $class='money_not_enough ';
+                                            }
+                                            }
+                                        </php>
+                                        <div><a href="#frm-post-popup" class="{$class} btn exchange_goods btn-primary"
+                                                goods_id="{$vo['id']}">&nbsp;兑&nbsp;换&nbsp;</a></div>
+                                    </dd>
+                                </dl>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <if condition="count($contents_same_category) eq 0">
+                    <div style="font-size: 16px;padding:2em 0;color: #ccc;text-align: center">
+                        该商品没有同类商品哦。O(∩_∩)O~
+                    </div>
+                </if>
+            </div>
         </div>
     </div>
-    <!-- /.modal -->
+</div>
+<if condition="is_login()">
+<!-- Modal -->
+<div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
+    <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
+
+    <div class="aline" style="margin-bottom: 10px"></div>
+    <div class="row">
+        <form class="form-horizontal  ajax-form" role="form" action="{:U('Shop/Index/goodsBuy')}" method="post">
+            <input type="hidden" id="goods_id" name="id" value="">
+            <input type="hidden" name="address_id" value="{$shop_address['id']}">
+
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
+
+                <div class="col-sm-10" style="width: 60%">
+                    <input id="name" name="name" type="text" class="form-control"
+                           value="{$shop_address['name']}"
+                           placeholder="姓名"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
+
+                <div class="col-sm-10" style="width: 60%">
+                    <textarea id="address" name="address" class="form-control" placeholder="收货地址"
+                              style="max-width: 310px">{$shop_address['address']}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
+
+                <div class="col-sm-10" style="width: 60%">
+                    <input id="zipcode" name="zipcode" type="text" class="form-control"
+                           value="{$shop_address['zipcode']}" placeholder="邮编"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
+
+                <div class="col-sm-10" style="width: 60%">
+                    <input id="phone" name="phone" type="text" class="form-control"
+                           value="{$shop_address['phone']}"
+                           placeholder="手机号码"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary ">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+<!-- /.modal -->
+</if>
+</div>
+<input type="hidden" id="tox_money_name" value="{$tox_money_name}"/>
 </block>
 
 <block name="script">
@@ -240,8 +287,9 @@
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
+        var tox_money_name=$('#tox_money_name').val().trim();
         $(function () {
-            $('.open-popup-link').click(function () {
+            $('.exchange_goods').click(function () {
                 if (MID == 0) {
                     op_info('登录后才能兑换商品！', '提示消息');
                     return false;
@@ -250,6 +298,10 @@
                 $('#goods_id').val(goods_id);
             });
             if (MID != 0) {
+                $('.money_not_enough').click(function(){
+                    op_info('你的'+tox_money_name+'不足！', '提示消息');
+                    return false;
+                });
                 $('.open-popup-link').magnificPopup({
                     type: 'inline',
                     midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.

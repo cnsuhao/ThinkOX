@@ -27,22 +27,26 @@
                             <a href="{:U('index')}">商城首页</a>
                         </li>
                         <li>
-                            <a href="{:U('goods')}" <eq name="top_category" value="">class="current"</eq>>所有分类</a>
+                            <a href="{:U('goods')}"
+                            <eq name="top_category" value="">class="current"</eq>
+                            >所有分类</a>
                         </li>
                         <volist name="tree" id="top">
                             <if condition="$top['status'] eq 1">
                                 <if condition="$top['_'] eq null">
-                                    <li><a href="{:U('goods',array('category_id'=>$top['id']))}" <eq name="top_category" value="$top['id']">class="current"</eq>
+                                    <li><a href="{:U('goods',array('category_id'=>$top['id']))}"
+                                        <eq name="top_category" value="$top['id']">class="current"</eq>
                                         >{$top.title}</a>
                                     </li>
                                     <else/>
                                     <li class="dropdown">
-                                        <a href="#" data-toggle="dropdown" <eq name="top_category" value="$top['id']">class="current dropdown-toggle"
-                                        <else/>
-                                        class="dropdown-toggle"
-                                    </eq>
+                                        <a href="#" data-toggle="dropdown"
+                                        <eq name="top_category" value="$top['id']">class="current dropdown-toggle"
+                                            <else/>
+                                            class="dropdown-toggle"
+                                        </eq>
                                         data-toggle="dropdown">{$top.title}<b
-                                                class="caret"></b></a>
+                                            class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
                                             <volist name="top['_']" id="child_category">
@@ -59,7 +63,8 @@
                     <div class="fl_right">
                         <a onclick="if(MID==0){op_info('没有登录，请先登录！','提示信息');return false;}" href="{:U('myGoods')}"
                            class="btn btn_primary "><i class="ico_to_cart"></i>&nbsp;我的订单</a>
-                        <if condition="is_login() neq 0"><label class="money_show"><i class="ico_to_money"></i>&nbsp;{$my_tox_money}</label>
+                        <if condition="is_login() neq 0"><label class="money_show"><font title="我的{$tox_money_name}"><i
+                                class="ico_to_money"></i>&nbsp;{$my_tox_money}</font></label>
                         </if>
                     </div>
                 </div>
@@ -88,7 +93,7 @@
                                 <dl>
                                     <dt>
                                         <a href="{:U('Shop/Index/goodsDetail',array('id'=>$vo['id']))}">
-                                            <img src="{$vo.goods_ico|getThumbImageById=222,150}">
+                                            <img class="img-responsive" src="{$vo.goods_ico|getThumbImageById=222,150}">
                                         </a>
                                     </dt>
                                     <dd>
@@ -99,13 +104,24 @@
                                                 <font title="{$vo.goods_name|op_t}">{$vo.goods_name}</font>
                                             </a>
                                         </div>
-                                        <div class="right" style="color: #d61f39;">￥{$vo.tox_money_need}</div>
+                                        <div class="right" style="color: #d61f39;"><a><font title="所需{$tox_money_name}"><i
+                                                class="ico_to_money"></i>&nbsp;{$vo.tox_money_need}</font></a></div>
                                         <div class="clearfix"></div>
                                     </dd>
                                     <dd class="color_84  font_s_14">
                                         <div class="left">库存：{$vo.goods_num}</div>
+                                        <php>
+                                            $class='';
+                                            if(is_login()){
+                                            if($my_tox_money>=$vo['tox_money_need']){
+                                            $class='open-popup-link';
+                                            }else{
+                                            $class='money_not_enough ';
+                                            }
+                                            }
+                                        </php>
                                         <div class="right">
-                                            <a href="#frm-post-popup" class="open-popup-link btn"
+                                            <a href="#frm-post-popup" class="{$class} btn exchange_goods"
                                                style="border: 1px solid #E0DBDB"
                                                goods_id="{$vo['id']}">兑&nbsp;&nbsp;换</a>
                                         </div>
@@ -125,62 +141,66 @@
                 {:getPagination($totalPageCount,16)}
             </div>
         </div>
-        <!-- Modal -->
-        <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
-            <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
+        <if condition="is_login()">
+            <!-- Modal -->
+            <div id="frm-post-popup" class="white-popup mfp-hide" style="max-width: 500px;">
+                <h2>收货信息填写<span style="font-size: 12px;color: #BEBEBE;">(为了确保您能收到商品，请正确填写收货信息)</span></h2>
 
-            <div class="aline" style="margin-bottom: 10px"></div>
-            <div class="row">
-                <form class="form-horizontal  ajax-form" role="form" action="{:U('Shop/Index/goodsBuy')}" method="post">
-                    <input type="hidden" id="goods_id" name="id" value="">
+                <div class="aline" style="margin-bottom: 10px"></div>
+                <div class="row">
+                    <form class="form-horizontal  ajax-form" role="form" action="{:U('Shop/Index/goodsBuy')}"
+                          method="post">
+                        <input type="hidden" id="goods_id" name="id" value="">
+                        <input type="hidden" name="address_id" value="{$shop_address['id']}">
 
-                    <div class="form-group">
-                        <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label" style="width: 20%">姓名</label>
 
-                        <div class="col-sm-10" style="width: 60%">
-                            <input id="name" name="name" type="text" class="form-control"
-                                   value="{$shop_address['name']}"
-                                   placeholder="姓名"/>
+                            <div class="col-sm-10" style="width: 60%">
+                                <input id="name" name="name" type="text" class="form-control"
+                                       value="{$shop_address['name']}"
+                                       placeholder="姓名"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label" style="width: 20%">收货地址</label>
 
-                        <div class="col-sm-10" style="width: 60%">
-                            <textarea id="address" name="address" class="form-control" placeholder="收货地址"
-                                      style="max-width: 310px">{$shop_address['address']}</textarea>
+                            <div class="col-sm-10" style="width: 60%">
+                                <textarea id="address" name="address" class="form-control" placeholder="收货地址"
+                                          style="max-width: 310px">{$shop_address['address']}</textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
+                        <div class="form-group">
+                            <label for="zipcode" class="col-sm-2 control-label" style="width: 20%">邮编</label>
 
-                        <div class="col-sm-10" style="width: 60%">
-                            <input id="zipcode" name="zipcode" type="text" class="form-control"
-                                   value="{$shop_address['zipcode']}" placeholder="邮编"/>
+                            <div class="col-sm-10" style="width: 60%">
+                                <input id="zipcode" name="zipcode" type="text" class="form-control"
+                                       value="{$shop_address['zipcode']}" placeholder="邮编"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-2 control-label" style="width: 20%">手机号码</label>
 
-                        <div class="col-sm-10" style="width: 60%">
-                            <input id="phone" name="phone" type="text" class="form-control"
-                                   value="{$shop_address['phone']}"
-                                   placeholder="手机号码"/>
+                            <div class="col-sm-10" style="width: 60%">
+                                <input id="phone" name="phone" type="text" class="form-control"
+                                       value="{$shop_address['phone']}"
+                                       placeholder="手机号码"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary ">提交</button>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary ">提交</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+
+
             </div>
-
-
-        </div>
-        <!-- /.modal -->
-
+            <!-- /.modal -->
+        </if>
     </div>
+    <input type="hidden" id="tox_money_name" value="{$tox_money_name}"/>
 </block>
 
 <block name="script">
@@ -188,8 +208,9 @@
     <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
     <script type="text/javascript" src="__PUBLIC__/Core/js/ext/magnific/jquery.magnific-popup.min.js"></script>
     <script>
+        var tox_money_name = $('#tox_money_name').val().trim();
         $(function () {
-            $('.open-popup-link').click(function () {
+            $('.exchange_goods').click(function () {
                 if (MID == 0) {
                     op_info('登录后才能兑换商品！', '提示消息');
                     return false;
@@ -198,6 +219,10 @@
                 $('#goods_id').val(goods_id);
             });
             if (MID != 0) {
+                $('.money_not_enough').click(function () {
+                    op_info('你的' + tox_money_name + '不足！', '提示消息');
+                    return false;
+                });
                 $('.open-popup-link').magnificPopup({
                     type: 'inline',
                     midClick: true, // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.

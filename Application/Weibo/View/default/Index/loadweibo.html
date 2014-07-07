@@ -46,7 +46,7 @@
                             <ul class="nav text-center mark_aw">
                                 <!--  <li><a>收藏</a></li>-->
                                 <if condition="$weibo['can_delete']">
-                                    <li class="text-primary weibo-comment-del cpointer" data-weibo-id="{$weibo.id}"><a>删除</a>
+                                    <li class=" weibo-comment-del cpointer" data-weibo-id="{$weibo.id}"><a>删除</a>
                                     </li>
                                 </if>
                             </ul>
@@ -89,7 +89,7 @@
 
                         </div>
                         <div class="col-md-8">
-                                  <span class="pull-right text-primary" data-weibo-id="{$weibo.id}">
+                                  <span class="pull-right" data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>

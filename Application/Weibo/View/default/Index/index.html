@@ -83,12 +83,11 @@
                     </div>
                 </div>
 
-                <p style="margin-left:16px;margin-top:8px;color: #03ae87">
-                    积分：{$self.score}&nbsp;&nbsp;<a href="{:U('Shop/Index/index')}"><img
-                        src="__PUBLIC__/Core/images/duihuan.png"/></a>
+                <p class="btn_exchange text-primary" style="margin-left:16px;margin-top:8px; ">
+                    {$tox_money_name}：{$tox_money}&nbsp;&nbsp;<a href="{:U('Shop/Index/index')}" class="btn btn-primary" title="{$tox_money_name}兑换">兑换商品</a>
                 </p>
 
-                <p style="margin-left:16px;color: #03ae87">等级：{$self.title}</p>
+                <p class="text-primary" style="margin-left:16px;">等级：{$self.title}</p>
 
 
             </div>

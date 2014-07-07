@@ -103,7 +103,7 @@ class ForumController extends AdminController
         $builder = new AdminConfigBuilder();
         $builder
             ->title($isEdit ? '编辑贴吧' : '新增贴吧')
-            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()->keySingleImage('logo', '板块图标', '用于显示的图标')
+            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()->keySingleImage('logo', '板块封面', '用于显示的封面755px*130px')
             ->data($forum)
             ->buttonSubmit(U('doEditForum'))->buttonBack()
             ->display();
