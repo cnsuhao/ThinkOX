@@ -90,6 +90,10 @@ class ShopController extends AdminController
                 $category = $this->shop_categoryModel->find($id);
             } else {
                 $category = array('pid' => $pid, 'status' => 1);
+                $father_category_pid=$this->shop_categoryModel->where(array('id'=>$pid))->getField('pid');
+                if($father_category_pid!=0){
+                    $this->error('分类不能超过三级！');
+                }
             }
 
 
@@ -127,7 +131,7 @@ class ShopController extends AdminController
     public function operate($type = 'move', $from = 0)
     {
         $builder = new AdminConfigBuilder();
-        $from = D('Issue')->find($from);
+        $from = $this->shop_categoryModel->find($from);
 
         $opt = array();
         $categorys = $this->shop_categoryModel->select();
