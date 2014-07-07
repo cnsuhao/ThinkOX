@@ -255,6 +255,8 @@
 }
 .post_content .main_content {
   min-height: 250px;
+  word-break: break-all;
+  overflow: hidden;
 }
 /*帖子详情页*/
 /*帖子列表*/
