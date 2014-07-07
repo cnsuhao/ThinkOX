@@ -12,7 +12,7 @@
                 <form action="{:U('Forum/Index/doReplyEdit')}" method="post" id="edit-article-form">
                     <input type="hidden" name="reply_id" value="{$reply.id}"/>
                     <p>
-                        {:W('UeditorMini/editor',array('myeditor','content',$reply['content'],'100%','250px',$config))}
+                        {:W('UeditorMini/editor',array('contentEditor','content',$reply['content'],'100%','250px',$config))}
                     </p>
                     <p>&nbsp;</p>
                     <p class="pull-right">
@@ -33,6 +33,7 @@
     <script>
         //点击编辑或发表按钮之后
         $(function(){
+            var $inputor = $('#contentEditor').atwho(atwho_config);
             var submitCount = 0;
             $('#edit-article-form').submit(function(e){
                 //为了得到编辑器中的内容，触发两次提交事件

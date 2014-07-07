@@ -205,6 +205,7 @@ class IndexController extends Controller
             $this->error('参数出错！');
         }
 
+        $this->setTitle('编辑回复 —— 贴吧');
         //显示页面
         $this->assign('reply', $reply);
         $this->display();
@@ -341,7 +342,7 @@ class IndexController extends Controller
                 $this->error('回复失败：' . $model->getError());
             }
             //显示成功消息
-            $this->success('回复成功。' . getScoreTip($before, $after), 'refresh') . getToxMoneyTip($tox_money_before, $tox_money_after);
+            $this->success('回复成功。' . getScoreTip($before, $after). getToxMoneyTip($tox_money_before, $tox_money_after), 'refresh') ;
         } else {
             $this->error('请10秒之后再回复');
 
