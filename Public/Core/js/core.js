@@ -918,9 +918,10 @@ function weiboShare() {
 
 
 /*导航栏*/
-var topMain = $("#top_bar").height() + $('#logo_bar').height();//是头部的高度加头部与nav导航之间的距离
+
 $(function () {
     var nav = $("#nav_bar");
+    var topMain = $("#top_bar").height() + $('#logo_bar').height();//是头部的高度加头部与nav导航之间的距离
     $(window).scroll(function () {
         var top = $(document).scrollTop();
         if (top > topMain) {
@@ -929,7 +930,7 @@ $(function () {
             nav.removeClass("nav_scroll");
         }
     });
-})
+});
 //FIXME tox 修正短页面滚至底部弹回
 /*导航栏end*/
 
