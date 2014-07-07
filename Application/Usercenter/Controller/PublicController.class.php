@@ -87,6 +87,12 @@ class PublicController extends Controller
         $new_talk_messages = D('TalkMessagePush')->getAllPush(); //会话消息推送
         D('TalkMessagePush')->where(array('uid' => get_uid(), 'status' => 0))->setField('status', 1); //读取到推送之后，自动删除此推送来防止反复推送。
 
+        foreach($new_talk_messages as &$message){
+            $message=D('TalkMessage')->find($message['source_id']);
+            $message['user'] = query_user(array('avatar64', 'uid', 'username'), $message['uid']);
+            $message['ctime'] = date('m-d h:i', $message['create_time']);
+            $message['avatar64'] = $message['user']['avatar64'];
+        }
         exit(json_encode(array('messages' => $haventToastMessages, 'new_talk_messages' => $new_talk_messages, 'new_talks' => $new_talks)));
     }
 

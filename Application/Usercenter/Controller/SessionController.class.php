@@ -35,8 +35,8 @@ class SessionController extends BaseController
             }
         }
         $map['talk_id'] = $talk['id'];
-        D('TalkPush')->where(array('uid'=>get_uid(),'source_id'=>$talk['id']))->setField('status',-1);
-        D('TalkMessagePush')->where(array('uid'=>get_uid(),'talk_id'=>$talk['id']))->setField('status',-1);
+        D('TalkPush')->where(array('uid'=>get_uid(),'source_id'=>$id))->setField('status',-1);
+        D('TalkMessagePush')->where(array('uid'=>get_uid(),'talk_id'=>$id))->setField('status',-1);
         $messages = D('TalkMessage')->where($map)->order('create_time desc')->limit(20)->select();
         $messages = array_reverse($messages);
         foreach ($messages as &$mes) {

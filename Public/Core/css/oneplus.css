@@ -1371,4 +1371,11 @@ a:hover {
   line-height: 30px;
 }
 /*登录页面end*/
+/*注册页面*/
+@media (min-width: 1200px) {
+  .register .rg_go div {
+    margin-right: -17px;
+  }
+}
+/*注册页面end*/
 /*新版界面end*/
