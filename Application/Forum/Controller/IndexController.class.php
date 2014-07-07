@@ -36,19 +36,12 @@ class IndexController extends Controller
             $e['allow_publish'] = $this->isForumAllowPublish($e['id']);
         }
         unset($e);
-        $myInfo = query_user(array('avatar128','avatar64', 'nickname', 'uid', 'space_url', 'icons_html'), is_login());
+        $myInfo = query_user(array('avatar128', 'avatar64', 'nickname', 'uid', 'space_url', 'icons_html'), is_login());
         $this->assign('myInfo', $myInfo);
         //赋予贴吧列表
         $this->assign('forum_list', $forum_list);
 
-        $count = S('forum_count');
-        if (empty($count)) {
-            $count['forum'] = D('Forum')->where(array('status' => 1))->count();
-            $count['post'] = D('ForumPost')->where(array('status' => 1))->count();
-            $count['all'] = $count['post'] + D('ForumPostReply')->where(array('status' => 1))->count() + D('ForumLzlReply')->where(array('status' => 1))->count();
-            S('forum_count', $count, 60);
-        }
-        $this->assign('count', $count);
+
     }
 
     public function index($page = 1)
@@ -64,47 +57,66 @@ class IndexController extends Controller
      */
     public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
     {
+        $id=intval($id);
+
+        $count = S('forum_count_'.$id);
+        if (empty($count)) {
+            if($id!=0){
+                $map['id']=$id;
+            }
+
+            $map['status']=1;
+            $count['forum'] = D('Forum')->where($map)->count();
+            $count['post'] = D('ForumPost')->where($map)->count();
+            $count['all'] = $count['post'] + D('ForumPostReply')->where($map)->count() + D('ForumLzlReply')->where( $map)->count();
+            S('forum_count_'.$id, $count, 60);
+        }
+        $this->assign('count', $count);
+        $id=intval($id);
         if ($order == 'ctime') {
             $order = 'create_time desc';
         } else if ($order == 'reply') {
             $order = 'last_reply_time desc';
         }
         $this->requireForumAllowView($id);
-        $forums =$this->getForumList();
-        $forum_key_value=array();
-        foreach($forums as $f){
-            $forum_key_value[$f['id']]=$f;
+        $forums = $this->getForumList();
+        $forum_key_value = array();
+        foreach ($forums as $f) {
+            $forum_key_value[$f['id']] = $f;
         }
 
 
         //读取帖子列表
         if ($id == 0) {
             $map = array('status' => 1);
-            $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL . '')->order($order)->select();
+            $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL )->order($order)->select();
         } else {
             $map = array('forum_id' => $id, 'status' => 1);
             $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
         }
 
-        foreach($list_top as &$v){
-            $v['forum']=$forum_key_value[$v['forum_id']];
+        foreach ($list_top as &$v) {
+            $v['forum'] = $forum_key_value[$v['forum_id']];
         }
         unset($v);
         $list = D('ForumPost')->where($map)->order($order)->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($map)->count();
-        foreach($list as &$v){
-            $v['forum']=$forum_key_value[$v['forum_id']];
+        foreach ($list as &$v) {
+            $v['forum'] = $forum_key_value[$v['forum_id']];
         }
         unset($v);
         //读取置顶列表
 
         //显示页面
         $this->assign('forum_id', $id);
-        if($id!=0){
-            $forum=$forum_key_value[$id];
+
+        if ($id != 0) {
+            $forum = $forum_key_value[$id];
             $this->setTitle($forum['title']);
-        }else{
+            $this->assign('forum', $forum);
+        } else {
             $this->setTitle('贴吧');
+            $this->assign('forum', array('title' => '贴吧 Forum'));
         }
 
 
@@ -133,7 +145,7 @@ class IndexController extends Controller
         //读取帖子内容
         $post = D('ForumPost')->where(array('id' => $id, 'status' => 1))->find();
 
-        $post['forum']=D('Forum')->find($post['forum_id']);
+        $post['forum'] = D('Forum')->find($post['forum_id']);
         if (!$post) {
             $this->error('找不到该帖子');
         }
@@ -164,7 +176,7 @@ class IndexController extends Controller
         $this->assignAllowPublish();
         $this->assign('isBookmark', $isBookmark);
         $this->assign('post', $post);
-        $this->setTitle(op_t($post['title']).' —— 贴吧');
+        $this->setTitle(op_t($post['title']) . ' —— 贴吧');
 
         $this->assign('limit', $limit);
         $this->assign('sr', $sr);
@@ -294,7 +306,7 @@ class IndexController extends Controller
         $weiboApi = new WeiboApi();
         $weiboApi->resetLastSendTime();
         if ($isEdit) {
-            $weiboApi->sendWeibo("我修改了帖子【" . $title . "】：" . $postUrl);
+            $weiboApi->sendWeibo("我更新了帖子【" . $title . "】：" . $postUrl);
         } else {
             $weiboApi->sendWeibo("我发表了一个新的帖子【" . $title . "】：" . $postUrl);
         }
@@ -496,15 +508,15 @@ class IndexController extends Controller
 
         $list = D('ForumPost')->where($where)->order('last_reply_time desc')->page($page, 10)->select();
         $totalCount = D('ForumPost')->where($where)->count();
-        $forums =$this->getForumList();
-        $forum_key_value=array();
-        foreach($forums as $f){
-            $forum_key_value[$f['id']]=$f;
+        $forums = $this->getForumList();
+        $forum_key_value = array();
+        foreach ($forums as $f) {
+            $forum_key_value[$f['id']] = $f;
         }
         foreach ($list as &$post) {
             $post['colored_title'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['title']))));
             $post['colored_content'] = str_replace('"', '', str_replace($_REQUEST['keywords'], '<span style="color:red">' . $_REQUEST['keywords'] . '</span>', op_t(strip_tags($post['content']))));
-            $post['forum']=$forum_key_value[$post['forum_id']];
+            $post['forum'] = $forum_key_value[$post['forum_id']];
         }
         unset($post);
 
