@@ -97,7 +97,7 @@ class ConfigController extends BaseController
         }
         $match = preg_match('/^(?!_|\s\')[A-Za-z0-9_\x80-\xff\s\']+$/', $nickname);
         if (!$match) {
-            $this->error('昵称只允许中文、字母和数字。');
+            $this->error('昵称只允许中文、字母、下划线和数字。');
         }
 
         $map_nickname['nickname'] = $nickname;

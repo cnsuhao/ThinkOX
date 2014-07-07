@@ -9,6 +9,7 @@
 namespace User\Model;
 
 use Think\Model;
+use Home\Model\MemberModel;
 
 require_once(APP_PATH . 'User/Conf/config.php');
 require_once(APP_PATH . 'User/Common/common.php');
@@ -89,13 +90,14 @@ class UcenterMemberModel extends Model
         if (strpos($username, ' ') !== false) {
             return false;
         }
-        preg_match("/^[a-zA-Z0-9_]{1,30}$/",$username,$result);
+        preg_match("/^[a-zA-Z0-9_]{1,30}$/", $username, $result);
 
-if(!$result ){
-    return false;
-}
+        if (!$result) {
+            return false;
+        }
         return true;
     }
+
 
     /**
      * 检测手机是不是被禁止注册
@@ -119,12 +121,13 @@ if(!$result ){
     /**
      * 注册一个新用户
      * @param  string $username 用户名
+     * @param  string $nickname 昵称
      * @param  string $password 用户密码
      * @param  string $email 用户邮箱
      * @param  string $mobile 用户手机号码
      * @return integer          注册成功-用户信息，注册失败-错误编号
      */
-    public function register($username, $password, $email, $mobile)
+    public function register($username, $nickname, $password, $email, $mobile)
     {
         $data = array(
             'username' => $username,
@@ -137,9 +140,16 @@ if(!$result ){
         if (empty($data['mobile'])) unset($data['mobile']);
 
         /* 添加用户 */
-        if ($this->create($data)) {
-            $uid = $this->add();
-            return $uid ? $uid : 0; //0-未知错误，大于0-注册成功
+        $usercenter_member=$this->create($data);
+        if ($usercenter_member) {
+            $result=D('Home/Member')->registerMember($nickname);
+            if($result>0){
+                $usercenter_member['id']=$result;
+                $uid = $this->add($usercenter_member);
+                return $uid ? $uid : 0; //0-未知错误，大于0-注册成功
+            }else{
+                return $result;
+            }
         } else {
             return $this->getError(); //错误详情见自动验证注释
         }
@@ -387,7 +397,7 @@ if(!$result ){
     public function addSyncData()
     {
 
-        $data['username'] =$this->rand_username();
+        $data['username'] = $this->rand_username();
         $data['email'] = $this->rand_email();
         $data1 = $this->create($data);
         $uid = $this->add($data1);
@@ -406,13 +416,14 @@ if(!$result ){
 
     public function rand_username()
     {
-        $username= $this->create_rand(10);
+        $username = $this->create_rand(10);
         if ($this->where(array('username' => $username))->select()) {
             $this->rand_username();
         } else {
             return $username;
         }
     }
+
     function create_rand($length = 8)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

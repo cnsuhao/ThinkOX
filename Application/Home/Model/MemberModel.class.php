@@ -12,6 +12,7 @@ namespace Home\Model;
 use Think\Model;
 use User\Api\UserApi;
 
+
 /**
  * 文档基础模型
  */
@@ -30,7 +31,53 @@ class MemberModel extends Model
 
     protected $_validate = array(
         array('signature', '0,100', -1, self::EXISTS_VALIDATE, 'length'),
+
+
+        /* 验证昵称 */
+        array('nickname', '1,30', -1, self::EXISTS_VALIDATE, 'length'), //昵称长度不合法
+        array('nickname', 'checkDenyNickname', -31, self::EXISTS_VALIDATE, 'callback'), //昵称禁止注册
+        array('nickname', 'checkNickname', -32, self::EXISTS_VALIDATE, 'callback'),
+        array('nickname', '', -30, self::EXISTS_VALIDATE, 'unique'), //昵称被占用
+
     );
+
+    /**
+     * 检测用户名是不是被禁止注册
+     * @param  string $nickname 昵称
+     * @return boolean          ture - 未禁用，false - 禁止注册
+     */
+    protected function checkDenyNickname($nickname)
+    {
+        return true; //TODO: 暂不限制，下一个版本完善
+    }
+
+    protected function checkNickname($nickname)
+    {
+        //如果用户名中有空格，不允许注册
+        if (strpos($nickname, ' ') !== false) {
+            return false;
+        }
+        preg_match('/^(?!_|\s\')[A-Za-z0-9_\x80-\xff\s\']+$/', $nickname, $result);
+
+        if (!$result) {
+            return false;
+        }
+        return true;
+    }
+
+    public function registerMember($nickname=''){
+        /* 在当前应用中注册用户 */
+        if($user = $this->create(array('nickname' => $nickname, 'status' => 1))){
+            $uid=$this->add($user);
+            if (!$uid) {
+                $this->error = '前台用户信息注册失败，请重试！';
+                return false;
+            }
+        }else{
+            return $this->getError(); //错误详情见自动验证注释
+        }
+        return $uid;
+    }
 
     /**
      * 登录指定用户
@@ -41,17 +88,7 @@ class MemberModel extends Model
     {
         /* 检测是否在当前应用注册 */
         $user = $this->field(true)->find($uid);
-        if (!$user) { //未注册
-            /* 在当前应用中注册用户 */
-            $Api = new UserApi();
-            $info = $Api->info($uid);
-            $user = $this->create(array('nickname' => $info[1], 'status' => 1));
-            $user['uid'] = $uid;
-            if (!$this->add($user)) {
-                $this->error = '前台用户信息注册失败，请重试！';
-                return false;
-            }
-        } elseif (1 != $user['status']) {
+        if (1 != $user['status']) {
             $this->error = '用户未激活或已禁用！'; //应用级别禁用
             return false;
         }

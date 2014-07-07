@@ -27,9 +27,9 @@ class UserController extends HomeController
     }
 
     /* 注册页面 */
-    public function register($username = '', $password = '', $repassword = '', $email = '', $verify = '')
+    public function register($username = '',$nickname='', $password = '', $email = '', $verify = '', $type = 'start')
     {
-
+        $type = op_t($type);
         if (!C('USER_ALLOW_REGISTER')) {
             $this->error('注册已关闭');
         }
@@ -40,32 +40,54 @@ class UserController extends HomeController
                     $this->error('验证码输入错误。');
                 }
             }
-            /* 检测密码 */
-            if ($password != $repassword) {
-                $this->error('密码和重复密码不一致！');
-            }
 
             /* 调用注册接口注册用户 */
             $User = new UserApi;
-            $uid = $User->register($username, $password, $email);
+            $uid = $User->register($username,$nickname, $password, $email);
             if (0 < $uid) { //注册成功
                 $uid = $User->login($username, $password);
-                D('Member')->login($uid,false);
-                $this->success('成功注册！', U('Weibo/Index/index'));
+                D('Member')->login($uid, false);
+                $this->success('', U('Home/User/step2'));
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));
             }
-
         } else { //显示注册表单
             if (is_login()) {
                 redirect(U('Weibo/Index/index'));
             }
+            $this->assign('type', $type);
             $this->display();
         }
     }
 
+    /* 注册页面step2 */
+    public function step2($type = 'upload')
+    {
+        $type = op_t($type); //显示上传头像页面
+        $this->assign('type', $type);
+        $this->display('register');
+    }
+
+    public function doCropAvatar($crop)
+    {
+        //调用上传头像接口改变用户的头像
+        $result = callApi('User/applyAvatar', array($crop));
+        $this->ensureApiSuccess($result);
+
+        //显示成功消息
+        $this->success($result['message'], U('Home/User/step3'));
+    }
+
+    /* 注册页面step3 */
+    public function step3($type = 'finish')
+    {
+        $type = op_t($type);
+        $this->assign('type', $type);
+        $this->display('register');
+    }
+
     /* 登录页面 */
-    public function login($username = '', $password = '', $verify = '',$remember='')
+    public function login($username = '', $password = '', $verify = '', $remember = '')
     {
         if (IS_POST) { //登录验证
             /* 检测验证码 */
@@ -81,7 +103,7 @@ class UserController extends HomeController
             if (0 < $uid) { //UC登录成功
                 /* 登录用户 */
                 $Member = D('Member');
-                if ($Member->login($uid,$remember=='on')) { //登录用户
+                if ($Member->login($uid, $remember == 'on')) { //登录用户
                     //TODO:跳转到登录前页面
                     $this->success('登录成功！', U('Home/Index/index'));
                 } else {
@@ -278,6 +300,15 @@ class UserController extends HomeController
             case -20:
                 $error = '用户名只能由数字、字母和"_"组成！';
                 break;
+            case -30:
+                $error = '昵称被占用！';
+                break;
+            case -31:
+                $error = '昵称被禁止注册！';
+                break;
+            case -32:
+                $error = '昵称只能由数字、字母、汉字和"_"组成！';
+                break;
             default:
                 $error = '未知错误24';
         }
@@ -319,8 +350,6 @@ class UserController extends HomeController
             $this->display();
         }
     }
-
-
 
 
 }
