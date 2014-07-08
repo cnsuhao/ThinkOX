@@ -3,9 +3,10 @@
 
 <block name="body">
     <section>
-        <div class="login-text"><strong><h1>{:C('WEB_SITE')}密码重置</h1></strong></div>
 
-        <div class="login-form-inbox">
+        <div class="login-form-inbox common_block_border">
+            <div class="login-text"><strong><h1>{:C('WEB_SITE')}密码重置</h1></strong></div>
+
             <form class="login-form" id="J_findpwd_form" action="{:U('User/doReset')}" method="post">
                 <input type="hidden" id="inputname" class="form-control" placeholder="UID"
                        errormsg="UID" nullmsg="UID" datatype="*1-5" name="uid" value="{$_REQUEST.uid|intval}">
@@ -43,11 +44,11 @@
                 </if>
                 <div class="control-group">
                     <div class="controls">
-                        <label class="checkbox" style="float: left">
+                      <!--  <label class="checkbox" style="float: left">
                             <input type="checkbox" style="cursor:pointer"> 安全找回
-                        </label>
+                        </label>-->
                         <button type="submit" class="btn btn-primary" style="float: right">重 置</button>
-                        <a href="{:U('User/login')}">再去登录</a>
+                        <a href="{:U('User/login')}">再去登录</a>&nbsp;&nbsp;|&nbsp;
                         <a href="{:U('User/regjihuo')}">没有收到邮件？</a>
                     </div>
                 </div>

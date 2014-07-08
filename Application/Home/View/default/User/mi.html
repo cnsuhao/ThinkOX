@@ -3,9 +3,10 @@
 
 <block name="body">
     <section>
-        <div class="login-text"><strong><h1>{:C('WEB_SITE')}密码找回</h1></strong></div>
 
-        <div class="login-form-inbox">
+
+        <div class="common_block_border login-form-inbox ">
+            <div class="login-text"><strong><h1>{:C('WEB_SITE')}密码找回</h1></strong></div>
             <form class="login-form" id="J_findpwd_form" action="{:U('user/mi')}" method="post">
                 <div class="control-group login-input">
 
@@ -25,16 +26,14 @@
                                datatype="e" value="" name="email">
                     </div>
                 </div>
-                <if condition="C(VERIFY_OPEN) eq 1">
+                <if condition="C('VERIFY_OPEN') eq 1">
                     <div class="control-group login-input">
                         <div class="controls">
                             <input type="text" id="inputPassword" class="form-control" placeholder="请输入验证码"
                                    errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label"></label>
-
+                    <div class="control-group login-input">
                         <div class="controls">
                             <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
                         </div>

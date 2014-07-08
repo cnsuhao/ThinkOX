@@ -240,7 +240,7 @@ class UserController extends HomeController
             $this->error('密码格式不正确');
         }
         $result = $model->where(array('id' => $uid))->save($data);
-        if (!$result) {
+        if ($result===false) {
             $this->error('数据库写入错误');
         }
 
