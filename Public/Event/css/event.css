@@ -296,7 +296,9 @@ hr {
   filter: alpha(opacity=100);
 }
 .event_btn {
-  padding: 3px 12px;
+  height: 38px;
+  width: 100%;
+  font-size: 18px;
 }
 .event_logo {
   width: 17px;

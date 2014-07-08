@@ -5,19 +5,6 @@
     <nav class="navbar navbar-default app_block event_navbar forum_module container_nav" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-        <div style="float: left">
-            <if condition="is_login() eq 0">
-                <button class="btn btn-primary event_btn event_btn_tog" onclick="op_error('请登陆后再发布。','温馨提示')"><i
-                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                </button>
-                <else/>
-                <a class="btn btn-primary event_btn event_btn_tog" href="{:U('Event/Index/add')}"><i
-                        class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                </a>
-
-            </if>
-
-        </div>
         <button type="button" class="navbar-toggle" data-toggle="collapse"
                 data-target="#bs-example-navbar-collapse-1" style="margin-top: 0px;">
             <span class="sr-only">Toggle navigation</span>
@@ -40,20 +27,7 @@
                     <a href="{:U('myevent')}">我的活动</a>
                 </li>
             </div>
-            <li class="pull-right">
 
-                <if condition="is_login() eq 0">
-                    <button class="btn btn-primary event_btn hidden-xs" onclick="op_error('请登陆后再发布。','温馨提示')"><i
-                            class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                    </button>
-                    <else/>
-                    <a class="btn btn-primary event_btn hidden-xs" href="{:U('Event/Index/add')}"><i
-                            class="glyphicon glyphicon-send"></i>&nbsp;发起活动
-                    </a>
-
-                </if>
-
-            </li>
         </ul>
     </div>
     <!-- /.navbar-collapse -->
