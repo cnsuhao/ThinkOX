@@ -136,7 +136,7 @@ class WeiboApi extends Api
         clean_query_user_cache(is_login(),array('weibocount'));
         //显示成功页面
         $message = '发表微博成功。' . getScoreTip(0, $score_increase).getToxMoneyTip($tox_money_before,$tox_money_after);
-        return $this->apiSuccess($message, array('score_increase' => $score_increase));
+        return $this->apiSuccess($message, array('score_increase' => $score_increase,'weibo_id'=>$weibo_id));
     }
 
     public function sendComment($weibo_id, $content, $comment_id = 0)

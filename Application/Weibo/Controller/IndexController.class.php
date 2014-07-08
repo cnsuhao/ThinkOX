@@ -108,6 +108,11 @@ class IndexController extends Controller
             $weiboId != $sourseId && D('weibo')->where('id=' . $weiboId)->setInc('repost_count');
         }
 
+        $user = query_user(array('nickname'), is_login());
+        $toUid=D('weibo')->where(array('id'=>$weiboId))->getField('uid');
+        D('Common/Message')->sendMessage($toUid,$user['nickname'].'转发了您的微博！','转发提醒', U('Weibo/Index/weiboDetail',array('id'=>$result['weibo_id'])), is_login(), 1);
+
+
         if ($becomment == 'true') {
             $this->weiboApi->sendRepostComment($weiboId, $content);
         }
