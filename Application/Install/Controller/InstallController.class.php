@@ -87,10 +87,10 @@ class InstallController extends Controller{
 
 			session('error') && $this->error('环境检测没有通过，请调整环境后重试！');
 
-			$step = session('step');
+			/*$step = session('step');
 			if($step != 1 && $step != 2){
 				$this->redirect('step1');
-			}
+			}*/
 
 			session('step', 2);
 			$this->display();
