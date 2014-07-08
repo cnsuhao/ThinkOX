@@ -173,12 +173,14 @@
   border-radius: 0.3em;
   font-size: 1em;
   display: inline-block;
-  color: #da203a;
   font-weight: normal;
 }
 .hot_post dt a {
   color: #333;
   font-weight: normal;
+}
+.hot_post dt a:hover {
+  color: #999;
 }
 .forum_forum_name {
   font-size: 1.2em;
