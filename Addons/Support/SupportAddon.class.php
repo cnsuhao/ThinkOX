@@ -20,18 +20,6 @@ class SupportAddon extends Addon
         'version' => '0.1'
     );
 
-    public $admin_list = array(
-        'model' => 'Check_info', //要查的表
-        'fields' => '*', //要查的字段
-        'map' => '', //查询条件, 如果需要可以再插件类的构造方法里动态重置这个属性
-        'order' => 'uid desc', //排序,
-        'listKey' => array( //这里定义的是除了id序号外的表格里字段显示的表头名
-            'uid' => 'UID',
-            'con_num' => '连续签到次数',
-            'total_num' => '总签到次数',
-            'ctime' => '签到时间',
-        ),
-    );
 
     public function install()
     {
