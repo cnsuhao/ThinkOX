@@ -59,7 +59,7 @@ function parse_at_users($content)
         $user = D('Member')->where(array('nickname' => $e))->find();
         if ($user) {
             $query_user = query_user(array('space_url'), $user['uid']);
-            $content = str_replace("@$e ", "<a ucard=\"$user[uid]\" href=\"$query_user[space_url]\">@$e </a>", $content);
+            $content = str_replace("@$e", "<a ucard=\"$user[uid]\" href=\"$query_user[space_url]\">@$e </a>", $content);
         }
     }
 
@@ -70,7 +70,7 @@ function parse_at_users($content)
 function get_at_usernames($content)
 {
     //正则表达式匹配
-    $user_pattern = "/\\@([^\\#|\\s]+)\\s/";
+    $user_pattern = "/\\@([^\\#|\\s|^\\<]+)/";
     preg_match_all($user_pattern, $content, $users);
 
     //返回用户名列表
