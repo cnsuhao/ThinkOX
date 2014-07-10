@@ -1374,3 +1374,9 @@ a:hover {
   min-width: 94px;
   text-align: center;
 }
+.filter_attach {
+  top: 80px !important;
+}
+#nav_bar_container {
+  position: relative;
+}

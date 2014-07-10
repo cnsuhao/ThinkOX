@@ -5,16 +5,21 @@
     <link href="__PUBLIC__/Weibo/css/weibo.css" rel="stylesheet"/>
     <!--  筛选部分-->
 
-   <div class="" style="margin-bottom: 30px;">
-           <select name="cars">
-               <option value="volvo"
-               <eq name="tab" value="all"> class="active"</eq>
-               ><a href="{:U('Weibo/Index/index')}">全站</a></option>
-               <option value="saab"
-               <eq name="tab" value="concerned"> class="active"</eq>
-               ><a href="{:U('Weibo/Index/myconcerned')}">关注</a></option>
-           </select>
-       </div>
+    <div id="weibo_filter" style="position: absolute;bottom: -60px;margin-left: -80px;z-index: 9999">
+        <div class="btn-group forum_order">
+            <button type="button" class="btn btn-default dropdown-toggle boxShadow" data-toggle="dropdown">
+                {$filter_tab} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu text-left" role="menu">
+                <li><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
+                <li><a href="{:U('Weibo/Index/myconcerned')}">我的关注</a></li>
+            </ul>
+        </div>
+    </div>
+<script>
+   $('#nav_bar_container').append( $('#weibo_filter'));
+</script>
+
     <!--筛选部分结束-->
 
     <!--微博内容列表部分-->
@@ -84,7 +89,8 @@
                 </div>
 
                 <p class="btn_exchange text-primary" style="margin-left:16px;margin-top:8px; ">
-                    {$tox_money_name}：{$tox_money}&nbsp;&nbsp;<a href="{:U('Shop/Index/index')}" class="btn btn-primary" title="{$tox_money_name}兑换">兑换商品</a>
+                    {$tox_money_name}：{$tox_money}&nbsp;&nbsp;<a href="{:U('Shop/Index/index')}" class="btn btn-primary"
+                                                                 title="{$tox_money_name}兑换">兑换商品</a>
                 </p>
 
                 <p class="text-primary" style="margin-left:16px;">等级：{$self.title}</p>
@@ -121,21 +127,21 @@
         $(function () {
             //当屏幕滚动到底部时
 
-            if(currentPage == 1){
-            $(window).on('scroll', function () {
-                if (noMoreNextPage) {
-                    return;
-                }
-                if (isLoadingWeibo) {
-                    return;
-                }
-                if (isLoadMoreVisible()) {
-                    loadNextPage();
-                }
-            });
-            $(window).trigger('scroll');
-        }
-            else{
+            if (currentPage == 1) {
+                $(window).on('scroll', function () {
+                    if (noMoreNextPage) {
+                        return;
+                    }
+                    if (isLoadingWeibo) {
+                        return;
+                    }
+                    if (isLoadMoreVisible()) {
+                        loadNextPage();
+                    }
+                });
+                $(window).trigger('scroll');
+            }
+            else {
                 loadNextPage();
             }
 

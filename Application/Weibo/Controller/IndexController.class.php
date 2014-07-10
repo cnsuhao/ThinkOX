@@ -46,6 +46,8 @@ class IndexController extends Controller
 
         $this->assign('tox_money_name',getToxMoneyName());
         $this->assign('tox_money',getMyToxMoney());
+        $this->setTitle('全站关注——微博');
+        $this->assign('filter_tab','全站动态');
         $this->assignSelf();
         $this->display();
     }
@@ -60,6 +62,8 @@ class IndexController extends Controller
         $this->assign('tab', 'concerned');
         $this->assign('loadMoreUrl', U('loadConcernedWeibo'));
         $this->assignSelf();
+        $this->setTitle('我关注的——微博');
+        $this->assign('filter_tab','我关注的');
         $this->display('index');
     }
 
