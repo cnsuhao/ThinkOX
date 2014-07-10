@@ -76,7 +76,7 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('total_count'=>$totalCount));
     }
 
-    public function listMyFollowingWeibo($page = 1, $count = 10)
+    public function listMyFollowingWeibo($page = 1, $count = 30,$map=array(),$loadCount=1,$lastId=0)
     {
         $this->requireLogin();
 
@@ -101,7 +101,24 @@ class WeiboApi extends Api
         //返回我关注的微博列表
         return $this->apiSuccess('获取成功', array('list' => arrayval($list)));
     }
+    public function listMyFollowingWeiboCount($page = 1, $count = 10)
+    {
+        $this->requireLogin();
+        //获取我关注的人
+        $result = $this->followModel->where(array('who_follow' => get_uid()))->select();
+        foreach ($result as &$e) {
+            $e = $e['follow_who'];
+        }
+        unset($e);
+        $followList = $result;
+        $followList[] = is_login();
 
+        //获取我关注的微博
+        $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->count();
+
+        //返回我关注的微博列表
+        return $this->apiSuccess('获取成功', array('total_count'=>$list));
+    }
     public function getWeiboDetail($weibo_id)
     {
         $this->requireWeiboExist($weibo_id);
