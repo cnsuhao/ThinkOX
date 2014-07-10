@@ -2,9 +2,10 @@
 @import "layout";
 
 /*reset*/
-body{
+body {
   word-break: break-word;
 }
+
 a {
   color: #616161;
   &:hover {
@@ -396,8 +397,6 @@ h2 {
   content: '';
 }
 
-
-
 .notifycation .dropdown-menu i {
   background: #4c9bc4;
   border-radius: 0.2em;
@@ -505,7 +504,7 @@ h2 {
   cursor: pointer;
   background: none;
   margin-left: 24px;
-  &:hover{
+  &:hover {
     color: #000;
   }
 }
@@ -1580,18 +1579,34 @@ a:hover {
 /*注册页面end*/
 /*新版界面end*/
 
-
-.quick_send_box{
-  .dropdown-menu{
+.quick_send_box {
+  .dropdown-menu {
     min-width: 94px;
     text-align: center;
   }
 }
 
-
-.filter_attach{
-  top:80px !important;
+#weibo_filter {
+  .dropdown-menu {
+    min-width: 100%;
+    font-size: 12px;
+  }
+  button {
+    font-size: 12px;
+  }
+  .dropdown-menu > li > a {
+    display: block;
+    padding: 3px 15px;
+  }
+  .btn-default{
+    background:  rgb(241, 241, 241) !important;
+  }
 }
-#nav_bar_container{
+
+.filter_attach {
+  top: 80px !important;
+}
+
+#nav_bar_container {
   position: relative;
 }
