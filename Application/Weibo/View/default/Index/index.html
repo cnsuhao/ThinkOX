@@ -5,7 +5,7 @@
     <link href="__PUBLIC__/Weibo/css/weibo.css" rel="stylesheet"/>
     <!--  筛选部分-->
 
-    <!--   <div class="" style="margin-bottom: 30px;">
+   <div class="" style="margin-bottom: 30px;">
            <select name="cars">
                <option value="volvo"
                <eq name="tab" value="all"> class="active"</eq>
@@ -14,12 +14,12 @@
                <eq name="tab" value="concerned"> class="active"</eq>
                ><a href="{:U('Weibo/Index/myconcerned')}">关注</a></option>
            </select>
-       </div>-->
+       </div>
     <!--筛选部分结束-->
 
     <!--微博内容列表部分-->
     <div class="weibo_left col-md-9">
-
+        <include file="_quickweibo"/>
         <div id="weibo_list">
             <include file="loadweibo"/>
         </div>
@@ -96,7 +96,6 @@
 
         <div>
             {:hook('checkin')}
-
             {:hook('Rank')}
             {:W('TopUserList/lists',array(null,'score desc','活跃用户','top'))}
             {:W('UserList/lists')}

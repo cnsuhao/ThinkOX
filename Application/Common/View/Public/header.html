@@ -7,8 +7,7 @@
                 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
             </div>
             <script>
-                $(function()
-                {
+                $(function () {
                     weiboShare();//处理微博分享
                 })
             </script>
@@ -33,7 +32,7 @@
                                 class="badge pull-right">{:count($unreadMessage)}</span>
                                 &nbsp;
                             </a>
-                            <ul class="dropdown-menu extended notification" >
+                            <ul class="dropdown-menu extended notification">
                                 <li style="padding-left: 15px;padding-right: 15px;">
                                     <div class="row nav_info_center">
                                         <div class="col-xs-9 nav_align_left"><span
@@ -164,7 +163,8 @@
                 </think:nav>
             </ul>
             <if condition="is_login()">
-                <div class="col-md-2 navbar-right text-right row hidden-xs quick_send_box" style="padding-top:12px;min-width: 132px">
+                <div class="col-md-2 navbar-right text-right row hidden-xs quick_send_box"
+                     style="padding-top:12px;min-width: 132px">
                     <div class="btn-group text-left">
                         <a type="button" class="btn btn-primary open-popup-link" href="#frm_post_weibo_popup">发微博</a>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -177,7 +177,7 @@
                         </ul>
                     </div>
                 </div>
-                <div id="frm_post_weibo_popup" class="white-popup mfp-hide" style="max-width: 745px">
+                <div id="frm_post_weibo_popup" class="white-popup mfp-hide weibo_post_box" style="max-width: 745px">
                     <h2>发布微博</h2>
 
                     <div class="row">
@@ -188,8 +188,8 @@
                                          placeholder="写点什么吧～～"></textarea></p>
                             <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
                             {:hook('weiboType')}
-                            <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter" id="send_weibo_button"
-                                                         class="btn btn-primary" data-url="{:U('Weibo/Index/doSend')}"/>
+                            <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter"
+                                                         class="btn btn-primary send_weibo_button" data-url="{:U('Weibo/Index/doSend')}"/>
                             </p>
                         </div>
                     </div>
@@ -197,16 +197,14 @@
                     <div id="hook_show" class="emot_content"></div>
                 </div>
             </if>
-
-
         </div>
         <!--导航栏菜单项-->
 
-            <div class="row visible-xs">
-                <if condition="is_login()">
-            <div class="col-md-2 navbar-right row  col-xs-3 visible-xs "
+        <div class="row visible-xs">
+            <if condition="is_login()">
+                <div class="col-md-2 navbar-right row  col-xs-3 visible-xs"
                      style="padding-top:12px;min-width: 132px;display: none;margin-left: 15px">
-                   <div class="btn-group text-left quick_send_box">
+                    <div class="btn-group text-left quick_send_box">
                         <a type="button" class="btn btn-primary open-popup-link " href="#frm_post_weibo_popup">发微博</a>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
@@ -218,16 +216,17 @@
                         </ul>
                     </div>
 
-                </div> </if>
-                <div class="navbar-header col-xs-3 pull-right text-left">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                 </div>
+            </if>
+            <div class="navbar-header col-xs-3 pull-right text-left">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav_bar_main">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
+        </div>
 
         <div class="col-md-3 col-xs-12">
             <div class="pull-right text-right" style="padding-top:4px;">
@@ -242,7 +241,6 @@
                                         data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
-                                    <!--<li><a class="submit_search">微博</a></li>-->
                                     <li><a class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
                                     <!-- <li><a class="submit_search">活动</a></li>-->
                                     <li><a class="submit_search" url="{:U('People/Index/find')}">会员</a></li>

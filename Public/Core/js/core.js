@@ -456,11 +456,11 @@ function checkMessage() {
             playsound('Public/Core/js/ext/toastr/message.wav');
             //发现有新的会话
             $.each(msg.new_talk_messages, function (index, talk_message) {
-                    if ( ($('#chat_id').val() == talk_message.talk_id) && ($('#chat_box').is(":visible"))) {
+                    if (($('#chat_id').val() == talk_message.talk_id) && ($('#chat_box').is(":visible"))) {
                         chat_appendMessage(chat_fetchMessageTpl(talk_message, MID));
-                        $.get(U('Usercenter/Session/getSession'), {id: talk_message.talk_id},function(){
+                        $.get(U('Usercenter/Session/getSession'), {id: talk_message.talk_id}, function () {
 
-                        },'json');
+                        }, 'json');
 
                     }
                     else {
@@ -859,32 +859,32 @@ function bindSupport() {
 $(function () {
     $('#weibo_content').keypress(function (e) {
         if (e.ctrlKey && e.which == 13 || e.which == 10) {
-            $("#send_weibo_button").click();
+            $(".send_weibo_button").click();
         }
     });
 
 
     //点击发表微博按钮之后
-    $('#send_weibo_button').click(function () {
+    $('.send_weibo_button').click(function () {
         //获取参数
         var url = $(this).attr('data-url');
-        var content = $('#weibo_content').val();
+        var content = $(this).parents('.weibo_post_box').find('#weibo_content').val();
         var button = $(this);
         var originalButtonText = button.val();
         var feedType = 'feed';
         var attach_ids = '';
-        if (typeof $('#attach_ids').val() != 'undefined' && $('#attach_ids').val().length > 0) {
+        var $attach_ids = $(this).parents('.weibo_post_box').find('#attach_ids');
+        if (typeof($attach_ids) != 'undefined' && $attach_ids.length > 0) {
             var feedType = 'image';
-            var attach_ids = $('#attach_ids').val();
+            var attach_ids = $attach_ids.val();
         }
 
         //发送到服务器
         $.post(url, {content: content, type: feedType, attach_ids: attach_ids}, function (a) {
             handleAjax(a);
             if (a.status) {
-                button.attr('class', 'btn btn-primary');
+                button.attr('class', 'btn btn-primary send_weibo_button');
                 button.val(originalButtonText);
-                //alert(MODULE_NAME);
                 if (MODULE_NAME == 'Weibo' && ACTION_NAME == 'index') {
                     reloadWeiboList();
                 }
@@ -899,7 +899,7 @@ $(function () {
 })
 
 function clearWeibo() {
-    $('#weibo_content').val('');
+    $('.weibo_post_box #weibo_content').val('');
 }
 <!--新浪微博分享代码-->
 function weiboShare() {
@@ -942,7 +942,7 @@ var insertFace = function (obj) {
     var html = '<div class="XT_face  XT_insert"><div class="triangle sanjiao"></div><div class="triangle_up sanjiao"></div>' +
         '<div class="XT_face_main"><div class="XT_face_title"><span class="XT_face_bt" style="float: left">常用表情</span>' +
         '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
-    obj.parent().parent().next().html(html);
+    obj.parents('.weibo_post_box').find('#emot_content').html(html);
     getFace(obj);
 }
 

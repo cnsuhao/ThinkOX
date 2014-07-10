@@ -36,8 +36,8 @@
             var jsondata = $.parseJSON(data);
             if (jsondata.status === 1) {
                 // 添加附件ID表单项目
-                var $sendAction = $('#send_weibo_button');
-                if ($('#attach_ids').length === 0) {
+                var $sendAction = $('#uploadify_'+unid).parents('.weibo_post_box').find('.send_weibo_button');
+                if ($('#uploadify_'+unid).parents('.weibo_post_box').find('#attach_ids').length === 0) {
                     $sendAction.after('<input id="attach_ids" class="attach_ids" type="hidden" name="attach_ids" feedtype="image" value="" />');
                 }
                // core.multimage.removeLoading(unid);
@@ -52,7 +52,7 @@
                 // 动态设置数目
                 insert_image.upNumVal(unid, 'inc');
                 // 设置附件的值
-                insert_image.upAttachVal('add', jsondata.id);
+                insert_image.upAttachVal('add', jsondata.id,'#uploadify_'+unid);
             }
         },
         onUploadStart: function (file) {

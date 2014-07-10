@@ -1,18 +1,26 @@
-insert_image={
-    insertImage : function(obj){
-        $('#insert_image').attr('onclick','insert_image.showBox()');
+var WEIBO_CONTENT_CLASS = '.weibo_post_box';
 
-    var box_url = $('#box_url').val()
+insert_image = {
+
+    find: function (obj) {
+        return $(this.obj).parents(WEIBO_CONTENT_CLASS).find(obj);
+    },
+    obj: 0,
+    insertImage: function (obj) {
+        if (insert_image.obj != 0)
+            insert_image.close();
+        insert_image.obj = obj;
+        this.find('#insert_image').attr('onclick', 'insert_image.showBox()');
+
+        var box_url = this.find('#box_url').val();
 
 
-        $.post(box_url , {} , function (res){
-            var html ='<div class="XT_image XT_insert""><div class="triangle sanjiao" style="margin-left: 30px;"></div><div class="triangle_up sanjiao"  style="margin-left: 30px;"></div>' +
-                '<div class="XT_face_main XT_insert_image" style="margin-left: 0px;"><div class="XT_face_title"><span class="XT_face_bt" style="float: left"><span>共&nbsp;<em id="upload_num_'+res.unid+'">0</em>&nbsp;张，还能上传&nbsp;<em id="total_num_'+res.unid+'">'+res.total+'</em>&nbsp;张（按住ctrl可选择多张）</span></span>' +
-                '<a onclick="insert_image.close()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;">'+res.html+'</div></div></div>';
-            obj.parent().parent().next().next().html(html);
-        },'json');
-
-
+        $.post(box_url, {}, function (res) {
+            var html = '<div class="XT_image XT_insert""><div class="triangle sanjiao" style="margin-left: 30px;"></div><div class="triangle_up sanjiao"  style="margin-left: 30px;"></div>' +
+                '<div class="XT_face_main XT_insert_image" style="margin-left: 0px;"><div class="XT_face_title"><span class="XT_face_bt" style="float: left"><span>共&nbsp;<span id="upload_num_' + res.unid + '">0</span>&nbsp;张，还能上传&nbsp;<span id="total_num_' + res.unid + '">' + res.total + '</span>&nbsp;张（按住ctrl可选择多张）</span></span>' +
+                '<a onclick="insert_image.close()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;">' + res.html + '</div></div></div>';
+            insert_image.find('#hook_show').html(html);
+        }, 'json');
     },
     /**
      * 移除图片接口
@@ -21,15 +29,15 @@ insert_image={
      * @param integer attachId 附件ID
      * @return void
      */
-    removeImage: function (unid, index, attachId) {
+    removeImage: function (unid, index, attachId, obj) {
 
         // 移除附件ID数据
-        insert_image.upAttachVal('del', attachId);
+        insert_image.upAttachVal('del', attachId, obj);
 
         // 移除图像
-        $('#li_'+unid+'_'+index).remove();
+        this.find('#li_' + unid + '_' + index).remove();
         // 移除附件ID项
-       // ($('#ul_'+unid).find('li').length - 1 === 0) && $('#attach_ids').remove();
+        // ($('#ul_'+unid).find('li').length - 1 === 0) && $('#attach_ids').remove();
         // 动态设置数目
         insert_image.upNumVal(unid, 'dec');
     },
@@ -38,7 +46,8 @@ insert_image={
      * @return void
      */
     upAttachVal: function (type, attachId) {
-        var attachVal = $('#attach_ids').val();
+        var $attach_ids = this.find('#attach_ids');
+        var attachVal = $attach_ids.val();
         var attachArr = attachVal.split(',');
         var newArr = [];
 
@@ -47,8 +56,8 @@ insert_image={
                 newArr.push(attachArr[i]);
             }
         }
-        type === 'add' && newArr.push(attachId);;
-        $('#attach_ids').val( newArr.join(',') );
+        type === 'add' && newArr.push(attachId);
+        $attach_ids.val(newArr.join(','));
     },
     /**
      * 更新上传显示数目
@@ -57,8 +66,10 @@ insert_image={
      * @return void
      */
     upNumVal: function (unid, type) {
-        var $uploadNum = $('#upload_num_'+unid),
-            $totalNum = $('#total_num_'+unid);
+
+
+        var $uploadNum = this.find('#upload_num_' + unid),
+            $totalNum = this.find('#total_num_' + unid);
         switch (type) {
             case 'inc':
                 // 动态设置数目 - 增加
@@ -72,13 +83,14 @@ insert_image={
                 break;
         }
     },
-    close:function(){
-        $('.XT_image').remove();
-        $('.attach_ids').remove();
-        $('#insert_image').attr('onclick','insert_image.insertImage($(this))');
+    close: function () {
+        this.find('.XT_image').remove();
+        this.find('.attach_ids').remove();
+        this.find('#insert_image').attr('onclick', 'insert_image.insertImage(this)');
+        this.obj = 0;
     },
-    showBox:function(){
-        $('.XT_image').css('z-index','1005');
+    showBox: function () {
+        $('.XT_image').css('z-index', '1005');
     },
     /**
      * 添加loading效果
@@ -86,8 +98,8 @@ insert_image={
      * @return void
      */
     addLoading: function (unid) {
-        var loadingHtml = '<li id="loading_'+unid+'" class="load"><span><img src="'+window.Think.ROOT+'/Addons/InsertImage/_static/image/loading.gif" /></span></li>';
-        $('#btn_'+unid).before(loadingHtml);
+        var loadingHtml = '<li id="loading_' + unid + '" class="load"><span><img src="' + window.Think.ROOT + '/Addons/InsertImage/_static/image/loading.gif" /></span></li>';
+        this.find('#btn_' + unid).before(loadingHtml);
     },
     /**
      * 移除loading效果
@@ -95,7 +107,7 @@ insert_image={
      * @return void
      */
     removeLoading: function (unid) {
-        $('#loading_'+unid).remove();
+        this.find('#loading_' + unid).remove();
     }
 
 }
