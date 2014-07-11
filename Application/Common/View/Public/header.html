@@ -241,6 +241,7 @@
                                         data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a class="submit_search weibo_search" url="{:U('Weibo/Index/search')}">微博</a></li>
                                     <li><a class="submit_search" url="{:U('Forum/Index/search')}">贴吧</a></li>
                                     <!-- <li><a class="submit_search">活动</a></li>-->
                                     <li><a class="submit_search" url="{:U('People/Index/find')}">会员</a></li>
@@ -248,6 +249,7 @@
                             </div>
                             <script>
                                 $(function () {
+                                    $('#forum_search').attr('action', $('.weibo_search').attr('url'));
                                     $('.submit_search').click(function () {
                                         $('#forum_search').attr('action', $(this).attr('url'));
                                         $('#forum_search').submit();

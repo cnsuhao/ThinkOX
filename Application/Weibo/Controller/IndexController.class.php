@@ -40,7 +40,6 @@ class IndexController extends Controller
         $this->assign('page', $page);
         $this->assign('tab', 'all');
         $this->assign('loadMoreUrl', U('loadWeibo', array('uid' => $uid)));
-
         $total_count = $this->weiboApi->listAllWeiboCount();
 
         $this->assign('total_count', $total_count['total_count']);
@@ -53,13 +52,46 @@ class IndexController extends Controller
         $this->display();
     }
 
+    public function search($uid = 0, $page = 1, $lastId = 0){
+        $keywords = op_t($_REQUEST['keywords']);
+        if(!isset($keywords)){
+            $keywords='';
+        }
+        //载入第一页微博
+        if ($uid != 0) {
+            $result = $this->weiboApi->listAllWeibo($page, null, array('uid' => $uid), 1, $lastId,$keywords);
+        } else {
+            $result = $this->weiboApi->listAllWeibo($page, 0, '', 1, $lastId,$keywords);
+        }
+        //显示页面
+        $this->assign('list', $result['list']);
+        $this->assign('lastId', $result['lastId']);
+        $this->assign('page', $page);
+        $this->assign('tab', 'all');
+        $this->assign('loadMoreUrl', U('loadWeibo', array('uid' => $uid,'keywords'=>$keywords)));
+        if(isset($keywords)&&$keywords!=''){
+            $map['content']=array('like', "%{$keywords}%");
+        }
+        $total_count = $this->weiboApi->listAllWeiboCount($map);
+
+        $this->assign('key_words',$keywords);
+        $this->assign('total_count', $total_count['total_count']);
+
+        $this->assign('tox_money_name', getToxMoneyName());
+        $this->assign('tox_money', getMyToxMoney());
+        $this->setTitle('全站搜索微博');
+        $this->assign('filter_tab', '全站动态');
+        $this->assignSelf();
+        $this->display();
+    }
+
     public function myconcerned($uid = 0, $page = 1, $lastId = 0)
     {
         if($page == 1){
             $result = $this->weiboApi->listMyFollowingWeibo($page, null, '', 1, $lastId);
             $this->assign('lastId', $result['lastId']);
            $this->assign('list', $result['list']);
-    }
+        }
         //载入我关注的微博
 
 
@@ -141,14 +173,14 @@ class IndexController extends Controller
         $this->ajaxReturn(apiToAjax($result));
     }
 
-    public function loadWeibo($page = 1, $uid = 0, $loadCount = 1, $lastId = 0)
+    public function loadWeibo($page = 1, $uid = 0, $loadCount = 1, $lastId = 0,$keywords='')
     {
         $count = 30;
         //载入全站微博
         if ($uid != 0) {
-            $result = $this->weiboApi->listAllWeibo($page, $count, array('uid' => $uid), $loadCount, $lastId);
+            $result = $this->weiboApi->listAllWeibo($page, $count, array('uid' => $uid), $loadCount, $lastId,$keywords);
         } else {
-            $result = $this->weiboApi->listAllWeibo($page, $count, '', $loadCount, $lastId);
+            $result = $this->weiboApi->listAllWeibo($page, $count, '', $loadCount, $lastId,$keywords);
         }
         //如果没有微博，则返回错误
         if (!$result['list']) {
