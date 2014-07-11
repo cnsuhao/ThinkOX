@@ -55,20 +55,24 @@ class IndexController extends Controller
 
     public function myconcerned($uid = 0, $page = 1, $lastId = 0)
     {
+        if($page == 1){
+            $result = $this->weiboApi->listMyFollowingWeibo($page, null, '', 1, $lastId);
+            $this->assign('lastId', $result['lastId']);
+           $this->assign('list', $result['list']);
+    }
         //载入我关注的微博
-        $result = $this->weiboApi->listMyFollowingWeibo($page, null, array('uid' => $uid), 1, $lastId);
+
+
         $total_count = $this->weiboApi->listMyFollowingWeiboCount($page, 0, '', 1, $lastId);
         $this->assign('total_count', $total_count['total_count']);
-        $this->assign('list', $result['list']);
-        $this->assign('lastId', $result['lastId']);
+
         $this->assign('page', $page);
 
         //显示页面
-        $this->assign('list', $result['list']);
+
+
         $this->assign('tab', 'concerned');
         $this->assign('loadMoreUrl', U('loadConcernedWeibo'));
-
-
 
         $this->assignSelf();
         $this->setTitle('我关注的——微博');
@@ -157,10 +161,12 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function loadConcernedWeibo($page = 1)
+    public function loadConcernedWeibo($page = 1, $loadCount = 1, $lastId = 0)
     {
+
+        $count = 30;
         //载入我关注的人的微博
-        $result = $this->weiboApi->listMyFollowingWeibo($page);
+        $result = $this->weiboApi->listMyFollowingWeibo($page, $count, '', $loadCount, $lastId);
 
         //如果没有微博，则返回错误
         if (!$result['list']) {
@@ -169,6 +175,7 @@ class IndexController extends Controller
 
         //返回html代码用于ajax显示
         $this->assign('list', $result['list']);
+        $this->assign('lastId', $result['lastId']);
         $this->display('loadweibo');
     }
 

@@ -90,7 +90,29 @@ class WeiboApi extends Api
         $followList[] = is_login();
 
         //获取我关注的微博
-        $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->order('is_top desc,id desc')->page($page, $count)->select();
+        $model = $this->weiboModel;
+        $map = array('status' => 1,'uid'=>array('in',$followList));
+        if($page ==1  && $loadCount==1){
+            $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+        }elseif($loadCount > 1 && $loadCount<= 3){
+
+            $is_top = D('weibo')->where(array('id'=>$lastId))->getField('is_top');
+            if(!$is_top){
+                $map['id'] = array('lt',$lastId);
+
+                $list = $model->where($map)->order('create_time desc')->limit(10)->select();
+            }else{
+                $ids = $model->where(array('id'=>array('egt',$lastId),'is_top'=>1))->field('id')->select();
+                $ids = getSubByKey($ids,'id');
+                $ids = implode(",",$ids);
+                $map['_string'] = '(id < '.$lastId.' AND is_top =1 ) OR (id > 0  AND (id NOT IN ('.$ids.'))) ';
+                $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+            }
+        }
+        elseif($page>1){
+            $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
+        }
+
 
         //获取每个微博的详细信息
         foreach ($list as &$e) {
@@ -99,7 +121,7 @@ class WeiboApi extends Api
         unset($e);
 
         //返回我关注的微博列表
-        return $this->apiSuccess('获取成功', array('list' => arrayval($list)));
+        return $this->apiSuccess('获取成功', array('list' => arrayval($list),'lastId'=>$list[count($list)-1]['id']));
     }
     public function listMyFollowingWeiboCount($page = 1, $count = 10)
     {
