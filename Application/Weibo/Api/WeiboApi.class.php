@@ -27,10 +27,13 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 30,$map=array(),$loadCount=1,$lastId=0)
+    public function listAllWeibo($page = 1, $count = 30,$map=array(),$loadCount=1,$lastId=0,$keywords='')
     {
 
         //获取微博列表
+        if(isset($keywords)&&$keywords!=''){
+            $map['content']=array('like', "%{$keywords}%");
+        }
         $map[] = array('status' => 1);
         $model = $this->weiboModel;
 
