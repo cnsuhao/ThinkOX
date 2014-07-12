@@ -20,11 +20,11 @@ class IndexController extends Controller
 
     public function index($page = 1, $issue_id = 0)
     {
-        $issue_id=intval($issue_id);
+        $issue_id = intval($issue_id);
         $issue = D('Issue')->find($issue_id);
         if (!$issue_id == 0) {
             $issue_id = intval($issue_id);
-            $issues = D('Issue')->where("id=%d OR pid=%d",array($issue_id,$issue_id))->limit(999)->select();
+            $issues = D('Issue')->where("id=%d OR pid=%d", array($issue_id, $issue_id))->limit(999)->select();
             $ids = array();
             foreach ($issues as $v) {
                 $ids[] = $v['id'];
@@ -36,19 +36,19 @@ class IndexController extends Controller
         $totalCount = D('IssueContent')->where($map)->count();
         foreach ($content as &$v) {
             $v['user'] = query_user(array('id', 'nickname', 'space_url', 'space_link', 'avatar128', 'rank_html'), $v['uid']);
-            $v['issue']=D('Issue')->field('id,title')->find($v['issue_id']);
+            $v['issue'] = D('Issue')->field('id,title')->find($v['issue_id']);
         }
         unset($v);
         $this->assign('contents', $content);
         $this->assign('totalPageCount', $totalCount);
         $this->assign('top_issue', $issue['pid'] == 0 ? $issue['id'] : $issue['pid']);
 
-        $this->assign('issue_id',$issue_id);
+        $this->assign('issue_id', $issue_id);
         $this->setTitle('专辑');
         $this->display();
     }
 
-    public function doPost($id = 0, $cover_id = 0, $title = '', $content = '', $issue_id = 0,$url='')
+    public function doPost($id = 0, $cover_id = 0, $title = '', $content = '', $issue_id = 0, $url = '')
     {
 
         if (!is_login()) {
@@ -70,9 +70,9 @@ class IndexController extends Controller
             $this->error('请输入网址。');
         }
         $content = D('IssueContent')->create();
-        $content['content']=op_h($content['content']);
-        $content['title']=op_t($content['title']);
-        $content['url']=op_t($content['url']);//新增链接框
+        $content['content'] = op_h($content['content']);
+        $content['title'] = op_t($content['title']);
+        $content['url'] = op_t($content['url']); //新增链接框
 
         if ($id) {
             $content_temp = D('IssueContent')->find($id);
@@ -92,13 +92,16 @@ class IndexController extends Controller
             if (C('NEED_VERIFY') && !is_administrator()) //需要审核且不是管理员
             {
                 $content['status'] = 0;
-                $tip='但需管理员审核通过后才会显示在列表中，请耐心等待。';
-                $user=query_user(array('nickname'),is_login());
-                D('Common/Message')->sendMessage(C('USER_ADMINISTRATOR'),"{$user['nickname']}向专辑投了一份稿件，请到后台审核。" , $title = '专辑投稿提醒', U('Admin/Issue/verify'), is_login(), 2);
+                $tip = '但需管理员审核通过后才会显示在列表中，请耐心等待。';
+                $user = query_user(array('nickname'), is_login());
+                $admin_uids = explode(',', C('USER_ADMINISTRATOR'));
+                foreach ($admin_uids as $admin_uid) {
+                    D('Common/Message')->sendMessage($admin_uid, "{$user['nickname']}向专辑投了一份稿件，请到后台审核。", $title = '专辑投稿提醒', U('Admin/Issue/verify'), is_login(), 2);
+                }
             }
             $rs = D('IssueContent')->add($content);
             if ($rs) {
-                $this->success('投稿成功。'.$tip, 'refresh');
+                $this->success('投稿成功。' . $tip, 'refresh');
             } else {
                 $this->success('投稿失败。', '');
             }
@@ -122,7 +125,7 @@ class IndexController extends Controller
         $this->assign('issue_id', $issue['id']);
         $issue_content['user'] = query_user(array('id', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $issue_content['uid']);
         $this->assign('content', $issue_content);
-        $this->setTitle('{$content.title|op_t}'.'——专辑');
+        $this->setTitle('{$content.title|op_t}' . '——专辑');
         $this->setKeywords($issue_content['title']);
         $this->display();
     }
