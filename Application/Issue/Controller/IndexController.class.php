@@ -48,7 +48,7 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function doPost($id = 0, $cover_id = 0, $title = '', $content = '', $issue_id = 0)
+    public function doPost($id = 0, $cover_id = 0, $title = '', $content = '', $issue_id = 0,$url='')
     {
 
         if (!is_login()) {
@@ -66,9 +66,13 @@ class IndexController extends Controller
         if ($issue_id == 0) {
             $this->error('请选择分类。');
         }
+        if (trim(op_h($url)) == '') {
+            $this->error('请输入网址。');
+        }
         $content = D('IssueContent')->create();
         $content['content']=op_h($content['content']);
         $content['title']=op_t($content['title']);
+        $content['url']=op_t($content['url']);//新增链接框
 
         if ($id) {
             $content_temp = D('IssueContent')->find($id);
