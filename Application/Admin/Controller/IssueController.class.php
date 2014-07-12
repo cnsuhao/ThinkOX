@@ -186,8 +186,8 @@ class IssueController extends AdminController
                 $content=D('IssueContent')->find($id);
                 D('Common/Message')->sendMessage($content['uid'],"管理员审核通过了您发布的内容。现在可以在列表看到该内容了。" , $title = '专辑内容审核通知', U('Issue/Index/issueContentDetail',array('id'=>$id)), is_login(), 2);
                /*同步微博*/
-                $user = query_user(array('username', 'space_link'), $content['uid']);
-                $weibo_content = '管理员审核通过了@' . $user['username'] . ' 的内容：【' . $content['title'] . '】，快去看看吧：' ."http://$_SERVER[HTTP_HOST]" .U('Issue/Index/issueContentDetail',array('id'=>$content['id']));
+                $user = query_user(array('nickname', 'space_link'), $content['uid']);
+                $weibo_content = '管理员审核通过了@' . $user['nickname'] . ' 的内容：【' . $content['title'] . '】，快去看看吧：' ."http://$_SERVER[HTTP_HOST]" .U('Issue/Index/issueContentDetail',array('id'=>$content['id']));
                 $model = D('Weibo/Weibo');
                 $model->addWeibo(is_login(), $weibo_content);
                 /*同步微博end*/
