@@ -926,10 +926,10 @@ $(function () {
         var top = $(document).scrollTop();
         if (top > topMain) {
             nav.addClass("nav_scroll");
-            $('#weibo_filter').addClass('filter_attach');
+           /* $('#weibo_filter').addClass('filter_attach');*/
         } else {
             nav.removeClass("nav_scroll");
-            $('#weibo_filter').removeClass('filter_attach');
+   /*         $('#weibo_filter').removeClass('filter_attach');*/
         }
     });
 });

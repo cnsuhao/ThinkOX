@@ -215,6 +215,9 @@
 
 /*帖子详情页*/
 .post_content {
+  .forum_block_border{
+    border-top-left-radius: 0;
+  }
   h2 {
     color: #333333;
     font-size: 18px;
@@ -249,10 +252,14 @@
   }
   .forum_left_operation {
     position: absolute;
-    left: -42px;
+    left: -43px;
     background: white;
     border-radius: 3px;
-    top: -15px;
+    border: 1px solid rgb(221, 221, 221);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    top: -16px;
     .btn{
       padding: 10px;
 
