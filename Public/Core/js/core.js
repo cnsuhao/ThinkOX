@@ -946,7 +946,7 @@ var insertFace = function (obj) {
         '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
     obj.parents('.weibo_post_box').find('#emot_content').html(html);
     getFace(obj);
-}
+};
 
 var face_chose = function (obj) {
     var textarea = obj.parents('.emot_content').prev().find('textarea');
