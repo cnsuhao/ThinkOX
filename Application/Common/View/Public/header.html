@@ -182,7 +182,8 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="pull-right show_num">还可以输入140个字</div>
+                            <div class="pull-right show_num" style="margin-bottom: 10px">还可以输入{:C('WEIBO_WORDS_COUNT')}个字</div>
+
                             <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
                                          placeholder="写点什么吧～～" onfocus="startCheckNum($(this))" onblur="endCheckNum()"></textarea></p>
                             <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
@@ -192,7 +193,7 @@
                             </p>
                         </div>
                         <script>
-                            var initNum=140;
+
                             var ID_setInterval;
                             function checkNum(obj){
                                 var value=obj.val();

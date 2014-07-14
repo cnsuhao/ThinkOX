@@ -59,7 +59,11 @@
 <!--CNZZ广告管家，可自行更改end-->
 <!-- 自定义js -->
 <!--<script src="__PUBLIC__/js.php?get={:implode(',',$js)}"></script>-->
-
+<php> $config = api('Config/lists');
+    C($config); //添加配置
+    $icp=C('WEB_SITE_ICP');
+    $count_code=C('COUNT_CODE');
+</php>
 
 <script>
     //全局内容的定义
@@ -67,6 +71,7 @@
     var MID = "{:is_login()}";
     var MODULE_NAME="<php>echo MODULE_NAME;</php>";
     var ACTION_NAME="<php>echo ACTION_NAME;</php>";
+    var initNum = "{:C('WEIBO_WORDS_COUNT')}";
 </script>
 
 <audio id="music" src="" autoplay="autoplay"></audio>

@@ -44,7 +44,7 @@
                             </if>
                         </volist>
                     </p>
-                    <div class="pull-right show_num_quick">还可以输入140个字</div>
+                    <div class="pull-right show_num_quick">还可以输入{:C('WEIBO_WORDS_COUNT')}个字</div>
                     <div class="weibo_content_p">
                         <div class="row">
                             <div class="col-xs-12">
@@ -70,7 +70,6 @@
         </div>
     </div>
         <script>
-            var initNum=140;
             var ID_setInterval;
             function checkNum_quick(obj){
                 var value=obj.val();
