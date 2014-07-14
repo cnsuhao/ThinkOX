@@ -32,7 +32,7 @@
             <div class="col-md-10 col-sm-8 col-xs-12">
                 <div class="weibo_content weibo_post_box">
                     <div class="weibo_content_sj pull-left hidden-xs"></div>
-                    <p>
+                    <p class="pull-left">
                         <a ucard="{$self.uid}"
                            href="{$self.space_url}" class="user_name">{$self.nickname|htmlspecialchars}
                         </a>
@@ -44,11 +44,12 @@
                             </if>
                         </volist>
                     </p>
+                    <div class="pull-right show_num_quick">还可以输入140个字</div>
                     <div class="weibo_content_p">
                         <div class="row">
                             <div class="col-xs-12">
                                 <p><textarea class="form-control weibo_content_quick" id="weibo_content" style="height: 6em;"
-                                             placeholder="写点什么吧～～"></textarea></p>
+                                             placeholder="写点什么吧～～" onfocus="startCheckNum_quick($(this))" onblur="endCheckNum_quick()"></textarea></p>
                                 <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
                                 <script>
                                     $(function(){
@@ -68,4 +69,28 @@
             </div>
         </div>
     </div>
+        <script>
+            var initNum=140;
+            var ID_setInterval;
+            function checkNum_quick(obj){
+                var value=obj.val();
+                var value_length=value.length;
+                var can_in_num=initNum-value_length;
+                if(can_in_num<0){
+                    value=value.substr(0,initNum);
+                    obj.val(value);
+                    can_in_num=0;
+                }
+                var html="还可以输入"+can_in_num+"个字";
+                $('.show_num_quick').html(html);
+            }
+            function startCheckNum_quick(obj){
+                ID_setInterval=setInterval(function(){
+                    checkNum_quick(obj);
+                },250);
+            }
+            function endCheckNum_quick(){
+                clearInterval(ID_setInterval);
+            }
+        </script>
 </if>
