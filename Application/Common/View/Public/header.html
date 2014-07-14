@@ -182,16 +182,39 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <br/>
-
+                            <div class="pull-right show_num">还可以输入140个字</div>
                             <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
-                                         placeholder="写点什么吧～～"></textarea></p>
+                                         placeholder="写点什么吧～～" onfocus="startCheckNum($(this))" onblur="endCheckNum()"></textarea></p>
                             <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
                             {:hook('weiboType')}
                             <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter"
                                                          class="btn btn-primary send_weibo_button" data-url="{:U('Weibo/Index/doSend')}"/>
                             </p>
                         </div>
+                        <script>
+                            var initNum=140;
+                            var ID_setInterval;
+                            function checkNum(obj){
+                                var value=obj.val();
+                                var value_length=value.length;
+                                var can_in_num=initNum-value_length;
+                                if(can_in_num<0){
+                                    value=value.substr(0,initNum);
+                                    obj.val(value);
+                                    can_in_num=0;
+                                }
+                                var html="还可以输入"+can_in_num+"个字";
+                                $('.show_num').html(html);
+                            }
+                            function startCheckNum(obj){
+                                ID_setInterval=setInterval(function(){
+                                    checkNum(obj);
+                                },250);
+                            }
+                            function endCheckNum(){
+                                clearInterval(ID_setInterval);
+                            }
+                        </script>
                     </div>
                     <div id="emot_content" class="emot_content"></div>
                     <div id="hook_show" class="emot_content"></div>
