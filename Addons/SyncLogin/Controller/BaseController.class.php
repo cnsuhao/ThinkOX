@@ -130,12 +130,21 @@ class BaseController extends AddonsController
      */
     protected function saveAvatar($url, $oid, $uid,$type)
     {
-        mkdir('./Uploads/Avatar/'.$type.'Avatar', 0777, true);
-        $img = file_get_contents($url);
-        $filename = './Uploads/Avatar/'.$type.'Avatar/' . $oid . '.jpg';
-        file_put_contents($filename, $img);
+
+        if(is_sae()){
+            $s = new \SaeStorage();
+            $img = file_get_contents($url);  //括号中的为远程图片地址
+
+            $url_sae= $s->write (C('UPLOAD_SAE_CONFIG.domain') ,  '/Avatar/'.$type.'Avatar/' . $oid . '.jpg', $img );
+            $data['path'] = $url_sae;
+        }else{
+            mkdir('./Uploads/Avatar/'.$type.'Avatar', 0777, true);
+            $img = file_get_contents($url);
+            $filename = './Uploads/Avatar/'.$type.'Avatar/' . $oid . '.jpg';
+            file_put_contents($filename, $img);
+            $data['path'] = $type.'Avatar/' . $oid . '.jpg';
+        }
         $data['uid'] = $uid;
-        $data['path'] = $type.'Avatar/' . $oid . '.jpg';
         $data['create_time'] = time();
         $data['status'] = 1;
         $data['is_temp'] = 0;
