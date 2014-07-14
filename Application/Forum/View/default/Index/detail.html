@@ -197,8 +197,8 @@
     <div class="row">
         <div class="col-xs-2">
             <p>
-                <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
-                                                                     class="avatar-img"/></a>
+                <a href="{$user.space_url}" ucard="{$user.uid}">
+                    <img src="{$user.avatar128}" class="avatar-img"/></a>
             </p>
         </div>
         <div class="col-xs-10">
@@ -206,9 +206,7 @@
                 <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post"
                       class="ajax-form">
                     <h4>发表回复</h4>
-
                     <p>
-
                         {:W('UeditorMini/editor',array('contentEditor','content','','100%','250px',$config))}
                     </p>
 

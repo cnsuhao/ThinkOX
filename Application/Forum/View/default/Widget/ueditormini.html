@@ -7,8 +7,8 @@
 <script type="text/plain" name="{$name}" id="{$id}" style="width:{$width};height:{$height};">{$default}</script>
 <script>
     $(function(){
-        var config={{$config}};
-        var um = UM.getEditor('{$id}',config);
+        var config="{{$config}}";
+        var um = UM.getEditor("{$id}",config);
 
     })
 
