@@ -159,11 +159,7 @@
   position: relative;
   min-height: 80px;
 }
-.content-body .cover {
-  width: 350px;
-  height: 252px;
-}
-.content-body .triangle_left {
+.content-body .signature .triangle_left {
   width: 0;
   height: 0;
   border-top: 10px solid rgba(0, 0, 0, 0);
@@ -176,7 +172,7 @@
   display: inline-block;
   position: absolute;
 }
-.content-body .triangle {
+.content-body .signature .triangle {
   width: 0;
   height: 0;
   border-top: 10px solid rgba(0, 0, 0, 0);
@@ -187,6 +183,10 @@
   z-index: 2;
   display: inline-block;
   position: absolute;
+}
+.content-body .cover {
+  width: 350px;
+  height: 252px;
 }
 hr {
   border: 0;

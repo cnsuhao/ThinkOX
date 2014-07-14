@@ -857,9 +857,14 @@ function bindSupport() {
 
 
 $(function () {
+    $('.weibo_content_quick').keypress(function (e) {
+        if (e.ctrlKey && e.which == 13 || e.which == 10) {
+            $(this).parents('.weibo_post_box').find(".send_weibo_button").click();
+        }
+    });
     $('#weibo_content').keypress(function (e) {
         if (e.ctrlKey && e.which == 13 || e.which == 10) {
-            $(".send_weibo_button").click();
+           $(this).parents('.weibo_post_box').find(".send_weibo_button").click();
         }
     });
 
@@ -926,10 +931,10 @@ $(function () {
         var top = $(document).scrollTop();
         if (top > topMain) {
             nav.addClass("nav_scroll");
-            $('#weibo_filter').addClass('filter_attach');
+           /* $('#weibo_filter').addClass('filter_attach');*/
         } else {
             nav.removeClass("nav_scroll");
-            $('#weibo_filter').removeClass('filter_attach');
+   /*         $('#weibo_filter').removeClass('filter_attach');*/
         }
     });
 });
@@ -946,7 +951,7 @@ var insertFace = function (obj) {
         '<a onclick="close_face()" class="XT_face_close">X</a></div><div id="face" style="padding: 10px;"></div></div></div>';
     obj.parents('.weibo_post_box').find('#emot_content').html(html);
     getFace(obj);
-}
+};
 
 var face_chose = function (obj) {
     var textarea = obj.parents('.emot_content').prev().find('textarea');

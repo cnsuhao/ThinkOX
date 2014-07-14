@@ -1385,12 +1385,14 @@ a:hover {
   display: block;
   padding: 3px 15px;
 }
-#weibo_filter .btn-default {
-  background: #f1f1f1 !important;
-}
-.filter_attach {
+/*.filter_attach {
   top: 80px !important;
-}
+}*/
 #nav_bar_container {
   position: relative;
 }
+/*编辑器修复*/
+.edui-btn-toolbar {
+  background: white;
+}
+/*编辑器修复end*/

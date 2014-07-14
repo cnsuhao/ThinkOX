@@ -1,12 +1,33 @@
 <if condition="is_login()">
     <div class="row">
         <div class="col-xs-12">
-            <div class="col-md-2 col-sm-2 col-xs-12 text-right" style="position: relative">
+            <div class="col-md-2 col-sm-2 col-xs-12 text-center" style="position: relative">
                 <a class="s_avatar" href="{$self.space_url}" ucard="{$self.uid}">
                     <img src="{$self.avatar128}"
                          class="avatar-img"
                          style="width: 64px;"/>
                 </a>
+                <br/>
+                <!--  筛选部分-->
+                <if condition="is_login()">
+                    <div id="weibo_filter" style="margin-top:15px;">
+                        <div class="btn-group forum_order">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {$filter_tab} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left" role="menu">
+                                <li><a href="{:U('Weibo/Index/index')}">全站动态</a></li>
+                                <li><a href="{:U('Weibo/Index/myconcerned')}">我的关注</a></li>
+                            </ul>
+                        </div>
+                    </div><script>
+/*                    $('#nav_bar_container').append( $('#weibo_filter'));*/
+                </script>
+
+                </if>
+
+
+                <!--筛选部分结束-->
             </div>
             <div class="col-md-10 col-sm-8 col-xs-12">
                 <div class="weibo_content weibo_post_box">
@@ -27,9 +48,14 @@
                     <div class="weibo_content_p">
                         <div class="row">
                             <div class="col-xs-12">
-                                <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
+                                <p><textarea class="form-control weibo_content_quick" id="weibo_content" style="height: 6em;"
                                              placeholder="写点什么吧～～" onfocus="startCheckNum_quick($(this))" onblur="endCheckNum_quick()"></textarea></p>
                                 <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                                <script>
+                                    $(function(){
+                                        $('.weibo_content_quick').atwho(atwho_config);
+                                    })
+                                </script>
                                 {:hook('weiboType')}
                                 <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter"
                                                              class="btn btn-primary send_weibo_button" data-url="{:U('Weibo/Index/doSend')}"/>
