@@ -857,9 +857,14 @@ function bindSupport() {
 
 
 $(function () {
+    $('.weibo_content_quick').keypress(function (e) {
+        if (e.ctrlKey && e.which == 13 || e.which == 10) {
+            $(this).parents('.weibo_post_box').find(".send_weibo_button").click();
+        }
+    });
     $('#weibo_content').keypress(function (e) {
         if (e.ctrlKey && e.which == 13 || e.which == 10) {
-            $(".send_weibo_button").click();
+           $(this).parents('.weibo_post_box').find(".send_weibo_button").click();
         }
     });
 
