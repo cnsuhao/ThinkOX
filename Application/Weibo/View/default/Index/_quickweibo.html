@@ -47,9 +47,14 @@
                     <div class="weibo_content_p">
                         <div class="row">
                             <div class="col-xs-12">
-                                <p><textarea class="form-control" id="weibo_content" style="height: 6em;"
+                                <p><textarea class="form-control weibo_content_quick" id="weibo_content" style="height: 6em;"
                                              placeholder="写点什么吧～～"></textarea></p>
                                 <a href="javascript:" onclick="insertFace($(this))"><img src="__STATIC__/image/bq.png"/></a>
+                                <script>
+                                    $(function(){
+                                        $('.weibo_content_quick').atwho(atwho_config);
+                                    })
+                                </script>
                                 {:hook('weiboType')}
                                 <p class="pull-right"><input type="submit" value="发表 Ctrl+Enter"
                                                              class="btn btn-primary send_weibo_button" data-url="{:U('Weibo/Index/doSend')}"/>
