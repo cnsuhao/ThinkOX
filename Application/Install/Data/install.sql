@@ -1,25 +1,13 @@
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- 主机: 127.0.0.1
--- 生成日期: 2014 年 06 月 15 日 12:57
--- 服务器版本: 5.5.24-log
--- PHP 版本: 5.3.13
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- 数据库: `rc6`
---
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_action`
---
-
+DROP TABLE IF EXISTS `thinkox_action`;
 CREATE TABLE IF NOT EXISTS `thinkox_action` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '行为唯一标识',
@@ -32,10 +20,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_action` (
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统行为表' AUTO_INCREMENT=17 ;
-
---
--- 转存表中的数据 `thinkox_action`
---
 
 INSERT INTO `thinkox_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `type`, `status`, `update_time`) VALUES
 (1, 'user_login', '用户登录', '积分+10，每天一次', 'table:member|field:score|condition:uid={$self} AND status>-1|rule:score+10|cycle:24|max:1;', '[user|get_nickname]在[time|time_format]登录了后台', 1, 1, 1387181220),
@@ -54,12 +38,7 @@ INSERT INTO `thinkox_action` (`id`, `name`, `title`, `remark`, `rule`, `log`, `t
 (15, 'add_post', '发帖子', '积分+3，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+3|cycle:24|max:5', '', 1, 1, 1396342951),
 (16, 'add_post_reply', '发帖子回复', '积分+1，每天上限5次', 'table:member|field:score|condition:uid={$self}|rule:score+1|cycle:24|max:5', '', 1, 1, 1396342956);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_action_log`
---
-
+DROP TABLE IF EXISTS `thinkox_action_log`;
 CREATE TABLE IF NOT EXISTS `thinkox_action_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `action_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '行为id',
@@ -74,15 +53,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=1768 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=1 ;
 
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_addons`
---
-
+DROP TABLE IF EXISTS `thinkox_addons`;
 CREATE TABLE IF NOT EXISTS `thinkox_addons` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(40) NOT NULL COMMENT '插件名或标识',
@@ -95,11 +69,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_addons` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '安装时间',
   `has_adminlist` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否有后台列表',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件表' AUTO_INCREMENT=45 ;
-
---
--- 转存表中的数据 `thinkox_addons`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='插件表' AUTO_INCREMENT=55 ;
 
 INSERT INTO `thinkox_addons` (`id`, `name`, `title`, `description`, `status`, `config`, `author`, `version`, `create_time`, `has_adminlist`) VALUES
 (15, 'EditorForAdmin', '后台编辑器', '用于增强整站长文本的输入和显示', 1, '{"editor_type":"2","editor_wysiwyg":"1","editor_height":"500px","editor_resize_type":"1"}', 'thinkphp', '0.1', 1383126253, 0),
@@ -111,18 +81,16 @@ INSERT INTO `thinkox_addons` (`id`, `name`, `title`, `description`, `status`, `c
 (9, 'SocialComment', '通用社交化评论', '集成了各种社交化评论插件，轻松集成到系统中。', 1, '{"comment_type":"1","comment_uid_youyan":"","comment_short_name_duoshuo":"","comment_data_list_duoshuo":""}', 'thinkphp', '0.1', 1380273962, 0),
 (16, 'Avatar', '头像插件', '用于头像的上传', 1, '{"random":"1"}', 'caipeichao', '0.1', 1394449710, 1),
 (32, 'Tianyi', '天翼短信插件', '用于发送手机短信验证码、模板短信', 1, '{"expire":"120","clean_interval":"86400","app_id":"668228660000034680","app_secret":"75e30521444f11fb3ec265d3c809e443","access_token":"4607d0582539012eea100b09e79f136a1397106411735","refresh_token":"0cbb07946822ca74c70f4288fc50dc531392971135772","update_access_token_interval":"1728000"}', 'caipeichao', '0.1', 1398264922, 0),
-(43, 'Checkin', '签到', '签到积分', 1, '{"random":"1"}', '想天软件工作室', '0.1', 1402390759, 1),
+(49, 'Checkin', '签到', '签到积分', 1, '{"random":"1"}', '想天软件工作室', '0.1', 1403764341, 1),
 (26, 'Rank_checkin', '签到排名', '设置每天某一时刻开始 按时间先后 签到排名，取前十', 1, '{"random":"1","ranktime":null}', '想天软件工作室', '0.1', 1395387458, 1),
-(39, 'Support', '赞', '赞的功能', 1, 'null', '想天软件工作室', '0.1', 1398265071, 1),
 (41, 'LocalComment', '本地评论', '本地评论插件，不依赖社会化评论平台', 1, '{"can_guest_comment":"1"}', 'caipeichao', '0.1', 1399440324, 0),
-(44, 'InsertImage', '插入图片', '微博上传图片', 1, 'null', '想天软件工作室', '0.1', 1402390777, 0);
+(44, 'InsertImage', '插入图片', '微博上传图片', 1, 'null', '想天软件工作室', '0.1', 1402390777, 0),
+(48, 'Repost', '转发', '转发', 1, 'null', '想天软件工作室', '0.1', 1403763025, 0),
+(54, 'SyncLogin', '同步登陆', '同步登陆', 1, '{"type":["Qq"],"meta":"<meta property=\\"qc:admins\\" content=\\"2321221567640163706375\\" \\/>","QqKEY":"101138195","QqSecret":"bf701490797ea7390333be017fbe786a","SinaKEY":"","SinaSecret":""}', 'xjw129xjt', '0.1', 1404982827, 0),
+(53, 'Support', '赞', '赞的功能', 1, 'null', '想天软件工作室', '0.1', 1404725580, 0),
+(52, 'ChinaCity', '中国省市区三级联动', '每个系统都需要的一个中国省市区三级联动插件。', 1, 'null', 'i友街', '2.0', 1403841931, 0);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_attachment`
---
-
+DROP TABLE IF EXISTS `thinkox_attachment`;
 CREATE TABLE IF NOT EXISTS `thinkox_attachment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
@@ -141,12 +109,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_attachment` (
   KEY `idx_record_status` (`record_id`,`status`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='附件表' AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_attribute`
---
-
+DROP TABLE IF EXISTS `thinkox_attribute`;
 CREATE TABLE IF NOT EXISTS `thinkox_attribute` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '字段名',
@@ -172,10 +135,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_attribute` (
   PRIMARY KEY (`id`),
   KEY `model_id` (`model_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='模型属性表' AUTO_INCREMENT=34 ;
-
---
--- 转存表中的数据 `thinkox_attribute`
---
 
 INSERT INTO `thinkox_attribute` (`id`, `name`, `title`, `field`, `type`, `value`, `remark`, `is_show`, `extra`, `model_id`, `is_must`, `status`, `update_time`, `create_time`, `validate_rule`, `validate_time`, `error_info`, `validate_type`, `auto_rule`, `auto_time`, `auto_type`) VALUES
 (1, 'uid', '用户ID', 'int(10) unsigned NOT NULL ', 'num', '0', '', 0, '', 1, 0, 1, 1384508362, 1383891233, '', 0, '', '', '', 0, ''),
@@ -212,12 +171,7 @@ INSERT INTO `thinkox_attribute` (`id`, `name`, `title`, `field`, `type`, `value`
 (32, 'size', '文件大小', 'bigint(20) unsigned NOT NULL ', 'num', '0', '单位bit', 1, '', 3, 0, 1, 1383896371, 1383891252, '', 0, '', '', '', 0, ''),
 (33, 'zx', '附近', 'int(10) UNSIGNED NOT NULL', 'file', '', '', 1, '', 2, 0, 1, 1395988634, 1395988634, '', 3, '', 'regex', '', 3, 'function');
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_auth_extend`
---
-
+DROP TABLE IF EXISTS `thinkox_auth_extend`;
 CREATE TABLE IF NOT EXISTS `thinkox_auth_extend` (
   `group_id` mediumint(10) unsigned NOT NULL COMMENT '用户id',
   `extend_id` mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id',
@@ -226,10 +180,6 @@ CREATE TABLE IF NOT EXISTS `thinkox_auth_extend` (
   KEY `uid` (`group_id`),
   KEY `group_id` (`extend_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户组与分类的对应关系表';
-
---
--- 转存表中的数据 `thinkox_auth_extend`
---
 
 INSERT INTO `thinkox_auth_extend` (`group_id`, `extend_id`, `type`) VALUES
 (1, 1, 1),
@@ -241,12 +191,7 @@ INSERT INTO `thinkox_auth_extend` (`group_id`, `extend_id`, `type`) VALUES
 (1, 4, 1),
 (1, 37, 1);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_auth_group`
---
-
+DROP TABLE IF EXISTS `thinkox_auth_group`;
 CREATE TABLE IF NOT EXISTS `thinkox_auth_group` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户组id,自增主键',
   `module` varchar(20) NOT NULL COMMENT '用户组所属模块',
@@ -258,18 +203,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_auth_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- 转存表中的数据 `thinkox_auth_group`
---
-
 INSERT INTO `thinkox_auth_group` (`id`, `module`, `type`, `title`, `description`, `status`, `rules`) VALUES
 (1, 'admin', 1, '默认用户组', '', 1, '218,220');
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_auth_group_access`
---
-
+DROP TABLE IF EXISTS `thinkox_auth_group_access`;
 CREATE TABLE IF NOT EXISTS `thinkox_auth_group_access` (
   `uid` int(10) unsigned NOT NULL COMMENT '用户id',
   `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id',
@@ -278,20 +215,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_auth_group_access` (
   KEY `group_id` (`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 转存表中的数据 `thinkox_auth_group_access`
---
-
 INSERT INTO `thinkox_auth_group_access` (`uid`, `group_id`) VALUES
 (1, 1),
 (1, 3);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_auth_rule`
---
-
+DROP TABLE IF EXISTS `thinkox_auth_rule`;
 CREATE TABLE IF NOT EXISTS `thinkox_auth_rule` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则id,自增主键',
   `module` varchar(20) NOT NULL COMMENT '规则所属module',
@@ -302,11 +230,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_auth_rule` (
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件',
   PRIMARY KEY (`id`),
   KEY `module` (`module`,`status`,`type`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=254 ;
-
---
--- 转存表中的数据 `thinkox_auth_rule`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000 ;
 
 INSERT INTO `thinkox_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status`, `condition`) VALUES
 (1, 'admin', 2, 'Admin/Index/index', '首页', 1, ''),
@@ -560,32 +484,20 @@ INSERT INTO `thinkox_auth_rule` (`id`, `module`, `type`, `name`, `title`, `statu
 (252, 'admin', 2, 'Admin/Rank/index', '头衔', 1, ''),
 (253, 'admin', 2, 'Admin/Issue/issue', '专辑', 1, '');
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_avatar`
---
-
+DROP TABLE IF EXISTS `thinkox_avatar`;
 CREATE TABLE IF NOT EXISTS `thinkox_avatar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
-  `path` varchar(70) NOT NULL,
+  `path` varchar(200) NOT NULL,
   `create_time` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `is_temp` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=151 ;
 
---
--- 转存表中的数据 `thinkox_avatar`
---
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_category`
---
-
+DROP TABLE IF EXISTS `thinkox_category`;
 CREATE TABLE IF NOT EXISTS `thinkox_category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '分类ID',
   `name` varchar(30) NOT NULL COMMENT '标志',
@@ -618,20 +530,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_category` (
   KEY `pid` (`pid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='分类表' AUTO_INCREMENT=40 ;
 
---
--- 转存表中的数据 `thinkox_category`
---
-
 INSERT INTO `thinkox_category` (`id`, `name`, `title`, `pid`, `sort`, `list_row`, `meta_title`, `keywords`, `description`, `template_index`, `template_lists`, `template_detail`, `template_edit`, `model`, `type`, `link_id`, `allow_publish`, `display`, `reply`, `check`, `reply_model`, `extend`, `create_time`, `update_time`, `status`, `icon`) VALUES
 (1, 'blog', '博客', 0, 0, 10, '', '', '', '', '', '', '', '2', '2,1', 0, 0, 1, 0, 0, '1', '', 1379474947, 1382701539, 1, 0),
 (2, 'default_blog', '默认分类', 1, 1, 10, '', '', '', '', '', '', '', '2', '2,1,3', 0, 1, 1, 0, 1, '1', '', 1379475028, 1386839751, 1, 31);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_channel`
---
-
+DROP TABLE IF EXISTS `thinkox_channel`;
 CREATE TABLE IF NOT EXISTS `thinkox_channel` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '频道ID',
   `pid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '上级频道ID',
@@ -644,24 +547,18 @@ CREATE TABLE IF NOT EXISTS `thinkox_channel` (
   `target` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '新窗口打开',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
-
---
--- 转存表中的数据 `thinkox_channel`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 INSERT INTO `thinkox_channel` (`id`, `pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
 (1, 0, '首页', 'Weibo/Index/index', 1, 1379475111, 1401628204, 1, 0),
 (2, 0, '贴吧', 'Forum/Index/index', 2, 1379475131, 1394692439, 1, 0),
 (4, 0, '专辑', 'Issue/Index/index', 10, 1399022492, 1401628054, 1, 0),
-(5, 0, '会员', 'People/Index/index', 20, 1399784340, 1401628187, 1, 0);
+(5, 0, '会员', 'People/Index/index', 20, 1399784340, 1401628187, 1, 0),
+(9, 0, '其他', 'Other', 50, 1403094773, 1403094773, 1, 0),
+(11, 0, '商城', 'Shop/Index/index', 5, 1403056971, 1403085891, 1, 0),
+(13, 0, '活动', '/Event/index', 3, 1403797042, 1403797164, 1, 0);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_check_info`
---
-
+DROP TABLE IF EXISTS `thinkox_check_info`;
 CREATE TABLE IF NOT EXISTS `thinkox_check_info` (
   `uid` int(11) DEFAULT NULL,
   `con_num` int(11) DEFAULT '1',
@@ -669,10 +566,8 @@ CREATE TABLE IF NOT EXISTS `thinkox_check_info` (
   `ctime` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- 表的结构 `thinkox_config`
---
 
+DROP TABLE IF EXISTS `thinkox_config`;
 CREATE TABLE IF NOT EXISTS `thinkox_config` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '配置ID',
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '配置名称',
@@ -690,11 +585,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_config` (
   UNIQUE KEY `uk_name` (`name`),
   KEY `type` (`type`),
   KEY `group` (`group`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
-
---
--- 转存表中的数据 `thinkox_config`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000 ;
 
 INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
 (4, 'WEB_SITE_CLOSE', 4, '关闭站点', 1, '0:关闭,1:开启', '站点关闭后其他用户不能访问，管理员可以正常访问', 1378898976, 1379235296, 1, '1', 6),
@@ -736,14 +627,15 @@ INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `
 (48, 'VERIFY_OPEN', 4, '验证码配置', 4, '0:全部关闭\r\n1:全部显示\r\n2:注册显示\r\n3:登陆显示', '验证码配置', 1388500332, 1388500800, 1, '1', 0),
 (49, 'VERIFY_TYPE', 4, '验证码类型', 4, '1:中文\r\n2:英文\r\n3:数字\r\n4:算数', '验证码类型', 1388500873, 1388501063, 1, '1', 0),
 (54, 'NO_BODY_TLE', 2, '空白说明', 2, '', '空白说明', 1392216444, 1392981305, 1, '呵呵，暂时没有内容哦！！', 0),
-(55, 'USER_RESPASS', 5, '密码找回模板', 3, '', '密码找回文本', 1396191234, 1396191234, 1, '<span style="color:#009900;">请点击以下链接找回密码，如无反应，请将链接地址复制到浏览器中打开(下次登录前有效)</span>', 0);
+(55, 'USER_RESPASS', 5, '密码找回模板', 3, '', '密码找回文本', 1396191234, 1396191234, 1, '<span style="color:#009900;">请点击以下链接找回密码，如无反应，请将链接地址复制到浏览器中打开(下次登录前有效)</span>', 0),
+(56, 'COUNT_CODE', 2, '统计代码', 1, '', '用于统计网站访问量的第三方代码，推荐CNZZ统计', 1403058890, 1403058890, 1, '', 0),
+(57, 'SHARE_WEIBO_ID', 0, '分享来源微博ID', 1, '', '来源的微博ID，不配置则隐藏顶部微博分享按钮。', 1403091490, 1403091490, 1, '1971549283', 0),
+(58, 'USER_REG_WEIBO_CONTENT', 1, '用户注册微博提示内容', 3, '', '留空则表示不发新微博，支持face', 1404965285, 1404965445, 1, '', 0),
+(59, 'WEIBO_WORDS_COUNT', 0, '微博字数限制', 1, '', '最大允许的微博字数长度', 1405330568, 1405330622, 1, '200', 0);
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_document`
---
 
+DROP TABLE IF EXISTS `thinkox_document`;
 CREATE TABLE IF NOT EXISTS `thinkox_document` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
@@ -773,14 +665,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_document` (
   KEY `idx_status_type_pid` (`status`,`uid`,`pid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文档模型基础表' AUTO_INCREMENT=3 ;
 
-
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_document_article`
---
-
+DROP TABLE IF EXISTS `thinkox_document_article`;
 CREATE TABLE IF NOT EXISTS `thinkox_document_article` (
   `id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
   `parse` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '内容解析类型',
@@ -791,16 +676,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_document_article` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文档模型文章表';
 
---
--- 转存表中的数据 `thinkox_document_article`
---
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_document_download`
---
-
+DROP TABLE IF EXISTS `thinkox_document_download`;
 CREATE TABLE IF NOT EXISTS `thinkox_document_download` (
   `id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
   `parse` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '内容解析类型',
@@ -812,12 +688,61 @@ CREATE TABLE IF NOT EXISTS `thinkox_document_download` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文档模型下载表';
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `thinkox_event`;
+CREATE TABLE IF NOT EXISTS `thinkox_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL COMMENT '发起人',
+  `title` varchar(255) NOT NULL COMMENT '活动名称',
+  `explain` text NOT NULL COMMENT '详细内容',
+  `sTime` int(11) NOT NULL COMMENT '活动开始时间',
+  `eTime` int(11) NOT NULL COMMENT '活动结束时间',
+  `address` varchar(255) NOT NULL COMMENT '活动地点',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `limitCount` int(11) NOT NULL COMMENT '限制人数',
+  `cover_id` int(11) NOT NULL COMMENT '封面ID',
+  `deadline` int(11) NOT NULL,
+  `attentionCount` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `view_count` int(11) NOT NULL,
+  `reply_count` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `signCount` int(11) NOT NULL,
+  `is_recommend` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 表的结构 `thinkox_field`
---
 
+DROP TABLE IF EXISTS `thinkox_event_attend`;
+CREATE TABLE IF NOT EXISTS `thinkox_event_attend` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` bigint(20) NOT NULL,
+  `creat_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '0为报名，1为参加',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `thinkox_event_type`;
+CREATE TABLE IF NOT EXISTS `thinkox_event_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `allow_post` tinyint(4) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+INSERT INTO `thinkox_event_type` (`id`, `title`, `create_time`, `update_time`, `status`, `allow_post`, `pid`, `sort`) VALUES
+(1, '官方活动', 1403859500, 1403859485, 1, 0, 0, 0),
+(2, '公益活动', 1403859511, 1403859502, 1, 0, 0, 0);
+
+DROP TABLE IF EXISTS `thinkox_field`;
 CREATE TABLE IF NOT EXISTS `thinkox_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -826,38 +751,25 @@ CREATE TABLE IF NOT EXISTS `thinkox_field` (
   `createTime` int(11) NOT NULL,
   `changeTime` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
-
---
--- 转存表中的数据 `thinkox_field`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_field_group`
---
-
+DROP TABLE IF EXISTS `thinkox_field_group`;
 CREATE TABLE IF NOT EXISTS `thinkox_field_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `profile_name` varchar(25) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `createTime` int(11) NOT NULL,
   `sort` int(11) NOT NULL,
+  `visiable` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
---
--- 转存表中的数据 `thinkox_field_group`
---
+INSERT INTO `thinkox_field_group` (`id`, `profile_name`, `status`, `createTime`, `sort`, `visiable`) VALUES
+(12, '就业信息', 1, 1403843132, 0, 1),
+(13, '个人资料', 1, 1403847366, 0, 1);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_field_setting`
---
-
+DROP TABLE IF EXISTS `thinkox_field_setting`;
 CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `field_name` varchar(25) NOT NULL,
@@ -871,20 +783,15 @@ CREATE TABLE IF NOT EXISTS `thinkox_field_setting` (
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `createTime` int(11) NOT NULL,
   `child_form_type` varchar(25) NOT NULL,
+  `input_tips` varchar(100) NOT NULL COMMENT '输入提示',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
---
--- 转存表中的数据 `thinkox_field_setting`
---
+INSERT INTO `thinkox_field_setting` (`id`, `field_name`, `profile_group_id`, `visiable`, `required`, `sort`, `form_type`, `form_default_value`, `validation`, `status`, `createTime`, `child_form_type`, `input_tips`) VALUES
+(34, '毕业学校', 12, 1, 1, 0, 'input', '', 'min=1&max=10', 1, 1403843235, 'string', '输入您的毕业院校'),
+(35, '学历', 13, 1, 1, 0, 'input', '', '', 1, 1403847449, 'string', '输入学历');
 
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_file`
---
-
+DROP TABLE IF EXISTS `thinkox_file`;
 CREATE TABLE IF NOT EXISTS `thinkox_file` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文件ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '原始文件名',
@@ -901,35 +808,18 @@ CREATE TABLE IF NOT EXISTS `thinkox_file` (
   UNIQUE KEY `uk_md5` (`md5`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文件表' AUTO_INCREMENT=4 ;
 
---
--- 转存表中的数据 `thinkox_file`
---
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_follow`
---
-
+DROP TABLE IF EXISTS `thinkox_follow`;
 CREATE TABLE IF NOT EXISTS `thinkox_follow` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `follow_who` int(11) NOT NULL COMMENT '关注谁',
   `who_follow` int(11) NOT NULL COMMENT '谁关注',
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='关注表' AUTO_INCREMENT=37 ;
-
---
--- 转存表中的数据 `thinkox_follow`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='关注表' AUTO_INCREMENT=1 ;
 
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_forum`
---
-
+DROP TABLE IF EXISTS `thinkox_forum`;
 CREATE TABLE IF NOT EXISTS `thinkox_forum` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
@@ -940,20 +830,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_forum` (
   `sort` int(11) NOT NULL,
   `logo` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- 转存表中的数据 `thinkox_forum`
---
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `thinkox_forum` (`id`, `title`, `create_time`, `post_count`, `status`, `allow_user_group`, `sort`, `logo`) VALUES
-(1, '默认板块', 2433180, 11, 0, '1', 4, 0);
--- --------------------------------------------------------
+(1, '默认板块', 2433180, 16, 1, '1', 4, 71);
 
---
--- 表的结构 `thinkox_forum_bookmark`
---
-
+DROP TABLE IF EXISTS `thinkox_forum_bookmark`;
 CREATE TABLE IF NOT EXISTS `thinkox_forum_bookmark` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -962,12 +844,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_forum_bookmark` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_forum_lzl_reply`
---
-
+DROP TABLE IF EXISTS `thinkox_forum_lzl_reply`;
 CREATE TABLE IF NOT EXISTS `thinkox_forum_lzl_reply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
@@ -979,19 +856,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_forum_lzl_reply` (
   `ctime` int(11) NOT NULL,
   `is_del` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=58 ;
-
---
--- 转存表中的数据 `thinkox_forum_lzl_reply`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_forum_post`
---
-
+DROP TABLE IF EXISTS `thinkox_forum_post`;
 CREATE TABLE IF NOT EXISTS `thinkox_forum_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -1007,18 +876,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_forum_post` (
   `reply_count` int(11) NOT NULL,
   `is_top` tinyint(4) NOT NULL COMMENT '是否置顶',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_forum_post`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_forum_post_reply`
---
-
+DROP TABLE IF EXISTS `thinkox_forum_post_reply`;
 CREATE TABLE IF NOT EXISTS `thinkox_forum_post_reply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -1029,18 +890,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_forum_post_reply` (
   `update_time` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_forum_post_reply`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_hooks`
---
-
+DROP TABLE IF EXISTS `thinkox_hooks`;
 CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(40) NOT NULL DEFAULT '' COMMENT '钩子名称',
@@ -1050,11 +903,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
   `addons` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
-
---
--- 转存表中的数据 `thinkox_hooks`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`) VALUES
 (1, 'pageHeader', '页面header钩子，一般用于加载插件CSS文件和代码', 1, 0, ''),
@@ -1065,21 +914,20 @@ INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`,
 (6, 'documentSaveComplete', '保存文档数据后的扩展钩子', 2, 0, 'Attachment'),
 (7, 'documentEditFormContent', '添加编辑表单的内容显示钩子', 1, 0, 'Editor'),
 (8, 'adminArticleEdit', '后台内容编辑页编辑器', 1, 1378982734, 'EditorForAdmin'),
-(13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam'),
+(13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam,SyncLogin'),
 (14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, 'Editor'),
 (16, 'app_begin', '应用开始', 2, 1384481614, ''),
 (17, 'checkin', '签到', 1, 1395371353, 'Checkin'),
 (18, 'Rank', '签到排名钩子', 1, 1395387442, 'Rank_checkin'),
 (20, 'support', '赞', 1, 1398264759, 'Support'),
 (21, 'localComment', '本地评论插件', 1, 1399440321, 'LocalComment'),
-(22, 'weiboType', '插入图片', 1, 1402390749, 'InsertImage');
+(22, 'weiboType', '插入图片', 1, 1402390749, 'InsertImage'),
+(23, 'repost', '转发钩子', 1, 1403668286, 'Repost'),
+(24, 'syncLogin', '第三方登陆位置', 1, 1403700579, 'SyncLogin'),
+(25, 'syncMeta', '第三方登陆meta接口', 1, 1403700633, 'SyncLogin'),
+(26, 'J_China_City', '每个系统都需要的一个中国省市区四级联动插件。', 1, 1403841931, 'ChinaCity');
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_issue`
---
-
+DROP TABLE IF EXISTS `thinkox_issue`;
 CREATE TABLE IF NOT EXISTS `thinkox_issue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(40) NOT NULL,
@@ -1090,14 +938,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_issue` (
   `pid` int(11) NOT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_issue_content`
---
-
+DROP TABLE IF EXISTS `thinkox_issue_content`;
 CREATE TABLE IF NOT EXISTS `thinkox_issue_content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL COMMENT '标题',
@@ -1110,15 +954,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_issue_content` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   `status` tinyint(11) NOT NULL,
+  `url` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='专辑内容表' AUTO_INCREMENT=20 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='专辑内容表' AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_local_comment`
---
-
+DROP TABLE IF EXISTS `thinkox_local_comment`;
 CREATE TABLE IF NOT EXISTS `thinkox_local_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -1131,21 +972,13 @@ CREATE TABLE IF NOT EXISTS `thinkox_local_comment` (
   `pid` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_local_comment`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_member`
---
-
+DROP TABLE IF EXISTS `thinkox_member`;
 CREATE TABLE IF NOT EXISTS `thinkox_member` (
   `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `nickname` char(16) NOT NULL DEFAULT '' COMMENT '昵称',
+  `nickname` char(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '昵称',
   `sex` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
   `birthday` date NOT NULL DEFAULT '0000-00-00' COMMENT '生日',
   `qq` char(10) NOT NULL DEFAULT '' COMMENT 'qq号',
@@ -1157,21 +990,18 @@ CREATE TABLE IF NOT EXISTS `thinkox_member` (
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '会员状态',
   `signature` text NOT NULL,
+  `tox_money` int(11) NOT NULL,
+  `pos_province` int(11) NOT NULL,
+  `pos_city` int(11) NOT NULL,
+  `pos_district` int(11) NOT NULL,
+  `pos_community` int(11) NOT NULL,
   PRIMARY KEY (`uid`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=31 ;
-
---
--- 转存表中的数据 `thinkox_member`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=1000 ;
 
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_menu`
---
-
+DROP TABLE IF EXISTS `thinkox_menu`;
 CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '标题',
@@ -1184,11 +1014,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `is_dev` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否仅开发者模式可见',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=170 ;
-
---
--- 转存表中的数据 `thinkox_menu`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=216 ;
 
 INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`) VALUES
 (1, '首页', 0, 1, 'Index/index', 0, '', '', 0),
@@ -1345,14 +1171,33 @@ INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, 
 (166, '添加、编辑字段', 165, 0, 'Admin/User/editFieldSetting', 0, '', '', 0),
 (167, '字段排序', 165, 0, 'Admin/User/sortField', 0, '', '', 0),
 (168, '全部补丁', 68, 0, 'Admin/Update/quick', 0, '', '升级补丁', 0),
-(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0);
+(169, '新增补丁', 68, 0, 'Admin/Update/addpack', 0, '', '升级补丁', 0),
+(170, '用户扩展资料列表', 16, 0, 'Admin/User/expandinfo_select', 0, '', '用户管理', 0),
+(171, '扩展资料详情', 170, 0, 'User/expandinfo_details', 0, '', '', 0),
+(185, '商城信息记录', 172, 0, 'Shop/shopLog', 0, '', '商城记录', 0),
+(184, '待发货交易', 172, 4, 'Shop/verify', 0, '', '交易管理', 0),
+(183, '交易成功记录', 172, 5, 'Shop/goodsBuySuccess', 0, '', '交易管理', 0),
+(182, '商品分类状态设置', 176, 0, 'Shop/setStatus', 0, '', '', 0),
+(181, '商品状态设置', 174, 0, 'Shop/setGoodsStatus', 0, '', '', 0),
+(180, '商品回收站', 172, 7, 'Shop/goodsTrash', 0, '', '商品管理', 0),
+(179, '商品分类回收站', 172, 3, 'Shop/categoryTrash', 0, '', '商城配置', 0),
+(178, '商品分类操作', 176, 0, 'Shop/operate', 0, '', '', 0),
+(176, '商品分类配置', 172, 2, 'Shop/shopCategory', 0, '', '商城配置', 0),
+(177, '商品分类添加', 176, 0, 'Shop/add', 0, '', '', 0),
+(175, '添加、编辑商品', 174, 0, 'Shop/goodsEdit', 0, '', '', 0),
+(174, '商品列表', 172, 1, 'Shop/goodsList', 0, '', '商品管理', 0),
+(173, '货币配置', 172, 8, 'Shop/toxMoneyConfig', 0, '', '商城配置', 0),
+(172, '商城', 0, 8, 'Shop/shopCategory', 0, '', '', 0),
+(186, '热销商品阀值配置', 172, 0, 'Shop/hotSellConfig', 0, '', '商城配置', 0),
+(187, '设置新品', 174, 0, 'Shop/setNew', 0, '', '', 0),
+(188, '活动', 0, 21, 'EventType/index', 0, '', '', 0),
+(189, '活动分类管理', 188, 0, 'EventType/index', 0, '', '活动分类管理', 0),
+(190, '内容管理', 188, 0, 'Event/event', 0, '', '内容管理', 0),
+(191, '活动分类回收站', 188, 0, 'EventType/eventTypeTrash', 0, '', '活动分类管理', 0),
+(192, '内容审核', 188, 0, 'Event/verify', 0, '', '内容管理', 0),
+(193, '内容回收站', 188, 0, 'Event/contentTrash', 0, '', '内容管理', 0);
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_message`
---
-
+DROP TABLE IF EXISTS `thinkox_message`;
 CREATE TABLE IF NOT EXISTS `thinkox_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from_uid` int(11) NOT NULL,
@@ -1371,18 +1216,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_message` (
   `find_id` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='thinkox新增消息表' AUTO_INCREMENT=197 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='thinkox新增消息表' AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_message`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_model`
---
-
+DROP TABLE IF EXISTS `thinkox_model`;
 CREATE TABLE IF NOT EXISTS `thinkox_model` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型ID',
   `name` char(30) NOT NULL DEFAULT '' COMMENT '模型标识',
@@ -1407,21 +1244,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_model` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文档模型表' AUTO_INCREMENT=4 ;
 
---
--- 转存表中的数据 `thinkox_model`
---
-
 INSERT INTO `thinkox_model` (`id`, `name`, `title`, `extend`, `relation`, `need_pk`, `field_sort`, `field_group`, `attribute_list`, `template_list`, `template_add`, `template_edit`, `list_grid`, `list_row`, `search_key`, `search_list`, `create_time`, `update_time`, `status`, `engine_type`) VALUES
 (1, 'document', '基础文档', 0, '', 1, '{"1":["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"]}', '1:基础', '', '', '', '', 'id:编号\r\ntitle:标题:article/index?cate_id=[category_id]&pid=[id]\r\ntype|get_document_type:类型\r\nlevel:优先级\r\nupdate_time|time_format:最后更新\r\nstatus_text:状态\r\nview:浏览\r\nid:操作:[EDIT]&cate_id=[category_id]|编辑,article/setstatus?status=-1&ids=[id]|删除', 0, '', '', 1383891233, 1384507827, 1, 'MyISAM'),
 (2, 'article', '文章', 1, '', 1, '{"1":["3","24","2","5"],"2":["9","13","19","10","12","16","17","26","20","14","11","25"]}', '1:基础,2:扩展', '', '', '', '', 'id:编号\r\ntitle:标题:article/edit?cate_id=[category_id]&id=[id]\r\ncontent:内容', 0, '', '', 1383891243, 1387260622, 1, 'MyISAM'),
 (3, 'download', '下载', 1, '', 1, '{"1":["3","28","30","32","2","5","31"],"2":["13","10","27","9","12","16","17","19","11","20","14","29"]}', '1:基础,2:扩展', '', '', '', '', 'id:编号\r\ntitle:标题', 0, '', '', 1383891252, 1387260449, 1, 'MyISAM');
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_picture`
---
-
+DROP TABLE IF EXISTS `thinkox_picture`;
 CREATE TABLE IF NOT EXISTS `thinkox_picture` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id自增',
   `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路径',
@@ -1431,18 +1259,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_picture` (
   `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_picture`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_rank`
---
-
+DROP TABLE IF EXISTS `thinkox_rank`;
 CREATE TABLE IF NOT EXISTS `thinkox_rank` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL COMMENT '上传者id',
@@ -1450,14 +1270,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_rank` (
   `logo` int(11) NOT NULL,
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_rank_user`
---
-
+DROP TABLE IF EXISTS `thinkox_rank_user`;
 CREATE TABLE IF NOT EXISTS `thinkox_rank_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -1466,14 +1282,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_rank_user` (
   `is_show` tinyint(4) NOT NULL COMMENT '是否显示在昵称右侧（必须有图片才可）',
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_seo_rule`
---
-
+DROP TABLE IF EXISTS `thinkox_seo_rule`;
 CREATE TABLE IF NOT EXISTS `thinkox_seo_rule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
@@ -1488,24 +1300,111 @@ CREATE TABLE IF NOT EXISTS `thinkox_seo_rule` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
---
--- 转存表中的数据 `thinkox_seo_rule`
---
-
 INSERT INTO `thinkox_seo_rule` (`id`, `title`, `app`, `controller`, `action`, `status`, `seo_keywords`, `seo_description`, `seo_title`, `sort`) VALUES
-(4, '整站标题', '', '', '', 1, '', '', 'ThinkOX', 4),
-(6, '讨论区SEO', 'Forum', '', '', 1, '', '', 'ThinkOX讨论区', 1),
-(7, '微博seo', 'Weibo', '', '', 1, '', '1', 'ThinkOX微博', 2),
-(8, '微博详情页SEO', 'Weibo', 'Index', 'weiboDetail', 1, '{$weibo.title|op_t},Thinkox,ox,微博', '{$weibo.content|op_t}', '{$weibo.content|op_t}——ThinkOX微博', 0),
-(9, '用户中心', 'Usercenter', 'Index', 'index', 1, '{$user.username|op_t},Thinkox', '{$user.username|op_t}的个人主页', '{$user.username|op_t}的个人主页', 0),
-(10, '会员SEO', 'People', '', '', 1, '会员', '会员', '会员', 0);
+(4, '整站标题', '', '', '', 1, '', '', 'ThinkOX', 6),
+(6, '讨论区SEO', 'Forum', '', '', 0, '', '', 'ThinkOX讨论区', 4),
+(7, '微博seo', 'Weibo', '', '', 1, '', '1', 'ThinkOX微博', 5),
+(8, '微博详情页SEO', 'Weibo', 'Index', 'weiboDetail', 1, '{$weibo.title|op_t},Thinkox,ox,微博', '{$weibo.content|op_t}', '{$weibo.content|op_t}——ThinkOX微博', 1),
+(9, '用户中心', 'Usercenter', '', '', 0, '{$user.nickname|op_t},Thinkox', '{$user.username|op_t}的个人主页', '{$user.nickname|op_t}的个人主页', 2),
+(10, '会员SEO', 'People', '', '', 1, '会员', '会员', '会员', 3);
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `thinkox_shop`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_name` varchar(25) NOT NULL COMMENT '商品名称',
+  `goods_ico` int(11) NOT NULL COMMENT '商品图标',
+  `goods_introduct` varchar(100) NOT NULL COMMENT '商品简介',
+  `goods_detail` varchar(1000) NOT NULL COMMENT '商品详情',
+  `tox_money_need` int(11) NOT NULL COMMENT '需要金币数',
+  `goods_num` int(11) NOT NULL COMMENT '商品余量',
+  `changetime` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '状态，-1：删除；0：禁用；1：启用',
+  `createtime` int(11) NOT NULL COMMENT '创建时间',
+  `category_id` int(11) NOT NULL,
+  `is_new` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否为新品',
+  `sell_num` int(11) NOT NULL DEFAULT '0' COMMENT '已出售量',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='商品信息' AUTO_INCREMENT=1 ;
 
---
--- 表的结构 `thinkox_support`
---
 
+DROP TABLE IF EXISTS `thinkox_shop_address`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `zipcode` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `change_time` int(11) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `thinkox_shop_buy`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop_buy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL COMMENT '商品id',
+  `goods_num` int(11) NOT NULL COMMENT '购买数量',
+  `status` tinyint(4) NOT NULL COMMENT '状态，-1：未领取；0：申请领取；1：已领取',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `createtime` int(11) NOT NULL COMMENT '购买时间',
+  `gettime` int(11) NOT NULL COMMENT '交易结束时间',
+  `address_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='购买商品信息表' AUTO_INCREMENT=1 ;
+
+
+
+DROP TABLE IF EXISTS `thinkox_shop_category`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(25) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+INSERT INTO `thinkox_shop_category` (`id`, `title`, `create_time`, `update_time`, `status`, `pid`, `sort`) VALUES
+(1, '奖品', 1403507725, 1403507717, 1, 0, 0);
+
+DROP TABLE IF EXISTS `thinkox_shop_config`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ename` varchar(25) NOT NULL COMMENT '标识',
+  `cname` varchar(25) NOT NULL COMMENT '中文名称',
+  `changetime` int(11) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='商店配置' AUTO_INCREMENT=3 ;
+
+INSERT INTO `thinkox_shop_config` (`id`, `ename`, `cname`, `changetime`) VALUES
+(1, 'tox_money', '金币', 1403507688),
+(2, 'min_sell_num', '10', 1403489181);
+
+DROP TABLE IF EXISTS `thinkox_shop_log`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `message` varchar(500) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `thinkox_shop_see`;
+CREATE TABLE IF NOT EXISTS `thinkox_shop_see` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `thinkox_support`;
 CREATE TABLE IF NOT EXISTS `thinkox_support` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `appname` varchar(20) NOT NULL COMMENT '应用名',
@@ -1514,18 +1413,22 @@ CREATE TABLE IF NOT EXISTS `thinkox_support` (
   `create_time` int(11) NOT NULL COMMENT '发布时间',
   `table` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='支持的表' AUTO_INCREMENT=58 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='支持的表' AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_support`
---
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_talk`
---
+DROP TABLE IF EXISTS `thinkox_sync_login`;
+CREATE TABLE IF NOT EXISTS `thinkox_sync_login` (
+  `uid` int(11) NOT NULL,
+  `type_uid` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `oauth_token` varchar(255) NOT NULL,
+  `oauth_token_secret` varchar(255) NOT NULL,
+  `is_sync` tinyint(4) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `thinkox_talk`;
 CREATE TABLE IF NOT EXISTS `thinkox_talk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `create_time` int(11) NOT NULL,
@@ -1542,18 +1445,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_talk` (
   `other_uid` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会话表' AUTO_INCREMENT=115 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会话表' AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_talk`
---
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_talk_message`
---
-
+DROP TABLE IF EXISTS `thinkox_talk_message`;
 CREATE TABLE IF NOT EXISTS `thinkox_talk_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(500) NOT NULL,
@@ -1561,18 +1457,22 @@ CREATE TABLE IF NOT EXISTS `thinkox_talk_message` (
   `create_time` int(11) NOT NULL,
   `talk_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='聊天消息表' AUTO_INCREMENT=165 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='聊天消息表' AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_talk_message`
---
 
--- --------------------------------------------------------
+DROP TABLE IF EXISTS `thinkox_talk_message_push`;
+CREATE TABLE IF NOT EXISTS `thinkox_talk_message_push` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `source_id` int(11) NOT NULL COMMENT '来源消息id',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `status` tinyint(4) NOT NULL,
+  `talk_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=gbk COMMENT='状态，0为未提示，1为未点击，-1为已点击' AUTO_INCREMENT=1 ;
 
---
--- 表的结构 `thinkox_talk_push`
---
 
+DROP TABLE IF EXISTS `thinkox_talk_push`;
 CREATE TABLE IF NOT EXISTS `thinkox_talk_push` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL COMMENT '接收推送的用户id',
@@ -1580,19 +1480,11 @@ CREATE TABLE IF NOT EXISTS `thinkox_talk_push` (
   `create_time` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL COMMENT '状态，0为未提示，1为未点击，-1为已点击',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='对话推送表' AUTO_INCREMENT=50 ;
-
---
--- 转存表中的数据 `thinkox_talk_push`
---
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='对话推送表' AUTO_INCREMENT=1 ;
 
 
--- --------------------------------------------------------
 
---
--- 表的结构 `thinkox_tianyi_verify`
---
-
+DROP TABLE IF EXISTS `thinkox_tianyi_verify`;
 CREATE TABLE IF NOT EXISTS `thinkox_tianyi_verify` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mobile` varchar(20) NOT NULL,
@@ -1602,12 +1494,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_tianyi_verify` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_ucenter_admin`
---
-
+DROP TABLE IF EXISTS `thinkox_ucenter_admin`;
 CREATE TABLE IF NOT EXISTS `thinkox_ucenter_admin` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '管理员ID',
   `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '管理员用户ID',
@@ -1615,12 +1502,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_ucenter_admin` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='管理员表' AUTO_INCREMENT=3 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_ucenter_member`
---
-
+DROP TABLE IF EXISTS `thinkox_ucenter_member`;
 CREATE TABLE IF NOT EXISTS `thinkox_ucenter_member` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `username` char(16) NOT NULL COMMENT '用户名',
@@ -1637,19 +1519,9 @@ CREATE TABLE IF NOT EXISTS `thinkox_ucenter_member` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='用户表' AUTO_INCREMENT=1000 ;
 
---
--- 转存表中的数据 `thinkox_ucenter_member`
---
-
-
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_ucenter_setting`
---
-
+DROP TABLE IF EXISTS `thinkox_ucenter_setting`;
 CREATE TABLE IF NOT EXISTS `thinkox_ucenter_setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '设置ID',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型（1-用户配置）',
@@ -1657,12 +1529,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_ucenter_setting` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='设置表' AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_url`
---
-
+DROP TABLE IF EXISTS `thinkox_url`;
 CREATE TABLE IF NOT EXISTS `thinkox_url` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '链接唯一标识',
   `url` char(255) NOT NULL DEFAULT '' COMMENT '链接地址',
@@ -1673,30 +1540,17 @@ CREATE TABLE IF NOT EXISTS `thinkox_url` (
   UNIQUE KEY `idx_url` (`url`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='链接表' AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_user_token`
---
-
+DROP TABLE IF EXISTS `thinkox_user_token`;
 CREATE TABLE IF NOT EXISTS `thinkox_user_token` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
   `token` varchar(255) NOT NULL,
   `time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_user_token`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_weibo`
---
-
+DROP TABLE IF EXISTS `thinkox_weibo`;
 CREATE TABLE IF NOT EXISTS `thinkox_weibo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -1707,19 +1561,12 @@ CREATE TABLE IF NOT EXISTS `thinkox_weibo` (
   `is_top` tinyint(4) NOT NULL,
   `type` varchar(255) NOT NULL,
   `data` text NOT NULL,
+  `repost_count` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=122 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_weibo`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_weibo_comment`
---
-
+DROP TABLE IF EXISTS `thinkox_weibo_comment`;
 CREATE TABLE IF NOT EXISTS `thinkox_weibo_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -1729,25 +1576,16 @@ CREATE TABLE IF NOT EXISTS `thinkox_weibo_comment` (
   `status` int(11) NOT NULL,
   `to_comment_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `thinkox_weibo_comment`
---
 
--- --------------------------------------------------------
-
---
--- 表的结构 `thinkox_weibo_top`
---
-
+DROP TABLE IF EXISTS `thinkox_weibo_top`;
 CREATE TABLE IF NOT EXISTS `thinkox_weibo_top` (
   `weibo_id` int(11) NOT NULL DEFAULT '0',
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`weibo_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='置顶微博表';
 
---
--- 转存表中的数据 `thinkox_weibo_top`
---
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
