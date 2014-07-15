@@ -21,7 +21,7 @@ class ConfigController extends BaseController
 
     }
 
-    public function index($uid = null, $tab = '', $nickname = '', $sex = 0, $email = '', $signature = '', $email = ''
+    public function index($uid = null, $tab = '', $nickname = '', $sex = 0, $email = '', $signature = ''
         , $community = 0, $district = 0, $city = 0, $province = 0)
     {
 
@@ -50,27 +50,27 @@ class ConfigController extends BaseController
             $user['nickname'] = $nickname;
             $user['sex'] = intval($sex);
             $user['signature'] = $signature;
-            $user['uid']=get_uid();
+            $user['uid'] = get_uid();
 
-            $rs_member=D('Home/Member')->save($user);
+            $rs_member = D('Home/Member')->save($user);
 
-            $ucuser['id']=get_uid();
-            $ucuser['email']=$email;
-            $rs_ucmember=D('UcenterMember')->save($ucuser);
-            clean_query_user_cache(get_uid(),array('nickname','sex','signature','email','pos_province','pos_city','pos_district','pos_community'));
+            $ucuser['id'] = get_uid();
+            $ucuser['email'] = $email;
+            $rs_ucmember = D('UcenterMember')->save($ucuser);
+            clean_query_user_cache(get_uid(), array('nickname', 'sex', 'signature', 'email', 'pos_province', 'pos_city', 'pos_district', 'pos_community'));
 
             //TODO tox 清空缓存
-            if($rs_member || $rs_ucmember){
+            if ($rs_member || $rs_ucmember) {
                 $this->success('设置成功。');
 
-            }else{
+            } else {
                 $this->success('未修改数据。');
             }
 
         } else {
             //调用API获取基本信息
             //TODO tox 获取省市区数据
-            $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'avatar128', 'rank_link', 'sex','pos_province','pos_city','pos_district','pos_community'), $uid);
+            $user = query_user(array('nickname', 'signature', 'email', 'mobile', 'avatar128', 'rank_link', 'sex', 'pos_province', 'pos_city', 'pos_district', 'pos_community'), $uid);
             //显示页面
             $this->assign('user', $user);
             $tab = op_t($tab);
@@ -306,13 +306,13 @@ class ConfigController extends BaseController
                     }
                     break;
                 case 'email':
-                    if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$data['value'])){
+                    if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i", $data['value'])) {
                         $info['succ'] = 0;
                         $info['msg'] = $data['field_name'] . "格式不正确，必需为邮箱格式";
                     }
                     break;
                 case 'phone':
-                    if (!preg_match("/^\d{11}$/", $data['value'])){
+                    if (!preg_match("/^\d{11}$/", $data['value'])) {
                         $info['succ'] = 0;
                         $info['msg'] = $data['field_name'] . "格式不正确，必须为手机号码格式";
                     }
@@ -475,15 +475,13 @@ class ConfigController extends BaseController
             $this->error('邮箱格式错误。');
         }
 
-        $map['email']=$email;
-        $map['id']=array('neq',get_uid());
-        $had=D('UcenterMember')->where($map)->count();
-        if($had){
+        $map['email'] = $email;
+        $map['id'] = array('neq', get_uid());
+        $had = D('UcenterMember')->where($map)->count();
+        if ($had) {
             $this->error('该邮箱已被人使用。');
         }
     }
-
-
 
 
 }
