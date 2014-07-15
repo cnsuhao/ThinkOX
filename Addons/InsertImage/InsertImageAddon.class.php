@@ -6,7 +6,7 @@ use Common\Controller\Addon;
 
 /**
  * 插入图片插件
- * @author 想天软件工作室
+ * @author 嘉兴想天信息技术有限公司
  */
 class InsertImageAddon extends Addon
 {
@@ -16,7 +16,7 @@ class InsertImageAddon extends Addon
         'title' => '插入图片',
         'description' => '微博上传图片',
         'status' => 1,
-        'author' => '想天软件工作室',
+        'author' => '嘉兴想天信息技术有限公司',
         'version' => '0.1'
     );
 

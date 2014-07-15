@@ -81,13 +81,13 @@ INSERT INTO `thinkox_addons` (`id`, `name`, `title`, `description`, `status`, `c
 (9, 'SocialComment', '通用社交化评论', '集成了各种社交化评论插件，轻松集成到系统中。', 1, '{"comment_type":"1","comment_uid_youyan":"","comment_short_name_duoshuo":"","comment_data_list_duoshuo":""}', 'thinkphp', '0.1', 1380273962, 0),
 (16, 'Avatar', '头像插件', '用于头像的上传', 1, '{"random":"1"}', 'caipeichao', '0.1', 1394449710, 1),
 (32, 'Tianyi', '天翼短信插件', '用于发送手机短信验证码、模板短信', 1, '{"expire":"120","clean_interval":"86400","app_id":"668228660000034680","app_secret":"75e30521444f11fb3ec265d3c809e443","access_token":"4607d0582539012eea100b09e79f136a1397106411735","refresh_token":"0cbb07946822ca74c70f4288fc50dc531392971135772","update_access_token_interval":"1728000"}', 'caipeichao', '0.1', 1398264922, 0),
-(49, 'Checkin', '签到', '签到积分', 1, '{"random":"1"}', '想天软件工作室', '0.1', 1403764341, 1),
-(26, 'Rank_checkin', '签到排名', '设置每天某一时刻开始 按时间先后 签到排名，取前十', 1, '{"random":"1","ranktime":null}', '想天软件工作室', '0.1', 1395387458, 1),
+(49, 'Checkin', '签到', '签到积分', 1, '{"random":"1"}', '嘉兴想天信息技术有限公司', '0.1', 1403764341, 1),
+(26, 'Rank_checkin', '签到排名', '设置每天某一时刻开始 按时间先后 签到排名，取前十', 1, '{"random":"1","ranktime":null}', '嘉兴想天信息技术有限公司', '0.1', 1395387458, 1),
 (41, 'LocalComment', '本地评论', '本地评论插件，不依赖社会化评论平台', 1, '{"can_guest_comment":"1"}', 'caipeichao', '0.1', 1399440324, 0),
-(44, 'InsertImage', '插入图片', '微博上传图片', 1, 'null', '想天软件工作室', '0.1', 1402390777, 0),
-(48, 'Repost', '转发', '转发', 1, 'null', '想天软件工作室', '0.1', 1403763025, 0),
+(44, 'InsertImage', '插入图片', '微博上传图片', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1402390777, 0),
+(48, 'Repost', '转发', '转发', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1403763025, 0),
 (54, 'SyncLogin', '同步登陆', '同步登陆', 1, '{"type":["Qq"],"meta":"<meta property=\\"qc:admins\\" content=\\"2321221567640163706375\\" \\/>","QqKEY":"101138195","QqSecret":"bf701490797ea7390333be017fbe786a","SinaKEY":"","SinaSecret":""}', 'xjw129xjt', '0.1', 1404982827, 0),
-(53, 'Support', '赞', '赞的功能', 1, 'null', '想天软件工作室', '0.1', 1404725580, 0),
+(53, 'Support', '赞', '赞的功能', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1404725580, 0),
 (52, 'ChinaCity', '中国省市区三级联动', '每个系统都需要的一个中国省市区三级联动插件。', 1, 'null', 'i友街', '2.0', 1403841931, 0);
 
 DROP TABLE IF EXISTS `thinkox_attachment`;

@@ -4,7 +4,7 @@
  * 开发者: 陈一枭
  * 创建日期: 6/25/14
  * 创建时间: 9:25 AM
- * 版权所有 想天软件工作室(www.ourstu.com)
+ * 版权所有 嘉兴想天信息技术有限公司(www.ourstu.com)
  */
 header ("Content-type:application/x-javascript; Charset: utf-8");
 if(isset($_GET)) {

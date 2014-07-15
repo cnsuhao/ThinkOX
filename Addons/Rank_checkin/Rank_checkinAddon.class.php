@@ -6,7 +6,7 @@ use Common\Controller\Addon;
 
 /**
  * 签到排名插件
- * @author 想天软件工作室
+ * @author 嘉兴想天信息技术有限公司
  */
 class Rank_checkinAddon extends Addon
 {
@@ -16,7 +16,7 @@ class Rank_checkinAddon extends Addon
         'title' => '签到排名',
         'description' => '设置每天某一时刻开始 按时间先后 签到排名，取前十',
         'status' => 1,
-        'author' => '想天软件工作室',
+        'author' => '嘉兴想天信息技术有限公司',
         'version' => '0.1'
     );
 
