@@ -3,12 +3,18 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2014 年 07 月 15 日 13:45
+-- 生成日期: 2014 年 07 月 15 日 14:16
 -- 服务器版本: 5.5.38
 -- PHP 版本: 5.3.28
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- 数据库: `test1`
@@ -1197,10 +1203,9 @@ CREATE TABLE IF NOT EXISTS `thinkox_local_comment` (
 --
 -- 表的结构 `thinkox_member`
 --
-
 CREATE TABLE IF NOT EXISTS `thinkox_member` (
   `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `nickname` char(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '昵称',
+  `nickname` char(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '昵称',
   `sex` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
   `birthday` date NOT NULL DEFAULT '0000-00-00' COMMENT '生日',
   `qq` char(10) NOT NULL DEFAULT '' COMMENT 'qq号',
@@ -1950,3 +1955,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_weibo_top` (
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`weibo_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='置顶微博表';
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
