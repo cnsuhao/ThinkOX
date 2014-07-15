@@ -52,7 +52,7 @@ class PictureModel extends Model{
                 if(strtolower($driver)=='sae'){
                     $value['path'] = $config['rootPath'].'Picture/'.$value['savepath'].$value['savename']; //在模板里的url路径
                 }else{
-                    $value['path'] = substr($setting['rootPath'], 1).$value['savepath'].$value['savename'];	//在模板里的url路径
+                    $value['path'] = (substr($setting['rootPath'], 1).$value['savepath'].$value['savename']);	//在模板里的url路径
                 }
                 if($this->create($value) && ($id = $this->add())){
                     $value['id'] = $id;
@@ -61,6 +61,13 @@ class PictureModel extends Model{
                     unset($info[$key]);
                 }
             }
+            foreach($info as &$t_info){
+                $t_info['path']=fixAttachUrl($t_info['path']);
+            }
+          /*  dump(getRootUrl());
+            dump($info);
+            exit;*/
+
             return $info; //文件上传成功
         } else {
             $this->error = $Upload->getError();
