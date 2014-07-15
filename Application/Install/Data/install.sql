@@ -87,8 +87,7 @@ INSERT INTO `thinkox_addons` (`id`, `name`, `title`, `description`, `status`, `c
 (44, 'InsertImage', '插入图片', '微博上传图片', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1402390777, 0),
 (48, 'Repost', '转发', '转发', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1403763025, 0),
 (54, 'SyncLogin', '同步登陆', '同步登陆', 1, '{"type":["Qq"],"meta":"<meta property=\\"qc:admins\\" content=\\"2321221567640163706375\\" \\/>","QqKEY":"101138195","QqSecret":"bf701490797ea7390333be017fbe786a","SinaKEY":"","SinaSecret":""}', 'xjw129xjt', '0.1', 1404982827, 0),
-(53, 'Support', '赞', '赞的功能', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1404725580, 0),
-(52, 'ChinaCity', '中国省市区三级联动', '每个系统都需要的一个中国省市区三级联动插件。', 1, 'null', 'i友街', '2.0', 1403841931, 0);
+(53, 'Support', '赞', '赞的功能', 1, 'null', '嘉兴想天信息技术有限公司', '0.1', 1404725580, 0);
 
 DROP TABLE IF EXISTS `thinkox_attachment`;
 CREATE TABLE IF NOT EXISTS `thinkox_attachment` (
@@ -923,8 +922,7 @@ INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`,
 (22, 'weiboType', '插入图片', 1, 1402390749, 'InsertImage'),
 (23, 'repost', '转发钩子', 1, 1403668286, 'Repost'),
 (24, 'syncLogin', '第三方登陆位置', 1, 1403700579, 'SyncLogin'),
-(25, 'syncMeta', '第三方登陆meta接口', 1, 1403700633, 'SyncLogin'),
-(26, 'J_China_City', '每个系统都需要的一个中国省市区四级联动插件。', 1, 1403841931, 'ChinaCity');
+(25, 'syncMeta', '第三方登陆meta接口', 1, 1403700633, 'SyncLogin');
 
 DROP TABLE IF EXISTS `thinkox_issue`;
 CREATE TABLE IF NOT EXISTS `thinkox_issue` (
