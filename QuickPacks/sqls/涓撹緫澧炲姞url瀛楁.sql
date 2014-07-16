@@ -1,1 +1,0 @@
-ALTER TABLE  `thinkox_issue_content` ADD  `url` VARCHAR( 200 ) NOT NULL;

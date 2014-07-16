@@ -1,3 +1,192 @@
+
+ALTER TABLE  `thinkox_member` ADD  `pos_province` INT NOT NULL;
+ALTER TABLE  `thinkox_member` ADD  `pos_city` INT NOT NULL;
+ALTER TABLE  `thinkox_member` ADD  `pos_district` INT NOT NULL;
+ALTER TABLE  `thinkox_member` ADD  `pos_community` INT NOT NULL;
+ALTER TABLE  `thinkox_member` ADD  `tox_money` INT NOT NULL;
+
+ALTER TABLE  `thinkox_field_group` ADD  `visiable` TINYINT( 4 ) NOT NULL DEFAULT  '1';
+ALTER TABLE  `thinkox_weibo` ADD  `repost_count` INT NOT NULL;
+
+
+/*——————————————————————商城——————————————————————————————*/
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_name` varchar(25) NOT NULL COMMENT '商品名称',
+  `goods_ico` int(11) NOT NULL COMMENT '商品图标',
+  `goods_introduct` varchar(100) NOT NULL COMMENT '商品简介',
+  `goods_detail` varchar(1000) NOT NULL COMMENT '商品详情',
+  `tox_money_need` int(11) NOT NULL COMMENT '需要金币数',
+  `goods_num` int(11) NOT NULL COMMENT '商品余量',
+  `changetime` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '状态，-1：删除；0：禁用；1：启用',
+  `createtime` int(11) NOT NULL COMMENT '创建时间',
+  `category_id` int(11) NOT NULL,
+  `is_new` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否为新品',
+  `sell_num` int(11) NOT NULL DEFAULT '0' COMMENT '已出售量',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='商品信息' AUTO_INCREMENT=13 ;
+
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `zipcode` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `change_time` int(11) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `phone` varchar(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED AUTO_INCREMENT=3 ;
+
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop_buy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL COMMENT '商品id',
+  `goods_num` int(11) NOT NULL COMMENT '购买数量',
+  `status` tinyint(4) NOT NULL COMMENT '状态，-1：未领取；0：申请领取；1：已领取',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `createtime` int(11) NOT NULL COMMENT '购买时间',
+  `gettime` int(11) NOT NULL COMMENT '交易结束时间',
+  `address_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='购买商品信息表' AUTO_INCREMENT=55 ;
+
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(25) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+
+INSERT INTO `thinkox_shop_category` (`id`, `title`, `create_time`, `update_time`, `status`, `pid`, `sort`) VALUES
+(1, '奖品', 1403507725, 1403507717, 1, 0, 0),
+(2, '实体', 1403507752, 1403507745, 1, 0, 0);
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ename` varchar(25) NOT NULL COMMENT '标识',
+  `cname` varchar(25) NOT NULL COMMENT '中文名称',
+  `changetime` int(11) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='商店配置' AUTO_INCREMENT=3 ;
+
+
+INSERT INTO `thinkox_shop_config` (`id`, `ename`, `cname`, `changetime`) VALUES
+(1, 'tox_money', '金币', 1403507688),
+(2, 'min_sell_num', '10', 1403489181);
+
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `message` varchar(500) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+CREATE TABLE IF NOT EXISTS `thinkox_shop_see` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+
+
+
+
+/*————————————————————消息提示————————————————————*/
+CREATE TABLE IF NOT EXISTS `thinkox_talk_push` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL COMMENT '接收推送的用户id',
+  `source_id` int(11) NOT NULL COMMENT '来源id',
+  `create_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '状态，0为未提示，1为未点击，-1为已点击',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='对话推送表' AUTO_INCREMENT=78 ;
+
+DROP TABLE IF EXISTS `thinkox_talk_message_push`;
+CREATE TABLE IF NOT EXISTS `thinkox_talk_message_push` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `source_id` int(11) NOT NULL COMMENT '来源消息id',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `status` tinyint(4) NOT NULL,
+  `talk_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=gbk COMMENT='会话消息推送通知' AUTO_INCREMENT=40 ;
+
+
+
+
+
+/*————————————————————活动——————————————————————*/
+DROP TABLE IF EXISTS `thinkox_event`;
+CREATE TABLE IF NOT EXISTS `thinkox_event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL COMMENT '发起人',
+  `title` varchar(255) NOT NULL COMMENT '活动名称',
+  `explain` text NOT NULL COMMENT '详细内容',
+  `sTime` int(11) NOT NULL COMMENT '活动开始时间',
+  `eTime` int(11) NOT NULL COMMENT '活动结束时间',
+  `address` varchar(255) NOT NULL COMMENT '活动地点',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `limitCount` int(11) NOT NULL COMMENT '限制人数',
+  `cover_id` int(11) NOT NULL COMMENT '封面ID',
+  `deadline` int(11) NOT NULL,
+  `attentionCount` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `view_count` int(11) NOT NULL,
+  `reply_count` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `signCount` int(11) NOT NULL,
+  `is_recommend` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `thinkox_event_attend`;
+CREATE TABLE IF NOT EXISTS `thinkox_event_attend` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` bigint(20) NOT NULL,
+  `creat_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '0为报名，1为参加',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `thinkox_event_type`;
+CREATE TABLE IF NOT EXISTS `thinkox_event_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `allow_post` tinyint(4) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+/*——————————————专辑——————————————————*/
+ALTER TABLE  `thinkox_issue_content` ADD  `url` VARCHAR( 200 ) NOT NULL;
+
+
+/*——————————————————————后台导航菜单————————————————————*/
 DROP TABLE IF EXISTS `thinkox_menu`;
 CREATE TABLE IF NOT EXISTS `thinkox_menu` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文档ID',
@@ -193,3 +382,51 @@ INSERT INTO `thinkox_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, 
 (191, '活动分类回收站', 188, 0, 'EventType/eventTypeTrash', 0, '', '活动分类管理', 0),
 (192, '内容审核', 188, 0, 'Event/verify', 0, '', '内容管理', 0),
 (193, '内容回收站', 188, 0, 'Event/contentTrash', 0, '', '内容管理', 0);
+/*——————————————————————配置————————————————————*/
+REPLACE INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
+(56, 'COUNT_CODE', 2, '统计代码', 1, '', '用于统计网站访问量的第三方代码，推荐CNZZ统计', 1403058890, 1403058890, 1, '  <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id=''cnzz_stat_icon_5849549''%3E%3C/span%3E%3Cscript src=''" + cnzz_protocol + "s5.cnzz.com/stat.php%3Fid%3D5849549%26show%3Dpic1'' type=''text/javascript''%3E%3C/script%3E"));</script>\r\n', 0);
+INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
+(57, 'SHARE_WEIBO_ID', 0, '分享来源微博ID', 1, '', '来源的微博ID，不配置则隐藏顶部微博分享按钮。', 1403091490, 1403091490, 1, '1971549283', 0);
+INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
+(58, 'USER_REG_WEIBO_CONTENT', 1, '用户注册微博提示内容', 3, '', '留空则表示不发新微博，支持face', 1404965285, 1404965445, 1, '', 0);
+
+
+/*——————————————————————导航菜单——————————————————*/
+INSERT INTO `thinkox_channel` (`pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
+(0, '商城', 'Shop/Index/index', 5, 1403056971, 1403085891, 1, 0);
+INSERT INTO `thinkox_channel` ( `pid`, `title`, `url`, `sort`, `create_time`, `update_time`, `status`, `target`) VALUES
+( 0, '活动', 'Event/index/index', 4, 1403682332, 1403682347, 1, 0);
+
+/*——————————————————————钩子————————————————————*/
+DROP TABLE IF EXISTS `thinkox_hooks`;
+CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(40) NOT NULL DEFAULT '' COMMENT '钩子名称',
+  `description` text NOT NULL COMMENT '描述',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `addons` varchar(255) NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 ''，''分割',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+
+INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`) VALUES
+(1, 'pageHeader', '页面header钩子，一般用于加载插件CSS文件和代码', 1, 0, ''),
+(2, 'pageFooter', '页面footer钩子，一般用于加载插件JS文件和JS代码', 1, 0, 'ReturnTop'),
+(3, 'documentEditForm', '添加编辑表单的 扩展内容钩子', 1, 0, 'Attachment'),
+(4, 'documentDetailAfter', '文档末尾显示', 1, 0, 'Attachment,SocialComment,Avatar,Tianyi'),
+(5, 'documentDetailBefore', '页面内容前显示用钩子', 1, 0, ''),
+(6, 'documentSaveComplete', '保存文档数据后的扩展钩子', 2, 0, 'Attachment'),
+(7, 'documentEditFormContent', '添加编辑表单的内容显示钩子', 1, 0, 'Editor'),
+(8, 'adminArticleEdit', '后台内容编辑页编辑器', 1, 1378982734, 'EditorForAdmin'),
+(13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'SiteStat,SystemInfo,DevTeam,SyncLogin'),
+(14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, 'Editor'),
+(16, 'app_begin', '应用开始', 2, 1384481614, ''),
+(17, 'checkin', '签到', 1, 1395371353, 'Checkin'),
+(18, 'Rank', '签到排名钩子', 1, 1395387442, 'Rank_checkin'),
+(20, 'support', '赞', 1, 1398264759, 'Support'),
+(21, 'localComment', '本地评论插件', 1, 1399440321, 'LocalComment'),
+(22, 'weiboType', '插入图片', 1, 1402390749, 'InsertImage'),
+(23, 'repost', '转发钩子', 1, 1403668286, 'Repost'),
+(24, 'syncLogin', '第三方登陆位置', 1, 1403700579, 'SyncLogin'),
+(25, 'syncMeta', '第三方登陆meta接口', 1, 1403700633, 'SyncLogin');
