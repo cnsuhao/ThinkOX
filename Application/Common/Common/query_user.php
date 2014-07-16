@@ -178,7 +178,7 @@ function query_user($fields, $uid = null)
         $result['following'] = D('Follow')->where('who_follow=' . $uid)->count();
     }
     if (in_array('weibocount', $fields)) {
-        $result['weibocount'] = D('Weibo')->where('uid=' . $uid)->count();
+        $result['weibocount'] = D('Weibo')->where('uid=' . $uid.' and status >0')->count();
     }
 
     //是否关注、是否被关注
