@@ -198,7 +198,6 @@
   margin: 15px -15px;
 }
 .post_content .ribbion-green {
-  z-index: 99;
   position: absolute;
   right: 0px;
   background: #00ab84;
