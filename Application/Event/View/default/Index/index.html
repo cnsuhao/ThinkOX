@@ -10,9 +10,7 @@
 <include file="_nav"/>
 
 <div class="row">
-    <div class="col-md-3 pull-right" style="z-index: 99">
-        <include file="_right"/>
-    </div>
+
 
 
     <div class="col-md-9">
@@ -52,8 +50,8 @@
                         </if>
 
                         <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img
-                                class="cover img-responsive"
-                                src="{$vo.cover_id|getThumbImageById=320,210}" style="width: 320px;height: 210px;overflow: hidden"/></a>
+                                class=""
+                                src="{$vo.cover_id|getThumbImageById=320,210}" style="width: 320px;height: 210px;"/></a>
                     </div>
                     <div class="pull-left col-md-7">
                         <div class="mgl20 event_title"><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
@@ -149,7 +147,9 @@
             </div>
         </div>
     </div>
-
+    <div class="col-md-3" style="z-index: 99">
+        <include file="_right"/>
+    </div>
 </div>
 
 

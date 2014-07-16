@@ -15,6 +15,18 @@
   font-size: 1.2em;
   margin: 5px 0 10px 15px;
 }
+.common_block_title_right {
+  padding: 8px 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #333333;
+  font-size: 1.2em;
+  margin: 5px 0 10px 15px;
+  padding-left: 5px;
+  margin-left: 5px;
+}
 /*布局样式end*/
 /*reset*/
 body {
