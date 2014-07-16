@@ -4,7 +4,7 @@
  * 开发者: 奕潇
  * 创建日期: 4/9/14
  * 创建时间: 12:15 PM
- * 版权所有 嘉兴想天信息技术有限公司(www.ourstu.com)
+ * 版权所有 嘉兴想天信息科技有限公司(www.ourstu.com)
  */
 
 namespace Weibo\Model;

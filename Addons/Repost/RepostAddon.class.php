@@ -7,7 +7,7 @@ use Weibo\Api\WeiboApi;
 
 /**
  * 转发插件
- * @author 嘉兴想天信息技术有限公司
+ * @author 嘉兴想天信息科技有限公司
  */
 class RepostAddon extends Addon
 {
@@ -17,7 +17,7 @@ class RepostAddon extends Addon
         'title' => '转发',
         'description' => '转发',
         'status' => 1,
-        'author' => '嘉兴想天信息技术有限公司',
+        'author' => '嘉兴想天信息科技有限公司',
         'version' => '0.1'
     );
 
