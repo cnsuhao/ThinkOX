@@ -1241,8 +1241,9 @@ a:hover {
   color: #333333;
 }
 .position {
-  margin-right: 20px;
-  margin-bottom: 15px;
+  margin: 15px;
+  margin-left: 7.5px;
+  margin-right: 7.5px;
 }
 .btn_exchange a {
   color: #fff;

@@ -21,16 +21,10 @@
        <!-- <div class="pull-right"><a href="{:U('Forum/Index/forums')}" class="font_grey" style="font-size: 14px;">查看全部</a>
         </div>-->
     </div>
-    <div class="forum_module_content clearfix">
-        <div class="col-md-6">
-            <a
-               class="btn btn-default position <eq name="forum_id" value="0"> btn-primary</eq>" href="{:U('Index/forum')}">全部帖子</a>
-
-        </div>
+    <div class="forum_module_content clearfix" style="padding: 5px">
+        <a  class="btn btn-default position <eq name="forum_id" value="0"> btn-primary</eq>" href="{:U('Index/forum')}">全部帖子</a>
         <volist name="forum_list" id="each_forum">
-            <div class="col-md-6">
                 <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn-default  position <eq name="forum_id" value="$each_forum['id']">btn-primary</eq>">{$each_forum.title|htmlspecialchars}</a>
-            </div>
         </volist>
 
 
