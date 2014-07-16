@@ -55,9 +55,6 @@
 </div>
 
 <script>
-    function changePage(id, p) {
-        $('#lzl_reply_list_' + id).load(U('Forum/LZL/lzllist',['to_f_reply_id',id,'page',p], true), function () {
-            ucard();
-        })
-    }
+
+    bindLzlEvent();
 </script>
