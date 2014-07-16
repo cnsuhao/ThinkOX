@@ -46,7 +46,7 @@ class ShopController extends AdminController
 
         $tree = $this->shop_categoryModel->getTree(0, 'id,title,sort,pid,status');
 
-        $builder->title('专辑管理')
+        $builder->title('商城分类管理')
             ->buttonNew(U('Shop/add'))
             ->data($tree)
             ->display();
@@ -119,7 +119,7 @@ class ShopController extends AdminController
 
         //显示页面
         $builder = new AdminListBuilder();
-        $builder->title('专辑回收站')
+        $builder->title('商城分类回收站')
             ->setStatusUrl(U('setStatus'))->buttonRestore()
             ->keyId()->keyText('title', '标题')->keyStatus()->keyCreateTime()
             ->data($list)
