@@ -6,7 +6,7 @@ use Common\Controller\Addon;
 
 /**
  * 签到插件
- * @author 想天软件工作室
+ * @author 嘉兴想天信息技术有限公司
  */
 class CheckinAddon extends Addon
 {
@@ -16,7 +16,7 @@ class CheckinAddon extends Addon
         'title' => '签到',
         'description' => '签到积分',
         'status' => 1,
-        'author' => '想天软件工作室',
+        'author' => '嘉兴想天信息技术有限公司',
         'version' => '0.1'
     );
 

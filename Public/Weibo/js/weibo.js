@@ -27,6 +27,7 @@ function loadNextPage() {
 }
 
 function reloadWeiboList() {
+    loadCount =1;
     loadWeiboList(1, function () {
         clearWeiboList();
         currentPage = 1;

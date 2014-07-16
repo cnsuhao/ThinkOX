@@ -249,6 +249,7 @@
   display: inline;
   color: #848484;
   padding: 10px 0px;
+  background: none !important;
 }
 .shop .shop_navbar .navbar-nav li a:hover {
   background: none;

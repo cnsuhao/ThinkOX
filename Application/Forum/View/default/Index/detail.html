@@ -1,7 +1,7 @@
 <extend name="Public/forum"/>
 
 <block name="body">
-
+<script type="text/javascript" src="__JS__/common.js"></script>
 <div class="row post_content">
 <div class="col-xs-12 forum_block_border " style="background: white">
     <div style="margin-top: 15px"></div>
@@ -83,7 +83,15 @@
                 <div class="col-md-12 main_content">
                     {$post.content|parse_popup|parse_at_users}
                 </div>
+                <div style="overflow: hidden;margin-bottom: 10px">
+                    <script type="text/javascript">
+                        /*620*22，创建于2014-7-12*/
+                        var cpro_id = "u1619292";
+                    </script>
+                    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+                </div>
                 <div>
+
 
                     <br/>
                     <if condition="$post['create_time'] != $post['update_time']">
@@ -197,8 +205,8 @@
     <div class="row">
         <div class="col-xs-2">
             <p>
-                <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
-                                                                     class="avatar-img"/></a>
+                <a href="{$user.space_url}" ucard="{$user.uid}">
+                    <img src="{$user.avatar128}" class="avatar-img"/></a>
             </p>
         </div>
         <div class="col-xs-10">
@@ -206,9 +214,7 @@
                 <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post"
                       class="ajax-form">
                     <h4>发表回复</h4>
-
                     <p>
-
                         {:W('UeditorMini/editor',array('contentEditor','content','','100%','250px',$config))}
                     </p>
 

@@ -4,7 +4,7 @@
  * 开发者: 陈一枭
  * 创建日期: 6/9/14
  * 创建时间: 2:22 PM
- * 版权所有 想天软件工作室(www.ourstu.com)
+ * 版权所有 嘉兴想天信息技术有限公司(www.ourstu.com)
  */
 
 namespace Common\Model;

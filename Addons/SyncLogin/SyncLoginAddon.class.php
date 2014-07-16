@@ -7,7 +7,7 @@ use Weibo\Api\WeiboApi;
 
 /**
  * 同步登陆插件
- * @author 想天软件工作室
+ * @author 嘉兴想天信息技术有限公司
  */
 class SyncLoginAddon extends Addon
 {
