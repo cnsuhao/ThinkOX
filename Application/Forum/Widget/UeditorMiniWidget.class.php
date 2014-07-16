@@ -19,7 +19,7 @@ class UeditorMiniWidget extends Action
 {
 
     /* 显示指定分类的同级分类或子分类列表 */
-    public function editor($id = 'myeditor', $name = 'content',$default='',$width='100%',$height='200px',$config='toolbar: [\' bold italic underline insertimage\']')
+    public function editor($id = 'myeditor', $name = 'content',$default='',$width='100%',$height='200px',$config='')
     {
 
         $this->assign('id',$id);
