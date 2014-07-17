@@ -482,7 +482,7 @@ public function add(){
         if ($event_content['uid'] == is_login() || is_administrator(is_login())) {
             $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('status', 0);
             if ($res) {
-                $this->success('删除成功！');
+                $this->success('删除成功！',U('Event/Index/index'));
             } else {
                 $this->error('操作失败！');
             }

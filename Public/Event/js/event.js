@@ -42,7 +42,7 @@ $(function () {
                 if (res.status) {
                     op_success(res.info);
                     setTimeout(function () {
-                        location.href = "{:U('index')}";
+                        location.href = res.url;
                     }, 1500);
                 }
                 else {
