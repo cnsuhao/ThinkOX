@@ -6,11 +6,10 @@
         <div style="padding:0 10px">
             <volist name="rec_event" id="vo">
                 <div style="">
-                    <a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
-                       class="text-more"> <img style="margin-bottom: 10px;width: 100%"
+                    <a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img style="margin-bottom: 10px;width: 100%"
                                                src="{$vo.cover_id|getThumbImageById=345,233}"/></a>
     <span><strong><a href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"
-                     class="text-more">{$vo.title}</a></strong><div class="font_grey"
+                     class="text-more" style="width: 100%">{$vo.title}</a></strong><div class="font_grey"
                                                                     style="font-size: 12px;margin-top: -5px;margin-bottom: 10px;">
         {:date('Y-m-d',$vo['sTime'])}--{:date('Y-m-d',$vo['eTime'])}
     </div><span

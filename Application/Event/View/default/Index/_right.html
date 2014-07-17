@@ -1,9 +1,9 @@
 <div style="margin-bottom: 12px">
     <if condition="is_login() eq 0">
-        <button class="btn btn-primary event_btn btn-large" onclick="op_error('请登陆后再发布。','温馨提示')">发起活动
+        <button class="btn btn-primary btn-large event_btn" onclick="op_error('请登陆后再发布。','温馨提示')">发起活动
         </button>
         <else/>
-        <a class="btn btn-primary event_btn  btn-large" href="{:U('Event/Index/add')}">发起活动
+        <a class="btn btn-primary btn-large event_btn " href="{:U('Event/Index/add')}">发起活动
         </a>
 
     </if>

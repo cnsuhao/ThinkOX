@@ -159,7 +159,7 @@
             var src = '';
             if(data.status){
                 $("#cover_id_cover").val(data.id);
-                src = data.url || '__ROOT__' + data.path
+                src = data.url ||  data.path
                 $('.upload-img-box').html(
                         '<div class="upload-pre-item"><img src="' + src + '"/></div>'
                 );
