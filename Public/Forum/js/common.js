@@ -22,6 +22,7 @@ var getArgs = function (uri) {
 
 function bindLzlEvent() {
     var reply_btn = $('.reply_btn');
+    reply_btn.unbind('click');
     reply_btn.click(function () {
 
         var args = getArgs($(this).attr('args'));
@@ -32,6 +33,7 @@ function bindLzlEvent() {
         $('#submit_' + to_f_reply_id).attr('args', $(this).attr('args'));
 
     });
+    $('.input_tips').unbind('keypress');
     $('.input_tips').keypress(function (e) {
         if (e.ctrlKey && e.which == 13 || e.which == 10) {
             var re = $(this).attr('args');
@@ -46,6 +48,7 @@ function bindLzlEvent() {
         }
         // this.preventDefault();
     });
+
     var submitLZLReply = function (post_id, to_f_reply_id, to_reply_id, to_uid, content, p) {
         var url = U('Forum/LZL/doSendLZLReply');
 
@@ -61,6 +64,8 @@ function bindLzlEvent() {
             }
         }, 'json');
     };
+
+    $(".submitReply").unbind('.submitReply');
     $(".submitReply").click(function () {
         var args = getArgs($(this).attr('args'));
         var to_f_reply_id = args['to_f_reply_id'];
@@ -75,20 +80,21 @@ function bindLzlEvent() {
         this.preventDefault();
     });
 
+    $('.reply_btn').unbind('click');
     $('.reply_btn').click(function (event) {
         var args = $(this).attr('args');
         $('#lzl_reply_div_' + args).toggle();
         //event.preventDefault();
         this.preventDefault();
     });
-
+    $('.show_textarea').unbind('click');
     $('.show_textarea').click(function () {
         var args = $(this).attr('args');
         $('#show_textarea_' + args).toggle();
         this.preventDefault();
     })
 
-
+    $('.del_lzl_reply').unbind('click');
     $('.del_lzl_reply').click(function () {
         if (confirm('确定要删除该回复么？')) {
             var args = getArgs($(this).attr('args'));
@@ -107,7 +113,7 @@ function bindLzlEvent() {
         }
         this.preventDefault();
     });
-
+    $('.del_reply_btn').unbind('click');
     $('.del_reply_btn').click(function () {
         if (confirm('确定要删除该回复么？')) {
             var args = getArgs($(this).attr('args'));
