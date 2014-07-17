@@ -257,6 +257,7 @@ class IndexController extends Controller
         $result = $this->weiboApi->listComment($weibo_id, $page, 10000);
         $list = $result['list'];
         $this->assign('list', $list);
+        $this->assign('weiboId',$weibo_id);
         $html = $this->fetch('commentlist');
         $this->ajaxReturn($html);
         dump($html);
