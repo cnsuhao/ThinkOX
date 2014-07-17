@@ -22,7 +22,22 @@
 
         <div class="forum_module pull-left" style="width: 100%; min-height: 500px;padding: 0;">
             <div class="clearfix">
-                <div style="padding: 17px 0 0 10px;">
+                <div class="mgl20 event_title"><a href="javascript:" onclick="location.href='{:U('Event/Index/detail',array('id'=>$content['id']))}'"
+                                                  class="text-more" style="width: 85%;float: left"
+                                                  title="{$content.title}">{$content.title}</a>
+
+                    <div style=" margin-top: 10px;margin-bottom: 10px">
+                        <div class="event_logo" style="background-position: -20px 0px;"></div>
+                        <span class="event_count">&nbsp;{$content.view_count}</span>
+                    </div>
+                </div>
+                <div style="padding: 17px 0 0 10px;position: relative">
+
+                    <a class="pull-left" href="javascript:" onclick="location.href='{:U('Event/Index/detail',array('id'=>$content['id']))}'">
+                        <img style="width: 345px;height: 210px;" src="{$content.cover_id|getThumbImageById=345,250}"/>
+
+                        <div class="event_detail_type">{$content.type.title}</div>
+                    </a>
                     <if condition="time() lt $content['eTime']">
                         <div class="event_state" style="background: #d61f39;">
                             正在进行
@@ -32,29 +47,16 @@
                             已结束
                         </div>
                     </if>
-                    <a class="pull-left" href="javascript:" onclick="location.href='{:U('Event/Index/detail',array('id'=>$content['id']))}'">
-                        <img style="width: 345px;height: 210px;" src="{$content.cover_id|getThumbImageById=345,250}"/>
 
-                        <div class="event_detail_type">{$content.type.title}</div>
-                    </a>
                 </div>
                 <div class="pull-left col-xs-12 col-md-6" >
-                    <div class="mgl20 event_title"><a href="javascript:" onclick="location.href='{:U('Event/Index/detail',array('id'=>$content['id']))}'"
-                                                      class="text-more" style="width: 85%;float: left"
-                                                      title="{$content.title}">{$content.title}</a>
 
-                        <div style="float: left;margin-top: 5px;">
-                            <div class="event_logo" style="background-position: -20px 0px;"></div>
-                            <span class="event_count">&nbsp;{$content.view_count}</span>
-                        </div>
-                    </div>
                     <div class="event_fq_count pull-left">
-                        <p>
 
                         <div class="pull-left mgl20" style="width: 100%;font-size: 14px;">发起人：&nbsp; <a class=""
                                                                                                         href="{$content.user.space_url}">
                             <span class="event_count">{$content.user.nickname}</span></a></div>
-                        </p>
+                    
 
                         <p>
 
