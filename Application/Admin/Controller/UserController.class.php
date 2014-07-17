@@ -565,14 +565,12 @@ class UserController extends AdminController {
 
             /* 调用注册接口注册用户 */
             $User   =   new UserApi;
-            $uid    =   $User->register($username, $password, $email);
+            $uid    =   $User->register($username,$username, $password, $email);
             if(0 < $uid){ //注册成功
                 $user = array('uid' => $uid, 'nickname' => $username, 'status' => 1);
-                if(!M('Member')->add($user)){
-                    $this->error('用户添加失败！');
-                } else {
+                M('Member')->add($user);
                     $this->success('用户添加成功！',U('index'));
-                }
+
             } else { //注册失败，显示错误信息
                 $this->error($this->showRegError($uid));
             }
