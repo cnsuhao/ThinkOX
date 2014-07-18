@@ -119,7 +119,7 @@ class WeiboController extends AdminController
         $builder = new AdminListBuilder();
         $builder->title('评论管理')
             ->setStatusUrl(U('setCommentStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
-            ->keyId()->keyText('content', '内容')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editComment')
+            ->keyId()->keyText('content', '内容')->keyUid()->keyCreateTime()->keyStatus()->keyDoActionEdit('editComment?id=###')
             ->data($list)
             ->pagination($totalCount, $r)
             ->display();
