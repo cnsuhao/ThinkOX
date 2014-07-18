@@ -59,6 +59,7 @@ function is_administrator($uid = null)
 {
     $uid = is_null($uid) ? is_login() : $uid;
     $admin_uids = explode(',', C('USER_ADMINISTRATOR'));//调整验证机制，支持多管理员，用,分隔
+    //dump($admin_uids);exit;
     return $uid && (in_array(intval($uid), $admin_uids));//调整验证机制，支持多管理员，用,分隔
 }
 
