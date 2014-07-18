@@ -27,39 +27,37 @@ class WeiboApi extends Api
         $this->messageModel = D('Common/Message');
     }
 
-    public function listAllWeibo($page = 1, $count = 30,$map=array(),$loadCount=1,$lastId=0,$keywords='')
+    public function listAllWeibo($page = 1, $count = 30, $map = array(), $loadCount = 1, $lastId = 0, $keywords = '')
     {
 
         //获取微博列表
-        if(isset($keywords)&&$keywords!=''){
-            $map['content']=array('like', "%{$keywords}%");
+        if (isset($keywords) && $keywords != '') {
+            $map['content'] = array('like', "%{$keywords}%");
         }
         $map[] = array('status' => 1);
         $model = $this->weiboModel;
 
-        if($page ==1  && $loadCount==1){
+        if ($page == 1 && $loadCount == 1) {
 
             $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
-        }elseif($loadCount > 1 && $loadCount<= 3){
+        } elseif ($loadCount > 1 && $loadCount <= 3) {
 
-            $is_top = D('weibo')->where(array('id'=>$lastId))->getField('is_top');
-            if(!$is_top){
-                $map['id'] = array('lt',$lastId);
+            $is_top = D('weibo')->where(array('id' => $lastId))->getField('is_top');
+            if (!$is_top) {
+                $map['id'] = array('lt', $lastId);
                 $list = $model->where($map)->order('create_time desc')->limit(10)->select();
-            }else{
-                $ids = $model->where(array('id'=>array('egt',$lastId),'is_top'=>1))->field('id')->select();
-                $ids = getSubByKey($ids,'id');
-                $ids = implode(",",$ids);
-                $map['_string'] = '(id < '.$lastId.' AND is_top =1 ) OR (id > 0  AND (id NOT IN ('.$ids.'))) ';
+            } else {
+                $ids = $model->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
+                $ids = getSubByKey($ids, 'id');
+                $ids = implode(",", $ids);
+                $map['_string'] = '(id < ' . $lastId . ' AND is_top =1 ) OR (id > 0  AND (id NOT IN (' . $ids . '))) ';
                 $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
             }
 
 
-        }
-        elseif($page>1){
+        } elseif ($page > 1) {
             $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
         }
-
 
 
         //获取每个微博详情
@@ -69,17 +67,19 @@ class WeiboApi extends Api
         }
         unset($e);
         //返回微博列表
-        return $this->apiSuccess('获取成功', array('list' => arrayval($list),'lastId'=>$list[count($list)-1]['id']));
+        return $this->apiSuccess('获取成功', array('list' => arrayval($list), 'lastId' => $list[count($list) - 1]['id']));
     }
-    public function listAllWeiboCount($map=array()){
+
+    public function listAllWeiboCount($map = array())
+    {
         //获取微博列表
         $map[] = array('status' => 1);
         $model = $this->weiboModel;
         $totalCount = $model->where($map)->count();
-        return $this->apiSuccess('获取成功', array('total_count'=>$totalCount));
+        return $this->apiSuccess('获取成功', array('total_count' => $totalCount));
     }
 
-    public function listMyFollowingWeibo($page = 1, $count = 30,$map=array(),$loadCount=1,$lastId=0)
+    public function listMyFollowingWeibo($page = 1, $count = 30, $map = array(), $loadCount = 1, $lastId = 0)
     {
         $this->requireLogin();
 
@@ -94,25 +94,24 @@ class WeiboApi extends Api
 
         //获取我关注的微博
         $model = $this->weiboModel;
-        $map = array('status' => 1,'uid'=>array('in',$followList));
-        if($page ==1  && $loadCount==1){
+        $map = array('status' => 1, 'uid' => array('in', $followList));
+        if ($page == 1 && $loadCount == 1) {
             $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
-        }elseif($loadCount > 1 && $loadCount<= 3){
+        } elseif ($loadCount > 1 && $loadCount <= 3) {
 
-            $is_top = D('weibo')->where(array('id'=>$lastId))->getField('is_top');
-            if(!$is_top){
-                $map['id'] = array('lt',$lastId);
+            $is_top = D('weibo')->where(array('id' => $lastId))->getField('is_top');
+            if (!$is_top) {
+                $map['id'] = array('lt', $lastId);
 
                 $list = $model->where($map)->order('create_time desc')->limit(10)->select();
-            }else{
-                $ids = $model->where(array('id'=>array('egt',$lastId),'is_top'=>1))->field('id')->select();
-                $ids = getSubByKey($ids,'id');
-                $ids = implode(",",$ids);
-                $map['_string'] = '(id < '.$lastId.' AND is_top =1 ) OR (id > 0  AND (id NOT IN ('.$ids.'))) ';
+            } else {
+                $ids = $model->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
+                $ids = getSubByKey($ids, 'id');
+                $ids = implode(",", $ids);
+                $map['_string'] = '(id < ' . $lastId . ' AND is_top =1 ) OR (id > 0  AND (id NOT IN (' . $ids . '))) ';
                 $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
             }
-        }
-        elseif($page>1){
+        } elseif ($page > 1) {
             $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
         }
 
@@ -124,8 +123,9 @@ class WeiboApi extends Api
         unset($e);
 
         //返回我关注的微博列表
-        return $this->apiSuccess('获取成功', array('list' => arrayval($list),'lastId'=>$list[count($list)-1]['id']));
+        return $this->apiSuccess('获取成功', array('list' => arrayval($list), 'lastId' => $list[count($list) - 1]['id']));
     }
+
     public function listMyFollowingWeiboCount($page = 1, $count = 10)
     {
         $this->requireLogin();
@@ -142,8 +142,9 @@ class WeiboApi extends Api
         $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->count();
 
         //返回我关注的微博列表
-        return $this->apiSuccess('获取成功', array('total_count'=>$list));
+        return $this->apiSuccess('获取成功', array('total_count' => $list));
     }
+
     public function getWeiboDetail($weibo_id)
     {
         $this->requireWeiboExist($weibo_id);
@@ -155,30 +156,30 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
-    public function sendWeibo($content,$type='feed',$feed_data='')
+    public function sendWeibo($content, $type = 'feed', $feed_data = '')
     {
         $this->requireSendInterval();
         $this->requireLogin();
         //写入数据库
-        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data);
+        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content, $type, $feed_data);
         if (!$weibo_id) {
             throw new ApiException('发布失败：' . $this->weiboModel->getError());
         }
 
         //发送成功，记录动作，更新最后发送时间
-        $tox_money_before=getMyToxMoney();
+        $tox_money_before = getMyToxMoney();
         $score_increase = action_log_and_get_score('add_weibo', 'Weibo', $weibo_id, is_login());
-        $tox_money_after=getMyToxMoney();
+        $tox_money_after = getMyToxMoney();
         $this->updateLastSendTime();
 
         //给被AT到的人都发送一条消息
         $uids = get_at_uids($content);
         $this->sendAtMessage($uids, $weibo_id, $content);
 
-        clean_query_user_cache(is_login(),array('weibocount'));
+        clean_query_user_cache(is_login(), array('weibocount'));
         //显示成功页面
-        $message = '发表微博成功。' . getScoreTip(0, $score_increase).getToxMoneyTip($tox_money_before,$tox_money_after);
-        return $this->apiSuccess($message, array('score_increase' => $score_increase,'weibo_id'=>$weibo_id));
+        $message = '发表微博成功。' . getScoreTip(0, $score_increase) . getToxMoneyTip($tox_money_before, $tox_money_after);
+        return $this->apiSuccess($message, array('score_increase' => $score_increase, 'weibo_id' => $weibo_id));
     }
 
     public function sendComment($weibo_id, $content, $comment_id = 0)
@@ -193,9 +194,9 @@ class WeiboApi extends Api
         }
 
         //写入数据库成功，记录动作，更新最后发送时间
-        $tox_money_before=getMyToxMoney();
+        $tox_money_before = getMyToxMoney();
         $increase_score = action_log_and_get_score('add_weibo_comment', 'WeiboComment', $result, is_login());
-        $tox_money_after=getMyToxMoney();
+        $tox_money_after = getMyToxMoney();
         $this->updateLastSendTime();
 
         //通知微博作者
@@ -216,10 +217,11 @@ class WeiboApi extends Api
         $this->sendAtMessage($uids, $weibo_id, $content);
 
         //显示成功页面
-        return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score).getToxMoneyTip($tox_money_before,$tox_money_after));
+        return $this->apiSuccess('评论成功。' . getScoreTip(0, $increase_score) . getToxMoneyTip($tox_money_before, $tox_money_after));
     }
 
-    public function sendRepostComment($weibo_id,$content){
+    public function sendRepostComment($weibo_id, $content)
+    {
         $result = $this->commentModel->addComment(get_uid(), $weibo_id, $content, 0);
         if (!$result) {
             return $this->apiError('评论失败：' . $this->commentModel->getError());
@@ -232,7 +234,6 @@ class WeiboApi extends Api
         //通知微博作者
         $weibo = $this->weiboModel->field('uid')->find($weibo_id);
         $this->sendCommentMessage($weibo['uid'], $weibo_id, "评论内容：$content");
-
 
 
         //通知被AT的人，除去微博作者、被回复的人，避免通知出现两次。
@@ -295,16 +296,23 @@ class WeiboApi extends Api
     {
         $weibo = $this->weiboModel->find($id);
         $canDelete = $this->canDeleteWeibo($id);
-        $weibo_data =  unserialize($weibo['data']);
+        $weibo_data = unserialize($weibo['data']);
+        $class_exists = true;
 
-        if($weibo['type'] === 'feed' || $weibo['type']==''){
-            $fetchContent =    "<p class='word-wrap'>".parse_weibo_content($weibo['content'])."</p>";
+        $type = array('repost','feed');
+        if ( !in_array($weibo['type'],$type)) {
+            $class_exists = class_exists('Addons\\Insert' . ucfirst($weibo['type']) . '\\fetch' . ucfirst($weibo['type']) . 'Addon');
+        }
 
-        }elseif($weibo['type'] === 'repost'){
-            $result =  Hook::exec('Repost','fetchRepost',$weibo);
+
+        if ($weibo['type'] === 'feed' || $weibo['type'] == '' || !$class_exists) {
+            $fetchContent = "<p class='word-wrap'>" . parse_weibo_content($weibo['content']) . "</p>";
+
+        } elseif ($weibo['type'] === 'repost') {
+            $result = Hook::exec('Repost', 'fetchRepost', $weibo);
             $fetchContent = $result;
-        }else{
-            $result =  Hook::exec('Insert'.ucfirst($weibo['type']),'fetch'.ucfirst($weibo['type']),$weibo);
+        } else {
+            $result = Hook::exec('Insert' . ucfirst($weibo['type']), 'fetch' . ucfirst($weibo['type']), $weibo);
             $fetchContent = $result;
         }
 
@@ -315,14 +323,14 @@ class WeiboApi extends Api
             'create_time' => intval($weibo['create_time']),
             'type' => $weibo['type'],
             'data' => unserialize($weibo['data']),
-            'weibo_data'=>$weibo_data,
+            'weibo_data' => $weibo_data,
             'comment_count' => intval($weibo['comment_count']),
             'repost_count' => intval($weibo['repost_count']),
             'can_delete' => boolval($canDelete),
             'user' => $this->getUserStructure($weibo['uid']),
             'is_top' => $weibo['is_top'],
-            'uid'=>$weibo['uid'],
-            'fetchContent'=>$fetchContent
+            'uid' => $weibo['uid'],
+            'fetchContent' => $fetchContent
         );
 
     }
