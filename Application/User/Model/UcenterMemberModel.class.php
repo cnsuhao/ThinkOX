@@ -399,6 +399,7 @@ class UcenterMemberModel extends Model
 
         $data['username'] = $this->rand_username();
         $data['email'] = $this->rand_email();
+        $data['password']=$this->create_rand();
         $data1 = $this->create($data);
         $uid = $this->add($data1);
         return $uid;
