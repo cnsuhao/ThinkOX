@@ -389,6 +389,9 @@ INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `
 (57, 'SHARE_WEIBO_ID', 0, '分享来源微博ID', 1, '', '来源的微博ID，不配置则隐藏顶部微博分享按钮。', 1403091490, 1403091490, 1, '1971549283', 0);
 INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
 (58, 'USER_REG_WEIBO_CONTENT', 1, '用户注册微博提示内容', 3, '', '留空则表示不发新微博，支持face', 1404965285, 1404965445, 1, '', 0);
+INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
+(59, 'WEIBO_WORDS_COUNT', 0, '微博字数限制', 1, '', '最大允许的微博字数长度', 1405330568, 1405330622, 1, '200', 0);
+
 
 
 /*——————————————————————导航菜单——————————————————*/
