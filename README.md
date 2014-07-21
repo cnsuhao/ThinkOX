@@ -23,7 +23,7 @@ http://tox.ourstu.com/tox/index.php?s=/Forum/Index/forum/id/4.html
 
 主要的改进有：
 
-增加右侧会话功能，方便好友聊天；
+增加右侧聊天功能，方便好友聊天；
 
 微博新增添加图片功能，支持多图上传，并支持贴吧大图查看；
 

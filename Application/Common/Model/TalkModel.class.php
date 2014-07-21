@@ -80,7 +80,7 @@ class TalkModel extends Model
         return $last_message;
     }
 
-    /**创建会话
+    /**创建聊天
      * @param        $members
      * @param string $message
      * @return array
@@ -114,12 +114,12 @@ class TalkModel extends Model
             if (count($orin_member) == 1) {
                 $user_one = query_user(array('nickname'), $orin_member[0]);
                 $user_two = query_user(array('nickname'));
-                $talk['title'] = $user_one['nickname'] . ' 和 ' . $user_two['nickname'] . '的会话';
+                $talk['title'] = $user_one['nickname'] . ' 和 ' . $user_two['nickname'] . '的聊天';
             }
         }
 
 
-        //创建会话
+        //创建聊天
         $talk = D('Talk')->create($talk);
         $talk['id'] = D('Talk')->add($talk);
 

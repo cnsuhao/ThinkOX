@@ -44,7 +44,7 @@ class ShowPageTraceBehavior {
             '文件加载'  =>  count(get_included_files()),
             '缓存信息'  =>  N('cache_read').' gets '.N('cache_write').' writes ',
             '配置加载'  =>  count(c()),
-            '会话信息'  =>  'SESSION_ID='.session_id(),
+            '聊天信息'  =>  'SESSION_ID='.session_id(),
             );
         // 读取应用定义的Trace文件
         $traceFile  =   COMMON_PATH.'Conf/trace.php';

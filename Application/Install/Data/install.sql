@@ -1764,7 +1764,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_talk` (
   `other_uid` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='会话表' AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='聊天表' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

@@ -2,10 +2,10 @@
     $currentSession=D('Common/Talk')->getCurrentSessions();
 </php>
 <div id="session_panel_main">
-    <h2>快捷会话</h2>
+    <h2>快捷聊天</h2>
 
     <div class="session_more clearfix">
-        <a title="会话面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
+        <a title="聊天面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
            class="btn_session_more col-md-6 active tab_chat">正在聊天</i>
         </a>
         <a title="好友面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
@@ -35,7 +35,7 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <a onclick="chat_exit({$session.id})"><i style="color: red" title="退出会话"
+                                    <a onclick="chat_exit({$session.id})"><i style="color: red" title="退出聊天"
                                                                              class="glyphicon glyphicon-off"></i></a>
                                 </div>
                             </div>
@@ -54,19 +54,19 @@
             height: '430px',
             alwaysVisible: true
         });
-        var last_toast_talk_message_time = "{:time()}";//最后提示会话消息的时间
+        var last_toast_talk_message_time = "{:time()}";//最后提示聊天消息的时间
     </script>
-    <!--结束会话版-->
+    <!--结束聊天版-->
 </div>
 <!--开始好友板-->
 <div id="friend_panel_main" style="display: none">
     <php>
         $friends=D('Common/Follow')->getAllFriends();
     </php>
-    <h2>快捷会话</h2>
+    <h2>快捷聊天</h2>
 
     <div class="session_more">
-        <a title="会话面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
+        <a title="聊天面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
            class="btn_session_more col-md-6 tab_chat">正在聊天</i>
         </a>
         <a title="好友面板" onclick="$('#friend_panel_main').toggle();$('#session_panel_main').toggle()"
@@ -97,7 +97,7 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <a onclick="start_talk({$friend.uid})"><i title="发起新会话"
+                                    <a onclick="start_talk({$friend.uid})"><i title="发起新聊天"
                                                                               class="glyphicon glyphicon-send"></i></a>
                                 </div>
                             </div>
@@ -117,4 +117,4 @@
 
 
 </div>
-<!--结束会话版-->
+<!--结束聊天版-->

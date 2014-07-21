@@ -188,7 +188,7 @@ function ucard() {
                 $.get(U('UserCenter/Public/getProfile'), {uid: uid}, function (userProfile) {
                     var follow = '';
                     if ((MID != uid) && (MID != 0)) {
-                        follow = '<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">私&nbsp;信</button>';
+                        follow = '<button type="button" class="btn btn-default" onclick="start_talk(' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;margin-left: 8px;">聊&nbsp;天</button>';
                         if (userProfile.followed == 1) {
                             follow += '<button type="button" class="btn btn-default" onclick="ufollow(this,' + userProfile.uid + ')" style="float: right;margin: 5px 0;padding: 2px 12px;"><font title="取消关注">已关注</font></button>';
                         } else {
@@ -444,7 +444,7 @@ function checkMessage() {
 
         if (msg.new_talks) {
             playsound('Public/Core/js/ext/toastr/message.wav');
-            //发现有新的会话
+            //发现有新的聊天
             $.each(msg.new_talks, function (index, talk) {
                     prependSession(talk.talk);
                 }
@@ -454,7 +454,7 @@ function checkMessage() {
 
         if (msg.new_talk_messages) {
             playsound('Public/Core/js/ext/toastr/message.wav');
-            //发现有新的会话
+            //发现有新的聊天
             $.each(msg.new_talk_messages, function (index, talk_message) {
                     if (($('#chat_id').val() == talk_message.talk_id) && ($('#chat_box').is(":visible"))) {
                         chat_appendMessage(chat_fetchMessageTpl(talk_message, MID));
@@ -716,7 +716,7 @@ function chat_postMessage() {
     }, 'json');
 }
 function chat_exit(id) {
-    if (confirm('确定退出该会话？退出后无法再主动加入。')) {
+    if (confirm('确定退出该聊天？退出后无法再主动加入。')) {
         if (typeof (id) == 'undefined') {
             id = $('#chat_id').val();
         } else {
@@ -725,7 +725,7 @@ function chat_exit(id) {
             if (msg.status) {
                 $('#chat_box').hide();
                 $('#chat_li_' + id).remove();
-                op_success('成功退出会话。', '会话助手');
+                op_success('成功退出聊天。', '聊天助手');
             }
 
         }, 'json');
@@ -752,7 +752,7 @@ function prependSession(data) {
         data.title + '">' +
         data.title + '</a></div><div><a onclick="' +
         "chat_exit(" + data.id + ")" +
-        '"><i style="color: red" title="退出会话" class="glyphicon glyphicon-off"></i></a></div></div></div></li>';
+        '"><i style="color: red" title="退出聊天" class="glyphicon glyphicon-off"></i></a></div></div></div></li>';
     $('#session_panel_main .friend_list').prepend(tpl);
 }
 /**
@@ -760,7 +760,7 @@ function prependSession(data) {
  * @param talk_id
  */
 function setSessionUnread(talk_id) {
-    if (typeof ($('#chat_li_' + talk_id).html()) != 'undefined') {//当会话面板已经载入了
+    if (typeof ($('#chat_li_' + talk_id).html()) != 'undefined') {//当聊天面板已经载入了
         if (typeof ($('#chat_li_' + talk_id).find('.badge_new').html()) != 'undefined') {//检测是否已经存在新标记
             //如果已经存在新标记
             return true;
@@ -774,9 +774,9 @@ function setSessionUnread(talk_id) {
 }
 
 function start_talk(uid) {
-    if (confirm('确定要和该用户发起会话？')) {
+    if (confirm('确定要和该用户发起聊天？')) {
         $.post(U('Usercenter/Session/createTalk'), {uids: uid}, function (data) {
-            op_success('会话发起成功。', '会话助手');
+            op_success('聊天发起成功。', '聊天助手');
             $('#friend_panel_main').toggle();
             $('#session_panel_main').toggle();
             open_chat_box(data.id);

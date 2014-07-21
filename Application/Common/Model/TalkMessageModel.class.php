@@ -22,7 +22,7 @@ class TalkMessageModel extends Model
     /**添加消息
      * @param $content 内容
      * @param $uid 用户ID
-     * @param $talk_id 会话ID
+     * @param $talk_id 聊天ID
      * @return bool|mixed
      * @auth 陈一枭
      */
@@ -62,7 +62,7 @@ class TalkMessageModel extends Model
              * @param int $type 消息类型，0系统，1用户，2应用
              */
             if ($uid != is_login()) {
-                D('Message')->sendMessage($uid, '对话内容：' . op_t($content), '您有新的会话消息', U('UserCenter/Message/talk', array('talk_id' => $talk_id)), is_login(), 1);
+                D('Message')->sendMessage($uid, '对话内容：' . op_t($content), '您有新的聊天消息', U('UserCenter/Message/talk', array('talk_id' => $talk_id)), is_login(), 1);
             }
         }
     }
