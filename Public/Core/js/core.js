@@ -898,6 +898,9 @@ $(function () {
                 }
 
                 clearWeibo();
+                var html="还可以输入"+initNum+"个字";
+                $('.show_num_quick').html(html);
+                $('.show_num').html(html);
                 $('.XT_face').remove();
                 insert_image.close();
                 $('.mfp-close').click();
