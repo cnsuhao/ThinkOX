@@ -827,6 +827,9 @@ function bindSupport() {
             var table = $(this).attr('table');
             var uid = $(this).attr('uid');
             var jump = $(this).attr('jump');
+            if(THIS_MODEL_NAME!=null){
+                MODULE_NAME=THIS_MODEL_NAME;
+            }
             $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table, uid: uid, jump: jump}, function (msg) {
                 if (msg.status) {
                     var num_tag = $('#support_' + MODULE_NAME + '_' + table + '_' + row);

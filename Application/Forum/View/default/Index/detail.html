@@ -14,7 +14,7 @@
             <div class="forum_left_operation">
                 <div class="text-right btn-toolbar btn-group-vertical" role="toolbar">
                     <div class="btn-group">
-                        <if condition="$post['uid']==is_login()">
+                        <if condition="($post['uid']==is_login()) OR (is_administrator())">
                         <a class="btn" title="编辑"
                            href="{:U('Index/edit',array('post_id'=>$post['id']))}">
                             <i class="forum_edit"></i>

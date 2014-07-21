@@ -420,6 +420,9 @@ class IndexController extends Controller
         $this->requirePostExists($post_id);
         $this->requireLogin();
 
+        if(is_administrator()){
+            return true;
+        }
         //确认帖子时自己的
         $post = D('ForumPost')->where(array('id' => $post_id, 'status' => 1))->find();
         if ($post['uid'] != is_login()) {
