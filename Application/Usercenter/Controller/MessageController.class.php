@@ -253,6 +253,7 @@ class MessageController extends BaseController
         //设置Tab
         $this->defaultTabHash('collection');
         $this->assign('type', $type);
+        $this->setTitle('我的收藏');
         $this->display($type);
     }
 
