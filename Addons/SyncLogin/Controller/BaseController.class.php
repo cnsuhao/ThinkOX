@@ -37,10 +37,17 @@ class BaseController extends AddonsController
         //腾讯微博需传递的额外参数
         $extend = null;
         if($type == 'tencent'){
-            $extend = array('openid' => $this->_get('openid'), 'openkey' => $this->_get('openkey'));
+            $extend = array('openid' => I('get.openid'), 'openkey' =>  I('get.openkey'));
         }
 
         $token = $sns->getAccessToken($code , $extend);
+
+
+      $addon_config =  get_addon_config('SynvLogin');
+
+        redirect(addons_url('SyncLogin://Base/bind'));
+
+
         $access_token = $token['access_token'];
         $openid =  $token['openid'];
         $user_info = D('Addons://SyncLogin/Info')->$type($token);
@@ -150,6 +157,13 @@ class BaseController extends AddonsController
         $data['is_temp'] = 0;
         D('avatar')->add($data);
 
+    }
+
+    public function bind(){
+
+        dump('aaaaa');
+        dump(T('Addons://Attachment@Article/detail'));
+        $this->display(T('Addons://SyncLogin@Base/bind'));
     }
 
 }

@@ -15,7 +15,16 @@ return array(
         'value'=>'',			 //表单的默认值
         'tip'=>'需要在Meta标签中写入验证信息时，拷贝代码到这里。'
     ),
-
+    'bind'=>array(//配置在表单中的键名 ,这个会是config[title]
+        'title'=>'是否开启帐号绑定：',//表单的文字
+        'type'=>'radio',		 //表单的类型：text、textarea、checkbox、radio、select等
+        'options'=>array(
+            '1'=>'是',
+            '0'=>'否',
+        ),
+        'value'=>'0',
+        'tip'=>'不开启则跳过与本地帐号绑定过程'
+    ),
 
     'group'=>array(
         'type'=>'group',
