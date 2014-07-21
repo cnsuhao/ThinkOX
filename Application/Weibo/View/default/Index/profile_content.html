@@ -101,7 +101,7 @@
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];
                         </php>
-                        {:Hook('support',array('table'=>'weibo','row'=>$weibo['id'],'app'=>'Usercenter','uid'=>$weibo['uid']))}
+                        {:Hook('support',array('table'=>'weibo','row'=>$weibo['id'],'app'=>'Weibo','uid'=>$weibo['uid']))}
 {:Hook('repost',array('weiboId'=>$weibo['id']))}
 &nbsp;&nbsp;&nbsp;
 
@@ -134,6 +134,7 @@
 
 
     var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
+    var THIS_MODEL_NAME='Weibo';
     var noMoreNextPage = false;
     var isLoadingWeibo = false;
     var currentPage = 1;
