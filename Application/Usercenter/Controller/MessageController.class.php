@@ -19,6 +19,7 @@ class MessageController extends BaseController
     {
         parent::_initialize();
         $this->mTalkModel = D('Talk');
+        $this->setTitle('个人中心');
     }
 
     public function index()
