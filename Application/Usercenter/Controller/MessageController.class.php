@@ -240,6 +240,59 @@ class MessageController extends BaseController
         }
     }
 
+    public function collection($type='forum',$page=1)
+    {
+        $this->requireLogin();
+        $type=op_t($type);
+        $totalCount=0;
+        $list=$this->_getList($type,$totalCount,$page);
+
+
+        $this->assign('totalCount', $totalCount);
+        $this->assign('list', $list);
+        //设置Tab
+        $this->defaultTabHash('collection');
+        $this->assign('type', $type);
+        $this->display($type);
+    }
+
+    public function _getList($type='forum',&$totalCount=0,$page=1,$r=15)
+    {
+        $map['uid']=is_login();
+        switch ($type) {
+            case 'forum':
+                $forums = $this->getForumList();
+                $forum_key_value = array();
+                foreach ($forums as $f) {
+                    $forum_key_value[$f['id']] = $f;
+                }
+                $post_ids=D('ForumBookmark')->where($map)->field('post_id')->select();
+                $post_ids=array_column($post_ids,'post_id');
+                $map_forum=array('id'=>array('in',$post_ids),'status'=>1);
+                $model=D('ForumPost');
+                $list=$model->where($map_forum)->page($page,$r)->order('update_time desc')->select();
+                $totalCount=$model->where($map_forum)->count();
+                foreach ($list as &$v) {
+                    $v['forum'] = $forum_key_value[$v['forum_id']];
+                }
+                break;
+            default:
+                $this->error('非法操作！');
+                break;
+        }
+        return $list;
+    }
+
+    private function getForumList()
+    {
+        $forum_list = S('forum_list');
+        if (empty($forum_list)) {
+            //读取板块列表
+            $forum_list = D('Forum/Forum')->where(array('status' => 1))->order('sort asc')->select();
+            S('forum_list', $forum_list, 300);
+        }
+        return $forum_list;
+    }
     /**
      * @param $tab
      * @param $map

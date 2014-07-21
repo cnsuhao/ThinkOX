@@ -186,7 +186,7 @@ class IndexController extends BaseController
         return $result;
     }
 
-    public function appList($uid = null, $page = 1, $count = 10)
+    public function appList($uid = null, $page = 1, $count = 10,$tab=null)
     {
 
         $appArr = $this->_tab_menu();
@@ -197,11 +197,11 @@ class IndexController extends BaseController
         }
         $this->assign('type', $type);
         $className = ucfirst($type) . 'Protocol';
-        $content = D(ucfirst($type) . '/' . $className)->profileContent($uid, $page, $count);
+        $content = D(ucfirst($type) . '/' . $className)->profileContent($uid, $page, $count,$tab);
         if (empty($content)) {
             $content = '暂无内容';
         } else {
-            $totalCount = D(ucfirst($type) . '/' . $className)->getTotalCount($uid);
+            $totalCount = D(ucfirst($type) . '/' . $className)->getTotalCount($uid,$tab);
             $this->assign('totalCount', $totalCount);
         }
         $this->assign('content', $content);
