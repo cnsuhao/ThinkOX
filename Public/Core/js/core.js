@@ -918,7 +918,7 @@ function weiboShare() {
     wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
         wb_appkey = "",
         wb_title = document.title,
-        wb_ralateUid = "{:C('SHARE_WEIBO_ID')}",
+        wb_ralateUid =ThinkPHP.WEIBO_ID,
         wb_pic = "",
         wb_language = "zh_cn";
     wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
