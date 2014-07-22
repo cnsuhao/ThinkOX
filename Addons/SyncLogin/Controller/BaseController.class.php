@@ -71,7 +71,8 @@ class BaseController extends AddonsController
             //usercenter表新增数据
             $uid = $Api->addSyncData();
             //member表新增数据
-            D('Member')->addSyncData($uid, $user_info);
+            D('Home/Member')->addSyncData($uid, $user_info);
+
             // 记录数据到sync_login表中
             $this->addSyncLoginData($uid, $access_token, $openid, $type, $openid);
             //保存头像
