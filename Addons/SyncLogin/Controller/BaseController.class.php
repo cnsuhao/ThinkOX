@@ -43,9 +43,9 @@ class BaseController extends AddonsController
         $token = $sns->getAccessToken($code , $extend);
 
 
-      $addon_config =  get_addon_config('SynvLogin');
+/*      $addon_config =  get_addon_config('SynvLogin');
 
-        redirect(addons_url('SyncLogin://Base/bind'));
+        redirect(addons_url('SyncLogin://Base/bind'));*/
 
 
         $access_token = $token['access_token'];
