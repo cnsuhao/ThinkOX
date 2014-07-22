@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `thinkox_talk_message_push` (
   `status` tinyint(4) NOT NULL,
   `talk_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=gbk COMMENT='会话消息推送通知' AUTO_INCREMENT=40 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=gbk COMMENT='聊天消息推送通知' AUTO_INCREMENT=40 ;
 
 
 

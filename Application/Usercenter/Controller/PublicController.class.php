@@ -69,7 +69,7 @@ class PublicController extends Controller
 
 
     /**检测消息
-     * 返回新会话状态和系统的消息
+     * 返回新聊天状态和系统的消息
      * @auth 陈一枭
      */
     public function getInformation()
@@ -81,10 +81,10 @@ class PublicController extends Controller
 
         $message->setAllToasted(is_login()); //消息中心推送
 
-        $new_talks = D('TalkPush')->getAllPush(); //会话推送
+        $new_talks = D('TalkPush')->getAllPush(); //聊天推送
         D('TalkPush')->where(array('uid' => get_uid(), 'status' => 0))->setField('status', 1); //读取到推送之后，自动删除此推送来防止反复推送。
 
-        $new_talk_messages = D('TalkMessagePush')->getAllPush(); //会话消息推送
+        $new_talk_messages = D('TalkMessagePush')->getAllPush(); //聊天消息推送
         D('TalkMessagePush')->where(array('uid' => get_uid(), 'status' => 0))->setField('status', 1); //读取到推送之后，自动删除此推送来防止反复推送。
 
         foreach($new_talk_messages as &$message){

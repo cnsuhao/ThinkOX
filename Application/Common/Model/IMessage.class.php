@@ -19,7 +19,7 @@ interface IMessage
      */
     public function getSource($message);
 
-    /**获得查找的内容，在第一次创建会话的时候获取第一个聊天的内容时触发
+    /**获得查找的内容，在第一次创建聊天的时候获取第一个聊天的内容时触发
      * @param $message
      * @return mixed
      */
