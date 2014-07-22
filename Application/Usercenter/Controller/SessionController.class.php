@@ -24,7 +24,7 @@ class SessionController extends BaseController
     public function getSession($id)
     {
         $id = intval($id);
-        //获取当前会话
+        //获取当前聊天
         $talk = $this->getTalk(0, $id);
         $uids = D('Talk')->getUids($talk['uids']);
         foreach ($uids as $uid) {
@@ -81,7 +81,7 @@ class SessionController extends BaseController
     }
 
     /**
-     * 会话列表页面
+     * 聊天列表页面
      */
     public function session()
     {
@@ -101,13 +101,13 @@ class SessionController extends BaseController
     }
 
     /**对话页面
-     * 创建会话或显示现有会话。
-     * @param int $message_id 消息ID 只提供消息则从消息自动创建一个会话
-     * @param int $talk_id 会话ID
+     * 创建聊天或显示现有聊天。
+     * @param int $message_id 消息ID 只提供消息则从消息自动创建一个聊天
+     * @param int $talk_id 聊天ID
      */
     public function talk($message_id = 0, $talk_id = 0)
     {
-        //获取当前会话
+        //获取当前聊天
         $talk = $this->getTalk($message_id, $talk_id);
         $map['talk_id'] = $talk['id'];
         $messages = D('TalkMessage')->where($map)->order('create_time desc')->limit(20)->select();
@@ -128,25 +128,25 @@ class SessionController extends BaseController
     }
 
     /**
-     * 删除现有会话
+     * 删除现有聊天
      */
     public function doDeleteTalk($talk_id)
     {
         $this->requireLogin();
 
-        //确认当前用户属于会话。
+        //确认当前用户属于聊天。
         $talk = D('Talk')->find($talk_id);
         $uid = get_uid();
         if (false === strpos($talk['uids'], "[$uid]")) {
-            $this->error('您没有权限删除该会话');
+            $this->error('您没有权限删除该聊天');
         }
 
-        //如果删除前会话中只有两个人，就将会话标记为已删除。
+        //如果删除前聊天中只有两个人，就将聊天标记为已删除。
         $uids = explode(',', $talk['uids']);
         if (count($uids) <= 2) {
             D('Talk')->where(array('id' => $talk_id))->setField('status', -1);
             D('Message')->where(array('talk_id' => $talk_id))->setField('talk_id', 0);
-        } //如果删除前会话中有多个人，就退出会话。
+        } //如果删除前聊天中有多个人，就退出聊天。
         else {
             $uids = array_diff($uids, array("[$uid]"));
             $uids = implode(',', $uids);
@@ -160,7 +160,7 @@ class SessionController extends BaseController
 
     /**回复的时候调用，通过该函数，会回调应用对应的postMessage函数实现对原始内容的数据添加。
      * @param $content 内容文本
-     * @param $talk_id 会话ID
+     * @param $talk_id 聊天ID
      */
     public function postMessage($content, $talk_id)
     {
@@ -207,12 +207,12 @@ class SessionController extends BaseController
             /*如果是传递了message_id，就是创建对话*/
             $message = D('Message')->find($message_id);
 
-            //权限检测，防止越权创建会话
+            //权限检测，防止越权创建聊天
             if (($message['to_uid'] != $this->mid && $message['from_uid'] != $this->mid) || !$message) {
                 $this->error('非法操作。');
             }
 
-            //如果已经创建过会话了，就不再创建
+            //如果已经创建过聊天了，就不再创建
             $map['message_id'] = $message_id;
             $map['status'] = 1;
             $talk = D('Talk')->where($map)->find();
@@ -224,12 +224,12 @@ class SessionController extends BaseController
             $memeber = $message['from_uid'];
 
 
-            //TODO 调用模型创建会话
+            //TODO 调用模型创建聊天
             D('Common/Talk')->createTalk($memeber, $message);
             $messageModel = $this->getMessageModel($message);
 
 
-            //关联会话到当前消息
+            //关联聊天到当前消息
             $message['talk_id'] = $talk['id'];
             D('Message')->save($message);
 
@@ -242,7 +242,7 @@ class SessionController extends BaseController
             $talkMessage['id'] = $talkMessageModel->add($talkMessage);
 
 
-            D('Message')->sendMessage($message['from_uid'], '会话名称：' . $talk['title'], '您有新的主题会话', U('UserCenter/Message/talk', array('talk_id' => $talk['id'])), is_login(), 0);
+            D('Message')->sendMessage($message['from_uid'], '聊天名称：' . $talk['title'], '您有新的主题聊天', U('UserCenter/Message/talk', array('talk_id' => $talk['id'])), is_login(), 0);
 
             return $talk;
 
@@ -283,7 +283,7 @@ class SessionController extends BaseController
         return $map;
     }
 
-    /**创建会话，
+    /**创建聊天，
      * @auth 陈一枭
      */
     public function createTalk($uids='')
