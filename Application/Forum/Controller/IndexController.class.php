@@ -176,7 +176,7 @@ class IndexController extends Controller
         $this->assignAllowPublish();
         $this->assign('isBookmark', $isBookmark);
         $this->assign('post', $post);
-        $this->setTitle('$post.title|op_t —— 贴吧');
+        $this->setTitle('{$post.title|op_t} —— 贴吧');
 
         $this->assign('limit', $limit);
         $this->assign('sr', $sr);
