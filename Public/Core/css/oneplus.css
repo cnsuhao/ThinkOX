@@ -1170,7 +1170,7 @@ a:hover {
 .nav_bar {
   background: white;
   z-index: 999;
-  box-shadow: #666 0px 0px 8px;
+  border-bottom: 1px solid #ccc;
 }
 .nav_bar .navbar-collapse {
   width: 75%;
