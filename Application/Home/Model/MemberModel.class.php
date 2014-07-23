@@ -258,10 +258,11 @@ class MemberModel extends Model
      */
     public function addSyncData($uid,$info){
 
-        $data1['nickname'] = mb_substr($info['nick'],0,11, 'utf-8').'_'.$this->rand_nickname();
+        $data1['nickname'] = mb_substr($info['nick'],0,11, 'utf-8');
         //去除特殊字符。
         $data1['nickname'] = preg_replace('/[^A-Za-z0-9_\x80-\xff\s\']/','', $data1['nickname']);
         empty($data1['nickname']) && $data1['nickname']=$this->rand_nickname();
+        $data1['nickname'] .='_'.$this->rand_nickname();
         $data1['sex'] = $info['sex'];
         $data =  $this->create($data1);
         $data['uid'] = $uid;
