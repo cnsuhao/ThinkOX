@@ -22,8 +22,7 @@
         </div>-->
     </div>
     <div class="forum_module_content clearfix" style="padding: 5px">
-        <a  class="btn btn-default position <eq name="forum_id" value="0"> btn-primary</eq>" href="{:U('Index/forum')}">全部帖子</a>
-        <volist name="forum_list" id="each_forum">
+        <a  class="btn btn-default position <eq name="forum_id" value="0"> btn-primary</eq>" href="{:U('Index/forum')}">全部帖子</a><volist name="forum_list" id="each_forum">
                 <a href="{:U('Index/forum',array('id'=>$each_forum['id']))}" class="btn btn-default  position <eq name="forum_id" value="$each_forum['id']">btn-primary</eq>">{$each_forum.title|htmlspecialchars}</a>
         </volist>
 
