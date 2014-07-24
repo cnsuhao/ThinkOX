@@ -3,18 +3,19 @@
 <block name="header">
     <link type="text/css" rel="stylesheet" href="__CSS__/blog.css"/>
     <include file="Public/_nav"/>
+    {:W('Common/SubMenu/render',array($sub_menu,'home','博客',''))}
 </block>
 
 <block name="body">
     <div class="container">
+        <div class="row">
+            <div class="col-xs-8  ">
+                <div><img style="width: 100% " src="{$info.cover_id|get_cover='path'}" alt="{$info.title|op_t}"/></div>
+                <div class="common_block_border">
+                    <div class="common_block_title clearfix">
+                        <h2>{$info.title}</h2>
 
-        <div class="col-xs-8  ">
-            <div><img style="width: 100% " src="{$info.cover_id|get_cover='path'}" alt="{$info.title|op_t}"/></div>
-            <div class="common_block_border">
-                <div class="common_block_title clearfix">
-                    <h2>{$info.title}</h2>
-
-                    <p>
+                        <p>
 				<span class="pull-left">
                      <php>$user=query_user(array('avatar32','space_url'),$data['uid'])</php>
 					<span class="author"><a href="{$user.space_url}"
@@ -29,38 +30,40 @@
                         <a href="{:U('?id='.$next['id'])}">下一篇</a>
                     </article:next>
 				</span>
-                    </p>
-                </div>
-                <hr/>
-                <section id="contents">
+                        </p>
+                    </div>
+                    <hr/>
+                    <section id="contents">
 
-                    <div>{$info.content}</div>
-                </section>
-                <hr/>
-                <div style="padding: 20px">
-                    {:hook('documentDetailAfter',$info)}
-                </div>
+                        <div>{$info.content}</div>
+                    </section>
+                    <hr/>
+                    <div style="padding: 20px">
+                        {:hook('documentDetailAfter',$info)}
+                    </div>
 
-            </div>
-        </div>
-        <div class="col-xs-4">
-            <div class="common_block_border">
-                <div class="common_block_title">作者</div>
-                <php>$author=query_user(array('nickname','space_url','avatar64','signature'),$info['uid'])</php>
-                <div class="col-md-4">
-                    <img class="avatar-img" src="{$author.avatar64}"/>
                 </div>
-                <div class="col-md-8">
-                    <a href="{$author.space_url}">{$author.nickname}</a>
-                    <br/>
-                    <p class="text-more" style="width: 100%">{$author.signature}</p>
-                    <br/>
-                    文章：<php>echo D('Document')->where(array('uid'=>$info['uid']))->count();</php>
-                </div>
-                <div class="clearfix" style="padding: 10px"></div>
             </div>
-            {:W('Position/lists',array('position'=>2,'category'=>$category['id']))}
-            {:W('Hot/lists',array('category'=>$category['id']))}
+            <div class="col-xs-4">
+                <div class="common_block_border">
+                    <div class="common_block_title">作者</div>
+                    <php>$author=query_user(array('nickname','space_url','avatar64','signature'),$info['uid'])</php>
+                    <div class="col-md-4">
+                        <img class="avatar-img" src="{$author.avatar64}"/>
+                    </div>
+                    <div class="col-md-8">
+                        <a href="{$author.space_url}">{$author.nickname}</a>
+                        <br/>
+                        <p class="text-more" style="width: 100%">{$author.signature}</p>
+                        <br/>
+                        文章：<php>echo D('Document')->where(array('uid'=>$info['uid']))->count();</php>
+                    </div>
+                    <div class="clearfix" style="padding: 10px"></div>
+                </div>
+                {:W('Position/lists',array('position'=>2,'category'=>$category['id']))}
+                {:W('Hot/lists',array('category'=>$category['id']))}
+            </div>
+
         </div>
 
 
