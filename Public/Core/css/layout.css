@@ -28,3 +28,27 @@
   margin-left: 5px;
 }
 /*布局样式end*/
+.sub_nav {
+  background: none;
+}
+.sub_nav .navbar-default {
+  background: none !important;
+}
+.sub_nav .navbar-default .navbar-nav > .active > a,
+.sub_nav .navbar-default .navbar-nav > .active > a:hover,
+.sub_nav .navbar-default .navbar-nav > .active > a:focus,
+.sub_nav .navbar-default .navbar-nav > li > a:hover,
+.sub_nav .navbar-default .navbar-nav > li > a:focus {
+  background: none;
+  color: #333;
+  font-size: 16px;
+}
+.sub_nav .navbar-default .navbar-nav > li > a {
+  color: #333;
+  font-size: 16px;
+  padding-top: 0;
+}
+.hr_3d {
+  border-bottom: 1px solid white;
+  border-top: 1px #cccccc solid;
+}

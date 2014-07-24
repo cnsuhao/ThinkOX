@@ -1,8 +1,9 @@
 <extend name="Base/common"/>
 
 <block name="header">
+    <link type="text/css" rel="stylesheet" href="__CSS__/blog.css"/>
     <header class="jumbotron subhead" id="overview">
-		<div class="container">
+		<div class="container ">
 			<h2>{$info.title}</h2>
 			<p>
 				<span  class="pull-left">
@@ -23,7 +24,7 @@
 </block>
 
 <block name="body">
-    <div class="col-xs-9 main-content">
+    <div class="col-xs-9 main-content  common_block_border">
         <!-- Contents
         ================================================== -->
         <section id="contents">{$info.content}</section>
