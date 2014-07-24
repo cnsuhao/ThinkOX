@@ -52,12 +52,14 @@ class ArticleController extends BlogController
 
 
         } else {
+            //还有子分类
             //分割分类
             $children = explode(',', $children);
             //将当前分类的文章和子分类的文章混合到一起
             $cates = $children;
-            $cates = array_push($cates, $category['id']);
+            array_push($cates, $category['id']);
             $list = $Document->page($page, $category['list_row'])->lists(implode(',', $cates));
+            //dump($children);exit;
             //得到子分类的目录
             foreach ($children as &$child) {
                 $child = $Category->info($child);
@@ -70,6 +72,7 @@ class ArticleController extends BlogController
         if (false === $list) {
             $this->error('获取列表数据失败！');
         }
+
 
 
         /* 模板赋值并渲染模板 */

@@ -32,12 +32,18 @@
 
                     </div>
                 </div>
+
              <span class="pull-right" style="position: absolute;right: 0;bottom: 0">
                                        &nbsp;&nbsp;
                                         <span><i class="glyphicon glyphicon-fire"></i>  {$data.view} </span>&nbsp;&nbsp;
                                 </span>
             </div>
-            <div style="border-bottom: 1px dashed rgb(204, 204, 204);margin: 15px"></div>
+            <if condition="$i eq count($lists)">
+                <div style="margin: 15px"></div>
+                <else/>
+                <div style="border-bottom: 1px dashed rgb(204, 204, 204);margin: 15px"></div>
+            </if>
+
         </volist>
     </div>
 </if>
