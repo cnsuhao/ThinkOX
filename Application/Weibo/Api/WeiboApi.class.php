@@ -301,7 +301,7 @@ class WeiboApi extends Api
 
         $type = array('repost','feed');
         if ( !in_array($weibo['type'],$type)) {
-            $class_exists = class_exists('Addons\\Insert' . ucfirst($weibo['type']) . '\\fetch' . ucfirst($weibo['type']) . 'Addon');
+            $class_exists = class_exists('Addons\\Insert' . ucfirst($weibo['type']) . '\\Insert' . ucfirst($weibo['type']) . 'Addon');
         }
 
 
