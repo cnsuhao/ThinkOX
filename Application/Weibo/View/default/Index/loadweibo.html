@@ -82,19 +82,19 @@
                     <div class="weibo_content_bottom row">
                         <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
 
-                        <div class="col-md-4"> <span ><a
+                        <div class="col-md-6"> <span ><a
                                 href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
                             &nbsp;&nbsp;<span>来自
                                <if condition="$weibo['from'] eq ''">
                                    网站端
                                    <else/>
-                                   {$weibo.from}
+                                   <strong>{$weibo.from}</strong>
                                </if>
                             </span>
 
 
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                                   <span class="pull-right" data-weibo-id="{$weibo.id}">
                         <php>
                             $weiboCommentTotalCount = $weibo['comment_count'];

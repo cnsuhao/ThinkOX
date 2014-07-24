@@ -22,7 +22,7 @@ class WeiboModel extends Model
         array('status', '1', self::MODEL_INSERT),
     );
 
-    public function addWeibo($uid, $content='',$type='feed',$feed_data=array(),$from='网站端')
+    public function addWeibo($uid, $content='',$type='feed',$feed_data=array(),$from='')
     {
         //写入数据库
         $data = array('uid'=>$uid,'content'=>$content,'type'=>$type,'data'=>serialize($feed_data),'from'=>$from);
