@@ -9,7 +9,7 @@
 <!--导航-->
 <include file="_nav"/>
 
-<div class="row">
+
     <div class="col-md-3 pull-right" style="z-index: 99">
         <include file="_right"/>
     </div>
@@ -50,7 +50,7 @@
                         </if>
 
                         <a class="pull-left" href="{:U('Event/Index/detail',array('id'=>$vo['id']))}"> <img
-                                class="cover img-responsive"
+                                class="cover"
                                 src="{$vo.cover_id|getThumbImageById=320,210}" style="width: 320px;height: 210px;overflow: hidden"/></a>
                     </div>
                     <div class="pull-left col-md-7">
@@ -149,7 +149,7 @@
 
     </div>
 
-</div>
+
 </block>
 
 <block name="script">

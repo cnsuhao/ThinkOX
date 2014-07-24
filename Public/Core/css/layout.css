@@ -27,12 +27,6 @@
   margin-left: 5px;
 }
 /*布局样式end*/
-.sub_menu {
-  margin-bottom: 0;
-}
-.sub_menu .navbar {
-  margin-bottom: 0;
-}
 .sub_menu .navbar-default {
   background: white;
   border: 1px solid #dddddd;

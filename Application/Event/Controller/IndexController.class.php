@@ -16,6 +16,17 @@ class IndexController extends Controller
     {
         $tree = D('EventType')->where(array('status' => 1))->select();
         $this->assign('tree', $tree);
+
+        $sub_menu =
+            array(
+                'left' =>
+                    array(
+                        array('tab' => 'home', 'title' => '首页', 'href' => U('event/index/index')),
+                        array('tab' => 'myevent', 'title' => '我的活动', 'href' => U('event/index/myevent')),
+                    ),
+            );
+        $this->assign('sub_menu', $sub_menu);
+        $this->assign('current', 'home');
     }
 
     /**
@@ -114,6 +125,7 @@ class IndexController extends Controller
         $this->assign('totalPageCount', $totalCount);
         $this->getRecommend();
         $this->setTitle('我的活动——活动');
+        $this->assign('current','myevent');
         $this->display();
     }
 
