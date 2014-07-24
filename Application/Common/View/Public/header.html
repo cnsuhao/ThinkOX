@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row  ">
             <div class="col-md-6 col-sm-6 hidden-xs">
-                分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
+               <if condition="C('SHARE_WEIBO_ID') neq ''"> 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a></if>
             </div>
             <script>
                 $(function () {
