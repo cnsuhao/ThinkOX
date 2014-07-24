@@ -1,6 +1,7 @@
 <extend name="Base/common"/>
 <block name="header">
     <include file="Public/_nav"/>
+    {:W('Common/SubMenu/render',array($sub_menu,'home','博客',''))}
 </block>
 <block name="body">
     <link type="text/css" rel="stylesheet" href="__CSS__/blog.css"/>

@@ -30,8 +30,22 @@ class BlogController extends Controller {
         if(!C('WEB_SITE_CLOSE')){
             $this->error('站点已经关闭，请稍后访问~');
         }
+
+        $sub_menu =
+            array(
+                'left' =>
+                    array(
+                        array('tab' => 'home', 'title' => '首页', 'href' => U('blog/index/index')),
+                    ),
+            );
         $category = D('Category')->getTree();
         $this->assign('categories', $category); //栏目
+        foreach ($category as $cat) {
+            $sub_menu['left'][] = array('tab' => 'cat_' . $cat['id'], 'title' => $cat['title'], 'href' => U('blog/article/lists', array('category' => $cat['id'])));
+        }
+        $this->assign('sub_menu', $sub_menu);
+
+
     }
 
 
