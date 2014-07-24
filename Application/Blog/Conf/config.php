@@ -81,8 +81,8 @@ return array(
     ),
 
     /* SESSION 和 COOKIE 配置 */
-    'SESSION_PREFIX' => 'onethink_Blog', //session前缀
-    'COOKIE_PREFIX'  => 'onethink_Blog_', // Cookie前缀 避免冲突
+    'SESSION_PREFIX' => 'onethink_home', //session前缀
+    'COOKIE_PREFIX'  => 'onethink_home_', // Cookie前缀 避免冲突
 
     /**
      * 附件相关配置

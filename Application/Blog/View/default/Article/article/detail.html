@@ -2,12 +2,23 @@
 
 <block name="header">
     <link type="text/css" rel="stylesheet" href="__CSS__/blog.css"/>
-    <header class="jumbotron subhead" id="overview">
-		<div class="container ">
-			<h2>{$info.title}</h2>
-			<p>
-				<span  class="pull-left">
-					<span class="author">{$info.uid|get_username}</span>
+    <include file="Public/_nav"/>
+</block>
+
+<block name="body">
+    <div class="container">
+
+        <div class="col-xs-9  ">
+            <div><img style="width: 100% " src="{$info.cover_id|get_cover='path'}" alt="{$info.title|op_t}"/></div>
+            <div class="common_block_border">
+                <div class="common_block_title clearfix">
+                    <h2>{$info.title}</h2>
+
+                    <p>
+				<span class="pull-left">
+                     <php>$user=query_user(array('avatar32','space_url'),$data['uid'])</php>
+					<span class="author"><a href="{$user.space_url}"
+                                            ucard="{$data.uid}">{$info.uid|get_nickname}</a></span>
 					<span> 发表于 {$info.create_time|date='Y-m-d H:i',###}</span>
 				</span>
 				<span class="pull-right">
@@ -18,17 +29,20 @@
                         <a href="{:U('?id='.$next['id'])}">下一篇</a>
                     </article:next>
 				</span>
-			</p>
-		</div>
-	</header>
-</block>
+                    </p>
+                </div>
+                <hr/>
+                <section id="contents">
 
-<block name="body">
-    <div class="col-xs-9 main-content  common_block_border">
-        <!-- Contents
-        ================================================== -->
-        <section id="contents">{$info.content}</section>
-        <hr/>
-        {:hook('documentDetailAfter',$info)}
+                    <div>{$info.content}</div>
+                </section>
+                <hr/>
+                <div style="padding: 20px">
+                    {:hook('documentDetailAfter',$info)}
+                </div>
+
+            </div>
+        </div>
     </div>
+
 </block>

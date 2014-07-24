@@ -31,7 +31,7 @@ class ArticleController extends BlogController
     }
 
     /* 文档模型列表页 */
-    public function lists($p = 1)
+    public function lists($page = 1)
     {
         /* 分类信息 */
         $category = $this->category();
@@ -43,7 +43,7 @@ class ArticleController extends BlogController
         $children = $Category->getChildrenId($category['id']);
         if ($children == '') {
             //获取当前分类下的文章
-            $list = $Document->page($p, $category['list_row'])->lists($category['id']);
+            $list = $Document->page($page, $category['list_row'])->lists($category['id']);
             if($category['pid']!=0){//判断是否是顶级分类，如果是顶级，就算没有子分类，也不获取同级
                 //如果没有子分类，是最终类目,就获取同级分类
                 $children =$Category->getSameLevel($category['id']);
@@ -57,7 +57,7 @@ class ArticleController extends BlogController
             //将当前分类的文章和子分类的文章混合到一起
             $cates = $children;
             $cates = array_push($cates, $category['id']);
-            $list = $Document->page($p, $category['list_row'])->lists(implode(',', $cates));
+            $list = $Document->page($page, $category['list_row'])->lists(implode(',', $cates));
             //得到子分类的目录
             foreach ($children as &$child) {
                 $child = $Category->info($child);
@@ -74,6 +74,7 @@ class ArticleController extends BlogController
 
         /* 模板赋值并渲染模板 */
         $this->assign('category', $category);
+        $this->setTitle('{$category.title|op_t}');
         $this->assign('list', $list);
         $this->display($category['template_lists']);
     }
