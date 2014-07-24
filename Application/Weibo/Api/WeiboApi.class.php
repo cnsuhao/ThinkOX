@@ -155,12 +155,12 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
-    public function sendWeibo($content,$type='feed',$feed_data='')
+    public function sendWeibo($content,$type='feed',$feed_data='',$from='网站端')
     {
         $this->requireSendInterval();
         $this->requireLogin();
         //写入数据库
-        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data);
+        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data,$from);
         if (!$weibo_id) {
             throw new ApiException('发布失败：' . $this->weiboModel->getError());
         }
@@ -322,7 +322,9 @@ class WeiboApi extends Api
             'user' => $this->getUserStructure($weibo['uid']),
             'is_top' => $weibo['is_top'],
             'uid'=>$weibo['uid'],
-            'fetchContent'=>$fetchContent
+            'fetchContent'=>$fetchContent,
+            'from'=>$weibo['from']
+
         );
 
     }

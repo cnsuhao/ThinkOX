@@ -82,9 +82,16 @@
                     <div class="weibo_content_bottom row">
                         <!--"{:U('bboard/Index/tmldetail',array('topic_id'=>$vo['topic_id']))}"-->
 
-                        <div class="col-md-4">
-                            <span class="text-primary"><a
-                                    href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
+                        <div class="col-md-4"> <span ><a
+                                href="{:U('Weibo/Index/weiboDetail',array('id'=>$weibo['id']))}">{$weibo.create_time|friendlyDate}</a> </span>
+                            &nbsp;&nbsp;<span>来自
+                               <if condition="$weibo['from'] eq ''">
+                                   网站端
+                                   <else/>
+                                   {$weibo.from}
+                               </if>
+                            </span>
+
 
                         </div>
                         <div class="col-md-8">
