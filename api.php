@@ -22,7 +22,7 @@ if($_REQUEST['session_id']) {
 }
 
 //调用Application/Api应用
-$_GET['m'] = 'Api';
+$_GET['m'] = 'App';
 define ( 'APP_PATH', './Application/' );
 define ( 'RUNTIME_PATH', './Runtime/' );
 require './ThinkPHP/ThinkPHP.php';
