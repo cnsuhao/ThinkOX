@@ -50,7 +50,7 @@
                                    ajaxurl="/member/checkUserNameUnique.html" errormsg="请填写1-16位用户名"
                                    nullmsg="请填写用户名"
                                    datatype="*1-16" value="" name="username">
-                            <span class="help-block">输入<strong>用户名</strong>，只允许字母和数字和下划线</span>
+                            <span class="help-block">输入用户名，只允许字母和数字和下划线</span>
                             <div class="clearfix"></div>
                         </div>
                         <div class="form-group">
@@ -60,7 +60,7 @@
                                    nullmsg="请填写昵称"
                                    datatype="*1-16" value="" name="nickname">
 
-                            <span class="help-block">输入<strong>昵称</strong>，只允许中文、字母和数字和下划线</span>
+                            <span class="help-block">输入昵称，只允许中文、字母和数字和下划线</span>
                             <div class="clearfix"></div>
                         </div>
                         <div class="form-group">
@@ -68,7 +68,7 @@
                             <input type="text" id="inputEmail" class="form-control" placeholder="请输入电子邮件"
                                    ajaxurl="/member/checkUserEmailUnique.html" errormsg="请填写正确格式的邮箱" nullmsg="请填写邮箱"
                                    datatype="e" value="" name="email">
-                            <span class="help-block">输入邮箱地址</span>
+                            <span class="help-block">输入密码</span>
                             <div class="clearfix"></div>
                         </div>
                         <div class="form-group">
@@ -80,7 +80,7 @@
                                                                   href="javascript:void(0);"
                                                                   onclick="change_show(this)">show</a></div>
                             </div>
-                            <span class="help-block">输入密码</span>
+                            <span class="help-block">再次输入密码</span>
                             <div class="clearfix"></div>
                         </div>
                         <if condition="C(VERIFY_OPEN) eq 1 OR C(VERIFY_OPEN) eq 3">
@@ -90,7 +90,7 @@
                                 <div class="col-xs-4" style="padding: 0px;">
                                     <input type="text" id="verifyCode" class="form-control" placeholder="验证码"
                                            errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
-                                    <span class="help-block">输入图内的文字</span>
+                                    <span class="help-block">输入密码</span>
                                 </div>
                                 <div class="col-xs-8 lg_lf_fm_verify">
                                     <img class="verifyimg reloadverify img-responsive" alt="点击切换" src="{:U('verify')}"
@@ -164,12 +164,12 @@
             }
 
             function setNickname(obj){
-                var text=$(obj).val().trim();
+                var text= jQuery.trim( $(obj).val());
                 if(text!=null&&text!=''){
                     $('#nickname').val(text);
                 }
             }
-
+            
             $(function () {
                 var verifyimg = $(".verifyimg").attr("src");
                 $(".reloadverify").click(function () {
