@@ -827,7 +827,7 @@ function bindSupport() {
             var table = $(this).attr('table');
             var uid = $(this).attr('uid');
             var jump = $(this).attr('jump');
-            if(THIS_MODEL_NAME!=null){
+            if(typeof(THIS_MODEL_NAME) !=  'undefined'){
                 MODULE_NAME=THIS_MODEL_NAME;
             }
             $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table, uid: uid, jump: jump}, function (msg) {
