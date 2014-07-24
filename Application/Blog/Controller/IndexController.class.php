@@ -35,8 +35,7 @@ class IndexController extends BlogController
         /* 模板赋值并渲染模板 */
         $this->assign('category', $category);
         $this->assign('list', $list);
-        $category = D('Category')->getTree();
-        $this->assign('category', $category); //栏目
+
         $this->assign('page', D('Document')->page); //分页
         $this->display();
     }

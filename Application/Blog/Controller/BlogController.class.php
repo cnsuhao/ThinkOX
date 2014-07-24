@@ -30,6 +30,8 @@ class BlogController extends Controller {
         if(!C('WEB_SITE_CLOSE')){
             $this->error('站点已经关闭，请稍后访问~');
         }
+        $category = D('Category')->getTree();
+        $this->assign('categories', $category); //栏目
     }
 
 

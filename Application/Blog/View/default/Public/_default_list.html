@@ -1,0 +1,26 @@
+<div class="row" style="position: relative">
+    <div class="col-md-4">
+        <img src="{$data.cover_id|getThumbImageById=200,146}"
+             style="width: 200px;height: 146px">
+    </div>
+    <div class="col-md-8">
+        <div>
+            <h3 class="text-more" style="width: 100%"><a
+                    href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
+        </div>
+        <div>
+            <span class="author">{$data.uid|get_username}&nbsp;{$data.create_time|date='Y-m-d H:i:s',###}</span>
+
+            <p>{$data.description}</p>
+        </div>
+        <div>
+
+        </div>
+    </div>
+ <span class="pull-right" style="position: absolute;right: 0;bottom: 0">
+                                       &nbsp;&nbsp;
+                                        <span><i class="glyphicon glyphicon-fire"></i>  {$data.view} </span>&nbsp;&nbsp;
+                                </span>
+</div>
+
+<hr/>

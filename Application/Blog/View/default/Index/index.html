@@ -1,64 +1,8 @@
 <extend name="Base/common"/>
 <block name="header">
-    <div class="sub_nav">
-        <nav class="navbar  navbar-default"  role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a  href="{:U('index')}">博客首页</a>
-                        </li>
-                        <li>
-                            <a href="{:U('goods')}">所有分类</a>
-                        </li>
-                        <volist name="tree" id="top">
-                            <if condition="$top['status'] eq 1">
-                                <if condition="$top['_'] eq null">
-                                    <li><a href="{:U('goods',array('category_id'=>$top['id']))}">{$top.title}</a>
-                                    </li>
-                                    <else/>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$top.title}<b
-                                                class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{:U('goods',array('category_id'=>$top['id']))}">全部</a></li>
-                                            <volist name="top['_']" id="child_category">
-                                                <li>
-                                                    <a href="{:U('goods',array('category_id'=>$child_category['id']))}">{$child_category.title}</a>
-                                                </li>
-                                            </volist>
-                                        </ul>
-                                    </li>
-                                </if>
-                            </if>
-                        </volist>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-                <div class="hr_3d"></div>
-            </div>
-
-        </nav>
-
-
-    </div>
-
-
+    <include file="Public/_nav"/>
 </block>
 <block name="body">
-
     <link type="text/css" rel="stylesheet" href="__CSS__/blog.css"/>
     <div class="container" style="min-height: 400px">
         <div class="row">
@@ -68,32 +12,7 @@
                     <div style="padding:0 20px">
                         <section id="contents">
                             <volist name="list" id="data">
-                                <div class="row" style="position: relative">
-                                    <div class="col-md-4">
-                                        <img src="{$data.cover_id|getThumbImageById=200,146}"
-                                             style="width: 200px;height: 146px">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div>
-                                            <h3 class="text-more" style="width: 100%"><a
-                                                    href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a></h3>
-                                        </div>
-                                        <div>
-                                            <span class="author">{$data.uid|get_username}&nbsp;{$data.create_time|date='Y-m-d H:i:s',###}</span>
-
-                                            <p>{$data.description}</p>
-                                        </div>
-                                        <div>
-
-                                        </div>
-                                    </div>
- <span class="pull-right" style="position: absolute;right: 0;bottom: 0">
-                                       &nbsp;&nbsp;
-                                        <span><i class="glyphicon glyphicon-fire"></i>  {$data.view} </span>&nbsp;&nbsp;
-                                </span>
-                                </div>
-
-                                <hr/>
+                               <include file="Public/_default_list"/>
                             </volist>
                         </section>
                     </div>
