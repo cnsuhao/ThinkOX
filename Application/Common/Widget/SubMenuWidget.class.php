@@ -22,7 +22,7 @@ class SubMenuWidget extends Action
     {
         //tpl仅作为例子
 
-        $menu_list = array(
+        $tpl = array(
             'left' =>
                 array(
                     array('tab' => 'home', 'title' => '顶级菜单A', 'href' => U('blog/index/index'), 'icon' => 'home'),

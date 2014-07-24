@@ -33,25 +33,38 @@
 .sub_menu .navbar {
   margin-bottom: 0;
 }
+.sub_menu .navbar-default {
+  background: white;
+  border: 1px solid #dddddd;
+}
+.sub_menu .navbar-default .navbar-nav > .active > a,
+.sub_menu .navbar-default .navbar-nav > .active > a:hover,
+.sub_menu .navbar-default .navbar-nav > .active > a:focus,
+.sub_menu .navbar-default .navbar-nav > li > a:hover,
+.sub_menu .navbar-default .navbar-nav > li > a:focus {
+  background: none;
+  color: #999;
+  font-size: 16px;
+  border-bottom: 3px solid #03ae87;
+}
+.sub_menu .navbar-default .navbar-nav > .open > a,
+.sub_menu .navbar-default .navbar-nav > .open > a:hover,
+.sub_menu .navbar-default .navbar-nav > .open > a:focus {
+  border-bottom: 3px solid #03ae87;
+  background: white!important;
+}
+.sub_menu .navbar-default .navbar-nav > li > a {
+  color: #999;
+  font-size: 16px;
+}
+.sub_menu .navbar-default .navbar-brand {
+  color: #666;
+}
 .sub_nav {
   background: none;
 }
 .sub_nav .navbar-default {
   background: none !important;
-}
-.sub_nav .navbar-default .navbar-nav > .active > a,
-.sub_nav .navbar-default .navbar-nav > .active > a:hover,
-.sub_nav .navbar-default .navbar-nav > .active > a:focus,
-.sub_nav .navbar-default .navbar-nav > li > a:hover,
-.sub_nav .navbar-default .navbar-nav > li > a:focus {
-  background: none;
-  color: #333;
-  font-size: 16px;
-}
-.sub_nav .navbar-default .navbar-nav > li > a {
-  color: #333;
-  font-size: 16px;
-  padding-top: 0;
 }
 .hr_3d {
   border-bottom: 1px solid white;
