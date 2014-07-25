@@ -150,9 +150,9 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <volist name="children" id="subnav">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" style="color:{$nav.color}"
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" style="color:{$subnav.color}"
                                                                href="{$subnav.url|get_nav_url}"
-                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span></a>
+                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}  <span class="badge" style="background: {$subnav.band_color}">{$subnav.band_text}</span></a>
                                     </li>
                                 </volist>
                             </ul>
