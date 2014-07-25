@@ -19,12 +19,12 @@
                         <php>$class=($current==$menu['tab']?'active':'');</php>
                         <if condition="$menu['children']">
                             <!--二级菜单-->
-                            <li class="dropdown">
+                            <li class="dropdown {$class}">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <neq name="menu.icon" value=""><i class="glyphicon glyphicon-{$menu.icon}"></i></neq>
                                     {$menu.title}<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <volist name="menu.children" id="child">
-                                        <li class="{$class}"><a href="{$child.href}">
+                                        <li><a href="{$child.href}">
                                             <neq name="child.icon" value=""><i class="glyphicon glyphicon-{$child.icon}"></i></neq>
                                             {$child.title}</a></li>
                                     </volist>

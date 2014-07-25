@@ -28,6 +28,32 @@ class IndexController extends Controller
         $this->assign('tox_money_name', getToxMoneyName());
         $hot_num = D('shop_config')->where(array('ename' => 'min_sell_num'))->getField('cname');
         $this->assign('hot_num', $hot_num);
+        $menu_list = array(
+            'left' =>
+                array(
+                    array('tab' => 'home', 'title' => '首页', 'href' => U('shop/index/index')),
+                    array('tab' => 'all', 'title' => '所有商品', 'href' => U('shop/index/goods')),
+                ),
+            'right' =>
+                array(
+                    array('tab' => 'orders', 'title' => '我的订单', 'href' => U('shop/index/mygoods'), 'icon' => 'list-alt'),
+                    array('tab' => 'money', 'title' => '当前' . getToxMoneyName() . '：' . getMyToxMoney(), 'icon' => 'stats',
+                    )
+                )
+        );
+        foreach ($tree as $category) {
+            $menu = array('tab' => 'category_' . $category['id'], 'title' => $category['title'], 'href' => U('shop/index/goods', array('category_id' => $category['id'])));
+            if ($category['_']) {
+                $menu['children'][] = array( 'title' => '全部', 'href' => U('shop/index/goods', array('category_id' => $category['id'])));
+                foreach ($category['_'] as $child)
+                    $menu['children'][] = array( 'title' => $child['title'], 'href' => U('shop/index/goods', array('category_id' => $child['id'])));
+            }
+            $menu_list['left'][] = $menu;
+        }
+
+
+        $this->assign('sub_menu', $menu_list);
+        $this->assign('current', 'home');
         $this->setTitle('商城');
     }
 
@@ -105,6 +131,12 @@ class IndexController extends Controller
         }
         $this->setTitle('{$category_name|op_t}' . ' 商城');
         $this->setKeywords('{$category_name|op_t}' . ', 商城');
+        if($category_id==0){
+            $this->assign('current', 'all');
+        }else{
+            $this->assign('current', 'category_'.$top_category_id);
+        }
+       // dump( 'category_'.intval($category_id));exit;
 
         $this->display();
     }
@@ -262,7 +294,7 @@ class IndexController extends Controller
     /**
      * 个人商品页
      * @param int $page
-     * @param $status
+     * @param     $status
      * @author 郑钟良<zzl@ourstu.com>
      */
     public function myGoods($page = 1, $status = 0)
@@ -282,6 +314,8 @@ class IndexController extends Controller
         $this->assign('contents', $goods_buy_list);
         $this->assign('totalPageCount', $totalCount);
         $this->assign('status', $status);
+        $this->assign('current', 'orders');
         $this->display();
+
     }
 }
