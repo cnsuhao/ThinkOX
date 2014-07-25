@@ -144,14 +144,15 @@
                             if($children){
                         </php>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                {$nav.title} <span class="caret"></span>
+                            <a class="dropdown-toggle nav_item" data-toggle="dropdown" href="#" style="color:{$nav.color}">
+
+                                {$nav.title} <span class="caret"></span>  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <volist name="children" id="subnav">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" style="color:{$nav.color}"
                                                                href="{$subnav.url|get_nav_url}"
-                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}</a>
+                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span></a>
                                     </li>
                                 </volist>
                             </ul>
@@ -159,7 +160,7 @@
                         <php>}else{</php>
                         <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
                             <a href="{$nav.url|get_nav_url}"
-                               target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>">{$nav.title}</a>
+                               target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>" style="color:{$nav.color}">{$nav.title}  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span></a>
                         </li>
                         <php>}</php>
                     </eq>

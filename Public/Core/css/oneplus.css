@@ -1208,6 +1208,9 @@ a:hover {
   z-index: 999;
   border-bottom: 1px solid #ccc;
 }
+.nav_bar .nav_item {
+  position: relative;
+}
 .nav_bar .navbar-collapse {
   width: 75%;
 }
