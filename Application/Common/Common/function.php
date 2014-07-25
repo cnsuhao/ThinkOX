@@ -968,6 +968,7 @@ function get_cover($cover_id, $field = null)
         return false;
     }
     $picture = M('Picture')->where(array('status' => 1))->getById($cover_id);
+    $picture['path']=fixAttachUrl($picture['path']);
     return empty($field) ? $picture : $picture[$field];
 }
 

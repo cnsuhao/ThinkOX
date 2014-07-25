@@ -11,13 +11,18 @@
 
         <volist name="lists" id="data">
             <div class="clearfix" style="position: relative">
+                <neq name="data.cover_id" value="0">
                 <div class="col-md-4">
                     <a title="{$data.title|op_t}"
                        href="{:U('Article/detail?id='.$data['id'])}"><img alt="{$data.title|op_t}"
                                                                           src="{$data.cover_id|getThumbImageById=200,146}"
                                                                           style="width: 100px;height: 70px"></a>
                 </div>
-                <div class="col-md-8">
+                    <php>$col=8;</php>
+                    <else/>
+                    <php>$col=12;</php>
+                    </neq>
+                <div class="col-md-{$col}">
                     <div>
                         <h3 class="text-more" style="width: 100%"><a title="{$data.title|op_t}"
                                                                      href="{:U('Article/detail?id='.$data['id'])}">{$data.title}</a>

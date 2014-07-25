@@ -121,6 +121,8 @@ class ArticleController extends BlogController
         $this->assign('category', $category);
         $this->assign('info', $info);
         $this->assign('page', $p); //页码
+        $this->setTitle('{$info.title} —— 博客');
+
         $this->display($tmpl);
     }
 

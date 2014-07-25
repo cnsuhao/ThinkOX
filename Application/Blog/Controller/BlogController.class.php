@@ -44,7 +44,7 @@ class BlogController extends Controller {
             $sub_menu['left'][] = array('tab' => 'cat_' . $cat['id'], 'title' => $cat['title'], 'href' => U('blog/article/lists', array('category' => $cat['id'])));
         }
         $this->assign('sub_menu', $sub_menu);
-
+        $this->setTitle('博客');
 
     }
 

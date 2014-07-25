@@ -2,7 +2,6 @@
 
 <block name="header">
     <link type="text/css" rel="stylesheet" href="__CSS__/blog.css"/>
-    <include file="Public/_nav"/>
     {:W('Common/SubMenu/render',array($sub_menu,'home','博客',''))}
 </block>
 
@@ -10,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-8  ">
-                <div><img style="width: 100% " src="{$info.cover_id|get_cover='path'}" alt="{$info.title|op_t}"/></div>
+                <neq name="info.cover_id" value="0"><div><img style="width: 100% " src="{$info.cover_id|get_cover='path'}" alt="{$info.title|op_t}"/></div></neq>
                 <div class="common_block_border">
                     <div class="common_block_title clearfix">
                         <h2>{$info.title}</h2>
@@ -56,7 +55,7 @@
                         <br/>
                         <p class="text-more" style="width: 100%">{$author.signature}</p>
                         <br/>
-                        文章：<php>echo D('Document')->where(array('uid'=>$info['uid']))->count();</php>
+                        文章：<php>echo D('Document')->where(array('uid'=>$info['uid'],'status'=>1))->count();</php>
                     </div>
                     <div class="clearfix" style="padding: 10px"></div>
                 </div>
