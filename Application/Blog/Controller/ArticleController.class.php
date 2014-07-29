@@ -45,14 +45,17 @@ class ArticleController extends BlogController
             //获取当前分类下的文章
             $list = $Document->page($page, $category['list_row'])->lists($category['id']);
             if($category['pid']!=0){//判断是否是顶级分类，如果是顶级，就算没有子分类，也不获取同级
-                //如果没有子分类，是最终类目,就获取同级分类
+                //如果是子分类
                 $children =$Category->getSameLevel($category['id']);
+                $this->setCurrent($category['pid']);
                 $this->assign('children_cates', $children);
+            }else{
+                $this->assign('current',$category['id']);
             }
 
 
         } else {
-            //还有子分类
+            //如果还有子分类
             //分割分类
             $children = explode(',', $children);
             //将当前分类的文章和子分类的文章混合到一起
@@ -65,6 +68,7 @@ class ArticleController extends BlogController
                 $child = $Category->info($child);
             }
             unset($child);
+            $this->assign('current',$category['pid']);
             $this->assign('children_cates', $children);
         }
 
@@ -149,6 +153,15 @@ class ArticleController extends BlogController
         } else {
             $this->error('分类不存在或被禁用！');
         }
+    }
+
+    /**
+     * @param $category
+     * @auth 陈一枭
+     */
+    private function setCurrent($category_id)
+    {
+        $this->assign('current', $category_id);
     }
 
 }
