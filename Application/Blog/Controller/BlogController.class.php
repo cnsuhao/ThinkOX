@@ -56,7 +56,6 @@ class BlogController extends Controller
             }
             $menu_item = array('children' => $children, 'tab' => 'cat_' . $cat['id'], 'title' => $cat['title'], 'href' => U('blog/article/lists', array('category' => $cat['id'])));
             $sub_menu['left'][] = $menu_item;
-            unset($cat);
             unset($children);
         }
         $this->assign('sub_menu', $sub_menu);

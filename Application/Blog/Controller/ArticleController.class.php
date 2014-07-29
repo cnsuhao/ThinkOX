@@ -44,13 +44,15 @@ class ArticleController extends BlogController
         if ($children == '') {
             //获取当前分类下的文章
             $list = $Document->page($page, $category['list_row'])->lists($category['id']);
-            if($category['pid']!=0){//判断是否是顶级分类，如果是顶级，就算没有子分类，也不获取同级
-                //如果是子分类
+            $is_top_category=($category['pid']==0);
+            if(!$is_top_category){//判断是否是顶级分类，如果是顶级，就算没有子分类，也不获取同级
+                //如果是不是顶级分类
                 $children =$Category->getSameLevel($category['id']);
                 $this->setCurrent($category['pid']);
                 $this->assign('children_cates', $children);
             }else{
-                $this->assign('current',$category['id']);
+                //如果是顶级分类
+                $this->setCurrent($category['id']);
             }
 
 
@@ -68,7 +70,7 @@ class ArticleController extends BlogController
                 $child = $Category->info($child);
             }
             unset($child);
-            $this->assign('current',$category['pid']);
+            $this->setCurrent($category['id']);
             $this->assign('children_cates', $children);
         }
 
