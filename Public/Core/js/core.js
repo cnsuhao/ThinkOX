@@ -827,8 +827,8 @@ function bindSupport() {
             var table = $(this).attr('table');
             var uid = $(this).attr('uid');
             var jump = $(this).attr('jump');
-            if(typeof(THIS_MODEL_NAME) !=  'undefined'){
-                MODULE_NAME=THIS_MODEL_NAME;
+            if (typeof(THIS_MODEL_NAME) != 'undefined') {
+                MODULE_NAME = THIS_MODEL_NAME;
             }
             $.post(SUPPORT_URL, {appname: MODULE_NAME, row: row, table: table, uid: uid, jump: jump}, function (msg) {
                 if (msg.status) {
@@ -867,7 +867,7 @@ $(function () {
     });
     $('#weibo_content').keypress(function (e) {
         if (e.ctrlKey && e.which == 13 || e.which == 10) {
-           $(this).parents('.weibo_post_box').find(".send_weibo_button").click();
+            $(this).parents('.weibo_post_box').find(".send_weibo_button").click();
         }
     });
 
@@ -898,7 +898,7 @@ $(function () {
                 }
 
                 clearWeibo();
-                var html="还可以输入"+initNum+"个字";
+                var html = "还可以输入" + initNum + "个字";
                 $('.show_num_quick').html(html);
                 $('.show_num').html(html);
                 $('.XT_face').remove();
@@ -914,14 +914,16 @@ function clearWeibo() {
 }
 <!--新浪微博分享代码-->
 function weiboShare() {
-    var wb_shareBtn = document.getElementById("weibo_shareBtn")
-    wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
-        wb_appkey = "",
-        wb_title = document.title,
-        wb_ralateUid =ThinkPHP.WEIBO_ID,
-        wb_pic = "",
-        wb_language = "zh_cn";
-    wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
+    if (ThinkPHP.WEIBO_ID != "") {
+        var wb_shareBtn = document.getElementById("weibo_shareBtn")
+        wb_url = document.URL, //获取当前页面地址，也可自定义例：wb_url = "http://www.bluesdream.com"
+            wb_appkey = "",
+            wb_title = document.title,
+            wb_ralateUid = ThinkPHP.WEIBO_ID,
+            wb_pic = "",
+            wb_language = "zh_cn";
+        wb_shareBtn.setAttribute("href", "http://service.weibo.com/share/share.php?url=" + wb_url + "&appkey=" + wb_appkey + "&title=" + wb_title + "&pic=" + wb_pic + "&ralateUid=" + wb_ralateUid + "&language=" + wb_language + "");
+    }
 }
 <!--新浪微博分享代码end-->
 
@@ -937,10 +939,10 @@ $(function () {
         var top = $(document).scrollTop();
         if (top > topMain) {
             nav.addClass("nav_scroll");
-           /* $('#weibo_filter').addClass('filter_attach');*/
+            /* $('#weibo_filter').addClass('filter_attach');*/
         } else {
             nav.removeClass("nav_scroll");
-   /*         $('#weibo_filter').removeClass('filter_attach');*/
+            /*         $('#weibo_filter').removeClass('filter_attach');*/
         }
     });
 });
