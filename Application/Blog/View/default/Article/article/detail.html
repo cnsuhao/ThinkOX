@@ -16,7 +16,7 @@
 
                         <p>
 				<span class="pull-left">
-                     <php>$user=query_user(array('avatar32','space_url'),$data['uid'])</php>
+                     <php>$user=query_user(array('avatar32','space_url'),$info['uid'])</php>
 					<span class="author"><a href="{$user.space_url}"
                                             ucard="{$data.uid}">{$info.uid|get_nickname}</a></span>
 					<span> 发表于 {$info.create_time|date='Y-m-d H:i',###}</span>
@@ -36,9 +36,8 @@
 
                         <div>{$info.content}</div>
                     </section>
-                    <hr/>
                     <div style="padding: 20px">
-                        {:hook('documentDetailAfter',$info)}
+                        {:hook('localComment', array('path'=>"Blog/Article/$info[id]", 'uid'=>$info['uid']))}
                     </div>
                 </div>
             </div>
