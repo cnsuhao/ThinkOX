@@ -42,8 +42,16 @@ class ForumController extends AdminController
             ->display();
     }
 
-    public function forumTrash($page = 1, $r = 20)
+    public function forumTrash($page = 1, $r = 20, $clear = 0)
     {
+        if (IS_POST) {
+            if ($clear) {
+                $result = D('Forum')->where(array('status' => -1))->delete();
+                $this->success('成功清空回收站，共删除 ' . $result . ' 个版块。');
+            } else {
+                $this->error('回收站是空的，未能删除任何东西。');
+            }
+        }
         //读取回收站中的数据
         $map = array('status' => '-1');
         $model = M('Forum');
@@ -54,7 +62,7 @@ class ForumController extends AdminController
         $builder = new AdminListBuilder();
         $builder
             ->title('板块回收站')
-            ->setStatusUrl(U('Forum/setForumStatus'))->buttonRestore()
+            ->setStatusUrl(U('Forum/setForumStatus'))->buttonRestore()->buttonClear(U('forumTrash', array('clear' => 1)))
             ->keyId()->keyLink('title', '标题', 'Forum/post?forum_id=###')
             ->keyCreateTime()->keyText('post_count', '帖子数量')
             ->data($list)
@@ -134,7 +142,7 @@ class ForumController extends AdminController
             }
         }
 
-        S('forum_list',null);
+        S('forum_list', null);
         //返回成功信息
         $this->success($isEdit ? '编辑成功' : '保存成功');
     }

@@ -143,5 +143,25 @@
 
             return false;
         });
+
+
+    </script>
+
+
+    <script>
+        $(function(){
+            $('.tox-confirm').click(function(e){
+                var text = $(this).attr('data-confirm');
+                var result = confirm(text);
+                if(result) {
+                    return true;
+                } else {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            })
+        });
     </script>
 </block>
