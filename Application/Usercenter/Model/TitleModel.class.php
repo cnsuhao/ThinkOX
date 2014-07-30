@@ -10,7 +10,7 @@ namespace Usercenter\Model;
 
 use Think\Model;
 
-class TitleModel extends Model
+class TitleModel
 {
     public function getTitle($uid)
     {

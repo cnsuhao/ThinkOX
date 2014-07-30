@@ -39,24 +39,24 @@ class WeiboApi extends Api
 
         if ($page == 1 && $loadCount == 1) {
 
-            $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+            $list = $model->field('id')->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
         } elseif ($loadCount > 1 && $loadCount <= 3) {
 
-            $is_top = D('weibo')->where(array('id' => $lastId))->getField('is_top');
+            $is_top = D('weibo')->field('id')->where(array('id' => $lastId))->getField('is_top');
             if (!$is_top) {
                 $map['id'] = array('lt', $lastId);
-                $list = $model->where($map)->order('create_time desc')->limit(10)->select();
+                $list = $model->field('id')->where($map)->order('create_time desc')->limit(10)->select();
             } else {
-                $ids = $model->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
+                $ids = $model->field('id')->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
                 $ids = getSubByKey($ids, 'id');
                 $ids = implode(",", $ids);
                 $map['_string'] = '(id < ' . $lastId . ' AND is_top =1 ) OR (id > 0  AND (id NOT IN (' . $ids . '))) ';
-                $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+                $list = $model->field('id')->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
             }
 
 
         } elseif ($page > 1) {
-            $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
+            $list = $model->field('id')->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
         }
 
 
@@ -294,46 +294,49 @@ class WeiboApi extends Api
 
     private function getWeiboStructure($id)
     {
-        $weibo = $this->weiboModel->find($id);
-        $canDelete = $this->canDeleteWeibo($id);
-        $weibo_data = unserialize($weibo['data']);
-        $class_exists = true;
+        $weibo=S('weibo_'.$id);
+        if(empty($weibo)){
+            $weibo = $this->weiboModel->find($id);
+            $canDelete = $this->canDeleteWeibo($id);
+            $weibo_data = unserialize($weibo['data']);
+            $class_exists = true;
 
-        $type = array('repost','feed');
-        if ( !in_array($weibo['type'],$type)) {
-            $class_exists = class_exists('Addons\\Insert' . ucfirst($weibo['type']) . '\\Insert' . ucfirst($weibo['type']) . 'Addon');
+            $type = array('repost','feed');
+            if ( !in_array($weibo['type'],$type)) {
+                $class_exists = class_exists('Addons\\Insert' . ucfirst($weibo['type']) . '\\Insert' . ucfirst($weibo['type']) . 'Addon');
+            }
+
+
+            if ($weibo['type'] === 'feed' || $weibo['type'] == '' || !$class_exists) {
+                $fetchContent = "<p class='word-wrap'>" . parse_weibo_content($weibo['content']) . "</p>";
+
+            } elseif ($weibo['type'] === 'repost') {
+                $result = Hook::exec('Repost', 'fetchRepost', $weibo);
+                $fetchContent = $result;
+            } else {
+                $result = Hook::exec('Insert' . ucfirst($weibo['type']), 'fetch' . ucfirst($weibo['type']), $weibo);
+                $fetchContent = $result;
+            }
+            $weibo=array(
+                'id' => intval($weibo['id']),
+                'content' => strval($weibo['content']),
+                'create_time' => intval($weibo['create_time']),
+                'type' => $weibo['type'],
+                'data' => unserialize($weibo['data']),
+                'weibo_data' => $weibo_data,
+                'comment_count' => intval($weibo['comment_count']),
+                'repost_count' => intval($weibo['repost_count']),
+                'can_delete' => boolval($canDelete),
+                'user' => $this->getUserStructure($weibo['uid']),
+                'is_top' => $weibo['is_top'],
+                'uid'=>$weibo['uid'],
+                'fetchContent'=>$fetchContent,
+                'from'=>$weibo['from']
+
+            );
+            S('weibo_'.$id,$weibo);
         }
-
-
-        if ($weibo['type'] === 'feed' || $weibo['type'] == '' || !$class_exists) {
-            $fetchContent = "<p class='word-wrap'>" . parse_weibo_content($weibo['content']) . "</p>";
-
-        } elseif ($weibo['type'] === 'repost') {
-            $result = Hook::exec('Repost', 'fetchRepost', $weibo);
-            $fetchContent = $result;
-        } else {
-            $result = Hook::exec('Insert' . ucfirst($weibo['type']), 'fetch' . ucfirst($weibo['type']), $weibo);
-            $fetchContent = $result;
-        }
-
-
-        return array(
-            'id' => intval($weibo['id']),
-            'content' => strval($weibo['content']),
-            'create_time' => intval($weibo['create_time']),
-            'type' => $weibo['type'],
-            'data' => unserialize($weibo['data']),
-            'weibo_data' => $weibo_data,
-            'comment_count' => intval($weibo['comment_count']),
-            'repost_count' => intval($weibo['repost_count']),
-            'can_delete' => boolval($canDelete),
-            'user' => $this->getUserStructure($weibo['uid']),
-            'is_top' => $weibo['is_top'],
-            'uid'=>$weibo['uid'],
-            'fetchContent'=>$fetchContent,
-            'from'=>$weibo['from']
-
-        );
+        return $weibo;
 
     }
 
