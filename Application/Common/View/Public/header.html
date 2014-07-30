@@ -146,13 +146,13 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle nav_item" data-toggle="dropdown" href="#" style="color:{$nav.color}">
 
-                                {$nav.title} <span class="caret"></span>  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span>
+                                {$nav.title} <span class="caret"></span><neq name="nav.band_text" value="" > <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span></neq>
                             </a>
                             <ul class="dropdown-menu">
                                 <volist name="children" id="subnav">
                                     <li role="presentation"><a role="menuitem" tabindex="-1" style="color:{$subnav.color}"
                                                                href="{$subnav.url|get_nav_url}"
-                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}  <span class="badge" style="background: {$subnav.band_color}">{$subnav.band_text}</span></a>
+                                                               target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>">{$subnav.title}<neq name="subnav.band_text" value="" >  <span class="badge" style="background: {$subnav.band_color}">{$subnav.band_text}</span></neq></a>
                                     </li>
                                 </volist>
                             </ul>
@@ -160,7 +160,7 @@
                         <php>}else{</php>
                         <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
                             <a href="{$nav.url|get_nav_url}"
-                               target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>" style="color:{$nav.color}">{$nav.title}  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span></a>
+                               target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>" style="color:{$nav.color}">{$nav.title}<neq name="nav.band_text" value="" >  <span class="badge" style="background: {$nav.band_color}">{$nav.band_text}</span></neq></a>
                         </li>
                         <php>}</php>
                     </eq>
