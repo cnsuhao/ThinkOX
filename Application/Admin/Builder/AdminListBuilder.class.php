@@ -82,6 +82,10 @@ class AdminListBuilder extends AdminBuilder {
         return $this->buttonSetStatus($url, 1, $title, $attr);
     }
 
+    public function buttonClear($url=null){
+        return $this->button('清空', array('class' => 'btn ajax-post tox-confirm', 'data-confirm'=>'您确实要清空回收站吗？（清空后不可恢复）', 'url' => $url,'target-form'=>'ids'));
+    }
+    
     public function buttonSort($href, $title='排序', $attr=array()) {
         $attr['href'] = $href;
         return $this->button($title, $attr);
