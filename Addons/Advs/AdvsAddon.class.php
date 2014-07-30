@@ -53,7 +53,7 @@ use Think\Db;
 		
         public function install(){
             $sql=<<<SQL
-CREATE TABLE IF NOT EXISTS `{$this->table_name()}Advs` (
+CREATE TABLE IF NOT EXISTS `{$this->table_name()}advs` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `title` char(80) NOT NULL DEFAULT '' COMMENT '广告名称',
   `position` int(11) NOT NULL COMMENT '广告位置',

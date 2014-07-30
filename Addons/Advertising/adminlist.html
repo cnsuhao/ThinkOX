@@ -8,6 +8,8 @@
 		<tr>
 			<th class="row-selected row-selected"><input class="check-all" type="checkbox"></th>
 			<th style="text-align: center;">序号</th>
+            <th  style="text-align: center;">标识</th>
+            <th  style="text-align: center;">调用代码</th>
 			<volist name="listKey" id="vo">
 				<th style="text-align: center;">{$vo}</th>
 			</volist>
@@ -19,6 +21,14 @@
 		<tr>
 			<td><input class="ids" type="checkbox" name="id[]" value="{$lv.id}"></td>
 			<td>{$lv.id}</td>
+            <td>{$lv.pos}</td>
+            <?php
+            $lv['code']="{:hook('Advs', '".$lv['pos']."')}";
+                echo $lv['code'];
+            ?>
+            <td><literal>{:hook('Advs', '</literal>{$lv['pos']}<literal>')}</literal></td>
+
+
 			<volist name="listKey" id="lk">
 				<td>{$lv.$key}</td>
 			</volist>

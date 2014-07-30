@@ -84,8 +84,7 @@
 				<label class="item-label">广告代码<span class="check-tips">（请填写广告代码html、js）</span></label>
 	            <div class="controls">
                     <label class="textarea">
-                    <textarea name="advshtml">{$field.value}</textarea>
-                    {:hook('adminArticleEdit', array('name'=>'advshtml','value'=>$info['advshtml']))}
+                    <textarea name="advshtml">{$info.advshtml}</textarea>
                     </label>
 				</div>
 			</div>						

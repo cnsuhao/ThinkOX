@@ -39,8 +39,10 @@ class AdvsModel extends Model{
 	/*  展示数据  */
 	public function AdvsList($param){
 		if(isset($param)){
-			$sing = M('advertising')->find($param);//找到当前调用的广告位
-			$where = ' and position = '.$param;
+            $map['pos']=$param;
+            //TODO 插入广告位标识符判断
+			$sing = M('advertising')->where($map)->find();//找到当前调用的广告位
+			$where = ' and position = '.$sing['id'];
 		}
 		if($sing['type'] == 2){
 			$advs = $this->where('status = 1 and create_time < '.time().' and end_time > '.time().$where)->order('level asc,id asc')->select();
@@ -58,6 +60,7 @@ class AdvsModel extends Model{
 			$data['width'] = $sing['width'];
 			$data['height'] = $sing['height'];
 		}
+
 		return $data;
 	}
 	

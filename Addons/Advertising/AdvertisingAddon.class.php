@@ -51,15 +51,16 @@ use Think\Db;
 		
         public function install(){
         	$sql=<<<SQL
-CREATE TABLE IF NOT EXISTS `{$this->table_name()}Advertising` (
+CREATE TABLE IF NOT EXISTS `{$this->table_name()}advertising` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `title` char(80) NOT NULL DEFAULT '' COMMENT '广告位置名称',
   `type` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '广告位置展示方式  0为默认展示一张',
   `width` char(20) NOT NULL DEFAULT '' COMMENT '广告位置宽度',
   `height` char(20) NOT NULL DEFAULT '' COMMENT '广告位置高度',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：禁用，1：正常）',
+  `pos` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告位置表';
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告位置表';
 SQL;
             D()->execute($sql);
             if(count(M()->query("SHOW TABLES LIKE '".$this->table_name()."Advertising'")) != 1){
