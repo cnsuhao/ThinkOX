@@ -46,16 +46,16 @@ class WeiboApi extends Api
             $list = $model->field('id')->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
         } elseif ($loadCount > 1 && $loadCount <= 3) {
 
-            $is_top = D('weibo')->field('id')->where(array('id' => $lastId))->getField('is_top');
+            $is_top = D('weibo')->field('id,is_top')->where(array('id' => $lastId))->getField('is_top');
             if (!$is_top) {
                 $map['id'] = array('lt', $lastId);
                 $list = $model->field('id')->where($map)->order('create_time desc')->limit(10)->select();
             } else {
-                $ids = $model->field('id')->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
+                $ids = $model->field('id,is_top')->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
                 $ids = getSubByKey($ids, 'id');
                 $ids = implode(",", $ids);
                 $map['_string'] = '(id < ' . $lastId . ' AND is_top =1 ) OR (id > 0  AND (id NOT IN (' . $ids . '))) ';
-                $list = $model->field('id')->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
+                $list = $model->field('id,is_top')->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
             }
 
 
