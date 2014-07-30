@@ -60,7 +60,15 @@ CREATE TABLE IF NOT EXISTS `{$this->table_name()}advertising` (
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态（0：禁用，1：正常）',
   `pos` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告位置表';
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告位置表' AUTO_INCREMENT=3 ;
+
+--
+-- 转存表中的数据 `thinkox_advertising`
+--
+
+INSERT INTO `thinkox_advertising` (`id`, `title`, `type`, `width`, `height`, `status`, `pos`) VALUES
+(1, '微博发布框下方', 4, '620', '87', 1, 'weibo_below_sendbox'),
+(2, '微博首页签到排行下方', 4, '', '', 1, 'weibo_below_checkrank');
 SQL;
             D()->execute($sql);
             if(count(M()->query("SHOW TABLES LIKE '".$this->table_name()."Advertising'")) != 1){
