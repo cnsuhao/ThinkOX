@@ -54,6 +54,7 @@ class AdvsModel extends Model{
 			$data['type'] = $sing['type'];
 			$data['width'] = $sing['width'];
 			$data['height'] = $sing['height'];
+            $data['ad']=$sing;
 		}else{
 			$data = $this->where('status = 1 and create_time < '.time().' and end_time > '.time().$where)->order('level asc,id asc')->find();
 			$data['type'] = $sing['type'];

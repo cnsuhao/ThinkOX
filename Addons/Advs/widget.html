@@ -1,35 +1,30 @@
-<if condition="$list['type'] eq 2"><!-- type eq one is index advs -->
-<block name="style">
-    <link href="__CSS__/archefoucs.css" rel="stylesheet" />
-    <script src="__JS__/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="__JS__/archefoucs.js" type="text/javascript"></script>
-</block>
-<div class="header">
-    <div class="gg" id="gg">
-        <div class="ggLoading">
-            <div class="ggLoading2"><em>精彩活动载入中</em></div>
-        </div>
-        <div class="ggs">
-            <div class="ggBox" id="ggBox">
-        	  <volist name="list.res" id="lo" key="k">
-                <a href="{$lo.link}" target="_blank" title="{$lo.title}" <if condition="$k eq 1">style="z-index: 3; opacity: 4;"</if> ><img src="__ROOT__{$lo.path}" alt="" /></a>
-              </volist>
-            </div>
-        </div>
-        <div class="ggb">
-            <div class="ggBtns" id="ggBtns">
-              <volist name="list.res" id="lo" key="k">
-                <a title="{$lo.title}" href='javascript:void(0)' <if condition="$k eq 1">class="ggOn"</if> ><em>{$lo.title}</em></a>
-              </volist>
-            </div>
-        </div>
+<if condition="$list['type'] eq 2">
+    <script src="__PUBLIC__/Core/js/ext/slider/js/jquery.slides.min.js"></script>
+    <link href="__PUBLIC__/Core/js/ext/slider/css/slider.css" rel="stylesheet" type="text/css"/>
+    <div id="slide_{$list.ad.pos}">
+        <volist name="list.res" id="vo">
+            <img src="{$vo.advspic|get_cover='path'}" alt="{$vo.title}">
+        </volist>
+        <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        <a href="#" class="slidesjs-next slidesjs-navigation"><i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
-</div>
-<elseif condition="$list['type'] eq 3" />
-	<div style="width:{$list['width']};height:{$list['height']};background: #cecece;"><div style="margin:0px auto;width:150px;line-height: 30px;">{$list.advstext}</div></div>
-<elseif condition="$list['type'] eq 1" />
-	单图广告
-<elseif condition="$list['type'] eq 4" />
-	{$list.advshtml}
+    <script>
+        $(function () {
+            $("#slide_{$list.ad.pos}").slidesjs({
+                width: 940,
+                height: 528,
+                navigation: false
+            });
+        })
+    </script>
+
+    <elseif condition="$list['type'] eq 3"/>
+    <div style="width:{$list['width']};height:{$list['height']};background: #cecece;">
+        <div style="margin:0px auto;width:150px;line-height: 30px;">{$list.advstext}</div>
+    </div>
+    <elseif condition="$list['type'] eq 1"/>
+    <img src="{$list.advspic|get_cover='path'}"/>
+    <elseif condition="$list['type'] eq 4"/>
+    {$list.advshtml}
 </if>
 <!-- add more -->

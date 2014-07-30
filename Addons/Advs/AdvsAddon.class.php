@@ -36,7 +36,7 @@ use Think\Db;
         				'end_time'=>'结束时间',
         		),
         		'model'=>'Advs',
-        		'order'=>'level asc,id asc'
+        		'order'=>'position desc,level desc,id desc'
         );
         public $custom_adminlist = 'adminlist.html';
  

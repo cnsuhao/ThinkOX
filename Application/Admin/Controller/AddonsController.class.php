@@ -245,7 +245,7 @@ str;
         if(!isset($map))
             $map = array();
         if(isset($model))
-            $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map);
+            $list = $this->lists(D("Addons://{$model}/{$model}")->field($fields),$map,$order);
         $this->assign('_list', $list);
         if($addon->custom_adminlist)
             $this->assign('custom_adminlist', $this->fetch($addon->addon_path.$addon->custom_adminlist));
