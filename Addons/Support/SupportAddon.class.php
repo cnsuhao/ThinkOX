@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `{$db_prefix}support` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='支持的表'  ;
         ";
-         $rs=D('')->execute($sql);
+        $rs = D('')->execute($sql);
         return true;
     }
 
@@ -50,14 +50,16 @@ CREATE TABLE IF NOT EXISTS `{$db_prefix}support` (
 
         $this->assign($param);
 
-        $support['appname'] = $param['app'];
-        $support['table'] = $param['table'];
-        $support['row'] = $param['row'];
-        $count = D('Support')->where($support)->count();
-        $support['uid']=is_login();
-        $supported = D('Support')->where($support)->count();
-        $this->assign('count',$count);
-        $this->assign('supported',$supported);
+        $map_support['appname'] = $param['app'];
+        $map_support['table'] = $param['table'];
+        $map_support['row'] = $param['row'];
+        $count = D('Support')->where($map_support)->count();
+
+        $map_supported = array_merge($map_support, array('uid' => is_login()));
+        $supported = D('Support')->where($map_supported)->count();
+
+        $this->assign('count', $count);
+        $this->assign('supported', $supported);
         $this->display('support');
 
     }
