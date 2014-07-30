@@ -16,7 +16,11 @@ use Think\Hook;
 
 class WeiboApi extends Api
 {
+    /**各个常用模型*/
     private $weiboModel;
+    private $followModel;
+    private $commentModel;
+    private $messageModel;
 
     public function __construct()
     {
@@ -83,61 +87,17 @@ class WeiboApi extends Api
     {
         $this->requireLogin();
 
-        //获取我关注的人
-        $result = $this->followModel->where(array('who_follow' => get_uid()))->select();
-        foreach ($result as &$e) {
-            $e = $e['follow_who'];
-        }
-        unset($e);
-        $followList = $result;
-        $followList[] = is_login();
-
+        $followList = $this->getFollowList();
         //获取我关注的微博
-        $model = $this->weiboModel;
-        $map = array('status' => 1, 'uid' => array('in', $followList));
-        if ($page == 1 && $loadCount == 1) {
-            $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
-        } elseif ($loadCount > 1 && $loadCount <= 3) {
-
-            $is_top = D('weibo')->where(array('id' => $lastId))->getField('is_top');
-            if (!$is_top) {
-                $map['id'] = array('lt', $lastId);
-
-                $list = $model->where($map)->order('create_time desc')->limit(10)->select();
-            } else {
-                $ids = $model->where(array('id' => array('egt', $lastId), 'is_top' => 1))->field('id')->select();
-                $ids = getSubByKey($ids, 'id');
-                $ids = implode(",", $ids);
-                $map['_string'] = '(id < ' . $lastId . ' AND is_top =1 ) OR (id > 0  AND (id NOT IN (' . $ids . '))) ';
-                $list = $model->where($map)->order('is_top desc,create_time desc')->limit(10)->select();
-            }
-        } elseif ($page > 1) {
-            $list = $model->where($map)->order('is_top desc,create_time desc')->page($page, $count)->select();
-        }
-
-
-        //获取每个微博的详细信息
-        foreach ($list as &$e) {
-            $e = $this->getWeiboStructure($e['id']);
-        }
-        unset($e);
-
-        //返回我关注的微博列表
-        return $this->apiSuccess('获取成功', array('list' => arrayval($list), 'lastId' => $list[count($list) - 1]['id']));
+        $map = array('uid' => array('in', $followList));
+        return $this->listAllWeibo($page, $count, $map, $loadCount, $lastId);
     }
 
     public function listMyFollowingWeiboCount($page = 1, $count = 10)
     {
         $this->requireLogin();
-        //获取我关注的人
-        $result = $this->followModel->where(array('who_follow' => get_uid()))->select();
-        foreach ($result as &$e) {
-            $e = $e['follow_who'];
-        }
-        unset($e);
-        $followList = $result;
-        $followList[] = is_login();
 
+        $followList = $this->getFollowList();
         //获取我关注的微博
         $list = $this->weiboModel->where('status=1 and uid in(' . implode(',', $followList) . ')')->count();
 
@@ -156,12 +116,12 @@ class WeiboApi extends Api
         return $this->apiSuccess('获取成功', array('weibo' => $weibo));
     }
 
-    public function sendWeibo($content,$type='feed',$feed_data='',$from='')
+    public function sendWeibo($content, $type = 'feed', $feed_data = '', $from = '')
     {
         $this->requireSendInterval();
         $this->requireLogin();
         //写入数据库
-        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content,$type,$feed_data,$from);
+        $weibo_id = $this->weiboModel->addWeibo(get_uid(), $content, $type, $feed_data, $from);
         if (!$weibo_id) {
             throw new ApiException('发布失败：' . $this->weiboModel->getError());
         }
@@ -294,15 +254,15 @@ class WeiboApi extends Api
 
     private function getWeiboStructure($id)
     {
-        $weibo=S('weibo_'.$id);
-        if(empty($weibo)){
+        $weibo = S('weibo_' . $id);
+        if (empty($weibo)) {
             $weibo = $this->weiboModel->find($id);
             $canDelete = $this->canDeleteWeibo($id);
             $weibo_data = unserialize($weibo['data']);
             $class_exists = true;
 
-            $type = array('repost','feed');
-            if ( !in_array($weibo['type'],$type)) {
+            $type = array('repost', 'feed');
+            if (!in_array($weibo['type'], $type)) {
                 $class_exists = class_exists('Addons\\Insert' . ucfirst($weibo['type']) . '\\Insert' . ucfirst($weibo['type']) . 'Addon');
             }
 
@@ -317,7 +277,7 @@ class WeiboApi extends Api
                 $result = Hook::exec('Insert' . ucfirst($weibo['type']), 'fetch' . ucfirst($weibo['type']), $weibo);
                 $fetchContent = $result;
             }
-            $weibo=array(
+            $weibo = array(
                 'id' => intval($weibo['id']),
                 'content' => strval($weibo['content']),
                 'create_time' => intval($weibo['create_time']),
@@ -329,12 +289,12 @@ class WeiboApi extends Api
                 'can_delete' => boolval($canDelete),
                 'user' => $this->getUserStructure($weibo['uid']),
                 'is_top' => $weibo['is_top'],
-                'uid'=>$weibo['uid'],
-                'fetchContent'=>$fetchContent,
-                'from'=>$weibo['from']
+                'uid' => $weibo['uid'],
+                'fetchContent' => $fetchContent,
+                'from' => $weibo['from']
 
             );
-            S('weibo_'.$id,$weibo);
+            S('weibo_' . $id, $weibo);
         }
         return $weibo;
 
@@ -431,5 +391,22 @@ class WeiboApi extends Api
             $extra = array('url' => U('Home/User/login'));
             throw new ApiException($message, $errorCode, $extra);
         }
+    }
+
+    /**获取到我关注的人的UID列表，包括了自己
+     * @return array
+     * @auth 陈一枭
+     */
+    private function getFollowList()
+    {
+        //获取我关注的人
+        $result = $this->followModel->where(array('who_follow' => get_uid()))->select();
+        foreach ($result as &$e) {
+            $e = $e['follow_who'];
+        }
+        unset($e);
+        $followList = $result;
+        $followList[] = is_login();
+        return $followList;
     }
 }
