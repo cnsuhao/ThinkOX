@@ -110,17 +110,19 @@ class ShopController extends AdminController
      * @param int $r
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function categoryTrash($page = 1, $r = 20)
+    public function categoryTrash($page = 1, $r = 20,$model='')
     {
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         //读取微博列表
         $map = array('status' => -1);
         $list = $this->shop_categoryModel->where($map)->page($page, $r)->select();
         $totalCount = $this->shop_categoryModel->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('商城分类回收站')
-            ->setStatusUrl(U('setStatus'))->buttonRestore()
+            ->setStatusUrl(U('setStatus'))->buttonRestore()->buttonClear('ShopCategory')
             ->keyId()->keyText('title', '标题')->keyStatus()->keyCreateTime()
             ->data($list)
             ->pagination($totalCount, $r)
@@ -236,17 +238,19 @@ class ShopController extends AdminController
      * @param int $r
      * @author 郑钟良<zzl@ourstu.com>
      */
-    public function goodsTrash($page = 1, $r = 10)
+    public function goodsTrash($page = 1, $r = 10,$model='')
     {
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         //读取微博列表
         $map = array('status' => -1);
         $goodsList = $this->shopModel->where($map)->order('changetime desc')->page($page, $r)->select();
         $totalCount = $this->shopModel->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('商品回收站')
-            ->setStatusUrl(U('setGoodsStatus'))->buttonRestore()
+            ->setStatusUrl(U('setGoodsStatus'))->buttonRestore()->buttonClear('Shop/Shop')
             ->keyId()->keyLink('goods_name', '标题', 'Shop/goodsEdit?id=###')->keyCreateTime()->keyStatus()
             ->data($goodsList)
             ->pagination($totalCount, $r)
@@ -456,12 +460,12 @@ class ShopController extends AdminController
         $list = $model->where($map)->page($page, $r)->select();
         $totalCount = $model->where($map)->count();
         foreach ($list as &$val) {
-            $val['goods_name'] = $this->shopModel->where('id=' . $val['goods_id'])->getField('goods_name');
+            $val['goods_name'] = op_t($this->shopModel->where('id=' . $val['goods_id'])->getField('goods_name'));
             $address = D('shop_address')->find($val['address_id']);
-            $val['name'] = $address['name'];
-            $val['address'] = $address['address'];
-            $val['zipcode'] = $address['zipcode'];
-            $val['phone'] = $address['phone'];
+            $val['name'] = op_t($address['name']);
+            $val['address'] = op_t($address['address']);
+            $val['zipcode'] = op_t($address['zipcode']);
+            $val['phone'] = op_t($address['phone']);
         }
         unset($val);
         //显示页面

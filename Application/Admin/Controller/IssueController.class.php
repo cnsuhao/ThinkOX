@@ -90,8 +90,10 @@ class IssueController extends AdminController
 
     }
 
-    public function issueTrash($page = 1, $r = 20)
+    public function issueTrash($page = 1, $r = 20,$model='')
     {
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         //读取微博列表
         $map = array('status' => -1);
         $model = $this->issueModel;
@@ -99,9 +101,9 @@ class IssueController extends AdminController
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('专辑回收站')
-            ->setStatusUrl(U('setStatus'))->buttonRestore()
+            ->setStatusUrl(U('setStatus'))->buttonRestore()->buttonClear('Issue/Issue')
             ->keyId()->keyText('title', '标题')->keyStatus()->keyCreateTime()
             ->data($list)
             ->pagination($totalCount, $r)
@@ -198,17 +200,19 @@ class IssueController extends AdminController
 
     }
 
-    public function contentTrash($page=1, $r=10){
+    public function contentTrash($page=1, $r=10,$model=''){
         //读取微博列表
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         $map = array('status' => -1);
         $model = D('IssueContent');
         $list = $model->where($map)->page($page, $r)->select();
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('内容回收站')
-            ->setStatusUrl(U('setIssueContentStatus'))->buttonRestore()
+            ->setStatusUrl(U('setIssueContentStatus'))->buttonRestore()->buttonClear('IssueContent')
             ->keyId()->keyLink('title', '标题','Issue/Index/issueContentDetail?id=###')->keyUid()->keyCreateTime()->keyStatus()
             ->data($list)
             ->pagination($totalCount, $r)

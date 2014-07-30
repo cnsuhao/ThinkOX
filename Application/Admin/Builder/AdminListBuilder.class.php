@@ -82,16 +82,22 @@ class AdminListBuilder extends AdminBuilder {
         return $this->buttonSetStatus($url, 1, $title, $attr);
     }
 
-    public function buttonClear($url=null){
-        return $this->button('清空', array('class' => 'btn ajax-post tox-confirm', 'data-confirm'=>'您确实要清空回收站吗？（清空后不可恢复）', 'url' => $url,'target-form'=>'ids'));
+    /**清空回收站
+     * @param null $model 要清空回收站的模型
+     * @return $this
+     * @auth 陈一枭
+     */
+    public function buttonClear($model=null){
+        return $this->button('清空', array('class' => 'btn ajax-post tox-confirm', 'data-confirm'=>'您确实要清空回收站吗？（清空后不可恢复）', 'url' => U('',array('model'=>$model)),'target-form'=>'ids'));
     }
 
     public function buttonSort($href, $title='排序', $attr=array()) {
         $attr['href'] = $href;
         return $this->button($title, $attr);
     }
-    /**
+    /**搜索
      * @param string $title 标题
+     * @param string $name 键名
      * @param string $type 类型，默认文本
      * @param string $des 描述
      * @param        $attr 标签文本
@@ -399,5 +405,23 @@ class AdminListBuilder extends AdminBuilder {
         }
         $params = http_build_query($params);
         return $url . $seperator . $params;
+    }
+
+    /**自动处理清空回收站
+     * @param string $model  要清空的模型
+     * @auth 陈一枭
+     */
+    public function clearTrash($model=''){
+        if (IS_POST) {
+            if ($model!='') {
+                $result = D($model)->where(array('status' => -1))->delete();
+                if($result){
+                    $this->success('成功清空回收站，共删除 ' . $result . ' 条记录。');
+                }
+                $this->error('回收站是空的，未能删除任何东西。');
+            } else {
+                $this->error('请选择要清空的模型。');
+            }
+        }
     }
 }

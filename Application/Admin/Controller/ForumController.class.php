@@ -42,16 +42,10 @@ class ForumController extends AdminController
             ->display();
     }
 
-    public function forumTrash($page = 1, $r = 20, $clear = 0)
+    public function forumTrash($page = 1, $r = 20, $model = '')
     {
-        if (IS_POST) {
-            if ($clear) {
-                $result = D('Forum')->where(array('status' => -1))->delete();
-                $this->success('成功清空回收站，共删除 ' . $result . ' 个版块。');
-            } else {
-                $this->error('回收站是空的，未能删除任何东西。');
-            }
-        }
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         //读取回收站中的数据
         $map = array('status' => '-1');
         $model = M('Forum');
@@ -59,10 +53,10 @@ class ForumController extends AdminController
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder
             ->title('板块回收站')
-            ->setStatusUrl(U('Forum/setForumStatus'))->buttonRestore()->buttonClear(U('forumTrash', array('clear' => 1)))
+            ->setStatusUrl(U('Forum/setForumStatus'))->buttonRestore()->buttonClear('forum')
             ->keyId()->keyLink('title', '标题', 'Forum/post?forum_id=###')
             ->keyCreateTime()->keyText('post_count', '帖子数量')
             ->data($list)
@@ -193,16 +187,18 @@ class ForumController extends AdminController
 
     public function postTrash($page = 1, $r = 20)
     {
+        //显示页面
+        $builder = new AdminListBuilder();
+        $builder->clearTrash('ForumPost');
         //读取帖子数据
         $map = array('status' => -1);
         $model = M('ForumPost');
         $list = $model->where($map)->order('last_reply_time desc')->page($page, $r)->select();
         $totalCount = $model->where($map)->count();
 
-        //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('帖子回收站')
-            ->setStatusUrl(U('Forum/setPostStatus'))->buttonRestore()
+            ->setStatusUrl(U('Forum/setPostStatus'))->buttonRestore()->buttonClear('ForumPost')
             ->keyId()->keyLink('title', '标题', 'Forum/reply?post_id=###')
             ->keyCreateTime()->keyUpdateTime()->keyTime('last_reply_time', '最后回复时间')->keyBool('is_top', '是否置顶')
             ->data($list)
@@ -263,6 +259,8 @@ class ForumController extends AdminController
 
     public function reply($page = 1, $post_id = null, $r = 20)
     {
+        $builder = new AdminListBuilder();
+
         //读取回复列表
         $map = array('status' => array('EGT', 0));
         if ($post_id) $map['post_id'] = $post_id;
@@ -271,7 +269,7 @@ class ForumController extends AdminController
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('回复管理')
             ->setStatusUrl(U('setReplyStatus'))->buttonEnable()->buttonDisable()->buttonDelete()
             ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()->keyDoActionEdit('editReply?id=###')
@@ -280,8 +278,10 @@ class ForumController extends AdminController
             ->display();
     }
 
-    public function replyTrash($page = 1, $r = 20)
+    public function replyTrash($page = 1, $r = 20, $model = '')
     {
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         //读取回复列表
         $map = array('status' => -1);
         $model = M('ForumPostReply');
@@ -289,9 +289,9 @@ class ForumController extends AdminController
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('回复回收站')
-            ->setStatusUrl(U('setReplyStatus'))->buttonRestore()
+            ->setStatusUrl(U('setReplyStatus'))->buttonRestore()->buttonClear('ForumPostReply')
             ->keyId()->keyTruncText('content', '内容', 50)->keyCreateTime()->keyUpdateTime()->keyStatus()
             ->data($list)
             ->pagination($totalCount, $r)

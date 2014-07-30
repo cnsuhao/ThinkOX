@@ -56,6 +56,8 @@ class WeiboController extends AdminController
 
     public function weiboTrash($page = 1, $r = 20)
     {
+        $builder = new AdminListBuilder();
+        $builder->clearTrash('Weibo');
         //读取微博列表
         $map = array('status' => -1);
         $model = M('Weibo');
@@ -63,9 +65,9 @@ class WeiboController extends AdminController
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('微博回收站')
-            ->setStatusUrl(U('setWeiboStatus'))->buttonRestore()
+            ->setStatusUrl(U('setWeiboStatus'))->buttonRestore()->buttonClear('Weibo')
             ->keyId()->keyLink('content', '内容', 'comment?weibo_id=###')->keyUid()->keyCreateTime()
             ->data($list)
             ->pagination($totalCount, $r)
@@ -125,8 +127,10 @@ class WeiboController extends AdminController
             ->display();
     }
 
-    public function commentTrash($page = 1, $r = 20)
+    public function commentTrash($page = 1, $r = 20,$model='')
     {
+        $builder = new AdminListBuilder();
+        $builder->clearTrash($model);
         //读取评论列表
         $map = array('status' => -1);
         $model = M('WeiboComment');
@@ -134,9 +138,9 @@ class WeiboController extends AdminController
         $totalCount = $model->where($map)->count();
 
         //显示页面
-        $builder = new AdminListBuilder();
+
         $builder->title('评论回收站')
-            ->setStatusUrl(U('setCommentStatus'))->buttonRestore()
+            ->setStatusUrl(U('setCommentStatus'))->buttonRestore()->buttonClear('WeiboComment')
             ->keyId()->keyText('content', '内容')->keyUid()->keyCreateTime()
             ->data($list)
             ->pagination($totalCount, $r)
