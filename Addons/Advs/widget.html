@@ -1,22 +1,25 @@
 <if condition="$list['type'] eq 2">
-    <script src="__PUBLIC__/Core/js/ext/slider/js/jquery.slides.min.js"></script>
-    <link href="__PUBLIC__/Core/js/ext/slider/css/slider.css" rel="stylesheet" type="text/css"/>
-    <div id="slide_{$list.ad.pos}">
-        <volist name="list.res" id="vo">
-            <img src="{$vo.advspic|get_cover='path'}" alt="{$vo.title}">
-        </volist>
-        <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="glyphicon glyphicon-chevron-left"></i></a>
-        <a href="#" class="slidesjs-next slidesjs-navigation"><i class="glyphicon glyphicon-chevron-right"></i></a>
-    </div>
-    <script>
-        $(function () {
-            $("#slide_{$list.ad.pos}").slidesjs({
-                width: 940,
-                height: 528,
-                navigation: false
-            });
-        })
-    </script>
+    <if condition="count($list['res']) gt 1">
+        <script src="__PUBLIC__/Core/js/ext/slider/js/jquery.slides.min.js"></script>
+        <link href="__PUBLIC__/Core/js/ext/slider/css/slider.css" rel="stylesheet" type="text/css"/>
+        <div id="slide_{$list.ad.pos}">
+            <volist name="list.res" id="vo">
+                <img src="{$vo.advspic|get_cover='path'}" alt="{$vo.title}">
+            </volist>
+            <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            <a href="#" class="slidesjs-next slidesjs-navigation"><i class="glyphicon glyphicon-chevron-right"></i></a>
+        </div>
+        <script>
+            $(function () {
+                $("#slide_{$list.ad.pos}").slidesjs({
+                    width: 940,
+                    height: 528,
+                    navigation: false
+                });
+            })
+        </script>
+    </if>
+
 
     <elseif condition="$list['type'] eq 3"/>
     <div style="width:{$list['width']};height:{$list['height']};background: #cecece;">
