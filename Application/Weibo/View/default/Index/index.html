@@ -9,7 +9,7 @@
     <div class="weibo_left col-md-9">
         <include file="_quickweibo"/>
 
-                {:hook('Advs', 'weibo_below_sendbox')}
+        {:hook('Advs', 'weibo_below_sendbox')}
 
         <div id="weibo_list">
             <include file="loadweibo"/>
@@ -89,7 +89,9 @@
         <div>
             {:hook('checkin')}
             {:hook('Rank')}
+            <!--广告位-->
             {:hook('Advs', 'weibo_below_checkrank')}
+            <!--广告位end-->
             {:W('TopUserList/lists',array(null,'score desc','活跃用户','top'))}
             {:W('UserList/lists')}
 

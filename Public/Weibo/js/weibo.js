@@ -148,6 +148,7 @@ $(function () {
     });
     if (typeof(auto_open_detail) != 'undefined') {
         $('.weibo-comment-link').click();
+
     }
 });
 
@@ -239,7 +240,7 @@ function reloadWeiboCommentList(weiboCommentList) {
         //更新评论数量
         var commentLinkText = $('.operation', weiboContainer).html();
         $('.operation', weibo).html(commentLinkText);
-
+        bindRepost();
     });
 }
 

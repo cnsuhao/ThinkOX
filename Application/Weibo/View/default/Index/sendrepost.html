@@ -31,7 +31,6 @@
 
         <script>
 
-
             $(function () {
 
                 $('#repost_content').keypress(function (e) {
@@ -39,12 +38,11 @@
                     $("#send_repost_button").click();
 
                 }
+
+
             });
-
-
             //点击发表微博按钮之后
             $('#send_repost_button').click(function () {
-
                 //获取参数
                 var url = $(this).attr('data-url');
                 var content = $('#repost_content').val();
@@ -53,9 +51,7 @@
                 var feedType = 'repost';
                 var sourseId = '{$sourseId}';
                 var weiboId = '{$weiboId}';
-
-               var becomment=   document.getElementsByName("becomment")
-
+                var becomment=   document.getElementsByName("becomment")
                 //发送到服务器
                 $.post(url, {content: content,type:feedType,sourseId:sourseId,weiboId:weiboId,becomment:becomment[0].checked}, function (a) {
                     handleAjax(a);
