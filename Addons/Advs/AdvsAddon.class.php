@@ -69,10 +69,10 @@ CREATE TABLE IF NOT EXISTS `{$this->table_name()}advs` (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='广告表';
 SQL;
             D()->execute($sql);
-            if(count(M()->query("SHOW TABLES LIKE '".$this->table_name()."Advs'")) != 1){
+           /* if(count(M()->query("SHOW TABLES LIKE '".$this->table_name()."Advs'")) != 1){
             	session('addons_install_error', ',Advs表未创建成功，请手动检查插件中的sql，修复后重新安装');
             	return false;
-            }
+            }*/
             return true;
         }
 
