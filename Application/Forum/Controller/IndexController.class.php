@@ -57,22 +57,22 @@ class IndexController extends Controller
      */
     public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
     {
-        $id=intval($id);
+        $id = intval($id);
 
-        $count = S('forum_count_'.$id);
+        $count = S('forum_count_' . $id);
         if (empty($count)) {
-            if($id!=0){
-                $map['id']=$id;
+            if ($id != 0) {
+                $map['id'] = $id;
             }
 
-            $map['status']=1;
+            $map['status'] = 1;
             $count['forum'] = D('Forum')->where($map)->count();
             $count['post'] = D('ForumPost')->where($map)->count();
-            $count['all'] = $count['post'] + D('ForumPostReply')->where($map)->count() + D('ForumLzlReply')->where( $map)->count();
-            S('forum_count_'.$id, $count, 60);
+            $count['all'] = $count['post'] + D('ForumPostReply')->where($map)->count() + D('ForumLzlReply')->where($map)->count();
+            S('forum_count_' . $id, $count, 60);
         }
         $this->assign('count', $count);
-        $id=intval($id);
+        $id = intval($id);
         if ($order == 'ctime') {
             $order = 'create_time desc';
         } else if ($order == 'reply') {
@@ -89,7 +89,7 @@ class IndexController extends Controller
         //读取帖子列表
         if ($id == 0) {
             $map = array('status' => 1);
-            $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL )->order($order)->select();
+            $list_top = D('ForumPost')->where(' status=1 AND is_top=' . TOP_ALL)->order($order)->select();
         } else {
             $map = array('forum_id' => $id, 'status' => 1);
             $list_top = D('ForumPost')->where('status=1 AND (is_top=' . TOP_ALL . ') OR (is_top=' . TOP_FORUM . ' AND forum_id=' . intval($id) . ' and status=1)')->order($order)->select();
@@ -197,8 +197,13 @@ class IndexController extends Controller
         !$res && $this->error('');
     }
 
+
     public function editReply($reply_id = null)
     {
+        $has_permission = $this->checkRelyPermission($reply_id);
+        if(!$has_permission){
+            $this->error('您不具备编辑该回复的权限。');
+        }
         if ($reply_id) {
             $reply = D('forum_post_reply')->where(array('id' => $reply_id, 'status' => 1))->find();
         } else {
@@ -213,6 +218,11 @@ class IndexController extends Controller
 
     public function doReplyEdit($reply_id = null, $content)
     {
+        $has_permission = $this->checkRelyPermission($reply_id);
+        if(!$has_permission){
+            $this->error('您不具备编辑该回复的权限。');
+        }
+
         //对帖子内容进行安全过滤
         $content = $this->filterPostContent($content);
 
@@ -342,7 +352,7 @@ class IndexController extends Controller
                 $this->error('回复失败：' . $model->getError());
             }
             //显示成功消息
-            $this->success('回复成功。' . getScoreTip($before, $after). getToxMoneyTip($tox_money_before, $tox_money_after), 'refresh') ;
+            $this->success('回复成功。' . getScoreTip($before, $after) . getToxMoneyTip($tox_money_before, $tox_money_after), 'refresh');
         } else {
             $this->error('请10秒之后再回复');
 
@@ -420,7 +430,7 @@ class IndexController extends Controller
         $this->requirePostExists($post_id);
         $this->requireLogin();
 
-        if(is_administrator()){
+        if (is_administrator()) {
             return true;
         }
         //确认帖子时自己的
@@ -601,5 +611,17 @@ class IndexController extends Controller
         $content = $this->limitPictureCount($content);
         $content = op_h($content);
         return $content;
+    }
+
+    /**
+     * @param $reply_id
+     * @return mixed
+     * @auth 陈一枭
+     */
+    private function checkRelyPermission($reply_id)
+    {
+        $reply = D('ForumPostReply')->find(intval($reply_id));
+        $has_permission= $reply['uid'] == is_login() || is_administrator();
+        return $has_permission;
     }
 }
