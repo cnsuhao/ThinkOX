@@ -404,7 +404,13 @@ function addons_url($url, $param = array())
         '_action' => $action,
     );
     $params = array_merge($params, $param); //添加额外参数
-    return U('Home/Addons/execute', $params);
+    if(strtolower(MODULE_NAME)=='admin'){
+        return U('Admin/Addons/execute', $params);
+    }else{
+        return U('Home/Addons/execute', $params);
+
+    }
+
 }
 
 /**
