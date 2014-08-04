@@ -1222,6 +1222,9 @@ a:hover {
 .nav_bar .navbar-toggle .icon-bar {
   background: white;
 }
+.nav_bar .badge {
+  margin-left: 5px;
+}
 .nav_bar .nav {
   margin-left: -6px;
 }
