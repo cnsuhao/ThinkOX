@@ -131,7 +131,7 @@
 
             function success(data) {
                 if (data.status) {
-                    op_success('欢迎回来，1.5秒后跳转到首页。', '温馨提示');
+                    op_success('欢迎回来，页面正在跳转，请稍候。', '温馨提示');
                     setTimeout(function () {
                         window.location.href = data.url;
                     }, 1500);

@@ -112,7 +112,7 @@ class UserController extends HomeController
                 $Member = D('Member');
                 if ($Member->login($uid, $remember == 'on')) { //登录用户
                     //TODO:跳转到登录前页面
-                    $this->success('登录成功！', U('Home/Index/index'));
+                    $this->success('登录成功！', get_nav_url(C('AFTER_LOGIN_JUMP_URL')));
                 } else {
                     $this->error($Member->getError());
                 }
@@ -134,7 +134,7 @@ class UserController extends HomeController
 
         } else { //显示登录表单
             if (is_login()) {
-                redirect(U('Weibo/Index/index'));
+                redirect(U('Home/Index/index'));
             }
             $this->display();
         }
