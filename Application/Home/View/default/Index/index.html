@@ -2,35 +2,14 @@
 
 <block name="body">
     <link type="text/css" rel="stylesheet" href="__CSS__/home.css"/>
-    <script type="text/javascript" src="__PUBLIC__/Core/js/ext/superslide/js/superslide.js"></script>
 
     <!-- 主体 -->
     <!--顶部Banner-->
     <div class="container  home_container" style="border-radius: 3px;border: 1px solid #dedede;background-color: #ffffff;width: 1080px">
         <div class="row" style="padding:15px">
             <div class="col-md-9" style="padding-left: 0px;padding-right: 30px;">
-                <!--幻灯片开始-->
-                <div class="hidden-xs picFocus ">
-                    <div class="bd">
-                        <div class="tempWrap" style="overflow:hidden; position:relative; width:775px">
-                            <ul style="width: 1868px; left: -282.822672px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
-                                <li><a target="_blank" href="#"><img src="__IMG__/1.jpg"></a></li>
-                                <li><a target="_blank" href="#"><img src="__IMG__/pic2.jpg"></a></li>
-                                <li><a target="_blank" href="#"><img src="__IMG__/pic3.jpg"></a></li>
-                                <li><a target="_blank" href="#"><img src="__IMG__/pic4.jpg"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="ds"></div>
-                    <div class="hd">
-                        <ul>
-                            <li class="on"><img src="__IMG__/pic1.jpg"></li>
-                            <li class=""><img src="__IMG__/pic2.jpg"></li>
-                            <li class=""><img src="__IMG__/pic3.jpg"></li>
-                            <li class=""><img src="__IMG__/pic4.jpg"></li>
-                        </ul>
-                    </div>
-                </div>
+                {:hook('imageSlider')}
+
                 <!--幻灯片结束-->
 
                 <!-- 新鲜事-->
@@ -135,8 +114,4 @@
 
     </div>
 
-
-    <script type="text/javascript">
-        jQuery(".picFocus").slide({ mainCell: ".bd ul", effect: "left", autoPlay: true });
-    </script>
 </block>
