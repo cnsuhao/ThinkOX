@@ -201,7 +201,7 @@ class IndexController extends Controller
     public function editReply($reply_id = null)
     {
         $has_permission = $this->checkRelyPermission($reply_id);
-        if(!$has_permission){
+        if (!$has_permission) {
             $this->error('您不具备编辑该回复的权限。');
         }
         if ($reply_id) {
@@ -219,7 +219,7 @@ class IndexController extends Controller
     public function doReplyEdit($reply_id = null, $content)
     {
         $has_permission = $this->checkRelyPermission($reply_id);
-        if(!$has_permission){
+        if (!$has_permission) {
             $this->error('您不具备编辑该回复的权限。');
         }
 
@@ -271,12 +271,13 @@ class IndexController extends Controller
         $this->display();
     }
 
-    public function doEdit($post_id = null, $forum_id, $title, $content)
+    public function doEdit($post_id = null, $forum_id = 0, $title, $content)
     {
 
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
-
+        $forum_id = intval($forum_id);
+        $title = op_t($title);
         //如果是编辑模式，确认当前用户能编辑帖子
         if ($isEdit) {
             $this->requireAllowEditPost($post_id);
@@ -285,16 +286,23 @@ class IndexController extends Controller
         //确认当前贴吧能发帖
         $this->requireForumAllowPublish($forum_id);
 
-        //写入帖子的内容
-        if (strlen($content) < 25) {
-            $this->error('发表失败：内容长度不能小于25');
+
+        if ($title == '') {
+            $this->error('请输入标题。');
         }
+        if ($forum_id == 0) {
+            $this->error('请选择发布的版块。');
+        }
+        if (strlen($content) < 20) {
+            $this->error('发表失败：内容长度不能小于20');
+        }
+
+
+        //写入帖子的内容
         $model = D('ForumPost');
         if ($isEdit) {
             $data = array('id' => intval($post_id), 'title' => $title, 'content' => $content, 'parse' => 0, 'forum_id' => intval($forum_id));
             $result = $model->editPost($data);
-
-
             if (!$result) {
                 $this->error('编辑失败：' . $model->getError());
             }
@@ -621,7 +629,7 @@ class IndexController extends Controller
     private function checkRelyPermission($reply_id)
     {
         $reply = D('ForumPostReply')->find(intval($reply_id));
-        $has_permission= $reply['uid'] == is_login() || is_administrator();
+        $has_permission = $reply['uid'] == is_login() || is_administrator();
         return $has_permission;
     }
 }
