@@ -10,13 +10,10 @@ CREATE TABLE IF NOT EXISTS `thinkox_hooks` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
 
---
--- 转存表中的数据 `thinkox_hooks`
---
 
 INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`) VALUES
 (1, 'pageHeader', '页面header钩子，一般用于加载插件CSS文件和代码', 1, 0, 'ImageSlider'),
-(2, 'pageFooter', '页面footer钩子，一般用于加载插件JS文件和JS代码', 1, 0, 'ReturnTop'),
+(2, 'pageFooter', '页面footer钩子，一般用于加载插件JS文件和JS代码', 1, 0, 'ReturnTop,SuperLinks'),
 (3, 'documentEditForm', '添加编辑表单的 扩展内容钩子', 1, 0, 'Attachment'),
 (4, 'documentDetailAfter', '文档末尾显示', 1, 0, 'Attachment,SocialComment,Avatar,Tianyi'),
 (5, 'documentDetailBefore', '页面内容前显示用钩子', 1, 0, ''),
@@ -36,4 +33,5 @@ INSERT INTO `thinkox_hooks` (`id`, `name`, `description`, `type`, `update_time`,
 (25, 'syncMeta', '第三方登陆meta接口', 1, 1403700633, 'SyncLogin'),
 (26, 'J_China_City', '每个系统都需要的一个中国省市区三级联动插件。', 1, 1403841931, 'ChinaCity'),
 (27, 'Advs', '广告位插件', 1, 1406687667, 'Advs'),
-(28, 'imageSlider', '图片轮播钩子', 1, 1407144022, 'ImageSlider');
+(28, 'imageSlider', '图片轮播钩子', 1, 1407144022, 'ImageSlider'),
+(29, 'friendLink', '友情链接插件', 1, 1407156413, 'SuperLinks');

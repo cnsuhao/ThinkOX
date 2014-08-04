@@ -5,7 +5,8 @@
 
     <!-- 主体 -->
     <!--顶部Banner-->
-    <div class="container  home_container" style="border-radius: 3px;border: 1px solid #dedede;background-color: #ffffff;width: 1080px">
+    <div class="container  home_container"
+         style="border-radius: 3px;border: 1px solid #dedede;background-color: #ffffff;width: 1080px">
         <div class="row" style="padding:15px">
             <div class="col-md-9" style="padding-left: 0px;padding-right: 30px;">
                 {:hook('imageSlider')}
@@ -15,7 +16,7 @@
                 <!-- 新鲜事-->
                 <div class=" row hot_activity">
                     <div class="col-md-12">
-                        <h2 style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;新鲜事</h2>
+                        <h2>新鲜事</h2>
                     </div>
 
                     <div class="col-md-4">
@@ -30,7 +31,8 @@
                                 <volist name="weibos" id="vo">
                                     <li class="col-md-6">
                                         <span class="black-squareIcon"></span>
-                                        <a class="text-more" title="{$vo.content|op_t}" target="_blank" href="{:U('weibo/index/weibodetail',array('id'=>$vo['id']))}">{$vo.content|op_t}
+                                        <a class="text-more" title="{$vo.content|op_t}" target="_blank"
+                                           href="{:U('weibo/index/weibodetail',array('id'=>$vo['id']))}">{$vo.content|op_t}
                                         </a>
                                     </li>
                                 </volist>
@@ -48,7 +50,8 @@
                                 <volist name="posts" id="vo">
                                     <li class="col-md-6">
                                         <span class="black-squareIcon"></span>
-                                        <a class="text-more" title="{$vo.title|op_t}" target="_blank" href="{:U('forum/index/detail',array('id'=>$vo['id']))}">{$vo.title|op_t}
+                                        <a class="text-more" title="{$vo.title|op_t}" target="_blank"
+                                           href="{:U('forum/index/detail',array('id'=>$vo['id']))}">{$vo.title|op_t}
                                         </a>
                                     </li>
                                 </volist>
@@ -75,13 +78,16 @@
                 <!-- 热门活动-->
                 <div class="row hot_activity">
                     <div class="col-md-12">
-                        <h2 style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;热门活动</h2>
+                        <h2 style="">热门活动</h2>
                     </div>
 
                     <volist name="events" id="event">
                         <div class="col-md-4">
-                            <a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}"><img class="cover" src="{$event.cover_id|getThumbImageById=230,150}"></a>
-                            <p><h4><a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}">{$event.title}</a></h4></p>
+                            <a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}"><img
+                                    class="cover" src="{$event.cover_id|getThumbImageById=230,150}"></a>
+
+                            <p><h4><a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}">{$event.title}</a>
+                        </h4></p>
                             <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>{$event.attentionCount}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <img src="__IMG__/see.png">&nbsp;&nbsp;<a>{$event.view_count}</a></p>
                         </div>
@@ -90,24 +96,33 @@
                 <!-- 热门活动-->
 
 
+                <div class="row col-md-12">
+
+                    {:Hook('friendLink')}
+                </div>
 
             </div>
 
 
             <div class="col-md-3">
-               <div class="square_sider_top">
-                   <p><img src="__IMG__/ww_01.png"><a target="_blank" href="{:U('weibo/index/index')}">{$weibo_count}</a>&nbsp;&nbsp;篇微博 </p>
-                   <hr>
-                   <p><img src="__IMG__/ww_02.png"><a target="_blank" href="{:U('forum/index/index')}">{$post_count}</a>&nbsp;&nbsp;个帖子 </p>
-                   <hr>
-                   <p><img src="__IMG__/ww_03.png"><a target="_blank" href="{:U('event/index/index')}">{$event_count}</a>&nbsp;&nbsp;个活动 </p>
+                <div class="square_sider_top">
+                    <p><img src="__IMG__/ww_01.png"><a target="_blank"
+                                                       href="{:U('weibo/index/index')}">{$weibo_count}</a>&nbsp;&nbsp;篇微博
+                    </p>
+                    <hr>
+                    <p><img src="__IMG__/ww_02.png"><a target="_blank"
+                                                       href="{:U('forum/index/index')}">{$post_count}</a>&nbsp;&nbsp;个帖子
+                    </p>
+                    <hr>
+                    <p><img src="__IMG__/ww_03.png"><a target="_blank"
+                                                       href="{:U('event/index/index')}">{$event_count}</a>&nbsp;&nbsp;个活动
+                    </p>
 
-               </div>
-
+                </div>
 
 
                 {:W('Weibo/TopUserList/lists',array(null,'score desc','活跃用户','top_home',6))}
-                {:W('Weibo/UserList/lists',array(null,  'id desc','最新加入','latest_home',6))}
+                {:W('Weibo/UserList/lists',array(null, 'id desc','最新加入','latest_home',6))}
             </div>
         </div>
 
