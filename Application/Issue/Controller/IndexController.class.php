@@ -51,6 +51,7 @@ class IndexController extends Controller
     public function doPost($id = 0, $cover_id = 0, $title = '', $content = '', $issue_id = 0, $url = '')
     {
 
+        $issue_id = intval($issue_id);
         if (!is_login()) {
             $this->error('请登陆后再投稿。');
         }
@@ -73,12 +74,13 @@ class IndexController extends Controller
         $content['content'] = op_h($content['content']);
         $content['title'] = op_t($content['title']);
         $content['url'] = op_t($content['url']); //新增链接框
+        $content['issue_id'] = $issue_id;
 
         if ($id) {
             $content_temp = D('IssueContent')->find($id);
             if (!is_administrator(is_login())) { //不是管理员则进行检测
                 if ($content_temp['uid'] != is_login()) {
-                    $this->error('小样儿，可别学坏。别以为改一下页面元素就能越权操作。');
+                    $this->error('不可操作他人的内容。');
                 }
             }
             $content['uid'] = $content_temp['uid']; //权限矫正，防止被改为管理员
