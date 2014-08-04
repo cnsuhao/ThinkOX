@@ -66,8 +66,9 @@ SQL;
 
             $sql_insert=<<<SQL
             INSERT INTO `{$this->table_name()}advertising` (`id`, `title`, `type`, `width`, `height`, `status`, `pos`) VALUES
-            (1, '微博发布框下方', 4, '620', '87', 1, 'weibo_below_sendbox'),
-(2, '微博首页签到排行下方', 4, '', '', 1, 'weibo_below_checkrank');
+(1, '微博发布框下方', 2, '620', '87', 1, 'weibo_below_sendbox'),
+(2, '微博首页签到排行下方', 4, '', '', 1, 'weibo_below_checkrank'),
+(3, '首页1号广告位', 1, '756', '100', 1, 'home_ad1');
 SQL;
             D()->execute($sql_insert);
 
