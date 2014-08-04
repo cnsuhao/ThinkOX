@@ -86,7 +86,7 @@
                             <a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}"><img
                                     class="cover" src="{$event.cover_id|getThumbImageById=230,150}"></a>
 
-                            <p><h4><a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}">{$event.title}</a>
+                            <p><h4><a title="{$event.title|op_t}" class="text-more" style="width: 100%" target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}">{$event.title|op_t}</a>
                         </h4></p>
                             <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>{$event.attentionCount}</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <img src="__IMG__/see.png">&nbsp;&nbsp;<a>{$event.view_count}</a></p>
