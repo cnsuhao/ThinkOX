@@ -1,207 +1,186 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <include file="Public/head"/>
-</head>
-<body style="background-color: #fff;">
-<!-- 头部 -->
-<include file="Public/header"/>
-<!-- /头部 -->
+<extend name="Base/common"/>
 
-<!-- 主体 -->
-<!--顶部Banner-->
-<div class="jumbotron" style="margin-top: -20px;">
-    <div class="container">
-        <p>&nbsp;</p>
-        <div class="row">
-            <div class="col-xs-1">&nbsp;</div>
-            <div class="col-xs-4">
-                <p>&nbsp;</p>
-                <h2>ThinkOX是一种精神</h2>
-                <p class="text-muted" style="font-size: 18px; line-height: 1.75em;">基于OneThink，同步更新，<br/>让Web开发更快速！</p>
-                <p>
-                    <a class="btn btn-primary btn-lg" style="font-size: 1.5em;" target="_blank" href="/ThinkOXRC.zip">
-                        <span class="glyphicon glyphicon-download" style="top: 5px;"></span>
-                        下载RC
+<block name="body">
+    <link type="text/css" rel="stylesheet" href="__CSS__/home.css"/>
+    <script type="text/javascript" src="__PUBLIC__/Core/js/ext/superslide/js/superslide.js"></script>
 
-                    </a>
-
-                </p>
-                <p>
-                    <a class="btn btn-primary btn-lg" style="font-size: 1.5em;" target="_blank" href="http://url.cn/Mk090o">
-                        <span class="glyphicon glyphicon-user" style="top: 5px;"></span>
-                        加入讨论群
-
-                    </a>
-                </p>
-                <p style="font-size: 14px;">最新版本v0.1 RC</p>
-            </div>
-            <div class="col-xs-6">
-                <img src="__PUBLIC__/Home/images/oneplus/index-computer.png" style="width: 100%;"/>
-            </div>
-            <div class="col-xs-1">&nbsp;</div>
-        </div>
-
-        <p>&nbsp;</p>
-    </div>
-</div>
-
-<!--特性介绍-->
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <p>&nbsp;</p>
-            <h1 class="text-center">什么是ThinkOX？</h1>
-            <p>&nbsp;</p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-4">
-            <div class="text-center">
-                <div class="index-feature-div">
-                    <img src="__PUBLIC__/Home/images/oneplus/index-icon-hand.png"/>
+    <!-- 主体 -->
+    <!--顶部Banner-->
+    <div class="container" style="border-radius: 3px;border: 1px solid #dedede;background-color: #ffffff;width: 1080px">
+        <div class="row" style="padding:15px">
+            <div class="col-md-9" style="padding-left: 0px;padding-right: 30px;">
+                <!--幻灯片开始-->
+                <div class="hidden-xs picFocus ">
+                    <div class="bd">
+                        <div class="tempWrap" style="overflow:hidden; position:relative; width:775px">
+                            <ul style="width: 1868px; left: -282.822672px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+                                <li><a target="_blank" href="#"><img src="__IMG__/1.jpg"></a></li>
+                                <li><a target="_blank" href="#"><img src="__IMG__/pic2.jpg"></a></li>
+                                <li><a target="_blank" href="#"><img src="__IMG__/pic3.jpg"></a></li>
+                                <li><a target="_blank" href="#"><img src="__IMG__/pic4.jpg"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ds"></div>
+                    <div class="hd">
+                        <ul>
+                            <li class="on"><img src="__IMG__/pic1.jpg"></li>
+                            <li class=""><img src="__IMG__/pic2.jpg"></li>
+                            <li class=""><img src="__IMG__/pic3.jpg"></li>
+                            <li class=""><img src="__IMG__/pic4.jpg"></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <h3 class="index-feature-title">强化的用户中心</h3>
-            <h4 class="index-feature-text">
-                基于OneThink的强力扩展，<br/>
-                不断丰富的用户中心，<br/>
-                同步合并，紧跟OT脚步。
-            </h4>
-        </div>
-        <div class="col-xs-4">
-            <div class="text-center">
-                <div class="index-feature-div">
-                    <img src="__PUBLIC__/Home/images/oneplus/index-icon-cloud.png"/>
+                <!--幻灯片结束-->
+
+                <!-- 热门活动-->
+                <div class="row hot_activity">
+                    <div class="col-md-12">
+                        <p style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;热门活动</p>
+                    </div>
+                    <div class="col-md-4">
+                        <a><img src="__IMG__/pp.png"></a>
+
+                        <p><h4><a href="#">大型互联网研讨会</a></h4></p>
+                        <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>23</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <img src="__IMG__/see.png">&nbsp;&nbsp;<a>23</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <a><img src="__IMG__/pp.png"></a>
+
+                        <p><h4><a href="#">大型互联网研讨会</a></h4></p>
+                        <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>23</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <img src="__IMG__/see.png">&nbsp;&nbsp;<a>23</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#"><img src="__IMG__/pp.png"></a>
+
+                        <p><h4><a href="#">大型互联网研讨会</a></h4></p>
+                        <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>23</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <img src="__IMG__/see.png">&nbsp;&nbsp;<a>23</a></p>
+                    </div>
                 </div>
-            </div>
-            <h3 class="index-feature-title">云端部署</h3>
-            <h4 class="index-feature-text">
-                通过驱动的方式可以轻松支持云<br/>
-                平台的部署，让你的网站无缝迁移，
-                内置已经支持SAE。
-            </h4>
-        </div>
-        <div class="col-xs-4">
-            <div class="text-center">
-                <div class="index-feature-div">
-                    <img src="__PUBLIC__/Home/images/oneplus/index-icon-shield.png"/>
+                <!-- 热门活动-->
+
+                <!--广告位-->
+                <div class="col-md-12 square_ad hidden-xs " style="padding: 0px;">
+                    <img class="img-responsive" src="__IMG__/1.jpg">
                 </div>
+                <!--广告位-->
+
+                <!-- 新鲜事-->
+                <div class=" row hot_activity">
+                    <div class="col-md-12">
+                        <p style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;新鲜事</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <img src="__IMG__/pp.png">
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="square_weibo">
+                            <p><b>微博</b></p>
+
+                            <div class="plaza_ul">
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买 ...
+                                    </a>
+                                </li>
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/ ...
+                                    </a>
+                                </li>
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
+                                    </a>
+                                </li>
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
+                                    </a>
+                                </li>
+
+                            </div>
+
+                        </div>
+
+                        <div class="square_tieba">
+
+                            <p><b>帖子</b></p>
+
+                            <div class="plaza_ul">
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买 ...
+                                    </a>
+                                </li>
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/ ...
+                                    </a>
+                                </li>
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
+                                    </a>
+                                </li>
+                                <li>
+                                    <span class="black-squareIcon"></span>
+                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
+                                    </a>
+                                </li>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!--新鲜事-->
+
+
             </div>
-            <h3 class="index-feature-title">安全可靠</h3>
-            <h4 class="index-feature-text">
-                提供的稳健的安全策略，包括备份恢复，容错，防止恶意攻击登陆，网页防篡改等多项安全管理功能，保证系统安全，可靠，稳定的运行。
-            </h4>
-        </div>
-    </div>
-</div>
 
-<!--翻屏按钮-->
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <p style="height: 8em;">&nbsp;</p>
-            <hr class="index-screen-hr"/>
-            <div class="text-center">
-                <div class="index-screen-button" id="turn-screen">&#x25BC;</div>
+
+            <div class="col-md-3 square_sider_top">
+                <p><img src="__IMG__/ww_01.png"><a>2345</a>&nbsp;&nbsp;篇微博 </p>
+                <hr>
+                <p><img src="__IMG__/ww_02.png"><a>2345</a>&nbsp;&nbsp;个帖子 </p>
+                <hr>
+                <p><img src="__IMG__/ww_03.png"><a>2345</a>&nbsp;&nbsp;个活动 </p>
             </div>
-            <p style="height: 8em;">&nbsp;</p>
+
+            <div class="col-md-3">
+                <h1>AD</h1>
+            </div>
+
+            <div class="col-md-3 square_sider_notice">
+                <h5><b>公告</b></h5>
+                <ul>
+                    <li><a>ddfd是的撒旦时代的时代的沟通方法改风格规格表的风格大方</a></li>
+                    <li><a>ddfd大叔大婶</a></li>
+                    <li><a>ddfd</a></li>
+                </ul>
+
+
+            </div>
+
         </div>
+
+
     </div>
-</div>
 
-<!--特性介绍-->
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <table style="width: 100%;" class="index-feature-table">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="width: 33.3333333333%">
-                        <ul><li>
-                            <div class="index-feature-text2">
-                                <span>头像插件<br/>允许用户上传自己的头像</span>
-                            </div>
-                            <img class="index-feature-img" src="__PUBLIC__/Home/images/oneplus/index-feature-avatar.png"/>
-                        </li></ul>
-                    </td>
-                    <td style="width: 16.666666666666%">
-                        <ul><li>
-                            <div class="index-feature-text2">
-                                <span>升级至最新<br/>Bootstrap</span>
-                            </div>
-                            <img class="index-feature-img" src="__PUBLIC__/Home/images/oneplus/index-feature-bootstrap.png"/>
-                        </li></ul>
-                    </td>
-                    <td rowspan="3">
-                        <ul><li>
-                            <div class="index-feature-text2">
-                                <span>前台个人中心</span>
-                            </div>
-                            <img class="index-feature-img" src="__PUBLIC__/Home/images/oneplus/index-feature-oneuser.png"/>
-                        </li></ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <ul><li>
-                            <div class="index-feature-text2">
-                                <span>讨论区</span>
-                            </div>
-                            <img class="index-feature-img" style="" src="__PUBLIC__/Home/images/oneplus/index-feature-forum.png"/>
-                        </li></ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <ul><li>
-                            <div class="index-feature-text2">
-                                <span>本地评论功能</span>
-                            </div>
-                            <img class="index-feature-img" src="__PUBLIC__/Home/images/oneplus/index-feature-comment.png"/>
-                        </li></ul>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-<!-- /主体 -->
-
-<!-- 底部 -->
-<include file="Public/footer"/>
-<!-- /底部 -->
-</body>
-</html>
-
-<block name="script">
-    <script>
-        //实现翻屏按钮
-        $(function(){
-            $('#turn-screen').click(function(){
-                var screen = $('html,body');
-                screen.animate({scrollTop: $(this).offset().top + $(this).parent().height() + 20})
-            })
-        })
-
-        //鼠标移动到特性介绍图片的时候显示文字
-        $('.index-feature-table ul li').mouseenter(function(){
-            var image= $(this).find('img');
-            var caption = $(this).find('div');
-
-            caption.width(image.width());
-            caption.height(image.height());
-            caption.animate({opacity: 1});
-        }).mouseleave(function(){
-            var image= $(this).find('img');
-            var caption = $(this).find('div');
-
-            caption.width(image.width());
-            caption.height(image.height());
-            caption.animate({opacity: 0});
-        });
+    <script type="text/javascript">
+        jQuery(".picFocus").slide({ mainCell: ".bd ul", effect: "left", autoPlay: true });
     </script>
 </block>

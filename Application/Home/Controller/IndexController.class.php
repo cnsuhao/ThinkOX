@@ -20,12 +20,7 @@ class IndexController extends HomeController {
     public function index(){
 
 
-        redirect(U('Weibo/Index/index'));
-        $category = D('Category')->getTree();
-        $lists    = D('Document')->lists(null);
-        $this->assign('category',$category);//栏目
-        $this->assign('lists',$lists);//列表
-        $this->assign('page',D('Document')->page);//分页
+        //redirect(U('Weibo/Index/index'));
         $this->display();
     }
 
