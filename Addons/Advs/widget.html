@@ -26,7 +26,10 @@
         <div style="margin:0px auto;width:150px;line-height: 30px;">{$list.advstext}</div>
     </div>
     <elseif condition="$list['type'] eq 1"/>
-    <img src="{$list.advspic|get_cover='path'}"/>
+    <if condition="$list['advspic'] neq 0">
+        <a href="{$list.link}"><img src="{$list.advspic|get_cover='path'}"/></a>
+    </if>
+
     <elseif condition="$list['type'] eq 4"/>
     {$list.advshtml}
 </if>

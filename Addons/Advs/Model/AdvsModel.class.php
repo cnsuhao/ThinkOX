@@ -60,6 +60,7 @@ class AdvsModel extends Model{
 			$data['type'] = $sing['type'];
 			$data['width'] = $sing['width'];
 			$data['height'] = $sing['height'];
+
 		}
 
 		return $data;

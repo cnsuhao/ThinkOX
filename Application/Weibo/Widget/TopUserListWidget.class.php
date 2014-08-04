@@ -19,21 +19,21 @@ class TopUserListWidget extends Action
 {
 
     /* 显示指定分类的同级分类或子分类列表 */
-    public function lists($map = array(), $order = 'id desc',$title='最新加入',$tag='top')
+    public function lists($map = array(), $order = 'id desc', $title = '最新加入', $tag = 'top', $limit = 6)
     {
-        $users = S('weibo_latest_user_'.$tag);
+        $users = S('weibo_latest_user_' . $tag);
         if (empty($users)) {
-            $user = D('Member')->where($map)->order($order)->limit(6)->select();
+            $user = D('Member')->where($map)->order($order)->limit($limit)->select();
             foreach ($user as &$uid) {
                 $uid['user'] = query_user(array('avatar64', 'nickname', 'space_url', 'space_link'), $uid['uid']);
-                $uid['id']=$uid['uid'];
+                $uid['id'] = $uid['uid'];
             }
             unset($uid);
             $users = $user;
-            S('weibo_latest_user_'.$tag, $users, 300);
+            S('weibo_latest_user_' . $tag, $users, 300);
         }
         $this->assign('user', $users);
-        $this->assign('title',$title);
+        $this->assign('title', $title);
         $this->display('Widget/userList');
     }
 

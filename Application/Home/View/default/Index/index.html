@@ -6,7 +6,7 @@
 
     <!-- 主体 -->
     <!--顶部Banner-->
-    <div class="container" style="border-radius: 3px;border: 1px solid #dedede;background-color: #ffffff;width: 1080px">
+    <div class="container  home_container" style="border-radius: 3px;border: 1px solid #dedede;background-color: #ffffff;width: 1080px">
         <div class="row" style="padding:15px">
             <div class="col-md-9" style="padding-left: 0px;padding-right: 30px;">
                 <!--幻灯片开始-->
@@ -33,45 +33,10 @@
                 </div>
                 <!--幻灯片结束-->
 
-                <!-- 热门活动-->
-                <div class="row hot_activity">
-                    <div class="col-md-12">
-                        <p style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;热门活动</p>
-                    </div>
-                    <div class="col-md-4">
-                        <a><img src="__IMG__/pp.png"></a>
-
-                        <p><h4><a href="#">大型互联网研讨会</a></h4></p>
-                        <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>23</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <img src="__IMG__/see.png">&nbsp;&nbsp;<a>23</a></p>
-                    </div>
-                    <div class="col-md-4">
-                        <a><img src="__IMG__/pp.png"></a>
-
-                        <p><h4><a href="#">大型互联网研讨会</a></h4></p>
-                        <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>23</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <img src="__IMG__/see.png">&nbsp;&nbsp;<a>23</a></p>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="#"><img src="__IMG__/pp.png"></a>
-
-                        <p><h4><a href="#">大型互联网研讨会</a></h4></p>
-                        <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>23</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <img src="__IMG__/see.png">&nbsp;&nbsp;<a>23</a></p>
-                    </div>
-                </div>
-                <!-- 热门活动-->
-
-                <!--广告位-->
-                <div class="col-md-12 square_ad hidden-xs " style="padding: 0px;">
-                    <img class="img-responsive" src="__IMG__/1.jpg">
-                </div>
-                <!--广告位-->
-
                 <!-- 新鲜事-->
                 <div class=" row hot_activity">
                     <div class="col-md-12">
-                        <p style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;新鲜事</p>
+                        <h2 style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;新鲜事</h2>
                     </div>
 
                     <div class="col-md-4">
@@ -82,29 +47,16 @@
                         <div class="square_weibo">
                             <p><b>微博</b></p>
 
-                            <div class="plaza_ul">
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买 ...
-                                    </a>
-                                </li>
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/ ...
-                                    </a>
-                                </li>
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
-                                    </a>
-                                </li>
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
-                                    </a>
-                                </li>
+                            <ul class="plaza_ul clearfix">
+                                <volist name="weibos" id="vo">
+                                    <li class="col-md-6">
+                                        <span class="black-squareIcon"></span>
+                                        <a class="text-more" title="{$vo.content|op_t}" target="_blank" href="{:U('weibo/index/weibodetail',array('id'=>$vo['id']))}">{$vo.content|op_t}
+                                        </a>
+                                    </li>
+                                </volist>
 
-                            </div>
+                            </ul>
 
                         </div>
 
@@ -112,29 +64,17 @@
 
                             <p><b>帖子</b></p>
 
-                            <div class="plaza_ul">
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买 ...
-                                    </a>
-                                </li>
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/ ...
-                                    </a>
-                                </li>
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
-                                    </a>
-                                </li>
-                                <li>
-                                    <span class="black-squareIcon"></span>
-                                    <a target="_blank" href="#">强烈建议：开发团购微信端购买/微信登录 ...
-                                    </a>
-                                </li>
+                            <ul class="plaza_ul clearfix">
 
-                            </div>
+                                <volist name="posts" id="vo">
+                                    <li class="col-md-6">
+                                        <span class="black-squareIcon"></span>
+                                        <a class="text-more" title="{$vo.title|op_t}" target="_blank" href="{:U('forum/index/detail',array('id'=>$vo['id']))}">{$vo.title|op_t}
+                                        </a>
+                                    </li>
+                                </volist>
+
+                            </ul>
 
                         </div>
 
@@ -147,33 +87,49 @@
 
                 <!--新鲜事-->
 
+                <!--广告位-->
+                <div class="square_ad hidden-xs " style="padding: 0px;">
+                    {:hook('Advs', 'home_ad1')}
+                </div>
+                <!--广告位-->
+
+                <!-- 热门活动-->
+                <div class="row hot_activity">
+                    <div class="col-md-12">
+                        <h2 style="border-left: 4px solid #03ae87;">&nbsp;&nbsp;&nbsp;热门活动</h2>
+                    </div>
+
+                    <volist name="events" id="event">
+                        <div class="col-md-4">
+                            <a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}"><img class="cover" src="{$event.cover_id|getThumbImageById=230,150}"></a>
+                            <p><h4><a target="_blank" href="{:U('event/index/detail',array('id'=>$event['id']))}">{$event.title}</a></h4></p>
+                            <p><img src="__IMG__/er.png">&nbsp;&nbsp;<a>{$event.attentionCount}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <img src="__IMG__/see.png">&nbsp;&nbsp;<a>{$event.view_count}</a></p>
+                        </div>
+                    </volist>
+                </div>
+                <!-- 热门活动-->
+
+
 
             </div>
 
-
-            <div class="col-md-3 square_sider_top">
-                <p><img src="__IMG__/ww_01.png"><a>2345</a>&nbsp;&nbsp;篇微博 </p>
-                <hr>
-                <p><img src="__IMG__/ww_02.png"><a>2345</a>&nbsp;&nbsp;个帖子 </p>
-                <hr>
-                <p><img src="__IMG__/ww_03.png"><a>2345</a>&nbsp;&nbsp;个活动 </p>
-            </div>
 
             <div class="col-md-3">
-                <h1>AD</h1>
+               <div class="square_sider_top">
+                   <p><img src="__IMG__/ww_01.png"><a target="_blank" href="{:U('weibo/index/index')}">{$weibo_count}</a>&nbsp;&nbsp;篇微博 </p>
+                   <hr>
+                   <p><img src="__IMG__/ww_02.png"><a target="_blank" href="{:U('forum/index/index')}">{$post_count}</a>&nbsp;&nbsp;个帖子 </p>
+                   <hr>
+                   <p><img src="__IMG__/ww_03.png"><a target="_blank" href="{:U('event/index/index')}">{$event_count}</a>&nbsp;&nbsp;个活动 </p>
+
+               </div>
+
+
+
+                {:W('Weibo/TopUserList/lists',array(null,'score desc','活跃用户','top_home',6))}
+                {:W('Weibo/UserList/lists',array(null,  'id desc','最新加入','latest_home',6))}
             </div>
-
-            <div class="col-md-3 square_sider_notice">
-                <h5><b>公告</b></h5>
-                <ul>
-                    <li><a>ddfd是的撒旦时代的时代的沟通方法改风格规格表的风格大方</a></li>
-                    <li><a>ddfd大叔大婶</a></li>
-                    <li><a>ddfd</a></li>
-                </ul>
-
-
-            </div>
-
         </div>
 
 
