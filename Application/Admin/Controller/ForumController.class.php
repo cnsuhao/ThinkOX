@@ -89,57 +89,59 @@ class ForumController extends AdminController
         $builder->doSort('Forum', $ids);
     }
 
-    public function editForum($id = null)
+    public function editForum($id = null, $title='', $create_time=0, $status=1, $allow_user_group=0, $logo=0)
     {
-        //判断是否为编辑模式
-        $isEdit = $id ? true : false;
+        if (IS_POST) {
+            //判断是否为编辑模式
+            $isEdit = $id ? true : false;
 
-        //如果是编辑模式，读取贴吧的属性
-        if ($isEdit) {
-            $forum = M('Forum')->where(array('id' => $id))->find();
+            //生成数据
+            $data = array('title' => $title, 'create_time' => $create_time, 'status' => $status, 'allow_user_group' => $allow_user_group, 'logo' => $logo);
+
+            //写入数据库
+            $model = M('Forum');
+            if ($isEdit) {
+                $data['id'] = $id;
+                $data = $model->create($data);
+                $result = $model->where(array('id' => $id))->save($data);
+                if (!$result) {
+                    $this->error('编辑失败');
+                }
+            } else {
+                $data = $model->create($data);
+                $result = $model->add($data);
+                if (!$result) {
+                    $this->error('创建失败');
+                }
+            }
+
+            S('forum_list', null);
+            //返回成功信息
+            $this->success($isEdit ? '编辑成功' : '保存成功');
+
         } else {
-            $forum = array('create_time' => time(), 'post_count' => 0, 'status' => 1);
+            //判断是否为编辑模式
+            $isEdit = $id ? true : false;
+
+            //如果是编辑模式，读取贴吧的属性
+            if ($isEdit) {
+                $forum = M('Forum')->where(array('id' => $id))->find();
+            } else {
+                $forum = array('create_time' => time(), 'post_count' => 0, 'status' => 1);
+            }
+
+            //显示页面
+            $builder = new AdminConfigBuilder();
+            $builder
+                ->title($isEdit ? '编辑贴吧' : '新增贴吧')
+                ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()->keySingleImage('logo', '板块封面', '用于显示的封面755px*130px')
+                ->data($forum)
+                ->buttonSubmit(U('editForum'))->buttonBack()
+                ->display();
         }
 
-        //显示页面
-        $builder = new AdminConfigBuilder();
-        $builder
-            ->title($isEdit ? '编辑贴吧' : '新增贴吧')
-            ->keyId()->keyTitle()->keyCreateTime()->keyMultiUserGroup('allow_user_group', '允许发帖的用户组')->keyStatus()->keySingleImage('logo', '板块封面', '用于显示的封面755px*130px')
-            ->data($forum)
-            ->buttonSubmit(U('doEditForum'))->buttonBack()
-            ->display();
     }
 
-    public function doEditForum($id = null, $title, $create_time, $status, $allow_user_group, $logo)
-    {
-        //判断是否为编辑模式
-        $isEdit = $id ? true : false;
-
-        //生成数据
-        $data = array('title' => $title, 'create_time' => $create_time, 'status' => $status, 'allow_user_group' => $allow_user_group, 'logo' => $logo);
-
-        //写入数据库
-        $model = M('Forum');
-        if ($isEdit) {
-            $data['id'] = $id;
-            $data = $model->create($data);
-            $result = $model->where(array('id' => $id))->save($data);
-            if (!$result) {
-                $this->error('编辑失败');
-            }
-        } else {
-            $data = $model->create($data);
-            $result = $model->add($data);
-            if (!$result) {
-                $this->error('创建失败');
-            }
-        }
-
-        S('forum_list', null);
-        //返回成功信息
-        $this->success($isEdit ? '编辑成功' : '保存成功');
-    }
 
     public function post($page = 1, $forum_id = null, $r = 20, $title = '', $content = '')
     {
@@ -206,55 +208,53 @@ class ForumController extends AdminController
             ->display();
     }
 
-    public function editPost($id = null)
+    public function editPost($id = null, $id = null, $title='', $content='', $create_time=0, $update_time=0, $last_reply_time=0, $is_top=0)
     {
-        //判断是否在编辑模式
-        $isEdit = $id ? true : false;
+        if (IS_POST) {
+            //判断是否为编辑模式
+            $isEdit = $id ? true : false;
 
-        //读取帖子内容
-        if ($isEdit) {
-            $post = M('ForumPost')->where(array('id' => $id))->find();
+            //写入数据库
+            $model = M('ForumPost');
+            $data = array('title' => $title, 'content' => $content, 'create_time' => $create_time, 'update_time' => $update_time, 'last_reply_time' => $last_reply_time, 'is_top' => $is_top);
+            if ($isEdit) {
+                $result = $model->where(array('id' => $id))->save($data);
+            } else {
+                $result = $model->keyDoActionEdit($data);
+            }
+            //如果写入不成功，则报错
+            if (!$result) {
+                $this->error($isEdit ? '编辑失败' : '创建成功');
+            }
+            //返回成功信息
+            $this->success($isEdit ? '编辑成功' : '创建成功');
         } else {
-            $post = array();
+            //判断是否在编辑模式
+            $isEdit = $id ? true : false;
+
+            //读取帖子内容
+            if ($isEdit) {
+                $post = M('ForumPost')->where(array('id' => $id))->find();
+            } else {
+                $post = array();
+            }
+
+            //显示页面
+            $builder = new AdminConfigBuilder();
+            $builder->title($isEdit ? '编辑帖子' : '新建帖子')
+                ->keyId()->keyTitle()->keyEditor('content', '内容')->keyRadio('is_top', '置顶', '选择置顶形式', array(0 => '不置顶', 1 => '本版置顶', 2 => '全局置顶'))->keyCreateTime()->keyUpdateTime()
+                ->keyTime('last_reply_time', '最后回复时间')
+                ->buttonSubmit(U('editPost'))->buttonBack()
+                ->data($post)
+                ->display();
         }
 
-        //显示页面
-        $builder = new AdminConfigBuilder();
-        $builder->title($isEdit ? '编辑帖子' : '新建帖子')
-            ->keyId()->keyTitle()->keyEditor('content', '内容')->keyRadio('is_top', '置顶', '选择置顶形式', array(0 => '不置顶', 1 => '本版置顶', 2 => '全局置顶'))->keyCreateTime()->keyUpdateTime()
-            ->keyTime('last_reply_time', '最后回复时间')
-            ->buttonSubmit(U('doEditPost'))->buttonBack()
-            ->data($post)
-            ->display();
     }
 
     public function setPostStatus($ids, $status)
     {
         $builder = new AdminListBuilder();
         $builder->doSetStatus('ForumPost', $ids, $status);
-    }
-
-    public function doEditPost($id = null, $title, $content, $create_time, $update_time, $last_reply_time, $is_top)
-    {
-        //判断是否为编辑模式
-        $isEdit = $id ? true : false;
-
-        //写入数据库
-        $model = M('ForumPost');
-        $data = array('title' => $title, 'content' => $content, 'create_time' => $create_time, 'update_time' => $update_time, 'last_reply_time' => $last_reply_time, 'is_top' => $is_top);
-        if ($isEdit) {
-            $result = $model->where(array('id' => $id))->save($data);
-        } else {
-            $result = $model->keyDoActionEdit($data);
-        }
-
-        //如果写入不成功，则报错
-        if (!$result) {
-            $this->error($isEdit ? '编辑失败' : '创建成功');
-        }
-
-        //返回成功信息
-        $this->success($isEdit ? '编辑成功' : '创建成功');
     }
 
     public function reply($page = 1, $post_id = null, $r = 20)
@@ -268,6 +268,10 @@ class ForumController extends AdminController
         $list = $model->where($map)->order('create_time asc')->page($page, $r)->select();
         $totalCount = $model->where($map)->count();
 
+        foreach ($list as &$reply) {
+            $reply['content'] = op_t($reply['content']);
+        }
+        unset($reply);
         //显示页面
 
         $builder->title('回复管理')
@@ -286,6 +290,10 @@ class ForumController extends AdminController
         $map = array('status' => -1);
         $model = M('ForumPostReply');
         $list = $model->where($map)->order('create_time asc')->page($page, $r)->select();
+        foreach ($list as &$reply) {
+            $reply['content'] = op_t($reply['content']);
+        }
+        unset($reply);
         $totalCount = $model->where($map)->count();
 
         //显示页面
@@ -304,48 +312,50 @@ class ForumController extends AdminController
         $builder->doSetStatus('ForumPostReply', $ids, $status);
     }
 
-    public function editReply($id = null)
+    public function editReply($id = null, $content='', $create_time=0, $update_time=0, $status=1)
     {
-        //判断是否为编辑模式
-        $isEdit = $id ? true : false;
+        if (IS_POST) {
+            //判断是否为编辑模式
+            $isEdit = $id ? true : false;
 
-        //读取回复内容
-        if ($isEdit) {
+            //写入数据库
+            $data = array('content' => $content, 'create_time' => $create_time, 'update_time' => $update_time, 'status' => $status);
             $model = M('ForumPostReply');
-            $reply = $model->where(array('id' => $id))->find();
+            if ($isEdit) {
+                $result = $model->where(array('id' => $id))->save($data);
+            } else {
+                $result = $model->add($data);
+            }
+
+            //如果写入出错，则显示错误消息
+            if (!$result) {
+                $this->error($isEdit ? '编辑失败' : '创建失败');
+            }
+
+            //返回成功消息
+            $this->success($isEdit ? '编辑成功' : '创建成功', U('reply'));
+
         } else {
-            $reply = array('status' => 1);
+            //判断是否为编辑模式
+            $isEdit = $id ? true : false;
+
+            //读取回复内容
+            if ($isEdit) {
+                $model = M('ForumPostReply');
+                $reply = $model->where(array('id' => $id))->find();
+            } else {
+                $reply = array('status' => 1);
+            }
+
+            //显示页面
+            $builder = new AdminConfigBuilder();
+            $builder->title($isEdit ? '编辑回复' : '创建回复')
+                ->keyId()->keyEditor('content', '内容')->keyCreateTime()->keyUpdateTime()->keyStatus()
+                ->data($reply)
+                ->buttonSubmit(U('editReply'))->buttonBack()
+                ->display();
         }
 
-        //显示页面
-        $builder = new AdminConfigBuilder();
-        $builder->title($isEdit ? '编辑回复' : '创建回复')
-            ->keyId()->keyEditor('content', '内容')->keyCreateTime()->keyUpdateTime()->keyStatus()
-            ->data($reply)
-            ->buttonSubmit(U('doEditReply'))->buttonBack()
-            ->display();
     }
 
-    public function doEditReply($id = null, $content, $create_time, $update_time, $status)
-    {
-        //判断是否为编辑模式
-        $isEdit = $id ? true : false;
-
-        //写入数据库
-        $data = array('content' => $content, 'create_time' => $create_time, 'update_time' => $update_time, 'status' => $status);
-        $model = M('ForumPostReply');
-        if ($isEdit) {
-            $result = $model->where(array('id' => $id))->save($data);
-        } else {
-            $result = $model->add($data);
-        }
-
-        //如果写入出错，则显示错误消息
-        if (!$result) {
-            $this->error($isEdit ? '编辑失败' : '创建失败');
-        }
-
-        //返回成功消息
-        $this->success($isEdit ? '编辑成功' : '创建成功', U('reply'));
-    }
 }
