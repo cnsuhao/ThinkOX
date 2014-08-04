@@ -22,7 +22,7 @@ return array(
     'imgHeight'=>array(
         'title'=>'容器高度（单位　像素）',
         'type'=>'text',
-        'value'=>'450'
+        'value'=>'350'
     ),
     'url'=>array(
         'title'=>'图片链接（一行对应一个图片）',
