@@ -94,6 +94,8 @@ class UserController extends HomeController
     /* 登录页面 */
     public function login($username = '', $password = '', $verify = '', $remember = '')
     {
+        $this->setTitle('用户登录');
+
         if (IS_POST) { //登录验证
             /* 检测验证码 */
             if (C('VERIFY_OPEN') == 1 or C('VERIFY_OPEN') == 3) {
