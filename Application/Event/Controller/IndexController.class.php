@@ -31,8 +31,8 @@ class IndexController extends Controller
 
     /**
      * 活动首页
-     * @param int $page
-     * @param int $type_id
+     * @param int    $page
+     * @param int    $type_id
      * @param string $norh
      * autor:xjw129xjt
      */
@@ -85,8 +85,8 @@ class IndexController extends Controller
 
     /**
      * 我的活动页面
-     * @param int $page
-     * @param int $type_id
+     * @param int    $page
+     * @param int    $type_id
      * @param string $norh
      * autor:xjw129xjt
      */
@@ -125,7 +125,7 @@ class IndexController extends Controller
         $this->assign('totalPageCount', $totalCount);
         $this->getRecommend();
         $this->setTitle('我的活动——活动');
-        $this->assign('current','myevent');
+        $this->assign('current', 'myevent');
         $this->display();
     }
 
@@ -143,18 +143,18 @@ class IndexController extends Controller
 
     /**
      * 发布活动
-     * @param int $id
-     * @param int $cover_id
+     * @param int    $id
+     * @param int    $cover_id
      * @param string $title
      * @param string $explain
      * @param string $sTime
      * @param string $eTime
      * @param string $address
-     * @param int $limitCount
+     * @param int    $limitCount
      * @param string $deadline
      * autor:xjw129xjt
      */
-    public function doPost($id = 0, $cover_id = 0, $title = '', $explain = '', $sTime = '', $eTime = '', $address = '', $limitCount = 0, $deadline = '')
+    public function doPost($id = 0, $cover_id = 0, $title = '', $explain = '', $sTime = '', $eTime = '', $address = '', $limitCount = 0, $deadline = '', $type_id = 0)
     {
         if (!is_login()) {
             $this->error('请登陆后再投稿。');
@@ -165,6 +165,9 @@ class IndexController extends Controller
         if (trim(op_t($title)) == '') {
             $this->error('请输入标题。');
         }
+        if ($type_id == 0) {
+            $this->error('请选择分类。');
+        }
         if (trim(op_h($explain)) == '') {
             $this->error('请输入内容。');
         }
@@ -174,7 +177,7 @@ class IndexController extends Controller
         if ($sTime < $deadline) {
             $this->error('报名截止不能大于活动开始时间');
         }
-        if ( $deadline == '') {
+        if ($deadline == '') {
             $this->error('请输入截止日期');
         }
         if ($sTime > $eTime) {
@@ -186,6 +189,7 @@ class IndexController extends Controller
         $content['sTime'] = strtotime($content['sTime']);
         $content['eTime'] = strtotime($content['eTime']);
         $content['deadline'] = strtotime($content['deadline']);
+        $content['type_id'] = intval($type_id);
         if ($id) {
             $content_temp = D('Event')->find($id);
             if (!is_administrator(is_login())) { //不是管理员则进行检测
@@ -262,15 +266,15 @@ class IndexController extends Controller
         }
 
         $this->assign('content', $event_content);
-        $this->setTitle('{$content.title|op_t}'.'——活动');
-        $this->setKeywords('{$content.title|op_t}'.',活动');
+        $this->setTitle('{$content.title|op_t}' . '——活动');
+        $this->setKeywords('{$content.title|op_t}' . ',活动');
         $this->getRecommend();
         $this->display();
     }
 
     /**
      * 活动成员
-     * @param int $id
+     * @param int    $id
      * @param string $tip
      * autor:xjw129xjt
      */
@@ -305,8 +309,8 @@ class IndexController extends Controller
 
         $this->assign('content', $event_content);
         $this->assign('tip', $tip);
-        $this->setTitle('{$content.title|op_t}'.'——活动');
-        $this->setKeywords('{$content.title|op_t}'.',活动');
+        $this->setTitle('{$content.title|op_t}' . '——活动');
+        $this->setKeywords('{$content.title|op_t}' . ',活动');
         $this->display();
     }
 
@@ -328,15 +332,18 @@ class IndexController extends Controller
         }
         $event_content['user'] = query_user(array('id', 'username', 'nickname', 'space_url', 'space_link', 'avatar64', 'rank_html', 'signature'), $event_content['uid']);
         $this->assign('content', $event_content);
-        $this->setTitle('编辑活动'.'——活动');
-        $this->setKeywords('编辑'.',活动');
+        $this->setTitle('编辑活动' . '——活动');
+        $this->setKeywords('编辑' . ',活动');
         $this->display();
     }
-public function add(){
-    $this->setTitle('添加活动'.'——活动');
-    $this->setKeywords('添加'.',活动');
-    $this->display();
-}
+
+    public function add()
+    {
+        $this->setTitle('添加活动' . '——活动');
+        $this->setKeywords('添加' . ',活动');
+        $this->display();
+    }
+
     /**
      * 报名参加活动
      * @param $event_id
@@ -378,7 +385,7 @@ public function add(){
             $res = D('event_attend')->add($data);
             if ($res) {
 
-                D('Message')->sendMessageWithoutCheckSelf($event_content['uid'],query_user('nickname',is_login()).'报名参加了活动]'.$event_content['title'].']，请速去审核！' ,'报名通知', U('Event/Index/member',array('id'=>$event_id)),is_login());
+                D('Message')->sendMessageWithoutCheckSelf($event_content['uid'], query_user('nickname', is_login()) . '报名参加了活动]' . $event_content['title'] . ']，请速去审核！', '报名通知', U('Event/Index/member', array('id' => $event_id)), is_login());
 
                 D('Event')->where(array('id' => $event_id))->setInc('signCount');
                 $this->success('报名成功。', 'refresh');
@@ -407,10 +414,10 @@ public function add(){
             $res = D('event_attend')->where(array('uid' => $uid, 'event_id' => $event_id))->setField('status', $tip);
             if ($tip) {
                 D('Event')->where(array('id' => $event_id))->setInc('attentionCount');
-                D('Message')->sendMessageWithoutCheckSelf($uid,query_user('nickname',is_login()).'已经通过了您对活动'.$event_content['title'].'的报名请求' ,'审核通知', U('Event/Index/detail',array('id'=>$event_id)),is_login());
+                D('Message')->sendMessageWithoutCheckSelf($uid, query_user('nickname', is_login()) . '已经通过了您对活动' . $event_content['title'] . '的报名请求', '审核通知', U('Event/Index/detail', array('id' => $event_id)), is_login());
             } else {
                 D('Event')->where(array('id' => $event_id))->setDec('attentionCount');
-                D('Message')->sendMessageWithoutCheckSelf($uid,query_user('nickname',is_login()).'取消了您对活动['.$event_content['title'].']的报名请求' ,'取消审核通知', U('Event/Index/member',array('id'=>$event_id)),is_login());
+                D('Message')->sendMessageWithoutCheckSelf($uid, query_user('nickname', is_login()) . '取消了您对活动[' . $event_content['title'] . ']的报名请求', '取消审核通知', U('Event/Index/member', array('id' => $event_id)), is_login());
             }
             if ($res) {
                 $this->success('操作成功');
@@ -444,7 +451,7 @@ public function add(){
             }
             D('Event')->where(array('id' => $event_id))->setDec('signCount');
 
-            D('Message')->sendMessageWithoutCheckSelf($event_content['uid'],query_user('nickname',is_login()).'取消了对活动['.$event_content['title'].']的报名' ,'取消报名通知', U('Event/Index/detail',array('id'=>$event_id)),is_login());
+            D('Message')->sendMessageWithoutCheckSelf($event_content['uid'], query_user('nickname', is_login()) . '取消了对活动[' . $event_content['title'] . ']的报名', '取消报名通知', U('Event/Index/detail', array('id' => $event_id)), is_login());
 
             $this->success('取消报名成功');
         } else {
@@ -494,11 +501,11 @@ public function add(){
         if ($event_content['uid'] == is_login() || is_administrator(is_login())) {
             $res = D('Event')->where(array('status' => 1, 'id' => $event_id))->setField('status', 0);
             if ($res) {
-                $this->success('删除成功！',U('Event/Index/index'));
+                $this->success('删除成功！', U('Event/Index/index'));
             } else {
                 $this->error('操作失败！');
             }
-        }else{
+        } else {
             $this->error('非活动发起者操作！');
         }
 
@@ -523,8 +530,7 @@ public function add(){
             } else {
                 $this->error('操作失败！');
             }
-        }
-        else{
+        } else {
             $this->error('非活动发起者操作！');
         }
 
