@@ -7,13 +7,14 @@
     <div class="container">
         <div class="row  ">
             <div class="col-md-6 col-sm-6 hidden-xs">
-               <if condition="C('SHARE_WEIBO_ID') neq ''"> 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a></if>
+               <if condition="C('SHARE_WEIBO_ID') neq ''"> 分享<a class="share_weibo" id="weibo_shareBtn" target="_blank"></a>
+                   <script>
+                       $(function () {
+                           weiboShare();//处理微博分享
+                       })
+                   </script>
+               </if>
             </div>
-            <script>
-                $(function () {
-                    weiboShare();//处理微博分享
-                })
-            </script>
             <div class="col-md-6 col-sm-6  text-right top_right">
                 <php>
                     $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
