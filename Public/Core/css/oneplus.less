@@ -985,13 +985,16 @@ General list for item with image
   z-index: 999;
   .btn-pull {
     position: absolute;
-    background: rgb(255, 255, 255);
-    padding: 37px 0px;
-    border: 1px solid rgb(204, 204, 204);
+    border: 1px solid #029775;
+    background: #03AE87;
+    padding: 15px 7px;
     border-right: 0;
     margin-right: 0;
-    left: -15px;
-    margin-top: -31px;
+    left: -45px;
+    margin-top: -25px;
+    border-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
     i {
     }
 
@@ -999,25 +1002,32 @@ General list for item with image
 
   #right_panel_main {
     #friend_panel_main {
-      width: 132px;
+      width: 150px;
     }
     #session_panel_main {
-      width: 132px;
+      width: 150px;
     }
     h2 {
       border-top-left-radius: 3px;
       font-size: 16px;
-      color: #797979;
+      color: white;
       text-align: center;
       padding-top: 5px;
-      background: #434343;
       margin-bottom: 0;
+
+      display: block;
     }
-    border: 1px solid #ccc;
+    .session_spliter{
+      height: 0px;
+      border-bottom: 1px solid #029775;
+    }
+    border: 1px solid #029775;
     border-right: 0;
-    height: 520px;
+    height: 500px;
     margin-top: -250px;
-    background: white;
+
+
+    background: #03b88f;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
@@ -1032,6 +1042,7 @@ General list for item with image
       padding: 10px;
 
       a {
+        color:white !important;
         display: inline-block;
         margin-bottom: 10px;
         position: relative;
@@ -1050,35 +1061,39 @@ General list for item with image
       }
     }
     .active {
-      background: #f6f6f6;
+      background: #05CC9F;
     }
   }
   .session_more {
     height: 38px;
+    color:white !important;
+
     .active {
       border: 0 !important;
     }
     .tab_chat {
-      border: 1px solid #BABABA;
       border-top: 0;
       border-left: 0;
+      border-bottom-left-radius: 3px;
+      margin-top:1px;
     }
     .tab_friend {
-      border: 1px solid #BABABA;
       border-top: 0;
       border-right: 0;
+      margin-top:1px;
     }
     .btn_session_more {
-      background: #D2D2D2;
+      color:white !important;
       text-align: center;
       padding: 8px 0;
       margin-left: 0;
       margin-right: 0;
       display: block;
       float: left;
-      color: #5F5F5F;
+      margin-top:1px;
     }
     .active {
+      color:#029775 !important;
       background: rgb(255, 255, 255);
     }
   }
@@ -1325,7 +1340,7 @@ a:hover {
 /*悬浮样式end*/
 
 .nav_bar {
-  .nav_item{
+  .nav_item {
     position: relative;
   }
   background: white;
@@ -1343,7 +1358,7 @@ a:hover {
       background: white;
     }
   }
-  .badge{
+  .badge {
     margin-left: 5px;
   }
 }
@@ -1603,8 +1618,8 @@ a:hover {
     display: block;
     padding: 3px 15px;
   }
-  .btn-default{
-  //  background:  rgb(241, 241, 241) !important;
+  .btn-default {
+    //  background:  rgb(241, 241, 241) !important;
   }
 }
 
@@ -1616,9 +1631,9 @@ a:hover {
   position: relative;
 }
 
-
 /*编辑器修复*/
-.edui-btn-toolbar{
+.edui-btn-toolbar {
   background: white;
 }
+
 /*编辑器修复end*/

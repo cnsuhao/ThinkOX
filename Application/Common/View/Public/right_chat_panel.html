@@ -1,6 +1,6 @@
 <if condition="(is_login()) ">
-    <div id="right_panel" class="friend_panel visible-md visible-lg" style="display: none">
-        <a class="btn-pull" onclick="show_panel()"><i class="glyphicon glyphicon-chevron-left"></i>
+    <div id="right_panel" class="friend_panel visible-md visible-lg" style="display: none;">
+        <a class="btn-pull" onclick="show_panel()"> <img style="width: 30px" src="__PUBLIC__/Core/images/friend.png"/> </i>
             <script>
                 function show_panel() {
                     var $right_panel = $('#right_panel_main');
@@ -17,9 +17,11 @@
         <if condition="count($currentSession) eq 0">
 
             <div id="right_panel_main" style="display: none">
+                正在载入中......
             </div>
             <else/>
             <div id="right_panel_main">
+                正在载入中......
             </div>
             <!--开始聊天板-->
         </if>

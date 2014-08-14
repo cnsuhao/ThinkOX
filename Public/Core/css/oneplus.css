@@ -905,37 +905,44 @@ General list for item with image
 }
 .friend_panel .btn-pull {
   position: absolute;
-  background: #ffffff;
-  padding: 37px 0px;
-  border: 1px solid #cccccc;
+  border: 1px solid #029775;
+  background: #03AE87;
+  padding: 15px 7px;
   border-right: 0;
   margin-right: 0;
-  left: -15px;
-  margin-top: -31px;
+  left: -45px;
+  margin-top: -25px;
+  border-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 .friend_panel #right_panel_main {
-  border: 1px solid #ccc;
+  border: 1px solid #029775;
   border-right: 0;
-  height: 520px;
+  height: 500px;
   margin-top: -250px;
-  background: white;
+  background: #03b88f;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 .friend_panel #right_panel_main #friend_panel_main {
-  width: 132px;
+  width: 150px;
 }
 .friend_panel #right_panel_main #session_panel_main {
-  width: 132px;
+  width: 150px;
 }
 .friend_panel #right_panel_main h2 {
   border-top-left-radius: 3px;
   font-size: 16px;
-  color: #797979;
+  color: white;
   text-align: center;
   padding-top: 5px;
-  background: #434343;
   margin-bottom: 0;
+  display: block;
+}
+.friend_panel #right_panel_main .session_spliter {
+  height: 0px;
+  border-bottom: 1px solid #029775;
 }
 .friend_panel .friend_list {
   margin-left: 15px;
@@ -948,6 +955,7 @@ General list for item with image
   padding: 10px;
 }
 .friend_panel .friend_list li a {
+  color: white !important;
   display: inline-block;
   margin-bottom: 10px;
   position: relative;
@@ -965,35 +973,38 @@ General list for item with image
   display: inline-block;
 }
 .friend_panel .friend_list .active {
-  background: #f6f6f6;
+  background: #05CC9F;
 }
 .friend_panel .session_more {
   height: 38px;
+  color: white !important;
 }
 .friend_panel .session_more .active {
   border: 0 !important;
 }
 .friend_panel .session_more .tab_chat {
-  border: 1px solid #BABABA;
   border-top: 0;
   border-left: 0;
+  border-bottom-left-radius: 3px;
+  margin-top: 1px;
 }
 .friend_panel .session_more .tab_friend {
-  border: 1px solid #BABABA;
   border-top: 0;
   border-right: 0;
+  margin-top: 1px;
 }
 .friend_panel .session_more .btn_session_more {
-  background: #D2D2D2;
+  color: white !important;
   text-align: center;
   padding: 8px 0;
   margin-left: 0;
   margin-right: 0;
   display: block;
   float: left;
-  color: #5F5F5F;
+  margin-top: 1px;
 }
 .friend_panel .session_more .active {
+  color: #029775 !important;
   background: #ffffff;
 }
 #chat_box {
