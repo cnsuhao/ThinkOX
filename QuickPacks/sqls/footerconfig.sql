@@ -1,0 +1,5 @@
+INSERT INTO `thinkox_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
+(61, 'FOOTER_RIGHT', 2, '底部右侧链接部分', 1, '', '链接部分', 1408008354, 1408008354, 1, '  <p><h4><strong>联系</strong></h4></p>\r\n                    <p><a href="http://www.ourstu.com/index.php?s=/home/index/about.html" target="_blank">关于我们</a>\r\n                    <p>\r\n                    <p><a href="http://tox.ourstu.com/tox/index.php?s=/Forum/Index/forum/id/3.html" target="_blank">问题反馈</a></p>\r\n                    <p><a href="http://www.ourstu.com/index.php?s=/home/index/contact.html" target="_blank">联系我们</a></p>', 10),
+(62, 'FOOTER_SUMMARY', 2, '底部简介部分代码', 1, '', '', 1408008496, 1408008496, 1, '嘉兴想天信息科技有限公司是一家专注于为客户提供专业的社交方案。公司秉持简洁、高效、创新，不断为客户创造奇迹。', 9),
+(63, 'FOOTER_TITLE', 2, '底部介绍标题', 1, '', '公司标题', 1408008573, 1408008573, 1, '<a target="_blank" href="http://www.ourstu.com/">嘉兴想天信息科技有限公司</a>', 8),
+(64, 'FOOTER_QCODE', 2, '底部二维码部分代码', 1, '', '', 1408008644, 1408008738, 1, ' <img src="/Public/Core/images/erweima.png"/>', 11);
