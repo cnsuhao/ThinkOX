@@ -17,7 +17,7 @@ class ImageSliderAddon extends Addon
         'description' => '图片轮播，需要先通过 http://www.onethink.cn/topic/2153.html 的方法，让配置支持多图片上传',
         'status' => 1,
         'author' => 'birdy',
-        'version' => '0.1'
+        'version' => '0.2'
     );
 
     public function install()

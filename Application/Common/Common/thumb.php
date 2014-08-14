@@ -200,7 +200,7 @@ function getThumbImageById($cover_id, $width = 100, $height = 2, $type = 0, $rep
 function fixAttachUrl($url)
 {
     if(!is_sae()){
-        return getRootUrl() . substr($url, 1);
+        return str_replace('//','/',getRootUrl() . substr($url, 1));//防止双斜杠的出现
     }else{
         return $url;
     }
