@@ -16,16 +16,19 @@
         </a>
         <if condition="count($currentSession) eq 0">
 
-            <div id="right_panel_main" style="display: none">
-                正在载入中......
+            <div id="right_panel_main" style="display: none;">
+                <div style="color: white;line-height: 500px;font-size: 16px;padding:10px;">
+                    正在载入中......
+                </div>
             </div>
             <else/>
-            <div id="right_panel_main">
-                正在载入中......
+            <div id="right_panel_main" style="display: none;" >
+                <div style="color: white;line-height: 500px;font-size: 16px;padding:10px;">
+                    正在载入中......
+                </div>
             </div>
-            <!--开始聊天板-->
         </if>
-
+        <!--开始聊天板-->
 
     </div>
 
@@ -68,5 +71,10 @@
                 </button>
             </div>
         </div>
+    </div>
+    <else/>
+    <div id="right_panel" class="friend_panel visible-md visible-lg" style="display: none;">
+        <a class="btn-pull" onclick="op_error('请登陆后使用好友面板。','温馨提示')"> <img style="width: 30px" src="__PUBLIC__/Core/images/friend.png"/> </i>
+        </a>
     </div>
 </if>
