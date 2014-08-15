@@ -9,6 +9,7 @@
 namespace Weibo\Controller;
 
 use Think\Controller;
+use Think\Hook;
 use Weibo\Api\WeiboApi;
 use Think\Exception;
 use Common\Exception\ApiException;
@@ -156,6 +157,9 @@ class IndexController extends Controller
         $sourseweibo = $sourse['weibo'];
         $feed_data['sourse'] = $sourseweibo;
         $feed_data['sourseId'] = $sourseId;
+
+        Hook('beforeSendRepost',array('content'=>&$content,'type'=>&$type,'feed_data'=>&$feed_data));
+
         //发送微博
         $result = $this->weiboApi->sendWeibo($content, $type, $feed_data);
         if ($result) {
@@ -217,6 +221,8 @@ class IndexController extends Controller
     {
         $feed_data = '';
         $feed_data['attach_ids'] = $attach_ids;
+
+        Hook('beforeSendWeibo',array('content'=>&$content,'type'=>&$type,'feed_data'=>&$feed_data));
 
         //发送微博
         $result = $this->weiboApi->sendWeibo($content, $type, $feed_data);
