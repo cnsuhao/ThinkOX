@@ -1,0 +1,36 @@
+/*附件图标*/
+.weibo_content_p .fileDiv{width:100%;height:2.3em;background: #fff;border:#ddd solid 1px;margin-top:5px;display:none;}
+.ico-doc-small, .ico-docx-small, .ico-xls-small, .ico-xlsx-small, .ico-txt-small, .ico-pdf-small, .ico-pdfx-small, .ico-ppt-small, .ico-pptx-small, .ico-pic-small, .ico-jpg-small, .ico-jpeg-small, .ico-gif-small, .ico-png-small, .ico-bmp-small, .ico-tif-small, .ico-rar-small , .ico-zip-small , .ico-doc, .ico-docx, .ico-xls, .ico-xlsx, .ico-txt, .ico-pdf, .ico-pdfx, .ico-ppt, .ico-pptx, .ico-pic, .ico-jpg, .ico-jpeg, .ico-gif, .ico-png, .ico-bmp, .ico-tif, .ico-rar, .ico-zip,.ico-attach
+{width:16px;height:16px;background:url(../image/ico-file.png) no-repeat;display:inline-block;vertical-align:middle;overflow:hidden;margin:0 5px 0 5px}
+.ico-doc-small, .ico-docx-small, .ico-xls-small, .ico-xlsx-small, .ico-txt-small, .ico-pdf-small, .ico-pdfx-small, .ico-ppt-small, .ico-pptx-small, .ico-pic-small, .ico-jpg-small, .ico-jpeg-small, .ico-gif-small, .ico-png-small, .ico-bmp-small, .ico-tif-small, .ico-rar-small, .ico-zip-small{width:18px;height:18px;vertical-align: -4px;}
+.ico-doc, .ico-docx, .ico-xls, .ico-xlsx, .ico-txt, .ico-pdf, .ico-pdfx, .ico-ppt, .ico-pptx, .ico-pic, .ico-jpg, .ico-jpeg, .ico-gif, .ico-png, .ico-bmp, .ico-tif, .ico-rar, .ico-zip{width:48px;height:48px}
+.ico-doc{background-position:0 0}          .ico-doc-small{background-position:0 -58px}
+.ico-docx{background-position:0 0}         .ico-docx-small{background-position:0 -58px}
+.ico-xls{background-position:-58px 0}      .ico-xls-small{background-position:-28px -58px}
+.ico-xlsx{background-position:-58px 0}     .ico-xlsx-small{background-position:-28px -58px}
+.ico-txt{background-position:-174px 0}     .ico-txt-small{background-position:-84px -58px}
+.ico-pdf{background-position:-116px 0}     .ico-pdf-small{background-position:-56px -58px}
+.ico-pdfx{background-position:-116px 0}    .ico-pdfx-small{background-position:-56px -58px}
+.ico-ppt{background-position:-232px 0}     .ico-ppt-small{background-position:-112px -58px}
+.ico-pptx{background-position:-232px 0}    .ico-pptx-small{background-position:-112px -58px}
+.ico-pic{background-position:-290px 0}     .ico-pic-small{background-position:-140px -58px}
+.ico-jpg{background-position:-348px 0}     .ico-jpg-small{background-position:-168px -58px}
+.ico-jpeg{background-position:-348px 0}    .ico-jpeg-small{background-position:-168px -58px}
+.ico-gif{background-position:-406px 0}     .ico-gif-small{background-position:-196px -58px}
+.ico-png{background-position:-522px 0}     .ico-png-small{background-position:-252px -58px}
+.ico-bmp{background-position:-580px 0}     .ico-bmp-small{background-position:-280px -58px}
+.ico-tif{background-position:-464px 0}     .ico-tif-small{background-position:-224px -58px}
+.ico-rar{background-position:-638px 0}     .ico-rar-small{background-position:-308px -58px}
+.ico-zip{background-position:-638px 0}     .ico-zip-small{background-position:-308px -58px}
+.ico-attach{background-position:-365px -59px;width:14px;height:15px;display:inline-block;vertical-align:top;margin:1px 0 0 5px;*margin-top:-2px;}
+.right{float: right;}
+.ico-close, .ico-close:hover{background:url(../image/del.png) no-repeat 0 0;width:18px;height:18px;display:inline-block;overflow:hidden;vertical-align:0;_vertical-align:2px;_background:url(../images/del.gif) no-repeat 0 0;margin:5px 5px 0 0}
+.ico-close:hover{background-position:0 -50px;vertical-align:0;_vertical-align:2px}
+.ico_png_load{width:30px;height:11px;margin-left:15em;display:inline-block;background:url(../image/load.gif) no-repeat 0 0;}
+
+/*附件列表*/
+.feed_file_list {margin: 5px 0;border: #EAEAEA solid 1px;border-top: none 0;padding: 0;background: #fff;overflow: hidden;}
+.feed_file_list li {font-size: 12px;line-height: 18px;padding: 6px 5px;border-top: #eaeaea solid 1px;transition: all .5s ease;-moz-transition: all .5s ease;-o-transition: all .5s ease;-webkit-transition: translate .5s ease;overflow: hidden;}
+.feed_file_list span.tips {color: #999;}
+.ico-down, .arrow-down {width: 10px;height: 10px;background: url(../image/add.png) no-repeat;display: inline-block;vertical-align: middle;overflow: hidden;margin: 0 4px 0 0;_background: url(../images/add.gif) no-repeat;}
+.ico-down {background-position: 0 -204px;width: 9px;height: 13px;cursor: pointer;}

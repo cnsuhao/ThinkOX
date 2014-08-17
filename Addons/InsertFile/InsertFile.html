@@ -1,0 +1,68 @@
+<block name="script">
+    <link type="text/css" rel="stylesheet" href="{:getRootUrl()}Addons/InsertFile/_static/css/insertFile.css"/>
+    <script src="{:getRootUrl()}Addons/InsertFile/_static/js/jquery.form.js"></script>
+</block>
+
+
+<a href="javascript:" onclick="insert_file.insertFile(this)"><img
+        src="{:getRootUrl()}Addons/InsertFile/_static/image/insert_file.png"/><span
+        style="line-height:16px;margin:0 6px 0 3px;color: #999;outline: none;">附件</span></a>
+<input style="display:none;" type="file" id="attach" name="attach" value=""/>
+<block name="script">
+    <script type="text/javascript">
+        $(function () {
+            var WEIBO_CONTENT_CLASS = '.weibo_post_box';
+            insert_file = {
+                find: function (obj) {
+                    return $(this.obj).parents(WEIBO_CONTENT_CLASS).find(obj);
+                },
+                obj: 0,
+                insertFile: function (obj) {
+                    if (insert_image.obj != 0) {
+
+                    }
+                    this.obj = obj;
+                    this.find('#hook_show').append('<div style="display: none;margin-bottom: 10px" class="fileDiv " id="startFile"><i class="ico_png_load"></i><a>取消上传</a></div><div class="fileDiv " style="margin-bottom: 10px" id="endFile"></div> ');
+                    this.find('#attach').wrap("<form id='myupload' style='display:none;' action='{:addons_url('InsertFile://InsertFile/UpLoadFile')}' method='post' enctype='multipart/form-data'></form>");
+                    this.find("#attach").change(function () {
+                        insert_file.find("#statrFile").show();
+                        insert_file.find("#myupload").ajaxSubmit({
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.status == 1) {
+                                    insert_file.find("#endFile").html('<i class="ico-' + data.type + '-small"></i><span>' + data.name + '</span><a class="ico-close right" href="javascript:void(0)" onclick="insert_file.delFile(' + data.pid + ')"></a>');
+                                    setTimeout(insert_file.update, 1000);
+                                }
+                            },
+                            beforeSubmit:function(){
+                                insert_file.find('#startFile').show();
+                                insert_file.find('#endFile').hide();
+                            }
+
+                        });
+                    });
+                    this.find("#attach").trigger("click");
+
+                },
+				//更新展示
+                update: function update() {
+                    insert_file.find("#startFile").hide();
+                    insert_file.find("#endFile").show();
+                },
+                //删除
+                delFile: function delFile(pid) {
+                	$.post("{:addons_url('InsertFile://InsertFile/delFile')}", {id:pid}, function(data){
+                		if(data == 1){
+                			insert_file.find('#endFile').hide();
+                		}
+                	}, "html");
+                }
+
+            };
+
+
+        })
+
+
+    </script>
+</block>

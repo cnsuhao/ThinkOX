@@ -1,0 +1,2 @@
+后台钩子新增beforeSendRepost钩子
+上传至Addons目录，然后去后台扩展目录安装上传附件插件即可使用

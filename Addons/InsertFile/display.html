@@ -1,0 +1,13 @@
+<block name="script">
+<link type="text/css" rel="stylesheet" href="{:getRootUrl()}Addons/InsertFile/_static/css/insertFile.css"/>
+</block>
+<p>{$weibo.content|parse_topic}</p>
+<ul class="feed_file_list">
+	<li style="background-color: rgb(250, 250, 250); background-position: initial initial; background-repeat: initial initial;">
+		<a href="{:addons_url('InsertFile://InsertFile/download',array('id'=>$weibo['weibo_data']['attach_ids']['id']))}" class="current right" target="_blank" title="下载"><i class="ico-down"></i></a>
+		<i class="ico-{$weibo['weibo_data']['attach_ids']['ext']}-small"></i>
+		<a href="{:addons_url('InsertFile://InsertFile/download',array('id'=>$weibo['weibo_data']['attach_ids']['id']))}">{$weibo.weibo_data.attach_ids.name}</a>
+		<span class="tips">({$weibo.weibo_data.attach_ids.size|format_bytes})</span>
+	</li>			
+</ul>
+
