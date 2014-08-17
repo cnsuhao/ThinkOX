@@ -21,6 +21,7 @@ class IndexController extends HomeController
     //系统首页
     public function index()
     {
+        redirect(U('weibo/index/index'));
         $this->assignWeiboCount();
         $this->assignPostCount();
         $this->assignEventCount();
