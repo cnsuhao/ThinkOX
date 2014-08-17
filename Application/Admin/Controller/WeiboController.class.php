@@ -49,6 +49,7 @@ class WeiboController extends AdminController
     {
         foreach ($ids as $id) {
             D('Weibo')->where(array('id' => $id))->setField('is_top', $top);
+            S('weibo_' . $id,null);
         }
 
         $this->success('设置成功', $_SERVER['HTTP_REFERER']);
