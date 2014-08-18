@@ -46,18 +46,20 @@ class IndexController extends Controller
 
     public function index($page = 1)
     {
-        redirect(U('forum', array('page' => $page)));
+        redirect(U('forum', array('page' => intval($page))));
     }
 
     /**某个版块的帖子列表
-     * @param int    $id
-     * @param int    $page
-     * @param string $order
+     * @param int    $id 版块ID
+     * @param int    $page 分页
+     * @param string $order 回复排序方式
      * @auth 陈一枭
      */
-    public function forum($id = 0, $page = 1, $order = 'last_reply_time desc')
+    public function forum($id = 0, $page = 1, $order = 'reply')
     {
         $id = intval($id);
+        $page=intval($page);
+        $order=op_t($order);
 
         $count = S('forum_count_' . $id);
         if (empty($count)) {
@@ -137,10 +139,23 @@ class IndexController extends Controller
         $this->display();
     }
 
+    /**帖子详情页
+     *
+     * sr与sp仅作用于楼中楼消息来访，sp指代消息中某楼层的ID，sp指代该消息所在的分页
+     *
+     * @param      $id
+     * @param int  $page
+     * @param null $sr 楼中楼回复消息中某楼层的ID
+     * @param int  $sp 楼中楼回复消息中的分页ID
+     * @auth 陈一枭
+     */
     public function detail($id, $page = 1, $sr = null, $sp = 1)
     {
-
         $id = intval($id);
+        $page=intval($page);
+        $sr=intval($sr);
+        $sp=intval($sp);
+
         $limit = 10;
         //读取帖子内容
         $post = D('ForumPost')->where(array('id' => $id, 'status' => 1))->find();
@@ -190,6 +205,8 @@ class IndexController extends Controller
 
     public function delPostReply($id)
     {
+        $id=intval($id);
+
         $this->requireLogin();
         $this->requireCanDeletePostReply($id);
         $res = D('ForumPostReply')->delPostReply($id);
@@ -200,6 +217,8 @@ class IndexController extends Controller
 
     public function editReply($reply_id = null)
     {
+        $reply_id = intval($reply_id);
+
         $has_permission = $this->checkRelyPermission($reply_id);
         if (!$has_permission) {
             $this->error('您不具备编辑该回复的权限。');
@@ -218,13 +237,17 @@ class IndexController extends Controller
 
     public function doReplyEdit($reply_id = null, $content)
     {
+        $reply_id = intval($reply_id);
+        //对帖子内容进行安全过滤
+        $content = $this->filterPostContent($content);
+
+
         $has_permission = $this->checkRelyPermission($reply_id);
         if (!$has_permission) {
             $this->error('您不具备编辑该回复的权限。');
         }
 
-        //对帖子内容进行安全过滤
-        $content = $this->filterPostContent($content);
+
 
         if (!$content) {
             $this->error("回复内容不能为空！");
@@ -243,6 +266,9 @@ class IndexController extends Controller
 
     public function edit($forum_id = 0, $post_id = null)
     {
+        $forum_id = intval($forum_id);
+        $post_id = intval($post_id);
+
         //判断是不是为编辑模式
         $isEdit = $post_id ? true : false;
         //如果是编辑模式的话，读取帖子，并判断是否有权限编辑
@@ -273,11 +299,16 @@ class IndexController extends Controller
 
     public function doEdit($post_id = null, $forum_id = 0, $title, $content)
     {
+        $post_id = intval($post_id);
+        $forum_id = intval($forum_id);
+        $title = op_t($title);
+        $content = op_h($content);
+
 
         //判断是不是编辑模式
         $isEdit = $post_id ? true : false;
         $forum_id = intval($forum_id);
-        $title = op_t($title);
+
         //如果是编辑模式，确认当前用户能编辑帖子
         if ($isEdit) {
             $this->requireAllowEditPost($post_id);
@@ -338,6 +369,9 @@ class IndexController extends Controller
 
     public function doReply($post_id, $content)
     {
+        $post_id = intval($post_id);
+        $content = $this->filterPostContent($content);
+
         //确认有权限回复
         $this->requireAllowReply($post_id);
 
@@ -353,7 +387,7 @@ class IndexController extends Controller
             $model = D('ForumPostReply');
             $before = getMyScore();
             $tox_money_before = getMyToxMoney();
-            $result = $model->addReply($post_id, $this->filterPostContent($content));
+            $result = $model->addReply($post_id, $content);
             $after = getMyScore();
             $tox_money_after = getMyToxMoney();
             if (!$result) {
@@ -369,6 +403,8 @@ class IndexController extends Controller
 
     public function doBookmark($post_id, $add = true)
     {
+        $post_id = intval($post_id);
+        $add = intval($add);
         //确认用户已经登录
         $this->requireLogin();
 
@@ -462,18 +498,21 @@ class IndexController extends Controller
 
     private function isForumExists($forum_id)
     {
+        $forum_id=intval($forum_id);
         $forum = D('Forum')->where(array('id' => $forum_id, 'status' => 1));
         return $forum ? true : false;
     }
 
     private function requireAllowReply($post_id)
     {
+        $post_id=intval($post_id);
         $this->requirePostExists($post_id);
         $this->requireLogin();
     }
 
     private function requirePostExists($post_id)
     {
+        $post_id=intval($post_id);
         $post = D('ForumPost')->where(array('id' => $post_id))->find();
         if (!$post) {
             $this->error('帖子不存在');
@@ -482,6 +521,7 @@ class IndexController extends Controller
 
     private function requireForumAllowCurrentUserGroup($forum_id)
     {
+        $forum_id=intval($forum_id);
         if (!$this->isForumAllowCurrentUserGroup($forum_id)) {
             $this->error('该板块不允许发帖');
         }
@@ -489,6 +529,7 @@ class IndexController extends Controller
 
     private function isForumAllowCurrentUserGroup($forum_id)
     {
+        $forum_id=intval($forum_id);
         //如果是超级管理员，直接允许
         if (is_login() == 1) {
             return true;
@@ -520,7 +561,10 @@ class IndexController extends Controller
 
     public function search($page = 1)
     {
+        $page=intval($page);
         $_REQUEST['keywords'] = op_t($_REQUEST['keywords']);
+
+
         //读取帖子列表
         $map['title'] = array('like', "%{$_REQUEST['keywords']}%");
         $map['content'] = array('like', "%{$_REQUEST['keywords']}%");
